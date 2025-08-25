@@ -119,7 +119,7 @@ Secret keys must be stored in secure device storage whenever symmetric cryptogra
 ### Improper Key Derivation Functions
 
 When discussing key derivation functions (KDFs) in the context of mobile applications, we are usually referring to cryptographic key derivation rather than password storage. This chapter focuses primarily on KDF in the context of cryptographic key derivation, rather than password storage. For general advice on password storage, please refer to the [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
-KDFs derive bytes suitable for cryptographic operations from passwords or other data sources using a pseudorandom function (PRF). While it’s primarily used for password hashing, it's also used for master key derivation, key stretching and Diffie-Hellman Key Exchange. 
+KDFs derive bytes suitable for cryptographic operations from passwords or other data sources using a pseudorandom function (PRF).
 
 Different KDFs are suitable for different tasks such as:
 
