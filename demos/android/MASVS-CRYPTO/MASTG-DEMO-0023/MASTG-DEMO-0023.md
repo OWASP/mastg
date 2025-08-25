@@ -8,7 +8,7 @@ test: MASTG-TEST-0232
 
 ### Sample
 
-The code snippet below shows sample code contains use of broken encryption modes.
+The sample uses broken encryption modes.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
