@@ -124,7 +124,7 @@ KDFs derive bytes suitable for cryptographic operations from passwords or other 
 Different KDFs are suitable for different tasks such as:
 
 - Cryptographic key derivation:
-    - Together with a non-secret parameter to derive one or more keys from a common secret value. Also known as known as "key diversification"
+    - Together with a non-secret parameter to derive one or more keys from a common secret value. Also known as "key diversification"
     - As components of multiparty key-agreement protocols (e.g: [KDF1](https://en.wikipedia.org/wiki/IEEE_P1363)).
     - To derive keys from secret passwords or passphrases.
     - To derive keys of different length from the ones provided (e.g: [PBKDF2HMAC](https://en.wikipedia.org/wiki/PBKDF2) or [HKDF](https://en.wikipedia.org/wiki/HKDF)).
