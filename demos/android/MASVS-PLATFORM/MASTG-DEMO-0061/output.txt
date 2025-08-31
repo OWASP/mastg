@@ -1,0 +1,12 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-flag-secure-enable-flags
+          [MASVS-PLATFORM] Make sure you use this flag for all screens with sensitive data
+                                                                                          
+           32┆ ((Activity) this.context).getWindow().addFlags(8192);
+
