@@ -1,0 +1,12 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ android-unvalidated-deeplink-data
+          Unvalidated data from a deep link's query parameter is loaded directly into a WebView.
+                                                                                                
+           31┆ webView.loadUrl(url);
+

@@ -1,0 +1,15 @@
+rules:
+- id: android-unvalidated-deeplink-data
+  languages:
+    - java
+  severity: WARNING
+  metadata:
+    summary: This rule looks for unsecure deeplink.
+  message: "Unvalidated data from a deep link's query parameter is loaded directly into a WebView."
+  mode: taint
+  pattern-sources:
+    # Source: Data originating from the intent's URI parameter.
+    - pattern: $URI.getQueryParameter(...)
+  pattern-sinks:
+    # Sink: The unvalidated data is loaded into a WebView.
+    - pattern: $WEBVIEW.loadUrl(...)
