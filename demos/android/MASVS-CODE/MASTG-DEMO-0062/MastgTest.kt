@@ -14,12 +14,15 @@ import android.util.Log
 class MastgTest(private val context: Context) {
 
     fun mastgTest(): String {
-        val sensitiveString = "Hello from the OWASP MASTG Test app."
-        Log.d("MASTG-TEST", sensitiveString)
-        return sensitiveString
+        return """
+            This app is vulnerable to SQLI in content provider.
+
+            Test on adb shell with:
+            # content query --uri content://org.owasp.mastestapp.provider/students --where "name='Bob' OR '1'='1'"
+        """.trimIndent()
     }
 
-    // 🔥 Vulnerable ContentProvider with path-based SQL injection
+    //  Vulnerable ContentProvider with path-based SQL injection
     class StudentProvider : ContentProvider() {
 
         companion object {
@@ -55,7 +58,7 @@ class MastgTest(private val context: Context) {
                     // No filtering — all rows
                 }
                 STUDENT_ID -> {
-                    // 🚨 Vulnerable: unvalidated input from path used in query
+                    // Vulnerable: unvalidated input from path used in query
                     val id = uri.getPathSegments().get(1)
                     qb.appendWhere("id=" + id)
                     Log.e("SQLI", "Injected ID segment: $id")
@@ -74,7 +77,7 @@ class MastgTest(private val context: Context) {
         override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int = 0
     }
 
-    // 📦 DB helper for student data
+    //  DB helper for student data
     class DatabaseHelper(context: Context) :
         SQLiteOpenHelper(context, "students.db", null, 1) {
 
