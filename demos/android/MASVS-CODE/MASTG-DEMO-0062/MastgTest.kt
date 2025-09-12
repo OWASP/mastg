@@ -15,7 +15,7 @@ class MastgTest(private val context: Context) {
 
     fun mastgTest(): String {
         return """
-            This app is vulnerable to SQLI in content provider.
+            This app's content provider is vulnerable to SQLI.
 
             Test on adb shell with:
             # content query --uri content://org.owasp.mastestapp.provider/students --where "name='Bob' OR '1'='1'"
