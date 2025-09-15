@@ -1,11 +1,11 @@
 rules:
 - id: android-unvalidated-deeplink-data
+  severity: WARNING
   languages:
     - java
-  severity: WARNING
   metadata:
-    summary: This rule looks for unsecure deeplink.
-  message: "Unvalidated data from a deep link's query parameter is loaded directly into a WebView."
+    summary: This rule looks for insecure deep link configurations.
+  message: "[MASVS-PLATFORM] Unvalidated deep link query parameters are directly loaded into a WebView."
   mode: taint
   pattern-sources:
     # Source: Data originating from the intent's URI parameter.

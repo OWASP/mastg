@@ -1,11 +1,11 @@
 rules:
 - id: android-autoverify-missing
+  severity: WARNING
   languages:
     - xml
-  severity: WARNING
   metadata:
-    summary: This rule looks for unsecure deeplink.
-  message: "Deep link intent filter is missing the 'android:autoVerify=\"true\"' attribute. Without this, a malicious app could intercept app's deep links."
+    summary: This rule looks for insecure deep link configurations.
+  message: '[MASVS-PLATFORM] Deep link intent filter missing android:autoVerify="true",enabling malicious apps to hijack links.'
   patterns:
     - pattern-inside: |
         <activity ...>

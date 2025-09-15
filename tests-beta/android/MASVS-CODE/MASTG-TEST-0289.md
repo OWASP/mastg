@@ -9,7 +9,7 @@ profiles: [L1, L2]
 
 ### Overview
 
-This vulnerability occurs when an application defines a deep link intent filter in its `AndroidManifest.xml` without the `android:autoVerify="true"` attribute. Without this attribute, Android App Links verification is not enforced, do the android operating system cannot confirm that the app legitimately owns the declared domain. As a result, a malicious app can register the same intent filter and intercept deep links, leading to phishing, credential theft, or hijacking of user actions.
+This vulnerability occurs when a deep link intent filter in `AndroidManifest.xml` lacks the `android:autoVerify="true"` attribute. Without verification, Android cannot confirm the app's ownership of the declared domain. A malicious app could register the same intent filter and intercept deep links, enabling phishing, credential theft, or hijacking of user actions.
 
 ### Steps
 
@@ -21,4 +21,4 @@ The output shows a `<intent-filter>` that define deep links but do not include t
 
 ### Evaluation
 
-The test fails because the application does not enforce App Links verification. Without `android:autoVerify="true"`, malicious apps can intercept and handle the app’s deep links, redirecting users to attacker-controlled content.
+The test fails as App Links verification is not enforced. Without `android:autoVerify="true"`, malicious apps can hijack deep links and redirect users to attacker-controlled content.

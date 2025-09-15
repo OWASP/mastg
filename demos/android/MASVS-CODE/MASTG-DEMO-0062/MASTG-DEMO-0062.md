@@ -11,7 +11,7 @@ status: new
 
 The following is a sample code file that contains a function to handle a deep link, which insecurely loads a URL into a WebView.
 
-{{ MastgTest_reversed.java }}
+{{ MastgTest.kt # MastgTest_reversed.java }}
 
 ### Steps
 
@@ -23,7 +23,7 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 ### Observation
 
-The rule has identified a dangerous data flow from a source `getQueryParameter` to a sink `loadUrl`.
+The output file shows usage of dangerous data flow from a source `getQueryParameter` to a sink `loadUrl`.
 
 {{ output.txt }}
 

@@ -1,4 +1,4 @@
-                  
+                                                                    
                   
 ┌────────────────┐
 │ 1 Code Finding │
@@ -6,9 +6,9 @@
                                 
     AndroidManifest_reversed.xml
     ❯❱ android-autoverify-missing
-          Deep link intent filter is missing the 'android:autoVerify="true"' attribute. Without this, a
-          malicious app could intercept app's deep links.                                              
-                                                                                                       
+          [MASVS-PLATFORM] Deep link intent filter missing android:autoVerify="true",enabling
+          malicious apps to hijack links.                                                    
+                                                                                             
            33┆ <intent-filter>
            34┆     <action android:name="android.intent.action.VIEW"/>
            35┆     <category android:name="android.intent.category.DEFAULT"/>

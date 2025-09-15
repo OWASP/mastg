@@ -29,4 +29,4 @@ The rule has identified that the deep link intent filter is missing the `android
 
 ### Evaluation
 
-The test fails because the app does not enforce Android App Links verification. Without `android:autoVerify="true"`, malicious apps may intercept the app’s deep links, leading to phishing or hijacking attacks.
+The test fails because the app does not enforce Android App Links verification. Without `android:autoVerify="true"`, malicious apps may intercept the app's deep links, leading to phishing or hijacking attacks.
