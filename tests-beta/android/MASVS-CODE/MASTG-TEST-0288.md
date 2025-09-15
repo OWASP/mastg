@@ -9,7 +9,7 @@ profiles: [L1, L2]
 
 ### Overview
 
-This vulnerability arises when an app accepts a URL from an external source such as a deep link query parameter and loads it into a WebView without validation. An attacker can craft a malicious Intent containing a deep link with a harmful URL. When loaded, the WebView executes the embedded script in the app’s context, resulting in a Cross-Site Scripting (XSS) vulnerability. This could allow theft of session cookies, injection of fake content, or unauthorized actions on behalf of the user.
+This vulnerability arises when an app accepts a URL from an external source such as a deep link query parameter and loads it into a WebView without validation. An attacker can craft a malicious Intent containing a deep link with a harmful URL. When loaded, the WebView executes the embedded script in the app's context, resulting in a Cross-Site Scripting (XSS) vulnerability. This could allow theft of session cookies, injection of fake content, or unauthorized actions on behalf of the user.
 
 ### Steps
 
