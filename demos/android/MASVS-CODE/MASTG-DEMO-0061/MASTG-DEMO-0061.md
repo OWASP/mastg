@@ -4,7 +4,6 @@ title: Local Storage for Input Validation with semgrep
 id: MASTG-DEMO-0061
 code: [kotlin]
 test: MASTG-TEST-0288
-profiles: [L1, L2]
 ---
 
 ### Sample
