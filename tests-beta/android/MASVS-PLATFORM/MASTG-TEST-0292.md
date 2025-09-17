@@ -1,7 +1,7 @@
 ---
 title: Unvalidated URL from Deep Link Loaded in WebView
 platform: android
-id: MASTG-TEST-0288
+id: MASTG-TEST-0292
 type: [static]
 weakness: MASWE-0088
 profiles: [L1, L2]

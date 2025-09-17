@@ -1,7 +1,7 @@
 ---
 title: Deep Link Intent Filter Missing android:autoVerify
 platform: android
-id: MASTG-TEST-0289
+id: MASTG-TEST-0293
 type: [static]
 weakness: MASWE-0058
 profiles: [L1, L2]
