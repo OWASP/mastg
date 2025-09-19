@@ -1,6 +1,6 @@
---- 
+---
 title: Intercepting Flutter HTTPS Traffic
-platform: android 
+platform: android
 ---
 
 Flutter is an open-source UI software development kit (SDK) created by Google. It is used to build natively compiled applications for mobile, web, and desktop from a single codebase. Flutter uses Dart, which is not proxy-aware and uses its own certificate store. A Flutter mobile app doesn't use the system's proxy configuration and sends the data directly to the server. Connections are verified against built-in certificates, so any certificates installed on the system are simply ignored. This makes it impossible to intercept HTTPS requests through a standard MiTM setup, as the proxy's certificate is never trusted.

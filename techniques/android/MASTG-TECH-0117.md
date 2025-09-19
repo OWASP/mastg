@@ -1,6 +1,6 @@
---- 
+---
 title: Obtaining Information from the AndroidManifest
-platform: android 
+platform: android
 ---
 
 The [AndroidManifest.xml](../../Document/0x05a-Platform-Overview.md) file is a critical component of any Android application, providing essential information about the app's structure, permissions, components, and configurations. During a security assessment, analyzing the manifest can reveal potential vulnerabilities or misconfigurations that could be exploited by attackers.
