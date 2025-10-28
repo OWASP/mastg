@@ -30,8 +30,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // mastgTest = MastgTest(applicationContext)
-
         appUpdateResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
@@ -40,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     "MainActivity",
                     "Update flow was cancelled or failed! Result code: ${result.resultCode}. Re-initiating."
                 )
-                // The unused 'this' parameter is now removed.
+
                 mastgTest.checkForUpdate(appUpdateResultLauncher)
             } else {
                 Log.d("MainActivity", "Update accepted. The update is now in progress.")
@@ -51,22 +49,17 @@ class MainActivity : ComponentActivity() {
             MainScreen(
                 displayString = "App is running. Checking for mandatory updates...",
                 onStartClick = {
-                    // The unused 'this' parameter is now removed.
                     mastgTest.checkForUpdate(appUpdateResultLauncher)
                 }
             )
         }
 
-        // The unused 'this' parameter is now removed.
         mastgTest.checkForUpdate(appUpdateResultLauncher)
     }
 
     override fun onResume() {
         super.onResume()
-        // if (::mastgTest.isInitialized) {
-            // The unused 'this' parameter is now removed.
             mastgTest.resumeUpdateIfInProgress(appUpdateResultLauncher)
-       // }
     }
 }
 
