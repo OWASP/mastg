@@ -3,6 +3,10 @@ title: Process Exploration
 platform: ios
 ---
 
+??? info "Info about objection"
+
+    The commands below are for objection version 1.11.0, which relies on Frida < 17. To use objection, install `frida-tools==13.7.1` and use a `frida-server` lower than 17 on your device. If you want to use objection with Frida 17, you can pull and build locally the latest version from the objection repository. Note that some commands have been modified in the upcoming release, so you may have to modify the steps below. For example, for objection version 2, the API `explore` command is expected to be replaced with `start`. Once the updated version has officially been released, the steps below will be updated.
+
 When testing an app, process exploration can provide the tester with deep insights into the app process memory. It can be achieved via runtime instrumentation and allows to perform tasks such as:
 
 - Retrieving the memory map and loaded libraries.

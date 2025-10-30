@@ -1,0 +1,23 @@
+[connected]
+Sep 22 11:20:30 MASTestApp(UIKitCore)[32240] <Notice>: TX focusApplication (peekAppEvent) stealKB:Y scene:com.ja5er.test3-A8E224F1-CF5E-4699-9F77-10EACB955D4E
+Sep 22 11:20:30 MASTestApp(UIKitCore)[32240] <Notice>: Evaluating dispatch of UIEvent: 0x103528fc0; type: 0; subtype: 0; backing type: 11; shouldSend: 1; ignoreInteractionEvents: 0, systemGestureStateChange: 0
+Sep 22 11:20:30 MASTestApp(UIKitCore)[32240] <Notice>: Sending UIEvent type: 0; subtype: 0; to windows: 1
+Sep 22 11:20:30 MASTestApp(UIKitCore)[32240] <Notice>: Sending UIEvent type: 0; subtype: 0; to window: <UIWindow: 0x1029c3e10>; contextId: 0x63D3A5C4
+Sep 22 11:20:30 MASTestApp(UIKitCore)[32240] <Notice>: Evaluating dispatch of UIEvent: 0x103528fc0; type: 0; subtype: 0; backing type: 11; shouldSend: 0; ignoreInteractionEvents: 0, systemGestureStateChange: 0
+Sep 22 11:20:31 MASTestApp(UIKitCore)[32240] <Notice>: Evaluating dispatch of UIEvent: 0x103528fc0; type: 0; subtype: 0; backing type: 11; shouldSend: 0; ignoreInteractionEvents: 0, systemGestureStateChange: 1
+Sep 22 11:20:31 MASTestApp(UIKitCore)[32240] <Notice>: Evaluating dispatch of UIEvent: 0x103528fc0; type: 0; subtype: 0; backing type: 11; shouldSend: 1; ignoreInteractionEvents: 0, systemGestureStateChange: 0
+Sep 22 11:20:31 MASTestApp(UIKitCore)[32240] <Notice>: Sending UIEvent type: 0; subtype: 0; to windows: 1
+Sep 22 11:20:31 MASTestApp(UIKitCore)[32240] <Notice>: Sending UIEvent type: 0; subtype: 0; to window: <UIWindow: 0x1029c3e10>; contextId: 0x63D3A5C4
+Sep 22 11:20:31 MASTestApp(Foundation)[32240] <Notice>: NSLog: Leaking TOKEN=123 from NSLog
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.warning: Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.warning (privacy: .public): Leaking TOKEN=123
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.warning (privacy: .private): Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.warning (privacy: .sensitive): Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.error: Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.error (privacy: .public): Leaking TOKEN=123
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.error (privacy: .private): Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Error>: logger.error (privacy: .sensitive): Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Fault>: logger.fault: Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Fault>: logger.fault (privacy: .public): Leaking TOKEN=123
+Sep 22 11:20:31 MASTestApp[32240] <Fault>: logger.fault (privacy: .private): Leaking <private>
+Sep 22 11:20:31 MASTestApp[32240] <Fault>: logger.fault (privacy: .sensitive): Leaking <private>

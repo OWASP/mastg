@@ -44,6 +44,6 @@ public class a {
 }
 ```
 
-Now you're getting somewhere: it's simply standard AES-ECB. Looks like the Base64 string stored in `arrby1` in `check_input` is a ciphertext. It is decrypted with 128bit AES, then compared with the user input. As a bonus task, try to decrypt the extracted ciphertext and find the secret value!
+Now you're getting somewhere: it's simply standard AES-ECB. Looks like the Base64 string stored in `arrby1` in `check_input` is a ciphertext. It is decrypted with 128-bit AES, then compared with the user input. As a bonus task, try to decrypt the extracted ciphertext and find the secret value!
 
 A faster way to get the decrypted string is to add dynamic analysis, as explained in @MASTG-TECH-0043.

@@ -7,7 +7,7 @@ One of the most common things you do when testing an app is accessing the device
 
 ## Remote Shell
 
-In contrast to Android where you can easily access the device shell using the adb tool, on iOS you only have the option to access the remote shell via SSH. This also means that your iOS device must be jailbroken in order to connect to its shell from your host computer. For this section we assume that you've properly jailbroken your device and have either @MASTG-TOOL-0064 or Zebra installed. In the rest of the guide we will reference to Sileo, but the same packages should be available in Zebra.
+In contrast to Android where you can easily access the device shell using @MASTG-TOOL-0004, on iOS you only have the option to access the remote shell via SSH. This also means that your iOS device must be jailbroken in order to connect to its shell from your host computer. For this section we assume that you've properly jailbroken your device and have either @MASTG-TOOL-0064 or Zebra installed. In the rest of the guide we will reference to Sileo, but the same packages should be available in Zebra.
 
 <img src="Images/Tools/TOOL-0064-Sileo.png" width="400px" />
 

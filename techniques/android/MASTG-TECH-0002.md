@@ -3,7 +3,7 @@ title: Host-Device Data Transfer
 platform: android
 ---
 
-## Using adb
+## Using @MASTG-TOOL-0004
 
 You can copy files to and from a device by using the @MASTG-TOOL-0004 commands `adb pull <remote> <local>` and `adb push <local> <remote>` [commands](https://developer.android.com/studio/command-line/adb#copyfiles "Copy files to/from a device"). Their usage is very straightforward. For example, the following will copy `foo.txt` from your current directory (local) to the `sdcard` folder (remote):
 
@@ -11,7 +11,7 @@ You can copy files to and from a device by using the @MASTG-TOOL-0004 commands `
 adb push foo.txt /sdcard/foo.txt
 ```
 
-This approach is commonly used when you know exactly what you want to copy and from/to where and also supports bulk file transfer, e.g. you can pull (copy) a whole directory from the Android device to your host computer.
+This approach is commonly used when you know exactly what you want to copy and from/to where, and also supports bulk file transfer, e.g. you can pull (copy) a whole directory from the Android device to your host computer.
 
 ```bash
 $ adb pull /sdcard
@@ -24,7 +24,7 @@ Android Studio has a [built-in Device File Explorer](https://developer.android.c
 
 <img src="Images/Chapters/0x05b/android-studio-file-device-explorer.png" width="400px" />
 
-If you're using a rooted device you can now start exploring the whole file system. However, when using a non-rooted device accessing the app sandboxes won't work unless the app is debuggable and even then you are "jailed" within the app sandbox.
+If you're using a rooted device, you can now start exploring the whole file system. However, when using a non-rooted device, accessing the app sandboxes won't work unless the app is debuggable, and even then, you are "jailed" within the app sandbox.
 
 ## Using objection
 
@@ -56,7 +56,7 @@ Directory  ...  databases
 Readable: True  Writable: True
 ```
 
-One you have a file you want to download you can just run `file download <some_file>`. This will download that file to your working directory. The same way you can upload files using `file upload`.
+Once you have a file you want to download, you can just run `file download <some_file>`. This will download that file to your working directory. In the same way, you can upload files using `file upload`.
 
 ```bash
 ...[usb] # ls
@@ -73,4 +73,4 @@ Successfully downloaded ... to sg.vp.owasp_mobile.omtg_android_preferences.xml
 
 ```
 
-The downside is that, at the time of this writing, objection does not support bulk file transfer yet, so you're restricted to copy individual files. Still, this can come handy in some scenarios where you're already exploring the app using objection anyway and find some interesting file. Instead of for example taking note of the full path of that file and use `adb pull <path_to_some_file>` from a separate terminal, you might just want to directly do `file download <some_file>`.
+The downside is that, at the time of this writing, objection does not support bulk file transfer yet, so you're restricted to copying individual files. Still, this can come in handy in some scenarios where you're already exploring the app using `objection` anyway and find some interesting file. Instead of, for example, taking note of the full path of that file and using `adb pull <path_to_some_file>` from a separate terminal, you might just want to directly do `file download <some_file>`.

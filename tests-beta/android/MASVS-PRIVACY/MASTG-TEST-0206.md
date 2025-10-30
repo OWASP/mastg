@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Sensitive Data in Network Traffic Capture
+title: Undeclared PII in Network Traffic Capture
 id: MASTG-TEST-0206
 type: [dynamic, network]
 weakness: MASWE-0108
@@ -15,7 +15,7 @@ profiles: [P]
 
 Attackers may capture network traffic from Android devices using an intercepting proxy, such as @MASTG-TOOL-0079, @MASTG-TOOL-0077, or @MASTG-TOOL-0097, to analyze the data being transmitted by the app. This works even if the app uses HTTPS, as the attacker can install a custom root certificate on the Android device to decrypt the traffic. Inspecting traffic that is not encrypted with HTTPS is even easier and can be done without installing a custom root certificate for example by using @MASTG-TOOL-0081.
 
-The goal of this test is to verify that sensitive data is not being sent over the network, even if the traffic is encrypted. This test is especially important for apps that handle sensitive data, such as financial or health data, and should be performed in conjunction with a review of the app's privacy policy and the App Store Privacy declarations.
+The goal of this test is to verify that sensitive data, specifically PII, is not being sent over the network, even if the traffic is encrypted. This test is especially important for apps that handle sensitive data, such as financial or health data, and should be performed in conjunction with a review of the app's privacy policy and the app's marketplace privacy declarations (e.g., Data Safety section in Google Play).
 
 ## Steps
 
@@ -25,10 +25,10 @@ The goal of this test is to verify that sensitive data is not being sent over th
 
 ## Observation
 
-The output should contain a network traffic sensitive data log that includes the decrypted HTTPS traffic.
+The output should contain a network traffic log that includes the decrypted HTTPS traffic.
 
 ## Evaluation
 
-The test case fails if you can find the sensitive data you entered in the app that is not stated in the App Store Privacy declarations.
+The test case fails if you can find the PII you entered in the app that is not declared in the app's marketplace privacy declarations (e.g., Data Safety section in Google Play) and/or in its privacy policy.
 
 Note that this test does not provide any code locations where the sensitive data is being sent over the network. In order to identify the code locations, you can use static analysis tools like @MASTG-TOOL-0110 or dynamic analysis tools like @MASTG-TOOL-0031.

@@ -5,13 +5,13 @@ platform: android
 
 Flutter is an open source UI SDK from Google for building natively compiled applications for mobile, web, and desktop from a single codebase. Dart, the programming language used in Flutter, is key to its functionality, offering language features and performance optimizations that enable efficient development of high-quality cross-platform apps.
 
-A Dart snapshot is a pre-compiled representation of a Dart program that allows for faster startup times and efficient execution. Flutter application development focuses is on the AOT (Ahead-of-Time) snapshot, which is used in all Flutter mobile apps.
+A Dart snapshot is a pre-compiled representation of a Dart program that allows for faster startup times and efficient execution. Flutter application development focuses on the AOT (Ahead-of-Time) snapshot, which is used in all Flutter mobile apps.
 
 There are significant challenges in reverse engineering Dart AOT snapshots due to several factors:
 
 1. **Distinctive Assembly Code**: The generated assembly code uses unique registers, calling conventions, and integer encoding, complicating analysis.
 2. **Sequential Class Information**: Information about each class in the Dart AOT snapshot must be read sequentially, preventing random access and making it time-consuming to locate specific classes.
-3. **Lack of Documentation**: The Dart snapshot format lacks comprehensive documentation and has evolved over time, adding to the complexity.
+3. **Lack of Documentation**: The Dart snapshot format lacks comprehensive documentation and has evolved, adding to the complexity.
 4. **Obfuscation and Optimization**: Flutter's build process may include [obfuscation](https://docs.flutter.dev/deployment/obfuscate) and optimization techniques that hinder reverse engineering efforts.
 
 Because of these challenges, analyzing Flutter applications effectively requires specialized tools and methods.
