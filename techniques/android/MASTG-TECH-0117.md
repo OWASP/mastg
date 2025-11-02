@@ -17,7 +17,7 @@ Use jadx CLI with `--no-src` to extract only resources without decompiling all s
 jadx --no-src -d out_dir MASTG-DEMO-0001.apk
 ```
 
-jadx outputs the manifest in full to `out_dir/resources/AndroidManifest.xml`, including the `<uses-sdk>` element which is not included when using other tools like apktool.
+jadx outputs the manifest in full to `out_dir/resources/AndroidManifest.xml`, including the `<uses-sdk>` element, which is not included when using other tools like apktool.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -48,7 +48,7 @@ The AndroidManifest.xml is extracted and decoded to `output_dir/AndroidManifest.
 
 When you decode an APK with apktool, you might notice that the `<uses‑sdk>` element (which includes `minSdkVersion` and `targetSdkVersion`) is missing from the decompiled AndroidManifest.xml. That's expected behavior.
 
-Apktool moves those values into a separate file called apktool.yml rather than inserting them into the decoded XML manifest. In that file you'll see something like:
+Apktool moves those values into a separate file called apktool.yml rather than inserting them into the decoded XML manifest. In that file, you'll see something like:
 
 ```yml
 sdkInfo:

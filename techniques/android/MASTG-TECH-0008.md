@@ -3,9 +3,9 @@ title: Accessing App Data Directories
 platform: android
 ---
 
-Once you have installed the app, there is further information to explore, where tools like objection come in handy.
+Once you have installed the app, there is further information to explore, where tools like `objection` come in handy.
 
-When using objection you can retrieve different kinds of information, where `env` will show you all the directory information of the app.
+When using objection, you can retrieve different kinds of information, where `env` will show you all the directory information of the app.
 
 ```bash
 $ objection -g sg.vp.owasp_mobile.omtg_android explore
@@ -22,9 +22,9 @@ obbDir                  /storage/emulated/0/Android/obb/sg.vp.owasp_mobile.omtg_
 packageCodePath         /data/app/sg.vp.owasp_mobile.omtg_android-kR0ovWl9eoU_yh0jPJ9caQ==/base.apk
 ```
 
-Among this information we find:
+Among this information, we find:
 
-- The internal data directory (aka. sandbox directory) which is at `/data/data/[package-name]` or `/data/user/0/[package-name]`
+- The internal data directory (aka. sandbox directory), which is at `/data/data/[package-name]` or `/data/user/0/[package-name]`
 - The external data directory at `/storage/emulated/0/Android/data/[package-name]` or `/sdcard/Android/data/[package-name]`
 - The path to the app package in `/data/app/`
 
@@ -51,7 +51,7 @@ Each folder has its own purpose:
 - **lib**: This folder stores native libraries written in C/C++. These libraries can have one of several file extensions, including .so and .dll (x86 support). This folder contains subdirectories for the platforms the app has native libraries for, including
     - armeabi: compiled code for all ARM-based processors
     - armeabi-v7a: compiled code for all ARM-based processors, version 7 and above only
-    - arm64-v8a: compiled code for all 64-bit ARM-based processors, version 8 and above based only
+    - arm64-v8a: compiled code for all 64-bit ARM-based processors, version 8 and above, based only
     - x86: compiled code for x86 processors only
     - x86_64: compiled code for x86_64 processors only
     - mips: compiled code for MIPS processors

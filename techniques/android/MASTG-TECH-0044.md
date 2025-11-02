@@ -3,17 +3,17 @@ title: Process Exploration
 platform: android
 ---
 
-When testing an app, process exploration can provide the tester with deep insights into the app process memory. It can be achieved via runtime instrumentation and allows to perform tasks such as:
+When testing an app, process exploration can provide the tester with deep insights into the app's process memory. It can be achieved via runtime instrumentation and allows performing tasks such as:
 
 - Retrieving the memory map and loaded libraries.
 - Searching for occurrences of certain data.
-- After doing a search, obtaining the location of a certain offset in the memory map.
-- Performing a memory dump and inspect or reverse engineer the binary data _offline_.
+- After searching, obtain the location of a certain offset in the memory map.
+- Performing a memory dump and inspecting or reverse engineering the binary data _offline_.
 - Reverse engineering a native library while it's running.
 
 As you can see, these passive tasks help us collect information. This Information is often used for other techniques, such as method hooking.
 
-In the following sections you will be using @MASTG-TOOL-0036 to retrieve information straight from the app runtime. Please refer to [r2frida's official installation instructions](https://github.com/nowsecure/r2frida/blob/master/README.md#installation "r2frida installation instructions"). First start by opening an r2frida session to the target app (e.g. [HelloWorld JNI](https://github.com/OWASP/mastg/raw/master/Samples/Android/01_HelloWorld-JNI/HelloWord-JNI.apk "HelloWorld JNI") APK) that should be running on your Android phone (connected per USB). Use the following command:
+In the following sections, you will be using @MASTG-TOOL-0036 to retrieve information straight from the app runtime. Please refer to [r2frida's official installation instructions](https://github.com/nowsecure/r2frida/blob/master/README.md#installation "r2frida installation instructions"). First, start by opening an r2frida session to the target app (e.g. [HelloWorld JNI](https://github.com/OWASP/mastg/raw/master/Samples/Android/01_HelloWorld-JNI/HelloWord-JNI.apk "HelloWorld JNI") APK) that should be running on your Android phone (connected via USB). Use the following command:
 
 ```bash
 r2 frida://usb//sg.vantagepoint.helloworldjni
@@ -25,7 +25,7 @@ Once in the r2frida session, all commands start with `:`. For example, in radare
 
 ### Memory Maps and Inspection
 
-You can retrieve the app's memory maps by running `:dm`. The output in Android can get very long (e.g. between 1500 and 2000 lines), to narrow your search and see only what directly belongs to the app apply a grep (`~`) by package name `:dm~<package_name>`:
+You can retrieve the app's memory maps by running `:dm`. The output in Android can get very long (e.g. between 1500 and 2000 lines). To narrow your search and see only what directly belongs to the app, apply a grep (`~`) by package name `:dm~<package_name>`:
 
 ```bash
 [0x00000000]> :dm~sg.vantagepoint.helloworldjni
@@ -45,7 +45,7 @@ You can retrieve the app's memory maps by running `:dm`. The output in Android c
 0x0000007dc05db000 - 0x0000007dc05dc000 r-- /data/app/sg.vantagepoint.helloworldjni-1/oat/arm64/base.art
 ```
 
-While you're searching or exploring the app memory, you can always verify where you're located at each moment (where your current offset is located) in the memory map. Instead of noting and searching for the memory address in this list you can simply run `:dm.`. You'll find an example in the following section "In-Memory Search".
+While you're searching or exploring the app memory, you can always verify where you're located at each moment (where your current offset is located) in the memory map. Instead of noting and searching for the memory address in this list, you can simply run `:dm.`. You'll find an example in the following section, "In-Memory Search".
 
 If you're only interested in the modules (binaries and libraries) that the app has loaded, you can use the command `:il` to list them all:
 
@@ -69,9 +69,9 @@ If you're only interested in the modules (binaries and libraries) that the app h
 0x0000007dc065f000 linker64
 ```
 
-As you might expect you can correlate the addresses of the libraries with the memory maps: e.g. the native library of the app is located at `0x0000007d1c499000` and optimized dex (base.odex) at `0x0000007d10dd0000`.
+As you might expect, you can correlate the addresses of the libraries with the memory maps: e.g. the native library of the app is located at `0x0000007d1c499000` and optimized dex (base.odex) at `0x0000007d10dd0000`.
 
-You can also use objection to display the same information.
+You can also use an objection to display the same information.
 
 ```bash
 $ objection --gadget sg.vantagepoint.helloworldjni explore
@@ -117,7 +117,7 @@ e search.in=perm:r--
 e search.quiet=false
 ```
 
-For now, we'll continue with the defaults and concentrate on string search. This app is actually very simple, it loads the string "Hello from C++" from its native library and displays it to us. You can start by searching for "Hello" and see what r2frida finds:
+For now, we'll continue with the defaults and concentrate on string search. This app is actually very simple. It loads the string "Hello from C++" from its native library and displays it to us. You can start by searching for "Hello" and see what r2frida finds:
 
 ```bash
 [0x00000000]> :/ Hello
@@ -176,17 +176,17 @@ hits: 6
 0x0000007d30a00000 - 0x0000007d30c00000 rw-
 ```
 
-They are in the same rw- region as one of the previous strings (`0x0000007d30a00000`). Note that searching for the wide versions of strings is sometimes the only way to find them as you'll see in the following section.
+They are in the same rw- region as one of the previous strings (`0x0000007d30a00000`). Note that searching for the wide versions of strings is sometimes the only way to find them, as you'll see in the following section.
 
-In-memory search can be very useful to quickly know if certain data is located in the main app binary, inside a shared library or in another region. You may also use it to test the behavior of the app regarding how the data is kept in memory. For instance, you could analyze an app that performs a login and search for occurrences of the user password. Also, you may check if you still can find the password in memory after the login is completed to verify if this sensitive data is wiped from memory after its use.
+In-memory search can be very useful to quickly know if certain data is located in the main app binary, inside a shared library, or in another region. You may also use it to test the behavior of the app regarding how the data is kept in memory. For instance, you could analyze an app that performs a login and search for occurrences of the user password. Also, you may check if you still can find the password in memory after the login is completed to verify if this sensitive data is wiped from memory after its use.
 
 ### Memory Dump
 
 You can dump the app's process memory with @MASTG-TOOL-0038 and @MASTG-TOOL-0106. To take advantage of these tools on a non-rooted device, the Android app must be repackaged with `frida-gadget.so` and re-signed. A detailed explanation of this process can be found at @MASTG-TECH-0026. To use these tools on a rooted device, simply have frida-server installed and running.
 
-> Note: When using these tools, you might get several memory access violation errors which can normally be ignored. These tools inject a Frida agent and try to dump all the mapped memory of the app regardless of the access permissions (read/write/execute). Therefore, when the injected Frida agent tries to read a region that's not readable, it'll return the corresponding _memory access violation errors_. Refer to previous section "Memory Maps and Inspection" for more details.
+> Note: When using these tools, you might get several memory access violation errors, which can normally be ignored. These tools inject a Frida agent and try to dump all the mapped memory of the app regardless of the access permissions (read/write/execute). Therefore, when the injected Frida agent tries to read a region that's not readable, it'll return the corresponding _memory access violation errors_. Refer to the previous section "Memory Maps and Inspection" for more details.
 
-With objection it is possible to dump all memory of the running process on the device by using the command `memory dump all`.
+With objection, it is possible to dump all memory of the running process on the device by using the command `memory dump all`.
 
 ```bash
 $ objection --gadget sg.vantagepoint.helloworldjni explore
@@ -199,9 +199,9 @@ Dumping 8.0 MiB from base: 0x7fc753e000  [####################################] 
 Memory dumped to file: /Users/foo/memory_Android/memory
 ```
 
-> In this case there was an error, which is probably due to memory access violations as we already anticipated. This error can be safely ignored as long as we are able to see the extracted dump in the file system. If you have any problems, a first step would be to enable the debug flag `-d` when running objection or, if that doesn't help, file an issue in [objection's GitHub](https://github.com/sensepost/objection/issues "objection Issues").
+> In this case, there was an error, which is probably due to memory access violations as we already anticipated. This error can be safely ignored as long as we are able to see the extracted dump in the file system. If you have any problems, a first step would be to enable the debug flag `-d` when running objection or, if that doesn't help, file an issue in [objection's GitHub](https://github.com/sensepost/objection/issues "objection Issues").
 
-Next, we are able to find the "Hello from C++" strings with radare2:
+Next, we can find the "Hello from C++" strings with radare2:
 
 ```bash
 $ r2 /Users/foo/memory_Android/memory
@@ -209,7 +209,7 @@ $ r2 /Users/foo/memory_Android/memory
 1136 0x00065270 0x00065270  14  15 () ascii Hello from C++
 ```
 
-Alternatively you can use Fridump. This time, we will input a string and see if we can find it in the memory dump. For this, open the @MASTG-APP-0011 app, navigate to "OMTG_DATAST_002_LOGGING" and enter "owasp-mstg" to the password field. Next, run Fridump:
+Alternatively, you can use Fridump. This time, we will input a string and see if we can find it in the memory dump. For this, open the @MASTG-APP-0011 app, navigate to "OMTG_DATAST_002_LOGGING" and enter "owasp-mstg" in the password field. Next, run Fridump:
 
 ```bash
 python3 fridump.py -U sg.vp.owasp_mobile.omtg_android -s
@@ -227,7 +227,7 @@ Finished!
 
 > Tip: Enable verbosity by including the flag `-v` if you want to see more details, e.g. the regions provoking memory access violations.
 
-It will take a while until it's completed and you'll get a collection of *.data files inside the dump folder. When you add the `-s` flag, all strings are extracted from the dumped raw memory files and added to the file `strings.txt`, which is also stored in the dump directory.
+It will take a while until it's completed, and you'll get a collection of *.data files inside the dump folder. When you add the `-s` flag, all strings are extracted from the dumped raw memory files and added to the file `strings.txt`, which is also stored in the dump directory.
 
 ```bash
 ls dump/

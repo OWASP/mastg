@@ -29,7 +29,7 @@ plugins {
 
 dependencyCheck {
 
-    formats = listOf("HTML", "XML", "JSON") // Generate reports in HTML, JSON and XML format
+    formats = listOf("HTML", "XML", "JSON") // Generate reports in HTML, JSON, and XML format
 
     nvd {
         apiKey = "<YOUR NVD API KEY>"
@@ -48,7 +48,7 @@ BUILD SUCCESSFUL in 6s
 1 actionable task: 1 executed
 ```
 
-The report was generated in 3 different formats (HTML, JSON and XML) and can be found in the project directory in `app/build/reports`.
+The report was generated in 3 different formats (HTML, JSON, and XML) and can be found in the project directory in `app/build/reports`.
 
 **Suppressing False Positives:**
 
@@ -81,7 +81,7 @@ To use the `suppression.xml` file, add the following line to your `build.gradle.
 ```java
 dependencyCheck {
 
-    formats = listOf("HTML", "XML", "JSON") // Generate reports in HTML, JSON and XML format
+    formats = listOf("HTML", "XML", "JSON") // Generate reports in HTML, JSON, and XML format
 
     suppressionFile = "suppression.xml"
     ...

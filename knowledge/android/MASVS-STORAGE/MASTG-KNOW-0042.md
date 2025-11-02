@@ -32,7 +32,7 @@ Cannot open content uri: content://media/external_primary/images/media/100000004
 java.lang.SecurityException: org.owasp.mastestapp has no access to content://media/external_primary/images/media/1000000041
 ```
 
-You can validate this by querying the MediaStore via adb, for example:
+You can validate this by querying the MediaStore via @MASTG-TOOL-0004, for example:
 
 - `adb shell content query --uri content://media/external_primary/images/media`
 - `adb shell content query --uri content://media/external_primary/file`
@@ -45,7 +45,7 @@ To be able to access the content, the app must have the necessary permissions e.
 >
 > As of Android 13 (API level 33), if you need to query or interact with MediaStore or media files on the shared storage, you should be using instead one or more new storage permissions: `READ_MEDIA_IMAGES`, `READ_MEDIA_VIDEO` or `READ_MEDIA_AUDIO`.
 
-After declaring the permission in the manifest you can grant it with adb:
+After declaring the permission in the manifest you can grant it with @MASTG-TOOL-0004:
 
 ```sh
 adb shell pm grant org.owasp.mastestapp android.permission.READ_MEDIA_IMAGES

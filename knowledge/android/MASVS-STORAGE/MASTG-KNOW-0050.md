@@ -19,9 +19,9 @@ title: Backups
 
 Apps must carefully ensure that sensitive user data doesn't end within these backups as this may allow an attacker to extract it.
 
-## ADB Backup Support
+## @MASTG-TOOL-0004 Backup Support
 
-Android provides an attribute called [`allowBackup`](https://developer.android.com/guide/topics/manifest/application-element.html#allowbackup "allowBackup attribute") to back up all your application data. This attribute is set in the `AndroidManifest.xml` file. If the value of this attribute is **true**, the device allows users to back up the application with Android Debug Bridge (ADB) via the command `$ adb backup` ([restricted in Android 12](https://developer.android.com/about/versions/12/behavior-changes-12#adb-backup-restrictions)).
+Android provides an attribute called [`allowBackup`](https://developer.android.com/guide/topics/manifest/application-element.html#allowbackup "allowBackup attribute") to back up all your application data. This attribute is set in the `AndroidManifest.xml` file. If the value of this attribute is **true**, the device allows users to back up the application with @MASTG-TOOL-0004 via the command `$ adb backup` ([restricted in Android 12](https://developer.android.com/about/versions/12/behavior-changes-12#adb-backup-restrictions)).
 
 To prevent the app data backup, set the `android:allowBackup` attribute to **false**. When this attribute is unavailable, the allowBackup setting is enabled by default, and backup must be manually deactivated.
 

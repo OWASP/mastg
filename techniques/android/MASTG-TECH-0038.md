@@ -53,7 +53,7 @@ This modification will break the APK signature, so you'll also have to re-sign t
 
 Every debugger-enabled process runs an extra thread for handling JDWP protocol packets. This thread is started only for apps that have the `android:debuggable="true"` flag set in their manifest file's `<application>` element. This is the typical configuration of Android devices shipped to end users.
 
-When reverse engineering apps, you'll often have access to the target app's release build only. Release builds aren't meant to be debugged, that's the purpose of _debug builds_. If the system property `ro.debuggable` is set to "0", Android disallows both JDWP and native debugging of release builds. Although this is easy to bypass, you're still likely to encounter limitations, such as a lack of line breakpoints. Nevertheless, even an imperfect debugger is still an invaluable tool, being able to inspect the runtime state of a program makes understanding the program _a lot_ easier.
+When reverse engineering apps, you'll often have access to the target app's release build only. Release builds aren't meant to be debugged. That's the purpose of _debug builds_. If the system property `ro.debuggable` is set to "0", Android disallows both JDWP and native debugging of release builds. Although this is easy to bypass, you're still likely to encounter limitations, such as a lack of line breakpoints. Nevertheless, even an imperfect debugger is still an invaluable tool, being able to inspect the runtime state of a program makes understanding the program _a lot_ easier.
 
 To _convert_ a release build into a debuggable build, you need to modify a flag in the Android Manifest file (AndroidManifest.xml). Once you've unpacked the app (e.g. `apktool d --no-src UnCrackable-Level1.apk`) and decoded the Android Manifest, add `android:debuggable="true"` to it using a text editor:
 
@@ -65,13 +65,13 @@ Even if we haven't altered the source code, this modification also breaks the AP
 
 ## Patching React Native applications
 
-If the [React Native](https://facebook.github.io/react-native "React Native") framework has been used for developing then the main application code is located in the file `assets/index.android.bundle`. This file contains the JavaScript code. Most of the time, the JavaScript code in this file is minified. By using the tool [JStillery](https://mindedsecurity.github.io/jstillery "JStillery") a human readable version of the file can be retrieved, allowing code analysis. The [CLI version of JStillery](https://github.com/mindedsecurity/jstillery/ "CLI version of JStillery") or the local server should be preferred instead of using the online version as otherwise source code is sent and disclosed to a third-party.
+If the [React Native](https://facebook.github.io/react-native "React Native") framework has been used for developing, then the main application code is located in the file `assets/index.android.bundle`. This file contains the JavaScript code. Most of the time, the JavaScript code in this file is minified. By using the tool [JStillery](https://mindedsecurity.github.io/jstillery "JStillery"), a human-readable version of the file can be retrieved, allowing code analysis. The [CLI version of JStillery](https://github.com/mindedsecurity/jstillery/ "CLI version of JStillery") or the local server should be preferred instead of using the online version, as otherwise source code is sent and disclosed to a third-party.
 
-The following approach can be used in order to patch the JavaScript file:
+The following approach can be used to patch the JavaScript file:
 
 1. Unpack the APK archive using `apktool` tool.
 2. Copy the content of the file `assets/index.android.bundle` into a temporary file.
 3. Use `JStillery` to beautify and deobfuscate the content of the temporary file.
 4. Identify where the code should be patched in the temporary file and implement the changes.
-5. Put the _patched code_ on a single line and copy it in the original `assets/index.android.bundle` file.
+5. Put the _patched code_ on a single line and copy it into the original `assets/index.android.bundle` file.
 6. Repack the APK archive using `apktool` tool and sign it before installing it on the target device/emulator.

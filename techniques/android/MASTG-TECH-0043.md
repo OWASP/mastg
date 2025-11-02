@@ -30,7 +30,7 @@ public static boolean c() {
 }
 ```
 
-This method iterates through a list of directories and returns `true` (device rooted) if it finds the `su` binary in any of them. Checks like this are easy to deactivate all you have to do is replace the code with something that returns "false". Method hooking with an Xposed module is one way to do this (see "Android Basic Security Testing" for more details on Xposed installation and basics).
+This method iterates through a list of directories and returns `true` (device rooted) if it finds the `su` binary in any of them. Checks like this are easy to deactivate. All you have to do is replace the code with something that returns "false". Method hooking with an Xposed module is one way to do this (see "Android Basic Security Testing" for more details on Xposed installation and basics).
 
 The method `XposedHelpers.findAndHookMethod` allows you to override existing class methods. By inspecting the decompiled source code, you can find out that the method performing the check is `c`. This method is located in the class `com.example.a.b`. The following is an Xposed module that overrides the function so that it always returns false:
 
@@ -68,7 +68,7 @@ Just like regular Android apps, modules for Xposed are developed and deployed wi
 
 We'll use Frida to solve the @MASTG-APP-0003 and demonstrate how we can easily bypass root detection and extract secret data from the app.
 
-When you start the crackme app on an emulator or a rooted device, you'll find that the it presents a dialog box and exits as soon as you press "OK" because it detected root:
+When you start the crackme app on an emulator or a rooted device, you'll find that it presents a dialog box and exits as soon as you press "OK" because it detected root:
 
 <img src="Images/Chapters/0x05c/crackme-frida-1.png" width="400px" />
 
@@ -161,7 +161,7 @@ setImmediate(function() { //prevent timeout
 });
 ```
 
-Wrap your code in the function `setImmediate` to prevent timeouts (you may or may not need to do this), then call `Java.perform` to use Frida's methods for dealing with Java. Afterwards retrieve a wrapper for `MainActivity` class and overwrite its `a` method. Unlike the original, the new version of `a` just writes console output and doesn't exit the app. An alternative solution is to hook `onClick` method of the `OnClickListener` interface. You can overwrite the `onClick` method and prevent it from ending the application with the `System.exit` call. If you want to inject your own Frida script, it should either disable the `AlertDialog` entirely or change the behavior of the `onClick` method so the app does not exit when you click "OK".
+Wrap your code in the function `setImmediate` to prevent timeouts (you may or may not need to do this), then call `Java.perform` to use Frida's methods for dealing with Java. Afterwards, retrieve a wrapper for `MainActivity` class and overwrite its `a` method. Unlike the original, the new version of `a` just writes console output and doesn't exit the app. An alternative solution is to hook `onClick` method of the `OnClickListener` interface. You can overwrite the `onClick` method and prevent it from ending the application with the `System.exit` call. If you want to inject your own Frida script, it should either disable the `AlertDialog` entirely or change the behavior of the `onClick` method so the app does not exit when you click "OK".
 
 Save the above script as `uncrackable1.js` and load it:
 
@@ -258,4 +258,4 @@ The hooked function outputted the decrypted string. You extracted the secret str
 
 You've now covered the basics of static/dynamic analysis on Android. Of course, the only way to _really_ learn it is hands-on experience: build your own projects in Android Studio, observe how your code gets translated into bytecode and native code, and try to crack our challenges.
 
-In the remaining sections, we'll introduce a few advanced subjects, including process exploration, kernel modules and dynamic execution.
+In the remaining sections, we'll introduce a few advanced subjects, including process exploration, kernel modules, and dynamic execution.
