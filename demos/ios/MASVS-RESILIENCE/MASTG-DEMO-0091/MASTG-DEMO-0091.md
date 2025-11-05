@@ -31,23 +31,28 @@ The code snippet below shows sample code that implements Frida detection mechani
 The output demonstrates multiple detection results:
 
 **Without Frida:**
-```
+
+```text
 ✅ No Frida detected - App is running normally
 ℹ️ Current thread count: 6
+
 ```
 
 **With Frida Attached:**
-```
+
+```text
 🚨 SECURITY ALERT!
 
 Frida Detection Results:
 1. Frida library detected in memory
 2. Frida server port (27042) is open
 3. Suspicious thread count detected
+
 ```
 
 **With Bypass Script:**
-```
+
+```text
 [*] MASTG-DEMO-0091: Frida Detection Bypass
 [+] Bypass 1: Hiding Frida libraries
 [+] Bypass 2: Blocking Frida port detection
@@ -55,6 +60,7 @@ Frida Detection Results:
 [✓] All bypasses active!
 
 ✅ No Frida detected - App is running normally
+
 ```
 
 {{ output.txt }}
