@@ -1,0 +1,36 @@
+========== Test 1: Clean Run (No Frida) ==========
+[MASTG-TEST-0091] Testing Frida Detection
+ℹ️ Current thread count: 6
+✅ No Frida detected - App is running normally
+
+========== Test 2: With Frida Attached ==========
+[MASTG-TEST-0091] Testing Frida Detection
+⚠️ Frida library found: /usr/lib/frida/frida-agent.dylib
+⚠️ Frida port 27042 is open
+ℹ️ Current thread count: 15
+⚠️ Suspicious thread count: 15 (expected < 12)
+🚨 SECURITY ALERT!
+
+Frida Detection Results:
+1. Frida library detected in memory
+2. Frida server port (27042) is open
+3. Suspicious thread count detected
+
+========== Test 3: With Bypass Script ==========
+[*] MASTG-DEMO-0091: Frida Detection Bypass
+==================================================
+[+] Bypass 1: Hiding Frida libraries
+    [!] Hiding: /usr/lib/frida/frida-agent.dylib
+[+] Bypass 2: Blocking Frida port detection
+    [!] Blocked port check: 27042
+[+] Bypass 3: Normalizing thread count
+    [!] Reducing thread count from 15 to 8
+[+] Bypass 4: Hooking mastgTest()
+    [✓] Modified result: No Frida detected
+==================================================
+[✓] All bypasses active!
+==================================================
+
+[MASTG-TEST-0091] Testing Frida Detection
+ℹ️ Current thread count: 8
+✅ No Frida detected - App is running normally
