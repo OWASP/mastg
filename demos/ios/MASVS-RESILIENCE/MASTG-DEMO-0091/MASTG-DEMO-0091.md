@@ -1,89 +1,72 @@
-# MASTG-DEMO-0091: Testing Reverse Engineering Tools Detection
+---
+platform: ios
+title: Frida Detection and Bypass Techniques
+code: [swift]
+tools: [MASTG-TOOL-0031]
+id: MASTG-DEMO-0091
+test: MASTG-TEST-0298
+---
 
-## Overview
+### Sample
 
-This demo implements and tests various Frida detection techniques on iOS, demonstrating how apps can detect dynamic instrumentation frameworks and how these detections can be bypassed.
+The code snippet below shows sample code that implements Frida detection mechanisms including dynamic library scanning, port detection, thread count analysis, and file system artifact detection.
 
-## Detection Techniques
+{{ MastgTest.swift }}
 
-### 1. Dynamic Library Scanning
+### Steps
 
-Scans loaded dylibs using `_dyld_image_count()` and `_dyld_get_image_name()` to detect Frida-related libraries (frida-agent, gadget, etc.).
+1. Build and install the MASTestApp on an iOS simulator or jailbroken device.
+2. Run the app without Frida to observe normal behavior (no detection).
+3. Attach Frida to the running app using `frida -U -n MASTestApp` or `frida -p <PID>`.
+4. Press the "Start" button in the app to trigger detection mechanisms.
+5. Observe the security alerts indicating Frida detection.
+6. Use the bypass script to demonstrate how detection can be circumvented.
 
-### 2. Port Scanning
+{{ run.sh }}
 
-Checks if Frida's default ports (27042, 27043) are open by attempting TCP connections to localhost.
+{{ frida-bypass.js }}
 
-### 3. Thread Count Analysis
+### Observation
 
-Uses `task_threads()` to count active threads. Frida injection typically adds 3-5+ additional threads, triggering detection when count exceeds 12.
+The output demonstrates multiple detection results:
 
-### 4. File System Artifacts
-
-Scans `/tmp` and `/var/tmp` for Frida-related temporary files and named pipes.
-
-## Running the Demo
-
-### Prerequisites
-
-- iOS Simulator or jailbroken device
-- Frida tools installed: `pip3 install frida-tools`
-- MASTestApp built and installed
-
-### Execution
-
-```bash
-./run.sh
-
+**Without Frida:**
+```
+✅ No Frida detected - App is running normally
+ℹ️ Current thread count: 6
 ```
 
-## Testing Scenarios
+**With Frida Attached:**
+```
+🚨 SECURITY ALERT!
 
-### Test 1: Clean Run
-
-Launch app normally without Frida.
-
-- **Expected**: ✅ No Frida detected
-
-### Test 2: With Frida Attached
-
-```bash
-frida -p <PID>
-
+Frida Detection Results:
+1. Frida library detected in memory
+2. Frida server port (27042) is open
+3. Suspicious thread count detected
 ```
 
-- **Expected**: 🚨 Security alert with multiple detections
+**With Bypass Script:**
+```
+[*] MASTG-DEMO-0091: Frida Detection Bypass
+[+] Bypass 1: Hiding Frida libraries
+[+] Bypass 2: Blocking Frida port detection
+[+] Bypass 3: Normalizing thread count
+[✓] All bypasses active!
 
-### Test 3: With Bypass
-
-```bash
-frida -f com.example.MASTestApp -l frida-bypass.js --no-pause
-
+✅ No Frida detected - App is running normally
 ```
 
-- **Expected**: ✅ No Frida detected (bypassed)
+{{ output.txt }}
 
-## Bypass Techniques
+### Evaluation
 
-The bypass script uses Frida's Interceptor API to:
+The test demonstrates that:
 
-1. Hook `_dyld_get_image_name()` and mask Frida libraries
-2. Hook `connect()` and block port checks
-3. Hook `task_threads()` and normalize thread count
-4. Hook `mastgTest()` directly and replace return value
+1. **Detection Methods Work**: The app successfully detects Frida through multiple mechanisms (library scanning, port checking, thread analysis).
 
-## Analysis
+2. **Easy to Bypass**: All detection mechanisms can be trivially bypassed using Frida's Interceptor API with simple function hooks, requiring minimal effort and no custom code.
 
-### Difficulty Assessment
+3. **Educational Value**: This demo illustrates why basic detection mechanisms provide limited security value, as they can be circumvented with straightforward hooking techniques.
 
-- **Trivial bypass**: Yes - single function hooks
-- **Detection code identification**: Easy - clear function names
-- **Custom code required**: No - standard Frida hooking
-- **Time to bypass**: 10-15 minutes
-- **Overall difficulty**: Low (intentional for learning)
-
-## References
-
-- [OWASP MASTG](https://mas.owasp.org/MASTG/)
-- [Frida Documentation](https://frida.re/docs/)
-- [MASTG-TEST-0091](https://mas.owasp.org/MASTG/tests/ios/MASVS-RESILIENCE/MASTG-TEST-0091/)
+The detection mechanisms tested here represent common but easily-defeated approaches. More sophisticated detection would require obfuscation, integrity checks, and anti-hooking measures.

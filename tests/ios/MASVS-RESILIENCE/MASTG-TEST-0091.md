@@ -8,7 +8,10 @@ title: Testing Reverse Engineering Tools Detection
 masvs_v1_levels:
 - R
 profiles: [R]
+deprecated_since: 2025-11-05
 ---
+
+> **DEPRECATED**: This test has been split into more specific tests. For Frida detection specifically, see @MASTG-TEST-0298. Detection of other tools (ElleKit, SSL Kill Switch) will be addressed in separate tests.
 
 ## Overview
 
