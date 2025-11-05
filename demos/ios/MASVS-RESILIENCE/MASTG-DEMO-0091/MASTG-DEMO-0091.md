@@ -31,8 +31,10 @@ Scans `/tmp` and `/var/tmp` for Frida-related temporary files and named pipes.
 - MASTestApp built and installed
 
 ### Execution
+
 ```bash
 ./run.sh
+
 ```
 
 ## Testing Scenarios
@@ -44,15 +46,19 @@ Launch app normally without Frida.
 - **Expected**: ✅ No Frida detected
 
 ### Test 2: With Frida Attached
+
 ```bash
 frida -p <PID>
+
 ```
 
 - **Expected**: 🚨 Security alert with multiple detections
 
 ### Test 3: With Bypass
+
 ```bash
 frida -f com.example.MASTestApp -l frida-bypass.js --no-pause
+
 ```
 
 - **Expected**: ✅ No Frida detected (bypassed)
