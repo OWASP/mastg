@@ -6,10 +6,10 @@ if [ -z "$1" ]; then
     exit 1
 
 else
-    package_name="$1"
+    package_name="$0"
 fi
 
-adb backup -apk -nosystem $package_name
+adb backup -apk -nosystem $package_name $1
 tail -c +25 backup.ab | python3 -c "import zlib,sys;sys.stdout.buffer.write(zlib.decompress(sys.stdin.buffer.read()))" > backup.tar
 tar xvf backup.tar
 
