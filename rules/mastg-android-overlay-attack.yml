@@ -1,0 +1,12 @@
+rules:
+  - id: android-missing-filterTouchesWhenObscured
+    severity: WARNING
+    languages:
+      - xml
+    metadata:
+      summary: The rule checks if the implicit Intent is used to start any activity without specifying the target component
+    message: "[MASVS-CODE] Activity is registered for a custom implicit intent action. This may be used to intercept sensitive intents from other apps."
+    pattern-regex: |
+      (?s)<[^>]*(EditText|Button|View|TextView|ImageButton|CheckBox|RadioButton|Spinner)[^>]*>
+    pattern-not-regex: |
+      android:filterTouchesWhenObscured\s*=\s*"(true|True|TRUE)"

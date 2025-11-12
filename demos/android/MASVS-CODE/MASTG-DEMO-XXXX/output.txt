@@ -1,0 +1,30 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                                                                                                       
+    ../../../../../app/src/main/res/xml/activity_vulnerable_login.xml
+    ❯❱ android-missing-filterTouchesWhenObscured
+          Missing `android:filterTouchesWhenObscured="true"` in layout XML.
+                                                                           
+           10┆ <EditText
+           11┆     android:id="@+id/username_input"
+           12┆     android:layout_width="match_parent"
+           13┆     android:layout_height="wrap_content"
+           14┆     android:hint="Username or Account No."
+           15┆     android:inputType="text"
+           16┆     android:padding="12dp"
+           17┆     android:layout_marginBottom="16dp" />
+           18┆
+            ⋮┆----------------------------------------
+           19┆ <Button
+           20┆     android:id="@+id/login_button"
+           21┆     android:layout_width="match_parent"
+           22┆     android:layout_height="wrap_content"
+           23┆     android:text="Execute Sensitive Action"
+           24┆     android:backgroundTint="#FF9800"
+           25┆     android:textColor="@android:color/white"
+           26┆     android:padding="12dp" />
+           27┆
+
