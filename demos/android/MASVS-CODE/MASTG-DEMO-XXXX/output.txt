@@ -3,11 +3,12 @@
 ┌─────────────────┐
 │ 2 Code Findings │
 └─────────────────┘
-                                                                                                                       
-    ../../../../../app/src/main/res/xml/activity_vulnerable_login.xml
-    ❯❱ android-missing-filterTouchesWhenObscured
-          Missing `android:filterTouchesWhenObscured="true"` in layout XML.
-                                                                           
+                                                
+  [36m[22m[24m  activity_vulnerable_login.xml[0m
+    ❯❱ rules.android-missing-filterTouchesWhenObscured
+          "[MASVS-CODE] Potential tapjacking on layout: this view does not call
+          setFilterTouchesWhenObscured(true) to block obscured touch events. " 
+                                                                               
            10┆ <EditText
            11┆     android:id="@+id/username_input"
            12┆     android:layout_width="match_parent"
