@@ -13,7 +13,7 @@ Overlay attacks, also known as `Tapjacking` or `UI redressing`, occur when a mal
 
 ### Steps
 
-To check for overlay attack mitigation at the layout level, inspect sensitive `XML layout files` for the presence of the `android:filterTouchesWhenObscured` attribute on sensitive views like buttons or input fields, and verify it is set to `true`.
+To check for overlay attack and mitigation at the layout level, inspect sensitive `XML layout files` for the presence of the `android:filterTouchesWhenObscured` attribute on sensitive views like buttons or input fields, and verify it is set to `true`.
 
 ### Observation
 
