@@ -9,9 +9,9 @@ status: new
 
 ### Sample
 
-The following layout implements a vulnerable component that creates an always-on-top overlay window (using WindowManager with TYPE_APPLICATION_OVERLAY / SYSTEM_ALERT_WINDOW) which can be used to intercept touches or obscure UI of other apps.
+The following layout implements a vulnerable component that creates an always-on-top overlay window, which can be used to intercept touches or obscure UI of other apps.
 
-{{ MastgTest.kt # MastgTest_reversed.kt }}
+{{ MastgTest.kt # MastgTest_reversed.kt # activity_vulnerable_login.xml }}
 
 ### Steps
 
