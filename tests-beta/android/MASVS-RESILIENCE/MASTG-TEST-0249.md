@@ -15,7 +15,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0247.
 
 ## Steps
 
-1. Run a dynamic analysis tool like @MASTG-TOOL-0039 and look for uses of `KeyguardManager.isDeviceSecure` and `BiometricManager.canAuthenticate` APIs.
+1. Run a dynamic analysis tool like @MASTG-TOOL-0001 and look for uses of `KeyguardManager.isDeviceSecure` and `BiometricManager.canAuthenticate` APIs.
 
 ## Observation
 

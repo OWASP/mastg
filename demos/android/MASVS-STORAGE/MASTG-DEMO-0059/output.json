@@ -1,0 +1,283 @@
+{
+  "id": "d1cb86ee-9900-4829-8161-77e18324b574",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.890Z",
+  "class": "android.app.SharedPreferencesImpl$EditorImpl",
+  "method": "putString",
+  "stackTrace": [
+    "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:61)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "java.lang.String",
+      "value": "UnencryptedGitHubToken"
+    },
+    {
+      "type": "java.lang.String",
+      "value": "ghp_1234567890abcdefghijklmnopqrstuvABCD"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+    }
+  ]
+}
+{
+  "id": "0c314619-4159-4e05-88d1-5bae3a0f9c6f",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.893Z",
+  "class": "javax.crypto.Cipher",
+  "method": "getInstance",
+  "stackTrace": [
+    "javax.crypto.Cipher.getInstance(Native Method)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:45)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "java.lang.String",
+      "value": "AES/GCM/NoPadding"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "javax.crypto.Cipher",
+      "value": "<instance: javax.crypto.Cipher>"
+    }
+  ]
+}
+{
+  "id": "530769c9-f6bb-4a20-a4d1-05650f039913",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.907Z",
+  "class": "java.security.KeyStore",
+  "method": "getEntry",
+  "stackTrace": [
+    "java.security.KeyStore.getEntry(Native Method)",
+    "org.owasp.mastestapp.MastgTest.getOrCreateSecretKey(MastgTest.kt:25)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:46)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "java.lang.String",
+      "value": "mastgKey"
+    },
+    {
+      "type": "java.security.KeyStore$ProtectionParameter",
+      "value": "void"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "java.security.KeyStore$Entry",
+      "value": "<instance: java.security.KeyStore$Entry, $className: java.security.KeyStore$SecretKeyEntry>"
+    }
+  ]
+}
+{
+  "id": "afd5682f-6521-4406-b60e-0ee67ff409db",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.922Z",
+  "class": "javax.crypto.Cipher",
+  "method": "init",
+  "stackTrace": [
+    "javax.crypto.Cipher.init(Native Method)",
+    "javax.crypto.Cipher.init(Cipher.java:1085)",
+    "javax.crypto.Cipher.init(Native Method)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:46)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)"
+  ],
+  "inputParameters": [
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "java.security.Key",
+      "value": "<instance: java.security.Key, $className: android.security.keystore2.AndroidKeyStoreSecretKey>"
+    },
+    {
+      "type": "java.security.SecureRandom",
+      "value": "<instance: java.security.SecureRandom>"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "3cc2ea7d-f67e-4576-99b9-0d6908b8ce24",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.919Z",
+  "class": "javax.crypto.Cipher",
+  "method": "init",
+  "stackTrace": [
+    "javax.crypto.Cipher.init(Native Method)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:46)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "java.security.Key",
+      "value": "<instance: java.security.Key, $className: android.security.keystore2.AndroidKeyStoreSecretKey>"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "6200a4e6-607f-46b3-9b70-f57ea8ba80af",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.936Z",
+  "class": "javax.crypto.Cipher",
+  "method": "doFinal",
+  "stackTrace": [
+    "javax.crypto.Cipher.doFinal(Native Method)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:48)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "[B",
+      "value": "AKIAABCDEFGHIJKLMNOP"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "[B",
+      "value": "0xf752de9dab78e423147bbf8274f34f81c28e6474b3725fe8457be0cddc5b4330fc75ed6b..."
+    }
+  ]
+}
+{
+  "id": "9a519c23-77fd-4f5a-9b2b-ea80d5cd5be8",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.941Z",
+  "class": "android.util.Base64",
+  "method": "encodeToString",
+  "stackTrace": [
+    "android.util.Base64.encodeToString(Native Method)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:50)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "[B",
+      "value": "0x53e09f5c462870a214466544f752de9dab78e423147bbf8274f34f81c28e6474b3725fe8457be0cddc5b4330fc75ed6b..."
+    },
+    {
+      "type": "int",
+      "value": 0
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "java.lang.String",
+      "value": "U+CfXEYocKIURmVE91Lenat45CMUe7+CdPNPgcKOZHSzcl/oRXvgzdxbQzD8de1r\n"
+    }
+  ]
+}
+{
+  "id": "926d8968-dc8b-4d23-b1f1-657b6410957a",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.945Z",
+  "class": "android.app.SharedPreferencesImpl$EditorImpl",
+  "method": "putString",
+  "stackTrace": [
+    "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "java.lang.String",
+      "value": "EncryptedAwsKey"
+    },
+    {
+      "type": "java.lang.String",
+      "value": "U+CfXEYocKIURmVE91Lenat45CMUe7+CdPNPgcKOZHSzcl/oRXvgzdxbQzD8de1r\n"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+    }
+  ]
+}
+{
+  "id": "f2b7501a-b08a-4280-86a4-4f9e17a2f4f6",
+  "category": "STORAGE",
+  "time": "2025-09-13T10:41:09.949Z",
+  "class": "android.app.SharedPreferencesImpl$EditorImpl",
+  "method": "putStringSet",
+  "stackTrace": [
+    "android.app.SharedPreferencesImpl$EditorImpl.putStringSet(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "java.lang.String",
+      "value": "UnencryptedPreSharedKeys"
+    },
+    {
+      "type": "java.util.Set",
+      "value": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----,-----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----"
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+    }
+  ]
+}

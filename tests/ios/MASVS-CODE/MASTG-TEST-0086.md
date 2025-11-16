@@ -9,6 +9,9 @@ masvs_v1_levels:
 - L1
 - L2
 profiles: [L1, L2]
+status: deprecated
+covered_by: []
+deprecation_note: The associated weaknesses are best addressed during the development process. See @MASTG-KNOW-0060 for more details.
 ---
 
 ## Overview
@@ -34,4 +37,4 @@ There are various tools provided which help to identify memory bugs within Xcode
 
 Next, you can check whether memory is freed too fast or too slow by enabling `NSAutoreleaseFreedObjectCheckEnabled`, `NSZombieEnabled`, `NSDebugEnabled` in Xcode while testing the application.
 
-There are various well written explanations which can help with taking care of memory management. These can be found in the reference list of this chapter.
+See @MASTG-KNOW-0060 for more details on memory corruption bugs in iOS applications.

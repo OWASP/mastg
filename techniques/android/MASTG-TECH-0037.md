@@ -5,7 +5,7 @@ platform: android
 
 Symbolic execution is a very useful technique to have in your toolbox, especially while dealing with problems where you need to find a correct input for reaching a certain block of code. In this section, we will solve a simple Android crackme by using the @MASTG-TOOL-0030 binary analysis framework as our symbolic execution engine.
 
-To demonstrate this technique we'll use a crackme called @MASTG-APP-0002. The crackme consists of a single ELF executable file, which can be executed on any Android device by following the instructions below:
+To demonstrate this technique, we'll use a crackme called @MASTG-APP-0002. The crackme consists of a single ELF executable file, which can be executed on any Android device by following the instructions below:
 
 ```bash
 $ adb push validate /data/local/tmp
@@ -21,11 +21,11 @@ Incorrect serial (wrong format).
 
 ```
 
-So far so good, but we know nothing about what a valid license key looks like. To get started, open the ELF executable in a disassembler such as @MASTG-TOOL-0098. The main function is located at offset `0x00001874` in the disassembly. It is important to note that this binary is PIE-enabled, and iaito chooses to load the binary at `0x0` as image base address.
+So far, so good, but we know nothing about what a valid license key looks like. To get started, open the ELF executable in a disassembler such as @MASTG-TOOL-0098. The main function is located at offset `0x00001874` in the disassembly. It is important to note that this binary is PIE-enabled, and iaito chooses to load the binary at `0x0` as the image base address.
 
 <img src="Images/Chapters/0x05c/disass_main_1874.png" width="100%" />
 
-The function names have been stripped from the binary, but luckily there are enough debugging strings to provide us a context to the code. Moving forward, we will start analyzing the binary from the entry function at offset `0x00001874`, and keep a note of all the information easily available to us. During this analysis, we will also try to identify the code regions which are suitable for symbolic execution.
+The function names have been stripped from the binary, but luckily, there are enough debugging strings to provide us with a context for the code. Moving forward, we will start analyzing the binary from the entry function at offset `0x00001874`, and keep a note of all the information easily available to us. During this analysis, we will also try to identify the code regions that are suitable for symbolic execution.
 
 <img src="Images/Chapters/0x05c/graph_1874.png" width="100%" />
 
@@ -121,7 +121,7 @@ We can now use this information about the expected input to further look into th
 ╰           0x00001868      pop {r4, fp, pc}                           ; entry.preinit0 ; entry.preinit0 ;
 ```
 
-Discussing all the instructions in the function is beyond the scope of this chapter, instead we will discuss only the important points needed for the analysis. In the validation function, there is a loop present at `0x00001784` which performs a XOR operation at offset `0x00001798`. The loop is more clearly visible in the graph view below.
+Discussing all the instructions in the function is beyond the scope of this chapter. Instead we will discuss only the important points needed for the analysis. In the validation function, there is a loop present at `0x00001784` which performs an XOR operation at offset `0x00001798`. The loop is more clearly visible in the graph view below.
 
 <img src="Images/Chapters/0x05c/loop_1784.png" width="100%" />
 
@@ -131,7 +131,7 @@ Moving forward, at offset `0x000017dc`, the XOR decoded value obtained from abov
 
 <img src="Images/Chapters/0x05c/values_compare_17dc.png" width="100%" />
 
-Clearly this function is not complex, and can be analyzed manually, but still remains a cumbersome task. Especially while working on a big code base, time can be a major constraint, and it is desirable to automate such analysis. Dynamic symbolic execution is helpful in exactly those situations. In the above crackme, the symbolic execution engine can determine the constraints on each byte of the input string by mapping a path between the first instruction of the license check (at `0x00001760`) and the code that prints the "Product activation passed" message (at `0x00001840`).
+Clearly, this function is not complex and can be analyzed manually, but it still remains a cumbersome task. Especially while working on a big code base, time can be a major constraint, and it is desirable to automate such analysis. Dynamic symbolic execution is helpful in exactly those situations. In the above crackme, the symbolic execution engine can determine the constraints on each byte of the input string by mapping a path between the first instruction of the license check (at `0x00001760`) and the code that prints the "Product activation passed" message (at `0x00001840`).
 
 <img src="Images/Chapters/0x05c/graph_ifelse_1760.png" width="100%" />
 
@@ -183,15 +183,15 @@ solution = found.solver.eval(found.memory.load(concrete_addr,10), cast_to=bytes)
 print(base64.b32encode(solution))
 ```
 
-As discussed previously in the section "[Dynamic Binary Instrumentation](../../Document/0x04c-Tampering-and-Reverse-Engineering.md#static-and-dynamic-binary-analysis "Dynamic Binary Instrumentation")", the symbolic execution engine constructs a binary tree of the operations for the program input given and generates a mathematical equation for each possible path that might be taken. Internally, Angr explores all the paths between the two points specified by us, and passes the corresponding mathematical equations to the solver to return meaningful concrete results. We can access these solutions via `simulation_manager.found` list, which contains all the possible paths explored by Angr which satisfies our specified search criteria.
+As discussed previously in the section "[Dynamic Binary Instrumentation](../../Document/0x04c-Tampering-and-Reverse-Engineering.md#static-and-dynamic-binary-analysis "Dynamic Binary Instrumentation")", the symbolic execution engine constructs a binary tree of the operations for the program input given and generates a mathematical equation for each possible path that might be taken. Internally, Angr explores all the paths between the two points specified by us, and passes the corresponding mathematical equations to the solver to return meaningful, concrete results. We can access these solutions via `simulation_manager.found` list, which contains all the possible paths explored by Angr that satisfy our specified search criteria.
 
-Take a closer look at the latter part of the script where the final solution string is being retrieved. The address of the string is obtained from address `r11 - 0x20`. This may appear magical at first, but a careful analysis of the function at `0x00001760` holds the clue, as it determines if the given input string is a valid license key or not. In the disassembly above, you can see how the input string to the function (in register R0) is stored into a local stack variable `0x0000176c      str r0, [var_20h]`. Hence, we decided to use this value to retrieve the final solution in the script. Using `found.solver.eval` you can ask the solver questions like "given the output of this sequence of operations (the current state in `found`), what must the input (at `addr`) have been?".
+Take a closer look at the latter part of the script where the final solution string is being retrieved. The address of the string is obtained from address `r11 - 0x20`. This may appear magical at first, but a careful analysis of the function at `0x00001760` holds the clue, as it determines if the given input string is a valid license key or not. In the disassembly above, you can see how the input string to the function (in register R0) is stored into a local stack variable `0x0000176c      str r0, [var_20h]`. Hence, we decided to use this value to retrieve the final solution in the script. Using `found.solver.eval`, you can ask the solver questions like "given the output of this sequence of operations (the current state in `found`), what must the input (at `addr`) have been?".
 
 > In ARMv7, R11 is called fp (_function pointer_), therefore `R11 - 0x20` is equivalent to `fp-0x20`: `var int32_t var_20h @ fp-0x20`
 
 Next, the `endness` parameter in the script specifies that the data is stored in "little-endian" fashion, which is the case for almost all of the Android devices.
 
-Also, it may appear as if the script is simply reading the solution string from the memory of the script. However, it's reading it from the symbolic memory. Neither the string nor the pointer to the string actually exist. The solver ensures that the solution it provides is the same as if the program would be executed to that point.
+Also, it may appear as if the script is simply reading the solution string from the memory of the script. However, it's reading it from the symbolic memory. Neither the string nor the pointer to the string actually exists. The solver ensures that the solution it provides is the same as if the program were executed to that point.
 
 Running this script should return the following output:
 
@@ -206,4 +206,4 @@ Now you can run the validate binary on your Android device to verify the solutio
 
 > You may obtain different solutions using the script, as there are multiple valid license keys possible.
 
-To conclude, learning symbolic execution might look a bit intimidating at first, as it requires deep understanding and extensive practice. However, the effort is justified considering the valuable time it can save in contrast to analyzing complex disassembled instructions manually. Typically you'd use hybrid techniques, as in the above example, where we performed manual analysis of the disassembled code to provide the correct criteria to the symbolic execution engine. Please refer to the iOS chapter for more examples on Angr usage.
+To conclude, learning symbolic execution might look a bit intimidating at first, as it requires deep understanding and extensive practice. However, the effort is justified considering the valuable time it can save in contrast to analyzing complex disassembled instructions manually. Typically, you'd use hybrid techniques, as in the above example, where we performed manual analysis of the disassembled code to provide the correct criteria to the symbolic execution engine. Please refer to the iOS chapter for more examples on Angr usage.

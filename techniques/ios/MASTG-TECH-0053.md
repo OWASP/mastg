@@ -45,14 +45,26 @@ org.owasp.MSTG on (iPhone: 10.3.3) [usb] # cd /var/mobile/Containers/Data/Applic
 /var/mobile/Containers/Data/Application/72C7AAFB-1D75-4FBA-9D83-D8B4A2D44133/Documents
 ```
 
-With the command `file download <filename>` you can download a file from the iOS device to your host computer and can analyze it afterwards.
+With the command `filesystem download <filename>` you can download a file from the iOS device to your host computer and can analyze it afterwards.
 
 ```bash
-org.owasp.MSTG on (iPhone: 10.3.3) [usb] # file download .com.apple.mobile_container_manager.metadata.plist
+org.owasp.MSTG on (iPhone: 10.3.3) [usb] # filesystem download .com.apple.mobile_container_manager.metadata.plist
 Downloading /var/mobile/Containers/Data/Application/72C7AAFB-1D75-4FBA-9D83-D8B4A2D44133/.com.apple.mobile_container_manager.metadata.plist to .com.apple.mobile_container_manager.metadata.plist
 Streaming file from device...
 Writing bytes to destination...
 Successfully downloaded /var/mobile/Containers/Data/Application/72C7AAFB-1D75-4FBA-9D83-D8B4A2D44133/.com.apple.mobile_container_manager.metadata.plist to .com.apple.mobile_container_manager.metadata.plist
+```
+
+As per objection v1.12.0, objection does support downloading folders by using the strict syntax `filesystem download <remote folder> <local destination> --folder`. However this only applies to folders and does not allow specifying multiple individual files directly.
+
+```bash
+...[usb] # filesystem download Documents tmp/Downloads --folder
+Downloading /var/mobile/Containers/Data/Application/3577EAF1-A9F2-4049-B6EB-67919F669552/Documents to tmp/Downloads
+ Do you want to download the full directory? [Y/n]:Y
+Downloading directory recursively...
+Successfully downloaded /var/mobile/Containers/Data/Application/3577EAF1-A9F2-4049-B6EB-67919F669552/Documents/apikey_chacha.enc to tmp/Downloads/apikey_chacha.enc
+Successfully downloaded /var/mobile/Containers/Data/Application/3577EAF1-A9F2-4049-B6EB-67919F669552/Documents/secret.txt to tmp/Downloads/secret.txt
+Recursive download finished.
 ```
 
 You can also upload files to the iOS device with `file upload <local_file_path>`.

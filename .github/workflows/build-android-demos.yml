@@ -173,6 +173,14 @@ jobs:
           cp -f "$demo/data_extraction_rules.xml" MASTestApp-Android/app/src/main/res/xml/data_extraction_rules.xml 2>/dev/null \
             && echo "Copied data_extraction_rules.xml for $demo" \
             || echo "No data_extraction_rules.xml found for $demo"
+
+          if [ -f "$demo/build.gradle.kts.libs" ]; then
+            libs_content=$(cat "$demo/build.gradle.kts.libs")
+            sed -i "s|// ADD_LIBS_HERE|$libs_content|g" MASTestApp-Android/app/build.gradle.kts
+            echo "Replaced dependencies in build.gradle.kts for $demo"
+          else
+            echo "No build.gradle.kts.libs found for $demo, skipping dependencies replacement"
+          fi
           
           echo "Building APK for $demo"
           cd MASTestApp-Android

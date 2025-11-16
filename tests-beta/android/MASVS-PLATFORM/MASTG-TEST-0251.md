@@ -16,7 +16,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0250.
 
 ## Steps
 
-1. Run a dynamic analysis tool like @MASTG-TOOL-0039 and either:
+1. Run a dynamic analysis tool like @MASTG-TOOL-0001 and either:
     - enumerate instances of `WebView` in the app and list their configuration values
     - or explicitly hook the setters of the `WebView` settings
 
