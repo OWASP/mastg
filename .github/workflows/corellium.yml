@@ -1,0 +1,222 @@
+name: Run Frida demo
+
+on:
+#   pull_request:
+#     branches: master
+#   push:
+#     branches: master
+#   schedule:
+#     - cron: "18 06 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: 'frida'
+  cancel-in-progress: false
+
+env:
+  TERM: xterm
+  VPN_CONFIG_PATH: /home/runner/my_vpn_config.ovpn
+
+jobs:
+  changes:
+    name: Check for file changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      frida: ${{ steps.filter.outputs.frida }}
+      javascript-deps: ${{ steps.filter.outputs.javascript-deps }}
+      shell: ${{ steps.filter.outputs.shell }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: src/corellium/data/config/dorny-paths-filter.yaml
+          list-files: 'shell'
+
+  frida:
+    name: Run Frida on ${{ matrix.os }}
+    needs: changes
+    if: >-
+      ${{
+        needs.changes.outputs.frida == 'true' ||
+        needs.changes.outputs.javascript-deps == 'true' ||
+        needs.changes.outputs.shell == 'true'
+      }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        os: [Android, iOS]
+        include:
+          - os: Android
+            hardware_flavor: ranchu
+            firmware_version: 16.0.0
+            firmware_build: 'r2 userdebug'
+            corellium_cafe_app_id: com.corellium.cafe
+            corellium_cafe_source_url: 'https://www.corellium.com/hubfs/Corellium_Cafe.apk'
+          - os: iOS
+            hardware_flavor: iphone17pm
+            firmware_version: 26.0.1
+            firmware_build: 23A355
+            corellium_cafe_app_id: com.corellium.Cafe
+            corellium_cafe_source_url: 'https://www.corellium.com/hubfs/Corellium_Cafe.ipa'
+    steps:
+      - name: Pull the latest code
+        uses: actions/checkout@v5
+      - name: Install Node
+        uses: actions/setup-node@v6
+        with:
+          cache: npm
+          node-version: 24
+      - name: Check Node package lock
+        run: |
+          npm install --package-lock-only --quiet --no-audit --no-fund
+          if ! git diff --quiet package-lock.json; then
+            {
+              echo -e "\nERROR:\n  Your package-lock.json is out of sync with dependencies."
+              echo -e "\nTO FIX:\n  Run 'npm install --package-lock-only' and commit changes."
+              echo -e "\nGIT DIFF RESULTS:\n"
+              git diff package-lock.json
+            } >&2
+            exit 1
+          fi
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          cache: pip
+          cache-dependency-path: requirements-pip-frida.txt
+          python-version: 3.14
+      - name: Install API dependencies
+        run: |
+          npm ci
+          echo "$(pwd)/node_modules/.bin" >> "${GITHUB_PATH}"
+      - name: Log in to Corellium
+        run: |
+          corellium login \
+            --apitoken ${{ secrets.CORELLIUM_API_TOKEN }} \
+            --endpoint  ${{ secrets.CORELLIUM_API_ENDPOINT }}
+      - name: Start or create instance
+        timeout-minutes: 1
+        env:
+          CORELLIUM_API_ENDPOINT: ${{ secrets.CORELLIUM_API_ENDPOINT }}
+          CORELLIUM_API_TOKEN: ${{ secrets.CORELLIUM_API_TOKEN }}
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          log_stdout "Creating ephemeral instance."
+          CREATED_CORELLIUM_INSTANCE_ID="$(create_instance \
+            "${{ matrix.hardware_flavor }}" \
+            "${{ matrix.firmware_version }}" \
+            "${{ matrix.firmware_build }}" \
+            "${{ vars.MATRIX_DEFAULT_PROJECT }}")"
+          log_stdout "Created instance ${CREATED_CORELLIUM_INSTANCE_ID}."
+          echo "CORELLIUM_INSTANCE_ID=${CREATED_CORELLIUM_INSTANCE_ID}" >> "${GITHUB_ENV}"
+          log_stdout 'Saved ephemeral instance ID as environmental variable.'
+      - name: Install additional runner dependencies
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          install_openvpn_dependencies
+          if [ "${{ matrix.hardware_flavor }}" = 'ranchu' ]; then
+            install_adb_dependency
+          else
+            install_usbfluxd_and_dependencies
+          fi
+          install_frida_dependencies
+      - name: Wait for instance agent ready
+        timeout-minutes: 20
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          start_instance "${CORELLIUM_INSTANCE_ID}"
+          wait_until_agent_ready "${CORELLIUM_INSTANCE_ID}"
+          [ "${{ matrix.hardware_flavor }}" == 'ranchu' ] ||
+            unlock_instance "${CORELLIUM_INSTANCE_ID}"
+      - name: Connect to project VPN
+        timeout-minutes: 2
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          connect_to_vpn_for_instance \
+            "${CORELLIUM_INSTANCE_ID}" \
+            "${{ env.VPN_CONFIG_PATH }}"
+      - name: Connect to device
+        timeout-minutes: 1
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          if [ "${{ matrix.hardware_flavor }}" = 'ranchu' ]; then
+            connect_with_adb "${CORELLIUM_INSTANCE_ID}"
+          else
+            run_usbfluxd_and_dependencies
+            add_instance_to_usbfluxd "${CORELLIUM_INSTANCE_ID}"
+            verify_usbflux_connection "${CORELLIUM_INSTANCE_ID}"
+          fi
+      - name: Install Corellium Cafe from URL
+        timeout-minutes: 2
+        env:
+          CORELLIUM_API_ENDPOINT: ${{ secrets.CORELLIUM_API_ENDPOINT }}
+          CORELLIUM_API_TOKEN: ${{ secrets.CORELLIUM_API_TOKEN }}
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          kill_app "${CORELLIUM_INSTANCE_ID}" "${{ matrix.corellium_cafe_app_id }}"
+          install_app_from_url "${CORELLIUM_INSTANCE_ID}" "${{ matrix.corellium_cafe_source_url }}"
+      - name: Launch Cafe and run frida-ps
+        timeout-minutes: 1
+        env:
+          CORELLIUM_API_ENDPOINT: ${{ secrets.CORELLIUM_API_ENDPOINT }}
+          CORELLIUM_API_TOKEN: ${{ secrets.CORELLIUM_API_TOKEN }}
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          launch_app "${CORELLIUM_INSTANCE_ID}" "${{ matrix.corellium_cafe_app_id }}"
+          run_frida_ps_usb
+      - name: Run frida hook
+        timeout-minutes: 2
+        env:
+          FRIDA_SCRIPT_PATH: src/util/frida_script_example.js
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          run_frida_script_usb "${{ matrix.corellium_cafe_app_id }}" "${FRIDA_SCRIPT_PATH}"
+      - name: Delete instance
+        if: always()
+        timeout-minutes: 15
+        run: |
+          source ./src/corellium/functions.sh && set -euo pipefail
+          if [ -z "${CORELLIUM_INSTANCE_ID:-}" ]; then
+            log_warning 'CORELLIUM_INSTANCE_ID is not set.'
+          else
+            log_stdout "Stopping ephemeral instance ${CORELLIUM_INSTANCE_ID}."
+            stop_instance "${CORELLIUM_INSTANCE_ID}"
+            log_stdout "Deleting ephemeral instance ${CORELLIUM_INSTANCE_ID}."
+            delete_instance "${CORELLIUM_INSTANCE_ID}"
+            log_stdout "Deleted ephemeral instance ${CORELLIUM_INSTANCE_ID}."
+          fi
+      - name: Clean up Corellium auth and processes
+        if: always()
+        timeout-minutes: 1
+        env:
+          CORELLIUM_CLI_PROFILE: '/home/runner/.config/.corellium/profile.json'
+        run: |
+          readonly FILES_TO_DELETE=(
+            "${CORELLIUM_CLI_PROFILE}"
+            "${VPN_CONFIG_PATH}"
+          )
+          readonly PROCS_TO_KILL=(
+            adb
+            avahi-daemon
+            openvpn
+            usbfluxd
+          )
+          for FILE_PATH in "${FILES_TO_DELETE[@]}"; do
+            if [ -f "${FILE_PATH}" ]; then
+              echo "[+] Deleting ${FILE_PATH}"
+              rm -f "${FILE_PATH}"
+            fi
+          done
+          command -v adb > /dev/null && adb disconnect
+          for PROCESS in "${PROCS_TO_KILL[@]}"; do
+            if pgrep "${PROCESS}" > /dev/null 2>&1; then
+              echo "[+] Killing ${PROCESS}"
+              sudo killall "${PROCESS}"
+              echo "[+] Killed ${PROCESS}"
+            fi
+          done

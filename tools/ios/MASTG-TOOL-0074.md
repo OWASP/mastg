@@ -4,9 +4,10 @@ platform: ios
 source: https://github.com/sensepost/objection
 ---
 
-??? info "Info about objection"
+!!! warn "Objection's pip/PyPI package is outdated and not Frida 17+ compliant"
+    You can keep using Objection with Frida 17+ by installing it from the source repo's `master` branch. See [Development Environment Installation](https://github.com/sensepost/objection/wiki/Development-Environment-Installation).
 
-    The commands below are for objection version 1.11.0, which relies on Frida < 17. To use objection, install `frida-tools==13.7.1` and use a `frida-server` lower than 17 on your device. If you want to use objection with Frida 17, you can pull and build locally the latest version from the objection repository. Note that some commands have been modified in the upcoming release, so you may have to modify the steps below. For example, for objection version 2, the API `explore` command is expected to be replaced with `start`. Once the updated version has officially been released, the steps below will be updated.
+    Once a new release exists and is made available on the Python Package Index (PyPI), you can install it using `pip`.
 
 Objection offers several features specific to iOS. You can find the [full list of features](https://github.com/sensepost/objection/wiki/Features) on the project's page, but here are a few interesting ones:
 
@@ -31,18 +32,29 @@ The ability to **perform advanced dynamic analysis on non-jailbroken devices** i
 
 ## Using Objection on iOS
 
-Starting up Objection depends on whether you've patched the IPA or whether you are using a jailbroken device running Frida-server. For running a patched IPA, objection will automatically find any attached devices and search for a listening Frida gadget. However, when using frida-server, you need to explicitly tell frida-server which application you want to analyze.
+Starting up Objection depends on whether you've patched the IPA or whether you are using a jailbroken device running Frida-server.
+For running a patched IPA, the name Gadget should be specified using `-n Gadget`. Whereas when using frida-server, you need to specify which application you want to attach to or spawn.
 
 ```bash
 # Connecting to a patched IPA
-$ objection explore
+$ objection -n Gadget start
 
+# Using Frida-server
 # Using frida-ps to get the correct application name
 $ frida-ps -Ua | grep -i Telegram
 983  Telegram
 
 # Connecting to the Telegram app through Frida-server
-$ objection --gadget="Telegram" explore
+$ objection -n "Telegram" start
+# Alternatively use the process ID (PID)
+$ objection -n 983 start
+
+# Objection can also spawn the app through Frida-server using the application identifier / package name
+$ objection --spawn -n "org.telegram.messenger"
+... [usb] resume
+
+# Alternatively with "no pause"
+$ objection -s -p -n "org.telegram.messenger
 ```
 
 Once you are in the Objection REPL, you can execute any of the available commands. Below is an overview of some of the most useful ones:

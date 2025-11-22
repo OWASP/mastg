@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Use of Insecure ECB Block Mode in KeyGenParameterSpec
+title: Using KeyGenParameterSpec with a Broken ECB Block Mode
 id: MASTG-DEMO-0058
 code: [kotlin]
 test: MASTG-TEST-0232
@@ -8,18 +8,21 @@ test: MASTG-TEST-0232
 
 ### Sample
 
-The code below generates symmetric encryption keys meant to be stored in the Android KeyStore, but it does so using the ECB block mode, which is considered broken due to practical known-plaintext attacks and is disallowed by NIST for data encryption. The method used to set the block modes is [`KeyGenParameterSpec.Builder#setBlockModes(...)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setBlockModes(java.lang.String[])):
+This code demonstrates the risks of using AES in ECB mode (which is a broken mode of operation) using three scenarios:
 
-```kotlin
-public KeyGenParameterSpec.Builder setBlockModes (String... blockModes)
-```
+1. Importing a raw AES key into AndroidKeyStore with the purpose "decrypt" and mode "ECB"
+2. Importing a raw AES key into AndroidKeyStore with the purpose "encrypt" and mode "ECB"
+3. Generating an AES key in AndroidKeyStore with the purpose "encrypt" or "decrypt" and mode "ECB"
 
-Current versions of Android prohibit the usage of keys with for ECB in some cases. For example, it is not possible to use the key to encrypt data by the default. Nevertheless, there are some case, where ECB can still be used:
-
-- Decrypt data
-- Encrypt data with a key given `setRandomizedEncryptionRequired` is set to `false`
+Current versions of Android prohibit the use of keys with ECB in some cases. For example, it is possible to use such a key for decryption but not to encrypt data by default, unless randomized encryption is explicitly disabled (bad practice).
 
 {{ MastgTest.kt }}
+
+When executing the code, you will see the following results for each of the three scenarios:
+
+1. Decryption succeeds because that's always allowed.
+2. Encryption succeeds. The import succeeds in this case because we explicitly disable randomized encryption (bad practice). Otherwise, `KeyStore.setEntry` would fail with an error similar to the one for scenario 3.
+3. Encryption cannot even happen because the generation fails (`KeyGenerator.init` specifically) due to randomized encryption not being disabled. The error says `"Randomized encryption (IND-CPA) required but may be violated by block mode: ECB. See android.security.keystore.KeyGenParameterSpec documentation"`.
 
 ### Steps
 
@@ -29,22 +32,27 @@ Current versions of Android prohibit the usage of keys with for ECB in some case
 4. Click the **Start** button
 5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
 
+These are the relevant methods we are hooking to detect the use of ECB and whether randomized encryption is disabled:
+
+- Setting block modes:
+    - [`KeyGenParameterSpec.Builder#setBlockModes(...)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setBlockModes(java.lang.String[]))
+    - [`KeyProtection.Builder#setBlockModes(...)`](https://developer.android.com/reference/android/security/keystore/KeyProtection.Builder#setBlockModes(java.lang.String[])).
+- Enabling/disabling randomized encryption:
+    - [`KeyGenParameterSpec.Builder#setRandomizedEncryptionRequired`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setRandomizedEncryptionRequired(boolean))
+    - [`KeyProtection.Builder#setRandomizedEncryptionRequired`](https://developer.android.com/reference/android/security/keystore/KeyProtection.Builder#setRandomizedEncryptionRequired(boolean))
+
 {{ hooks.js # run.sh }}
 
 ### Observation
 
-The output shows all instances of block modes mode that were found at runtime. A backtrace is also provided to help identify the location in the code.
+The output shows all instances of block modes that were found at runtime. A backtrace is also provided to help identify the location in the code. If randomized encryption is disabled, that is also indicated in the output.
 
 {{ output.json }}
 
 ### Evaluation
 
-The method `setBlockModes` has now been called three times with ECB as one of the block modes.
+The test fails because the `KeyGenParameterSpec.Builder#setBlockModes(...)` and `KeyProtection.Builder#setBlockModes(...)` methods have been called with ECB.
 
-The test fails, as key used with these `KeyGenParameterSpec` can now be used used to insecurely encrypt data.
+{{ evaluation.txt # evaluate.sh }}
 
-You can automatically evaluate the output using tools like `jq` as demonstrated in `evaluation.sh`.
-
-{{ evaluate.sh }}
-
-See @MASTG-TEST-0232 for more information.
+Regardless of whether the encryption succeeds or not, ECB should never be used in security-sensitive apps. Also, being present in the app may indicate issues in other parts of the app ecosystem (e.g., backend services).

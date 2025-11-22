@@ -1,18 +1,16 @@
 {
-  "id": "523e8eb7-e155-4792-bdae-6c2a728c87ac",
+  "id": "a0a0815c-fa2c-43a5-ad35-10c2a3d097cd",
   "category": "CRYPTO",
-  "time": "2025-08-01T09:00:07.277Z",
+  "time": "2025-09-12T16:45:55.639Z",
   "class": "android.security.keystore.KeyProtection$Builder",
   "method": "setBlockModes",
   "stackTrace": [
     "android.security.keystore.KeyProtection$Builder.setBlockModes(Native Method)",
     "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:41)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$7(MainActivity.kt:53)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$JVJO2MsmWvFAgk27L17N1ocLpI0(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke-k-4lQ0M(Clickable.kt:639)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke(Clickable.kt:633)",
-    "androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)"
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -30,20 +28,18 @@
   ]
 }
 {
-  "id": "a162bca9-454e-4d48-a737-0ac6e73983c7",
+  "id": "1ade0c02-74c8-4629-bbd4-5f51c9616b68",
   "category": "CRYPTO",
-  "time": "2025-08-01T09:00:07.288Z",
+  "time": "2025-09-12T16:45:55.671Z",
   "class": "android.security.keystore.KeyProtection$Builder",
   "method": "setBlockModes",
   "stackTrace": [
     "android.security.keystore.KeyProtection$Builder.setBlockModes(Native Method)",
     "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:65)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$7(MainActivity.kt:53)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$JVJO2MsmWvFAgk27L17N1ocLpI0(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke-k-4lQ0M(Clickable.kt:639)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke(Clickable.kt:633)",
-    "androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)"
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -61,20 +57,18 @@
   ]
 }
 {
-  "id": "8dd8050c-dbc0-4662-804a-8bfb2151ca34",
+  "id": "48a8aa46-4ada-470e-bb5e-47ceefb53e1b",
   "category": "CRYPTO",
-  "time": "2025-08-01T09:00:07.291Z",
+  "time": "2025-09-12T16:45:55.673Z",
   "class": "android.security.keystore.KeyProtection$Builder",
   "method": "setRandomizedEncryptionRequired",
   "stackTrace": [
     "android.security.keystore.KeyProtection$Builder.setRandomizedEncryptionRequired(Native Method)",
     "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$7(MainActivity.kt:53)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$JVJO2MsmWvFAgk27L17N1ocLpI0(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke-k-4lQ0M(Clickable.kt:639)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke(Clickable.kt:633)",
-    "androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)"
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -90,20 +84,18 @@
   ]
 }
 {
-  "id": "394de339-b6c6-485e-babc-672ff5df315f",
+  "id": "fe6e69b6-2764-473e-80d2-5a242b56947e",
   "category": "CRYPTO",
-  "time": "2025-08-01T09:00:07.300Z",
+  "time": "2025-09-12T16:45:55.683Z",
   "class": "android.security.keystore.KeyGenParameterSpec$Builder",
   "method": "setBlockModes",
   "stackTrace": [
     "android.security.keystore.KeyGenParameterSpec$Builder.setBlockModes(Native Method)",
     "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:90)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$7(MainActivity.kt:53)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$JVJO2MsmWvFAgk27L17N1ocLpI0(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke-k-4lQ0M(Clickable.kt:639)",
-    "androidx.compose.foundation.ClickableNode$clickPointerInput$3.invoke(Clickable.kt:633)",
-    "androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)"
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {

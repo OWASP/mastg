@@ -1,0 +1,14 @@
+Class: android.app.SharedPreferencesImpl$EditorImpl, Method: putString, Params: UnencryptedGitHubToken, ghp_1234567890abcdefghijklmnopqrstuvABCD
+Class: javax.crypto.Cipher, Method: getInstance, Params: AES/GCM/NoPadding
+Class: java.security.KeyStore, Method: getEntry, Params: mastgKey, void
+Class: javax.crypto.Cipher, Method: init, Params: 1, <instance: java.security.Key, $className: android.security.keystore2.AndroidKeyStoreSecretKey>, <instance: java.security.SecureRandom>
+Class: javax.crypto.Cipher, Method: init, Params: 1, <instance: java.security.Key, $className: android.security.keystore2.AndroidKeyStoreSecretKey>
+Class: javax.crypto.Cipher, Method: doFinal, Params: AKIAABCDEFGHIJKLMNOP
+Class: android.util.Base64, Method: encodeToString, Params: 0x53e09f5c462870a214466544f752de9dab78e423147bbf8274f34f81c28e6474b3725fe8457be0cddc5b4330fc75ed6b..., 0
+Class: android.app.SharedPreferencesImpl$EditorImpl, Method: putString, Params: EncryptedAwsKey, U+CfXEYocKIURmVE91Lenat45CMUe7+CdPNPgcKOZHSzcl/oRXvgzdxbQzD8de1r
+
+Class: android.app.SharedPreferencesImpl$EditorImpl, Method: putStringSet, Params: UnencryptedPreSharedKeys, -----BEGIN PRIVATE KEY-----
+MIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=
+-----END PRIVATE KEY-----,-----BEGIN PRIVATE KEY-----
+gJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=
+-----END PRIVATE KEY-----

@@ -20,9 +20,6 @@ class MastgTest(private val context: Context) {
         var encryptedData: ByteArray? = null
         var decryptedData: ByteArray? = null
 
-        // Suppose we received a raw key from a secure source and we want to use it for decryption.
-        // The following commented-out code is an example of generating a raw key and encrypting data with it.
-        // We obtained the raw key and encrypted data from the logs and added them to the code for demonstration purposes.
         try {
             // Suppose we received the raw key from a secure source and we want to use it for decryption.
             val rawKeyString = "43ede5660e82123ee091d6b4c8f7d150"
@@ -53,7 +50,8 @@ class MastgTest(private val context: Context) {
             results.add("\n[!] Keystore-imported AES ECB key decryption error:\n\n${e.message}")
         }
 
-        // import the raw key into AndroidKeyStore for encryption which would fail unless randomized encryption is disabled (bad practice)
+        // Import the raw key into AndroidKeyStore with the purpose "encrypt" and mode "ECB"
+        // The import succeeds in this case because we explicitly disable randomized encryption (bad practice)
         try {
             if (rawKey == null || encryptedData == null) {
                 throw IllegalStateException("Key or data missing for encryption")
@@ -79,7 +77,8 @@ class MastgTest(private val context: Context) {
             results.add("\n\n[!] Keystore-imported AES ECB key encryption error:\n\n${e.message}")
         }
 
-        // keystore key generation and encryption
+        // Generate a raw key in the AndroidKeyStore with the purpose "encrypt" or "decrypt" and and mode "ECB"
+        // The generation fails in this case because we don't disable randomized encryption
         try {
             val keyAlias = "testKeyGenParameter"
             val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
