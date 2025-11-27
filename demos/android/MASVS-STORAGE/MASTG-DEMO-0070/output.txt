@@ -1,0 +1,2 @@
+--- Users Table Content ---
+2|demoUser_room|john.doe@maswe.com|ghp_1234567890abcdefghijklmnopqrstuvABCD
