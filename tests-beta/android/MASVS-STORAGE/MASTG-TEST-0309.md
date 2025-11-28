@@ -11,7 +11,7 @@ status: new
 
 ## Overview
 
-This test checks at runtime whether sensitive data — tokens, secrets, or PII — is stored in Room databases without encryption. The goal is to ensure that sensitive information is not persisted in plaintext within the app’s private storage.
+This test checks at runtime whether sensitive data — tokens, secrets, or PII — is stored in Room databases without encryption. The goal is to ensure that sensitive information is not persisted in plaintext within the app's private storage.
 
 ## Steps
 
@@ -19,10 +19,10 @@ This test checks at runtime whether sensitive data — tokens, secrets, or PII �
 
 2. Trigger app functionality that processes or stores sensitive data.
 
-3. Access the app’s private storage and locate Room database files:
+3. Access the app's private storage and locate Room database files:
    - `/data/data/<package_name>/databases/<database_name>`
    - `/data/data/<package_name>/databases/<database_name>-wal`
-   - `/data/data/<package_name>/databases/<database_name>-shm`  
+   - `/data/data/<package_name>/databases/<database_name>-shm`
    (@MASTG-TECH-0008)
 
 4. Extract the database files to the host machine using @MASTG-TECH-0003.
@@ -31,10 +31,9 @@ This test checks at runtime whether sensitive data — tokens, secrets, or PII �
 
 ## Observation
 
-- Which Room database files exist on the device  
+- Which Room database files exist on the device
 - Whether sensitive data (tokens, secrets, PII) is stored in plaintext
 
 ## Evaluation
 
 The test fails if sensitive data in Room database files can be read in plaintext and no encryption mechanism (e.g., SQLCipher) is applied.
-
