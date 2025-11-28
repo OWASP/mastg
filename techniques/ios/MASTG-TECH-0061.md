@@ -10,7 +10,7 @@ Dumping the KeyChain data can be done with multiple tools, but not all of them w
 The KeyChain data can easily be viewed using Objection. First, connect objection to the @MASTG-APP-0028 app as described in "Recommended Tools - Objection". Then, use the `ios keychain dump` command to get an overview of the keychain:
 
 ```bash
-$ objection --gadget="iGoat-Swift" explore
+$ objection -n "iGoat-Swift" start
 ... [usb] # ios keychain dump
 ...
 Note: You may be asked to authenticate using the devices passcode or TouchID
@@ -23,7 +23,7 @@ Created                    Accessible                      ACL    Type      Acco
 2019-06-06 10:53:30 +0000  AfterFirstUnlockThisDeviceOnly  None   Password  fideliusDeviceGraph  com.toyopagroup.picaboo     (failed to decode)
 2019-06-06 10:53:30 +0000  AfterFirstUnlockThisDeviceOnly  None   Password  SCDeviceTokenKey2    com.toyopagroup.picaboo     00001:FKsDMgVISiavdm70v9Fhv5z+pZfBTTN7xkwSwNvVr2IhVBqLsC7QBhsEjKMxrEjh
 2019-06-06 10:53:30 +0000  AfterFirstUnlockThisDeviceOnly  None   Password  SCDeviceTokenValue2  com.toyopagroup.picaboo     CJ8Y8K2oE3rhOFUhnxJxDS1Zp8Z25XzgY2EtFyMbW3U=
-OWASP.iGoat-Swift on (iPhone: 12.0) [usb] # quit  
+OWASP.iGoat-Swift on (iPhone: 12.0) [usb] # quit
 ```
 
 Note that currently, the latest versions of frida-server and objection do not correctly decode all keychain data. Different combinations can be tried to increase compatibility. For example, the previous printout was created with `frida-tools==1.3.0`, `frida==12.4.8` and `objection==1.5.0`.

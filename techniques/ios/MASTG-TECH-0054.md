@@ -47,7 +47,7 @@ Load command 12
       cryptid 1
 ```
 
-Or with radare2:
+Or with @MASTG-TOOL-0129:
 
 ```bash
 rabin2 -I Payload/Telegram X.app/Telegram X | grep crypto
@@ -56,7 +56,7 @@ crypto   true
 
 In order to retrieve the unencrypted version, you can use [frida-ios-dump](https://github.com/AloneMonkey/frida-ios-dump "frida-ios-dump"). It will extract the unencrypted version from memory while the application is running on the device.
 
-First, configure @MASTG-TOOL-0054 `dump.py`:
+First, configure @MASTG-TOOL-0050 `dump.py`:
 
 - set it to use `localhost` with port `2222` when using @MASTG-TOOL-0055 (`iproxy 2222 22`), or to the actual IP address and port of the device from which you want to dump the binary.
 - update the default username (`User = 'root'`) and password (`Password = 'alpine'`) in `dump.py` to the ones you have set.
@@ -78,7 +78,7 @@ You can dump the selected app, for example Telegram, by running `python dump.py 
 
 After a couple of seconds, the `Telegram.ipa` file will be created in your current directory. You can validate the success of the dump by removing the app and reinstalling it (e.g. using @MASTG-TOOL-0054 `ios-deploy -b Telegram.ipa`). Note that this will only work on jailbroken devices, as otherwise the signature won't be valid.
 
-You can verify that the app binary is now unencrypted:
+You can use @MASTG-TOOL-0129 to verify that the app binary is now unencrypted:
 
 ```bash
 rabin2 -I Payload/Telegram X.app/Telegram X | grep crypto

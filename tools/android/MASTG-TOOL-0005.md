@@ -24,7 +24,7 @@ To set up a standalone toolchain, download the [latest stable version of the NDK
 ./build/tools/make_standalone_toolchain.py --arch arm --api 24 --install-dir /tmp/android-7-toolchain
 ```
 
-This creates a standalone toolchain for Android 7.0 (API level 24) in the directory `/tmp/android-7-toolchain`. For convenience, you can export an environment variable that points to your toolchain directory, (we'll be using this in the examples). Run the following command or add it to your `.bash_profile` or other startup script:
+This creates a standalone toolchain for Android 7.0 (API level 24) in the directory `/tmp/android-7-toolchain`. For convenience, you can export an environment variable that points to your toolchain directory (we'll be using this in the examples). Run the following command or add it to your `.bash_profile` or other startup script:
 
 ```bash
 export TOOLCHAIN=/tmp/android-7-toolchain

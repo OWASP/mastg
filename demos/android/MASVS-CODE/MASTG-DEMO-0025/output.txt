@@ -1,0 +1,13 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-sdk-version
+          [MASVS-PLATFORM] Make sure to verify that your app runs on a device with an up-to-date OS version to
+          make sure it satisfy your security requirements                                                     
+                                                                                                              
+           26┆ return Build.VERSION.SDK_INT;
+

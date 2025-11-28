@@ -1,0 +1,20 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-device-passcode-present
+          [MASVS-STORAGE] Make sure to verify that your app runs on a device with a passcode set
+                                                                                                
+           30┆ Object systemService = context.getSystemService("keyguard");
+           31┆ Intrinsics.checkNotNull(systemService, "null cannot be cast to non-null type
+               android.app.KeyguardManager");                                              
+           32┆ KeyguardManager keyguardManager = (KeyguardManager) systemService;
+           33┆ return keyguardManager.isDeviceSecure();
+            ⋮┆----------------------------------------
+           38┆ BiometricManager biometricManager = (BiometricManager)
+               this.context.getSystemService(BiometricManager.class);
+           39┆ int result = biometricManager.canAuthenticate(15);
+

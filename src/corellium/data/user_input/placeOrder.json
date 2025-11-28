@@ -1,0 +1,11 @@
+[
+    {
+        "buttons": ["finger"],
+        "position": [[580, 1747]],
+        "wait": 0
+    },
+    {
+        "buttons": [],
+        "wait": 500
+    }
+]

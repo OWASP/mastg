@@ -1,0 +1,114 @@
+{
+  "id": "a0a0815c-fa2c-43a5-ad35-10c2a3d097cd",
+  "category": "CRYPTO",
+  "time": "2025-09-12T16:45:55.639Z",
+  "class": "android.security.keystore.KeyProtection$Builder",
+  "method": "setBlockModes",
+  "stackTrace": [
+    "android.security.keystore.KeyProtection$Builder.setBlockModes(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:41)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "[Ljava.lang.String;",
+      "value": [
+        "ECB"
+      ]
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.security.keystore.KeyProtection$Builder",
+      "value": "<instance: android.security.keystore.KeyProtection$Builder>"
+    }
+  ]
+}
+{
+  "id": "1ade0c02-74c8-4629-bbd4-5f51c9616b68",
+  "category": "CRYPTO",
+  "time": "2025-09-12T16:45:55.671Z",
+  "class": "android.security.keystore.KeyProtection$Builder",
+  "method": "setBlockModes",
+  "stackTrace": [
+    "android.security.keystore.KeyProtection$Builder.setBlockModes(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:65)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "[Ljava.lang.String;",
+      "value": [
+        "ECB"
+      ]
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.security.keystore.KeyProtection$Builder",
+      "value": "<instance: android.security.keystore.KeyProtection$Builder>"
+    }
+  ]
+}
+{
+  "id": "48a8aa46-4ada-470e-bb5e-47ceefb53e1b",
+  "category": "CRYPTO",
+  "time": "2025-09-12T16:45:55.673Z",
+  "class": "android.security.keystore.KeyProtection$Builder",
+  "method": "setRandomizedEncryptionRequired",
+  "stackTrace": [
+    "android.security.keystore.KeyProtection$Builder.setRandomizedEncryptionRequired(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "boolean",
+      "value": false
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.security.keystore.KeyProtection$Builder",
+      "value": "<instance: android.security.keystore.KeyProtection$Builder>"
+    }
+  ]
+}
+{
+  "id": "fe6e69b6-2764-473e-80d2-5a242b56947e",
+  "category": "CRYPTO",
+  "time": "2025-09-12T16:45:55.683Z",
+  "class": "android.security.keystore.KeyGenParameterSpec$Builder",
+  "method": "setBlockModes",
+  "stackTrace": [
+    "android.security.keystore.KeyGenParameterSpec$Builder.setBlockModes(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:90)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "type": "[Ljava.lang.String;",
+      "value": [
+        "ECB"
+      ]
+    }
+  ],
+  "returnValue": [
+    {
+      "type": "android.security.keystore.KeyGenParameterSpec$Builder",
+      "value": "<instance: android.security.keystore.KeyGenParameterSpec$Builder>"
+    }
+  ]
+}

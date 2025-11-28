@@ -8,6 +8,7 @@ title: Testing UIActivity Sharing
 masvs_v1_levels:
 - L1
 - L2
+profiles: [L1, L2]
 ---
 
 ## Overview
@@ -32,7 +33,7 @@ If having the source code, you should take a look at the `UIActivityViewControll
 - Check if it defines custom activities (also being passed to the previous method).
 - Verify the `excludedActivityTypes`, if any.
 
-If you only have the compiled/installed app, try searching for the previous method and property, for example:
+If you only have the compiled/installed app, try searching for the previous method and property, for example using @MASTG-TOOL-0129:
 
 ```bash
 $ rabin2 -zq Telegram\ X.app/Telegram\ X | grep -i activityItems
@@ -57,7 +58,7 @@ A very complete explanation about the use of these keys can be found [on Stackov
 Let's see a real-world example. We will take a File Manager app and take a look at these keys. We used @MASTG-TOOL-0038 here to read the `Info.plist` file.
 
 ```bash
-objection --gadget SomeFileManager run ios plist cat Info.plist
+objection --name SomeFileManager run ios plist cat Info.plist
 ```
 
 > Note that this is the same as if we would retrieve the IPA from the phone or accessed via e.g. SSH and navigated to the corresponding folder in the IPA / app sandbox. However, with objection we are just _one command away_ from our goal and this can be still considered static analysis.

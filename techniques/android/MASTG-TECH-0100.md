@@ -5,7 +5,7 @@ platform: android
 
 @MASTG-TOOL-0097 can be used to intercept network traffic from Android apps. This technique is useful for identifying sensitive data that is sent over the network, as well as for identifying potential security vulnerabilities.
 
-Once with mitmproxy installed and your device configured to use it, you can create a python script to filter the traffic and extract the sensitive data. For example, the following script will extract all the data sent in the requests and responses only if the data is considered sensitive. For this example we consider sensitive data to be any data that contains the strings "dummyPassword" or "sampleUser", so we include them in the `SENSITIVE_STRINGS` list.
+Once mitmproxy is installed and your device is configured to use it, you can create a Python script to filter the traffic and extract the sensitive data. For example, the following script will extract all the data sent in the requests and responses only if the data is considered sensitive. For this example, we consider sensitive data to be any data that contains the strings "dummyPassword" or "sampleUser", so we include them in the `SENSITIVE_STRINGS` list.
 
 ```python
 # mitm_sensitive_logger.py
@@ -13,7 +13,7 @@ Once with mitmproxy installed and your device configured to use it, you can crea
 from mitmproxy import http
 
 # This data would come from another file and should be defined after identifying the data that is considered sensitive for this application.
-# For example by using the Google Play Store Data Safety section.
+# For example, by using the Google Play Store Data Safety section.
 SENSITIVE_DATA = {
     "precise_location_latitude": "37.7749",
     "precise_location_longitude": "-122.4194",

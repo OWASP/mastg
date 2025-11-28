@@ -13,15 +13,13 @@
             "justMyCode": true
         },
         {
-            "name": "Python: MkDocs Serve",
+            "name": "Python: Current File (CWD)",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/.venv/bin/mkdocs",  // Adjust the path if mkdocs is not in a virtual environment
-            "args": ["serve", "-a", "localhost:8002"],
+            "program": "${file}",
             "console": "integratedTerminal",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/.venv/bin/python3"
-            }
+            "cwd": "${fileDirname}",
+            "justMyCode": true
         }
     ]
 }
