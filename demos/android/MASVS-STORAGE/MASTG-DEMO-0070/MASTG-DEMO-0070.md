@@ -5,6 +5,7 @@ id: MASTG-DEMO-0070
 code: [kotlin]
 test: MASTG-TEST-0306
 status: new
+---
 
 ### Sample
 
