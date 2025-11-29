@@ -1,12 +1,29 @@
-                  
-                  
-┌────────────────┐
-│ 1 Code Finding │
-└────────────────┘
+                   
+                   
+┌─────────────────┐
+│ 5 Code Findings │
+└─────────────────┘
                            
     MastgTest_reversed.java
      ❱ rules.mastg-android-flag-secure-enable-flags
           [MASVS-PLATFORM] Make sure you use this flag for all screens with sensitive data
                                                                                           
-           32┆ ((Activity) this.context).getWindow().addFlags(8192);
+           35┆ ((Activity) this.context).getWindow().addFlags(8192);
+            ⋮┆----------------------------------------
+           36┆ ((Activity) this.context).getWindow().setFlags(8192, 8192);
+   
+    ❯❱ rules.mastg-android-flag-secure-clear-flags
+          [MASVS-PLATFORM] Window clears or overwrites FLAG_SECURE.
+                                                                   
+           37┆ ((Activity) this.context).getWindow().setFlags(0, 8192);
+   
+     ❱ rules.mastg-android-flag-secure-enable-flags
+          [MASVS-PLATFORM] Make sure you use this flag for all screens with sensitive data
+                                                                                          
+           42┆ window.setFlags(8192, 8192);
+   
+    ❯❱ rules.mastg-android-flag-secure-clear-flags
+          [MASVS-PLATFORM] Window clears or overwrites FLAG_SECURE.
+                                                                   
+           46┆ window2.clearFlags(8192);
 

@@ -16,3 +16,70 @@ rules:
           - metavariable-regex:
               metavariable: $FLAGS
               regex: ^(FLAG_SECURE|8192|0x2000)$
+
+  - id: mastg-android-flag-secure-clear-flags
+    languages: [java]
+    severity: WARNING
+    metadata:
+      category: screen-capture
+      summary: Window clears or overwrites FLAG_SECURE
+    message: "[MASVS-PLATFORM] Window clears or overwrites FLAG_SECURE."
+    pattern-either:
+      - patterns:
+          - pattern: $W.clearFlags($FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(FLAG_SECURE|8192|0x2000)$
+      - patterns:
+          - pattern: $W.setFlags(0, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(FLAG_SECURE|8192|0x2000)$
+
+  - id: android-set-recents-screenshot
+    languages: [java]
+    severity: WARNING
+    metadata:
+      category: screen-capture
+      summary: Application sets recents screenshot enabled
+    message: "[MASVS-PLATFORM] Application controls whether recents screenshots are enabled."
+    pattern-either:
+      - patterns:
+          - pattern: $A.setRecentsScreenshotEnabled($B)
+          - metavariable-regex:
+              metavariable: $B
+              regex: ^(true|false)$
+      - patterns:
+          - pattern: setRecentsScreenshotEnabled($B)
+          - metavariable-regex:
+              metavariable: $B
+              regex: ^(true|false)$
+
+  - id: android-secure-flag-policy-info
+    languages: [java]
+    severity: INFO
+    metadata:
+      category: screen-capture
+      summary: DialogProperties created with SecureFlagPolicy.SecureOn
+    message: "[MASVS-PLATFORM] DialogProperties uses SecureFlagPolicy.SecureOn."
+    pattern-either:
+      - pattern: new DialogProperties($A, $B, SecureFlagPolicy.SecureOn, ...)
+
+  - id: android-secure-flag-policy-warn
+    languages: [java]
+    severity: WARNING
+    metadata:
+      category: screen-capture
+      summary: DialogProperties created without SecureFlagPolicy.SecureOn
+    message: "[MASVS-PLATFORM] DialogProperties does not set SecureFlagPolicy.SecureOn. Screens may be capturable."
+    pattern-either:
+      - patterns:
+          - pattern: new DialogProperties($A, $B, $P, ...)
+          - metavariable-regex:
+              metavariable: $P
+              regex: "^(?!SecureFlagPolicy\\.SecureOn$).+"
+      - patterns:
+          - pattern: new DialogProperties($A, $B, $P, ...)
+          - metavariable-regex:
+              metavariable: $P
+              regex: "^SecureFlagPolicy(?!\\.SecureOn$).+"

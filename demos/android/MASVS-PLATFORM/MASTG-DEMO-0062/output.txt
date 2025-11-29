@@ -1,0 +1,12 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.android-set-recents-screenshot
+          [MASVS-PLATFORM] Application controls whether recents screenshots are enabled.
+                                                                                        
+           34┆ ((Activity) this.context).setRecentsScreenshotEnabled(true);
+

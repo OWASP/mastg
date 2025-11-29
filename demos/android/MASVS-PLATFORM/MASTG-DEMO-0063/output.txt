@@ -1,0 +1,15 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                             
+    MastgTestKt_reversed.java
+    ❯❱ rules.android-secure-flag-policy-warn
+          [MASVS-PLATFORM] DialogProperties does not set SecureFlagPolicy.SecureOn. Screens may be capturable.
+                                                                                                              
+           64┆ AndroidDialog_androidKt.Dialog(function0, new DialogProperties(false, false,            
+               SecureFlagPolicy.SecureOff, false, false, 27, null),                                    
+               ComposableLambdaKt.rememberComposableLambda(-882880282, true, new Function2<Composer,   
+               Integer, Unit>() { // from class: org.owasp.mastestapp.MastgTestKt.SecureComposeDialog.1
+
