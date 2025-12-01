@@ -1,0 +1,2 @@
+--- Users Table Content ---
+demoUser_sqlite|john.doe@maswe-0006.com|MASTG_ACCESS_TOKEN_B4C8D2F0E7A

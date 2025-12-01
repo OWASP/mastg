@@ -1,11 +1,37 @@
 ---
-title: Sensitive Data Stored Unencrypted via SQLite 
 platform: android
+title: Static Analysis for Unencrypted Sensitive Data in SQLite
 id: MASTG-TEST-0304
-type: [static, dynamic]
+type: [static]
 weakness: MASWE-0006
-best-practices: []
-profiles: [L1, L2]
-status: placeholder
-note: This test checks if the app uses the default SQLite API (e.g., `SQLiteOpenHelper`, `context.openOrCreateDatabase`) to store sensitive data (e.g., tokens, PII) in an unencrypted database file within the app's sandbox. It confirms the absence of secure alternatives like SQLCipher or encrypted databases.
+best-practices: [MASTG-BEST-0025]
+profiles: [L2]
+status: new
 ---
+
+## Overview
+
+This test verifies whether the app's code uses SQLite APIs to store sensitive data — such as tokens, credentials, or PII — without encryption. By default, SQLite databases created using `SQLiteOpenHelper` or `context.openOrCreateDatabase` are not encrypted.
+
+## Steps
+
+1. Obtain the application package (APK) using @MASTG-TECH-0003.
+
+2. Use static analysis (@MASTG-TECH-0014) to review code for calls to SQLite APIs, including:
+   - `SQLiteOpenHelper`
+   - `context.openOrCreateDatabase`
+   - `SQLiteDatabase#insert`, `query`, `execSQL`, etc.
+
+3. Check database creation and insertion logic to determine if:
+   - the database is created using default SQLite,
+   - no encryption mechanism (SQLCipher or equivalent) is applied,
+   - sensitive fields (tokens, secrets, PII) are inserted in plaintext.
+
+## Observation
+
+- Identify SQLite databases created in the code.
+- Determine whether sensitive data is inserted without encryption.
+
+## Evaluation
+
+The test fails if the app references SQLite APIs and stores sensitive data without any encryption.
