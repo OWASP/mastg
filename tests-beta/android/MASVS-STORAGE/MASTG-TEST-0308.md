@@ -2,10 +2,10 @@
 platform: android
 title: Runtime Verification of Sensitive Data Stored Unencrypted in DataStore
 id: MASTG-TEST-0308
-type: [dynamic]
+type: [dynamic, filesysttem]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0025]
-profiles: [L1, L2]
+profiles: [L2]
 status: new
 ---
 
