@@ -5,7 +5,7 @@ id: MASTG-TEST-0306
 type: [static]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0025]
-profiles: [L1, L2]
+profiles: [L2]
 status: new
 ---
 

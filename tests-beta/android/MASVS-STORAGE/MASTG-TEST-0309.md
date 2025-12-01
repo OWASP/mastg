@@ -2,10 +2,10 @@
 platform: android
 title: Runtime Verification of Sensitive Data Stored Unencrypted in Android Room DB
 id: MASTG-TEST-0309
-type: [dynamic]
+type: [dynamic, filesystem]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0025]
-profiles: [L1, L2]
+profiles: [L2]
 status: new
 ---
 
