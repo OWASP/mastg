@@ -5,7 +5,7 @@ platform: android
 
 You can inspect an Android app's backup data to verify that sensitive data is not included in the backup. This technique is useful for verifying that the app correctly excludes sensitive data from backups.
 
-## Backup Made via ADB Backup
+## Backup Made via @MASTG-TOOL-0004 Backup
 
 Android backups are stored in `.ab` files, which are specially formatted TAR archives. If you followed the steps from @MASTG-TECH-0128, you should have an `apps/` directory in your working directory. This directory contains the extracted backup data.
 

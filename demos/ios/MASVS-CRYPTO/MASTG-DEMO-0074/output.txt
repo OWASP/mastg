@@ -1,0 +1,22 @@
+  2959 ms  srand(seed=0x691a0327)
+  2959 ms  rand()
+           ... x 16
+  2959 ms  $ss17FixedWidthIntegerPsE6random2inxSNyxG_tFZ()
+  2959 ms     | arc4random_buf(buf=0x16ef965a8, nbytes=0x8)
+           ... x 16
+  2959 ms  open(path="/dev/random", oflag=0x0, ...)
+  2960 ms  arc4random_uniform(upper_bound=0x100)
+           ... x 16
+  2960 ms  arc4random()
+           ... x 16
+  2960 ms  $ss27SystemRandomNumberGeneratorVABycfC()
+  2960 ms  $ss17FixedWidthIntegerPsE6random2in5usingxSNyxG_qd__ztSGRd__lFZ()
+  2960 ms     | $ss17FixedWidthIntegerPsE7_random5usingxqd__z_tSGRd__lFZ()
+  2960 ms     |    | arc4random_buf(buf=0x16ef964d8, nbytes=0x8)
+           ... x 16
+  2960 ms  drand48()
+           ... x 16
+  2960 ms  CCRandomGenerateBytes()
+  2960 ms  SecRandomCopyBytes()
+  2960 ms     | CCRandomCopyBytes()
+  2960 ms     |    | CCRandomGenerateBytes()

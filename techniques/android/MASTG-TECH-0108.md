@@ -7,7 +7,7 @@ Taint analysis is an information flow analysis technique that tracks the flow of
 
 In taint analysis, data flows from a "source" to a "sink". A source is where sensitive information originates, and a sink is where this information is ultimately utilized. For instance, we can determine if the device ID retrieved by a `getDeviceId()` function is transmitted as a text message via another function `sendTextMessage()`. In this scenario, `getDeviceId()` is the source, and `sendTextMessage()` is the sink. If a direct path exists between them, it's called a _leak_.
 
-In large applications, manual information flow analysis can be very time consuming and inaccurate. Taint analysis automates this, with two main methods: static and dynamic. The former examines code without running it, offering broad coverage but potentially yielding false positives. In contrast, dynamic analysis observes real-time application execution, providing actual context but possibly overlooking untriggered issues. A thorough comparison of these techniques is beyond this section's scope.
+In large applications, manual information flow analysis can be very time-consuming and inaccurate. Taint analysis automates this, with two main methods: static and dynamic. The former examines code without running it, offering broad coverage but potentially yielding false positives. In contrast, dynamic analysis observes real-time application execution, providing actual context but possibly overlooking untriggered issues. A thorough comparison of these techniques is beyond this section's scope.
 
 There are multiple tools which perform taint analysis on native code, including [Triton](https://github.com/jonathansalwan/Triton "Triton") and [bincat](https://github.com/airbus-seclab/bincat "bincat"). However, in this section, we'll primarily focus on Android Java code and utilize @MASTG-TOOL-0099 for the taint analysis. Another notable tool supporting taint analysis for Android apps is [GDA](https://github.com/charles2gan/GDA-android-reversing-Tool/wiki/GDA-Static-Taint-Analysis "GDA").
 
@@ -63,7 +63,7 @@ fun onSendData(view: View) {
         intent.putExtra("password", password)
         sendBroadcast(intent)
 
-        textView.text = "InsecureShop is an intentionally designed vulnerable android app built in Kotlin."
+        textView.text = "InsecureShop is an intentionally designed vulnerable Android app built in Kotlin."
 
     }
 ```

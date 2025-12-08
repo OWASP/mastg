@@ -1,0 +1,14 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-asymmetric-key-pair-used-for-multiple-purposes
+          [MASVS-CRYPTO-1] Detected usage of KeyGenParameterSpec.Builder. Review the configured purposes to
+          ensure key separation (avoid mixing encryption/decryption with signing/verification or wrapping).
+                                                                                                           
+           83┆ KeyGenParameterSpec.Builder $this$generateKey_u24lambda_u242 = new
+               KeyGenParameterSpec.Builder(this.KEY_ALIAS, 15);                  
+

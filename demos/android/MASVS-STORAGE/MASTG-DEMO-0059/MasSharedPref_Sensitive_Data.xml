@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="EncryptedAwsKey">V1QyXhGV88RQLmMjoTLLlQIphb6SKf4CBqx+PqhH/TTPFtCh9RPTAYezWW5RPhPP&#10;    </string>
+    <set name="UnencryptedPreSharedKeys">
+        <string>-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----</string>
+        <string>-----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----</string>
+    </set>
+    <string name="UnencryptedGitHubToken">ghp_1234567890abcdefghijklmnopqrstuvABCD</string>
+</map>

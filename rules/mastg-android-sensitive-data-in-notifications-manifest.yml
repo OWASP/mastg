@@ -1,0 +1,17 @@
+rules:
+  - id: mastg-android-sensitive-data-in-notifications-manifest
+    languages:
+      - xml
+    severity: WARNING
+    metadata:
+      summary: This rule inspects AndroidManifest.xml for notification post permission. Notification may contain sensitive data.
+    message: "[MASVS-PLATFORM-3] Ensure that notifications do not contain sensitive information"
+    pattern: android:name="android.permission.POST_NOTIFICATIONS"
+  - id: mastg-android-minsdkversion
+    languages:
+      - xml
+    severity: INFO
+    metadata:
+      summary: This rule inspects AndroidManifest.xml to obtain the minSdkVersion value.
+    message: "[MASVS-PLATFORM-3] Ensure that the minSdkVersion is evaluated for notification exposure on older Android versions"
+    pattern: android:minSdkVersion="$X"

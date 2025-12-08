@@ -1,16 +1,16 @@
 {
-  "id": "048be862-005c-45e2-b504-9ab6fa280784",
+  "id": "d1cb86ee-9900-4829-8161-77e18324b574",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.565Z",
+  "time": "2025-09-13T10:41:09.890Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:60)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:61)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "type": "java.lang.String",
-      "value": "ghp_1234567890abcdefghijklmnOPQRSTUV"
+      "value": "ghp_1234567890abcdefghijklmnopqrstuvABCD"
     }
   ],
   "returnValue": [
@@ -30,19 +30,19 @@
   ]
 }
 {
-  "id": "36886813-56aa-4085-b677-42da89a30df5",
+  "id": "0c314619-4159-4e05-88d1-5bae3a0f9c6f",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.567Z",
+  "time": "2025-09-13T10:41:09.893Z",
   "class": "javax.crypto.Cipher",
   "method": "getInstance",
   "stackTrace": [
     "javax.crypto.Cipher.getInstance(Native Method)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:44)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:45)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -58,77 +58,53 @@
   ]
 }
 {
-  "id": "8afa596d-e749-4184-8c84-aea3c00244f9",
+  "id": "530769c9-f6bb-4a20-a4d1-05650f039913",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.572Z",
-  "class": "javax.crypto.KeyGenerator",
-  "method": "getInstance",
+  "time": "2025-09-13T10:41:09.907Z",
+  "class": "java.security.KeyStore",
+  "method": "getEntry",
   "stackTrace": [
-    "javax.crypto.KeyGenerator.getInstance(Native Method)",
-    "org.owasp.mastestapp.MastgTest.getOrCreateSecretKey(MastgTest.kt:26)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:45)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "java.security.KeyStore.getEntry(Native Method)",
+    "org.owasp.mastestapp.MastgTest.getOrCreateSecretKey(MastgTest.kt:25)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:46)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
       "type": "java.lang.String",
-      "value": "AES"
+      "value": "mastgKey"
     },
     {
-      "type": "java.lang.String",
-      "value": "AndroidKeyStore"
+      "type": "java.security.KeyStore$ProtectionParameter",
+      "value": "void"
     }
   ],
   "returnValue": [
     {
-      "type": "javax.crypto.KeyGenerator",
-      "value": "<instance: javax.crypto.KeyGenerator>"
+      "type": "java.security.KeyStore$Entry",
+      "value": "<instance: java.security.KeyStore$Entry, $className: java.security.KeyStore$SecretKeyEntry>"
     }
   ]
 }
 {
-  "id": "3e97f8ba-1d93-4321-bfe8-394ccd6829c8",
+  "id": "afd5682f-6521-4406-b60e-0ee67ff409db",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.575Z",
-  "class": "javax.crypto.KeyGenerator",
-  "method": "generateKey",
-  "stackTrace": [
-    "javax.crypto.KeyGenerator.generateKey(Native Method)",
-    "org.owasp.mastestapp.MastgTest.getOrCreateSecretKey(MastgTest.kt:39)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:45)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
-  ],
-  "inputParameters": [],
-  "returnValue": [
-    {
-      "type": "javax.crypto.SecretKey",
-      "value": "<instance: javax.crypto.SecretKey, $className: android.security.keystore2.AndroidKeyStoreSecretKey>"
-    }
-  ]
-}
-{
-  "id": "865e4b9f-1f64-47ff-bd7b-b8f0dd769120",
-  "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.586Z",
+  "time": "2025-09-13T10:41:09.922Z",
   "class": "javax.crypto.Cipher",
   "method": "init",
   "stackTrace": [
     "javax.crypto.Cipher.init(Native Method)",
-    "javax.crypto.Cipher.init(Cipher.java:1084)",
+    "javax.crypto.Cipher.init(Cipher.java:1085)",
     "javax.crypto.Cipher.init(Native Method)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:45)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)"
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:46)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)"
   ],
   "inputParameters": [
     {
@@ -152,19 +128,19 @@
   ]
 }
 {
-  "id": "cc62db52-46aa-4e94-a0be-7a812bb3043a",
+  "id": "3cc2ea7d-f67e-4576-99b9-0d6908b8ce24",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.585Z",
+  "time": "2025-09-13T10:41:09.919Z",
   "class": "javax.crypto.Cipher",
   "method": "init",
   "stackTrace": [
     "javax.crypto.Cipher.init(Native Method)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:45)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:46)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -184,52 +160,52 @@
   ]
 }
 {
-  "id": "6294b01b-661c-4652-8db5-ddd797a5b722",
+  "id": "6200a4e6-607f-46b3-9b70-f57ea8ba80af",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.592Z",
+  "time": "2025-09-13T10:41:09.936Z",
   "class": "javax.crypto.Cipher",
   "method": "doFinal",
   "stackTrace": [
     "javax.crypto.Cipher.doFinal(Native Method)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:47)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:48)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
       "type": "[B",
-      "value": "AKIAIOSFODNN7EXAMPLE"
+      "value": "AKIAABCDEFGHIJKLMNOP"
     }
   ],
   "returnValue": [
     {
       "type": "[B",
-      "value": "0xa132cb95022985be9229fe0206ac7e3ea847fd34cf16d0a1f513d30187b3596e513e13cf..."
+      "value": "0xf752de9dab78e423147bbf8274f34f81c28e6474b3725fe8457be0cddc5b4330fc75ed6b..."
     }
   ]
 }
 {
-  "id": "e5172a5f-e38e-4506-b42b-e8ab634b299b",
+  "id": "9a519c23-77fd-4f5a-9b2b-ea80d5cd5be8",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.595Z",
+  "time": "2025-09-13T10:41:09.941Z",
   "class": "android.util.Base64",
   "method": "encodeToString",
   "stackTrace": [
     "android.util.Base64.encodeToString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:49)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:50)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
       "type": "[B",
-      "value": "0x5754325e1195f3c4502e6323a132cb95022985be9229fe0206ac7e3ea847fd34cf16d0a1f513d30187b3596e513e13cf..."
+      "value": "0x53e09f5c462870a214466544f752de9dab78e423147bbf8274f34f81c28e6474b3725fe8457be0cddc5b4330fc75ed6b..."
     },
     {
       "type": "int",
@@ -239,23 +215,23 @@
   "returnValue": [
     {
       "type": "java.lang.String",
-      "value": "V1QyXhGV88RQLmMjoTLLlQIphb6SKf4CBqx+PqhH/TTPFtCh9RPTAYezWW5RPhPP\n"
+      "value": "U+CfXEYocKIURmVE91Lenat45CMUe7+CdPNPgcKOZHSzcl/oRXvgzdxbQzD8de1r\n"
     }
   ]
 }
 {
-  "id": "eb1fc822-6245-45dd-b245-e01bd93b536b",
+  "id": "926d8968-dc8b-4d23-b1f1-657b6410957a",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.597Z",
+  "time": "2025-09-13T10:41:09.945Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:63)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -264,7 +240,7 @@
     },
     {
       "type": "java.lang.String",
-      "value": "V1QyXhGV88RQLmMjoTLLlQIphb6SKf4CBqx+PqhH/TTPFtCh9RPTAYezWW5RPhPP\n"
+      "value": "U+CfXEYocKIURmVE91Lenat45CMUe7+CdPNPgcKOZHSzcl/oRXvgzdxbQzD8de1r\n"
     }
   ],
   "returnValue": [
@@ -275,18 +251,18 @@
   ]
 }
 {
-  "id": "9995b7ce-7c7a-45d1-a83d-3d4de76b8bbd",
+  "id": "f2b7501a-b08a-4280-86a4-4f9e17a2f4f6",
   "category": "STORAGE",
-  "time": "2025-09-01T06:36:43.598Z",
+  "time": "2025-09-13T10:41:09.949Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putStringSet",
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putStringSet(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:66)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$10$lambda$9(MainActivity.kt:88)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$q7zJ11jwoN73NSP2ckY8XHAEb68(Unknown Source:0)",
-    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:920)"
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
   ],
   "inputParameters": [
     {
@@ -295,7 +271,7 @@
     },
     {
       "type": "java.util.Set",
-      "value": "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=,gJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA="
+      "value": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----,-----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----"
     }
   ],
   "returnValue": [

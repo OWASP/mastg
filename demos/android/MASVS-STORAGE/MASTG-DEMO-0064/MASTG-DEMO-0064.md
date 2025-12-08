@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Uses of Caching UI Elements with semgrep
-id: MASTG-DEMO-0024
+id: MASTG-DEMO-0064
 code: [kotlin]
 test: MASTG-TEST-0258
 ---
@@ -15,6 +15,8 @@ The code sample defines a method that creates a popup dialog for user input wher
 - **PIN**: should be cached due to `TYPE_CLASS_NUMBER`, despite initially being set to `TYPE_NUMBER_VARIATION_PASSWORD`
 
 A dialog is also created using `AlertDialog.Builder`, and it includes "Sign Up" and "Cancel" buttons.
+
+{{ MastgTest.kt # MastgTest_reversed.java }}
 
 ### Steps
 

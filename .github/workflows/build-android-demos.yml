@@ -58,10 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Get last commit hash of MASTestApp-Android
+      - name: Get last commit hash of mas-app-android
         id: get-mastestapp-hash
         run: |
-          echo "MASTESTAPP_HASH=$(git ls-remote https://github.com/cpholguera/MASTestApp-Android.git HEAD | awk '{print $1}')" >> $GITHUB_ENV 
+          echo "MASTESTAPP_HASH=$(git ls-remote https://github.com/cpholguera/mas-app-android.git HEAD | awk '{print $1}')" >> $GITHUB_ENV 
           echo "MASTESTAPP_HASH=$MASTESTAPP_HASH" >> $GITHUB_OUTPUT
 
       - name: Check if already cached
@@ -69,7 +69,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           lookup-only: true
-          path: MASTestApp-Android/ # we're forced to write a path even if we don't need it
+          path: mas-app-android/ # we're forced to write a path even if we don't need it
           key: base-app-${{ env.MASTESTAPP_HASH }}
 
       - name: Set up JDK 17
@@ -85,18 +85,18 @@ jobs:
         with:
           cache-read-only: false
 
-      - name: Clone MASTestApp-Android repository
+      - name: Clone mas-app-android repository
         if: steps.cache-check.outputs.cache-hit != 'true'
         uses: actions/checkout@v4
         with:
-          repository: cpholguera/MASTestApp-Android
-          path: MASTestApp-Android
+          repository: cpholguera/mas-app-android
+          path: mas-app-android
           ref: ${{ env.MASTESTAPP_HASH }}
 
       - name: Build base app
         if: steps.cache-check.outputs.cache-hit != 'true'
         run: |
-          cd MASTestApp-Android
+          cd mas-app-android
           grep -q 'org.gradle.caching=true' gradle.properties || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
           ./gradlew assembleDebug --stacktrace || (
             echo "Build failed"
@@ -108,7 +108,7 @@ jobs:
         if: steps.cache-check.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          path: MASTestApp-Android/
+          path: mas-app-android/
           key: ${{ steps.cache-check.outputs.cache-primary-key }}
    
   build:
@@ -140,7 +140,7 @@ jobs:
         id: cache-base-app
         uses: actions/cache/restore@v4
         with:
-          path: MASTestApp-Android/
+          path: mas-app-android/
           key: base-app-${{ env.MASTESTAPP_HASH }}
 
       - name: Replace files and build APK
@@ -152,30 +152,63 @@ jobs:
           )
 
           echo "Processing $demo"
-          cp -f "$demo/MastgTest.kt" MASTestApp-Android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt 2>/dev/null \
+          cp -f "$demo/MastgTest.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt 2>/dev/null \
             && echo "Copied MastgTest.kt for $demo" \
             || echo "No MastgTest.kt found for $demo"
-          cp -f "$demo/MastgTestWebView.kt" MASTestApp-Android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt 2>/dev/null \
+          cp -f "$demo/MastgTestWebView.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt 2>/dev/null \
             && echo "Copied MastgTestWebView.kt for $demo" \
             || echo "No MastgTestWebView.kt found for $demo"
-          cp -f "$demo/AndroidManifest.xml" MASTestApp-Android/app/src/main/AndroidManifest.xml 2>/dev/null \
+          cp -f "$demo/AndroidManifest.xml" mas-app-android/app/src/main/AndroidManifest.xml 2>/dev/null \
             && echo "Copied AndroidManifest.xml for $demo" \
             || echo "No AndroidManifest.xml found for $demo"
-          cp -f "$demo/filepaths.xml" MASTestApp-Android/app/src/main/res/xml/filepaths.xml 2>/dev/null \
+          cp -f "$demo/filepaths.xml" mas-app-android/app/src/main/res/xml/filepaths.xml 2>/dev/null \
             && echo "Copied filepaths.xml for $demo" \
             || echo "No filepaths.xml found for $demo"
-          cp -f "$demo/network_security_config.xml" MASTestApp-Android/app/src/main/res/xml/network_security_config.xml 2>/dev/null \
+          cp -f "$demo/network_security_config.xml" mas-app-android/app/src/main/res/xml/network_security_config.xml 2>/dev/null \
             && echo "Copied network_security_config.xml for $demo" \
             || echo "No network_security_config.xml found for $demo"
-          cp -f "$demo/backup_rules.xml" MASTestApp-Android/app/src/main/res/xml/backup_rules.xml 2>/dev/null \
+          cp -f "$demo/backup_rules.xml" mas-app-android/app/src/main/res/xml/backup_rules.xml 2>/dev/null \
             && echo "Copied backup_rules.xml for $demo" \
             || echo "No backup_rules.xml found for $demo"
-          cp -f "$demo/data_extraction_rules.xml" MASTestApp-Android/app/src/main/res/xml/data_extraction_rules.xml 2>/dev/null \
+          cp -f "$demo/data_extraction_rules.xml" mas-app-android/app/src/main/res/xml/data_extraction_rules.xml 2>/dev/null \
             && echo "Copied data_extraction_rules.xml for $demo" \
             || echo "No data_extraction_rules.xml found for $demo"
+
+          # Copy .proto files if any exist
+          if find "$demo" -maxdepth 1 -name "*.proto" -print -quit 2>/dev/null | grep -q .; then
+            mkdir -p mas-app-android/app/src/main/proto
+            find "$demo" -maxdepth 1 -name "*.proto" -print0 2>/dev/null | while IFS= read -r -d '' proto_file; do
+              cp -f "$proto_file" mas-app-android/app/src/main/proto/ \
+                && echo "Copied $(basename "$proto_file") for $demo"
+            done
+          else
+            echo "No .proto files found for $demo"
+          fi
+
+          insert_block() {
+            local kind="$1"          # plugins / sections / libs
+            local upper="${kind^^}"  # PLUGINS / SECTIONS / LIBS  (bash-specific)
+            local file="$demo/build.gradle.kts.$kind"
+            local target="mas-app-android/app/build.gradle.kts"
           
+            if [ -f "$file" ]; then
+              sed -i '/\/\/ ADD_'"$upper"'_HERE/{
+                r '"$file"'
+                d
+              }' "$target"
+          
+              echo "Replaced $kind in build.gradle.kts for $demo"
+            else
+              echo "No build.gradle.kts.$kind found for $demo, skipping $kind replacement"
+            fi
+          }
+          
+          insert_block plugins
+          insert_block sections
+          insert_block libs
+
           echo "Building APK for $demo"
-          cd MASTestApp-Android
+          cd mas-app-android
           grep -q 'org.gradle.caching=true' gradle.properties || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
           ./gradlew assembleDebug --stacktrace || (
             echo "Build failed for $demo"
@@ -185,7 +218,7 @@ jobs:
           echo "Build succeeded for $demo"          
 
           apk_filename="$(basename "$demo").apk"
-          mv MASTestApp-Android/app/build/outputs/apk/debug/app-debug.apk "$apk_filename" || (
+          mv mas-app-android/app/build/outputs/apk/debug/app-debug.apk "$apk_filename" || (
             echo "APK not found for $demo"
             exit 1
           )
