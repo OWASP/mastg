@@ -13,7 +13,7 @@ This vulnerability occurs when a deep link intent filter in `AndroidManifest.xml
 
 ### Steps
 
-Run a static analysis tool such as @MASTG-TOOL-0110 on the `AndroidManifest.xml` to detect deep link intent filters that are missing the `android:autoVerify="true"` attribute.
+1. Run a static analysis tool such as @MASTG-TOOL-0110 on the `AndroidManifest.xml` to detect deep link intent filters that are missing the `android:autoVerify="true"` attribute.
 
 ### Observation
 

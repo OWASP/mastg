@@ -1,0 +1,1 @@
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-custom-deeplink-scheme.yml ./AndroidManifest_reversed.xml --text -o output.txt

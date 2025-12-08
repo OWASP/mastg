@@ -1,0 +1,11 @@
+rules:
+- id: android-custom-deeplink-intent-filter
+  severity: WARNING
+  languages:
+    - xml
+  metadata:
+    summary: This rule looks for insecure deep link configurations.
+  message: '[MASVS-PLATFORM] Custom deeplink scheme detected in an intent-filter (potentially exposed deeplink)'
+  patterns:
+    - pattern-regex: |
+        <intent-filter>[\s\S]*?<data\s+[^>]*android:scheme\s*=\s*"(?!(https?|ftp|mailto|file)")[a-zA-Z][a-zA-Z0-9+\-.]*"[\s\S]*?</intent-filter>

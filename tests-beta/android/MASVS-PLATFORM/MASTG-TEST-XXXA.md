@@ -1,7 +1,7 @@
 ---
 title: Unvalidated URL from Deep Link Loaded in WebView
 platform: android
-id: MASTG-TEST-0292
+id: MASTG-TEST-XXXA
 type: [static]
 weakness: MASWE-0088
 profiles: [L1, L2]
@@ -13,7 +13,7 @@ This vulnerability arises when an app accepts a URL from an external source such
 
 ### Steps
 
-Run a static ancalysis tool such as @MASTG-TOOL-0110 on the codebase to detect data flows from deep link parameters (e.g., `getQueryParameter()`) to dangerous sinks (e.g., `WebView.loadUrl()`).
+1. Run a static ancalysis tool such as @MASTG-TOOL-0110 on the codebase to detect data flows from deep link parameters (e.g., `getQueryParameter()`) to dangerous sinks (e.g., `WebView.loadUrl()`).
 
 ### Observation
 

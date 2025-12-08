@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Deep Link Intent Filter Missing android:autoVerify with semgrep
-id: MASTG-DEMO-0063
+id: MASTG-DEMO-XXXB
 code: [kotlin]
-test: MASTG-TEST-0289
+test: MASTG-TEST-XXXB
 status: new
 ---
 
@@ -11,7 +11,7 @@ status: new
 
 The following is a sample `AndroidManifest.xml` snippet that defines a deep link intent filter without the `android:autoVerify="true"` attribute.
 
-{{ ../MASTG-DEMO-0062/AndroidManifest_reversed.xml }}
+{{ AndroidManifest_reversed.xml }}
 
 ### Steps
 

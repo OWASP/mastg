@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Unvalidated URL from Deep Link Loaded in WebView with semgrep
-id: MASTG-DEMO-0062
+id: MASTG-DEMO-XXXA
 code: [kotlin]
-test: MASTG-TEST-0288
+test: MASTG-TEST-XXXA
 status: new
 ---
 
