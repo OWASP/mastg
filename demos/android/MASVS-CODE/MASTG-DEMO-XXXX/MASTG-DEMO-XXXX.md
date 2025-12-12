@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Local Storage for Input Validation with semgrep
-id: MASTG-DEMO-0061
+id: MASTG-DEMO-XXXX
 code: [kotlin]
-test: MASTG-TEST-0288
+test: MASTG-TEST-XXXX
 ---
 
 ### Sample

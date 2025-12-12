@@ -1,7 +1,7 @@
 ---
-title: Use of Local Storage for Input Validation
+title: Integrity and Authenticity Validation of Local Storage Data
 platform: android
-id: MASTG-TEST-0288
+id: MASTG-TEST-XXXX
 type: [static]
 weakness: MASWE-0082
 profiles: [L1, L2]
@@ -21,4 +21,4 @@ The output identifies code where `SharedPreferences` data is loaded without an i
 
 ## Evaluation
 
-The test fails as the application does not verify the integrity of data loaded from `SharedPreferences`. Without an integrity check like `HMAC`, an attacker with root access can directly edit the SharedPreferences XML file, modifying values to grant themselves higher privileges. The app then reads and acts on this tampered data, leading to a critical security failure, like privilege escalation.
+The test fails if the application does not verify the integrity and authenticity of data loaded from local storage such as `SharedPreferences`.
