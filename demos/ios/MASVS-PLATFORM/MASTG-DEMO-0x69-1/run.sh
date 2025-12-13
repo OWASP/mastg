@@ -1,0 +1,1 @@
+security cms -D -i ../MASTG-DEMO-0x69/embedded.mobileprovision  > output.txt

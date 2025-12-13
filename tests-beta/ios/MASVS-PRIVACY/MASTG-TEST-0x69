@@ -1,0 +1,42 @@
+---
+title: Purpose Strings in Info.plist
+platform: ios
+id: MASTG-TEST-0313
+type: [static]
+weakness: MASWE-0117
+profiles: [P]
+---
+
+## Overview
+
+iOS apps declare permissions using purpose strings in `Info.plist` to explain why they need access to protected resources (camera, location, contacts, health data etc). Since iOS 10, each resource access requires a purpose string (ending in `UsageDescription`).
+
+This test checks whether declared purpose strings are appropriate and justified by the app's core functionality. Excessive permissions expose user data and indicate privacy risks of data.
+
+## Steps
+
+1. Extract the app package contents (@MASTG-TECH-0058) and locate the `Info.plist` file at `Payload/<appname>.app/Info.plist`.
+2. Convert the `Info.plist` to a readable format if needed using `plutil` (see @MASTG-TECH-0069).
+3. Search for all keys ending with `UsageDescription` to identify all declared purpose strings.
+4. Review the purposes and check if they are justified by the app's core functionality.
+
+## Observation
+
+The output should contain list of all purpose strings (ending in `UsageDescription`) found in the `Info.plist` file. This provides a clear overview of the app's intended capabilities and access to user data. Common purpose strings include:
+
+- `NSCameraUsageDescription` – Camera access
+- `NSMicrophoneUsageDescription` – Microphone access
+- `NSPhotoLibraryUsageDescription` – Photo library access
+- `NSLocationWhenInUseUsageDescription` – Location while using the app
+- `NSLocationAlwaysUsageDescription` – Continuous location access
+- `NSContactsUsageDescription` – Contacts access
+- `NSCalendarsUsageDescription` – Calendar access
+- `NSHealthShareUsageDescription` – Health data read access
+- `NSHealthUpdateUsageDescription` – Health data write access
+- `NSMotionUsageDescription` – Motion data access
+- `NSBluetoothAlwaysUsageDescription` – Bluetooth access
+- `NSFaceIDUsageDescription` – Face ID access
+
+## Evaluation
+
+The test fails if the app declares purpose strings that are not justified by its core functionality.

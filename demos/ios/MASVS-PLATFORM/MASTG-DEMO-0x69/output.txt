@@ -1,0 +1,16 @@
+	<key>NFCReaderUsageDescription</key>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<key>NSCalendarsUsageDescription</key>
+	<key>NSCameraUsageDescription</key>
+	<key>NSContactsUsageDescription</key>
+	<key>NSFaceIDUsageDescription</key>
+	<key>NSHealthShareUsageDescription</key>
+	<key>NSHomeKitUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSMicrophoneUsageDescription</key>
+	<key>NSMotionUsageDescription</key>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<key>NSSiriUsageDescription</key>
+	<key>NSUserNotificationUsageDescription</key>

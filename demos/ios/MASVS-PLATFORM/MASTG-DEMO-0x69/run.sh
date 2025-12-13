@@ -1,0 +1,1 @@
+plistutil -i Info.plist -f xml | grep -i UsageDescription > output.txt
