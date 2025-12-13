@@ -15,7 +15,7 @@ This test logs every file written to the app's data container at `/var/mobile/Co
 ## Steps
 
 1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of file system APIs such as `open`, `fopen`, `NSFileManager`, or `FileHandle` that create or write files.
-2. Exercise the app to trigger file creation and writing.
+2. Use the app to trigger file creation and writing.
 
 ## Observation
 

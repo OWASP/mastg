@@ -37,4 +37,4 @@ Additionally, complement this static inspection with dynamic testing methods:
 
 - **Dynamic Analysis**: Use tools like Frida to hook into networking APIs at runtime. This can reveal how and when the HTTP URLs are used during execution. See @MASTG-TEST-0238 for more details.
 
-- **Network Traffic Interception**: Capture and analyze network traffic using tools like Burp Suite, mitmproxy, or Wireshark. This approach confirms whether the app connects to the identified HTTP URLs during real-world usage but depends on the tester's ability to exercise the app's functionality comprehensively. See @MASTG-TEST-0236.
+- **Network Traffic Interception**: Capture and analyze network traffic using tools like Burp Suite, mitmproxy, or Wireshark. This approach confirms whether the app connects to the identified HTTP URLs during real-world usage but depends on the tester's ability to test the app's functionality comprehensively. See @MASTG-TEST-0236.

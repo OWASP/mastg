@@ -19,7 +19,7 @@ The following samples contain:
 ### Steps
 
 1. Install the target app on your device.
-2. Open the app and exercise it to trigger file creations.
+2. Open and use the app to trigger file creations.
 3. Execute `run.sh`.
 
 {{ run.sh # ../../../../utils/mastg-android-backup-bmgr.sh }}

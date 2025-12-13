@@ -16,7 +16,7 @@ This test verifies that the app hides sensitive content from the screen when it 
 
 ## Steps
 
-1. Exercise your app until you get to each of the screens identified as sensitive. While on each of those screens, move the app to the background (for example by pressing **Home** or opening the **Recents screen** and exiting it) and continue to the next screen.
+1. Use the app until you get to each of the screens identified as sensitive. While on each of those screens, move the app to the background (for example by pressing **Home** or opening the **Recents screen** and exiting it) and continue to the next screen.
 2. Once finished, use @MASTG-TECH-0002 to copy the screenshot taken by the system to your laptop for further analysis. The system stores the screenshots in their containers `/data/system_ce/0/snapshots` or `/data/system`.
 
 ## Observation

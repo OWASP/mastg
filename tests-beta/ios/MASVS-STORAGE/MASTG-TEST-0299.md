@@ -17,7 +17,7 @@ This test retrieves the data protection classes of files (@MASTG-KNOW-0091) crea
 ## Steps
 
 1. Ensure the device / simulator is in a clean state (no prior test artifacts). Terminate the app if running.
-2. Launch and exercise the app to trigger typical workflows (authentication, profile loading, messaging, caching, offline usage, cryptographic operations).
+2. Launch and use the app to trigger typical workflows (authentication, profile loading, messaging, caching, offline usage, cryptographic operations).
 3. Retrieve the list of files from the app's private storage (sandbox) directory tree (`/var/mobile/Containers/Data/Application/<UUID>/`) including the data protection classes (@MASTG-TECH-0059).
 
 ## Observation

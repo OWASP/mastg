@@ -12,7 +12,7 @@ best-practices: [MASTG-BEST-0024]
 
 ## Overview
 
-This test is designed to complement @MASTG-TEST-0301. Instead of monitoring APIs during execution, it performs a differential analysis of the app's private storage (@MASTG-KNOW-0108) by comparing snapshots taken before and after exercising the app. It also enumerates Keychain items created or modified during the session.
+This test is designed to complement @MASTG-TEST-0301. Instead of monitoring APIs during execution, it performs a differential analysis of the app's private storage (@MASTG-KNOW-0108) by comparing snapshots taken before and after using the app. It also enumerates Keychain items created or modified during the session.
 
 The goal is to identify new or modified files and determine whether they contain sensitive data in plaintext or trivially encoded form, and to identify new Keychain entries that may contain sensitive data or keys used for file encryption.
 
@@ -21,7 +21,7 @@ The goal is to identify new or modified files and determine whether they contain
 1. Ensure the device / simulator is in a clean state (no prior test artifacts). Terminate the app if running.
 2. Take an initial snapshot of the app's private storage (sandbox) directory tree (@MASTG-TECH-0052).
 3. Take an initial snapshot of the Keychain items (@MASTG-TECH-0061). Optionally record attributes (accessible class, access control flags, etc).
-4. Exercise app features that could handle sensitive data (authentication flows, session establishment, offline caching, profile viewing/editing, cryptographic operations, secure messaging, payment, or token refresh logic).
+4. Interact with the app features that could handle sensitive data (authentication flows, session establishment, offline caching, profile viewing/editing, cryptographic operations, secure messaging, payment, or token refresh logic).
 5. Take a second snapshot of the private storage directory tree.
 6. Diff the two private storage snapshots to identify new, deleted, and modified files. For modified files, determine whether content changes involve potential sensitive values.
 7. Take a second snapshot of the Keychain items
