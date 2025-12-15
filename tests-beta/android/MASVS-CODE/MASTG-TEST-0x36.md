@@ -1,7 +1,7 @@
 ---
 title: Enforcing Mandatory In-App Updates
 platform: android
-id: MASTG-TEST-xxxx
+id: MASTG-TEST-0x36
 type: [static]
 weakness: MASWE-0075
 profiles: [L2]

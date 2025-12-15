@@ -1,7 +1,7 @@
 ---
 title: Verifying Mandatory In-App Update Enforcement using MITM Proxy
 platform: android
-id: MASTG-TEST-xxxx
+id: MASTG-TEST-0x36-1
 type: [dynamic]
 weakness: MASWE-0075
 profiles: [L2]
