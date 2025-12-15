@@ -21,4 +21,4 @@ The output should contain the locations where `startUpdateFlowForResult` with `A
 
 ## Evaluation
 
-The test fails if the app does not enforce updates and still allows users to skip or ignore them.
+The test fails if the app does not implement enforced updating uisng Play In-App Updates API.
