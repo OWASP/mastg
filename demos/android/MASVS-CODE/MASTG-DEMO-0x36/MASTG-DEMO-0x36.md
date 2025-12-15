@@ -28,4 +28,4 @@ The output file shows usages of the Google Play Core API enforcing immediate upd
 
 ### Evaluation
 
-The test passes because the app forces users to update the application immediately and does not provide a fallback.
+This code correctly implements mandatory immediate updates using the Play Core API. The app calls `startUpdateFlowForResult()` with priority level 1 (IMMEDIATE), which forces the user to install the update before continuing. There is no fallback or way to bypass the update, ensuring users cannot access the app with an outdated version.

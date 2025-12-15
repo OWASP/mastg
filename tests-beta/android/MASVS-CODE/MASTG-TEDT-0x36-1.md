@@ -13,8 +13,10 @@ The goal of the test is to verify whether the app properly enforces mandatory up
 
 ## Steps
 
-1. Set up a MITM proxy using @MASTG-TECH-0011 to intercept network traffic. Launch the app and identify API calls that transmit version information (e.g., `X-App-Version`, `version`, `build`, `minVersion` in headers, parameters, or request body).
-2. Modify the intercepted request to indicate that the current app version is unsupported (e.g., change `version` to an older version or set `minVersion` to a value higher than the current version). Forward the modified request to the backend.
+1. Set up a MITM proxy using @MASTG-TECH-0011 to intercept network traffic. 
+2. Launch the app and identify API calls that transmit version information (e.g., `X-App-Version`, `version`, `build`, `minVersion` in headers, parameters, or request body).
+3. Modify the intercepted request to indicate that the current app version is unsupported (e.g., change `version` to an older version or set `minVersion` to a value higher than the current version). 
+4. Forward the modified request to the backend.
 
 ## Observation
 
@@ -28,6 +30,4 @@ The output should contain the app's response when an unsupported version is sent
 
 The test case fails if:
 
-- The app does not block access to its main functionality when the backend indicates the version is unsupported.
-- The app does not trigger a mandatory update flow through either the backend-gated mechanism or the Play In-App Updates API.
-- The app proceeds normally without any enforcement action when presented with an unsupported version.
+The app does not block access to the application functionality when the backend indicates the version is unsupported and does not trigger a mandatory update flow through either the backend mechanism or the Play In-App Updates API.
