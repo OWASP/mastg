@@ -1,7 +1,7 @@
 ---
 title: Verifying Mandatory In-App Update Enforcement using MITM Proxy
 platform: android
-id: MASTG-TEST-0x36-1
+id: MASTG-TEST-xxxx
 type: [dynamic]
 weakness: MASWE-0075
 profiles: [L2]
@@ -22,7 +22,6 @@ The output should contain the app's response when an unsupported version is sent
 
 - The backend's response indicating the version is outdated (e.g., a response code, JSON field, or message stating the update is required).
 - Whether the app displays a blocking dialog or screen that prevents further use until the update is completed.
-- Whether the app calls Google Play or the in-app update API to enforce the mandatory update.
 - Whether the user can dismiss the update prompt and continue using the app, or if the app completely blocks access to functionality.
 
 ## Evaluation
