@@ -21,4 +21,4 @@ The output should contain the locations where `startUpdateFlowForResult` with `A
 
 ## Evaluation
 
-The test fails if the app does not implement enforced updating uisng Play In-App Updates API.
+The test fails if the app does not implement enforced updating using Play In-App Updates API.
