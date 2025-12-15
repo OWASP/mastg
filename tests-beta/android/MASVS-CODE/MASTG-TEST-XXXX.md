@@ -9,11 +9,11 @@ profiles: [L2]
 
 ### Overview
 
-Overlay attacks, also known as `Tapjacking` or `UI redressing`, occur when a malicious app draws an overlay on top of a legitimate app to trick the user into performing unintended actions
+An Overlay Attack on Android is a user-interface (UI) based attack where a malicious application displays a visual layer on top of another legitimate application’s interface. This overlay can deceive the user into interacting with elements that appear to be part of the genuine app, but actually belong to the malicious overlay. The goal of the testcase is to verify whether the application layouts using `android:filterTouchesWhenObscured` is enabled in the xml layouts.
 
 ### Steps
 
-To check for overlay attack and mitigation at the layout level, inspect sensitive `XML layout files` for the presence of the `android:filterTouchesWhenObscured` attribute on sensitive views like buttons or input fields, and verify it is set to `true`.
+1. Inspect `XML` layout files using @MASTG-TECH-0014 for the presence of the `android:filterTouchesWhenObscured` attribute on sensitive views like buttons or input fields, and verify it is set to `true`.
 
 ### Observation
 

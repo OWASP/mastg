@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Overlay attack via malicious app overlay
+title: Testing Overlay attacks using semgrep
 id: MASTG-DEMO-XXXX
 code: [kotlin]
 test: MASTG-TEST-XXXX
@@ -11,10 +11,9 @@ status: new
 
 The following layout implements a vulnerable component that creates an always-on-top overlay window, which can be used to intercept touches or obscure UI of other apps.
 
-{{ MastgTest.kt # MastgTest_reversed.kt # activity_vulnerable_login.xml }}
+{{ MastgTest.kt # MastgTest_reversed.java # activity_vulnerable_login.xml }}
 
 ### Steps
-
 
 {{ ../../../../rules/mastg-android-overlay-attack.yml }}
 
