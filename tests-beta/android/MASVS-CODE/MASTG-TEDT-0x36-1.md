@@ -13,9 +13,9 @@ The goal of the test is to verify whether the app properly enforces mandatory up
 
 ## Steps
 
-1. Set up a MITM proxy using @MASTG-TECH-0011 to intercept network traffic. 
+1. Set up a MITM proxy using @MASTG-TECH-0011 to intercept network traffic.
 2. Launch the app and identify API calls that transmit version information (e.g., `X-App-Version`, `version`, `build`, `minVersion` in headers, parameters, or request body).
-3. Modify the intercepted request to indicate that the current app version is unsupported (e.g., change `version` to an older version or set `minVersion` to a value higher than the current version). 
+3. Modify the intercepted request to indicate that the current app version is unsupported (e.g., change `version` to an older version or set `minVersion` to a value higher than the current version).
 4. Forward the modified request to the backend.
 
 ## Observation
