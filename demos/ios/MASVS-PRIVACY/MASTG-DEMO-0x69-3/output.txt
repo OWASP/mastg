@@ -1,0 +1,48 @@
+
+Permission            | Status  | Details
+----------------------------------------------
+
+Hooks installed. Tap 'Request All Permissions'...
+==================================================
+
+Spawned `org.owasp.mastestapp.MASTestApp.demo`. Resuming main thread!   
+[iPhone::org.owasp.mastestapp.MASTestApp.demo ]-> HomeKit              | DENIED  | Determined
+Location             | DENIED  | Requesting...
+Location             | DENIED  | Requesting Always...
+Location             | DENIED  | NotDetermined
+Location             | GRANTED | AuthorizedWhenInUse
+HomeKit              | DENIED  | Unknown(5)
+HomeKit              | DENIED  | Unknown(5)
+HomeKit              | DENIED  | Unknown(5)
+Camera               | GRANTED | Authorized
+Camera               | GRANTED | Authorized
+Bluetooth            | GRANTED | AllowedAlways
+Bluetooth            | DENIED  | PoweredOn
+Microphone           | GRANTED | Granted
+Microphone           | GRANTED | Granted
+Contacts             | GRANTED | Authorized
+Contacts             | GRANTED | Authorized
+Calendar             | GRANTED | Authorized
+Calendar             | GRANTED | Authorized
+PhotoLibrary         | DENIED  | NotDetermined
+PhotoLibrary         | DENIED  | NotDetermined
+PhotoLibrary         | GRANTED | Authorized
+PhotoLibrary         | DENIED  | Authorized
+PhotoLibrary         | GRANTED | Authorized
+PhotoLibrary         | DENIED  | Authorized
+Notifications        | DENIED  | Denied
+Motion               | DENIED  | Requesting...
+Motion               | GRANTED | Authorized
+Notifications        | GRANTED | Authorized
+Motion               | DENIED  | Requesting...
+Motion               | GRANTED | Authorized
+HealthKit            | GRANTED | Authorized
+HealthKit            | GRANTED | Authorized
+HomeKit              | DENIED  | Unknown(5)
+HomeKit              | DENIED  | Unknown(5)
+Siri                 | DENIED  | Denied
+Siri                 | DENIED  | Denied
+NFC                  | DENIED  | NotAvailable
+NFC                  | DENIED  | NotAvailable
+PassLibrary          | GRANTED | Available
+PassLibrary          | GRANTED | Available

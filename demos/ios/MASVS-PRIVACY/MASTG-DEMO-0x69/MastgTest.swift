@@ -25,7 +25,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     private var nfcSession: NFCNDEFReaderSession?
     private var hasLoggedNFCOutcome = false
 
-    // Track permission statuses
     private var permissionStatus: [String: Bool] = [
         "Location": false,
         "Camera": false,
@@ -45,7 +44,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         "PassLibrary": false
     ]
 
-    // Singleton for easy access
     static let shared = PermissionManager()
     
     private var completionHandler: ((String) -> Void)?
@@ -63,7 +61,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
-        // Initializing CBCentralManager immediately triggers the Bluetooth permission dialog
         bluetoothManager = CBCentralManager(delegate: self, queue: nil)
         homeManager.delegate = self
     }
@@ -87,12 +84,9 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         requestLocationPermission()
     }
     
-    // --- Individual Permission Request Methods ---
-
     private func requestLocationPermission() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestAlwaysAuthorization()
-        // Will continue in delegate
     }
 
     private func requestCameraPermission() {
@@ -126,7 +120,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     }
 
     private func requestCalendarPermission() {
-        // Use the new API for iOS 17+
         if #available(iOS 17.0, *) {
             EKEventStore().requestFullAccessToEvents { granted, _ in
                 DispatchQueue.main.async {
@@ -136,7 +129,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
                 }
             }
         } else {
-            // Fallback on earlier versions
             EKEventStore().requestAccess(to: .event) { granted, _ in
                 DispatchQueue.main.async {
                     self.permissionStatus["Calendar"] = granted
@@ -154,7 +146,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
                 self.permissionStatus["PhotoLibrary"] = granted
                 self.results += "Requested Photo Library access... \(granted ? "✅" : "❌")\n"
                 self.results += "Bluetooth was requested on init...\n"
-                self.permissionStatus["Bluetooth"] = true // Assume requested
+                self.permissionStatus["Bluetooth"] = true
                 self.requestNotificationPermission()
             }
         }
@@ -178,7 +170,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     private func requestMotionPermission() {
         motionManager.startActivityUpdates(to: .main) { _ in 
             self.motionManager.stopActivityUpdates()
-            self.permissionStatus["Motion"] = true // Assume requested
+            self.permissionStatus["Motion"] = true
             self.results += "Requested Motion & Fitness access... ✅\n"
             self.requestHealthKitPermission()
         }
@@ -278,7 +270,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         nfcSession?.alertMessage = "DEMO: Hold a compatible NFC tag near your device."
         nfcSession?.begin()
 
-        // Ensure flow continues even if the session remains idle.
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             if !(self.hasLoggedNFCOutcome) {
                 self.results += "NFC session timed out without tag interaction... ❌\n"
@@ -328,7 +319,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         completionHandler?(results)
     }
     
-    // --- Delegate Methods ---
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let granted = (status == .authorizedAlways || status == .authorizedWhenInUse)
         permissionStatus["Location"] = granted
@@ -336,7 +326,6 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         if granted {
             manager.startUpdatingLocation()
         }
-        // Continue to next permission
         requestCameraPermission()
     }
     
@@ -352,16 +341,12 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     }
     func centralManagerDidUpdateState(_ central: CBCentralManager) {}
 
-    // MARK: - HMHomeManagerDelegate
-
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
         if permissionStatus["HomeKit"] == false && homeManager.authorizationStatus == .authorized {
             permissionStatus["HomeKit"] = true
             results += "HomeKit manager updated homes indicating authorization... ✅\n"
         }
     }
-
-    // MARK: - NFCNDEFReaderSessionDelegate
 
     func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
         DispatchQueue.main.async {

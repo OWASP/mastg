@@ -1,41 +1,27 @@
 ---
 title: Entitlements Embedded in the App Binary
 platform: ios
-id: MASTG-TEST-0313
+id: MASTG-TEST-0x69-2
 type: [static]
 weakness: MASWE-0117
-profiles: [P]
+profiles: [L1, L2]
 ---
 
 ## Overview
 
-Entitlements can also be extracted directly from the compiled app binary using code signing tools. When you have the app binary (either from an IPA or an installed app on a jailbroken device), you can inspect the entitlements without needing to access the provisioning profile separately.
+If an app embeds entitlements in its binary that are not justified by its core functionality, it gains access to privileged capabilities such as HomeKit, HealthKit, VPN configuration, or shared app groups. This can lead to unauthorized access to sensitive user data, an expanded attack surface, or privacy violations through excessive privilege.
 
-Every signed iOS app includes entitlements embedded in the binary by the code signing process. These entitlements grant the app special capabilities such as HomeKit, HealthKit, or access to application groups.
-
-This test checks whether the entitlements embedded in the app binary are appropriate and justified by the app's core functionality. Excessive entitlements indicate over-privileged apps with potential security and privacy risks.
+On iOS, every signed app binary includes entitlements embedded during the code signing process. These can be extracted directly from the binary without access to the provisioning profile, providing an independent verification of the app's declared capabilities.
 
 ## Steps
 
-1. Unzip the app package (@MASTG-TECH-0058) and locate the main app binary at `Payload/<appname>.app/<appname>` (or the main executable in the bundle).
-2. Extract the entitlements from the signed binary using the `codesign` tool (see @MASTG-TECH-0069).
-3. Review the entitlements plist to identify all declared capabilities.
+1. Extract the app package contents using @MASTG-TECH-0058 and locate the main app binary at `Payload/<appname>.app/<appname>`.
+2. Extract the entitlements from the signed binary using @MASTG-TECH-0111.
 
 ## Observation
 
-The output should contain `entitlements.plist` extracted directly from the app binary. This shows all special capabilities and permissions granted to the app via code signing. Common entitlements include:
-
-- `com.apple.developer.homekit` – HomeKit access
-- `com.apple.developer.healthkit` – HealthKit access
-- `com.apple.developer.push-notification-service` – Push notifications
-- `com.apple.security.application-groups` – Shared app groups
-- `com.apple.developer.icloud-container-identifiers` – iCloud container access
-- `com.apple.developer.associated-domains` – Associated domains
-- `com.apple.developer.networking.vpn` – VPN configuration
-- `com.apple.developer.siri` – Siri integration
-- `com.apple.developer.maps` – Maps framework entitlements
-- `com.apple.security.files.bookmarks.app-scope` – Bookmark scoped file access
+The output should contain the entitlements plist extracted from the app binary's code signature, listing all capabilities and permissions granted to the app.
 
 ## Evaluation
 
-The test fails if the app declares entitlements that are not justified by its core functionality.
+The test case fails if the app binary embeds entitlements that are not justified by its core functionality, granting excessive access to privileged capabilities or sensitive user data.

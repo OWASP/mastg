@@ -1,41 +1,27 @@
 ---
 title: Entitlements in Embedded Provisioning Profile
 platform: ios
-id: MASTG-TEST-0313
+id: MASTG-TEST-0x69-1
 type: [static]
 weakness: MASWE-0117
-profiles: [P]
+profiles: [L1, L2]
 ---
 
 ## Overview
 
-iOS apps declare entitlements in the provisioning profile (`embedded.mobileprovision`), which grant special capabilities like HomeKit, Wallet, or application groups. These entitlements are embedded in a cryptographically signed property list and represent permissions beyond standard sandbox restrictions.
+If an app declares entitlements that are not justified by its core functionality, it gains access to privileged capabilities beyond standard sandbox restrictions — such as HomeKit, HealthKit, VPN configuration, or iCloud containers. This can lead to unauthorized access to sensitive user data, expanded attack surface, or privacy violations through excessive privilege.
 
-This test checks whether declared entitlements are appropriate and justified by the app's core functionality. Excessive entitlements indicate over-privileged apps and potential security risks.
+On iOS, entitlements are declared in the provisioning profile (`embedded.mobileprovision`) as a cryptographically signed property list. They represent permissions granted by Apple's provisioning system for capabilities that go beyond the default app sandbox.
 
 ## Steps
 
-1. Sign the `.ipa` using @MASTG-TECH-0092 (if not already signed).
-2. Extract the app package content (@MASTG-TECH-0058) and locate the embedded provisioning profile at `Payload/<appname>.app/embedded.mobileprovision`.
-3. Decode the provisioning profile from binary CMS format to XML using the `security` tool (see @MASTG-TECH-0069).
-4. Extract and review the Entitlements dictionary to identify all declared entitlements.
+1. Extract the app package contents using @MASTG-TECH-0058 and locate the embedded provisioning profile at `Payload/<appname>.app/embedded.mobileprovision`.
+2. Decode the provisioning profile from binary CMS format to XML using @MASTG-TOOL-0063 and extract the `Entitlements` dictionary.
 
 ## Observation
 
-The output should contain the entitlements from the `embedded.mobileprovision` file. This shows all special capabilities and permissions granted to the app. Common entitlements include:
-
-- `com.apple.developer.homekit` – HomeKit access
-- `com.apple.developer.healthkit` – HealthKit access
-- `com.apple.application-identifier` – Unique app identifier
-- `com.apple.developer.push-notification-service` – Push notifications
-- `com.apple.security.application-groups` – Shared app groups
-- `com.apple.developer.icloud-container-identifiers` – iCloud container access
-- `com.apple.developer.associated-domains` – Associated domains
-- `com.apple.developer.networking.vpn` – VPN configuration
-- `com.apple.developer.siri` – Siri integration
-- `com.apple.developer.maps` – Maps framework entitlements
-- `com.apple.security.files.bookmarks.app-scope` – Bookmark scoped file access
+The output should contain the `Entitlements` dictionary extracted from the `embedded.mobileprovision` file, listing all capabilities and permissions granted to the app by the provisioning profile.
 
 ## Evaluation
 
-The test fails if the app declares entitlements that are not justified by its core functionality.
+The test case fails if the app declares entitlements in the provisioning profile that are not justified by its core functionality, granting excessive access to privileged capabilities or sensitive user data.
