@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Object Deserialization Using Serializable with semgrep
-id: MASTG-DEMO-0061
+id: MASTG-DEMO-0x34
 code: [kotlin]
-test: MASTG-TEST-0287
+test: MASTG-TEST-0x34
 profiles: [L1, L2]
 ---
 
@@ -23,7 +23,7 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 ### Observation
 
-The output file shows usages of the object persistence in the code.
+The output file shows usages of object deserialization in the code.
 
 {{ output.txt }}
 
