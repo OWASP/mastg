@@ -37,3 +37,4 @@ site/
 .cache/
 references.json
 .obsidian/
+.tmp/
