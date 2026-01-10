@@ -30,7 +30,7 @@ This test uses dynamic analysis to monitor the relevant API calls and file syste
 ## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056).
-2. Use @MASTG-TECH-0033 to target WebView APIs for storage and cleanup.
+2. Use @MASTG-TECH-0033 to target WebView APIs for storage enablement and cleanup.
 3. Open the app.
 4. Use the app extensively to ensure that all relevant WebViews are covered and that sensitive data is loaded into them. Ensure you keep a list of the sensitive data you expect to be cleaned up.
 5. Close the app.
@@ -38,13 +38,12 @@ This test uses dynamic analysis to monitor the relevant API calls and file syste
 
 ## Observation
 
-The output should list the locations in the app where:
+The output should include:
 
-1. The WebView enables particular storage areas.
-2. Cleanup APIs used during the current execution, or the lack of them.
-3. File system operations in the `/data/data/<app_package>/app_webview/` directory during app execution.
-4. The list of sensitive data expected to be cleaned up.
-5. The result of searching the contents of the `/data/data/<app_package>/app_webview/` directory for the sensitive data used in the WebView after closing the app.
+1. The list of WebView storage enablement APIs used.
+2. The list of WebView storage cleanup APIs used.
+3. The list of sensitive data expected to be cleaned up.
+4. The result of searching the contents of the `/data/data/<app_package>/app_webview/` directory for the sensitive data used in the WebView after closing the app.
 
 ## Evaluation
 
@@ -57,11 +56,4 @@ The test passes if all sensitive data used by the WebView is properly cleaned up
 
 **Additional Guidance**:
 
-If you need more introspection during runtime, you can rerun the test with additional tracing of file system operations in the WebView storage directory.
-
-For example, you can use @MASTG-TECH-0033 to monitor file system operations in the `/data/data/<app_package>/app_webview/` directory. Regardless of whether the app uses these APIs directly, WebViews may use them internally when rendering content (e.g., JavaScript code using `localStorage`). So tracing calls to APIs such as `open`, `openat`, `opendir`, `unlinkat`, etc., can help identify file operations in the WebView storage directory.
-
-In addition to tracing the method calls, you can also monitor all file operations:
-
-- use @MASTG-TECH-0027 to monitor file operations in that directory, e.g., with `lsof -p <app_pid> | grep /app_webview/`.
-- or use @MASTG-TECH-0032, e.g. with `strace -p <app_pid>`, to monitor file operations in that directory.
+If you need more introspection during runtime, you can rerun the test with additional tracing of file system operations in the WebView storage directory. See @MASTG-TECH-0143.
