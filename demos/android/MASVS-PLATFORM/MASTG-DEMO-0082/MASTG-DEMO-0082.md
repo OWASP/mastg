@@ -37,7 +37,7 @@ In the output we can see all instances of `deleteAllData()` of `WebStorage` call
 
 We can also see that the output of the `adb shell grep` command shows no matches for the sensitive data used in the WebView:
 
-{{ output_adb_deletion.txt }}
+{{ output_adb_deletion_succeeded.txt }}
 
 ### Evaluation
 
@@ -45,4 +45,4 @@ The test **passes** as the application properly cleans up all storage data from 
 
 If you want to demonstrate the failure case, you can comment out the `WebStorage.getInstance().deleteAllData()` line in the code and rerun the test. In this case, the test **fails** because the sensitive data remains in the WebView storage directory after closing the app.
 
-{{ output_adb_no_deletion.txt }}
+{{ output_adb_deletion_failed.txt }}
