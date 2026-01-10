@@ -1,6 +1,6 @@
 {
   "config": {
-    "extends": "./.markdownlint.jsonc"
+    "extends": "../.github/.markdownlint.jsonc"
   },
   "globs": [
     "**/*.md"

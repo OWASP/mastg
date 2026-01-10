@@ -20,5 +20,5 @@ jobs:
       - name: markdownlint-cli2
         uses: DavidAnson/markdownlint-cli2-action@v16.0.0
         with:
-          config: ".markdownlint.jsonc"
+          config: ".github/.markdownlint.jsonc"
 

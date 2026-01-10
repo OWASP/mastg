@@ -1,4 +1,5 @@
 {
+    "markdownlint.configFile": ".github/.markdownlint.jsonc",
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#7cbaff",
         "activityBar.activeBorder": "#df006a",
