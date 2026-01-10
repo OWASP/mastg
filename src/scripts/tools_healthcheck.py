@@ -1,6 +1,7 @@
 import os
 import re
 import yaml
+from urllib.parse import urlparse
 
 def extract_frontmatter(file_path):
     try:
@@ -32,7 +33,6 @@ for frontmatter in frontmatters:
     name = frontmatter.get('title', '')
     platform = frontmatter.get('platform', '')
     source = frontmatter.get('source', '')
-    from urllib.parse import urlparse
     parsed_url = urlparse(source)
     github_link = source if parsed_url.hostname == 'github.com' else ''
     if github_link:
