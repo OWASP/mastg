@@ -32,7 +32,9 @@ for frontmatter in frontmatters:
     name = frontmatter.get('title', '')
     platform = frontmatter.get('platform', '')
     source = frontmatter.get('source', '')
-    github_link = source if 'github.com' in source else ''
+    from urllib.parse import urlparse
+    parsed_url = urlparse(source)
+    github_link = source if parsed_url.hostname == 'github.com' else ''
     if github_link:
         user, repo = re.search(r"github.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)", github_link).groups()
         release = f'![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/{user}/{repo}?style=for-the-badge&label=LAST%20RELEASE)'
