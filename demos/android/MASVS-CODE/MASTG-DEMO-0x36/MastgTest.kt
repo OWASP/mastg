@@ -33,7 +33,6 @@ class MastgTest(context: Context) {
         UPDATE_INSTALLED
     }
 
-
     fun registerInstallStateListener(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {
@@ -46,7 +45,6 @@ class MastgTest(context: Context) {
         Log.d("MastgTest", "InstallStateUpdatedListener registered.")
     }
 
-
     fun unregisterInstallStateListener() {
         installStateListener?.let {
             appUpdateManager.unregisterListener(it)
@@ -56,9 +54,7 @@ class MastgTest(context: Context) {
         pendingUpdateLauncher = null
     }
 
-    /**
-     * Handles install state changes from the Play Core library.
-     */
+    @Suppress("DEPRECATION")
     private fun handleInstallState(
         state: InstallState,
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
@@ -101,10 +97,17 @@ class MastgTest(context: Context) {
             InstallStatus.UNKNOWN -> {
                 Log.d("MastgTest", "Update status unknown.")
             }
+            InstallStatus.REQUIRES_UI_INTENT -> {
+                Log.d("MastgTest", "Update requires UI intent. Re-triggering update flow.")
+                onUpdateStateChanged?.invoke(UpdateState.UPDATE_REQUIRED)
+                checkForUpdate(appUpdateResultLauncher)
+            }
         }
     }
 
-
+    /**
+     * Checks if an IMMEDIATE update is available on the Play Store.
+     */
     fun checkForUpdate(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {
@@ -186,14 +189,11 @@ class MastgTest(context: Context) {
 
             when (updateAvailability) {
                 UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
-                    // Update was started but user dismissed/backgrounded during download
                     Log.d("MastgTest", "onResume: Resuming in-progress update.")
                     onUpdateStateChanged?.invoke(UpdateState.UPDATE_IN_PROGRESS)
                     startUpdateFlow(appUpdateInfo, appUpdateResultLauncher)
                 }
                 UpdateAvailability.UPDATE_AVAILABLE -> {
-                    // CRITICAL FIX: User dismissed BEFORE download started
-                    // This is the bypass scenario we're preventing
                     if (isImmediateAllowed) {
                         Log.w("MastgTest", "onResume: Update still available but not started. Re-enforcing mandatory update.")
                         onUpdateStateChanged?.invoke(UpdateState.UPDATE_REQUIRED)
@@ -206,7 +206,6 @@ class MastgTest(context: Context) {
                 }
                 UpdateAvailability.UNKNOWN -> {
                     Log.d("MastgTest", "onResume: Update availability unknown, checking again...")
-                    // Re-check to be safe
                     checkForUpdate(appUpdateResultLauncher)
                 }
             }
@@ -214,10 +213,7 @@ class MastgTest(context: Context) {
             Log.e("MastgTest", "onResume: Failed to check update status.", e)
         }
     }
-
-    /**
-     * @deprecated Use enforceUpdateOnResume() instead for comprehensive bypass prevention.
-     */
+    
     @Deprecated("Use enforceUpdateOnResume() for comprehensive bypass prevention",
         ReplaceWith("enforceUpdateOnResume(appUpdateResultLauncher)"))
     fun resumeUpdateIfInProgress(
