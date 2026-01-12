@@ -22,7 +22,7 @@ The following configurations allow cleartext traffic:
 For more information on ATS configuration, see @MASTG-KNOW-0071.
 
 !!! warning Limitations
-    ATS only applies to connections made via the [URL Loading System](https://developer.apple.com/documentation/foundation/url_loading_system). Lower-level APIs such as the [`Network`](https://developer.apple.com/documentation/network) framework or [`CFNetwork`](https://developer.apple.com/documentation/cfnetwork) are not affected by ATS settings and may still allow cleartext traffic regardless of the configuration. See @MASTG-TEST-0322 for more details.
+    ATS only applies to connections made via the [URL Loading System](https://developer.apple.com/documentation/foundation/url_loading_system). Lower-level APIs such as the [`Network`](https://developer.apple.com/documentation/network) framework or [`CFNetwork`](https://developer.apple.com/documentation/cfnetwork) are not affected by ATS settings and may still allow cleartext traffic regardless of the configuration. See @MASTG-TEST-0323 for more details.
 
 ## Steps
 

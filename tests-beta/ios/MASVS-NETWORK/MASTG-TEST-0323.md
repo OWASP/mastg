@@ -1,10 +1,11 @@
 ---
 platform: ios
 title: Uses of Low-Level Networking APIs that Bypass ATS
-id: MASTG-TEST-0322
+id: MASTG-TEST-0323
 type: [static]
 weakness: MASWE-0050
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0073]
 ---
 
 ## Overview
