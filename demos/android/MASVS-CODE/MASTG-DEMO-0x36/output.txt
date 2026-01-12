@@ -1,15 +1,13 @@
-                   
-                   
-┌─────────────────┐
-│ 2 Code Findings │
-└─────────────────┘
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
                            
     MastgTest_reversed.java
-    ❯❱rules.mastg-android-enforced-updating
+    ❯❱ rules.mastg-android-enforced-updating
           [MASVS-CODE-1] immediate in-app update enforcement detected.
                                                                       
-           73┆ this$0.appUpdateManager.startUpdateFlowForResult(appUpdateInfo, appUpdateResultLauncher,
-               AppUpdateOptions.newBuilder(1).build());                                                
-            ⋮┆----------------------------------------
-          113┆ this$0.appUpdateManager.startUpdateFlowForResult(appUpdateInfo, appUpdateResultLauncher,
-               AppUpdateOptions.newBuilder(1).build());                                                
+          268┆ this.appUpdateManager.startUpdateFlowForResult(appUpdateInfo, appUpdateResultLauncher,
+               AppUpdateOptions.newBuilder(1).build());                                              
+
