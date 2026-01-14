@@ -4,7 +4,7 @@ title: Runtime Protection of Sensitive UI Against Overlay and Accessibility Abus
 platform: android
 weakness: MASWE-0067
 type: [dynamic, manual]
-best-practices: [MASTG-BEST-0004]
+best-practices: [MASTG-BEST-0317]
 profiles: [L2]
 available_since: 16
 apis:
