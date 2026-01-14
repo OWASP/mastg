@@ -13,19 +13,25 @@ apis:
 
 ## Overview
 
-If an Android app displays sensitive UI elements without protection against
-overlay or accessibility abuse, malicious apps may intercept user input or
-inject unauthorized interactions, leading to credential theft or transaction
-manipulation.
+If an Android app allows user interaction with sensitive UI elements while the
+application window is obscured by overlays or accessed by unauthorized
+accessibility services, malicious apps may intercept input or inject unintended
+actions. This can lead to credential theft, transaction manipulation, or
+bypassing user intent.
 
-This test verifies whether the app prevents interaction with sensitive UI
-elements while overlays or unauthorized accessibility services are active.
+This test checks whether the app properly blocks interaction with sensitive UI
+elements when overlay or accessibility abuse conditions are present.
+
 
 ## Steps
 
-1. Enable an overlay app or a non-legitimate accessibility service.
-2. Interact with sensitive UI elements in the app.
-3. Observe whether input is accepted while the app window is obscured.
+1. Enable an application capable of drawing overlays or an unauthorized
+   accessibility service on the device.
+2. Use @MASTG-TECH-0009 to interact with the app while an overlay is present.
+3. Attempt to interact with sensitive UI elements such as authentication or
+   transaction confirmation fields.
+4. Observe whether user input is accepted while the application window is
+   obscured.
 
 ## Observation
 
