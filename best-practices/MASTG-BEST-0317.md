@@ -17,3 +17,7 @@ attacks and accessibility abuse if interaction is not properly restricted.
   OTP, and transaction confirmation screens.
 - Validate UI behavior under overlay and accessibility abuse scenarios to ensure
   that unauthorized interaction is blocked as expected.
+  ## References
+
+- Android View Security: `View#setFilterTouchesWhenObscured`
+
