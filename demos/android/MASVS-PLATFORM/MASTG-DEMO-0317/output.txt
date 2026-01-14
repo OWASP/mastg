@@ -1,0 +1,21 @@
+MASTG-DEMO-0317 – Overlay Interaction on Sensitive UI Elements
+
+Device: Android Emulator (Pixel 6)
+Android Version: 16
+App: MASTestApp (modified)
+
+FAIL CASE:
+- filterTouchesWhenObscured = false
+- An overlay app was enabled (draw over other apps)
+- User interaction with the password field was possible while the window was obscured
+- Input was accepted successfully
+
+PASS CASE:
+- filterTouchesWhenObscured = true
+- Same overlay conditions applied
+- Touch interaction with the sensitive input field was blocked
+- No input was accepted while the window was obscured
+
+Result:
+Sensitive UI elements must block interaction when overlays are present.
+The PASS configuration prevents overlay-based interaction as expected.
