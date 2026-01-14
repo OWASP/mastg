@@ -5,14 +5,14 @@
  * @returns {string} The hexadecimal decoded bytes (e.g., "0x22aa3482ef...")
  */
 function byteArrayHexDump(bytes, length) {
-  var appendix = "...";
+  let appendix = "...";
   if (bytes.length < length) {
     length = bytes.length;
     appendix = "";
   }
 
-  var hexString = "0x";
-  for (var i = 0; i < length; i++) {
+  let hexString = "0x";
+  for (let i = 0; i < length; i++) {
     hexString =
       hexString + ("0" + (bytes[i] & 0xff).toString(16)).slice(-2);
   }
@@ -46,8 +46,8 @@ function byteToString(bytes, length) {
 
   try {
     // try to decode strings
-    var result = "";
-    for (var i = 0; i < length; ++i) {
+    let result = "";
+    for (let i = 0; i < length; ++i) {
       result += getUriCode(bytes[i]);
     }
     return decodeURIComponent(result).replace(/\0.*$/g, "");
@@ -77,14 +77,14 @@ function simpleHash(str) {
  * @returns {Object} Object containing key parameters (modulusHex, modulusBitLength, publicExponentDec, privateExponentDec, keyHash).
  */
 function decodeRSAKey(value) {
-  var out = {};
+  let out = {};
 
   try {
     // Load RSA interfaces
-    var RSAKey = Java.use('java.security.interfaces.RSAKey');
-    var RSAPub = Java.use('java.security.interfaces.RSAPublicKey');
-    var RSAPriv = Java.use('java.security.interfaces.RSAPrivateKey');
-    var RSAPrivateCrt = null;
+    let RSAKey = Java.use('java.security.interfaces.RSAKey');
+    let RSAPub = Java.use('java.security.interfaces.RSAPublicKey');
+    let RSAPriv = Java.use('java.security.interfaces.RSAPrivateKey');
+    let RSAPrivateCrt = null;
     try {
       RSAPrivateCrt = Java.use('java.security.interfaces.RSAPrivateCrtKey');
     } catch (_) {
@@ -93,8 +93,8 @@ function decodeRSAKey(value) {
 
     // Any RSA key, public or private, for modulus
     try {
-      var anyRsa = Java.cast(value, RSAKey);
-      var modBI = anyRsa.getModulus();
+      let anyRsa = Java.cast(value, RSAKey);
+      let modBI = anyRsa.getModulus();
       out.modulusHex = modBI.toString(16);
       out.modulusBitLength = modBI.bitLength();
     } catch (_) {
@@ -103,8 +103,8 @@ function decodeRSAKey(value) {
 
     // Public key exponent
     try {
-      var vpub = Java.cast(value, RSAPub);
-      var expBI = vpub.getPublicExponent();
+      let vpub = Java.cast(value, RSAPub);
+      let expBI = vpub.getPublicExponent();
       if (expBI) {
         out.publicExponentDec = expBI.toString(10);
       }
@@ -115,9 +115,9 @@ function decodeRSAKey(value) {
     // Private key exponents, may be unavailable for keystore backed keys
     if (RSAPrivateCrt !== null) {
       try {
-        var vprivCrt = Java.cast(value, RSAPrivateCrt);
-        var dBI = vprivCrt.getPrivateExponent();
-        var eBI = vprivCrt.getPublicExponent();
+        let vprivCrt = Java.cast(value, RSAPrivateCrt);
+        let dBI = vprivCrt.getPrivateExponent();
+        let eBI = vprivCrt.getPublicExponent();
         if (dBI) {
           out.privateExponentDec = dBI.toString(10);
         }
@@ -129,8 +129,8 @@ function decodeRSAKey(value) {
       }
     } else {
       try {
-        var vpriv = Java.cast(value, RSAPriv);
-        var dBI2 = vpriv.getPrivateExponent();
+        let vpriv = Java.cast(value, RSAPriv);
+        let dBI2 = vpriv.getPrivateExponent();
         if (dBI2) {
           out.privateExponentDec = dBI2.toString(10);
         }
@@ -156,7 +156,7 @@ function decodeRSAKey(value) {
  * @returns {string} The type-appropriate decoded string (e.g., "[1,50,21]", "Hello World" or "-12")
  */
 function decodeValue(type, value) {
-  var readableValue = "";
+  let readableValue = "";
 
   try {
     if (value == null) {
@@ -168,7 +168,7 @@ function decodeValue(type, value) {
           break;
 
         case "java.util.Map":
-          var entrySet = value.entrySet();
+          let entrySet = value.entrySet();
           readableValue = entrySet.toArray().toString();
           break;
 
@@ -179,7 +179,7 @@ function decodeValue(type, value) {
 
         case "[C":
           readableValue = "";
-          for (var i in value) {
+          for (let i in value) {
             readableValue = readableValue + value[i];
           }
           break;
@@ -189,8 +189,8 @@ function decodeValue(type, value) {
           break;
 
         case "java.util.Date":
-          var DateFormat = Java.use('java.text.DateFormat');
-          var formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM.value, DateFormat.SHORT.value);
+          let DateFormat = Java.use('java.text.DateFormat');
+          let formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM.value, DateFormat.SHORT.value);
           readableValue = formatter.format(value);
           break;
 
@@ -226,15 +226,15 @@ function decodeValue(type, value) {
           break;
 
         case "[Ljava.lang.Object;":
-          var out = "";
-          for (var i in value) {
+          let out = "";
+          for (let i in value) {
             out = out + value[i] + ", ";
           }
           readableValue = out;
           break;
 
         case "java.util.Enumeration":
-          var elements = [];
+          let elements = [];
           while (value.hasMoreElements()) {
             elements.push(value.nextElement().toString());
           }
@@ -264,13 +264,13 @@ function decodeValue(type, value) {
  * @returns {string} The decoded rows and columns.
  */
 function decodeCursor(value){
-  var out = "";
-  var cursor = value;
-  var originalCursorPosition = cursor.getPosition();
+  let out = "";
+  let cursor = value;
+  let originalCursorPosition = cursor.getPosition();
 
   // rows
-  for (var i = 0; i < cursor.getColumnCount(); i++) {
-    var columnName = cursor.getColumnName(i);
+  for (let i = 0; i < cursor.getColumnCount(); i++) {
+    let columnName = cursor.getColumnName(i);
     out = out + columnName + " | ";
   }
 
@@ -279,9 +279,9 @@ function decodeCursor(value){
   // columns
   if (cursor.moveToFirst()) {
     do {
-      for (var i = 0; i < cursor.getColumnCount(); i++) {
+      for (let i = 0; i < cursor.getColumnCount(); i++) {
         try {
-          var columnValue = cursor.getString(i);
+          let columnValue = cursor.getString(i);
           out = out + columnValue + " | ";
         } catch (e) {
           out = out + " | ";
@@ -303,15 +303,15 @@ function decodeCursor(value){
  */
 
 // Module-level cached references for performance
-var _toStringMethod = null;
-var _toStringMethodInitialized = false;
-var _SystemCls = null;
-var _SystemClsInitialized = false;
+let _toStringMethod = null;
+let _toStringMethodInitialized = false;
+let _SystemCls = null;
+let _SystemClsInitialized = false;
 
 function getToStringMethod() {
   if (!_toStringMethodInitialized) {
     try {
-      var ObjCls = Java.use('java.lang.Object');
+      let ObjCls = Java.use('java.lang.Object');
       _toStringMethod = ObjCls.class.getDeclaredMethod('toString', []);
       _toStringMethod.setAccessible(true);
     } catch (_) {
@@ -335,18 +335,18 @@ function getSystemCls() {
 }
 
 function decodeArguments(types, args) {
-  var parameters = [];
-  var toStringMethod = getToStringMethod();
-  var SystemCls = getSystemCls();
+  let parameters = [];
+  let toStringMethod = getToStringMethod();
+  let SystemCls = getSystemCls();
 
-  for (var i in types) {
-    var declaredType = types[i];
-    var argVal = args[i];
-    var entry = { declaredType: declaredType, value: decodeValue(declaredType, argVal) };
+  for (let i in types) {
+    let declaredType = types[i];
+    let argVal = args[i];
+    let entry = { declaredType: declaredType, value: decodeValue(declaredType, argVal) };
 
     // Attach runtime info if this is a Java object
     if (argVal && typeof argVal === 'object') {
-      var runtimeType = null;
+      let runtimeType = null;
       try { runtimeType = argVal.$className || (argVal.getClass ? argVal.getClass().getName() : null); } catch (_) {}
       if (runtimeType) {
         entry.runtimeType = runtimeType;

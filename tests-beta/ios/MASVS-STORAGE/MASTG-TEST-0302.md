@@ -8,11 +8,12 @@ prerequisites:
 profiles: [L2]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0024]
+knowledge: [MASTG-KNOW-0108]
 ---
 
 ## Overview
 
-This test is designed to complement @MASTG-TEST-0301. Instead of monitoring APIs during execution, it performs a differential analysis of the app's private storage (@MASTG-KNOW-0108) by comparing snapshots taken before and after exercising the app. It also enumerates Keychain items created or modified during the session.
+This test is designed to complement @MASTG-TEST-0301. Instead of monitoring APIs during execution, it performs a differential analysis of the app's private storage by comparing snapshots taken before and after exercising the app. It also enumerates Keychain items created or modified during the session.
 
 The goal is to identify new or modified files and determine whether they contain sensitive data in plaintext or trivially encoded form, and to identify new Keychain entries that may contain sensitive data or keys used for file encryption.
 

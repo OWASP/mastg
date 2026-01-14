@@ -1,0 +1,3 @@
+Eligible for caching [autocorrectionType=.default, spellCheckingType=.no, isSecureTextEntry=false, class=_UIAlertControllerTextField, aid=name_field, placeholder=Name]: "OWASP MAS"
+Eligible for caching [autocorrectionType=.no, spellCheckingType=.default, isSecureTextEntry=false, class=_UIAlertControllerTextField, aid=email_field, placeholder=E-Mail]: "mas@owasp.org"
+Excluded from caching [autocorrectionType=.no, spellCheckingType=.no, isSecureTextEntry=true, class=_UIAlertControllerTextField, aid=password_field, placeholder=Password]: "my$ecr3tP4sS!"

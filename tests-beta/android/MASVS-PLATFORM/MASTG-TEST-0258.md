@@ -4,14 +4,16 @@ title: References to Keyboard Caching Attributes in UI Elements
 id: MASTG-TEST-0258
 type: [static]
 weakness: MASWE-0053
+best-practices: [MASTG-BEST-0019]
 profiles: [L2]
+knowledge: [MASTG-KNOW-0055]
 ---
 
 ## Overview
 
-This test verifies that the app appropriately configures text input fields to prevent the [keyboard from caching](../../../Document/0x05d-Testing-Data-Storage.md#keyboard-cache) sensitive information, such as passwords or personal data.
+This test verifies that the app appropriately configures text input fields to prevent the keyboard from caching sensitive information, such as passwords or personal data.
 
-Android apps can configure the behavior of text input fields using XML attributes in the layout files or programmatically in the code. If the app doesn't use [non-caching input types](../../../Document/0x05d-Testing-Data-Storage.md#non-caching-input-types) for sensitive data, the keyboard may cache sensitive information.
+Android apps can configure the behavior of text input fields using XML attributes in the layout files or programmatically in the code. If the app doesn't use non-caching input types for sensitive data, the keyboard may cache sensitive information.
 
 ## Steps
 
@@ -29,4 +31,4 @@ The output should include:
 
 ## Evaluation
 
-The test case fails if there are any fields handling sensitive data for which the app does not use [non-caching input types](../../../Document/0x05d-Testing-Data-Storage.md#keyboard-cache).
+The test case fails if there are any fields handling sensitive data for which the app does not use non-caching input types (see section "Non-Caching Input Types" in @MASTG-KNOW-0055).

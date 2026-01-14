@@ -8,10 +8,10 @@ The iOS keychain APIs can (and should) be used to implement local authentication
 
 The keychain allows saving items with the special `SecAccessControl` attribute, which will allow access to the item from the keychain only after the user has passed Touch ID authentication (or passcode, if such a fallback is allowed by attribute parameters).
 
-> **Note regarding temporariness of keys in the Keychain:**
-> Unlike macOS and Android, iOS does not support temporariness of an item's accessibility in the keychain: when there is no additional security check when entering the keychain (e.g. `kSecAccessControlUserPresence` or similar is set), then once the device is unlocked, a key will be accessible.
+!!! note
+    Unlike macOS and Android, iOS does not support temporality of an item's accessibility in the keychain: when there is no additional security check when entering the keychain (e.g., `kSecAccessControlUserPresence` or similar is set), then once the device is unlocked, a key will be accessible.
 
-In the following example we will save the string "test_strong_password" to the keychain. The string can be accessed only on the current device while the passcode is set (`kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly` parameter) and after Touch ID authentication for the currently enrolled fingers only (`SecAccessControlCreateFlags.biometryCurrentSet` parameter):
+In the following example, we will save the string "test_strong_password" to the keychain. The string can be accessed only on the current device while the passcode is set (`kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly` parameter) and after Touch ID authentication for the currently enrolled fingers only (`SecAccessControlCreateFlags.biometryCurrentSet` parameter):
 
 ```swift
 // 1. Create the AccessControl object that will represent authentication settings

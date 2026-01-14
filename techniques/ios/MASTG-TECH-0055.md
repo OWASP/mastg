@@ -7,7 +7,8 @@ If you've repackaged an application with a Frida Gadget, or if you want to attac
 
 After the application has been installed using @MASTG-TECH-0056, you can launch it in debug mode using the following commands.
 
-> Note that the commands that are part of @MASTG-TOOL-0126 refer to the latest version available from Github. If you installed them via brew or other package managers, you may have an older version with different command line flags.
+!!! note
+    The commands that are part of @MASTG-TOOL-0126 refer to the latest version available from GitHub. If you installed them via brew or other package managers, you may have an older version with different command-line flags.
 
 ## iOS 17 and newer
 

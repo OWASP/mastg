@@ -4,7 +4,7 @@ This guide defines how to write and use mitmproxy scripts in MASTG demos. Script
 
 ### Scope and terminology
 
-- “mitmproxy scripts” refers to Python addons for mitmproxy/mitmdump written against the mitmproxy scripting API.
+- "mitmproxy scripts" refers to Python addons for mitmproxy/mitmdump written against the mitmproxy scripting API.
 - Tools background (installation, proxy setup, certificates) lives in @MASTG-TOOL-0097 (mitmproxy). Do not duplicate setup steps here—link to the Tools page.
 - We use the command-line runner `mitmdump` in demos for reproducibility; `mitmweb` and the interactive `mitmproxy` UI are fine for exploration but not for demo automation.
 

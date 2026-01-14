@@ -309,7 +309,8 @@ function openURL(url) {
 }
 ```
 
-> Note that the use of non-public APIs is not permitted on the App Store, that's why we don't even test these but we are allowed to use them for our dynamic analysis.
+!!! note
+    The use of non-public APIs is not permitted on the App Store. That's why we don't even test these, but we are allowed to use them for our dynamic analysis.
 
 ### Identifying and Hooking the URL Handler Method
 

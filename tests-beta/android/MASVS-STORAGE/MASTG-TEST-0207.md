@@ -7,6 +7,7 @@ prerequisites:
 - identify-sensitive-data
 weakness: MASWE-0006
 profiles: [L2]
+knowledge: [MASTG-KNOW-0041]
 ---
 
 ## Overview

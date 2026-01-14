@@ -25,4 +25,5 @@ Android provides an attribute called [`allowBackup`](https://developer.android.c
 
 To prevent the app data backup, set the `android:allowBackup` attribute to **false**. When this attribute is unavailable, the allowBackup setting is enabled by default, and backup must be manually deactivated.
 
-> Note: If the device was encrypted, then the backup files will be encrypted as well.
+!!! note
+    If the device was encrypted, then the backup files will be encrypted as well.

@@ -3,6 +3,7 @@ title: Disable JavaScript in WebViews
 alias: disable-javascript-in-webviews
 id: MASTG-BEST-0012
 platform: android
+knowledge: [MASTG-KNOW-0018]
 ---
 
 If JavaScript is **not required**, explicitly disable it in WebViews by setting [`setJavaScriptEnabled(false)`](https://developer.android.com/reference/android/webkit/WebSettings.html#setJavaScriptEnabled%28boolean%29).

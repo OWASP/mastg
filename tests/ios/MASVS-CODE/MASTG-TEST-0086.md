@@ -29,7 +29,8 @@ For any managed code (Objective-C / Swift) in the project, check the following i
 
 [A great talk is given on this subject at Realm academy](https://academy.realm.io/posts/russ-bishop-unsafe-swift/ "Russh Bishop on Unsafe Swift") and [a nice tutorial to see what is actually happening](https://www.raywenderlich.com/780-unsafe-swift-using-pointers-and-interacting-with-c "Unsafe Swift: Using Pointers And Interacting With C") is provided by Ray Wenderlich on this subject.
 
-> Please note that with Swift 5 you can only deallocate full blocks, which means the playground has changed a bit.
+!!! note
+    With Swift 5, you can only deallocate full blocks, which means the playground has changed a bit.
 
 ## Dynamic Analysis
 

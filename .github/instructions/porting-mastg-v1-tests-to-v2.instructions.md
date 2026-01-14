@@ -105,11 +105,11 @@ Review existing content and **UPDATE** it. Especially references to Android/iOS 
 
 #### Best practices linkage
 
-Best practices are platform-specific and can be linked in the test metadata. Our automation creates a “Mitigations” section automatically.
+Best practices are platform-specific and must be linked in the test metadata. Our automation creates a "Mitigations" section automatically.
 
 1. Check if a best practice already exists in `best-practices/` folder
 2. If it doesn’t exist yet, create it new in `best-practices/` using the next available ID.
-3. Add a reference to the best practices with @MASTG-BEST-xxxx
+3. Add a reference to the best practices in the test YAML front matter, for example `best-practices: [MASTG-BEST-0023]`.
 
 #### Deprecating V1 tests
 

@@ -1,0 +1,18 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+     ❱ rules.mastg-android-minsdkversion
+          [MASVS-PLATFORM-3] Ensure that the minSdkVersion is evaluated for notification exposure on older
+          Android versions                                                                                
+                                                                                                          
+           11┆ android:minSdkVersion="29"
+   
+    ❯❱ rules.mastg-android-sensitive-data-in-notifications-manifest
+          [MASVS-PLATFORM-3] Ensure that notifications do not contain sensitive information
+                                                                                           
+           14┆ <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+

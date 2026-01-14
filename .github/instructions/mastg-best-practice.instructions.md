@@ -14,6 +14,12 @@ Scope and relationship to Knowledge:
 - Best Practices are prescriptive: they state what to do and why from a security perspective.
 - Keep background explanations minimal; for conceptual background on OS features, link to Knowledge pages under `knowledge/`.
 
+Relationship to Tests and Knowledge (nuance):
+
+- Tests (MASTG-TEST) describe the issue and "what can go wrong", then show how to detect it.
+- Knowledge (MASTG-KNOW) describes the feature/API neutrally (no "what can go wrong").
+- Best Practices (MASTG-BEST) explains how to prevent or mitigate the issue the tests detect.
+
 ### Markdown: Metadata
 
 Include a YAML front matter block with the following fields:
@@ -27,6 +33,7 @@ Optional metadata:
 - alias: URL-friendly slug (lowercase, hyphen-separated) used for navigation.
 - status: draft, placeholder, deprecated.
 - note: Short free-form note.
+- knowledge: One or more related Knowledge pages (`MASTG-KNOW-####`) for neutral background and API reference.
 - available_since: Minimum platform version/API level where this recommendation applies (Android: integer API level; iOS: release version, for example `13`).
 - deprecated_since: Last applicable platform/API level.
 
@@ -38,6 +45,7 @@ title: Preventing Screenshots and Screen Recording
 alias: preventing-screenshots-and-screen-recording
 id: MASTG-BEST-0014
 platform: android
+knowledge: [MASTG-KNOW-0105, MASTG-KNOW-0106, MASTG-KNOW-0107]
 ---
 ```
 
