@@ -1,13 +1,15 @@
 package org.owasp.mastestapp
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
@@ -16,9 +18,13 @@ import com.google.android.play.core.install.model.UpdateAvailability
 
 class MastgTest(context: Context) {
 
-    private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(context)
+    private val appUpdateManager: FakeAppUpdateManager = FakeAppUpdateManager(context).apply {
+        setUpdateAvailable(2)
+    }
     private var installStateListener: InstallStateUpdatedListener? = null
     private var pendingUpdateLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private var updateDelayRunnable: Runnable? = null
 
     // Callback to notify MainActivity of update state changes
     var onUpdateStateChanged: ((UpdateState) -> Unit)? = null
@@ -54,6 +60,9 @@ class MastgTest(context: Context) {
         pendingUpdateLauncher = null
     }
 
+    /**
+     * Handles install state changes from the Play Core library.
+     */
     @Suppress("DEPRECATION")
     private fun handleInstallState(
         state: InstallState,
@@ -170,7 +179,30 @@ class MastgTest(context: Context) {
             AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
         )
         if (started) {
-            Log.d("MastgTest", "Update flow started successfully.")
+            // Show update required initially
+            Log.d("MastgTest", "Mandatory updates are required to install. Waiting 10 seconds...")
+            onUpdateStateChanged?.invoke(UpdateState.UPDATE_REQUIRED)
+
+            // After 10 seconds, simulate the update flow using FakeAppUpdateManager
+            updateDelayRunnable = Runnable {
+                Log.d("MastgTest", "Starting update installation...")
+                onUpdateStateChanged?.invoke(UpdateState.UPDATE_IN_PROGRESS)
+
+                appUpdateManager.apply {
+                    userAcceptsUpdate()
+                    downloadStarts()
+                    downloadCompletes()
+                    completeUpdate()
+                    installCompletes()
+                }
+
+                // After FakeAppUpdateManager completes, show no update required
+                handler.postDelayed({
+                    Log.d("MastgTest", "App is running. No mandatory updates required.")
+                    onUpdateStateChanged?.invoke(UpdateState.NO_UPDATE_AVAILABLE)
+                }, 1000)
+            }
+            handler.postDelayed(updateDelayRunnable!!, 30000) // 30 seconds delay
         } else {
             Log.e("MastgTest", "Failed to start update flow.")
             onUpdateStateChanged?.invoke(UpdateState.UPDATE_FAILED)
@@ -190,11 +222,14 @@ class MastgTest(context: Context) {
 
             when (updateAvailability) {
                 UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
+                    // Update was started but user dismissed/backgrounded during download
                     Log.d("MastgTest", "onResume: Resuming in-progress update.")
                     onUpdateStateChanged?.invoke(UpdateState.UPDATE_IN_PROGRESS)
                     startUpdateFlow(appUpdateInfo, appUpdateResultLauncher)
                 }
                 UpdateAvailability.UPDATE_AVAILABLE -> {
+                    // CRITICAL FIX: User dismissed BEFORE download started
+                    // This is the bypass scenario we're preventing
                     if (isImmediateAllowed) {
                         Log.w("MastgTest", "onResume: Update still available but not started. Re-enforcing mandatory update.")
                         onUpdateStateChanged?.invoke(UpdateState.UPDATE_REQUIRED)
@@ -207,6 +242,7 @@ class MastgTest(context: Context) {
                 }
                 UpdateAvailability.UNKNOWN -> {
                     Log.d("MastgTest", "onResume: Update availability unknown, checking again...")
+                    // Re-check to be safe
                     checkForUpdate(appUpdateResultLauncher)
                 }
             }
@@ -214,7 +250,7 @@ class MastgTest(context: Context) {
             Log.e("MastgTest", "onResume: Failed to check update status.", e)
         }
     }
-    
+
     @Deprecated("Use enforceUpdateOnResume() for comprehensive bypass prevention",
         ReplaceWith("enforceUpdateOnResume(appUpdateResultLauncher)"))
     fun resumeUpdateIfInProgress(

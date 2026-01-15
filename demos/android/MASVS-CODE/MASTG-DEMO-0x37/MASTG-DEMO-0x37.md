@@ -1,0 +1,37 @@
+---
+platform: android
+title: Enforced Immediate Updates with FakeAppUpdateManager using semgrep
+id: MASTG-DEMO-0x37
+code: [kotlin]
+test: MASTG-TEST-0x36
+---
+
+### Sample
+
+The following code demonstrates the immediate in-app update enforcement pattern using [`FakeAppUpdateManager`](https://developer.android.com/reference/com/google/android/play/core/appupdate/testing/FakeAppUpdateManager) from the Google Play Core testing library. It uses `setUpdateAvailable(2)` to simulate version `2` being available and calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)` or value `1`.
+
+The code monitors update progress via `InstallStateUpdatedListener`, re-enforces updates on cancel or failure, and uses `enforceUpdateOnResume()` to prevent bypass when the app resumes. For the production implementation using `AppUpdateManagerFactory.create()`, refer @MASTG-DEMO-0x36.
+
+{{ MastgTest.kt # MastgTest_reversed.java }}
+
+### Steps
+
+Let's run @MASTG-TOOL-0110 rules against the sample code.
+
+{{ ../../../../rules/mastg-android-enforced-updating.yml }}
+
+{{ run.sh }}
+
+### Observation
+
+The output file shows usages of the Google Play Core API enforcing immediate update.
+
+{{ output.txt }}
+
+### Evaluation
+
+This code implements mandatory immediate updates using the Play Core API with `FakeAppUpdateManager` for unit testing. The app calls `startUpdateFlowForResult()` with `AppUpdateType.IMMEDIATE` or value `1`, which forces the user to install the update before continuing. The implementation includes:
+
+- State tracking via `InstallStateUpdatedListener` to monitor update progress.
+- Re-enforcement of updates when canceled or failed via `handleInstallState`.
+- Comprehensive `enforceUpdateOnResume()` method that checks for both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states to prevent bypass scenarios.
