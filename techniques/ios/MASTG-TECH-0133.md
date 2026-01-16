@@ -13,7 +13,8 @@ The dependencies are integrated into the project during the build process and ar
 
 Tools such as @MASTG-TOOL-0131 can scan files created by all three dependency managers. These files list dependencies as [Common Platform Enumeration (CPE)](https://nvd.nist.gov/products/cpe "CPE") and their versions. The CPE will be included in the iOS app. These tools then search for known vulnerabilities, or [CVEs (Common Vulnerability and Exposure)](https://cve.mitre.org/ "CVE"), in the dependencies by checking them against a vulnerability database, such as the National Vulnerability Database (NVD).
 
-> Note that @MASTG-TOOL-0131 supports [Carthage](https://jeremylong.github.io/DependencyCheck/analyzers/carthage.html), [CocoaPods](https://jeremylong.github.io/DependencyCheck/analyzers/cocoapods.html) and [SwiftPM](https://jeremylong.github.io/DependencyCheck/analyzers/swift.html), but these analyzers are considered experimental. While these analyzers may be useful and provide valid results, more testing must be completed to ensure that the false negative/positive rates are acceptable.
+!!! note
+    @MASTG-TOOL-0131 supports [Carthage](https://jeremylong.github.io/DependencyCheck/analyzers/carthage.html), [CocoaPods](https://jeremylong.github.io/DependencyCheck/analyzers/cocoapods.html) and [SwiftPM](https://jeremylong.github.io/DependencyCheck/analyzers/swift.html), but these analyzers are considered experimental. While these analyzers may be useful and provide valid results, additional testing is needed to ensure the false-negative/positive rates are acceptable.
 
 To test with @MASTG-TOOL-0131, we need to retrieve the dependency manager's corresponding file:
 

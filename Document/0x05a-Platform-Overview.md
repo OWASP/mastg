@@ -63,9 +63,9 @@ Android supports device encryption from Android 2.3.4 (API level 10) and it has 
 
 - [File-Based Encryption (FBE)](https://source.android.com/security/encryption/file-based "File-Based Encryption"): Android 7.0 (API level 24) supports file-based encryption. File-based encryption allows different files to be encrypted with different keys so they can be deciphered independently. Devices that support this type of encryption support Direct Boot as well. Direct Boot enables the device to have access to features such as alarms or accessibility services even if the user didn't unlock the device.
 
-> Note: you might hear of [Adiantum](https://github.com/google/adiantum "Adiantum"), which is an encryption method designed for devices running Android 9 (API level 28) and higher whose CPUs lack AES instructions. **Adiantum is only relevant for ROM developers or device vendors**, Android does not provide an API for developers to use Adiantum from applications. As recommended by Google, Adiantum should not be used when shipping ARM-based devices with ARMv8 Cryptography Extensions or x86-based devices with AES-NI. AES is faster on those platforms.
->
->Further information is available in the [Android documentation](https://source.android.com/security/encryption/adiantum "Adiantum").
+!!! note
+    You might hear of [Adiantum](https://github.com/google/adiantum "Adiantum"), an encryption method designed for devices running Android 9 (API level 28) or higher whose CPUs lack AES instructions. **Adiantum is only relevant for ROM developers or device vendors**, Android does not provide an API for developers to use Adiantum from applications. As recommended by Google, Adiantum should not be used when shipping ARM-based devices with ARMv8 Cryptography Extensions or x86-based devices with AES-NI. AES is faster on those platforms.
+    Further information is available in the [Android documentation](https://source.android.com/security/encryption/adiantum "Adiantum").
 
 #### Trusted Execution Environment (TEE)
 

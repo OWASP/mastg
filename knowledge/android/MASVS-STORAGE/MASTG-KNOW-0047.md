@@ -73,4 +73,5 @@ There are several different open-source libraries that offer encryption capabili
 - **[SQL Cipher](https://www.zetetic.net/sqlcipher/sqlcipher-for-android/ "SQL Cipher")** - SQLCipher is an open source extension to SQLite that provides transparent 256-bit AES encryption of database files.
 - **[Themis](https://github.com/cossacklabs/themis "Themis cryptographic library")** - A cross-platform high-level cryptographic library that provides the same API across many platforms, for securing data during authentication, storage, messaging, etc.
 
-> Please keep in mind that as long as the key is not stored in the KeyStore, it is always possible to easily retrieve the key on a rooted device and then decrypt the values you are trying to protect.
+!!! note
+    Please keep in mind that, as long as the key is not stored in the KeyStore, it is always possible to easily retrieve it on a rooted device and then decrypt the values you are trying to protect.
