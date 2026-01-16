@@ -1,0 +1,13 @@
+---
+title: Androidmeda
+platform: Android
+source: https://github.com/In3tinct/Androidmeda
+---
+
+[Androidmeda](https://github.com/In3tinct/Androidmeda) is an AI tool designed to deobfuscate Android application code and find vulnerabilities by leveraging the power of Large Language Models (LLMs). It analyzes decompiled Android source code to identify obfuscated patterns, suggest more readable names for variables, methods, and classes, and ultimately provide a clearer understanding of an application's logic.
+
+Features - 
+🕵️‍♂️ LLM-Powered Deobfuscation: Utilizes advanced LLMs to intelligently deobfuscate code elements and add helpful comments.
+☁️ Local Model Support/Local Privacy: Support for local inference using Ollama (Llama 3, Mistral) for privacy-focused analysis and cost-effective analysis.
+📝 Cloud/API Model Support: Compatible with major APIs like OpenAI (GPT), Google (Gemini), and **Anthropic (Claude).
+🚨 Vulnerability Scanner: Generates a JSON report highlighting potential security risks.
