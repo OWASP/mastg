@@ -23,3 +23,15 @@ Use of http://httpbin.org/get:
 │           0x100005160      mov x0, x26
 │           0x100005164      mov w1, 1
 │           0x100005168      mov x2, x22
+...
+│           0x100005224      mov x0, x27
+│           0x100005228      mov x1, x26
+│           0x10000522c      mov x2, x22
+│           0x100005230      blr x8
+│           0x100005234      adrp x8, segment.__DATA                   ; 0x10000c000
+│           0x100005238      ldr x0, [x8, 0xc8]                        ; [0x10000c0c8:4]=158
+│                                                                      ; reloc.NSURLSession ; void *arg0
+│           0x10000523c      bl sym.imp.objc_opt_self                  ; void *objc_opt_self(void *arg0)
+│           0x100005240      adrp x8, segment.__DATA                   ; 0x10000c000
+│           0x100005244      ldr x1, [x8, 0xa0]                        ; [0x10000c0a0:4]=0x6e87 ; reloc.fixup.sharedSession ; char *selector
+│           0x100005248      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)

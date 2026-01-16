@@ -16,3 +16,7 @@ axt @ 0x100006c60
 ?e Use of http://httpbin.org/get:
 
 pd 15 @ 0x100005130
+
+?e ...
+
+pd-- 5 @ 0x100005238
