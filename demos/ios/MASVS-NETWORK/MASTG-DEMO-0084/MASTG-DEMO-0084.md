@@ -30,4 +30,6 @@ The output contains a list of HTTP URLs found in the binary and locations in the
 
 ### Evaluation
 
-The test fails because hardcoded HTTP URLs were found in the binary, specifically the URL `http://httpbin.org/get` is used at `0x100005130` and passed to an `URL` instance which is then used in a `URLSession`.
+The test fails because the hardcoded HTTP URL `http://httpbin.org/get` was found in the binary, and the app has an ATS configuration that allows cleartext HTTP traffic to that domain (see @MASTG-DEMO-0083).
+
+We know that the URL is actually used by the app because the string is used at `0x100005130` and passed to an `URL` instance at `0x100005158` which is then used in a `URLSession` at `0x100005238`.
