@@ -14,7 +14,7 @@ This test checks if the app enforces biometric authentication [without requiring
 
 ## Steps
 
-1. Run @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 on the app binary to look for uses of `BiometricPrompt.PromptInfo.Builder` with `setConfirmationRequired(false)`.
+Use @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify instances of `BiometricPrompt.PromptInfo.Builder` with the method `setConfirmationRequired(false)`.
 
 ## Observation
 
@@ -27,6 +27,6 @@ The test fails if the app uses `BiometricPrompt.PromptInfo.Builder` with `setCon
 The test passes if the app either:
 
 - Uses `setConfirmationRequired(true)` explicitly for sensitive operations, or
-- Relies on the default behavior (which requires confirmation).
+- Relies on the default behavior, which requires confirmation.
 
-**Note:** Using [`setConfirmationRequired(false)`](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action) is not inherently a vulnerability. It may be appropriate for low-risk operations (e.g., auto-filling passwords), but for sensitive operations (e.g., payments, data access), explicit confirmation provides an additional layer of security by ensuring the user intentionally authorizes the action.
+**Note:** Using [`setConfirmationRequired(false)`](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action) is not inherently a vulnerability. It may be appropriate for low-risk operations, but for sensitive operations like payments or data access, the app should use `setConfirmationRequired(true)` or rely on the default behavior to [ensure the user explicitly confirms the authentication](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action). 

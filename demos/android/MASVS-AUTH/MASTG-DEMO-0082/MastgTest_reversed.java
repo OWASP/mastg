@@ -140,11 +140,11 @@ public final class MastgTest {
                                 sb4 = MastgTest.this.results;
                                 sb4.append("⚠️  Confirmation not required\n");
                                 sb5 = MastgTest.this.results;
-                                sb5.append("✓  Token decrypted: " + decryptedToken + "\n");
+                                sb5.append("✅  Token decrypted: " + decryptedToken + "\n");
                                 sb6 = MastgTest.this.results;
-                                sb6.append("✓  Original token: MySecretToken123\n");
+                                sb6.append("✅  Original token: MySecretToken123\n");
                                 sb7 = MastgTest.this.results;
-                                sb7.append("✓  Match: " + Intrinsics.areEqual(decryptedToken, "MySecretToken123") + "\n");
+                                sb7.append("✅  Match: " + Intrinsics.areEqual(decryptedToken, "MySecretToken123") + "\n");
                                 MastgTest.this.updateUI();
                                 return;
                             }

@@ -76,9 +76,10 @@ class MastgTest (private val context: Context){
                     }
 
                     results.append("🔓 AUTH - Success!\n")
-                    results.append("✓  Authenticated with: $authType\n")
-                    results.append("⚠️  Uses DEVICE_CREDENTIAL \n")
-                    results.append("⚠️  Allows PIN/Pattern/Password fallback\n\n")
+                    results.append("✅  Authenticated with: $authType\n")
+                    results.append("⚠️ Uses DEVICE_CREDENTIAL fallback\n")
+                    results.append("⚠️ Allows PIN/Pattern/Password\n")
+                    results.append("✅ Retrieved token: $SECRET_TOKEN\n\n")
 
                     updateUI()
 
@@ -139,10 +140,10 @@ class MastgTest (private val context: Context){
                                 val encryptedBase64 = Base64.encodeToString(encryptedToken, Base64.NO_WRAP)
 
                                 results.append("🔒 CRYPTO AUTH - Success!\n")
-                                results.append("✓  Biometric-only authentication\n")
-                                results.append("✓  Uses CryptoObject for encryption\n")
+                                results.append("✅  Biometric-only authentication\n")
+                                results.append("✅  Uses CryptoObject for encryption\n")
                                 results.append("⚠️  Confirmation not required\n")
-                                results.append("✓  Token encrypted: ${encryptedBase64.take(20)}...\n\n")
+                                results.append("✅  Token encrypted: ${encryptedBase64.take(20)}...\n\n")
 
                                 updateUI()
 
@@ -218,9 +219,9 @@ class MastgTest (private val context: Context){
 
                                 results.append("🔓 DECRYPTION - Success!\n")
                                 results.append("⚠️  Confirmation not required\n")
-                                results.append("✓  Token decrypted: $decryptedToken\n")
-                                results.append("✓  Original token: $SECRET_TOKEN\n")
-                                results.append("✓  Match: ${decryptedToken == SECRET_TOKEN}\n")
+                                results.append("✅  Token decrypted: $decryptedToken\n")
+                                results.append("✅  Original token: $SECRET_TOKEN\n")
+                                results.append("✅  Match: ${decryptedToken == SECRET_TOKEN}\n")
 
                                 updateUI()
                             } else {

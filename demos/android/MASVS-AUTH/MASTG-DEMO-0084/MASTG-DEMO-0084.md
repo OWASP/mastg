@@ -14,7 +14,7 @@ This sample demonstrates the insecure use of [`setInvalidatedByBiometricEnrollme
 
 ### Steps
 
-Let's run @MASTG-TOOL-0110 rules against the sample code.
+Run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ ../../../../rules/mastg-android-biometric-invalidated-enrollment.yml }}
 

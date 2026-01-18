@@ -6,9 +6,9 @@
                            
     MastgTest_reversed.java
     ❯❱ rules.mastg-android-biometric-device-credential-fallback
-          [MASVS-AUTH-3] This rule identifies instances where BiometricPrompt is used and a fallback to device
-          credentials is permitted. For sensitive operations, consider using BIOMETRIC_STRONG only.           
-                                                                                                              
+          [MASVS-AUTH-3] BiometricPrompt allows fallback to device credentials. For sensitive operations,
+          consider using BIOMETRIC_STRONG only.                                                          
+                                                                                                         
            74┆ BiometricPrompt.PromptInfo promptInfo = new                                                
                BiometricPrompt.PromptInfo.Builder().setTitle("🔓 1st Biometric Auth").setSubtitle("Allows 
                device credentials").setDescription("This implementation uses DEVICE_CREDENTIAL").setAllowe
