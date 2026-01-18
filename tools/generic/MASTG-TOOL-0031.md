@@ -53,7 +53,7 @@ Frida 17 introduces [breaking changes](https://frida.re/news/2025/05/17/frida-17
 
 **Bridges:**
 
-Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use the commands `frida` and `frida-trace` this doesn't have any noticeable impact as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
+Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use the commands `frida` and `frida-trace`, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
 
 However, if you are writing your own custom Frida-based tooling or scripts that depend on these bridges, you will now need to install them separately via `frida-pm`, Frida's package manager. For example, to install the Java bridge, run:
 
@@ -101,7 +101,7 @@ For more details, refer to the [Frida 17.0.0 Release Notes](https://frida.re/new
 Frida also provides a couple of simple tools built on top of the Frida API and available right from your terminal after installing frida-tools via pip. For instance:
 
 - [`frida`](https://www.frida.re/docs/frida-cli/ "Frida CLI"): Frida CLI for quick script prototyping and try/error scenarios.
-- [`frida-ps`](https://www.frida.re/docs/frida-ps/ "frida-ps"): provides a list of all apps (or processes) running on the device including their names, identifiers and PIDs.
+- [`frida-ps`](https://www.frida.re/docs/frida-ps/ "frida-ps"): lists all processes (apps) running on the device, including their names, identifiers, and PIDs.
 - [`frida-ls-devices`](https://www.frida.re/docs/frida-ls-devices/ "frida-ls-devices"): lists your connected devices running Frida servers or agents.
 - [`frida-trace`](https://www.frida.re/docs/frida-trace/ "frida-trace"): traces function calls without writing Frida scripts.
 
