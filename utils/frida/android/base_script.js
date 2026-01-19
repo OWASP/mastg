@@ -192,7 +192,7 @@ function buildHookOperations(hook) {
   let operations = [];
   let errors = [];
 
-  function loadClass(clazz, method) {
+  function callPrerequisiteMethod(clazz, method) {
     try {
       Java.use(clazz)[method]();
     } catch (e) {
@@ -201,14 +201,14 @@ function buildHookOperations(hook) {
     }
   }
 
-  function loadPrerequisite(prerequisite) {
+  function loadPrerequisites(prerequisite) {
     if (prerequisite.methods) {
       prerequisite.methods.forEach(method => {
-        loadClass(prerequisite.class, method)
+        callPrerequisiteMethod(prerequisite.class, method)
       })
     }
     if (prerequisite.method) {
-      loadClass(prerequisite.class, prerequisite.method)
+      callPrerequisiteMethod(prerequisite.class, prerequisite.method)
     }
   }
 
@@ -216,11 +216,11 @@ function buildHookOperations(hook) {
     if (enumerateFirstMethod(inputClass, method) === undefined) {
       if (hook.prerequisites) {
         hook.prerequisites.forEach(prerequisite => {
-          loadPrerequisite(prerequisite)
+          loadPrerequisites(prerequisite)
         })
       }
       if (hook.prerequisite) {
-        loadPrerequisite(hook.prerequisite)
+        loadPrerequisites(hook.prerequisite)
       }
     }
 
