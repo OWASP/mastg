@@ -6,130 +6,67 @@ title: Logs
 
 ## Overview
 
-Logs are a critical component for debugging and monitoring, but they often become a source of data leakage in mobile applications. While standard system logs are the most common concern, sensitive data can also be exposed through other channels such as standard output (`stdout`), third-party embedded libraries, crash reporting tools, and web views.
+Logs are a critical component for debugging and monitoring, used by developers to output runtime information. On iOS, logging has evolved from simple print statements and legacy APIs to the modern Unified Logging System, which provides performance and privacy features by design. Understanding how these mechanisms handle data—specifically what is persisted and what is redacted—is essential for secure application development.
 
-On iOS, the primary logging mechanism is **Apple's Unified Logging System**, but developers (and third-party SDKs) may still use legacy APIs or language-specific print functions that behave differently in production environments.
+## Logging APIs on iOS
 
-### Logging Sources
+iOS provides several mechanisms for logging, each with different characteristics regarding persistence and privacy.
 
-1. **Unified Logging System (`os_log`, `Logger`)**: The modern standard. It provides memory-based, performant logging with privacy features.
-2. **Standard Output/Error (`print`, `printf`, `std::cout`)**: Common in Swift and C/C++ code. These streams might be captured by the system console or crash reporting tools.
-3. **Legacy Logging (`NSLog`)**: An older API that is slower and more verbose, typically writing to ASL (Apple System Log) and `stderr`.
-4. **Third-Party SDKs**: Libraries for analytics, networking, or ads often include their own logging mechanisms, which can be verbose if not properly configured for production.
-5. **WebView Console Logs**: JavaScript `console.log` calls within `WKWebView` or `UIWebView` (deprecated) may be retrievable by attaching a debugger or using specific tools.
-6. **Crash Reports**: Crash handlers (e.g., Crashlytics, KSCrash) capture stack traces and heap data. Custom keys or logged events attached to crashes can leak user state.
+### Unified Logging System
 
-## Impact
+The standard logging mechanism on modern iOS versions (iOS 10+) is the **Unified Logging System**. It supersedes older APIs and provides a centralized, efficient way to capture log messages.
 
-If an app logs sensitive information (e.g., session tokens, PII, passwords, request/response bodies), this data becomes accessible to:
+- **Swift**: The [`Logger`](https://developer.apple.com/documentation/os/logger) structure (introduced in iOS 14) is the recommended API. It offers a type-safe, performant interface.
+- **Objective-C (and C)**: The [`os_log`](https://developer.apple.com/documentation/os/os_log) function is the primary interface.
 
-- Anyone with physical access to the unlocked device (via Console.app).
-- Malware running on the device (if logs are persisted to world-readable files, though system logs are generally restricted).
-- Developers or attackers with access to the crash reporting dashboard.
+### Legacy APIs
 
-## Static Analysis
+Older applications or libraries may still use deprecated or legacy logging methods:
 
-Review the source code for logging usage. Look for:
+- **`NSLog`**: Writes to the Apple System Log (ASL) and `stderr`. It is slower than `os_log` and, critically, does not support privacy redaction features.
+- **`print` / `debugPrint` (Swift)**: Writes to standard output (`stdout`). These are typically intended for development and do not integrate with the system's structured logging features.
+- **`printf` / `fprintf` (C/C++)**: Writes to standard I/O streams.
 
-- **Keywords**: `print`, `debugPrint`, `NSLog`, `os_log`, `Logger`, `dump`.
-- **Third-Party Configs**: Initialization of SDKs with debug flags (e.g., `FirebaseConfiguration.shared.setLoggerLevel(.debug)`, `Alamofire.Session(startRequestsImmediately: true)`).
-- **Preprocessor Macros**: Ensure debug code is wrapped in `#if DEBUG`.
+## Key Concepts
 
-### Example: Insecure Logging in Swift
+### Privacy Modifiers
 
-```swift
-func authenticate(user: User, pass: String) {
-    // BAD: Leaks credentials to stdout
-    print("Authenticating user: \(user.id) with pass: \(pass)")
-    
-    // BAD: Specific SDK logging enabled in production
-    SomeAnalytics.setLogLevel(.verbose)
-}
-```
+A core feature of the Unified Logging System is its ability to handle sensitive data through **privacy modifiers**. When logging dynamic strings or variables, the system determines visibility based on these modifiers:
 
-## Dynamic Analysis
+- **Private (`.private`)**: The data is redacted in the log output (displayed as `<private>`) unless a debugger is attached or the device is configured to collect significantly more diagnostic data. This is the **default** behavior for dynamic strings in `Unified Logging`, preventing accidental leakage of user data.
+- **Public (`.public`)**: The data is visible in all logs. This should only be used for non-sensitive static information or control flow markers.
+- **Sensitive (`.sensitive`)**: Treated similarly to private, but explicitly marking the data as highly sensitive (deprecated in favor of `.private` in newer documentation but functionally similar).
 
-To capture and analyze logs from an iOS device, you can use **Console.app** on macOS or the `log` command-line tool.
+Static string literals (e.g., `Logger.info("Application started")`) are implicitly public.
 
-### 1. Using Console.app
+### Log Levels and Persistence
 
-1. Connect the iOS device to a Mac via USB.
-2. Open **Console.app** (Applications > Utilities > Console).
-3. Select the device in the sidebar.
-4. In the search bar, verify that "Include Info Messages" and "Include Debug Messages" are enabled (Action menu).
-5. Filter by the application's **Process Name** or **Bundle Identifier** (e.g., `com.example.myapp`).
-6. Interact with the application, focusing on sensitive inputs (login, profile updates, payments).
-7. **Observation**: Watch for plain-text credentials, tokens, or PII appearing in the main log window.
+Logs are categorized by levels, which affect whether they are persisted to disk or only kept in memory:
 
-### 2. Using the `log` CLI
+- **Default**: Captured in memory; persisted to disk only if a failure occurs.
+- **Info**: Captured in memory; normally not persisted.
+- **Debug**: Captured in memory only when debug logging is explicitly enabled via configuration profiles.
+- **Error / Fault**: Always captured and usually persisted to disk, as they indicate critical issues.
 
-For more advanced filtering or scripting, use the `log` command via `xcrun simctl` (for Simulator) or directly on connected devices.
+### Non-Standard Logging Sources
 
-```bash
-# Stream logs from a connected device specifically for a process
-# --predicate filters for the specific process name
-# --debug includes debug-level logs often missed by default
-xcrun simctl spawn booted log stream --predicate 'process == "MyApp"' --debug
-```
+Beyond direct API calls, logs can originate from other components:
 
-### 3. Checking WebView Logs
+- **Standard Output (`stdout` / `stderr`)**: Data written to these streams (via `print`, `printf`, `std::cout`) may be captured by the system's logging daemon (redirected to the unified log) or crash reporting tools. Unlike `os_log`, these streams have no concept of privacy levels.
+- **WebViews**: Apps using `WKWebView` may generate logs from JavaScript sources (`console.log`). These are bridged to the native system and can be observable if the application or device is configured for web debugging.
+- **Crash Reports**: When an app crashes, the system generates a crash report. Some crash reporting frameworks allow developers to attach "custom keys" or "breadcrumbs" (logs leading up to the crash). If sensitive data is included in these breadcrumbs, it persists in the crash report even if it wouldn't have been persisted by the normal logging system.
 
-If the application uses WebViews:
+## Common Pitfalls
 
-1. Enable **Web Inspector** on the iOS device: `Settings` > `Safari` > `Advanced` > `Web Inspector`.
-2. Connect the device to your Mac.
-3. Launch **Safari** on your Mac.
-4. Open the app on the device and navigate to a page with a WebView.
-5. In Mac Safari, go to `Develop` > `[Device Name]` > `[App Name/URL]`.
-6. Open the **Console** tab in the Web Inspector.
-7. **Observation**: Check if JS logs (`console.log`) expose session cookies, tokens, or user data.
+Developers often introduce security risks through improper logging practices:
 
-### 4. Third-Party and Network Logs
-
-Some libraries log network traffic or internal state. Even if the app itself is quiet, an outdated or debug-configured network library (like Alamofire or AFNetworking) might dump headers and bodies.
-
-- **Trigger**: Perform network requests.
-- **Observation**: Look for JSON objects or HTTP headers in the Console output.
-
-## Remediation
-
-### 1. Use Unified Logging with Privacy
-
-Prefer `os_log` or `Logger` (iOS 14+). Mark sensitive variables as `.private`.
-
-```swift
-import os
-
-let logger = Logger(subsystem: "com.example.app", category: "Network")
-
-// Sensitive data is redacted in release logs
-logger.info("User login: \(username, privacy: .public), Token: \(token, privacy: .private)")
-```
-
-### 2. Strip Debug Print Statements
-
-Remove standard print statements in release builds using compiler flags.
-
-```swift
-func logDebug(_ message: String) {
-    #if DEBUG
-    print("[DEBUG] \(message)")
-    #endif
-}
-```
-
-### 3. Configure Third-Party Libraries
-
-Ensure all third-party SDKs have their logging disabled or set to `ERROR` level in the release configuration.
-
-```swift
-#if !DEBUG
-    Analytics.setLogLevel(.none)
-    NetworkLib.consoleLogging = false
-#endif
-```
+- **Logging Sensitive Data in Public Mode**: Explicitly marking PII (Personally Identifiable Information), authentication tokens, or session IDs as `.public` overrides the system's default redaction, permanently writing secrets to the device logs.
+- **Using Legacy APIs for Sensitive Data**: Using `NSLog` or `print` for sensitive data bypasses the Unified Logging privacy system, meaning the data is never redacted.
+- **Leaving Development Loops Enabled**: Third-party networking or analytics SDKs often have "debug" or "verbose" modes. If these are not stripped or disabled in release builds, they may output full HTTP request/response bodies (including headers and payloads) to the system logs.
+- **Breadcrumb Leaks**: Attaching sensitive variables to crash report breadcrumbs serves as a persistent record of that data, which may be uploaded to third-party crash analysis services.
 
 ## References
 
-- [Apple Documentation - Logging](https://developer.apple.com/documentation/os/logging)
-- [Apple Documentation - Generating Log Messages](https://developer.apple.com/documentation/os/generating_log_messages_from_your_code)
+- [Apple Developer Documentation: Logging](https://developer.apple.com/documentation/os/logging)
+- [Apple Developer Documentation: Generating Log Messages](https://developer.apple.com/documentation/os/generating_log_messages_from_your_code)
+- [Apple Developer Documentation: Unified Logging and Activity Tracing](https://developer.apple.com/documentation/os/unified_logging_and_activity_tracing)
