@@ -122,4 +122,5 @@ For GOT hook detection, the app can parse its own ELF structure, locate the GOT 
 - [xHook - PLT Hook Library for Android](https://github.com/iqiyi/xHook) - Understanding how PLT/GOT hooking works on Android
 - [XposedDetector](https://github.com/vvb2060/XposedDetector/) - Example implementation of Xposed detection
 - [Anti-Frida Techniques](https://github.com/apkunpacker/Anti-Frida) - Collection of anti-Frida detection methods
-- Soriano-Salvador & Guardiola-Múzquiz, ["Detecting and bypassing Frida dynamic function call tracing"](https://link.springer.com/article/10.1007/s11416-022-00458-7), Journal of Computer Virology and Hacking Techniques, 2023
+- ["Detecting and bypassing Frida dynamic function call tracing"](https://link.springer.com/article/10.1007/s11416-022-00458-7) - Soriano-Salvador & Guardiola-Múzquiz, Journal of Computer Virology and Hacking Techniques, 2023
+- [Bad For Enterprise](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)] - Attacking BYOD Enterprise Mobile Security Solutions, Vincent Tan, 2016
