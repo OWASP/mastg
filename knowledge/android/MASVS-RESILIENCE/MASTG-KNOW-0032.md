@@ -108,11 +108,11 @@ The Global Offset Table (GOT) resolves library function calls. At runtime, the d
 
 Unlike GNU `ld`, which resolves symbol addresses only when they are first used (lazy binding), the Android linker resolves all external functions and writes the corresponding GOT entries immediately after a library is loaded (immediate binding). As a result, you can expect all GOT entries to point to valid memory locations in the code sections of their respective libraries at runtime. GOT hook detection methods typically walk the GOT and verify this.
 
+For GOT hook detection, the app can parse its own ELF structure, locate the GOT entries, and verify each points to an address within the expected library's memory range (as reported by `/proc/self/maps`).
+
 ### Inline Hook Detection
 
 _Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library.
-
-For GOT hook detection, the app can parse its own ELF structure, locate the GOT entries, and verify each points to an address within the expected library's memory range (as reported by `/proc/self/maps`).
 
 ## References
 
