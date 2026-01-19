@@ -9,11 +9,11 @@ Controls in this category verify the integrity of the app's memory space to defe
 1. comparing the contents of memory or a checksum over the contents to good values,
 2. searching memory for the signatures of unwanted modifications.
 
-There's some overlap with the category "detecting reverse engineering tools and frameworks", and, in fact, we demonstrated the signature-based approach in that chapter when we showed how to search process memory for Frida-related strings. Below are a few more examples of various kinds of integrity monitoring.
+There's some overlap with @MASTG-KNOW-0030, which covers artifact-based detection such as scanning process memory for Frida-related strings. Below are examples of integrity monitoring techniques that detect modifications rather than artifacts.
 
 ## Detecting Tampering with the Java Runtime
 
-Hooking frameworks such as @MASTG-TOOL-0027 will inject themselves into the Android Runtime and leave different traces while doing so. These traces can be detected, as shown by this code snippet from the [XPosedDetector](https://github.com/vvb2060/XposedDetector/) project.
+Hooking frameworks such as @MASTG-TOOL-0027 and Frida's Java API modify the Android Runtime (ART) to intercept method calls. These modifications leave traces that can be detected. The following code snippet from the [XPosedDetector](https://github.com/vvb2060/XposedDetector/) project demonstrates detecting Xposed by looking for its injected classes.
 
 ```cpp
 static jclass findXposedBridge(C_JNIEnv *env, jobject classLoader) {

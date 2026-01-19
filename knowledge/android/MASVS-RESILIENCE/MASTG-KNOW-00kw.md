@@ -1,0 +1,58 @@
+---
+masvs_category: MASVS-RESILIENCE
+platform: android
+title: Runtime Application Self-Protection (RASP)
+---
+
+Runtime Application Self-Protection (RASP) is a security technology embedded within mobile apps to detect and prevent real-time attacks. Unlike server-side or network-based security solutions, RASP integrates directly into the app's runtime environment, allowing the app to monitor its own execution and respond to threats from within the device.
+
+## Core Capabilities
+
+RASP implementations typically include several defensive mechanisms:
+
+- **Environment Detection**: Detecting rooted devices, emulators, debuggers attached to the process, or the presence of hooking frameworks.
+- **Code Integrity Verification**: Verifying that the app's code has not been modified at runtime, including detecting hooks on methods and functions.
+- **Anti-Tampering**: Detecting modifications to the app's binary, resources, or configuration files.
+- **Anti-Debugging**: Preventing or detecting when a debugger is attached to the app's process.
+- **Response Mechanisms**: Taking action when threats are detected, such as terminating the app, clearing sensitive data, or alerting a backend server.
+
+## Implementation Approaches
+
+RASP can be implemented through various approaches:
+
+### Self-Implemented Checks
+
+Developers can implement their own RASP checks directly in the application code. This includes:
+
+- Checking for root indicators (see @MASTG-KNOW-0031)
+- Detecting reverse engineering tools (see @MASTG-KNOW-0030)
+- Verifying runtime integrity (see @MASTG-KNOW-0032)
+- Implementing file integrity checks (see @MASTG-KNOW-0029)
+
+### Commercial RASP SDKs
+
+Several commercial solutions provide RASP capabilities as SDKs that can be integrated into mobile apps. These typically offer:
+
+- Obfuscated detection logic that is harder to bypass
+- Continuous updates to detect new threats
+- Server-side attestation and threat intelligence
+- Tamper-resistant implementation in native code
+
+### Google Play Integrity API
+
+For Android apps distributed through Google Play, the [Play Integrity API](https://developer.android.com/google/play/integrity) provides device and app attestation. It can verify:
+
+- The app binary is the original, unmodified version from Google Play
+- The app is running on a genuine Android device
+- The device passes basic integrity checks
+
+## Limitations
+
+RASP provides defense-in-depth but has inherent limitations:
+
+- **Bypassable**: Determined attackers with sufficient time and resources can typically bypass RASP protections, especially on rooted devices where they have full control.
+- **Cat-and-Mouse**: RASP detection methods and bypass techniques evolve continuously, requiring ongoing updates.
+- **Performance Impact**: Extensive runtime checks can impact app performance and battery life.
+- **False Positives**: Overly aggressive detection may incorrectly flag legitimate user environments (e.g. custom ROMs, accessibility tools).
+
+RASP should be considered one layer in a defense-in-depth strategy, not a complete security solution. Critical security logic should also be protected server-side where possible.
