@@ -3,6 +3,7 @@ title: Disable Content Provider Access in WebViews
 alias: disable-cont
 id: MASTG-BEST-0013
 platform: android
+knowledge: [MASTG-KNOW-0018]
 ---
 
 Unlike other file content access methods from `WebSettings`, the `setAllowContentAccess` method always defaults to `true`. Therefore, **whenever access to content providers isn't explicitly needed**, ensure that the `setAllowContentAccess` method is set to `false` to prevent WebViews from accessing content providers.

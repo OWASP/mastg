@@ -8,6 +8,7 @@ threat: [app]
 prerequisites:
 - identify-sensitive-data
 profiles: [L2]
+knowledge: [MASTG-KNOW-0083]
 ---
 
 ## Overview

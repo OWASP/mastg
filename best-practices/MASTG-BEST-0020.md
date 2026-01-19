@@ -3,6 +3,7 @@ title: Update the GMS Security Provider
 alias: update-gms-security-provider
 id: MASTG-BEST-0020
 platform: android
+knowledge: [MASTG-KNOW-0011]
 ---
 
 Android devices vary widely in OS version and update frequency. Relying solely on platform-level security can leave apps exposed to outdated SSL/TLS implementations and known vulnerabilities.

@@ -1,0 +1,56 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "class": "com.google.firebase.analytics.FirebaseAnalytics",
+      "method": "logEvent",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "android.os.Bundle"
+          ]
+        }
+      ]
+    }
+  ],
+  "totalHooks": 1,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "68f13e77-c2aa-4778-be90-fc7a5c50af60",
+  "type": "hook",
+  "category": "PRIVACY",
+  "time": "2025-12-04T14:03:05.046Z",
+  "class": "com.google.firebase.analytics.FirebaseAnalytics",
+  "method": "logEvent",
+  "instanceId": 33276343,
+  "stackTrace": [
+    "com.google.firebase.analytics.FirebaseAnalytics.logEvent(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:35)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$15$lambda$14(MainActivity.kt:107)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$REihytfpbfdEl1cb3dLDlSFXk5M(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1119)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "java.lang.String",
+      "value": "user_blood_type"
+    },
+    {
+      "declaredType": "android.os.Bundle",
+      "value": "<instance: android.os.Bundle>",
+      "runtimeType": "android.os.Bundle",
+      "instanceId": "130116900",
+      "instanceToString": "Bundle[{blood_type=A+, user_id=87495975}]"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}

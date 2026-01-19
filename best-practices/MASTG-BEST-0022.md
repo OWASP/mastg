@@ -3,6 +3,7 @@ title: Disable Verbose and Debug Logging in Production Builds
 alias: remove-logging-in-production
 id: MASTG-BEST-0022
 platform: ios
+knowledge: [MASTG-KNOW-0101]
 ---
 
 You should avoid using insecure logging mechanisms like `print` or [`NSLog`](https://developer.apple.com/documentation/foundation/nslog). These APIs can expose sensitive runtime data to system logs, which an attacker with device access may retrieve. Instead, you should adopt [Apple's Unified Logging system](https://developer.apple.com/documentation/os/logging) (`Logger` in Swift, `os_log` in Objective-C), available from iOS 10.0 and later.

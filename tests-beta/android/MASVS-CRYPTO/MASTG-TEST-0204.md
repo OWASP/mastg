@@ -9,6 +9,7 @@ prerequisites:
 - identify-security-relevant-contexts
 weakness: MASWE-0027
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0013]
 ---
 
 ## Overview

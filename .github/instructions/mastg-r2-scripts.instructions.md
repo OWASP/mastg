@@ -4,7 +4,7 @@ This guide defines how to write and use radare2 scripts in MASTG demos. Scripts 
 
 ### Scope and terminology
 
-- “r2 scripts” refers to radare2 command files executed with `-i <file>`.
+- "r2 scripts" refers to radare2 command files executed with `-i <file>`.
 - The repo uses `.r2` as the primary extension (for example, `cchash.r2`); variations like `.jr2` are not used in this repository.
 - Tools background lives under @MASTG-TOOL-0073 (radare2) and @MASTG-TOOL-0129 (rabin2). Do not duplicate setup or installation steps—link to Tools pages.
 

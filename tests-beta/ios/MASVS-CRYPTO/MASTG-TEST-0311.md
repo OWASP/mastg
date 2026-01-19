@@ -6,11 +6,12 @@ type: [static, dynamic]
 weakness: MASWE-0027
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0025]
+knowledge: [MASTG-KNOW-0070]
 ---
 
 ## Overview
 
-iOS apps sometimes use insecure pseudorandom number generators (PRNGs) (@MASTG-KNOW-0070) instead of cryptographically secure ones. This test case focuses on detecting the use of insecure alternatives such as the standard C library functions `rand`, `random`, and the `*rand48` family.
+iOS apps sometimes use insecure pseudorandom number generators (PRNGs) instead of cryptographically secure ones. This test case focuses on detecting the use of insecure alternatives such as the standard C library functions `rand`, `random`, and the `*rand48` family.
 
 ## Steps
 

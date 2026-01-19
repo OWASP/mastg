@@ -102,6 +102,7 @@ jobs:
       - name: Build the app (unsigned)
         run: |
           cd mas-app-ios
+          cp .github/Local.xcconfig.ci Local.xcconfig
           xcodebuild archive \
             -project "MASTestApp.xcodeproj" \
             -scheme "$DEFAULT_SCHEME" \

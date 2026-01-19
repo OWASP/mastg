@@ -187,7 +187,7 @@ The rule has identified some instances in the code file where a non-random sourc
 
 #### Evaluation
 
-A concise explanation of how you applied the test’s “Evaluation” section to this demo. If lines are present in the observation, explain each relevant line.
+A concise explanation of how you applied the test’s "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
 
 Example:
 

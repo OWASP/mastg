@@ -3,9 +3,10 @@ title: Store Data Encrypted in App Sandbox Directory
 alias: store-data-encrypted-in-the-app-sandbox-directory
 id: MASTG-BEST-0024
 platform: ios
+knowledge: [MASTG-KNOW-0108]
 ---
 
-Choose the right location for storing the app's and the user's data to the app sandbox (@MASTG-KNOW-0108): use **Documents** directory to store user-generated content and **Library** directory for app's internal data.
+Choose the right location for storing the app's and the user's data to the app sandbox: use **Documents** directory to store user-generated content and **Library** directory for app's internal data.
 
 An app can be configured to make **Documents** directory accessible to the user in the Files app by setting `UIFileSharingEnabled` and `LSSupportsOpeningDocumentsInPlace`. Therefore, storing databases, config files, purchase state in this directory is highly dangerous because:
 

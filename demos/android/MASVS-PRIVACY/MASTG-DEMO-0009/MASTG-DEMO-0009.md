@@ -10,7 +10,8 @@ test: MASTG-TEST-0206
 
 The snippet below shows sample code that sends sensitive data over the network using the `HttpURLConnection` class. The data is sent to `https://httpbin.org/post` which is a dummy endpoint that returns the data it receives.
 
-**NOTE:** This demo app is not published on Google Play. However, imagine it represents a production application where none of the sensitive data transmitted here is declared in the app's privacy policy or store disclosure (Data Safety Section).
+!!! note
+    This demo app is not published on Google Play. However, imagine it represents a production application in which none of the sensitive data transmitted here is declared in the app's privacy policy or in its store disclosure (Data Safety Section).
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 

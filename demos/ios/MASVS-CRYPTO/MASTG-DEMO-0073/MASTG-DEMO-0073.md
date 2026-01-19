@@ -14,7 +14,8 @@ The following sample demonstrates various methods of generating random tokens, a
 - Other secure methods such as direct reads from `/dev/random`, `arc4random`, `arc4random_uniform`, `SystemRandomNumberGenerator`, and `CCRandomGenerateBytes`.
 - A preferred secure method using `SecRandomCopyBytes`.
 
-> Note that `rand` and `srand` are not part of the Swift standard library. In this demo we call the libc `rand` and `srand` symbols via our own bindings.
+!!! note
+    `rand` and `srand` are not part of the Swift standard library. In this demo, we call the libc `rand` and `srand` symbols via our own bindings.
 
 {{ MastgTest.swift }}
 

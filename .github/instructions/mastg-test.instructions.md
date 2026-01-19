@@ -23,6 +23,7 @@ Example tests for reference:
 Notes:
 
 - Tests with `platform: network` are still organized under the OS folder that the MASVS category belongs to (for example, Android network tests live under `tests-beta/android/MASVS-NETWORK/`).
+- Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach. 
 
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
 
@@ -40,16 +41,18 @@ Follow a consistent style across all test titles.
 
 **Conventions**
 
-- Static: “References to…” (semgrep/r2)
-- Dynamic: “Runtime Use …” (frida)
+- Static: "References to…" (semgrep/r2)
+- Dynamic: "Runtime Use …" (frida)
 
 Exceptions may apply where "Runtime ..." feels forced, for example, tests using adb, local backups, or filesystem snapshots.
 
 #### platform
 
-The mobile platform. One of the following: iOS, Android, or network.
+The mobile platform. One of the following:
 
-- Use network for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with type: [network]).
+- `android`
+- `ios`
+- `network`: for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with `type: [network]`).
 
 #### id
 
@@ -88,21 +91,15 @@ type: [dynamic, manual]
 
 #### best-practices
 
-Reference platform-specific mitigations or best practices. Automation generates a “Mitigations” section.
+Reference platform-specific mitigations or best practices. Automation generates a "Mitigations" section.
 
-New best practice files can be added under [best-practices/](https://github.com/OWASP/owasp-mastg/tree/master/best-practices).
+Reference the related `best-practices/` pages for background using their ID. Create the pages if they don't exist yet.
 
 Example:
 
 ```md
 best-practices: [MASTG-BEST-0001]
 ```
-
-This links to https://mas.owasp.org/MASTG/best-practices/MASTG-BEST-0001/
-
-Notes:
-
-- If no applicable best practices exist yet, you can omit the field or set an empty list: `best-practices: []`.
 
 #### prerequisites
 
@@ -126,8 +123,8 @@ prerequisites:
 
 #### profiles
 
-Specify the MASVS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in [MAS Testing Profiles Guide]( https://docs.google.com/document/d/1paz7dxKXHzAC9MN7Mnln1JiZwBNyg7Gs364AJ6KudEs/edit?tab=t.0#heading=h.il6q80u4fm3n)
+Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
+The profiles are described in [MAS Testing Profiles Guide](Document/0x03b-Testing-Profiles.md)
 
 - L1 denotes Essential Security.
 - L2 denotes Advanced Security.
@@ -138,6 +135,16 @@ Example:
 
 ```md
 profiles: [L1, L2, P]
+```
+
+#### knowledge
+
+Reference the related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
+
+Example:
+
+```md
+knowledge: [MASTG-KNOW-0013]
 ```
 
 #### optional fields
@@ -158,7 +165,22 @@ Notes:
 
 #### Overview
 
-The overview is platform-specific and extends the weakness overview with details on the area tested. It may mention specific APIs and features.
+The overview is platform-specific and extends the weakness overview with details on the area tested (the Knowledge items from the `knowledge` in the metadata).
+
+Very important: the overview must be phrased like an issue.
+
+- Describe the relevant platform feature/API from the perspective of "what can go wrong" (risk, failure mode, exposure).
+- Make it clear why the test exists: what the tester is trying to detect and why that matters.
+
+Do not repeat the weakness description here. Focus on the specific issue the test is checking for on the given platform.
+
+Good patterns for issue framing:
+
+- "If the app uses/implements/configures X, Y can happen …"
+- "This can lead to … (exposure, bypass, integrity failure, privacy leak) …"
+- "This test checks/verifies whether the app …"
+
+Do not write the overview like a neutral platform description. Neutral/descriptive explanations belong in `knowledge/`.
 
 Example:
 
@@ -198,7 +220,7 @@ Notes:
 
 The output you get after executing all steps. It serves as evidence.
 
-It MUST start with “The output should contain ...”.
+It MUST start with "The output should contain ...".
 
 Example:
 
@@ -212,7 +234,7 @@ The output should contain a list of locations where insecure random APIs are use
 
 Using the observation as input, describe how to evaluate it. State explicitly what makes the test fail.
 
-It MUST start with “The test case fails if ...”.
+It MUST start with "The test case fails if ...".
 
 Example:
 
@@ -221,3 +243,5 @@ Example:
 
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts.
 ```
+
+IMPORTANT: Do not include remediation advice or best practices in the evaluation section. Remediation belongs in `best-practices/` and must be linked in the test metadata `best-practices`. If it does not exist yet, create it.

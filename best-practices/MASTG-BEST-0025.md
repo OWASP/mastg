@@ -3,6 +3,7 @@ title: Use Secure Random Number Generator APIs
 alias: ios-use-secure-random
 id: MASTG-BEST-0025
 platform: ios
+knowledge: [MASTG-KNOW-0070]
 ---
 
 Use secure random number generator APIs that are backed by the operating system _cryptographically secure pseudorandom number generator (CSPRNG)_. Do not build your own _pseudorandom number generator (PRNG)_.

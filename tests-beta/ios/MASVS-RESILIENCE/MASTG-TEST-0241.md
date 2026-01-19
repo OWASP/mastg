@@ -6,6 +6,7 @@ type: [dynamic]
 weakness: MASWE-0097
 false_negative_prone: true
 profiles: [R]
+knowledge: [MASTG-KNOW-0084]
 ---
 
 ## Overview

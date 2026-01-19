@@ -6,11 +6,12 @@ type: [static]
 weakness: MASWE-0053
 profiles: [L2]
 best-practices: [MASTG-BEST-0026]
+knowledge: [MASTG-KNOW-0100]
 ---
 
 ## Overview
 
-This test verifies whether the target app prevents sensitive information entered into text fields from being cached by the system keyboard (@MASTG-KNOW-0100). On iOS, the keyboard may suggest previously entered text when typing in any app on the device.
+This test verifies whether the target app prevents sensitive information entered into text fields from being cached by the system keyboard. On iOS, the keyboard may suggest previously entered text when typing in any app on the device.
 
 The test checks whether UI elements such as `UITextField`, `UITextView`, and `UISearchBar` prevent keyboard caching by using one or more of the following attributes:
 
