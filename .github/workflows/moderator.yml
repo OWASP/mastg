@@ -1,7 +1,7 @@
 name: AI Moderator
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened]
   issues:
     types: [opened]
@@ -15,33 +15,149 @@ jobs:
   quality-check:
     runs-on: ubuntu-latest
     steps:
+      - name: Heuristic signals
+        id: heur
+        shell: bash
+        env:
+          TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
+          BODY: ${{ github.event.issue.body || github.event.pull_request.body }}
+        run: |
+          python - << 'PY'
+          import os, re, json
+          title = os.environ.get("TITLE") or ""
+          body = os.environ.get("BODY") or ""
+          text = (title + "\n" + body).strip()
+          urls = re.findall(r'https?://\S+', text)
+          repeated_urls = len(urls) != len(set(urls))
+          many_urls = len(urls) >= 3
+          empty_or_tiny = len(text) < 40
+          very_long = len(text) > 8000
+          keywordy = bool(re.search(r'\b(crypto|airdrop|giveaway|whatsapp|telegram|invest|forex)\b', text, re.I))
+          signals = {
+            "url_count": len(urls),
+            "repeated_urls": repeated_urls,
+            "many_urls": many_urls,
+            "empty_or_tiny": empty_or_tiny,
+            "very_long": very_long,
+            "keywordy": keywordy,
+          }
+          print("signals=" + json.dumps(signals, ensure_ascii=False))
+          PY
+          python - << 'PY'
+          import os, re, json
+          m = re.search(r'^signals=(.*)$', open("stdout.txt","r").read(), re.M) if False else None
+          PY
+        continue-on-error: true
+
       - name: Detect spam or low-quality content
         uses: actions/ai-inference@v1
         id: ai
         with:
-          prompt: |
-            Is this GitHub ${{ github.event_name == 'issues' && 'issue' || 'pull request' }} spam, AI-generated slop, or low quality?
-            
-            Title: ${{ github.event.issue.title || github.event.pull_request.title }}
-            Body: ${{ github.event.issue.body || github.event.pull_request.body }}
-            
-            Respond with one of: spam, ai-generated, needs-review, or ok
-          system-prompt: You detect spam and low-quality contributions. Be conservative - only flag obvious spam or AI slop.
           model: openai/gpt-4o-mini
+          system-prompt: |
+            You are a conservative moderation assistant for a technical open source repository.
+            Use only the provided title and body and the provided heuristic signals.
+            Do not guess missing context.
+            Always return valid JSON with the exact keys requested.
+          prompt: |
+            Classify this GitHub ${{ github.event_name == 'issues' && 'issue' || 'pull request' }} as ok, needs-review, ai-generated, or spam.
 
-      - name: Apply label if needed
-        if: steps.ai.outputs.response != 'ok'
+            Return a JSON object with exactly these keys.
+            verdict, confidence, reasons, evidence, action
+
+            Rules.
+            verdict is one of ok, needs-review, ai-generated, spam.
+            confidence is an integer from 0 to 100.
+            reasons is an array of 2 to 5 short strings describing why.
+            evidence is an array of 1 to 5 objects with keys quote and note, quote must be an exact substring from the title or body, or an empty string if no direct quote exists.
+            action is a short string describing what a maintainer should do next.
+
+            Heuristic signals, JSON.
+            ${{ steps.heur.outputs.signals }}
+
+            Title.
+            ${{ github.event.issue.title || github.event.pull_request.title }}
+
+            Body.
+            ${{ github.event.issue.body || github.event.pull_request.body }}
+
+      - name: Write audit summary
+        shell: bash
+        run: |
+          {
+            echo "### AI moderation report"
+            echo ""
+            echo "Raw model output."
+            echo '```json'
+            echo '${{ steps.ai.outputs.response }}'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply label and comment if needed
+        if: steps.ai.outputs.response != ''
         uses: actions/github-script@v7
         with:
           script: |
-            const label = `${{ steps.ai.outputs.response }}`;
+            const raw = `${{ steps.ai.outputs.response }}`.trim();
+            let report;
+            try {
+              report = JSON.parse(raw);
+            } catch (e) {
+              core.setFailed(`Model output was not valid JSON. Output was: ${raw}`);
+              return;
+            }
+
+            const verdict = String(report.verdict || '').trim();
+            const confidence = report.confidence;
+            const reasons = Array.isArray(report.reasons) ? report.reasons : [];
+            const evidence = Array.isArray(report.evidence) ? report.evidence : [];
+            const action = String(report.action || '').trim();
+
             const number = ${{ github.event.issue.number || github.event.pull_request.number }};
-            
-            if (label && label !== 'ok') {
+
+            const allowed = new Set(["ok", "needs-review", "ai-generated", "spam"]);
+            if (!allowed.has(verdict)) {
+              core.setFailed(`Unexpected verdict: ${verdict}`);
+              return;
+            }
+
+            if (verdict !== "ok") {
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: number,
-                labels: [label]
+                labels: [verdict],
+              });
+
+              const lines = [];
+              lines.push("Automated moderation result.");
+              lines.push("");
+              lines.push(`Verdict, ${verdict}.`);
+              lines.push(`Confidence, ${confidence}.`);
+              if (reasons.length) {
+                lines.push("");
+                lines.push("Reasons.");
+                for (const r of reasons) lines.push(`, ${r}.`);
+              }
+              if (evidence.length) {
+                lines.push("");
+                lines.push("Evidence.");
+                for (const ev of evidence.slice(0, 5)) {
+                  const q = (ev && typeof ev.quote === "string") ? ev.quote : "";
+                  const n = (ev && typeof ev.note === "string") ? ev.note : "";
+                  if (q) lines.push(`, "${q}", ${n}.`);
+                  else lines.push(`, No direct quote, ${n}.`);
+                }
+              }
+              if (action) {
+                lines.push("");
+                lines.push(`Suggested action, ${action}.`);
+              }
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: number,
+                body: lines.join("\n"),
               });
             }
