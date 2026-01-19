@@ -23,17 +23,17 @@ On iOS, the primary logging mechanism is **Apple's Unified Logging System**, but
 
 If an app logs sensitive information (e.g., session tokens, PII, passwords, request/response bodies), this data becomes accessible to:
 
-* Anyone with physical access to the unlocked device (via Console.app).
-* Malware running on the device (if logs are persisted to world-readable files, though system logs are generally restricted).
-* Developers or attackers with access to the crash reporting dashboard.
+- Anyone with physical access to the unlocked device (via Console.app).
+- Malware running on the device (if logs are persisted to world-readable files, though system logs are generally restricted).
+- Developers or attackers with access to the crash reporting dashboard.
 
 ## Static Analysis
 
 Review the source code for logging usage. Look for:
 
-* **Keywords**: `print`, `debugPrint`, `NSLog`, `os_log`, `Logger`, `dump`.
-* **Third-Party Configs**: Initialization of SDKs with debug flags (e.g., `FirebaseConfiguration.shared.setLoggerLevel(.debug)`, `Alamofire.Session(startRequestsImmediately: true)`).
-* **Preprocessor Macros**: Ensure debug code is wrapped in `#if DEBUG`.
+- **Keywords**: `print`, `debugPrint`, `NSLog`, `os_log`, `Logger`, `dump`.
+- **Third-Party Configs**: Initialization of SDKs with debug flags (e.g., `FirebaseConfiguration.shared.setLoggerLevel(.debug)`, `Alamofire.Session(startRequestsImmediately: true)`).
+- **Preprocessor Macros**: Ensure debug code is wrapped in `#if DEBUG`.
 
 ### Example: Insecure Logging in Swift
 
@@ -88,8 +88,8 @@ If the application uses WebViews:
 
 Some libraries log network traffic or internal state. Even if the app itself is quiet, an outdated or debug-configured network library (like Alamofire or AFNetworking) might dump headers and bodies.
 
-* **Trigger**: Perform network requests.
-* **Observation**: Look for JSON objects or HTTP headers in the Console output.
+- **Trigger**: Perform network requests.
+- **Observation**: Look for JSON objects or HTTP headers in the Console output.
 
 ## Remediation
 
@@ -131,5 +131,5 @@ Ensure all third-party SDKs have their logging disabled or set to `ERROR` level 
 
 ## References
 
-* [Apple Documentation - Logging](https://developer.apple.com/documentation/os/logging)
-* [Apple Documentation - Generating Log Messages](https://developer.apple.com/documentation/os/generating_log_messages_from_your_code)
+- [Apple Documentation - Logging](https://developer.apple.com/documentation/os/logging)
+- [Apple Documentation - Generating Log Messages](https://developer.apple.com/documentation/os/generating_log_messages_from_your_code)
