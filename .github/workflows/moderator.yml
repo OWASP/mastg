@@ -27,7 +27,7 @@ jobs:
             
             Respond with one of: spam, ai-generated, needs-review, or ok
           system-prompt: You detect spam and low-quality contributions. Be conservative - only flag obvious spam or AI slop.
-          model: openai/gpt-5
+          model: openai/gpt-4o-mini
 
       - name: Apply label if needed
         if: steps.ai.outputs.response != 'ok'
