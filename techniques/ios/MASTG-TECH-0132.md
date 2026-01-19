@@ -26,4 +26,5 @@ Also check the [alternatives for uploading](https://docs.dependencytrack.org/usa
 
 If you are using the default settings of the @MASTG-TOOL-0133 Docker container, go to the frontend of @MASTG-TOOL-0132, which is <http://localhost:8080>. Open the project to which you uploaded the SBOM to verify if there are any vulnerable dependencies.
 
-> Note: Transitive dependencies are not supported by @MASTG-TOOL-0134 for [SwiftPM](https://cyclonedx.github.io/cdxgen/#/PROJECT_TYPES).
+!!! note
+    Transitive dependencies are not supported by @MASTG-TOOL-0134 for [SwiftPM](https://cyclonedx.github.io/cdxgen/#/PROJECT_TYPES).

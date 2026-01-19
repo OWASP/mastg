@@ -1,0 +1,47 @@
+name: AI Moderator
+
+on:
+  pull_request:
+    types: [opened]
+  issues:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  issues: write
+  models: read
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect spam or low-quality content
+        uses: actions/ai-inference@v1
+        id: ai
+        with:
+          prompt: |
+            Is this GitHub ${{ github.event_name == 'issues' && 'issue' || 'pull request' }} spam, AI-generated slop, or low quality?
+            
+            Title: ${{ github.event.issue.title || github.event.pull_request.title }}
+            Body: ${{ github.event.issue.body || github.event.pull_request.body }}
+            
+            Respond with one of: spam, ai-generated, needs-review, or ok
+          system-prompt: You detect spam and low-quality contributions. Be conservative - only flag obvious spam or AI slop.
+          model: openai/gpt-4o-mini
+
+      - name: Apply label if needed
+        if: steps.ai.outputs.response != 'ok'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = `${{ steps.ai.outputs.response }}`;
+            const number = ${{ github.event.issue.number || github.event.pull_request.number }};
+            
+            if (label && label !== 'ok') {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: number,
+                labels: [label]
+              });
+            }

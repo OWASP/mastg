@@ -47,6 +47,171 @@ function generateUUID() {
 
 
 /**
+ * Checks if a hook definition is for a native function.
+ * @param {object} hook - Hook definition object.
+ * @returns {boolean} True if the hook targets a native function.
+ */
+function isNativeHook(hook) {
+  return hook.native === true;
+}
+
+/**
+ * Resolves the address of a native symbol for Interceptor.attach.
+ * @param {object} hook - Native hook definition with symbol and optional module.
+ * @returns {NativePointer|null} The address of the symbol, or null if not found.
+ */
+function resolveNativeSymbol(hook) {
+  try {
+    if (hook.module) {
+      let mod = Process.getModuleByName(hook.module);
+      return mod.getExportByName(hook.symbol);
+    } else {
+      return Module.getGlobalExportByName(hook.symbol);
+    }
+  } catch (e) {
+    console.error("Failed to resolve native symbol '" + hook.symbol + "'" +
+      (hook.module ? " in module '" + hook.module + "'" : "") + ": " + e);
+    return null;
+  }
+}
+
+/**
+ * Registers a native function hook using Frida's Interceptor API.
+ * @param {object} hook - Native hook definition.
+ * @param {string} categoryName - OWASP MAS category for identification.
+ */
+function registerNativeHook(hook, categoryName) {
+  let address = resolveNativeSymbol(hook);
+  if (!address) {
+    console.error("Cannot attach to native symbol '" + hook.symbol + "': address not resolved.");
+    return;
+  }
+
+  let maxFrames = typeof hook.maxFrames === 'number' ? hook.maxFrames : 8;
+
+  Interceptor.attach(address, {
+    onEnter: function(args) {
+      // Capture full native stack first (no truncation yet)
+      let fullNativeStack = [];
+      try {
+        let btFull = Thread.backtrace(this.context, Backtracer.FUZZY);
+        for (let i = 0; i < btFull.length; i++) {
+          try {
+            fullNativeStack.push(DebugSymbol.fromAddress(btFull[i]).toString());
+          } catch (e2) {
+            fullNativeStack.push(btFull[i].toString());
+          }
+        }
+      } catch (e) {
+        fullNativeStack.push("<backtrace unavailable: " + e + ">");
+      }
+
+      // Capture full Java stack (no truncation yet)
+      let fullJavaStack = null;
+      if (Java.available) {
+        try {
+          let Exception = Java.use("java.lang.Exception");
+          let stJavaFull = Exception.$new().getStackTrace();
+          let jstFull = [];
+          for (let j = 0; j < stJavaFull.length; j++) {
+            jstFull.push(stJavaFull[j].toString());
+          }
+          fullJavaStack = jstFull;
+        } catch (je) {
+          // ignore
+        }
+      }
+
+      // Filtering uses full stacks before truncation
+      if (hook.filterEventsByStacktrace) {
+        let combinedFull = (fullJavaStack && fullJavaStack.length ? fullJavaStack : fullNativeStack);
+        let needle = hook.filterEventsByStacktrace;
+        let found = false;
+        for (let k = 0; k < combinedFull.length; k++) {
+            if (combinedFull[k].indexOf(needle) !== -1) { found = true; break; }
+        }
+        if (!found) {
+          return; // suppress event
+        }
+      }
+
+      // Apply maxFrames truncation only for emission. If filtering was used, emit full stack to ensure visibility of matching frame.
+      function _truncate(arr) {
+        if (hook.filterEventsByStacktrace) return arr.slice();
+        if (maxFrames === -1) return arr.slice();
+        let out = [];
+        for (let t = 0; t < arr.length && t < maxFrames; t++) out.push(arr[t]);
+        return out;
+      }
+      let effectiveStack = fullJavaStack && fullJavaStack.length ? _truncate(fullJavaStack) : _truncate(fullNativeStack);
+
+      // Decode native args: if descriptors provided, decode only those; else auto decode up to 5
+      let decodedArgs = [];
+      try {
+        let descriptors = Array.isArray(hook.args) ? hook.args : [];
+        if (descriptors.length > 0) {
+          for (let ai = 0; ai < descriptors.length; ai++) {
+            let p = args[ai];
+            if (p === undefined) break;
+            decodedArgs.push(decodeArgByDescriptor(p, ai, descriptors[ai]));
+          }
+        } else {
+          // Auto mode
+          let autoCount = 5;
+          for (let aj = 0; aj < autoCount; aj++) {
+            let p2 = args[aj];
+            if (p2 === undefined) break;
+            let fallbackVal = null;
+            try {
+              try { fallbackVal = p2.readCString(); } catch(e1) {
+                try { fallbackVal = p2.toInt32(); } catch(e2) {
+                  try { let bufF = Memory.readByteArray(p2, 64); fallbackVal = bufF ? _arrayBufferToHex(bufF) : p2.toString(); } catch(e3) { fallbackVal = p2.toString(); }
+                }
+              }
+            } catch(eF) { fallbackVal = "<error: " + eF + ">"; }
+            decodedArgs.push({ name: "args["+aj+"]", type: "auto", value: fallbackVal });
+          }
+        }
+      } catch (eDec) {
+        decodedArgs = [{ name: "args", type: "auto", value: "<arg-decode-error: " + eDec + ">" }];
+      }
+
+      // Apply per-arg filters (if present) before emitting
+      try {
+        let descriptors2 = Array.isArray(hook.args) ? hook.args : [];
+        if (!filtersPass(decodedArgs, descriptors2)) {
+          if (hook.debug === true) {
+            console.log(JSON.stringify({ type: 'native-filter-suppressed', symbol: hook.symbol, args: decodedArgs }));
+          }
+          return; // suppress event when filters don't match
+        }
+      } catch (eFilt) {
+        // If filtering fails, default to emitting
+      }
+
+      let _mastgEvent = {
+        id: generateUUID(),
+        type: "native-hook",
+        category: categoryName,
+        time: new Date().toISOString(),
+        module: hook.module || "<global>",
+        symbol: hook.symbol,
+        address: address.toString(),
+        stackTrace: effectiveStack,
+        inputParameters: decodedArgs
+      };
+
+      console.log(JSON.stringify(_mastgEvent, null, 2));
+    },
+    onLeave: function(retval) {
+      // Optionally emit a separate event or extend the onEnter event
+      // For now, we just log the return if needed
+    }
+  });
+}
+
+
+/**
  * Overloads a method. If the method is called, the parameters and the return value are decoded and together with a stack trace send back to the frida.re client.
  * @param {string} clazz - Java class (e.g., "android.security.keystore.KeyGenParameterSpec$Builder").
  * @param {string} method - Name of the method which should be overloaded (e.g., "setBlockModes").
@@ -314,64 +479,122 @@ function registerAllHooks(hook, categoryName, cachedOperations) {
   });
 }
 
-Java.perform(function () {
-
-  // Pre-compute hook operations once to avoid redundant processing
-  let hookOperationsCache = [];
-  target.hooks.forEach(function (hook, _) {
-    hookOperationsCache.push({
-      hook: hook,
-      built: buildHookOperations(hook)
-    });
+// Main execution: separate native hooks from Java hooks
+(function() {
+  // Separate hooks into native and Java categories
+  let nativeHooks = [];
+  let javaHooks = [];
+  target.hooks.forEach(function(hook) {
+    if (isNativeHook(hook)) {
+      nativeHooks.push(hook);
+    } else {
+      javaHooks.push(hook);
+    }
   });
 
-  // Emit an initial summary of all overloads that will be hooked
-  try {
-    // Aggregate map nested by class then method
-    let aggregate = {};
-    let totalHooks = 0;
-    let errors = [];
-    let totalErrors = 0;
-    hookOperationsCache.forEach(function (cached) {
-      totalHooks += cached.built.count;
-      if (cached.built.errors && cached.built.errors.length) {
-        Array.prototype.push.apply(errors, cached.built.errors);
-        totalErrors += cached.built.errors.length;
+  // Prepare native summary upfront without attaching hooks yet
+  let nativeHooksSummary = [];
+  let nativeErrors = [];
+  nativeHooks.forEach(function(hook) {
+    try {
+      // Attempt to resolve symbol to surface errors early, but do not attach
+      let addr = resolveNativeSymbol(hook);
+      if (!addr) {
+        nativeErrors.push("Failed to resolve native symbol '" + hook.symbol + "'" + (hook.module ? " in module '" + hook.module + "'" : ""));
       }
-      cached.built.operations.forEach(function (op) {
-        if (!aggregate[op.clazz]) {
-          aggregate[op.clazz] = {};
+      nativeHooksSummary.push({
+        module: hook.module || "<global>",
+        symbol: hook.symbol
+      });
+    } catch (e) {
+      let errMsg = "Failed to resolve native hook for symbol '" + hook.symbol + "': " + e;
+      console.error(errMsg);
+      nativeErrors.push(errMsg);
+    }
+  });
+
+  // Register hooks inside Java.perform, but only after emitting both summaries
+  // Enter Java.perform to allow Java stack augmentation (even if only native hooks)
+  Java.perform(function() {
+      // Pre-compute hook operations once to avoid redundant processing
+      let hookOperationsCache = [];
+      javaHooks.forEach(function(hook) {
+        hookOperationsCache.push({
+          hook: hook,
+          built: buildHookOperations(hook)
+        });
+      });
+
+      // 1) Emit native summary
+      if (nativeHooks.length > 0) {
+        let nativeSummary = {
+          type: "native-summary",
+          hooks: nativeHooksSummary,
+          totalHooks: nativeHooksSummary.length,
+          errors: nativeErrors,
+          totalErrors: nativeErrors.length
+        };
+        console.log(JSON.stringify(nativeSummary, null, 2));
+      }
+
+      // 2) Emit an initial summary of all overloads that will be hooked
+      try {
+        // Aggregate map nested by class then method
+        let aggregate = {};
+        let totalHooks = 0;
+        let errors = [];
+        let totalErrors = 0;
+        hookOperationsCache.forEach(function(cached) {
+          totalHooks += cached.built.count;
+          if (cached.built.errors && cached.built.errors.length) {
+            Array.prototype.push.apply(errors, cached.built.errors);
+            totalErrors += cached.built.errors.length;
+          }
+          cached.built.operations.forEach(function(op) {
+            if (!aggregate[op.clazz]) {
+              aggregate[op.clazz] = {};
+            }
+            if (!aggregate[op.clazz][op.method]) {
+              aggregate[op.clazz][op.method] = [];
+            }
+            aggregate[op.clazz][op.method].push(op.args);
+          });
+        });
+
+        let hooks = [];
+        for (let clazz in aggregate) {
+          if (!aggregate.hasOwnProperty(clazz)) continue;
+          let methodsMap = aggregate[clazz];
+          for (let methodName in methodsMap) {
+            if (!methodsMap.hasOwnProperty(methodName)) continue;
+            let entries = methodsMap[methodName].map(function(argsArr) {
+              return {args: argsArr};
+            });
+            hooks.push({class: clazz, method: methodName, overloads: entries});
+          }
         }
-        if (!aggregate[op.clazz][op.method]) {
-          aggregate[op.clazz][op.method] = [];
-        }
-        aggregate[op.clazz][op.method].push(op.args);
+
+        let summary = {type: "summary", hooks: hooks, totalHooks: totalHooks, errors: errors, totalErrors: totalErrors};
+        console.log(JSON.stringify(summary, null, 2));
+      } catch (e) {
+        // If summary fails, don't block hooking
+        console.error("Summary generation failed, but hooking will continue. Error:", e);
+      }
+
+      // 3) Now that both summaries were emitted, attach native hooks
+      if (nativeHooks.length > 0) {
+        nativeHooks.forEach(function(hook) {
+          try {
+            registerNativeHook(hook, target.category);
+          } catch (e) {
+            console.error("Failed to register native hook after summary for symbol '" + hook.symbol + "': " + e);
+          }
+        });
+      }
+
+      // 4) Register Java hooks using cached operations
+      hookOperationsCache.forEach(function(cached) {
+        registerAllHooks(cached.hook, target.category, cached.built);
       });
     });
-
-    let hooks = [];
-    for (let clazz in aggregate) {
-      if (!aggregate.hasOwnProperty(clazz)) continue;
-      let methodsMap = aggregate[clazz];
-      for (let methodName in methodsMap) {
-        if (!methodsMap.hasOwnProperty(methodName)) continue;
-        let entries = methodsMap[methodName].map(function (argsArr) {
-          return {args: argsArr};
-        });
-        hooks.push({class: clazz, method: methodName, overloads: entries});
-      }
-    }
-
-    let summary = {type: "summary", hooks: hooks, totalHooks: totalHooks, errors: errors, totalErrors: totalErrors};
-    console.log(JSON.stringify(summary, null, 2));
-  } catch (e) {
-    // If summary fails, don't block hooking
-    console.error("Summary generation failed, but hooking will continue. Error:", e);
-  }
-
-  // Register hooks using cached operations
-  hookOperationsCache.forEach(function (cached) {
-    registerAllHooks(cached.hook, target.category, cached.built);
-  });
-
-});
+})();

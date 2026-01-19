@@ -14,7 +14,8 @@ The following sample code contains:
 - the Kotlin code that creates a notification with the `NotificationManager` class and exposes sensitive data.
 - the AndroidManifest.xml that declares the runtime permission `POST_NOTIFICATIONS` permission that allows the app to post notifications (Android API 33 and higher).
 
-> Note: To execute the test on a device, we must ensure that the app has the `POST_NOTIFICATIONS` permission granted. This can be done either via the @MASTG-TOOL-0004 command, such as `adb shell pm grant org.owasp.mastestapp android.permission.POST_NOTIFICATIONS` or by navigating to the app settings on the device and manually enabling the permission.
+!!! note
+    To execute the test on a device, we must ensure that the app has the `POST_NOTIFICATIONS` permission granted. This can be done either via the @MASTG-TOOL-0004 command, such as `adb shell pm grant org.owasp.mastestapp android.permission.POST_NOTIFICATIONS` or by navigating to the app settings on the device and manually enabling the permission.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
