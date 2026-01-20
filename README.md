@@ -73,3 +73,17 @@ Or use Docker Compose:
 ```bash
 docker-compose up
 ```
+
+### Advanced Volume Mounting
+The recommended folder structure for local development is:
+- `mastg/` (this repo)
+- `MASVS/` (clone of OWASP/masvs)
+
+If you have this structure, you can mount the MASVS directory directly:
+
+```yaml
+    volumes:
+      - ./MASVS:/app/MASVS
+    environment:
+      - MASVS_LOCAL_PATH=/app/MASVS
+```

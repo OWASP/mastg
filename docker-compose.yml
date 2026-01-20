@@ -3,9 +3,10 @@ services:
     build: .
     volumes:
       - .:/app
-      # Map your local MASVS.yaml here. Ensure the file exists locally or update the path.
-      # - ../masvs/OWASP_MASVS.yaml:/app/masvs.yaml
+      # To avoid downloading MASVS at runtime, uncomment the following line and ensure
+      # the 'MASVS' directory (containing OWASP_MASVS.yaml) exists in the current directory.
+      # - ./MASVS:/app/MASVS
     environment:
-      # If mapped, the script will use this local file instead of downloading.
-      - MASVS_LOCAL_PATH=/app/masvs.yaml
+      # Points to the mounted directory. The script will look for OWASP_MASVS.yaml inside.
+      - MASVS_LOCAL_PATH=/app/MASVS
     command: python3 src/scripts/yaml_to_excel.py

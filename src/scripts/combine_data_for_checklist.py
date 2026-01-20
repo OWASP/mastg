@@ -11,11 +11,15 @@ def retrieve_masvs(version="latest"):
     global MASVS
     
     local_path = os.environ.get("MASVS_LOCAL_PATH")
-    if local_path and os.path.exists(local_path):
-        print(f"Loading MASVS from local path: {local_path}")
-        with open(local_path, 'r') as f:
-            MASVS = yaml.safe_load(f)
-            return MASVS
+    if local_path:
+        if os.path.isdir(local_path):
+            local_path = os.path.join(local_path, "OWASP_MASVS.yaml")
+        
+        if os.path.exists(local_path):
+            print(f"Loading MASVS from local path: {local_path}")
+            with open(local_path, 'r') as f:
+                MASVS = yaml.safe_load(f)
+                return MASVS
 
     print(f"Downloading MASVS from GitHub ({version})...")
     url = f"https://github.com/OWASP/masvs/releases/{version}/download/OWASP_MASVS.yaml"
