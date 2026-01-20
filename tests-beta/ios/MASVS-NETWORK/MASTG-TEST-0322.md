@@ -37,12 +37,13 @@ The output should contain the ATS configuration, if present, including any excep
 
 ## Evaluation
 
-The test case fails if cleartext traffic is permitted. This can happen if any of the following is true:
+The test case fails if cleartext traffic is permitted. This can happen if **any** of the following conditions are met:
 
-1. `NSAllowsArbitraryLoads` is set to `true`.
-2. `NSAllowsArbitraryLoadsInWebContent` is set to `true`.
-3. `NSAllowsArbitraryLoadsForMedia` is set to `true`.
-4. `NSExceptionAllowsInsecureHTTPLoads` is set to `true` for any domain under `NSExceptionDomains`.
+1. `NSAllowsArbitraryLoads = true` **only when** none of the fine-grained keys (2-4 below) are present (because on iOS 10+ they cause `NSAllowsArbitraryLoads` to be ignored).
+2. `NSAllowsArbitraryLoadsInWebContent = true`.
+3. `NSAllowsArbitraryLoadsForMedia = true`.
+4. `NSAllowsLocalNetworking = true`.
+5. Any domain under `NSExceptionDomains` sets `NSExceptionAllowsInsecureHTTPLoads = true`.
 
 **Context Considerations**:
 
