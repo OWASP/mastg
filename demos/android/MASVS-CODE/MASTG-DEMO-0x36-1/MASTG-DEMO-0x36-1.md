@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Enforced Immediate Updates with FakeAppUpdateManager using semgrep
-id: MASTG-DEMO-0x37
+id: MASTG-DEMO-0x36-1
 code: [kotlin]
 test: MASTG-TEST-0x36
 ---

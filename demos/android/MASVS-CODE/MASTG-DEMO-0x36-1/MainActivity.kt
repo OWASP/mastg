@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
     private val mastgTest by lazy { MastgTest(applicationContext) }
     private lateinit var appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
 
-    // UI state to gate app content based on update status
     private val updateState = mutableStateOf(MastgTest.UpdateState.CHECKING)
     private val isUpdateCheckComplete = mutableStateOf(false)
 
@@ -42,14 +41,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Register ActivityResult launcher for update flow
         appUpdateResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
             handleUpdateFlowResult(result.resultCode)
         }
 
-        // CRITICAL: Register InstallStateUpdatedListener for comprehensive state tracking
         mastgTest.registerInstallStateListener(appUpdateResultLauncher)
 
         // Set up callback to receive update state changes
@@ -61,21 +58,17 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            // UI gating: Show appropriate screen based on update state
             when {
                 !isUpdateCheckComplete.value -> {
-                    // Still checking for updates - show loading
                     UpdateCheckingScreen()
                 }
                 updateState.value == MastgTest.UpdateState.UPDATE_REQUIRED ||
                 updateState.value == MastgTest.UpdateState.UPDATE_IN_PROGRESS ||
                 updateState.value == MastgTest.UpdateState.UPDATE_CANCELED ||
                 updateState.value == MastgTest.UpdateState.UPDATE_FAILED -> {
-                    // Update required - show blocking screen (Play Store UI will overlay)
                     UpdateRequiredScreen(updateState.value)
                 }
                 else -> {
-                    // No update required or update installed - show main app
                     MainScreen(
                         displayString = "App is running no mandatory updates are required",
                         onStartClick = {
@@ -90,10 +83,6 @@ class MainActivity : ComponentActivity() {
         mastgTest.checkForUpdate(appUpdateResultLauncher)
     }
 
-    /**
-     * Handles the result from the Play Store update flow.
-     * Re-triggers update if user dismissed/canceled.
-     */
     private fun handleUpdateFlowResult(resultCode: Int) {
         when (resultCode) {
             RESULT_OK -> {
@@ -117,45 +106,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /**
-     * Handles update state changes from MastgTest.
-     */
     private fun handleUpdateStateChange(state: MastgTest.UpdateState) {
         Log.d("MainActivity", "Update state changed to: $state")
 
         when (state) {
             MastgTest.UpdateState.NO_UPDATE_AVAILABLE,
             MastgTest.UpdateState.UPDATE_INSTALLED -> {
-                // Only allow app access when no update is needed or update is installed
                 isUpdateCheckComplete.value = true
             }
             MastgTest.UpdateState.CHECKING -> {
-                // Still checking - keep UI blocked
                 isUpdateCheckComplete.value = false
             }
             MastgTest.UpdateState.UPDATE_REQUIRED,
             MastgTest.UpdateState.UPDATE_IN_PROGRESS,
             MastgTest.UpdateState.UPDATE_CANCELED,
             MastgTest.UpdateState.UPDATE_FAILED -> {
-                // Update required - ensure UI is gated
                 isUpdateCheckComplete.value = true // Allow re-render but show blocking screen
             }
         }
     }
 
-    /**
-     * CRITICAL: onResume performs comprehensive update enforcement.
-     * This prevents bypass scenarios where user dismisses and backgrounds the app.
-     */
     override fun onResume() {
         super.onResume()
         Log.d("MainActivity", "onResume: Enforcing mandatory update check...")
         mastgTest.enforceUpdateOnResume(appUpdateResultLauncher)
     }
 
-    /**
-     * Clean up listener to prevent memory leaks.
-     */
     override fun onDestroy() {
         super.onDestroy()
         mastgTest.unregisterInstallStateListener()
@@ -187,10 +163,6 @@ fun MainScreenPreview() {
     MainScreen(displayString = "App is running.")
 }
 
-/**
- * Blocking screen shown while checking for mandatory updates.
- * Prevents user from accessing app content until update status is determined.
- */
 @Preview
 @Composable
 fun UpdateCheckingScreen() {
@@ -217,11 +189,6 @@ fun UpdateCheckingScreen() {
     }
 }
 
-/**
- * Blocking screen shown when a mandatory update is required.
- * This screen is displayed behind the Play Store update UI.
- * Ensures the user cannot access app content without installing the update.
- */
 @Composable
 fun UpdateRequiredScreen(state: MastgTest.UpdateState) {
     val message = when (state) {

@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
     private val mastgTest by lazy { MastgTest(applicationContext) }
     private lateinit var appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
 
-    // UI state to gate app content based on update status
     private val updateState = mutableStateOf(MastgTest.UpdateState.CHECKING)
     private val isUpdateCheckComplete = mutableStateOf(false)
 
@@ -42,14 +41,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Register ActivityResult launcher for update flow
         appUpdateResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
             handleUpdateFlowResult(result.resultCode)
         }
 
-        // CRITICAL: Register InstallStateUpdatedListener for comprehensive state tracking
         mastgTest.registerInstallStateListener(appUpdateResultLauncher)
 
         // Set up callback to receive update state changes
@@ -61,21 +58,17 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            // UI gating: Show appropriate screen based on update state
             when {
                 !isUpdateCheckComplete.value -> {
-                    // Still checking for updates - show loading
                     UpdateCheckingScreen()
                 }
                 updateState.value == MastgTest.UpdateState.UPDATE_REQUIRED ||
                 updateState.value == MastgTest.UpdateState.UPDATE_IN_PROGRESS ||
                 updateState.value == MastgTest.UpdateState.UPDATE_CANCELED ||
                 updateState.value == MastgTest.UpdateState.UPDATE_FAILED -> {
-                    // Update required - show blocking screen (Play Store UI will overlay)
                     UpdateRequiredScreen(updateState.value)
                 }
                 else -> {
-                    // No update required or update installed - show main app
                     MainScreen(
                         displayString = "App is running. No mandatory updates pending.",
                         onStartClick = {
@@ -86,7 +79,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // Initial update check on app launch
         mastgTest.checkForUpdate(appUpdateResultLauncher)
     }
 
@@ -112,9 +104,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /**
-     * Handles update state changes from MastgTest.
-     */
     private fun handleUpdateStateChange(state: MastgTest.UpdateState) {
         Log.d("MainActivity", "Update state changed to: $state")
 
@@ -152,10 +141,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
 @Composable
 fun MainScreen(
-    displayString: String = "App is running.",
+    displayString: String,
     onStartClick: () -> Unit = {}
 ) {
     BaseScreen(onStartClick = onStartClick) {
@@ -171,6 +159,11 @@ fun MainScreen(
     }
 }
 
+@Preview
+@Composable
+fun MainScreenPreview() {
+    MainScreen(displayString = "App is running.")
+}
 
 @Preview
 @Composable
