@@ -20,7 +20,6 @@ class MastgTest(context: Context) {
     private var installStateListener: InstallStateUpdatedListener? = null
     private var pendingUpdateLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
 
-    // Callback to notify MainActivity of update state changes
     var onUpdateStateChanged: ((UpdateState) -> Unit)? = null
 
     enum class UpdateState {
@@ -65,8 +64,6 @@ class MastgTest(context: Context) {
                 onUpdateStateChanged?.invoke(UpdateState.UPDATE_IN_PROGRESS)
             }
             InstallStatus.DOWNLOADED -> {
-                // For IMMEDIATE updates, this shouldn't happen as they auto-install
-                // But handle it just in case
                 Log.d("MastgTest", "Update downloaded, completing installation...")
                 appUpdateManager.completeUpdate()
             }
@@ -81,13 +78,11 @@ class MastgTest(context: Context) {
             InstallStatus.CANCELED -> {
                 Log.w("MastgTest", "Update was CANCELED by user. Re-triggering mandatory update.")
                 onUpdateStateChanged?.invoke(UpdateState.UPDATE_CANCELED)
-                // Immediately re-check and enforce update
                 checkForUpdate(appUpdateResultLauncher)
             }
             InstallStatus.FAILED -> {
                 Log.e("MastgTest", "Update FAILED. Re-triggering mandatory update.")
                 onUpdateStateChanged?.invoke(UpdateState.UPDATE_FAILED)
-                // Immediately re-check and enforce update
                 checkForUpdate(appUpdateResultLauncher)
             }
             InstallStatus.PENDING -> {
@@ -105,9 +100,6 @@ class MastgTest(context: Context) {
         }
     }
 
-    /**
-     * Checks if an IMMEDIATE update is available on the Play Store.
-     */
     fun checkForUpdate(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {
