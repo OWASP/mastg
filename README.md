@@ -52,3 +52,24 @@ MAS Advocates are industry adopters of the OWASP MASVS, MASWE and MASTG who have
 </a>
 
 <br>
+
+## 🐳 Docker Support
+
+You can run the MASTG tools using Docker to avoid installing dependencies locally.
+
+### Building the Image
+```bash
+docker build -t mastg .
+```
+
+### Running with Local MASVS
+To use a local copy of MASVS (e.g., for testing changes without downloading), mount it as a volume:
+
+```bash
+docker run -v $(pwd):/app -v /path/to/local/OWASP_MASVS.yaml:/app/masvs.yaml -e MASVS_LOCAL_PATH=/app/masvs.yaml mastg
+```
+
+Or use Docker Compose:
+```bash
+docker-compose up
+```

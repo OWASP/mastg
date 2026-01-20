@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  mastg-generator:
+    build: .
+    volumes:
+      - .:/app
+      # Map your local MASVS.yaml here. Ensure the file exists locally or update the path.
+      # - ../masvs/OWASP_MASVS.yaml:/app/masvs.yaml
+    environment:
+      # If mapped, the script will use this local file instead of downloading.
+      - MASVS_LOCAL_PATH=/app/masvs.yaml
+    command: python3 src/scripts/yaml_to_excel.py
