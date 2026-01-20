@@ -19,6 +19,8 @@ def retrieve_masvs(version="latest"):
             print(f"Loading MASVS from local path: {local_path}")
             with open(local_path, 'r') as f:
                 MASVS = yaml.safe_load(f)
+                if not MASVS or not isinstance(MASVS, dict):
+                     raise ValueError(f"Invalid MASVS file at {local_path}. Ensure it is a valid YAML file containing the release artifact structure (e.g. 'groups' key).")
                 return MASVS
 
     print(f"Downloading MASVS from GitHub ({version})...")
