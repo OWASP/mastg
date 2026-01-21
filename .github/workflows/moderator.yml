@@ -18,14 +18,33 @@ jobs:
         id: allow
         shell: bash
         env:
+          EVENT_NAME: ${{ github.event_name }}
           ACTOR: ${{ github.actor }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         run: |
           python - << 'PY'
           import os
+      
+          event = (os.environ.get("EVENT_NAME") or "").strip()
           actor = (os.environ.get("ACTOR") or "").strip().lower()
+          pr_author = (os.environ.get("PR_AUTHOR") or "").strip().lower()
+          issue_author = (os.environ.get("ISSUE_AUTHOR") or "").strip().lower()
+      
           allow = {"cpholguera", "sushi2k", "Copilot"}
+      
+          if event in ("pull_request", "pull_request_target"):
+            subject = pr_author
+          elif event == "issues":
+            subject = issue_author
+          else:
+            subject = actor
+      
+          skip = "true" if subject in allow else "false"
+      
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
-            f.write(f"skip={'true' if actor in allow else 'false'}\n")
+            f.write(f"skip={skip}\n")
+            f.write(f"allow_subject={subject}\n")
           PY
 
       - name: Heuristic signals
