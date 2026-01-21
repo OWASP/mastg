@@ -1,22 +1,36 @@
 name: AI Moderator
 
 on:
+  workflow_dispatch:
   pull_request_target:
-    types: [opened]
-  issues:
     types: [opened]
 
 permissions:
   pull-requests: write
-  issues: write
   models: read
+  contents: read
 
 jobs:
   quality-check:
     runs-on: ubuntu-latest
     steps:
+      - name: Allowlist gate
+        id: allow
+        shell: bash
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          python - << 'PY'
+          import os
+          actor = (os.environ.get("ACTOR") or "").strip().lower()
+          allow = {"cpholguera", "sushi2k", "Copilot"}
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+            f.write(f"skip={'true' if actor in allow else 'false'}\n")
+          PY
+
       - name: Heuristic signals
         id: heur
+        if: steps.allow.outputs.skip != 'true'
         shell: bash
         env:
           TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
@@ -28,52 +42,114 @@ jobs:
           body = os.environ.get("BODY") or ""
           text = (title + "\n" + body).strip()
           urls = re.findall(r'https?://\S+', text)
-          repeated_urls = len(urls) != len(set(urls))
-          many_urls = len(urls) >= 3
-          empty_or_tiny = len(text) < 40
-          very_long = len(text) > 8000
-          keywordy = bool(re.search(r'\b(crypto|airdrop|giveaway|whatsapp|telegram|invest|forex)\b', text, re.I))
           signals = {
             "url_count": len(urls),
-            "repeated_urls": repeated_urls,
-            "many_urls": many_urls,
-            "empty_or_tiny": empty_or_tiny,
-            "very_long": very_long,
-            "keywordy": keywordy,
+            "repeated_urls": len(urls) != len(set(urls)),
+            "many_urls": len(urls) >= 3,
+            "empty_or_tiny": len(text) < 40,
+            "very_long": len(text) > 8000,
+            "keywordy": bool(re.search(r'\b(crypto|airdrop|giveaway|whatsapp|telegram|invest|forex)\b', text, re.I)),
           }
-          print("signals=" + json.dumps(signals, ensure_ascii=False))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+            f.write("signals=" + json.dumps(signals, ensure_ascii=False) + "\n")
           PY
-          python - << 'PY'
-          import os, re, json
-          m = re.search(r'^signals=(.*)$', open("stdout.txt","r").read(), re.M) if False else None
-          PY
-        continue-on-error: true
+
+      - name: Pull request change summary
+        id: prmeta
+        if: steps.allow.outputs.skip != 'true' && github.event_name != 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            const number = pr.number
+
+            const perPage = 100
+            let page = 1
+            let files = []
+            for (;;) {
+              const resp = await github.rest.pulls.listFiles({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: number,
+                per_page: perPage,
+                page
+              })
+              files = files.concat(resp.data || [])
+              if (!resp.data || resp.data.length < perPage) break
+              page += 1
+            }
+
+            const totalFiles = files.length
+            const additions = files.reduce((a, f) => a + (f.additions || 0), 0)
+            const deletions = files.reduce((a, f) => a + (f.deletions || 0), 0)
+
+            const topFiles = files
+              .slice()
+              .sort((a, b) => ((b.changes || 0) - (a.changes || 0)))
+              .slice(0, 8)
+              .map(f => ({
+                filename: f.filename,
+                status: f.status,
+                changes: f.changes,
+                additions: f.additions,
+                deletions: f.deletions
+              }))
+
+            const summary = { total_files: totalFiles, additions, deletions, top_files_by_changes: topFiles }
+            core.setOutput("summary", JSON.stringify(summary))
 
       - name: Detect spam or low-quality content
-        uses: actions/ai-inference@v1
         id: ai
+        if: steps.allow.outputs.skip != 'true'
+        uses: actions/ai-inference@v1
         with:
           model: openai/gpt-4o-mini
           system-prompt: |
             You are a conservative moderation assistant for a technical open source repository.
-            Use only the provided title and body and the provided heuristic signals.
+            Use only the provided title, body, heuristic signals, and PR change summary when present.
             Do not guess missing context.
+
+            IMPORTANT, PR template handling.
+            The repository uses a PR template that contains an AI Tool Disclosure section and checkboxes.
+            Treat the presence of the template text as neutral boilerplate.
+            Only treat AI disclosure as a signal if the author clearly indicated a choice or provided concrete details.
+            If the checkboxes are both unchecked or both checked, or the disclosure fields are left as generic examples, treat disclosure as incomplete.
+
             Always return valid JSON with the exact keys requested.
           prompt: |
-            Classify this GitHub ${{ github.event_name == 'issues' && 'issue' || 'pull request' }} as ok, needs-review, ai-generated, or spam.
+            Classify this GitHub item as one of these verdicts.
+            ok, ai-assisted, ai-gen-needs-review, spam.
 
             Return a JSON object with exactly these keys.
-            verdict, confidence, reasons, evidence, action
+            verdict, confidence, reasons, evidence, action.
 
-            Rules.
-            verdict is one of ok, needs-review, ai-generated, spam.
-            confidence is an integer from 0 to 100.
-            reasons is an array of 2 to 5 short strings describing why.
-            evidence is an array of 1 to 5 objects with keys quote and note, quote must be an exact substring from the title or body, or an empty string if no direct quote exists.
-            action is a short string describing what a maintainer should do next.
+            Verdict meanings.
+            ok, normal contribution, no strong issues.
+            ai-assisted, contributor disclosed AI use in the template and nothing else looks wrong.
+            ai-gen-needs-review, contributor claimed no AI use or disclosure is incomplete or contradictory, but signals suggest AI generated text or unreviewed bulk edits, or the PR scope suggests misuse such as sweeping unrelated changes.
+            spam, promotional, scam, or irrelevant.
 
-            Heuristic signals, JSON.
+            How to detect actual disclosure, without guessing.
+            Count AI disclosure as present only if the body shows a checked box marked with [x] or [X], or the author wrote specific tools, specific models, or a non generic prompt summary.
+            Do not mark ai-assisted just because the template mentions AI.
+
+            MAS contributing alignment checks to consider.
+            Low effort PRs, generic text, unrelated changes, and sweeping rewrites not justified by the title or described intent should be flagged for ai-gen-needs-review or spam.
+            If PR change summary shows many files or high churn but the description is minimal or generic, raise suspicion.
+            If the author disclosed AI use but the PR looks like an unreviewed bulk rewrite, keep ai-assisted only if the description explains why the scope is necessary, otherwise ai-gen-needs-review with an action to request justification and review evidence.
+
+            Output constraints.
+            confidence is an integer 0 to 100.
+            reasons is an array of 2 to 5 short strings.
+            evidence is an array of 1 to 5 objects with keys quote and note.
+            quote must be an exact substring from the title or body, or an empty string if no direct quote exists.
+            action is a short string telling maintainers what to do next.
+
+            Heuristic signals JSON.
             ${{ steps.heur.outputs.signals }}
+
+            PR change summary JSON, empty for issues.
+            ${{ steps.prmeta.outputs.summary }}
 
             Title.
             ${{ github.event.issue.title || github.event.pull_request.title }}
@@ -82,6 +158,7 @@ jobs:
             ${{ github.event.issue.body || github.event.pull_request.body }}
 
       - name: Write audit summary
+        if: steps.allow.outputs.skip != 'true'
         shell: bash
         run: |
           {
@@ -94,64 +171,83 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Apply label and comment if needed
-        if: steps.ai.outputs.response != ''
+        if: steps.allow.outputs.skip != 'true' && steps.ai.outputs.response != ''
         uses: actions/github-script@v7
+        env:
+          RAW_MODEL_OUTPUT: ${{ steps.ai.outputs.response }}
         with:
           script: |
-            const raw = `${{ steps.ai.outputs.response }}`.trim();
-            let report;
+            let raw = String(process.env.RAW_MODEL_OUTPUT || "").trim()
+
+            raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim()
+
+            let report
             try {
-              report = JSON.parse(raw);
+              report = JSON.parse(raw)
             } catch (e) {
-              core.setFailed(`Model output was not valid JSON. Output was: ${raw}`);
-              return;
+              core.setFailed(`Model output was not valid JSON. Output was: ${raw}`)
+              return
             }
 
-            const verdict = String(report.verdict || '').trim();
-            const confidence = report.confidence;
-            const reasons = Array.isArray(report.reasons) ? report.reasons : [];
-            const evidence = Array.isArray(report.evidence) ? report.evidence : [];
-            const action = String(report.action || '').trim();
+            const verdict = String(report.verdict || "").trim()
+            const confidence = report.confidence
+            const reasons = Array.isArray(report.reasons) ? report.reasons : []
+            const evidence = Array.isArray(report.evidence) ? report.evidence : []
+            const action = String(report.action || "").trim()
 
-            const number = ${{ github.event.issue.number || github.event.pull_request.number }};
-
-            const allowed = new Set(["ok", "needs-review", "ai-generated", "spam"]);
+            const allowed = new Set(["ok", "ai-assisted", "ai-gen-needs-review", "spam"])
             if (!allowed.has(verdict)) {
-              core.setFailed(`Unexpected verdict: ${verdict}`);
-              return;
+              core.setFailed(`Unexpected verdict: ${verdict}`)
+              return
+            }
+
+            const number = context.payload.issue
+              ? context.payload.issue.number
+              : context.payload.pull_request.number
+
+            const labelForVerdict = {
+              "ai-assisted": "ai-assisted",
+              "ai-gen-needs-review": "ai-gen-needs-review",
+              "spam": "spam"
             }
 
             if (verdict !== "ok") {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: number,
-                labels: [verdict],
-              });
-
-              const lines = [];
-              lines.push("Automated moderation result.");
-              lines.push("");
-              lines.push(`Verdict, ${verdict}.`);
-              lines.push(`Confidence, ${confidence}.`);
-              if (reasons.length) {
-                lines.push("");
-                lines.push("Reasons.");
-                for (const r of reasons) lines.push(`, ${r}.`);
+              const label = labelForVerdict[verdict]
+              if (label) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: number,
+                  labels: [label],
+                })
               }
+
+              const lines = []
+              lines.push("Automated moderation result.")
+              lines.push("")
+              lines.push(`Verdict, ${verdict}.`)
+              lines.push(`Confidence, ${confidence}.`)
+
+              if (reasons.length) {
+                lines.push("")
+                lines.push("Reasons.")
+                for (const r of reasons) lines.push(`, ${r}.`)
+              }
+
               if (evidence.length) {
-                lines.push("");
-                lines.push("Evidence.");
+                lines.push("")
+                lines.push("Evidence.")
                 for (const ev of evidence.slice(0, 5)) {
-                  const q = (ev && typeof ev.quote === "string") ? ev.quote : "";
-                  const n = (ev && typeof ev.note === "string") ? ev.note : "";
-                  if (q) lines.push(`, "${q}", ${n}.`);
-                  else lines.push(`, No direct quote, ${n}.`);
+                  const q = (ev && typeof ev.quote === "string") ? ev.quote : ""
+                  const n = (ev && typeof ev.note === "string") ? ev.note : ""
+                  if (q) lines.push(`, "${q}", ${n}.`)
+                  else lines.push(`, No direct quote, ${n}.`)
                 }
               }
+
               if (action) {
-                lines.push("");
-                lines.push(`Suggested action, ${action}.`);
+                lines.push("")
+                lines.push(`Suggested action, ${action}.`)
               }
 
               await github.rest.issues.createComment({
@@ -159,5 +255,5 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: number,
                 body: lines.join("\n"),
-              });
+              })
             }
