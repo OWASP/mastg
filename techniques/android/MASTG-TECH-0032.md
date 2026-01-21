@@ -25,17 +25,67 @@ main[1] resume
 Method entered: All threads resumed.
 ```
 
-The Dalvik Debug Monitor Server (DDMS) is a GUI tool included with Android Studio. It may not look like much, but its Java method tracer is one of the most awesome tools you can have in your arsenal, and it is indispensable for analyzing obfuscated bytecode.
+Android Studio provides a built-in profiler that is the modern replacement for the deprecated DDMS (Dalvik Debug Monitor Server) and Android Device Monitor. The [Android Studio Profiler](https://developer.android.com/studio/profile/android-profiler) includes the CPU Profiler, which is essential for analyzing method execution and is particularly useful for analyzing obfuscated bytecode.
 
-DDMS is somewhat confusing. However, it can be launched in several ways, and different trace viewers will be launched depending on how the method was traced. There's a standalone tool called "Traceview" as well as a built-in viewer in Android Studio, both of which offer different ways to navigate the trace. You'll usually use Android Studio's built-in viewer, which gives you a _zoomable_ hierarchical timeline of all method calls. However, the standalone tool is also useful. It has a profile panel that shows the time spent in each method, along with the parents and children of each method.
+The CPU Profiler provides several ways to record execution traces, offering a zoomable hierarchical timeline of all method calls, time spent in each method, and the relationships between methods (parents and children).
 
-To record an execution trace in Android Studio, open the **Android** tab at the bottom of the GUI. Select the target process in the list and click the little **stop watch** button on the left. This starts the recording. Once you're done, click the same button to stop the recording. The integrated trace view will open and show the recorded trace. You can scroll and zoom the timeline view with the mouse or trackpad.
+## Recording with Android Studio Profiler
 
-Execution traces can also be recorded in the standalone Android Device Monitor. The Device Monitor can be started within Android Studio (**Tools** -> **Android** -> **Android Device Monitor**) or from the shell with the `ddms` command.
+To record an execution trace in Android Studio:
 
-To start recording tracing information, select the target process in the **Devices** tab and click **Start Method Profiling**. Click the **stop** button to stop recording, after which the Traceview tool will open and show the recorded trace. Clicking any of the methods in the profile panel highlights the selected method in the timeline panel.
+1. Open **View** -> **Tool Windows** -> **Profiler** (or click the **Profiler** tab at the bottom).
+2. Select your app's process from the device and process dropdown.
+3. In the CPU timeline, click anywhere to open the CPU profiler.
+4. Click **Record** and choose a recording configuration:
+   - **Sampled (Java/Kotlin Methods)**: Lower overhead, good for most cases
+   - **Instrumented (Java/Kotlin Methods)**: More accurate but higher overhead
+   - **System Trace**: Records system-level information
+5. Interact with your app to capture the behavior you want to analyze.
+6. Click **Stop** to end the recording.
 
-DDMS also offers a convenient heap dump button that will dump the Java heap of a process to a .hprof file. The Android Studio user guide contains more information about Traceview.
+The trace view will display in the profiler window, showing method calls in a flame chart, call chart, or top-down/bottom-up tree view. You can zoom, scroll, and inspect individual method calls to understand execution flow and timing.
+
+## Programmatic Method Tracing
+
+You can also record method traces programmatically using the [Debug API](https://developer.android.com/reference/android/os/Debug):
+
+```java
+// Start tracing
+Debug.startMethodTracing("myapp_trace");
+
+// Code to profile
+performSomeOperation();
+
+// Stop tracing
+Debug.stopMethodTracing();
+```
+
+The trace file will be saved to the app's data directory and can be opened in Android Studio's CPU Profiler (**File** -> **Open** -> select the `.trace` file) or analyzed using command-line tools.
+
+## Command-Line Method Tracing
+
+For automated or remote profiling, you can use the `am profile` command:
+
+```bash
+# Start profiling
+adb shell am profile start <package_name> <output_file>
+
+# Stop profiling
+adb shell am profile stop <package_name>
+
+# Pull the trace file
+adb pull /data/local/tmp/<output_file> .
+```
+
+The resulting trace file can be opened in Android Studio's CPU Profiler for analysis.
+
+Additional profiling options include:
+
+- **Memory Profiler**: For heap dumps and memory analysis (replaces the legacy heap dump functionality)
+- **Network Profiler**: For monitoring network requests and responses
+- **simpleperf**: A command-line CPU profiling tool that provides more detailed native code profiling
+
+For more information, refer to the [Android Studio Profiler documentation](https://developer.android.com/studio/profile).
 
 ## Tracing System Calls
 
