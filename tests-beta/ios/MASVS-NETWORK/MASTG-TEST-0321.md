@@ -27,6 +27,4 @@ The test case fails if any HTTP URLs are confirmed to be used for communication.
 !!! warning Limitations
     The presence of HTTP URLs alone does not necessarily mean they are actively used for communication. Their usage may depend on runtime conditions, such as how the URLs are invoked and whether cleartext traffic is allowed in the app's ATS configuration. For example, HTTP requests may fail if App Transport Security (ATS) is enabled and no exceptions are configured (see @MASTG-TEST-0322) or may succeed if the app uses low-level APIs that bypass ATS (see @MASTG-TEST-0322).
 
-Additionally, complement this static inspection with dynamic testing methods:
-
-- **Network Traffic Interception**: Capture and analyze network traffic to confirm whether the app connects to the identified HTTP URLs during real-world usage. See @MASTG-TEST-0236.
+Additionally, complement this static inspection with dynamic testing methods. For example, capture and analyze network traffic to confirm whether the app connects to the identified HTTP URLs during real-world usage. See @MASTG-TEST-0236.
