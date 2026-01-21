@@ -175,9 +175,14 @@ jobs:
       - name: Apply label and comment if needed
         if: steps.allow.outputs.skip != 'true' && steps.ai.outputs.response != ''
         uses: actions/github-script@v7
+        env:
+          RAW_MODEL_OUTPUT: ${{ steps.ai.outputs.response }}
         with:
           script: |
-            const raw = `${{ steps.ai.outputs.response }}`.trim()
+            let raw = String(process.env.RAW_MODEL_OUTPUT || "").trim()
+
+            raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim()
+
             let report
             try {
               report = JSON.parse(raw)
@@ -198,7 +203,9 @@ jobs:
               return
             }
 
-            const number = ${{ github.event.issue.number || github.event.pull_request.number }}
+            const number = context.payload.issue
+              ? context.payload.issue.number
+              : context.payload.pull_request.number
 
             const labelForVerdict = {
               "ai-assisted": "ai-assisted",
@@ -222,11 +229,13 @@ jobs:
               lines.push("")
               lines.push(`Verdict, ${verdict}.`)
               lines.push(`Confidence, ${confidence}.`)
+
               if (reasons.length) {
                 lines.push("")
                 lines.push("Reasons.")
                 for (const r of reasons) lines.push(`, ${r}.`)
               }
+
               if (evidence.length) {
                 lines.push("")
                 lines.push("Evidence.")
@@ -237,6 +246,7 @@ jobs:
                   else lines.push(`, No direct quote, ${n}.`)
                 }
               }
+
               if (action) {
                 lines.push("")
                 lines.push(`Suggested action, ${action}.`)
