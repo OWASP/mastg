@@ -58,4 +58,5 @@ On Android, setting `LD_PRELOAD` is slightly different compared to other Linux d
 setprop wrap.com.foo.bar LD_PRELOAD=/data/local/tmp/libpreload.so
 ```
 
-> Please note that if the library to be preloaded does not have SELinux context assigned, from Android 5.0 (API level 21) onwards, you need to disable SELinux to make `LD_PRELOAD` work, which may require root.
+!!! note
+    If the library to be preloaded does not have SELinux context assigned, from Android 5.0 (API level 21) onwards, you need to disable SELinux to make `LD_PRELOAD` work, which may require root.

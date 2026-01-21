@@ -42,8 +42,8 @@ It is important to remember that the LocalAuthentication framework is an event-b
     - `kSecAccessControlUserPresence` can be used as an alternative. This will allow the user to authenticate through a passcode if the biometric authentication no longer works. This is considered to be weaker than `kSecAccessControlBiometryAny` since it is much easier to steal someone's passcode entry by means of shouldersurfing, than it is to bypass the Touch ID or Face ID service.
 - In order to make sure that biometrics can be used, verify that the `kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly` or the `kSecAttrAccessibleWhenPasscodeSet` protection class is set when the `SecAccessControlCreateWithFlags` method is called. Note that the `...ThisDeviceOnly` variant will make sure that the keychain item is not synchronized with other iOS devices.
 
-> Note, a data protection class specifies the access methodology used to secure the data. Each class uses different policies to determine when the data
-is accessible.
+!!! note
+    A data protection class specifies the access methodology used to secure the data. Each class uses different policies to determine when the data is accessible.
 
 ## Dynamic Analysis
 
