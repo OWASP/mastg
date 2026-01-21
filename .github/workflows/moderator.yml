@@ -31,7 +31,7 @@ jobs:
           pr_author = (os.environ.get("PR_AUTHOR") or "").strip().lower()
           issue_author = (os.environ.get("ISSUE_AUTHOR") or "").strip().lower()
       
-          allow = {"cpholguera", "sushi2k"}
+          allow = {"cpholguera", "sushi2k", "Copilot"}
       
           if event in ("pull_request", "pull_request_target"):
             subject = pr_author
