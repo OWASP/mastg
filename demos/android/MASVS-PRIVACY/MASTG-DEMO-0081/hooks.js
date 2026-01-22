@@ -1,11 +1,9 @@
-var target = {
-  category: "PRIVACY",
-  hooks: [
+{
+  "category": "PRIVACY",
+  "hooks": [
     {
-      class: "com.google.firebase.analytics.FirebaseAnalytics",
-      methods: [
-        "logEvent"
-      ]
+      "class": "com.google.firebase.analytics.FirebaseAnalytics",
+      "method": "logEvent"
     }
   ]
 }

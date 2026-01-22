@@ -1,17 +1,16 @@
-var target = {
-  category: "STORAGE",
-  demo: "0059",
-  hooks: [
+{
+  "category": "STORAGE",
+  "hooks": [
     {
-      class: "android.app.SharedPreferencesImpl$EditorImpl",
-      methods: [
+      "class": "android.app.SharedPreferencesImpl$EditorImpl",
+      "methods": [
         "putString",
         "putStringSet"
       ]
     },
     {
-      class: "javax.crypto.Cipher",
-      methods: [
+      "class": "javax.crypto.Cipher",
+      "methods": [
         "getInstance",
         "doFinal",
         "init",
@@ -19,24 +18,22 @@ var target = {
       ]
     },
     {
-      class: "java.security.KeyStore",
-      methods: [
-        // "getInstance",
+      "class": "java.security.KeyStore",
+      "methods": [
         "setEntry",
         "getEntry"
       ]
     },
     {
-      class: "javax.crypto.KeyGenerator",
-      methods: [
+      "class": "javax.crypto.KeyGenerator",
+      "methods": [
         "getInstance",
-        // "init",
         "generateKey"
       ]
     },
     {
-      class: "android.util.Base64",
-      methods: [
+      "class": "android.util.Base64",
+      "methods": [
         "encodeToString",
         "decode"
       ]

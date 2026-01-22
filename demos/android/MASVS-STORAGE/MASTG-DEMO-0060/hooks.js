@@ -1,17 +1,16 @@
-var target = {
-  category: "STORAGE",
-  demo: "0060",
-  hooks: [
+{
+  "category": "STORAGE",
+  "hooks": [
     {
-      class: "androidx.security.crypto.EncryptedSharedPreferences$Editor",
-      methods: [
+      "class": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
+      "methods": [
         "putString",
         "putStringSet"
       ]
     },
     {
-      class: "android.app.SharedPreferencesImpl$EditorImpl",
-      methods: [
+      "class": "android.app.SharedPreferencesImpl$EditorImpl",
+      "methods": [
         "putString",
         "putStringSet"
       ]
