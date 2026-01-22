@@ -3,6 +3,8 @@ title: Execution Tracing
 platform: android
 ---
 
+## jdb
+
 Besides being useful for debugging, the jdb command line tool offers basic execution tracing functionality. To trace an app right from the start, you can pause the app with the Android "Wait for Debugger" feature or a `kill -STOP` command and attach jdb to set a deferred method breakpoint on any initialization method. Once the breakpoint is reached, activate method tracing with the `trace go methods` command and resume execution. jdb will dump all method entries and exits from that point onwards.
 
 ```bash
@@ -25,27 +27,13 @@ main[1] resume
 Method entered: All threads resumed.
 ```
 
-Android Studio provides a built-in profiler that is the modern replacement for the deprecated DDMS (Dalvik Debug Monitor Server) and Android Device Monitor. The [Android Studio Profiler](https://developer.android.com/studio/profile/android-profiler) includes the CPU Profiler, which is essential for analyzing method execution and is particularly useful for analyzing obfuscated bytecode.
+## Android Studio Profiler
+
+Android Studio provides a built-in profiler that is the modern replacement for the deprecated DDMS (Dalvik Debug Monitor Server) and Android Device Monitor. The [Android Studio Profiler](https://developer.android.com/studio/profile) includes the CPU Profiler, which is essential for analyzing method execution and is particularly useful for analyzing obfuscated bytecode.
 
 The CPU Profiler provides several ways to record execution traces, offering a zoomable hierarchical timeline of all method calls, time spent in each method, and the relationships between methods (parents and children).
 
-## Recording with Android Studio Profiler
-
-To record an execution trace in Android Studio:
-
-1. Open **View** -> **Tool Windows** -> **Profiler** (or click the **Profiler** tab at the bottom).
-2. Select your app's process from the device and process dropdown.
-3. In the CPU timeline, click anywhere to open the CPU profiler.
-4. Click **Record** and choose a recording configuration:
-   - **Sampled (Java/Kotlin Methods)**: Lower overhead, good for most cases
-   - **Instrumented (Java/Kotlin Methods)**: More accurate but higher overhead
-   - **System Trace**: Records system-level information
-5. Interact with your app to capture the behavior you want to analyze.
-6. Click **Stop** to end the recording.
-
-The trace view will display in the profiler window, showing method calls in a flame chart, call chart, or top-down/bottom-up tree view. You can zoom, scroll, and inspect individual method calls to understand execution flow and timing.
-
-## Tracing System Calls
+## strace
 
 Moving down a level in the OS hierarchy, you arrive at privileged functions that require the powers of the Linux kernel. These functions are available to normal processes via the system call interface. Instrumenting and intercepting calls into the kernel is an effective method for getting a rough idea of what a user process is doing, and often the most efficient way to deactivate low-level tampering defenses.
 
