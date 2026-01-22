@@ -33,7 +33,7 @@ Method entered: All threads resumed.
 
 Android Studio provides a built-in profiler that is the modern replacement for the deprecated DDMS and Android Device Monitor. The [Android Studio Profiler](https://developer.android.com/studio/profile) includes the CPU Profiler, which can be useful during reverse engineering when dealing with heavily obfuscated applications and unclear call graphs.
 
-The CPU Profiler can record execution traces and present them as a zoomable hierarchical timeline of method calls, time spent in each method, and parent child relationships. This makes it possible to recover high level execution structure even when static analysis yields limited insight.
+The CPU Profiler can record execution traces and present them as a zoomable hierarchical timeline of method calls, time spent in each method, and parent-child relationships. This makes it possible to recover high-level execution structure even when static analysis yields limited insight.
 
 ## strace
 
