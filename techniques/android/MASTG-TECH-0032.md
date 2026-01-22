@@ -45,48 +45,6 @@ To record an execution trace in Android Studio:
 
 The trace view will display in the profiler window, showing method calls in a flame chart, call chart, or top-down/bottom-up tree view. You can zoom, scroll, and inspect individual method calls to understand execution flow and timing.
 
-## Programmatic Method Tracing
-
-You can also record method traces programmatically using the [Debug API](https://developer.android.com/reference/android/os/Debug):
-
-```java
-// Start tracing
-Debug.startMethodTracing("myapp_trace");
-
-// Code to profile
-performSomeOperation();
-
-// Stop tracing
-Debug.stopMethodTracing();
-```
-
-The trace file will be saved to the app's data directory and can be opened in Android Studio's CPU Profiler (**File** -> **Open** -> select the `.trace` file) or analyzed using command-line tools.
-
-## Command-Line Method Tracing
-
-For automated or remote profiling, you can use the `am profile` command:
-
-```bash
-# Start profiling
-adb shell am profile start <package_name> <output_file>
-
-# Stop profiling
-adb shell am profile stop <package_name>
-
-# Pull the trace file
-adb pull /data/local/tmp/<output_file> .
-```
-
-The resulting trace file can be opened in Android Studio's CPU Profiler for analysis.
-
-Additional profiling options include:
-
-- **Memory Profiler**: For heap dumps and memory analysis (replaces the legacy heap dump functionality)
-- **Network Profiler**: For monitoring network requests and responses
-- **simpleperf**: A command-line CPU profiling tool that provides more detailed native code profiling
-
-For more information, refer to the [Android Studio Profiler documentation](https://developer.android.com/studio/profile).
-
 ## Tracing System Calls
 
 Moving down a level in the OS hierarchy, you arrive at privileged functions that require the powers of the Linux kernel. These functions are available to normal processes via the system call interface. Instrumenting and intercepting calls into the kernel is an effective method for getting a rough idea of what a user process is doing, and often the most efficient way to deactivate low-level tampering defenses.
