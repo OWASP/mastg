@@ -19,29 +19,25 @@ jobs:
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          ACTOR: ${{ github.actor }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         run: |
           python - << 'PY'
-          import os
-      
+          import os, json
+
           event = (os.environ.get("EVENT_NAME") or "").strip()
-          actor = (os.environ.get("ACTOR") or "").strip().lower()
-          pr_author = (os.environ.get("PR_AUTHOR") or "").strip().lower()
-          issue_author = (os.environ.get("ISSUE_AUTHOR") or "").strip().lower()
-      
-          allow = {"cpholguera", "sushi2k", "Copilot"}
-      
+
+          payload_path = os.environ.get("GITHUB_EVENT_PATH") or ""
+          payload = {}
+          if payload_path:
+            with open(payload_path, "r", encoding="utf-8") as f:
+              payload = json.load(f)
+
+          subject = ""
           if event in ("pull_request", "pull_request_target"):
-            subject = pr_author
-          elif event == "issues":
-            subject = issue_author
-          else:
-            subject = actor
-      
-          skip = "true" if subject in allow else "false"
-      
+            subject = (payload.get("pull_request", {}).get("user", {}).get("login") or "").strip().lower()
+
+          allow = {"cpholguera", "sushi2k", "copilot"}
+          skip = "true" if subject and subject in allow else "false"
+
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
             f.write(f"skip={skip}\n")
             f.write(f"allow_subject={subject}\n")
