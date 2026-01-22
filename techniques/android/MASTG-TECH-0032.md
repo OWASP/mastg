@@ -41,7 +41,7 @@ When Java-level tracing is insufficient, analysis often moves down the stack tow
 
 `strace` is a standard Linux utility that is not included with Android by default, but can be built from source via the Android NDK. It monitors the interaction between a process and the kernel, making it a convenient way to observe low-level behavior and bypass certain forms of application-level obfuscation. A major limitation is that `strace` relies on the `ptrace` system call to attach to the target process, which causes it to fail once anti-debugging measures are enabled.
 
-You can try different syscall filters depending on your analysis goals. For example, focus on syscalls that correlate with behavior you care about, like file and path access, network, process injection attempts, anti debug checks, and dynamic loading. For this, you can use `-e trace=` followed by a comma separated list of syscall names. For example, to trace file access, networking, and process management syscalls, you could use:
+You can try different syscall filters depending on your analysis goals. For example, focus on syscalls that correlate with behavior you care about, like file and path access, network, process injection attempts, anti-debug checks, and dynamic loading. For this, you can use `-e trace=` followed by a comma-separated list of syscall names. For example, to trace file access, networking, and process management syscalls, you could use:
 
 ```bash
 strace -ff -s 2000 -p `pgrep -f 'org.owasp.mastestapp' | head -1` -e trace=openat,access,fstat,newfstatat,readlinkat,unlinkat,renameat,mkdirat,connect,sendto,recvfrom,ptrace,prctl,mmap,mprotect,execve
@@ -71,7 +71,7 @@ strace: Process 27524 attached with 19 threads
 
 Here you can see how the target app is receiving and sending data over sockets, as well as opening a shared preferences XML file that may contain sensitive data.
 
-If want to focus on files only, you can use `-e trace=file` which is an abbreviation for `-e trace=open,openat,creat,link,unlink,...` (see more options in the "Filtering" section of the man page):
+If you want to focus on files only, you can use `-e trace=file` which is an abbreviation for `-e trace=open,openat,creat,link,unlink,...` (see more options in the "Filtering" section of the man page):
 
 ```bash
 strace -ff -s 2000 -p `pgrep -f 'org.owasp.mastestapp' | head -1` -e trace=file
@@ -96,13 +96,13 @@ Some things you can see here include the app accessing `MasSharedPref_Sensitive_
 
 To capture behavior that occurs very early in the app's lifecycle, it's important to attach `strace` as soon as the process starts. The best way to do this is to enable the "Wait for Debugger" option in the Android Developer Options for the target app. This causes the system to pause the app right after launch, allowing you to attach `strace` before any significant code executes. Once attached, you can then resume the app from the device or via adb.
 
-If the "Wait for Debugger" feature in **Settings > Developer options** is unavailable, a shell script can be used to wait for the process to appear and immediately attach to it. The process must be started separately, either by the system, the launcher, or another trigger.
+If the "Wait for Debugger" feature in **Settings -> Developer options** is unavailable, a shell script can be used to wait for the process to appear and immediately attach to it. The process must be started separately, either by the system, the launcher, or another trigger.
 
 ```bash
 while true; do pid=$(pgrep -f 'org.owasp.mastestapp' | head -1); if [[ -n "$pid" ]]; then strace -s 2000 -e "!read" -ff -p "$pid"; break; fi; done
 ```
 
-This script polls the process table until pgrep finds a matching pid, then immediately attaches `strace` as soon as the process becomes visible. This approximates early attachment, but it is not true process launch tracing. True start of process tracing would require tracing the zygote or using kernel level tracing like ftrace.
+This script polls the process table until pgrep finds a matching pid, then immediately attaches `strace` as soon as the process becomes visible. This approximates early attachment, but it is not true process launch tracing. True start of process tracing would require tracing the zygote or using kernel-level tracing like ftrace.
 
 ## Ftrace
 
@@ -122,7 +122,7 @@ The `/sys/kernel/debug/tracing` directory contains all control and output files 
 
 ## KProbes
 
-The KProbes interface provides a more powerful mechanism for kernel-level analysis by allowing probes to be inserted into almost arbitrary kernel code addresses. KProbes work by placing a breakpoint instruction at the target location and transferring control to a user defined handler when the breakpoint is hit.
+The KProbes interface provides a more powerful mechanism for kernel-level analysis by allowing probes to be inserted into almost arbitrary kernel code addresses. KProbes work by placing a breakpoint instruction at the target location and transferring control to a user-defined handler when the breakpoint is hit.
 
 This goes beyond passive tracing and into active kernel instrumentation, which can be necessary when user-space tracing is blocked by defensive measures. In addition to function entry and exit tracing, KProbes can be used for more intrusive tasks such as altering kernel behavior or implementing rootkit-like features.
 
