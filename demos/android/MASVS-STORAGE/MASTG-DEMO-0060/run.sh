@@ -1,2 +1,2 @@
 #!/bin/bash
-frooky -U -f org.owasp.mastestapp --platform android -o output.json hooks.json
+../../../../utils/frooky/run-android.sh hooks.json
