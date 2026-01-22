@@ -30,13 +30,13 @@ pip install frooky // pip3, or pipx
 Attach to an already running app:
 
 ```bash
-frooky -U -n "My App" -l hooks.js -o output.json
+frooky -U -n "My App" -l hooks.json -o output.json
 ```
 
 Spawn and instrument an app:
 
 ```bash
-frooky -U -f com.example.app -l hooks.js -o output.json
+frooky -U -f com.example.app -l hooks.json -o output.json
 ```
 
 Refer to the [official documentation](https://github.com/cpholguera/frooky#usage) for more details on command-line options and configuration.
