@@ -49,7 +49,6 @@ class MainActivity : ComponentActivity() {
 
         mastgTest.registerInstallStateListener(appUpdateResultLauncher)
 
-        // Set up callback to receive update state changes
         mastgTest.onUpdateStateChanged = { state ->
             runOnUiThread {
                 updateState.value = state
@@ -119,7 +118,7 @@ class MainActivity : ComponentActivity() {
             MastgTest.UpdateState.UPDATE_IN_PROGRESS,
             MastgTest.UpdateState.UPDATE_CANCELED,
             MastgTest.UpdateState.UPDATE_FAILED -> {
-                isUpdateCheckComplete.value = true // Allow re-render but show blocking screen
+                isUpdateCheckComplete.value = true
             }
         }
     }

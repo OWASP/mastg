@@ -49,7 +49,6 @@ class MainActivity : ComponentActivity() {
 
         mastgTest.registerInstallStateListener(appUpdateResultLauncher)
 
-        // Set up callback to receive update state changes
         mastgTest.onUpdateStateChanged = { state ->
             runOnUiThread {
                 updateState.value = state
@@ -78,8 +77,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        // Initial update check on app launch
         mastgTest.checkForUpdate(appUpdateResultLauncher)
     }
 
@@ -97,10 +94,8 @@ class MainActivity : ComponentActivity() {
                 mastgTest.checkForUpdate(appUpdateResultLauncher)
             }
             else -> {
-                // ActivityResult.RESULT_FIRST_USER or other failure codes
                 Log.e("MainActivity", "Update flow failed with result code: $resultCode. Re-enforcing.")
                 updateState.value = MastgTest.UpdateState.UPDATE_FAILED
-                // Immediately re-check and enforce
                 mastgTest.checkForUpdate(appUpdateResultLauncher)
             }
         }
@@ -121,7 +116,7 @@ class MainActivity : ComponentActivity() {
             MastgTest.UpdateState.UPDATE_IN_PROGRESS,
             MastgTest.UpdateState.UPDATE_CANCELED,
             MastgTest.UpdateState.UPDATE_FAILED -> {
-                isUpdateCheckComplete.value = true // Allow re-render but show blocking screen
+                isUpdateCheckComplete.value = true
             }
         }
     }
