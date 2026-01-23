@@ -24,7 +24,7 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 ### Observation
 
-The rule has identified one instance where the app calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(1).build()` (`AppUpdateType.IMMEDIATE`). The specified line number can be located in the reversed code for further investigation.
+The output file shows usages of the Google Play Core API enforcing immediate update.
 
 {{ output.txt }}
 
@@ -33,4 +33,4 @@ The rule has identified one instance where the app calls `startUpdateFlowForResu
 The test passes because the app correctly implements enforced immediate updates. Specifically:
 
 - On line 274, `startUpdateFlowForResult` is called with `AppUpdateOptions.newBuilder(1).build()` (`AppUpdateType.IMMEDIATE`), ensuring users are required to install the update before continuing.
-- The code also implements `enforceUpdateOnResume()` which checks for both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states, preventing users from bypassing the update by dismissing the dialog or backgrounding the app.
+- The code implements `enforceUpdateOnResume()` which checks for both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states, preventing users from bypassing the update by dismissing the dialog or backgrounding the app.
