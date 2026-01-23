@@ -25,7 +25,7 @@ The privacy policy URL can be found through the app's Google Play listing (if av
     - A web browser
     - @MASTG-TOOL-0145 (google-play-scraper) for automated retrieval of Google Play apps
     - Access to the installed app to find in-app privacy policy links
-    - @MASTG-TOOL-0005 (apktool) or similar tool for extracting app resources
+    - @MASTG-TOOL-0011 (apktool) or similar tool for extracting app resources
 
 ## Steps
 
@@ -121,7 +121,7 @@ If the app is not available on Google Play or you need to find the privacy polic
 
 #### Extract from App Resources
 
-Some apps bundle privacy policy information within their resources. You can extract this using @MASTG-TOOL-0005:
+Some apps bundle privacy policy information within their resources. You can extract this using @MASTG-TOOL-0011:
 
 1. Decompile the APK:
 
