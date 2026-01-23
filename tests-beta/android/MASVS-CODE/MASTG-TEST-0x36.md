@@ -9,15 +9,13 @@ profiles: [L2]
 
 ## Overview
 
-The goal of this test is to verify whether the application enforces mandatory updates and prevents users from accessing the app until the latest version has been successfully downloaded and installed.
+If the app does not properly enforce mandatory updates, users may continue running outdated versions that contain known security vulnerabilities or deprecated functionality. This can lead to exploitation of patched vulnerabilities, data leakage, or incompatibility with backend security requirements.
 
-A mandatory update can typically be achieved by using the [Google Play Core In-App Update API](https://developer.android.com/guide/playcore/in-app-updates/kotlin-java) and invoking `startUpdateFlowForResult` with an Immediate update type option `AppUpdateType.IMMEDIATE` or value `1`.
-
-However, calling `startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE` is not sufficient to enforce mandatory updates. Users can dismiss the update dialog or background the app before the download starts. To properly enforce updates, the app must also check for pending updates in `onResume` and re-trigger the update flow when `UPDATE_AVAILABLE` or `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states are detected.
+On Android, mandatory updates can be implemented using the [Google Play Core In-App Update API](https://developer.android.com/guide/playcore/in-app-updates/kotlin-java) by invoking `startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE` (value `1`). However, simply calling `startUpdateFlowForResult` is insufficient — users can dismiss the update dialog or background the app before the update completes. Without additional enforcement in the `onResume` lifecycle method to detect `UPDATE_AVAILABLE` or `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states, the mandatory update can be trivially bypassed.
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0110 on codebase for usages of the calls to the Play Core in-app update API, specifically `startUpdateFlowForResult`, that are configured with the integer value `1` (`AppUpdateType.IMMEDIATE`).
+1. Use @MASTG-TECH-0014 to identify calls to the Play Core In-App Update API, specifically `startUpdateFlowForResult` configured with the integer value `1` (`AppUpdateType.IMMEDIATE`).
 2. Review the code to verify that the app checks for pending updates in its `onResume` lifecycle method by calling `appUpdateManager.appUpdateInfo` and handling both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states.
 
 ## Observation
@@ -29,7 +27,7 @@ The output should contain:
 
 ## Evaluation
 
-The test fails if:
+The test case fails if:
 
 - The app does not implement enforced updating using Play In-App Updates API.
 - The app calls `startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE` but does not implement proper `onResume` checks to prevent users from bypassing the update by dismissing the dialog.

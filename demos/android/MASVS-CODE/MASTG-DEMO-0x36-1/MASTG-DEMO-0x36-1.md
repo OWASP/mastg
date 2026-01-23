@@ -2,8 +2,10 @@
 platform: android
 title: Enforced Immediate Updates with FakeAppUpdateManager using semgrep
 id: MASTG-DEMO-0x36-1
+tools: [MASTG-TOOL-0110]
 code: [kotlin]
 test: MASTG-TEST-0x36
+kind: pass
 ---
 
 ### Sample
@@ -24,14 +26,13 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 ### Observation
 
-The output file shows usages of the Google Play Core API enforcing immediate update.
+The rule has identified one instance where the app calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(1).build()` (`AppUpdateType.IMMEDIATE`). The specified line number can be located in the reversed code for further investigation.
 
 {{ output.txt }}
 
 ### Evaluation
 
-This code implements mandatory immediate updates using the Play Core API with `FakeAppUpdateManager` for unit testing. The app calls `startUpdateFlowForResult()` with `AppUpdateType.IMMEDIATE` or value `1`, which forces the user to install the update before continuing. The implementation includes:
+The test passes because the app correctly implements enforced immediate updates. Specifically:
 
-- State tracking via `InstallStateUpdatedListener` to monitor update progress.
-- Re-enforcement of updates when canceled or failed via `handleInstallState`.
-- Comprehensive `enforceUpdateOnResume()` method that checks for both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states to prevent bypass scenarios.
+- On line 274, `startUpdateFlowForResult` is called with `AppUpdateOptions.newBuilder(1).build()` (`AppUpdateType.IMMEDIATE`), ensuring users are required to install the update before continuing.
+- The code also implements `enforceUpdateOnResume()` which checks for both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states, preventing users from bypassing the update by dismissing the dialog or backgrounding the app.

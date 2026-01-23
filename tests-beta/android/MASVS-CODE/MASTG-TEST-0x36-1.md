@@ -9,7 +9,7 @@ profiles: [L2]
 
 ## Overview
 
-The goal of the test is to verify whether the app properly enforces mandatory version checks when the version number of the app is downgraded to an older version while intercepting the traffic using a MITM proxy. The objective is to determine whether the backend correctly verifies unsupported application versions and prevents further application usage.
+If the app relies solely on client-side version checks without backend enforcement, an attacker can bypass mandatory update mechanisms by intercepting and modifying network traffic. By downgrading the reported app version via a MITM proxy, an attacker can determine whether the backend properly validates the application version and blocks access for unsupported versions. If the backend does not enforce version restrictions, users may continue using outdated app versions with known vulnerabilities.
 
 ## Steps
 
