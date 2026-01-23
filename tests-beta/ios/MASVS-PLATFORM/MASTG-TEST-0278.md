@@ -6,6 +6,7 @@ type: [static]
 weakness: MASWE-0053
 threat: [app]
 profiles: [L2]
+knowledge: [MASTG-KNOW-0083]
 ---
 
 ## Overview

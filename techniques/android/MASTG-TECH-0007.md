@@ -5,7 +5,7 @@ platform: android
 
 Once you have collected the package name of the application you want to target, you'll want to start gathering information about it. First, retrieve the APK as explained in @MASTG-TECH-0003.
 
-APK files are actually ZIP files that can be unpacked using a standard decompression utility such as `unzip`. However, we recommend using @MASTG-TOOL-0011 which additionally decodes the AndroidManifest.xml and disassembles the app binaries (classes.dex) to smali code:
+APK files are actually ZIP files that can be unpacked using a standard decompression utility such as `unzip`. However, we recommend using @MASTG-TOOL-0011, which additionally decodes the AndroidManifest.xml and disassembles the app binaries (classes.dex) to smali code:
 
 ```bash
 $ apktool d UnCrackable-Level3.apk
@@ -33,12 +33,12 @@ The following files are unpacked:
     - CERT.RSA: the app's certificate(s)
     - CERT.SF: list of resources and the SHA-1 digest of the corresponding lines in the MANIFEST.MF file
 - assets: directory containing app assets (files used within the Android app, such as XML files, JavaScript files, and pictures), which the [AssetManager](https://developer.android.com/reference/android/content/res/AssetManager) can retrieve
-- classes.dex: classes compiled in the DEX file format, that Dalvik virtual machine/Android Runtime can process. DEX is Java bytecode for the Dalvik Virtual Machine. It is optimized for small devices
+- classes.dex: classes compiled in the DEX file format, that the Dalvik virtual machine/Android Runtime can process. DEX is Java bytecode for the Dalvik Virtual Machine. It is optimized for small devices
 - lib: directory containing third-party libraries that are part of the APK
 - res: directory containing resources that haven't been compiled into resources.arsc
 - resources.arsc: file containing precompiled resources, such as XML files for the layout
 
-As unzipping with the standard `unzip` utility leaves some files such as the `AndroidManifest.xml` unreadable, it's better to unpack the APK using @MASTG-TOOL-0011.
+As unzipping with the standard `unzip` utility leaves some files, such as the `AndroidManifest.xml`, unreadable, it's better to unpack the APK using @MASTG-TOOL-0011.
 
 ```bash
 $ ls -alh
@@ -56,7 +56,7 @@ drwxr-xr-x    9 sven  staff   306B Dec  5 16:29 smali
 
 ## The Android Manifest
 
-The Android Manifest is the main source of information, it includes a lot of interesting information such as the package name, the permissions, app components, etc.
+The Android Manifest is the main source of information. It includes a lot of interesting information, such as the package name, the permissions, app components, etc.
 
 Here's a non-exhaustive list of some info and the corresponding keywords that you can easily search for in the Android Manifest by just inspecting the file or by using `grep -i <keyword> AndroidManifest.xml`:
 
@@ -69,22 +69,22 @@ Please refer to the mentioned chapters to learn more about how to test each of t
 
 ## App Binary
 
-The app binary (`classes.dex`) can be found in the root directory of the app package. It is a so-called DEX (Dalvik Executable) file that contains compiled Java code. Due to its nature, after applying some conversions you'll be able to use a decompiler to produce Java code. We've also seen the folder `smali` that was obtained after we run apktool. This contains the disassembled Dalvik bytecode in an intermediate language called smali, which is a human-readable representation of the Dalvik executable.
+The app binary (`classes.dex`) can be found in the root directory of the app package. It is a so-called DEX (Dalvik Executable) file that contains compiled Java code. Due to its nature, after applying some conversions, you'll be able to use a decompiler to produce Java code. We've also seen the folder `smali` that was obtained after we ran apktool. This contains the disassembled Dalvik bytecode in an intermediate language called smali, which is a human-readable representation of the Dalvik executable.
 
 Refer to @MASTG-TECH-0023 for more information about how to reverse engineer DEX files.
 
 ## Compiled App Binary
 
-In some cases it might be useful to retrieve the compiled app binary (.odex).
+In some cases, it might be useful to retrieve the compiled app binary (.odex).
 
-First get the path to the app's data directory:
+First, get the path to the app's data directory:
 
 ```bash
 adb shell pm path com.example.myapplication
 package:/data/app/~~DEMFPZh7R4qfUwwwh1czYA==/com.example.myapplication-pOslqiQkJclb_1Vk9-WAXg==/base.apk
 ```
 
-Remove the `/base.apk` part, add `/oat/arm64/base.odex` and use the resulting path to pull the base.odex from the device:
+Remove the `/base.apk` part, add `/oat/arm64/base.odex`, and use the resulting path to pull the base.odex from the device:
 
 ```bash
 adb root
@@ -117,8 +117,8 @@ File    ...  libstlport_shared.so
 File    ...  libsqlcipher_android.so
 ```
 
-For now this is all information you can get about the native libraries unless you start reverse engineering them, which is done using a different approach than the one used to reverse the app binary as this code cannot be decompiled but only disassembled. Refer to @MASTG-TECH-0024 for more information about how to reverse engineer these libraries.
+For now, this is all the information you can get about the native libraries unless you start reverse engineering them, which is done using a different approach than the one used to reverse the app binary, as this code cannot be decompiled but only disassembled. Refer to @MASTG-TECH-0024 for more information about how to reverse engineer these libraries.
 
 ## Other App Resources
 
-It is normally worth taking a look at the rest of the resources and files that you may find in the root folder of the APK as some times they contain additional goodies like key stores, encrypted databases, certificates, etc.
+It is normally worth taking a look at the rest of the resources and files that you may find in the root folder of the APK, as sometimes they contain additional goodies like key stores, encrypted databases, certificates, etc.

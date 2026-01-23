@@ -1,6 +1,6 @@
 ---
 title: Attach to WKWebView
-platform: macOS
+platform: ios
 ---
 
 After installing @MASTG-TOOL-0137 on a jailbroken device, it is possible to attach the Safari developer tools to any `WKWebView` inside of applications installed from the App Store.

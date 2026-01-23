@@ -1,0 +1,8 @@
+appId: org.owasp.mastestapp
+---
+#- launchApp
+- takeScreenshot: before
+- tapOn: "Select Blood Type"
+- tapOn: "A+"
+- tapOn: "Start"
+- takeScreenshot: after

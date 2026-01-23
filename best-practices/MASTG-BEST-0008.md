@@ -3,6 +3,7 @@ title: Debugging Disabled for WebViews
 alias: debugging-disabled-webviews
 id: MASTG-BEST-0008
 platform: android
+knowledge: [MASTG-KNOW-0018]
 ---
 
 Ensure that WebView debugging is disabled in production builds to prevent attackers from exploiting this feature to eavesdrop, modify, or debug communication within WebViews.
@@ -19,7 +20,7 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 }
 ```
 
-**Note:** Disabling WebView debugging this way helps protect an app already running on a device. For an attacker to exploit WebView debugging, they must have physical access to the device (e.g., a stolen or test device) or remote access through malware or other malicious means. Additionally, the device must typically be unlocked, and the attacker would need to know the device PIN, password, or biometric authentication to gain full control and connect debugging tools like `adb` or Chrome DevTools.
+**Note:** Disabling WebView debugging this way helps protect an app already running on a device. For an attacker to exploit WebView debugging, they must have physical access to the device (e.g., a stolen or test device) or remote access through malware or other malicious means. Additionally, the device must typically be unlocked, and the attacker would need to know the device PIN, password, or biometric authentication to gain full control and connect debugging tools like @MASTG-TOOL-0004 or Chrome DevTools.
 
 However, disabling WebView debugging does not eliminate all attack vectors. An attacker could:
 

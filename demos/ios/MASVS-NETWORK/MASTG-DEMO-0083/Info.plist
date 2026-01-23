@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true />
+
+			<key>NSAllowsArbitraryLoadsInWebContent</key>
+			<true />
+			<key>NSAllowsArbitraryLoadsForMedia</key>
+			<true />
+			<key>NSAllowsArbitraryLoadsForLocalNetworking</key>
+			<true />
+
+			<key>NSExceptionDomains</key>
+			<dict>
+
+				<key>api.example.com</key>
+				<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true />
+					<key>NSExceptionRequiresForwardSecrecy</key>
+					<false />
+					<key>NSTemporaryExceptionMinimumTLSVersion</key>
+					<string>TLSv1.0</string>
+					<key>NSIncludesSubdomains</key>
+					<true />
+				</dict>
+
+				<key>httpbin.org</key>
+				<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true />
+					<key>NSExceptionMinimumTLSVersion</key>
+					<string>TLSv1.1</string>
+					<key>NSIncludesSubdomains</key>
+					<true />
+				</dict>
+
+			</dict>
+		</dict>
+	</dict>
+</plist>

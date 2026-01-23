@@ -6,6 +6,7 @@ apis: [kSecAccessControlUserPresence, kSecAccessControlDevicePasscode, SecAccess
 type: [static]
 weakness: MASWE-0045
 profiles: [L2]
+knowledge: [MASTG-KNOW-0056]
 ---
 
 ## Overview
