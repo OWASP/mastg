@@ -33,91 +33,91 @@ To retrieve the Data Safety section, you need:
 
 1. Navigate to the app's Google Play Store page using the following URL format:
 
-```text
-https://play.google.com/store/apps/datasafety?id=<package-id>
-```
+    ```text
+    https://play.google.com/store/apps/datasafety?id=<package-id>
+    ```
 
-Replace `<package-id>` with the app's package identifier. For example:
+    Replace `<package-id>` with the app's package identifier. For example:
 
-```text
-https://play.google.com/store/apps/datasafety?id=com.google.android.youtube
-```
+    ```text
+    https://play.google.com/store/apps/datasafety?id=com.google.android.youtube
+    ```
 
-1. Review the Data Safety section, which includes:
-   - **Data collection**: Types of data collected (location, personal info, financial info, etc.)
-   - **Data sharing**: Whether data is shared with third parties
-   - **Security practices**: Encryption in transit, encryption at rest, data deletion options
-   - **Data usage**: Purpose of data collection (app functionality, analytics, advertising, etc.)
+2. Review the Data Safety section, which includes:
+      - **Data collection**: Types of data collected (location, personal info, financial info, etc.)
+      - **Data sharing**: Whether data is shared with third parties
+      - **Security practices**: Encryption in transit, encryption at rest, data deletion options
+      - **Data usage**: Purpose of data collection (app functionality, analytics, advertising, etc.)
 
-1. Take screenshots or save the information for comparison with actual app behavior during testing.
+3. Take screenshots or save the information for comparison with actual app behavior during testing.
 
 ### Using @MASTG-TOOL-0145
 
 1. Install google-play-scraper:
 
-```bash
-npm install google-play-scraper
-```
+    ```bash
+    npm install google-play-scraper
+    ```
 
-1. Create a script to retrieve the Data Safety information:
+2. Create a script to retrieve the Data Safety information:
 
-```javascript
-// get-datasafety.js
-const gplay = require('google-play-scraper');
+    ```javascript
+    // get-datasafety.js
+    const gplay = require('google-play-scraper');
 
-const appId = process.argv[2];
-if (!appId) {
-  console.error('Usage: node get-datasafety.js <package-id>');
-  process.exit(1);
-}
-
-gplay.datasafety({appId: appId})
-  .then(data => {
-    console.log(JSON.stringify(data, null, 2));
-  })
-  .catch(error => {
-    console.error('Error retrieving data safety:', error.message);
-  });
-```
-
-1. Run the script:
-
-```bash
-node get-datasafety.js com.google.android.youtube
-```
-
-1. The output will contain structured JSON data with the Data Safety information:
-
-```json
-{
-  "sharedData": [
-    {
-      "data": "Location",
-      "optional": false,
-      "purpose": "App functionality, Analytics",
-      "type": "Approximate location"
+    const appId = process.argv[2];
+    if (!appId) {
+      console.error('Usage: node get-datasafety.js <package-id>');
+      process.exit(1);
     }
-  ],
-  "collectedData": [
+
+    gplay.datasafety({appId: appId})
+      .then(data => {
+        console.log(JSON.stringify(data, null, 2));
+      })
+      .catch(error => {
+        console.error('Error retrieving data safety:', error.message);
+      });
+    ```
+
+3. Run the script:
+
+    ```bash
+    node get-datasafety.js com.google.android.youtube
+    ```
+
+4. The output will contain structured JSON data with the Data Safety information:
+
+    ```json
     {
-      "data": "Personal info",
-      "optional": false,
-      "purpose": "Account management, App functionality",
-      "type": "Name, Email address"
+      "sharedData": [
+        {
+          "data": "Location",
+          "optional": false,
+          "purpose": "App functionality, Analytics",
+          "type": "Approximate location"
+        }
+      ],
+      "collectedData": [
+        {
+          "data": "Personal info",
+          "optional": false,
+          "purpose": "Account management, App functionality",
+          "type": "Name, Email address"
+        }
+      ],
+      "securityPractices": [
+        {
+          "practice": "Data is encrypted in transit",
+          "description": "Your data is transferred over a secure connection"
+        },
+        {
+          "practice": "You can request that data be deleted",
+          "description": "The developer provides a way for you to request that your data be deleted"
+        }
+      ]
     }
-  ],
-  "securityPractices": [
-    {
-      "practice": "Data is encrypted in transit",
-      "description": "Your data is transferred over a secure connection"
-    },
-    {
-      "practice": "You can request that data be deleted",
-      "description": "The developer provides a way for you to request that your data be deleted"
-    }
-  ]
-}
-```
+    ```
 
 ## Understanding the Data Safety Sections
 

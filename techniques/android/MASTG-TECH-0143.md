@@ -46,62 +46,62 @@ https://play.google.com/store/apps/details?id=com.google.android.youtube
 ```
 
 1. Scroll down to the "About this app" section or "Developer contact" section
-1. Look for a "Privacy Policy" link, typically found near the bottom of the page
-1. Click the link to access the privacy policy
-1. Review and save the privacy policy for reference during testing
+2. Look for a "Privacy Policy" link, typically found near the bottom of the page
+3. Click the link to access the privacy policy
+4. Review and save the privacy policy for reference during testing
 
 #### Using @MASTG-TOOL-0145
 
 1. Install google-play-scraper:
 
-```bash
-npm install google-play-scraper
-```
+    ```bash
+    npm install google-play-scraper
+    ```
 
-1. Create a script to retrieve the app details including the privacy policy URL:
+2. Create a script to retrieve the app details including the privacy policy URL:
 
-```javascript
-// get-privacy-policy.js
-const gplay = require('google-play-scraper');
+    ```javascript
+    // get-privacy-policy.js
+    const gplay = require('google-play-scraper');
 
-const appId = process.argv[2];
-if (!appId) {
-  console.error('Usage: node get-privacy-policy.js <package-id>');
-  process.exit(1);
-}
-
-gplay.app({appId: appId})
-  .then(data => {
-    if (data.privacyPolicy) {
-      console.log('Privacy Policy URL:', data.privacyPolicy);
-    } else {
-      console.log('No privacy policy URL found in the app listing');
+    const appId = process.argv[2];
+    if (!appId) {
+      console.error('Usage: node get-privacy-policy.js <package-id>');
+      process.exit(1);
     }
 
-    // Optionally, print other relevant information
-    console.log('\nDeveloper:', data.developer);
-    console.log('Developer Email:', data.developerEmail);
-    console.log('Developer Website:', data.developerWebsite);
-  })
-  .catch(error => {
-    console.error('Error retrieving app data:', error.message);
-  });
-```
+    gplay.app({appId: appId})
+      .then(data => {
+        if (data.privacyPolicy) {
+          console.log('Privacy Policy URL:', data.privacyPolicy);
+        } else {
+          console.log('No privacy policy URL found in the app listing');
+        }
 
-1. Run the script:
+        // Optionally, print other relevant information
+        console.log('\nDeveloper:', data.developer);
+        console.log('Developer Email:', data.developerEmail);
+        console.log('Developer Website:', data.developerWebsite);
+      })
+      .catch(error => {
+        console.error('Error retrieving app data:', error.message);
+      });
+    ```
 
-```bash
-node get-privacy-policy.js com.google.android.youtube
-```
+3. Run the script:
 
-1. The output will show the privacy policy URL:
+    ```bash
+    node get-privacy-policy.js com.google.android.youtube
+    ```
 
-```text
-Privacy Policy URL: https://policies.google.com/privacy
-Developer: Google LLC
-Developer Email: apps-help@google.com
-Developer Website: http://www.google.com/mobile
-```
+4. The output will show the privacy policy URL:
+
+    ```text
+    Privacy Policy URL: https://policies.google.com/privacy
+    Developer: Google LLC
+    Developer Email: apps-help@google.com
+    Developer Website: http://www.google.com/mobile
+    ```
 
 ### For Apps Not on Google Play
 
@@ -125,42 +125,42 @@ Some apps bundle privacy policy information within their resources. You can extr
 
 1. Decompile the APK:
 
-```bash
-apktool d app.apk -o app_decompiled
-```
+    ```bash
+    apktool d app.apk -o app_decompiled
+    ```
 
-1. Search for privacy policy URLs in the decompiled resources:
+2. Search for privacy policy URLs in the decompiled resources:
 
-```bash
-cd app_decompiled
-grep -r "privacy" res/values/strings.xml
-grep -r "policy" res/values/strings.xml
-grep -r "http" res/values/strings.xml | grep -i "privacy\|policy"
-```
+    ```bash
+    cd app_decompiled
+    grep -r "privacy" res/values/strings.xml
+    grep -r "policy" res/values/strings.xml
+    grep -r "http" res/values/strings.xml | grep -i "privacy\|policy"
+    ```
 
-1. Look for URL patterns in the app's configuration files:
+3. Look for URL patterns in the app's configuration files:
 
-```bash
-grep -r "privacy" AndroidManifest.xml
-grep -r "http.*privacy" .
-grep -r "http.*policy" .
-```
+    ```bash
+    grep -r "privacy" AndroidManifest.xml
+    grep -r "http.*privacy" .
+    grep -r "http.*policy" .
+    ```
 
-1. Check common resource files:
+4. Check common resource files:
 
-```bash
-# Check string resources
-cat res/values/strings.xml | grep -i "privacy\|policy"
+    ```bash
+    # Check string resources
+    cat res/values/strings.xml | grep -i "privacy\|policy"
 
-# Check network security config if present
-cat res/xml/network_security_config.xml
-```
+    # Check network security config if present
+    cat res/xml/network_security_config.xml
+    ```
 
 #### Search Developer Website
 
 1. If the app listing provides a developer website, visit it
-1. Look for "Privacy Policy", "Privacy", or "Legal" links, typically found in the footer
-1. Developer websites often host privacy policies at common paths:
+2. Look for "Privacy Policy", "Privacy", or "Legal" links, typically found in the footer
+3. Developer websites often host privacy policies at common paths:
     - `https://developer-domain.com/privacy`
     - `https://developer-domain.com/privacy-policy`
     - `https://developer-domain.com/legal/privacy`
