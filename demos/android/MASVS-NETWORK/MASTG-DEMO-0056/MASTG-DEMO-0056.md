@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0284
 ---
 
-### Sample
+## Sample
 
 This sample connects to <https://tlsexpired.no>, which has an expired SSL certificate, and demonstrates how a WebView ignores SSL/TLS errors by overriding the `onReceivedSslError(...)` method without proper validation. The app calls `proceed()` unconditionally, which allows the connection to continue even when there are TLS errors.
 
 {{ MastgTestWebView.kt # MastgTestWebView_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -20,13 +20,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule identified one instance of the use of the `onReceivedSslError(...)` in the code.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app uses a WebView that calls `proceed()` in its `onReceivedSslError(...)` method without validating the TLS error at all. You can manually validate this in the app's reverse-engineered code by inspecting the provided code locations.
 

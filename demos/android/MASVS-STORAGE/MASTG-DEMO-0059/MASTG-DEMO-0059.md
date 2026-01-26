@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0207
 ---
 
-### Sample
+## Sample
 
 The code below stores sensitive data using the `SharedPreferences` API, both with and without encryption:
 
@@ -30,7 +30,7 @@ Which returns:
 
 All unencrypted entries can be leveraged by an attacker.
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
@@ -50,13 +50,13 @@ Our hooks also trace calls to cryptographic methods to help determine whether th
 
 {{ hooks.js # run.sh }}
 
-### Observation
+## Observation
 
 The output shows all instances of strings written via `SharedPreferences` that were found at runtime. A backtrace is also provided to help identify the corresponding locations in the code.
 
 {{ output.json }}
 
-### Evaluation
+## Evaluation
 
 The test fails because secrets are written to SharedPreferences without encryption.
 
@@ -64,7 +64,7 @@ In `output.json` we can identify several entries that use the `SharedPreferences
 
 Determining if a string is encrypted or not, especially with crypto keys can be challenging.
 
-#### Option 1: High level trace inspection
+### Option 1: High level trace inspection
 
 After slightly processing the output using `jq`, we can get a high level view of the relevant calls, which can help us identify unencrypted secrets.
 
@@ -76,7 +76,7 @@ Here we can see that:
 - the value `V1QyXhGV88RQLmMjoTLLl...` has several calls to Cipher and then a `putString`.
 - the set of values `MIIEvAIBADAN...` and `gJXS9EwpuzK8...` are also not preceded by any Cipher calls when written via `putStringSet`.
 
-#### Option 2: Pattern matching
+### Option 2: Pattern matching
 
 At this point you could use a secrets detection tool such as @MASTG-TOOL-0144 to try to detect any secrets present in cleartext or encoded.
 
