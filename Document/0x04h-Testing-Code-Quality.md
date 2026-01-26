@@ -192,14 +192,14 @@ Verify that the following best practices have been followed:
 
 Consider how data will be rendered in a response. For example, if data is rendered in a HTML context, six control characters that must be escaped:
 
-| Character  | Escaped      |
-| :-------------: |:-------------:|
-| & | &amp;amp;|
-| < | &amp;lt; |
-| > | &amp;gt;|
-| " | &amp;quot;|
-| ' | &amp;#x27;|
-| / | &amp;#x2F;|
+| Character |  Escaped   |
+|:---------:|:----------:|
+|     &     | &amp;amp;  |
+|     <     |  &amp;lt;  |
+|     >     |  &amp;gt;  |
+|     "     | &amp;quot; |
+|     '     | &amp;#x27; |
+|     /     | &amp;#x2F; |
 
 For a comprehensive list of escaping rules and other prevention measures, refer to the [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html "OWASP XSS Prevention Cheat Sheet").
 
@@ -291,11 +291,11 @@ PIE (Position Independent Executable) are executable binaries made entirely from
 
 [ARC (Automatic Reference Counting)](https://en.wikipedia.org/wiki/Automatic_Reference_Counting) is a memory management feature of the Clang compiler exclusive to [Objective-C](https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html) and [Swift](https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html). ARC automatically frees up the memory used by class instances when those instances are no longer needed. ARC differs from tracing garbage collection in that there is no background process that deallocates the objects asynchronously at runtime.
 
-Unlike tracing garbage collection, ARC does not handle reference cycles automatically. This means that as long as there are "strong" references to an object, it will not be deallocated. Strong cross-references can accordingly create deadlocks and memory leaks. It is up to the developer to break cycles by using weak references. You can learn more about how it differs from Garbage Collection [here](https://fragmentedpodcast.com/episodes/064/).
+Unlike tracing garbage collection, ARC does not handle reference cycles automatically. This means that as long as there are "strong" references to an object, it will not be deallocated. Strong cross-references can accordingly create deadlocks and memory leaks. It is up to the developer to break cycles by using weak references. You can learn more about how it differs from Garbage Collection [in this Fragmented Podcast episode](https://fragmentedpodcast.com/episodes/064/).
 
 #### Garbage Collection
 
-[Garbage Collection (GC)](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)) is an automatic memory management feature of some languages such as Java/Kotlin/Dart. The garbage collector attempts to reclaim memory which was allocated by the program, but is no longer referenced—also called garbage. The Android runtime (ART) makes use of an [improved version of GC](https://source.android.com/devices/tech/dalvik#Improved_GC). You can learn more about how it differs from ARC [here](https://fragmentedpodcast.com/episodes/064/).
+[Garbage Collection (GC)](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)) is an automatic memory management feature of some languages such as Java/Kotlin/Dart. The garbage collector attempts to reclaim memory which was allocated by the program, but is no longer referenced—also called garbage. The Android runtime (ART) makes use of an [improved version of GC](https://source.android.com/devices/tech/dalvik#Improved_GC). You can learn more about how it differs from ARC [in this Fragmented Podcast episode](https://fragmentedpodcast.com/episodes/064/).
 
 #### Manual Memory Management
 

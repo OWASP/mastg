@@ -219,14 +219,14 @@ The specific interception method used depends on the app's security mechanisms a
 
 Here's an overview of interception techniques at different network layers:
 
-| **Interception Technique** | **Example Tools** | **Note** |
-|---------------------------|-------------------|-------------------|
-| API hooking (`HttpUrlConnection`, `NSURLSession`, `WebRequest`) | Frida | Modifies how apps handle network requests. |
-| Hooking TLS functions (`SSL_read`, `SSL_write`) | Frida, SSL Kill Switch | Intercepts encrypted data before it reaches the app. |
-| Proxy interception | Burp Suite, ZAP, mitmproxy | Requires app to respect proxy settings. |
-| Packet sniffing | `tcpdump`, Wireshark | Captures **all** TCP/UDP traffic but does **not** decrypt HTTPS. |
-| MITM via ARP spoofing | bettercap | Tricks devices into sending their traffic through the attacker's machine even when the network isn't controlled by the attacker. |
-| Rogue Wi-Fi AP | `hostapd`, `dnsmasq`, `iptables`, `wpa_supplicant`, `airmon-ng` | Uses an access point fully controlled by the attacker. |
+| **Interception Technique**                                      | **Example Tools**                                               | **Note**                                                                                                                         |
+|-----------------------------------------------------------------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| API hooking (`HttpUrlConnection`, `NSURLSession`, `WebRequest`) | Frida                                                           | Modifies how apps handle network requests.                                                                                       |
+| Hooking TLS functions (`SSL_read`, `SSL_write`)                 | Frida, SSL Kill Switch                                          | Intercepts encrypted data before it reaches the app.                                                                             |
+| Proxy interception                                              | Burp Suite, ZAP, mitmproxy                                      | Requires app to respect proxy settings.                                                                                          |
+| Packet sniffing                                                 | `tcpdump`, Wireshark                                            | Captures **all** TCP/UDP traffic but does **not** decrypt HTTPS.                                                                 |
+| MITM via ARP spoofing                                           | bettercap                                                       | Tricks devices into sending their traffic through the attacker's machine even when the network isn't controlled by the attacker. |
+| Rogue Wi-Fi AP                                                  | `hostapd`, `dnsmasq`, `iptables`, `wpa_supplicant`, `airmon-ng` | Uses an access point fully controlled by the attacker.                                                                           |
 
 You can find more information on these techniques in their corresponding technique pages:
 
