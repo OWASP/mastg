@@ -50,7 +50,7 @@
           "message": "Avoid trailing spaces",
           "searchPattern": "/  +$/gm",
           "replace": "",
-          "searchScope": "all",
+          "searchScope": "all"
         },
         {
           "name": "double-spaces",
@@ -58,7 +58,7 @@
           "searchPattern": "/([^\\s>])  ([^\\s|])/g",
           "replace": "$1 $2",
           "searchScope": "text"
-        },
+        }
         // {
         //   "name": "correct-noun-forms",
         //   "message": "Use the correct form for specific terms.",
