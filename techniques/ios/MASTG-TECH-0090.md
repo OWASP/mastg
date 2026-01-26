@@ -5,6 +5,8 @@ platform: ios
 
 If you want to enable dynamic testing with Frida but don't have access to a jailbroken device, you can patch and repackage the target app to load the [Frida gadget](https://www.frida.re/docs/gadget/). This way, you can instrument the app and do everything you need to do for dynamic analysis (of course, you can't break out of the sandbox this way). However, this technique only works if the app binary isn't FairPlay-encrypted (i.e., obtained from the App Store).
 
+For comprehensive tutorials on using Frida Gadget, see the [Gadget Mode section in the Frida Handbook](https://learnfrida.info/modes/).
+
 On a jailbroken device, you can run `frida-server` which will take care of the injection for you, even in encrypted apps. However, on a non-jailbroken device we have to manually prepare the application. There are two approaches we can take:
 
 - Install a debug version of the application and inject during application launch

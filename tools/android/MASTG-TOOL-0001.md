@@ -5,6 +5,8 @@ platform: android
 
 Frida supports interaction with the Android Java runtime through the [Java API](https://www.frida.re/docs/javascript-api/#java "Frida - Java API"). You'll be able to hook and call both Java and native functions inside the process and its native libraries. Your JavaScript snippets have full access to memory, e.g. to read and/or write any structured data.
 
+For comprehensive tutorials on using Frida with Android, see the [Android section in the Frida Handbook](https://learnfrida.info/android/).
+
 Here are some tasks that Frida APIs offer and are relevant or exclusive to Android:
 
 - Instantiate Java objects and call static and non-static class methods ([Java API](https://www.frida.re/docs/javascript-api/#java "Frida - Java API")).
