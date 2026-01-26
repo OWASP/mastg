@@ -29,7 +29,7 @@ The rule has identified the use of untrusted input from `Uri.getPathSegments().g
 
 ### Evaluation
 
-This test case fails because the application constructs a SQL `WHERE` clause by directly appending untrusted user input from the URI without any validation or sanitization. This approach allows attackers to perform SQL injection by crafting a malicious `content://` URI to manipulate the query logic.  For example, the following content query command can be used to list all names:
+This test case fails because the application constructs a SQL `WHERE` clause by directly appending untrusted user input from the URI without any validation or sanitization. This approach allows attackers to perform SQL injection by crafting a malicious `content://` URI to manipulate the query logic. For example, the following content query command can be used to list all names:
 
 ```bash
 $ content query --uri content://org.owasp.mastestapp.provider/students --where "name='Bob' OR '1'='1'"

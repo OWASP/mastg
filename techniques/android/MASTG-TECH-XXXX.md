@@ -49,8 +49,8 @@ $ adb shell content delete --uri content://org.owasp.mastestapp.provider/student
 ## Inputs To Validate
 
 - URI path segments
-  - Risk: values from `Uri.getPathSegments()` / `lastPathSegment` concatenated into SQL (for example, `appendWhere("id=" + id)`).
-  - Safer: parse numeric IDs with `ContentUris.parseId(uri)`; strictly validate/whitelist path segments; never concatenate untrusted data into SQL.
+    - Risk: values from `Uri.getPathSegments()` / `lastPathSegment` concatenated into SQL (for example, `appendWhere("id=" + id)`).
+    - Safer: parse numeric IDs with `ContentUris.parseId(uri)`; strictly validate/whitelist path segments; never concatenate untrusted data into SQL.
 
 ## Injection Flaw Testing
 
