@@ -1,5 +1,5 @@
 ---
-masvs_category: MASVS-CODE
+masvs_category: MASVS-RESILIENCE
 platform: android
 title: App Signing
 ---

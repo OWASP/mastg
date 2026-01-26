@@ -16,6 +16,8 @@ The code sample defines a method that creates a popup dialog for user input wher
 
 A dialog is also created using `AlertDialog.Builder`, and it includes "Sign Up" and "Cancel" buttons.
 
+{{ MastgTest.kt # MastgTest_reversed.java }}
+
 ### Steps
 
 Let's run @MASTG-TOOL-0110 rule against the sample code. The rule uses a pattern that captures every call to `setInputType` along with its argument.

@@ -1,0 +1,11 @@
+rules:
+  - id: mastg-android-sensitive-data-in-notifications
+    languages:
+      - java
+    severity: WARNING
+    metadata:
+      summary: This rule looks for notifications that may contain sensitive data.
+    message: "[MASVS-PLATFORM-3] Ensure that notifications do not contain sensitive information"
+    pattern-either:
+      - pattern: $X.setContentTitle(...)
+      - pattern: $X.setContentText(...)

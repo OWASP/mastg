@@ -61,7 +61,7 @@ The WebView can access any file that the app has permission to access via `file:
         - entire media folders (including data from other apps) if the app has the `READ_MEDIA_IMAGES` or similar permissions.
         - the entire external storage if the app has the `MANAGE_EXTERNAL_STORAGE` permission.
 
-## `setAllowFileAccess`
+### `setAllowFileAccess`
 
 [`setAllowFileAccess`](https://developer.android.com/reference/android/webkit/WebSettings.html#setAllowFileAccess%28boolean%29 "Method setAllowFileAccess()") enables the WebView to load local files using the `file://` scheme. In this example, the WebView is configured to allow file access and then loads an HTML file from the external storage (sdcard).
 
@@ -72,7 +72,7 @@ webView.settings.apply {
 webView.loadUrl("file:///sdcard/index.html");
 ```
 
-## `setAllowFileAccessFromFileURLs`
+### `setAllowFileAccessFromFileURLs`
 
 [`setAllowFileAccessFromFileURLs`](https://developer.android.com/reference/android/webkit/WebSettings.html#setAllowFileAccessFromFileURLs%28boolean%29 "Method setAllowFileAccessFromFileURLs()") allows the local file (loaded via file://) to access additional local resources from its HTML or JavaScript.
 
@@ -109,7 +109,7 @@ The loaded HTML file contains an image that is loaded via a `file://` URL:
 </html>
 ```
 
-## `setAllowUniversalAccessFromFileURLs`
+### `setAllowUniversalAccessFromFileURLs`
 
 [`setAllowUniversalAccessFromFileURLs`](https://developer.android.com/reference/android/webkit/WebSettings.html#setAllowUniversalAccessFromFileURLs%28boolean%29 "Method setAllowUniversalAccessFromFileURLs()") allows JavaScript running in a local file (loaded via `file://`) to bypass the same-origin policy and access resources from any origin.
 
@@ -198,16 +198,94 @@ Data from other apps accessible via content providers (if the app has any and th
 
 Android offers a way for JavaScript execution in a WebView to call and use native functions of an Android app (annotated with `@JavascriptInterface`) by using the [`addJavascriptInterface`](https://developer.android.com/reference/android/webkit/WebView.html#addJavascriptInterface%28java.lang.Object,%20java.lang.String%29 "Method addJavascriptInterface()") method. This is known as a _WebView JavaScript bridge_ or _native bridge_.
 
-Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**. This implies that, if the user navigates outside your app or domain, all other external pages will also have access to those JavaScript Interface objects which might present a potential security risk if any sensitive data is being exposed though those interfaces.
+Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**. This implies that, if the user navigates outside your app or domain, all other external pages will also have access to those JavaScript Interface objects, which might present a potential security risk if any sensitive data is being exposed through those interfaces.
 
 > Warning: Take extreme care with apps targeting Android versions below Android 4.2 (API level 17) as they are [vulnerable to a flaw](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution "WebView addJavascriptInterface Remote Code Execution") in the implementation of `addJavascriptInterface`: an attack that is abusing reflection, which leads to remote code execution when malicious JavaScript is injected into a WebView. This was due to all Java Object methods being accessible by default (instead of only those annotated).
 
-## WebViews Cleanup
+## WebView Storage
 
-Clearing the WebView resources is a crucial step when an app accesses any sensitive data within a WebView. This includes any files stored locally, the RAM cache and any loaded JavaScript.
+Android WebView embeds a Chromium based browser engine. As a result, most web related data is stored inside the Chromium profile directory located at:
 
-As an additional measure, you could use server-side headers such as `no-cache`, which prevent an application from caching particular content.
+`/data/data/<app_package>/app_webview/`
 
-> Starting on Android 10 (API level 29) apps are able to detect if a WebView has become [unresponsive](https://developer.android.com/about/versions/10/features?hl=en#webview-hung "WebView hung renderer detection"). If this happens, the OS will automatically call the `onRenderProcessUnresponsive` method.
+Android WebView can persist several categories of data for each origin.
+
+- **Cached network resources** created when a server sends cache permissive headers such as Cache Control or Expires. These resources are stored in memory and on disk inside the [Chromium cache](https://developer.chrome.com/docs/devtools/storage/cache).
+- **DOM storage** such as [LocalStorage](https://developer.chrome.com/docs/devtools/storage/localstorage) and [SessionStorage](https://developer.chrome.com/docs/devtools/storage/sessionstorage)
+- [**WebSQL**](https://developer.chrome.com/docs/devtools/storage/websql), removed in modern WebView versions
+- [**IndexedDB**](https://developer.chrome.com/docs/devtools/storage/indexeddb)
+- [**Cookies**](https://developer.chrome.com/docs/devtools/application/cookies) including session and persistent cookies
+- **Files backed by the Origin Private File System (OPFS)** including the [**SQLite Wasm**](https://developer.chrome.com/blog/sqlite-wasm-in-the-browser-backed-by-the-origin-private-file-system) database
+
+OPFS and SQLite Wasm are internal to the Chromium storage layer. Their contents do not appear as ordinary files in the app sandbox.
+
+### Configuration and Defaults
+
+Storage behavior can be influenced by calls on `android.webkit.WebSettings` such as:
+
+- [`WebSettings.setCacheMode`](https://developer.android.com/reference/kotlin/android/webkit/WebSettings#setCacheMode(kotlin.Int))
+- [`WebSettings.setDomStorageEnabled`](https://developer.android.com/reference/android/webkit/WebSettings#setDomStorageEnabled(boolean))
+- [`WebSettings.setDatabaseEnabled`](https://developer.android.com/reference/android/webkit/WebSettings#setDatabaseEnabled(boolean)) [deprecated with WebSQL in Android version 15 (API level 35)](https://developer.android.com/about/versions/15/deprecations#websql-webview)
+- `WebSettings.setAppCacheEnabled` [deprecated and removed in Android 13 (API level 33)](https://developer.android.com/sdk/api_diff/33/changes/android.webkit.WebSettings#removed-methods-setAppCacheEnabled(boolean))
+
+Network cache is enabled by default and obeys the HTTP cache headers sent by the server. DOM storage is enabled by default on all supported WebView versions. Database related flags are deprecated and no longer control IndexedDB or other modern storage. Cookies are accepted by default unless an app disables them through `CookieManager`.
+
+### Clearing Stored Data
+
+Android does not provide a dedicated API to delete the Chromium profile under `app_webview`. Apps must not attempt to delete this directory directly. The only supported way to remove it is to clear the app's data, either through system settings or by calling `ActivityManager.clearApplicationUserData()`. However, this might not be desirable if the app wants to retain other user data.
+
+A more adequate approach is to clear individual storage subsystems used by WebView. These include:
+
+- **Cached Resources**: [`WebView.clearCache`](https://developer.android.com/reference/android/webkit/WebView#clearCache(boolean))(true) clears the memory and disk HTTP cache. It does not remove cookies, DOM storage, IndexedDB, OPFS, or other persistent data.
+- **WebStorage APIs**: [`WebStorage.deleteAllData`](https://developer.android.com/reference/android/webkit/WebStorage#deleteAllData()) clears DOM storage and legacy WebSQL. It does not clear IndexedDB or OPFS.
+- **Cookies**: [`CookieManager.removeAllCookies`](https://developer.android.com/reference/android/webkit/CookieManager#removeAllCookies(android.webkit.ValueCallback%3Cjava.lang.Boolean%3E)) removes all cookies for the app.
+- **IndexedDB and OPFS**: IndexedDB and OPFS are managed internally by Chromium and are not covered by the WebStorage API. They cannot be deleted with Java file APIs such as [`java.io.File.deleteRecursively`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/java.io.-file/delete-recursively.html). Clearing requires deleting the entire WebView profile.
+- **SQLite Wasm**: SQLite Wasm databases live inside OPFS. They are not Android SQLite databases and cannot be controlled using Android APIs such as [`SQLiteDatabase.delete`](https://developer.android.com/reference/android/database/sqlite/SQLiteDatabase#delete(java.lang.String,%20java.lang.String,%20java.lang.String[])) or [`SQLiteDatabase.deleteDatabase`](https://developer.android.com/reference/android/database/sqlite/SQLiteDatabase#deleteDatabase(java.io.File)). Clearing requires deleting the entire WebView profile.
+
+**Example:**
+
+This example in Kotlin from the [open source Firefox Focus](https://github.com/mozilla-mobile/focus-android/blob/v8.17.1/app/src/main/java/org/mozilla/focus/webview/SystemWebView.kt#L220 "Firefox Focus for Android") app shows different cleanup steps:
+
+```kotlin
+override fun cleanup() {
+    clearFormData() // Removes the autocomplete popup from the currently focused form field, if present. Note that this only affects the display of the autocomplete popup. It does not remove any saved form data from this WebView's store. To do that, use WebViewDatabase#clearFormData.
+    clearHistory()
+    clearMatches()
+    clearSslPreferences()
+    clearCache(true)
+
+    CookieManager.getInstance().removeAllCookies(null)
+
+    WebStorage.getInstance().deleteAllData() // Clears all storage currently being used by the JavaScript storage APIs. This includes the Application Cache, Web SQL Database, and the HTML5 Web Storage APIs.
+
+    val webViewDatabase = WebViewDatabase.getInstance(context)
+    // It isn't entirely clear how this differs from WebView.clearFormData()
+    @Suppress("DEPRECATION")
+    webViewDatabase.clearFormData() // Clears any saved data for web forms.
+    webViewDatabase.clearHttpAuthUsernamePassword()
+
+    deleteContentFromKnownLocations(context) // Calls FileUtils.deleteWebViewDirectory(context) which deletes all content in "app_webview".
+}
+```
+
+The function finishes with some extra _manual_ file deletion in `deleteContentFromKnownLocations` which calls functions from [`FileUtils`](https://github.com/mozilla-mobile/focus-android/blob/v8.17.1/app/src/main/java/org/mozilla/focus/utils/FileUtils.kt#L24-L44). These functions use the [`java.io.File.deleteRecursively`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/java.io.-file/delete-recursively.html) method to delete files from the specified directories recursively.
+
+```kt
+private fun deleteContent(directory: File, doNotEraseWhitelist: Set<String> = emptySet()): Boolean {
+    val filesToDelete = directory.listFiles()?.filter { !doNotEraseWhitelist.contains(it.name) } ?: return false
+    return filesToDelete.all { it.deleteRecursively() }
+}
+```
+
+### Challenges of Testing WebView Cache Cleanup
+
+Testing WebView cleanup is a complex task that requires extensive information gathering and has several challenges:
+
+1. Firstly, the tester needs to identify the number of WebView instances and their respective `WebSettings`, and any potential correlation to ensure confinement of test results to only the tested WebView instance.
+2. Secondly, for each WebView instance, the tester needs to identify how the storage areas are configured and how the data is actually being stored based on HTTP cache headers and web storage configuration.
+3. Thirdly, the tester must determine the lifecycle of every sensitive data item and its designated retention period.
+4. Finally, there is a lack of a guarantee that the clear methods will always be called, particularly if the app process is killed abruptly before those occur (e.g., due to a system process kill), and in sequence if mitigation measures exist for these scenarios.
+
+## Additional Resources
 
 You can find more security best practices when using WebViews on [Android Developers](https://developer.android.com/training/articles/security-tips?hl=en#WebView "Security Tips - Use WebView").

@@ -12,7 +12,7 @@ profiles: [R]
 
 ## Bypassing Root Detection
 
-Run execution traces with jdb, [DDMS](https://developer.android.com/studio/profile/monitor "DDMS"), `strace`, and/or kernel modules to find out what the app is doing. You'll usually see all kinds of suspect interactions with the operating system, such as opening `su` for reading and obtaining a list of processes. These interactions are surefire signs of root detection. Identify and deactivate the root detection mechanisms, one at a time. If you're performing a black box resilience assessment, disabling the root detection mechanisms is your first step.
+Run execution traces with jdb, Android Studio Profiler, `strace`, and/or kernel modules to find out what the app is doing (see @MASTG-TECH-0032). You'll usually see all kinds of suspect interactions with the operating system, such as opening `su` for reading and obtaining a list of processes. These interactions are surefire signs of root detection. Identify and deactivate the root detection mechanisms, one at a time. If you're performing a black box resilience assessment, disabling the root detection mechanisms is your first step.
 
 To bypass these checks, you can use several techniques, most of which were introduced in the "Reverse Engineering and Tampering" chapter:
 

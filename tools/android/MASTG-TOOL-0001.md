@@ -22,7 +22,8 @@ Frida is often compared to Xposed. However, this comparison is far from fair, as
 - You may inject and update your Frida JavaScript code on the fly at any point during the runtime of your process (similarly to Cycript on iOS). This way, you can perform the so-called _early instrumentation_ by letting Frida spawn your app, or you may prefer to attach to a running app that you might have brought to a certain state.
 - Frida can handle both Java and native code (JNI), allowing you to modify both of them. This is, unfortunately, a limitation of Xposed, which lacks native code support.
 
-> Note that Xposed, as of early 2019, does not work on Android 9 (API level 28) yet.
+!!! note
+    Xposed, as of early 2019, does not yet work on Android 9 (API level 28).
 
 ## Installing Frida on Android
 

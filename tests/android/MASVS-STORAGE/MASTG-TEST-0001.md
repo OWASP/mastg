@@ -11,7 +11,7 @@ masvs_v1_levels:
 - L2
 profiles: [L1, L2]
 status: deprecated
-covered_by: [MASTG-TEST-0207, MASTG-TEST-0200, MASTG-TEST-0201, MASTG-TEST-0202]
+covered_by: [MASTG-TEST-0207, MASTG-TEST-0200, MASTG-TEST-0201, MASTG-TEST-0202, MASTG-TEST-0304, MASTG-TEST-0305, MASTG-TEST-0306]
 deprecation_note: New version available in MASTG V2
 ---
 
@@ -24,7 +24,8 @@ This test case focuses on identifying potentially sensitive data stored by an ap
 - Check all application generated and modified files and ensure that the storage method is sufficiently secure.
     - This includes `SharedPreferences`, databases, Internal Storage, External Storage, etc.
 
-**NOTE:** For MASVS L1 compliance, it is sufficient to store data unencrypted in the application's internal storage directory (sandbox). For L2 compliance, additional encryption is required using cryptographic keys securely managed in the Android KeyStore. This includes using envelope encryption (DEK+KEK) or equivalent methods, or using the Android Security Library's [`EncryptedFile`](https://developer.android.com/reference/androidx/security/crypto/EncryptedFile)/[`EncryptedSharedPreferences`](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences).
+!!! note
+    For MASVS L1 compliance, it is sufficient to store data unencrypted in the application's internal storage directory (sandbox). For L2 compliance, additional encryption is required using cryptographic keys securely managed in the Android KeyStore. This includes using envelope encryption (DEK+KEK) or equivalent methods, or using the Android Security Library's [`EncryptedFile`](https://developer.android.com/reference/androidx/security/crypto/EncryptedFile)/[`EncryptedSharedPreferences`](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences).
 
 !!! Warning
 

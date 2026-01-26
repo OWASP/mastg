@@ -49,13 +49,32 @@ Independently of the chosen mode, you can make use of the [Frida JavaScript APIs
 
 ### Frida 17
 
-Frida 17 introduces [breaking changes](https://frida.re/news/2025/05/17/frida-17-0-0-released/), such as the removal of the bundled runtime bridges (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. This means you must now explicitly install the bridges you need by using `frida-pm install`:
+Frida 17 introduces [breaking changes](https://frida.re/news/2025/05/17/frida-17-0-0-released/), such as the removal of the bundled runtime bridges as well as changes to several native APIs.
 
- ```bash
- frida-pm install frida-java-bridge
- ```
+**Bridges:**
 
-However, the commands `frida` and `frida-trace` come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them without manual installation in those contexts. You can learn more about bridges in the [Frida documentation](https://frida.re/docs/bridges/).
+Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use the commands `frida` and `frida-trace`, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
+
+However, if you are writing your own custom Frida-based tooling or scripts that depend on these bridges, you will now need to install them separately via `frida-pm`, Frida's package manager. For example, to install the Java bridge, run:
+
+```bash
+frida-pm install frida-java-bridge
+```
+
+And then, in your scripts, you can import and use the bridge as follows:
+
+```js
+import JavaBridge from 'frida-java-bridge';
+JavaBridge.load();
+```
+
+You'll need to use `frida-compile` to bundle your scripts with the required bridges before running them with Frida from your own tooling (e.g. from a custom Python script):
+
+```bash
+npx frida-compile -o agent.js -o _agent.js
+```
+
+**API Changes:**
 
 Frida has made changes to its native APIs. While these changes may break some of your existing scripts, they encourage you to write more readable and performant code. For instance, now, `Process.enumerateModules()` returns an array of `Module` objects, allowing you to work with them directly.
 
@@ -81,10 +100,10 @@ For more details, refer to the [Frida 17.0.0 Release Notes](https://frida.re/new
 
 Frida also provides a couple of simple tools built on top of the Frida API and available right from your terminal after installing frida-tools via pip. For instance:
 
-- You can use the [Frida CLI](https://www.frida.re/docs/frida-cli/ "Frida CLI") (`frida`) for quick script prototyping and try/error scenarios.
-- [`frida-ps`](https://www.frida.re/docs/frida-ps/ "frida-ps") to obtain a list of all apps (or processes) running on the device including their names, identifiers and PIDs.
-- [`frida-ls-devices`](https://www.frida.re/docs/frida-ls-devices/ "frida-ls-devices") to list your connected devices running Frida servers or agents.
-- [`frida-trace`](https://www.frida.re/docs/frida-trace/ "frida-trace") to quickly trace methods that are part of an iOS app or that are implemented inside an Android native library.
+- [`frida`](https://www.frida.re/docs/frida-cli/ "Frida CLI"): Frida CLI for quick script prototyping and try/error scenarios.
+- [`frida-ps`](https://www.frida.re/docs/frida-ps/ "frida-ps"): lists all processes (apps) running on the device, including their names, identifiers, and PIDs.
+- [`frida-ls-devices`](https://www.frida.re/docs/frida-ls-devices/ "frida-ls-devices"): lists your connected devices running Frida servers or agents.
+- [`frida-trace`](https://www.frida.re/docs/frida-trace/ "frida-trace"): traces function calls without writing Frida scripts.
 
 In addition, you'll also find several open source Frida-based tools, such as:
 

@@ -3,6 +3,7 @@
 hookPath=$1
 hook=$(cat "$hookPath")
 decoderScript=$(cat "$(dirname $0)"/android_decoder.js)
+nativeDecoderScript=$(cat "$(dirname $0)"/native_decoder.js)
 fridaScript=$(cat "$(dirname $0)"/base_script.js)
 randomNumber=$RANDOM
 
@@ -11,6 +12,8 @@ randomNumber=$RANDOM
   echo "$hook"
   echo $'\n'
   echo "$decoderScript"
+  echo $'\n'
+  echo "$nativeDecoderScript"
   echo $'\n'
   echo "$fridaScript"
 }  > /tmp/frida_script_$randomNumber.js

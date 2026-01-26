@@ -21,7 +21,4 @@ Objection can be installed through pip as described on [Objection's Wiki](https:
 pip3 install objection
 ```
 
-!!! warn "Objection's pip/PyPI package is outdated and not Frida 17+ compliant"
-    You can keep using Objection with Frida 17+ by installing it from the source repo's `master` branch. See [Development Environment Installation](https://github.com/sensepost/objection/wiki/Development-Environment-Installation).
-
-    Once a new release exists and is made available on the Python Package Index (PyPI), you can install it using `pip`.
+If the pip version is out of sync with the latest release or you want to use the latest development version, you can install Objection directly from the source repository's main branch. See [Development Environment Installation](https://github.com/sensepost/objection/wiki/Development-Environment-Installation) for instructions.

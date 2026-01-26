@@ -35,7 +35,8 @@ In this case, the generated script which traces all calls to the `open` function
 
 In the above script, `onEnter` takes care of logging the calls to this function and its two input parameters in the right format. You can edit the `onLeave` event to print the return values as shown above.
 
-> Note that libc is a well-known library. Frida can derive the input parameters of its `open` function and automatically log them correctly. But this won't be the case for other libraries or for Android Kotlin/Java code. In that case, you may want to obtain the signatures of the functions you're interested in by referring to Android Developers documentation or by reverse engineering the app first.
+!!! note
+    libc is a well-known library. Frida can automatically derive the input parameters of its `open` function and correctly log them. But this won't be the case for other libraries or for Android Kotlin/Java code. In that case, you may want to obtain the signatures of the functions you're interested in by referring to the Android Developer documentation or by reverse-engineering the app first.
 
 Another thing to notice in the output above is that it's colorized. An application can have multiple threads running, and each thread can call the `open` function independently. By using such a color scheme, the output can be easily visually segregated for each thread.
 

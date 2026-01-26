@@ -5,14 +5,14 @@
  * @returns {string} The hexadecimal decoded bytes (e.g., "0x22aa3482ef...")
  */
 function byteArrayHexDump(bytes, length) {
-  var appendix = "...";
+  let appendix = "...";
   if (bytes.length < length) {
     length = bytes.length;
     appendix = "";
   }
 
-  var hexString = "0x";
-  for (var i = 0; i < length; i++) {
+  let hexString = "0x";
+  for (let i = 0; i < length; i++) {
     hexString =
       hexString + ("0" + (bytes[i] & 0xff).toString(16)).slice(-2);
   }
@@ -46,8 +46,8 @@ function byteToString(bytes, length) {
 
   try {
     // try to decode strings
-    var result = "";
-    for (var i = 0; i < length; ++i) {
+    let result = "";
+    for (let i = 0; i < length; ++i) {
       result += getUriCode(bytes[i]);
     }
     return decodeURIComponent(result).replace(/\0.*$/g, "");
@@ -58,13 +58,105 @@ function byteToString(bytes, length) {
 }
 
 /**
+ * Generates a simple hash from a string.
+ * @param {string} str - String to hash.
+ * @returns {number} Hash value as a 32-bit integer.
+ */
+function simpleHash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h = h | 0;
+  }
+  return h;
+}
+
+/**
+ * Decodes an RSA key (public or private) and extracts key parameters.
+ * @param {Object} value - Reference to the Java key object.
+ * @returns {Object} Object containing key parameters (modulusHex, modulusBitLength, publicExponentDec, privateExponentDec, keyHash).
+ */
+function decodeRSAKey(value) {
+  let out = {};
+
+  try {
+    // Load RSA interfaces
+    let RSAKey = Java.use('java.security.interfaces.RSAKey');
+    let RSAPub = Java.use('java.security.interfaces.RSAPublicKey');
+    let RSAPriv = Java.use('java.security.interfaces.RSAPrivateKey');
+    let RSAPrivateCrt = null;
+    try {
+      RSAPrivateCrt = Java.use('java.security.interfaces.RSAPrivateCrtKey');
+    } catch (_) {
+      RSAPrivateCrt = null;
+    }
+
+    // Any RSA key, public or private, for modulus
+    try {
+      let anyRsa = Java.cast(value, RSAKey);
+      let modBI = anyRsa.getModulus();
+      out.modulusHex = modBI.toString(16);
+      out.modulusBitLength = modBI.bitLength();
+    } catch (_) {
+      // not an RSAKey or keystore backend hides it, ignore
+    }
+
+    // Public key exponent
+    try {
+      let vpub = Java.cast(value, RSAPub);
+      let expBI = vpub.getPublicExponent();
+      if (expBI) {
+        out.publicExponentDec = expBI.toString(10);
+      }
+    } catch (_) {
+      // not an RSAPublicKey
+    }
+
+    // Private key exponents, may be unavailable for keystore backed keys
+    if (RSAPrivateCrt !== null) {
+      try {
+        let vprivCrt = Java.cast(value, RSAPrivateCrt);
+        let dBI = vprivCrt.getPrivateExponent();
+        let eBI = vprivCrt.getPublicExponent();
+        if (dBI) {
+          out.privateExponentDec = dBI.toString(10);
+        }
+        if (eBI) {
+          out.publicExponentDec = eBI.toString(10);
+        }
+      } catch (_) {
+        // not an RSAPrivateCrtKey
+      }
+    } else {
+      try {
+        let vpriv = Java.cast(value, RSAPriv);
+        let dBI2 = vpriv.getPrivateExponent();
+        if (dBI2) {
+          out.privateExponentDec = dBI2.toString(10);
+        }
+      } catch (_) {
+        // not an RSAPrivateKey
+      }
+    }
+  } catch (_) {
+    // key interface logic failed, out remains minimal
+  }
+
+  if (out.modulusHex != null) {
+    out.keyHash = simpleHash(out.modulusHex);
+  }
+
+  return out;
+}
+
+/**
  * Decodes a Java object according to its type.
  * @param {string} type - Java type of the value (e.g., "java.util.Set", "java.lang.String" or "int")
  * @param {Object} value - Reference to the object.
  * @returns {string} The type-appropriate decoded string (e.g., "[1,50,21]", "Hello World" or "-12")
  */
 function decodeValue(type, value) {
-  var readableValue = "";
+  let readableValue = "";
 
   try {
     if (value == null) {
@@ -76,7 +168,7 @@ function decodeValue(type, value) {
           break;
 
         case "java.util.Map":
-          var entrySet = value.entrySet();
+          let entrySet = value.entrySet();
           readableValue = entrySet.toArray().toString();
           break;
 
@@ -87,7 +179,7 @@ function decodeValue(type, value) {
 
         case "[C":
           readableValue = "";
-          for (var i in value) {
+          for (let i in value) {
             readableValue = readableValue + value[i];
           }
           break;
@@ -97,8 +189,8 @@ function decodeValue(type, value) {
           break;
 
         case "java.util.Date":
-          var DateFormat = Java.use('java.text.DateFormat');
-          var formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM.value, DateFormat.SHORT.value);
+          let DateFormat = Java.use('java.text.DateFormat');
+          let formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM.value, DateFormat.SHORT.value);
           readableValue = formatter.format(value);
           break;
 
@@ -117,21 +209,32 @@ function decodeValue(type, value) {
           readableValue = value.toString();
           break;
 
+        /*
+        1. No `RSAKey.class.isAssignableFrom` or `Java.isInstanceOf` for the RSA interfaces, instead each RSA interface is tried with `Java.cast` inside a `try` block. If the object does not implement that interface, the cast throws and is ignored. If it does, the cast succeeds and you can call the RSA methods.
+        2. Modulus is obtained through `RSAKey.getModulus()`, which should cover both `OpenSSLRSAPublicKey` and `AndroidKeyStoreRSAPrivateKey` as long as the backend exposes the modulus.
+        3. Exponents come from `RSAPublicKey.getPublicExponent()` and `RSAPrivateKey` or `RSAPrivateCrtKey` for the private exponent, but note that keystore backed private keys may refuse to expose the private exponent, so missing private exponent is expected in that case, while the public key parameters should still be visible.
+        */
+
         case "java.security.PrivateKey":
-          //TODO: Access key info
-          readableValue = value;
+        case "java.security.PublicKey":
+        case "java.security.Key":
+          try {
+            readableValue = decodeRSAKey(value);
+          } catch (e) {
+            readableValue = value;
+          }
           break;
 
         case "[Ljava.lang.Object;":
-          var out = "";
-          for (var i in value) {
+          let out = "";
+          for (let i in value) {
             out = out + value[i] + ", ";
           }
           readableValue = out;
           break;
 
         case "java.util.Enumeration":
-          var elements = [];
+          let elements = [];
           while (value.hasMoreElements()) {
             elements.push(value.nextElement().toString());
           }
@@ -151,6 +254,7 @@ function decodeValue(type, value) {
     console.error("Value decoding exception: " + e);
     readableValue = value;
   }
+
   return readableValue;
 }
 
@@ -160,13 +264,13 @@ function decodeValue(type, value) {
  * @returns {string} The decoded rows and columns.
  */
 function decodeCursor(value){
-  var out = "";
-  var cursor = value;
-  var originalCursorPosition = cursor.getPosition();
+  let out = "";
+  let cursor = value;
+  let originalCursorPosition = cursor.getPosition();
 
   // rows
-  for (var i = 0; i < cursor.getColumnCount(); i++) {
-    var columnName = cursor.getColumnName(i);
+  for (let i = 0; i < cursor.getColumnCount(); i++) {
+    let columnName = cursor.getColumnName(i);
     out = out + columnName + " | ";
   }
 
@@ -175,9 +279,9 @@ function decodeCursor(value){
   // columns
   if (cursor.moveToFirst()) {
     do {
-      for (var i = 0; i < cursor.getColumnCount(); i++) {
+      for (let i = 0; i < cursor.getColumnCount(); i++) {
         try {
-          var columnValue = cursor.getString(i);
+          let columnValue = cursor.getString(i);
           out = out + columnValue + " | ";
         } catch (e) {
           out = out + " | ";
@@ -192,17 +296,79 @@ function decodeCursor(value){
 }
 
 /**
- * Decodes a Java values according to their types.
+ * Decodes Java values according to their types.
  * @param {[string]} types - Java types of the value (e.g., ["java.util.Set", "java.lang.String", "int"])
  * @param {[string]]} value - Reference to the objects.
  * @returns {[string]} The type-appropriate decoded strings (e.g., ["java.util.Set":"[1,50,21]", "java.lang.String":"Hello World", "int":"-12"])
  */
+
+// Module-level cached references for performance
+let _toStringMethod = null;
+let _toStringMethodInitialized = false;
+let _SystemCls = null;
+let _SystemClsInitialized = false;
+
+function getToStringMethod() {
+  if (!_toStringMethodInitialized) {
+    try {
+      let ObjCls = Java.use('java.lang.Object');
+      _toStringMethod = ObjCls.class.getDeclaredMethod('toString', []);
+      _toStringMethod.setAccessible(true);
+    } catch (_) {
+      _toStringMethod = null;
+    }
+    _toStringMethodInitialized = true;
+  }
+  return _toStringMethod;
+}
+
+function getSystemCls() {
+  if (!_SystemClsInitialized) {
+    try {
+      _SystemCls = Java.use('java.lang.System');
+    } catch (_) {
+      _SystemCls = null;
+    }
+    _SystemClsInitialized = true;
+  }
+  return _SystemCls;
+}
+
 function decodeArguments(types, args) {
-  var parameters = [];
-  for (var i in types) {
-    var type = types[i];
-    var parameter = { type: type, value: decodeValue(type, args[i]) };
-    parameters.push(parameter);
+  let parameters = [];
+  let toStringMethod = getToStringMethod();
+  let SystemCls = getSystemCls();
+
+  for (let i in types) {
+    let declaredType = types[i];
+    let argVal = args[i];
+    let entry = { declaredType: declaredType, value: decodeValue(declaredType, argVal) };
+
+    // Attach runtime info if this is a Java object
+    if (argVal && typeof argVal === 'object') {
+      let runtimeType = null;
+      try { runtimeType = argVal.$className || (argVal.getClass ? argVal.getClass().getName() : null); } catch (_) {}
+      if (runtimeType) {
+        entry.runtimeType = runtimeType;
+        if (SystemCls) {
+          try {
+            entry.instanceId = '' + SystemCls.identityHashCode(argVal);
+          } catch (_) {}
+        }
+        // Robust toString retrieval: prefer reflected method, fallback to direct call
+        try {
+          if (toStringMethod) {
+            entry.instanceToString = '' + toStringMethod.invoke(argVal, []);
+          } else {
+            entry.instanceToString = '' + argVal.toString();
+          }
+        } catch (e1) {
+          try { entry.instanceToString = '' + argVal.toString(); } catch (e2) { entry.instanceToString = '<toString-unavailable>'; }
+        }
+      }
+    }
+
+    parameters.push(entry);
   }
   return parameters;
 }

@@ -1,0 +1,24 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-sensitive-data-in-notifications
+          [MASVS-PLATFORM-3] Ensure that notifications do not contain sensitive information
+                                                                                           
+           41┆ Notification notificationBuild = new                     
+               Notification.Builder(this.context).setContentTitle("MASTG
+               Test").setContentText(sensitiveString).build();          
+            ⋮┆----------------------------------------
+           41┆ Notification notificationBuild = new                     
+               Notification.Builder(this.context).setContentTitle("MASTG
+               Test").setContentText(sensitiveString).build();          
+            ⋮┆----------------------------------------
+           48┆ Notification notificationBuild = new Notification.Builder(this.context,                  
+               "TEST_CHANNEL_ID").setContentTitle("MASTG Test").setContentText(sensitiveString).build();
+            ⋮┆----------------------------------------
+           48┆ Notification notificationBuild = new Notification.Builder(this.context,                  
+               "TEST_CHANNEL_ID").setContentTitle("MASTG Test").setContentText(sensitiveString).build();
+

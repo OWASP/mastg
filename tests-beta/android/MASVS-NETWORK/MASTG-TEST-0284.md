@@ -4,7 +4,9 @@ platform: android
 id: MASTG-TEST-0284
 type: [static]
 weakness: MASWE-0052
+best-practices: [MASTG-BEST-0021]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0010]
 ---
 
 ## Overview

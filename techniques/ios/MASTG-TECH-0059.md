@@ -3,27 +3,23 @@ title: Accessing App Data Directories
 platform: ios
 ---
 
-Once you have installed the app, there is further information to explore. Let's go through a short overview of the app folder structure on iOS apps to understand which data is stored where. The following illustration represents the application folder structure:
+## Using @MASTG-TOOL-0138 (Jailbroken Devices Only)
 
-<img src="Images/Chapters/0x06a/iOS_Folder_Structure.png" width="400px" />
+Before being able to access the app directories, you need to know where they are located on the filesystem.
 
-On iOS, system applications can be found in the `/Applications` directory while user-installed apps are available under `/private/var/containers/`. However, finding the right folder just by navigating the file system is not a trivial task as every app gets a random 128-bit UUID (Universal Unique Identifier) assigned for its directory names.
-
-In order to easily obtain the installation directory information for user-installed apps you can follow the following methods:
-
-Connect to the terminal on the device and use @MASTG-TOOL-0138 to install @MASTG-APP-0028 as follows:
+Connect to the terminal on the device (@MASTG-TECH-0052) and run `ipainstaller -i`:
 
 ```bash
-iPhone:~ root# ipainstaller -l
-...
-OWASP.iGoat-Swift
-
 iPhone:~ root# ipainstaller -i OWASP.iGoat-Swift
 ...
 Bundle: /private/var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-FBCA66589E67
 Application: /private/var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-FBCA66589E67/iGoat-Swift.app
 Data: /private/var/mobile/Containers/Data/Application/8C8E7EB0-BC9B-435B-8EF8-8F5560EB0693
 ```
+
+Now you can `cd` into these directories to explore their content. If you want to extract these directories to your computer for further analysis you can use @MASTG-TECH-0053.
+
+## Using @MASTG-TOOL-0074 (Jailbroken and Non-Jailbroken Devices)
 
 Using objection's command `env` will also show you all the directory information of the app. Connecting to the application with objection is described in @MASTG-TOOL-0074. In this case we're connecting to @MASTG-APP-0028:
 
@@ -38,102 +34,80 @@ DocumentDirectory  /var/mobile/Containers/Data/Application/8C8E7EB0-BC9B-435B-8E
 LibraryDirectory   /var/mobile/Containers/Data/Application/8C8E7EB0-BC9B-435B-8EF8-8F5560EB0693/Library
 ```
 
-As you can see, apps have two main locations:
-
-- The Bundle directory (`/var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-FBCA66589E67/`).
-- The Data directory (`/var/mobile/Containers/Data/Application/8C8E7EB0-BC9B-435B-8EF8-8F5560EB0693/`).
-
-These folders contain information that must be examined closely during application security assessments (for example when analyzing the stored data for sensitive data).
-
-Bundle directory:
-
-- **AppName.app**
-    - This is the Application Bundle as seen before in the IPA, it contains essential application data, static content as well as the application's compiled binary.
-    - This directory is visible to users, but users can't write to it.
-    - Content in this directory is not backed up.
-    - The contents of this folder are used to validate the code signature.
-
-Data directory:
-
-- **Documents/**
-    - Contains all the user-generated data. The application end user initiates the creation of this data.
-    - Visible to users and users can write to it.
-    - Content in this directory is backed up.
-    - The app can disable paths by setting `NSURLIsExcludedFromBackupKey`.
-- **Library/**
-    - Contains all files that aren't user-specific, such as caches, preferences, cookies, and property list (plist) configuration files.
-    - iOS apps usually use the `Application Support` and `Caches` subdirectories, but the app can create custom subdirectories.
-- **Library/Caches/**
-    - Contains semi-persistent cached files.
-    - Invisible to users and users can't write to it.
-    - Content in this directory is not backed up.
-    - The OS may delete this directory's files automatically when the app is not running and storage space is running low.
-- **Library/Application Support/**
-    - Contains persistent files necessary for running the app.
-    - Invisible to users and users can't write to it.
-    - Content in this directory is backed up.
-    - The app can disable paths by setting `NSURLIsExcludedFromBackupKey`.
-- **Library/Preferences/**
-    - Used for storing properties that can persist even after an application is restarted.
-    - Information is saved, unencrypted, inside the application sandbox in a plist file called [BUNDLE_ID].plist.
-    - All the key/value pairs stored using `NSUserDefaults` can be found in this file.
-- **tmp/**
-    - Use this directory to write temporary files that do not need to persist between app launches.
-    - Contains non-persistent cached files.
-    - Invisible to users.
-    - Content in this directory is not backed up.
-    - The OS may delete this directory's files automatically when the app is not running and storage space is running low.
-
-Let's take a closer look at iGoat-Swift's Application Bundle (.app) directory inside the Bundle directory (`/var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-FBCA66589E67/iGoat-Swift.app`):
+Let's take a look at the Bundle directory (`/var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-FBCA66589E67/iGoat-Swift.app`):
 
 ```bash
-OWASP.iGoat-Swift on (iPhone: 11.1.2) [usb] # ls
+OWASP.iGoat-Swift on (iPhone: 11.1.2) [usb] # ls /var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-FBCA66589E67/iGoat-Swift.app
 NSFileType      Perms  NSFileProtection    ...  Name
 ------------  -------  ------------------  ...  --------------------------------------
-Regular           420  None                ...  rutger.html
-Regular           420  None                ...  mansi.html
-Regular           420  None                ...  splash.html
-Regular           420  None                ...  about.html
-
-Regular           420  None                ...  LICENSE.txt
-Regular           420  None                ...  Sentinel.txt
-Regular           420  None                ...  README.txt
-
-Directory         493  None                ...  URLSchemeAttackExerciseVC.nib
-Directory         493  None                ...  CutAndPasteExerciseVC.nib
-Directory         493  None                ...  RandomKeyGenerationExerciseVC.nib
-Directory         493  None                ...  KeychainExerciseVC.nib
-Directory         493  None                ...  CoreData.momd
-Regular           420  None                ...  archived-expanded-entitlements.xcent
-Directory         493  None                ...  SVProgressHUD.bundle
-
-Directory         493  None                ...  Base.lproj
-Regular           420  None                ...  Assets.car
-Regular           420  None                ...  PkgInfo
-Directory         493  None                ...  _CodeSignature
-Regular           420  None                ...  AppIcon60x60@3x.png
-
 Directory         493  None                ...  Frameworks
-
 Regular           420  None                ...  embedded.mobileprovision
-
-Regular           420  None                ...  Credentials.plist
-Regular           420  None                ...  Assets.plist
 Regular           420  None                ...  Info.plist
-
 Regular           493  None                ...  iGoat-Swift
+...
 ```
 
-You can also visualize the Bundle directory from @MASTG-TOOL-0061 by clicking on **Finder** -> **Bundle**:
+Go to the Documents directory and list all files using `ls`.
+
+```bash
+...itudehacks.DVIAswiftv2.develop on (iPhone: 13.2.3) [usb] # ls
+NSFileType      Perms  NSFileProtection                      Read    Write    Owner         Group         Size      Creation                   Name
+------------  -------  ------------------------------------  ------  -------  ------------  ------------  --------  -------------------------  ------------------------
+Directory         493  n/a                                   True    True     mobile (501)  mobile (501)  192.0 B   2020-02-12 07:03:51 +0000  default.realm.management
+Regular           420  CompleteUntilFirstUserAuthentication  True    True     mobile (501)  mobile (501)  16.0 KiB  2020-02-12 07:03:51 +0000  default.realm
+Regular           420  CompleteUntilFirstUserAuthentication  True    True     mobile (501)  mobile (501)  1.2 KiB   2020-02-12 07:03:51 +0000  default.realm.lock
+Regular           420  CompleteUntilFirstUserAuthentication  True    True     mobile (501)  mobile (501)  284.0 B   2020-05-29 18:15:23 +0000  userInfo.plist
+Unknown           384  n/a                                   True    True     mobile (501)  mobile (501)  0.0 B     2020-02-12 07:03:51 +0000  default.realm.note
+
+Readable: True  Writable: True
+```
+
+If you want to inspect plist files, you can use the `ios plist cat` command
+
+```bash
+...itudehacks.DVIAswiftv2.develop on (iPhone: 13.2.3) [usb] # ios plist cat userInfo.plist
+{
+        password = password123;
+        username = userName;
+}
+```
+
+## Using @MASTG-TOOL-0061 (Jailbroken and Non-Jailbroken Devices)
+
+You can use Grapefruit to access the app directories.
+
+Go to **Finder** -> **Bundle** to see the application bundle:
 
 <img src="Images/Chapters/0x06b/grapefruit_bundle_dir.png" width="100%" />
 
-Including the `Info.plist` file:
+You can inspect any file, for example the `Info.plist` file:
 
 <img src="Images/Chapters/0x06b/grapefruit_plist_view.png" width="100%" />
 
-As well as the Data directory in **Finder** -> **Home**:
+Go to **Finder** -> **Home** to see the application data directory:
 
 <img src="Images/Chapters/0x06b/grapefruit_data_dir.png" width="100%" />
 
-Refer to the [Testing Data Storage](../../Document/0x06d-Testing-Data-Storage.md "Data Storage on iOS") chapter for more information and best practices on securely storing sensitive data.
+## Using a Terminal in macOS (iOS Simulator Only)
+
+For testing the local storage and verifying what data is stored within it, it's not mandatory to have an iOS device. With access to the source code and Xcode the app can be build and deployed in the iOS simulator. The file system of the current device of the iOS simulator is available in `~/Library/Developer/CoreSimulator/Devices`.
+
+Once the app is running in the iOS simulator, you can navigate to the directory of the latest simulator started with the following command:
+
+```bash
+$ cd ~/Library/Developer/CoreSimulator/Devices/$(ls -alht ~/Library/Developer/CoreSimulator/Devices | head -n 2 | awk '{print $9}' | sed -n '1!p')/data/Containers/Data/Application
+```
+
+The command above will automatically find the UUID of the latest simulator started and navigate to the Applications Data directory. From there you can `cd` into the app's data directory by looking for the app's name in the `Documents` folder of each application directory.
+
+## Using Xcode (Jailbroken and Non-Jailbroken Devices - Debug Builds Only)
+
+You can also use Xcode to download the app container directly from a connected device. This method only works for debug builds of the app.
+
+Go to **Window** -> **Devices and Simulators** in Xcode. Select your connected device from the left sidebar, then select the app from the list of installed apps and click on the gear icon. From the dropdown menu, select **Download Container...**.
+
+<img src="Images/Chapters/0x06a/download-ios-app-container.png" width="400px" />
+
+This will allow you to save the app container to your local machine as a `.xcappdata` file. Once downloaded, you can right-click on the container file and select **Show Package Contents** to explore the app's directory structure.
+
+<img src="Images/Chapters/0x06a/ios-app-container.png" width="400px" />
