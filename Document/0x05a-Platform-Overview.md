@@ -85,6 +85,14 @@ We need to have a way to ensure that code that is being executed on Android devi
 
 Further information is available in the [Android documentation](https://source.android.com/security/verifiedboot).
 
+#### Android Enterprise
+
+[Android Enterprise](https://developer.android.com/work) (formerly Android for Work) is a set of features and services designed for corporate and organizational use, providing enhanced security, privacy, and management capabilities beyond standard Android. It enables organizations to securely deploy and manage Android devices and apps through features like work profiles, which create a separate, encrypted container for work apps and data that's isolated from personal apps.
+
+Key security features include mandatory encryption, enhanced device administration controls, always-on VPN, and stricter security policies that can be enforced by an enterprise mobility management (EMM) solution. Newly added enhancements and updates to recent Android versions can be found in the [Android Enterprise documentation](https://developer.android.com/work/versions).
+
+Developers building apps for enterprise environments should be aware of [Android's work profile APIs](https://developer.android.com/work/versions), device policy restrictions, and should implement features like [managed configurations](https://developer.android.com/work/managed-configurations) to enable IT administrators to configure apps remotely, ensuring compliance with organizational security requirements.
+
 ### Software Isolation
 
 #### Android Users and Groups
