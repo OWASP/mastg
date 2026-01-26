@@ -49,7 +49,7 @@ package: sg.vantagepoint.uncrackable1
 
 ## Body content
 
-Entries should be short and referential. Do not duplicate installation or usage docs that belong in the app’s own repository.
+Entries should be short and referential. Do not duplicate installation or usage docs that belong in the app's own repository.
 
 - One or two sentences describing the app and its purpose
 - Add any platform-specific hints, such as jailbreak expectations or proxy setup
