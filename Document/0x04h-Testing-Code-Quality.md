@@ -183,23 +183,23 @@ Sergey Bobrov was able to take advantage of this in the following [HackerOne rep
   view.context.startActivity(i)
   ```
 
-If a WebView is used to display a remote website, the burden of escaping HTML shifts to the server side. If an XSS flaw exists on the web server, this can be used to execute script in the context of the WebView. As such, it is important to perform static analysis of the web application source code.
+If a WebView is used to display a remote website, the burden of escaping HTML shifts to the server side. If an XSS flaw exists on the web server, this can be used to execute a script in the context of the WebView. As such, it is important to perform static analysis of the web application source code.
 
 Verify that the following best practices have been followed:
 
 - No untrusted data is rendered in HTML, JavaScript or other interpreted contexts unless it is absolutely necessary.
-- Appropriate encoding is applied to escape characters, such as HTML entity encoding. Note: escaping rules become complicated when HTML is nested within other code, for example, rendering a URL located inside a JavaScript block.
+- Appropriate encoding is applied to escape characters, such as HTML entity encoding. Note: escaping rules becomes complicated when HTML is nested within other code, for example, rendering a URL located inside a JavaScript block.
 
-Consider how data will be rendered in a response. For example, if data is rendered in a HTML context, six control characters that must be escaped:
+Consider how data will be rendered in a response. For example, if data is rendered in an HTML context, six control characters that must be escaped:
 
-| Character |  Escaped   |
-|:---------:|:----------:|
-|     &     | &amp;amp;  |
-|     <     |  &amp;lt;  |
-|     >     |  &amp;gt;  |
-|     "     | &amp;quot; |
-|     '     | &amp;#x27; |
-|     /     | &amp;#x2F; |
+| Character | Escaped    |
+|-----------|------------|
+| &         | &amp;amp;  |
+| <         | &amp;lt;   |
+| >         | &amp;gt;   |
+| "         | &amp;quot; |
+| '         | &amp;#x27; |
+| /         | &amp;#x2F; |
 
 For a comprehensive list of escaping rules and other prevention measures, refer to the [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html "OWASP XSS Prevention Cheat Sheet").
 
