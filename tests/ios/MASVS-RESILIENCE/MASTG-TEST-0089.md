@@ -29,3 +29,26 @@ Next, work on bypassing the detection and answer the following questions:
 - How difficult is identifying the detection code via static and dynamic analysis?
 - Did you need to write custom code to disable the defenses? How much time did you need?
 - What is your assessment of the difficulty of bypassing the mechanisms?
+
+## 🧪 Test Cases
+
+### iOS UnCrackable Level 2
+When testing with **iOS UnCrackable Level 2** ([MASTG-APP-0026](../../../apps/ios/MASTG-APP-0026.md)), be aware of the following:
+
+**Known Issue:** There's a bug in the anti-debugging validation that may cause correct solutions to fail validation.
+
+**Testing Approach:**
+1. **Focus on 32-bit version** - The 64-bit version has cross-platform issues that can mislead analysis
+2. **Static analysis priority** - Dynamic analysis alone should not be sufficient
+3. **Logic verification** - Use source code to verify your approach
+4. **Expected behavior** - The app should detect debugging attempts and respond appropriately
+
+**Expected Anti-Debugging Responses:**
+- Alert the user about debugging attempts
+- Gracefully terminate execution
+- Wipe sensitive data
+- Report to backend (if applicable)
+
+**Validation Note:** Due to the known bug, validation may fail even with correct anti-debugging detection. Refer to the [app documentation](../../../apps/ios/MASTG-APP-0026.md) for current status and workarounds.
+
+**Related Issue:** [commjoen/uncrackable_app#10](https://github.com/commjoen/uncrackable_app/issues/10)
