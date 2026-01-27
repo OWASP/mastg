@@ -1,0 +1,4 @@
+Searching for serialization usage...
+./UserSession.java:public class UserSession implements Serializable {
+./UserProfile.kt:import kotlinx.serialization.Serializable
+./UserProfile.kt:@Serializable

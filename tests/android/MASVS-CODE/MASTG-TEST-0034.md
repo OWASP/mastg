@@ -9,6 +9,9 @@ masvs_v1_levels:
 - L1
 - L2
 profiles: [L1, L2]
+status: deprecated
+covered_by: [MASTG-TEST-0263]
+deprecation_note: This test case has been moved to @MASTG-TEST-0263. See @MASTG-KNOW-0021 for background information on object serialization.
 ---
 
 ## Overview
