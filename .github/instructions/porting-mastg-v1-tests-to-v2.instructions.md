@@ -81,7 +81,7 @@ Map to MASWE. You can check the new MASWE by searching for the old test ID in th
 
 7. Link general concepts to Document: Some content belongs in the Document chapter. For example, general cryptography concepts such as symmetric/asymmetric encryption, hashing, signing, etc. If the knowledge is still in `Document/`, link to it.
 
-   **Example:** ["Post Quantum"](https://mas.owasp.org/MASTG/Document/0x04g-Testing-Cryptography/#post-quantum)
+   **Example:** ["Post Quantum"](https://mas.owasp.org/MASTG/0x04g-Testing-Cryptography/#post-quantum)
 
 8. Avoid duplication: You may summarize, but focus the test on how to detect the issue in Android/iOS and why it matters for this test.
 
