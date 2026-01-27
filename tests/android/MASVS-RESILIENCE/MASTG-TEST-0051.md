@@ -57,11 +57,11 @@ For native code:
 
 Some of these techniques are discussed and analyzed in the blog post ["Security hardening of Android native code"](https://darvincitech.wordpress.com/2020/01/07/security-hardening-of-android-native-code/) by Gautam Arvind and in the ["APKiD: Fast Identification of AppShielding Products"](https://github.com/enovella/cve-bio-enovella/blob/master/slides/APKiD-NowSecure-Connect19-enovella.pdf) presentation by Eduardo Novella.
 
-For a more detailed assessment, you need a detailed understanding of the relevant threats and the obfuscation methods used. Tools such as @MASTG-TOOL-0009 may give you additional indications about which techniques were used for the target app such as obfuscators, packers and anti-debug measures.
+For a more detailed assessment, you need a detailed understanding of the relevant threats and the obfuscation methods used. Tools such as @MASTG-TECH-0087 may give you additional indications about which techniques were used for the target app such as obfuscators, packers and anti-debug measures.
 
 ## Dynamic Analysis
 
-You can use @MASTG-TOOL-0009 to detect if the app has been obfuscated.
+You can use @MASTG-TECH-0087 to detect if the app has been obfuscated.
 
 Example using the @MASTG-APP-0015:
 
