@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Sensitive Data in Serialized Objects
-id: MASTG-TEST-0263
+id: MASTG-TEST-0324
 type: [static, dynamic]
 weakness: MASWE-0001
 best-practices: [MASTG-BEST-0001]

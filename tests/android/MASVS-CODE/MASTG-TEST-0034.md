@@ -10,9 +10,12 @@ masvs_v1_levels:
 - L2
 profiles: [L1, L2]
 status: deprecated
-covered_by: [MASTG-TEST-0263]
-deprecation_note: This test case has been moved to @MASTG-TEST-0263. See @MASTG-KNOW-0021 for background information on object serialization.
+covered_by: [MASTG-TEST-0324]
+deprecation_note: This test case has been moved to @MASTG-TEST-0324. See @MASTG-KNOW-0021 for background information on object serialization.
 ---
+
+> [!IMPORTANT]
+> This test case is deprecated. The parts related to sensitive data in serialized objects have been moved to [MASTG-TEST-0324](../../../tests-beta/android/MASVS-STORAGE/MASTG-TEST-0324.md).
 
 ## Overview
 

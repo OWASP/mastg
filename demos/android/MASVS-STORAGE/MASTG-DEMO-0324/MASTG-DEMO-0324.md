@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Sensitive Data in Serialized Objects
-id: MASTG-DEMO-0263
+id: MASTG-DEMO-0324
 code: [java, kotlin]
-test: MASTG-TEST-0263
+test-case: MASTG-TEST-0324
 ---
 
 ### Sample
