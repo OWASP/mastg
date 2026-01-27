@@ -33,7 +33,7 @@ If having the source code, you should take a look at the `UIActivityViewControll
 - Check if it defines custom activities (also being passed to the previous method).
 - Verify the `excludedActivityTypes`, if any.
 
-If you only have the compiled/installed app, try searching for the previous method and property, for example using @MASTG-TOOL-0129:
+If you only have the compiled/installed app, try searching for the previous method and property, for example using @MASTG-TECH-0078:
 
 ```bash
 $ rabin2 -zq Telegram\ X.app/Telegram\ X | grep -i activityItems
@@ -55,7 +55,7 @@ If not having the source code you can still take a look into the `Info.plist` fi
 
 A very complete explanation about the use of these keys can be found [on Stackoverflow](https://stackoverflow.com/questions/21937978/what-are-utimportedtypedeclarations-and-utexportedtypedeclarations-used-for-on-i "What are UTImportedTypeDeclarations and UTExportedTypeDeclarations used for on iOS?").
 
-Let's see a real-world example. We will take a File Manager app and take a look at these keys. We used @MASTG-TOOL-0038 here to read the `Info.plist` file.
+Let's see a real-world example. We will take a File Manager app and take a look at these keys. We used @MASTG-TECH-0053 here to read the `Info.plist` file.
 
 ```bash
 objection --name SomeFileManager run ios plist cat Info.plist

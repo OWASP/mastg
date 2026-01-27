@@ -74,7 +74,7 @@ do {
 } catch {}
 ```
 
-If only having the compiled binary, you can also search for these methods using @MASTG-TOOL-0129:
+If only having the compiled binary, you can also search for these methods using @MASTG-TECH-0078:
 
 ```bash
 $ rabin2 -zz ./WheresMyBrowser | grep -i "loadHTMLString"
@@ -95,7 +95,7 @@ wkWebView.loadFileURL(scenario1Url, allowingReadAccessTo: scenario1Url)
 
 In this case, the parameter `allowingReadAccessToURL` contains a single file "WKWebView/scenario1.html", meaning that the WebView has exclusively access to that file.
 
-In the compiled binary you can use @MASTG-TOOL-0129:
+In the compiled binary you can use @MASTG-TECH-0078:
 
 ```bash
 $ rabin2 -zz ./WheresMyBrowser | grep -i "loadFileURL"
