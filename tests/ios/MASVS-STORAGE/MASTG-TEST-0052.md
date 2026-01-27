@@ -67,7 +67,7 @@ You can analyze the app's data directory on a non-jailbroken iOS device by using
 !!! note
     Tools like iMazing don't copy data directly from the device. They try to extract data from the backups they create. Therefore, getting all the app data that's stored on the iOS device is impossible: not all folders are included in backups. Use a jailbroken device or repackage the app with Frida and use a tool like objection to access all the data and files.
 
-If you added the Frida library to the app and repackaged it as described in "Dynamic Analysis on Non-Jailbroken Devices" (from the "Tampering and Reverse Engineering on iOS" chapter), you can use @MASTG-TOOL-0038 to transfer files directly from the app's data directory or [read files in objection](https://github.com/sensepost/objection/wiki/Using-objection#getting-started-ios-edition "Getting started iOS edition") as explained in @MASTG-TECH-0053.
+If you added the Frida library to the app and repackaged it as described in "Dynamic Analysis on Non-Jailbroken Devices" (from the "Tampering and Reverse Engineering on iOS" chapter), you can use @MASTG-TECH-0053 to transfer files directly from the app's data directory or [read files in objection](https://github.com/sensepost/objection/wiki/Using-objection#getting-started-ios-edition "Getting started iOS edition") as explained in @MASTG-TECH-0053.
 
 The Keychain contents can be dumped during dynamic analysis using different tools, see @MASTG-TECH-0061.
 
@@ -103,7 +103,7 @@ Then you can monitor and verify the changes in the filesystem of the app and inv
 
 ### Dynamic Analysis with Objection
 
-You can use the @MASTG-TOOL-0038 runtime mobile exploration toolkit to find vulnerabilities caused by the application's data storage mechanism. Objection can be used without a Jailbroken device, but it will require [patching the iOS Application](https://github.com/sensepost/objection/wiki/Patching-iOS-Applications "Objection").
+You can use the @MASTG-TECH-0053 runtime mobile exploration toolkit to find vulnerabilities caused by the application's data storage mechanism. Objection can be used without a Jailbroken device, but it will require [patching the iOS Application](https://github.com/sensepost/objection/wiki/Patching-iOS-Applications "Objection").
 
 #### Reading the Keychain
 
