@@ -6,8 +6,6 @@ source: https://github.com/frida/frida
 
 Frida supports interaction with the Objective-C runtime through the [ObjC API](https://www.frida.re/docs/javascript-api/#objc "Frida - ObjC API"). You'll be able to hook and call both Objective-C and native functions inside the process and its native libraries. Your JavaScript snippets have full access to memory, e.g. to read and/or write any structured data.
 
-For comprehensive tutorials on using Frida with iOS, see the [iOS section in the Frida Handbook](https://learnfrida.info/ios/).
-
 Here are some tasks that Frida APIs offers and are relevant or exclusive on iOS:
 
 - Instantiate Objective-C objects and call static and non-static class methods ([ObjC API](https://www.frida.re/docs/javascript-api/#objc "Frida - ObjC API")).
