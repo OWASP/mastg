@@ -167,7 +167,7 @@ BroadcastReceivers should use the `android:permission` attribute; otherwise, oth
 
 ## Dynamic Analysis
 
-You can enumerate IPC components with @MASTG-TOOL-0035. To list all exported IPC components, upload the APK file and the components collection will be displayed in the following screen:
+You can enumerate IPC components with @MASTG-TECH-0014. To list all exported IPC components, upload the APK file and the components collection will be displayed in the following screen:
 
 <img src="Images/Chapters/0x05h/MobSF_Show_Components.png" width="100%" />
 
@@ -181,7 +181,7 @@ Provider{34a20d5 com.mwr.example.sieve/.FileBackupProvider}
 Provider{64f10ea com.mwr.example.sieve/.DBContentProvider}
 ```
 
-Once identified, you can use @MASTG-TOOL-0018 to reverse engineer the app and analyze the source code of the exported content providers to identify potential vulnerabilities.
+Once identified, you can use @MASTG-TECH-0014 to reverse engineer the app and analyze the source code of the exported content providers to identify potential vulnerabilities.
 
 To identify the corresponding class of a content provider, use the following information:
 
@@ -262,7 +262,7 @@ You can identify an exported activity using one of the following properties:
 - It have an `intent-filter` sub declaration.
 - It have the attribute `android:exported` to `0xffffffff`.
 
-You can also use @MASTG-TOOL-0018 to identify exported activities in the file `AndroidManifest.xml` using the criteria described above:
+You can also use @MASTG-TECH-0014 to identify exported activities in the file `AndroidManifest.xml` using the criteria described above:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -362,7 +362,7 @@ You can identify an exported broadcast receiver using one of the following prope
 - It has an `intent-filter` sub declaration.
 - It has the attribute `android:exported` set to `0xffffffff`.
 
-You can also use @MASTG-TOOL-0018 to identify exported broadcast receivers in the file `AndroidManifest.xml` using the criteria described above:
+You can also use @MASTG-TECH-0014 to identify exported broadcast receivers in the file `AndroidManifest.xml` using the criteria described above:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -386,7 +386,7 @@ You can also use @MASTG-TOOL-0018 to identify exported broadcast receivers in th
 
 The above example from the vulnerable banking application @MASTG-APP-0010 shows that only the broadcast receiver named `com.android.insecurebankv2.MyBroadCastReceiver` is exported.
 
-Now that you know that there is an exported broadcast receiver, you can dive deeper and reverse engineer the app using @MASTG-TOOL-0018. This will allow you to analyze the source code searching for potential vulnerabilities that you could later try to exploit. The source code of the exported broadcast receiver is the following:
+Now that you know that there is an exported broadcast receiver, you can dive deeper and reverse engineer the app using @MASTG-TECH-0014. This will allow you to analyze the source code searching for potential vulnerabilities that you could later try to exploit. The source code of the exported broadcast receiver is the following:
 
 ```java
 package com.android.insecurebankv2;
