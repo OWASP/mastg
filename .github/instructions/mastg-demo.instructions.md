@@ -4,10 +4,10 @@ A collection of demos (demonstrative examples) of the test that include working 
 
 Demos live in `demos/android/` or `demos/ios/` under the corresponding MASVS category folder. Each demo has its own folder named using its ID and contains:
 
-* Markdown file: `MASTG-DEMO-xxx.md`
-* Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
-* Testing code (e.g. `*.sh`, `*.py`)
-* Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
+- Markdown file: `MASTG-DEMO-xxx.md`
+- Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
+- Testing code (e.g. `*.sh`, `*.py`)
+- Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
 
 **Language:** The samples are written in **Kotlin** or **Swift**, depending on the platform. In some cases, the samples will also include configuration files such as `AndroidManifest.xml` or `Info.plist`.
 
@@ -78,7 +78,7 @@ The mobile platform. One of: `ios`, `android`.
 
 Tools used in the demo.
 
-When available, prefer referencing official tool IDs from https://mas.owasp.org/MASTG/tools/ (for example, `MASTG-TOOL-0031`). If an official ID is not available, you may use a well-known tool name (for example, `semgrep`).
+When available, prefer referencing official tool IDs from <https://mas.owasp.org/MASTG/tools/> (for example, `MASTG-TOOL-0031`). If an official ID is not available, you may use a well-known tool name (for example, `semgrep`).
 
 Example:
 
@@ -203,22 +203,21 @@ Review each of the reported instances.
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
 ```
 
-
 ### Code Samples {#code-samples}
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
 
-* [https://github.com/cpholguera/MASTestApp-Android](https://github.com/cpholguera/MASTestApp-Android)
-* [https://github.com/cpholguera/MASTestApp-iOS](https://github.com/cpholguera/MASTestApp-iOS) 
+- [https://github.com/cpholguera/MASTestApp-Android](https://github.com/cpholguera/MASTestApp-Android)
+- [https://github.com/cpholguera/MASTestApp-iOS](https://github.com/cpholguera/MASTestApp-iOS)
 
 Simply clone the repository and follow the instructions to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
 
 #### File
 
-Must be a modified version of the original files in the apps’ repos: 
+Must be a modified version of the original files in the apps' repos:
 
-* Android: `app/src/main/java/org/owasp/mastestapp/MastgTest.kt`
-* iOS: `MASTestApp/MastgTest.swift`
+- Android: `app/src/main/java/org/owasp/mastestapp/MastgTest.kt`
+- iOS: `MASTestApp/MastgTest.swift`
 
 When working on a new demo, you **must include the whole file** with the original name in the demo folder.
 
@@ -262,7 +261,7 @@ Every demo that can be automated must contain a `run.sh` file that runs the anal
 
 #### Static
 
-Static demos must work using the **reverse-engineered code**. The apps’ repositories contain scripts or instructions to obtain the reversed files.
+Static demos must work using the **reverse-engineered code**. The apps' repositories contain scripts or instructions to obtain the reversed files.
 
 Example: semgrep
 

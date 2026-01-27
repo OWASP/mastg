@@ -20,41 +20,41 @@
       "rules": [
         {
           "name": "curly-double-quotes",
-          "message": "Do not use curly double quotes.",
+          "message": "MASTG-RULE-001/Do not use curly double quotes.",
           "searchPattern": "/“|”/g",
           "replace": "\"",
           "searchScope": "text"
         },
         {
           "name": "nbsp",
-          "message": "Don't use no-break spaces",
+          "message": "MASTG-RULE-002/Don't use no-break spaces",
           "searchPattern": "/ /g",
           "replace": " ",
           "searchScope": "all"
         },
         {
           "name": "curly-single-quotes",
-          "message": "Don't use curly single quotes",
+          "message": "MASTG-RULE-003/Don't use curly single quotes",
           "searchPattern": "/‘|’/g",
           "replace": "'",
           "searchScope": "text"
         },
         {
           "name": "gender-neutrality",
-          "message": "Ensure gender-neutral language is used.",
+          "message": "MASTG-RULE-004/Ensure gender-neutral language is used.",
           "searchPattern": "/\\bhe\\b|\\bshe\\b|\\bhis\\b|\\bhimself\\b|\\bherself\\b|\\bher\\b|\\bhim\\b|\\bhers\\b/g",
           "replace": ""
         },
         {
           "name": "trailing-spaces",
-          "message": "Avoid trailing spaces",
+          "message": "MASTG-RULE-005/Avoid trailing spaces",
           "searchPattern": "/  +$/gm",
           "replace": "",
           "searchScope": "all",
         },
         {
           "name": "double-spaces",
-          "message": "Avoid double spaces",
+          "message": "MASTG-RULE-006/Avoid double spaces",
           "searchPattern": "/([^\\s>])  ([^\\s|])/g",
           "replace": "$1 $2",
           "searchScope": "text"

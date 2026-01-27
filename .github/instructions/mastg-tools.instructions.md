@@ -25,21 +25,21 @@ Standards for authoring tool reference pages under `tools/`. These pages documen
 
 Each file begins with a YAML front matter block.
 
-**Required**
+**Required:**
 
 - `title:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
 - `platform:` One of: `android`, `ios`, `generic`, `network`
 - `source:` Canonical homepage or repository URL
 - `host:` List of operating systems the tool runs on. Allowed values (case-sensitive): `windows`, `linux`, `macOS`, `ios`, `android`
-  - Use `host:` with a YAML list (preferred). If you find `hosts:` in legacy pages, migrate to `host:` when touching the file
-  - Use `ios` or `android` for on-device tools (for example, Filza)
+    - Use `host:` with a YAML list (preferred). If you find `hosts:` in legacy pages, migrate to `host:` when touching the file
+    - Use `ios` or `android` for on-device tools (for example, Filza)
 
-**Optional**
+**Optional:**
 
 - `alternatives:` List of tool IDs that provide comparable functionality (YAML list of IDs only)
 - `status:` One of `draft`, `placeholder`, `deprecated`. If absent, the default is `new`
 
-**Examples**
+**Example:**
 
 ```yaml
 ---
@@ -81,8 +81,8 @@ Keep pages practical, scannable, and focused on security testing use.
 ## How tests and demos should reference tools
 
 - Tests and demos should reference tools by ID whenever available:
-  - In body text: `@MASTG-TOOL-0031`
-  - In YAML (for example, demo `tools:` list): `MASTG-TOOL-0031`
+    - In body text: `@MASTG-TOOL-0031`
+    - In YAML (for example, demo `tools:` list): `MASTG-TOOL-0031`
 - If a commonly used tool lacks an official MASTG tool page, demos may temporarily list the tool by name (for example, `tools: [semgrep]`). Prefer adding a tool page and switching to the ID in follow-ups
 
 ## Deprecation
@@ -93,7 +93,7 @@ If the original source is gone, not relevant anymore, or too old, set the follow
 - `deprecation_note:` Short clarifying note for deprecation. Keep phrasing concise and imperative
 - `covered_by:` List of MASTG-TOOL-xxxx tools covering for this one, if any.
 
-**Example**
+**Example:**
 
 ```yaml
 ---
