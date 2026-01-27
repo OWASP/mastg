@@ -26,7 +26,7 @@ For the static analysis we will focus mostly on the following points having `UIW
 
 Look out for usages of the above mentioned WebView classes by searching in Xcode.
 
-In the compiled binary you can search in its symbols or strings, for example using @MASTG-TOOL-0129 like this:
+In the compiled binary you can search in its symbols or strings, for example using @MASTG-TECH-0078 like this:
 
 #### UIWebView
 
@@ -77,7 +77,7 @@ let webPreferences = WKPreferences()
 webPreferences.javaScriptEnabled = false
 ```
 
-If only having the compiled binary you can search for this in it using @MASTG-TOOL-0129:
+If only having the compiled binary you can search for this in it using @MASTG-TECH-0078:
 
 ```bash
 $ rabin2 -zz ./WheresMyBrowser | grep -i "javascriptenabled"
@@ -91,7 +91,7 @@ If user scripts were defined, they will continue running as the `javaScriptEnabl
 
 In contrast to `UIWebView`s, when using `WKWebView`s it is possible to detect [mixed content](https://developers.google.com/web/fundamentals/security/prevent-mixed-content/fixing-mixed-content?hl=en "Preventing Mixed Content") (HTTP content loaded from a HTTPS page). By using the method [`hasOnlySecureContent`](https://developer.apple.com/documentation/webkit/wkwebview/1415002-hasonlysecurecontent "WKWebView hasOnlySecureContent") it can be verified whether all resources on the page have been loaded through securely encrypted connections. This example from [#thiel2] (see page 159 and 160) uses this to ensure that only content loaded via HTTPS is shown to the user, otherwise an alert is displayed telling the user that mixed content was detected.
 
-In the compiled binary you can use @MASTG-TOOL-0129:
+In the compiled binary you can use @MASTG-TECH-0078:
 
 ```bash
 $ rabin2 -zz ./WheresMyBrowser | grep -i "hasonlysecurecontent"
