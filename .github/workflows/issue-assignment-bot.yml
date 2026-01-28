@@ -1,0 +1,196 @@
+name: Issue Assignment Bot
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+jobs:
+  handle-assignment-request:
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Classify comment
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue || {}
+            const comment = context.payload.comment || {}
+            const commenter = comment.user?.login || ""
+            const commentBodyRaw = (comment.body || "").trim()
+
+            const marker = "<!-- issue-assignment-bot -->"
+            const acceptPhrase = "I have read the contribution guidelines and the pr template and I confirm that I will follow them"
+            const normalize = (s) =>
+              String(s || "")
+                .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, "")) 
+                .replace(/[`"]/g, "")
+                .trim()
+                .replace(/\s+/g, " ")
+                .replace(/\.$/, "")
+                .toLowerCase()
+
+            const commentBodyNorm = normalize(commentBodyRaw)
+
+            const existingLabels = (issue.labels || []).map(l => String(l.name || "").toLowerCase())
+            if (existingLabels.includes("request-issue-assignment")) {
+              core.setOutput("type", "skip")
+              return
+            }
+
+            if (!commenter) {
+              core.setOutput("type", "skip")
+              return
+            }
+
+            if (commentBodyNorm === acceptPhrase) {
+              core.setOutput("type", "acceptance")
+              core.setOutput("commenter", commenter)
+              core.setOutput("marker", marker)
+              return
+            }
+
+            const assignees = (issue.assignees || []).map(a => String(a.login || "").toLowerCase())
+            if (assignees.includes(commenter.toLowerCase())) {
+              core.setOutput("type", "skip")
+              return
+            }
+
+            try {
+              await github.rest.repos.checkCollaborator({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: commenter
+              })
+              core.setOutput("type", "skip")
+              return
+            } catch (e) {
+              if (e.status === 403) {
+                console.log("Cannot verify collaborator status, skipping to avoid spam.")
+                core.setOutput("type", "skip")
+                return
+              }
+              if (e.status !== 404) throw e
+            }
+
+            const isShort = commentBodyRaw.length <= 200
+            const patterns = [
+              /\bassign\s+me\b/i,
+              /\bcan\s+you\s+assign\s+me\b/i,
+              /\bi(?:'| a)m\s+interested\b/i,
+              /\bi(?:'| a)m\s+happy\s+to\s+(?:take|work)\b/i,
+              /\bi\s+want\s+to\s+work\s+on\s+this\b/i,
+              /\bi\s+would\s+like\s+to\s+work\s+on\s+this\b/i,
+              /\bcan\s+i\s+(?:take|work\s+on)\s+this\b/i,
+              /\bmay\s+i\s+(?:take|work\s+on)\s+this\b/i,
+              /\bi\s+can\s+take\s+this\b/i
+            ]
+            const looksLikeRequest = isShort && patterns.some(r => r.test(commentBodyRaw))
+
+            core.setOutput("type", looksLikeRequest ? "assignment_request" : "skip")
+            core.setOutput("commenter", commenter)
+            core.setOutput("marker", marker)
+
+      - name: Handle assignment request
+        if: steps.check.outputs.type == 'assignment_request'
+        uses: actions/github-script@v7
+        env:
+          COMMENTER: ${{ steps.check.outputs.commenter }}
+          MARKER: ${{ steps.check.outputs.marker }}
+        with:
+          script: |
+            const commenter = process.env.COMMENTER
+            const marker = process.env.MARKER
+            const issueNumber = context.payload.issue.number
+            const defaultBranch = context.payload.repository?.default_branch || "main"
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              per_page: 100
+            })
+
+            const alreadyAsked = comments.some(c =>
+              String(c.body || "").includes(marker) &&
+              String(c.body || "").includes(`@${commenter}`)
+            )
+
+            if (alreadyAsked) return
+
+            const templateUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/${defaultBranch}/.github/PULL_REQUEST_TEMPLATE.md`
+
+            const guidelinesMessage =
+`${marker}
+Hi @${commenter}, thanks for your interest in contributing to OWASP MASTG.
+
+Before we can assign you to this issue, please confirm that you have read and understand our contribution guidelines.
+
+See <${templateUrl}> and all linked documents.
+
+To confirm, please reply with the following message, copy paste it exactly.
+
+\`\`\`
+I have read the contribution guidelines and the PR template and I confirm that I will follow them.
+\`\`\`
+`
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: guidelinesMessage
+            })
+
+      - name: Handle acceptance
+        if: steps.check.outputs.type == 'acceptance'
+        uses: actions/github-script@v7
+        env:
+          COMMENTER: ${{ steps.check.outputs.commenter }}
+          MARKER: ${{ steps.check.outputs.marker }}
+        with:
+          script: |
+            const commenter = process.env.COMMENTER
+            const marker = process.env.MARKER
+            const issueNumber = context.payload.issue.number
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              per_page: 100
+            })
+
+            const previouslyAsked = comments.some(c =>
+              String(c.body || "").includes(marker) &&
+              String(c.body || "").includes(`@${commenter}`)
+            )
+
+            if (!previouslyAsked) return
+
+            const labels = (context.payload.issue.labels || []).map(l => String(l.name || "").toLowerCase())
+            if (labels.includes("request-issue-assignment")) return
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ["request-issue-assignment"]
+            })
+
+            const confirmationMessage =
+`${marker}
+Thank you @${commenter} for accepting the contribution guidelines.
+
+Your assignment request has been noted and labeled, a maintainer will review and assign you to this issue shortly, please refrain from making a pull request until you have been officially assigned.
+`
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: confirmationMessage
+            })
