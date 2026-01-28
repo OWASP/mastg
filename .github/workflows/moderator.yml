@@ -35,7 +35,7 @@ jobs:
           if event in ("pull_request", "pull_request_target"):
             subject = (payload.get("pull_request", {}).get("user", {}).get("login") or "").strip().lower()
 
-          allow = {"cpholguera", "sushi2k", "copilot"}
+          allow = {"cpholguera", "sushi2k", "copilot", "thedauntless"}
           skip = "true" if subject and subject in allow else "false"
 
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
