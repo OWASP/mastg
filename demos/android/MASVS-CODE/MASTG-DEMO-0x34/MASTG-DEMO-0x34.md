@@ -28,7 +28,7 @@ The output file shows usages of object deserialization in the code.
 
 ### Evaluation
 
-The test fails because the app deserializes untrusted data using `ObjectInputStream.readObject()` without type validation. Specifically:
+The test fails if the app uses `ObjectInputStream.readObject()` on data received from untrusted sources without proper validation or type filtering. Review each of the reported instances:
 
-- On line 107, an `ObjectInputStream` is created from a `ByteArrayInputStream` containing externally-provided serialized data (`serializedPayload` from an Intent extra).
-- On line 108, `readObject()` is called on the untrusted input without any class filtering (e.g., `ObjectInputFilter`), allowing arbitrary object instantiation.
+- Line 103 shows the serialized data originates from an Intent extra (`payload_b64`), which can be controlled by any external application.
+- Lines 106-108 show the base64-decoded payload is directly passed to `ObjectInputStream.readObject()` without any class filtering (e.g., no `ObjectInputFilter` is set).
