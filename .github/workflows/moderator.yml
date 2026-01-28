@@ -35,7 +35,7 @@ jobs:
           if event in ("pull_request", "pull_request_target"):
             subject = (payload.get("pull_request", {}).get("user", {}).get("login") or "").strip().lower()
 
-          allow = {"cpholguera", "sushi2k", "copilot"}
+          allow = {"cpholguera", "sushi2k", "copilot", "thedauntless"}
           skip = "true" if subject and subject in allow else "false"
 
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
@@ -246,7 +246,7 @@ jobs:
               if (reasons.length) {
                 lines.push("")
                 lines.push("Reasons.")
-                for (const r of reasons) lines.push(`, ${r}.`)
+                for (const r of reasons) lines.push(`${r}`)
               }
 
               if (evidence.length) {
@@ -255,8 +255,8 @@ jobs:
                 for (const ev of evidence.slice(0, 5)) {
                   const q = (ev && typeof ev.quote === "string") ? ev.quote : ""
                   const n = (ev && typeof ev.note === "string") ? ev.note : ""
-                  if (q) lines.push(`, "${q}", ${n}.`)
-                  else lines.push(`, No direct quote, ${n}.`)
+                  if (q) lines.push(`- "${q}", ${n}`)
+                  else lines.push(`- ${n}`)
                 }
               }
 
