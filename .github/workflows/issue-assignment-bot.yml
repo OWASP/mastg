@@ -23,7 +23,7 @@ jobs:
             const commentBodyRaw = (comment.body || "").trim()
 
             const marker = "<!-- issue-assignment-bot -->"
-            const acceptPhrase = "i have read the contribution guidelines and the pr template and i confirm that i will follow them"
+            const acceptPhrase = "I have read the contribution guidelines and the pr template and I confirm that I will follow them"
             const normalize = (s) =>
               String(s || "")
                 .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, "")) 
