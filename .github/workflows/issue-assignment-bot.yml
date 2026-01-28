@@ -49,6 +49,7 @@ jobs:
             if (commentBodyNorm === acceptPhrase) {
               core.setOutput("type", "acceptance")
               core.setOutput("commenter", commenter)
+              core.setOutput("marker", marker)
               return
             }
 
