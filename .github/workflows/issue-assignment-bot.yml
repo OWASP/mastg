@@ -116,27 +116,27 @@ jobs:
 
             const alreadyAsked = comments.some(c =>
               String(c.body || "").includes(marker) &&
-              String(c.body || "").includes(`@${commenter}`)
+              String(c.body || "").includes('@' + commenter)
             )
 
             if (alreadyAsked) return
 
-            const templateUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/blob/${defaultBranch}/.github/PULL_REQUEST_TEMPLATE.md`
+            const templateUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/blob/' + defaultBranch + '/.github/PULL_REQUEST_TEMPLATE.md'
 
-            const guidelinesMessage =
-`${marker}
-Hi @${commenter}, thanks for your interest in contributing to OWASP MASTG.
-
-Before we can assign you to this issue, please confirm that you have read and understand our contribution guidelines.
-
-See <${templateUrl}> and all linked documents.
-
-To confirm, please reply with the following message, copy paste it exactly.
-
-\`\`\`
-I have read the contribution guidelines and the PR template and I confirm that I will follow them.
-\`\`\`
-`
+            const guidelinesMessage = [
+              marker,
+              'Hi @' + commenter + ', thanks for your interest in contributing to OWASP MASTG.',
+              '',
+              'Before we can assign you to this issue, please confirm that you have read and understand our contribution guidelines.',
+              '',
+              'See <' + templateUrl + '> and all linked documents.',
+              '',
+              'To confirm, please reply with the following message, copy paste it exactly.',
+              '',
+              '```',
+              'I have read the contribution guidelines and the PR template and I confirm that I will follow them.',
+              '```'
+            ].join('\n')
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -166,7 +166,7 @@ I have read the contribution guidelines and the PR template and I confirm that I
 
             const previouslyAsked = comments.some(c =>
               String(c.body || "").includes(marker) &&
-              String(c.body || "").includes(`@${commenter}`)
+              String(c.body || "").includes('@' + commenter)
             )
 
             if (!previouslyAsked) return
@@ -181,12 +181,12 @@ I have read the contribution guidelines and the PR template and I confirm that I
               labels: ["request-issue-assignment"]
             })
 
-            const confirmationMessage =
-`${marker}
-Thank you @${commenter} for accepting the contribution guidelines.
-
-Your assignment request has been noted and labeled, a maintainer will review and assign you to this issue shortly, please refrain from making a pull request until you have been officially assigned.
-`
+            const confirmationMessage = [
+              marker,
+              'Thank you @' + commenter + ' for accepting the contribution guidelines.',
+              '',
+              'Your assignment request has been noted and labeled, a maintainer will review and assign you to this issue shortly, please refrain from making a pull request until you have been officially assigned.'
+            ].join('\n')
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
