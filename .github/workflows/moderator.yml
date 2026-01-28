@@ -14,34 +14,40 @@ jobs:
   quality-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Allowlist gate
+      - name: Collaborator gate
         id: allow
-        shell: bash
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-        run: |
-          python - << 'PY'
-          import os, json
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            if (!pr) {
+              core.setOutput('skip', 'false')
+              return
+            }
 
-          event = (os.environ.get("EVENT_NAME") or "").strip()
+            const author = pr.user?.login
+            if (!author) {
+              core.setOutput('skip', 'false')
+              return
+            }
 
-          payload_path = os.environ.get("GITHUB_EVENT_PATH") or ""
-          payload = {}
-          if payload_path:
-            with open(payload_path, "r", encoding="utf-8") as f:
-              payload = json.load(f)
-
-          subject = ""
-          if event in ("pull_request", "pull_request_target"):
-            subject = (payload.get("pull_request", {}).get("user", {}).get("login") or "").strip().lower()
-
-          allow = {"cpholguera", "sushi2k", "copilot", "thedauntless"}
-          skip = "true" if subject and subject in allow else "false"
-
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
-            f.write(f"skip={skip}\n")
-            f.write(f"allow_subject={subject}\n")
-          PY
+            try {
+              await github.rest.repos.checkCollaborator({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: author
+              })
+              console.log(`${author} is a collaborator. Skipping moderation.`)
+              core.setOutput('skip', 'true')
+            } catch (e) {
+              if (e.status === 404) {
+                console.log(`${author} is not a collaborator. Proceeding with moderation.`)
+                core.setOutput('skip', 'false')
+              } else {
+                console.log(`Error checking collaborator status: ${e.message}. Proceeding with moderation.`)
+                core.setOutput('skip', 'false')
+              }
+            }
 
       - name: Heuristic signals
         id: heur

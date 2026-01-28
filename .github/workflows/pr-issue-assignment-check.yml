@@ -20,6 +20,21 @@ jobs:
             const prNumber = pr.number
             const prAuthor = pr.user.login
 
+            // Check if PR author is a collaborator
+            try {
+              await github.rest.repos.checkCollaborator({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: prAuthor
+              })
+              console.log(`${prAuthor} is a collaborator. Skipping check.`)
+              return
+            } catch (e) {
+              if (e.status !== 404) {
+                console.log(`Error checking collaborator status: ${e.message}. Proceeding with check.`)
+              }
+            }
+
             // Check if PR is from a fork
             const isFork = pr.head.repo.fork || pr.head.repo.full_name !== pr.base.repo.full_name
             if (!isFork) {
