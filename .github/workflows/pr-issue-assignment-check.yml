@@ -1,0 +1,114 @@
+name: PR Issue Assignment Check
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  issues: read
+
+jobs:
+  check-issue-assignment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR from fork and issue assignment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            const prNumber = pr.number
+            const prAuthor = pr.user.login
+
+            // Check if PR is from a fork
+            const isFork = pr.head.repo.fork || pr.head.repo.full_name !== pr.base.repo.full_name
+            if (!isFork) {
+              console.log('PR is not from a fork, skipping check.')
+              return
+            }
+
+            console.log(`PR #${prNumber} is from a fork by ${prAuthor}`)
+
+            // Get linked issues using GraphQL
+            const query = `
+              query($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $number) {
+                    closingIssuesReferences(first: 50) {
+                      nodes {
+                        number
+                        title
+                        assignees(first: 50) {
+                          nodes {
+                            login
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `
+
+            const result = await github.graphql(query, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              number: prNumber
+            })
+
+            const linkedIssues = result.repository.pullRequest.closingIssuesReferences.nodes
+
+            // Check if there are no linked issues
+            if (!linkedIssues || linkedIssues.length === 0) {
+              console.log('No linked issues found. Closing PR.')
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: `Thank you for your contribution! However, this PR does not reference any issues.\n\nTo contribute to this project, please:\n1. Find an existing issue you'd like to work on, or create a new one\n2. Get assigned to the issue\n3. Reference the issue in your PR using keywords like "Fixes #123" or "Closes #123"\n\nPlease reopen this PR once you have linked it to an issue you are assigned to.`
+              })
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                state: 'closed'
+              })
+
+              return
+            }
+
+            // Check if PR author is assigned to any of the linked issues
+            const issueNumbers = linkedIssues.map(issue => `#${issue.number}`).join(', ')
+            console.log(`Found linked issues: ${issueNumbers}`)
+
+            const assignedIssues = linkedIssues.filter(issue => {
+              const assignees = issue.assignees.nodes.map(a => a.login.toLowerCase())
+              return assignees.includes(prAuthor.toLowerCase())
+            })
+
+            if (assignedIssues.length === 0) {
+              console.log(`PR author ${prAuthor} is not assigned to any of the linked issues. Closing PR.`)
+
+              const issueList = linkedIssues.map(issue => `- #${issue.number}: ${issue.title}`).join('\n')
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: `Thank you for your contribution! However, you are not assigned to any of the linked issues:\n\n${issueList}\n\nTo contribute to this project, please:\n1. Request to be assigned to the issue you want to work on\n2. Wait for a maintainer to assign you\n3. Reopen this PR once you are assigned\n\nThis helps us coordinate contributions and avoid duplicate work.`
+              })
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                state: 'closed'
+              })
+
+              return
+            }
+
+            const assignedNumbers = assignedIssues.map(issue => `#${issue.number}`).join(', ')
+            console.log(`PR author ${prAuthor} is assigned to: ${assignedNumbers}. PR can proceed.`)
