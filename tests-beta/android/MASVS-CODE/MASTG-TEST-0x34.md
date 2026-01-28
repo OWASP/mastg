@@ -9,11 +9,12 @@ profiles: [L1, L2]
 
 ## Overview
 
-Insecure Deserialization is a vulnerability that occurs when an application deserializes untrusted data without sufficient validation. In Android, data can be passed between components via Intent objects. If an application receives a serialized object within an Intent and deserializes it using an unsafe method like `ObjectInputStream.readObject()`, it becomes vulnerable. A malicious application could send a specially crafted Intent containing a serialized object. When the vulnerable app deserializes this object, it can lead to arbitrary code execution, data tampering, or denial of service. In this test case, it allows for privilege escalation by overwriting the current user's state.
+If the app deserializes untrusted data without sufficient validation, it becomes vulnerable to malicious object injection. In Android, data can be passed between components via Intent objects. When an application receives a serialized object within an Intent and deserializes it using `ObjectInputStream.readObject()` without type filtering, a malicious application can send a specially crafted Intent containing a malicious serialized object. This can lead to arbitrary code execution, data tampering, privilege escalation, or denial of service depending on the available gadget chains in the application's classpath.
 
 ## Steps
 
-1. Run @MASTG-TOOL-0110 on the codebase for usages of `readObject()`.
+1. Reverse engineer the app (@MASTG-TECH-0013).
+2. Run static analysis (@MASTG-TECH-0014) using @MASTG-TOOL-0110 on the codebase searching for usages of deserialization APIs.
 
 ## Observation
 
@@ -21,4 +22,4 @@ The output should contain a list of locations where `readObject()` or equivalent
 
 ## Evaluation
 
-The test case fails if the app uses `ObjectInputStream.readObject()` (or similar deserialization methods) on data received from untrusted sources (e.g., Intent extras, network input) without proper validation or type filtering.
+The test case fails if the app uses `ObjectInputStream.readObject()` on data received from untrusted sources (e.g., Intent extras, network input) without proper validation or type filtering.
