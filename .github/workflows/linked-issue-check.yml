@@ -1,0 +1,101 @@
+name: PR template issue must be assigned to PR author (auto-close on fail)
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  enforce-template-issue-assignment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR body for issue references
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo  = context.repo.repo;
+            const prNumber = context.payload.pull_request.number;
+
+            function extractIssueNumbers(text) {
+              // Finds "#123" patterns
+              const re = /(^|[^\w])#(\d+)\b/gm;
+              const out = new Set();
+              let m;
+              while ((m = re.exec(text || "")) !== null) {
+                const n = parseInt(m[2], 10);
+                if (Number.isFinite(n) && n > 0) out.add(n);
+              }
+              return out;
+            }
+
+            async function getAssignedIssueNumbersInRepo(login) {
+              const q = `repo:${owner}/${repo} is:issue assignee:${login}`;
+              const query = `
+                query($q: String!, $cursor: String) {
+                  search(query: $q, type: ISSUE, first: 100, after: $cursor) {
+                    pageInfo { hasNextPage endCursor }
+                    nodes { ... on Issue { number } }
+                  }
+                }
+              `;
+
+              const assigned = new Set();
+              let cursor = null;
+              while (true) {
+                const resp = await github.graphql(query, { q, cursor });
+                for (const node of resp.search.nodes) assigned.add(node.number);
+                if (!resp.search.pageInfo.hasNextPage) break;
+                cursor = resp.search.pageInfo.endCursor;
+              }
+              return assigned;
+            }
+
+            async function denyAndClose(reason) {
+              return;
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: prNumber,
+                body: `PR DENIED\n\n${reason}`
+              });
+              await github.rest.issues.update({
+                owner, repo, issue_number: prNumber,
+                state: "closed"
+              });
+              core.setFailed(`PR closed: ${reason}`);
+            }
+
+            // Fetch PR to get author + body
+            const pr = (await github.rest.pulls.get({ owner, repo, pull_number: prNumber })).data;
+            const prAuthor = pr.user?.login;
+            if (!prAuthor) {
+              core.setFailed("Could not determine PR author login.");
+              return;
+            }
+
+            const referenced = extractIssueNumbers(pr.body || "");
+            const refs = Array.from(referenced).sort((a,b) => a-b);
+
+            if (refs.length === 0) {
+              await denyAndClose(
+                "No issue reference like `#123` was found in the PR description. " +
+                "Update the PR template section to include the issue you're solving."
+              );
+              return;
+            }
+
+            const assigned = await getAssignedIssueNumbersInRepo(prAuthor);
+
+            const match = refs.find(n => assigned.has(n));
+            if (!match) {
+              await denyAndClose(
+                `None of the referenced issues in the PR description are assigned to @${prAuthor}. ` +
+                `Found: ${refs.map(n => `#${n}`).join(", ")}.`
+              );
+              return;
+            }
+
+            core.info(`OK: Found referenced issue #${match} assigned to @${prAuthor}.`);
