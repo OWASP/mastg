@@ -6,13 +6,13 @@ code: [swift]
 test: MASTG-TEST-0298
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code that writes files to storage at different locations.
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056)
 2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the frida-server running on the device
@@ -22,13 +22,13 @@ The code snippet below shows sample code that writes files to storage at differe
 
 {{ run.sh # script.js }}
 
-### Observation
+## Observation
 
 {{ output.txt }}
 
 The output contains all calls to `open` including the paths of the files being accessed and backtraces. In this case the app is writing a file named `secret.json` to multiple locations.
 
-### Evaluation
+## Evaluation
 
 The test fails because the `secret.json` file exists in multiple directories that are eligible for backup:
 

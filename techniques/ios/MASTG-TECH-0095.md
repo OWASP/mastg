@@ -5,13 +5,13 @@ platform: ios
 
 ## Frida
 
-In @MASTG-TECH-0085 we've used frida-trace when navigating to a website in Safari and found that the `initWithURL:` method is called to initialize a new URL request object. We can look up the declaration of this method on the [Apple Developer Website](https://developer.apple.com/documentation/foundation/nsbundle/1409352-initwithurl?language=objc "Apple Developer Website - initWithURL Instance Method"):
+In @MASTG-TECH-0085, we used frida-trace when navigating to a website in Safari and found that the `initWithURL:` method is called to initialize a new URL request object. We can look up the declaration of this method on the [Apple Developer Website](https://developer.apple.com/documentation/foundation/nsbundle/1409352-initwithurl?language=objc "Apple Developer Website - initWithURL Instance Method"):
 
 ```objectivec
 - (instancetype)initWithURL:(NSURL *)url;
 ```
 
-Using this information we can write a Frida script that intercepts the `initWithURL:` method and prints the URL passed to the method. The full script is below. Make sure you read the code and inline comments to understand what's going on.
+Using this information, we can write a Frida script that intercepts the `initWithURL:` method and prints the URL passed to it. The full script is below. Make sure you read the code and inline comments to understand what's going on.
 
 ```python
 import sys
@@ -64,7 +64,7 @@ script.load()
 sys.stdin.read()
 ```
 
-Start Safari on the iOS device. Run the above Python script on your connected host and open the device log (as explained in the section "Monitoring System Logs" from the chapter "iOS Basic Security Testing"). Try opening a new URL in Safari, e.g. <https://github.com/OWASP/mastg>; you should see Frida's output in the logs as well as in your terminal.
+Start Safari on the iOS device. Run the Python script above on your connected host and open the device log (as explained in the section "Monitoring System Logs" in the chapter "iOS Basic Security Testing"). Try opening a new URL in Safari, e.g., <https://github.com/OWASP/mastg>. You should see Frida's output in the logs and in your terminal.
 
 <img src="Images/Chapters/0x06c/frida-xcode-log.png" width="100%" />
 

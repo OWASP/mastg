@@ -6,15 +6,16 @@ code: [kotlin]
 test: MASTG-TEST-0206
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that sends sensitive data over the network using the `HttpURLConnection` class. The data is sent to `https://httpbin.org/post` which is a dummy endpoint that returns the data it receives.
 
-**NOTE:** This demo app is not published on Google Play. However, imagine it represents a production application where none of the sensitive data transmitted here is declared in the app's privacy policy or store disclosure (Data Safety Section).
+!!! note
+    This demo app is not published on Google Play. However, imagine it represents a production application in which none of the sensitive data transmitted here is declared in the app's privacy policy or in its store disclosure (Data Safety Section).
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Start the device, in this case, the Android emulator:
 
@@ -32,7 +33,7 @@ Note that the script is preconfigured with data that's already considered sensit
 
 Launch the app from Android Studio and click the button which will send the sensitive data over the network. The script will capture the network traffic and log the sensitive data.
 
-### Observation
+## Observation
 
 The script has identified several instances of sensitive data in the network traffic.
 
@@ -41,7 +42,7 @@ The script has identified several instances of sensitive data in the network tra
 
 {{ sensitive_data.log }}
 
-### Evaluation
+## Evaluation
 
 After reviewing the captured network traffic, we can conclude that the test fails because the sensitive data is sent over the network.
 

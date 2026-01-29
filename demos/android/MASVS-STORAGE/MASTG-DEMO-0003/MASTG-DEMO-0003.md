@@ -6,7 +6,7 @@ code: [kotlin, xml]
 test: MASTG-TEST-0202
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that creates a file in external storage without using scoped storage APIs. The `getExternalStorageDirectory` API returns a path to the root of the shared external storage (e.g. `/storage/emulated/0`).
 
@@ -14,7 +14,7 @@ This requires special app access called ["All files access"](https://developer.a
 
 {{ MastgTest.kt # MastgTest_reversed.java # AndroidManifest.xml # AndroidManifest_reversed.xml }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the reversed java code.
 
@@ -26,12 +26,12 @@ And another one against the sample manifest file.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified one location in the code file where an API, `getExternalStorageDirectory`, is used to write to external storage as well as the location in the manifest file where the `MANAGE_EXTERNAL_STORAGE` permission is declared.
 
 {{ output.txt # output2.txt }}
 
-### Evaluation
+## Evaluation
 
 After reviewing the decompiled code at the location specified in the output (file and line number) we can conclude that the test fails because the file written by this instance contains sensitive data, specifically a password.

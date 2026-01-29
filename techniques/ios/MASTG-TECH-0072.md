@@ -3,4 +3,4 @@ title: Retrieving Cross References
 platform: ios
 ---
 
-Ghidra can be used for analyzing the iOS binaries and obtaining cross references by right clicking the desired function and selecting **Show References to**.
+@MASTG-TOOL-0033 can be used to analyze iOS binaries and retrieve cross-references by right-clicking the desired function and selecting **Show References to**.

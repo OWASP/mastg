@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0263
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that enables a `StrictMode` policy to detect leaked (i.e., unclosed) SQLite objects. When such an object is detected, a log message is emitted to the system log.
 
@@ -14,7 +14,7 @@ The snippet then opens an SQL Cursor which remains unclosed, to trigger the poli
 
 {{ MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Install the app on your device.
 2. Open the app and let it execute.
@@ -22,13 +22,13 @@ The snippet then opens an SQL Cursor which remains unclosed, to trigger the poli
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The system log outputs all detected `StrictMode` policy violations.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because `StrictMode` is enabled, as we can see from the system log output which shows that there is a location (`MastgTest.kt:35`) where an SQL cursor is not closed properly.
 
