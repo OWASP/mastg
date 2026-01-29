@@ -16,6 +16,7 @@
     "MD049": {"style": "underscore"},             // emphasis-style
     "MD050": {"style": "asterisk"},               // strong-style
     "MD055": {"style": "leading_and_trailing"},   // table-pipe-style
+    "MD060": {"style": "compact"},
     "search-replace": {
       "rules": [
         {
@@ -50,7 +51,7 @@
           "message": "Avoid trailing spaces",
           "searchPattern": "/  +$/gm",
           "replace": "",
-          "searchScope": "all",
+          "searchScope": "all"
         },
         {
           "name": "double-spaces",
@@ -58,7 +59,7 @@
           "searchPattern": "/([^\\s>])  ([^\\s|])/g",
           "replace": "$1 $2",
           "searchScope": "text"
-        },
+        }
         // {
         //   "name": "correct-noun-forms",
         //   "message": "Use the correct form for specific terms.",
@@ -119,7 +120,7 @@
         //     "white box"
         //   ],
         //   "searchScope": "text"
-        // },   
+        // },
         // {
         //   "name": "contractions",
         //   "message": "Use contractions where appropriate",

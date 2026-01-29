@@ -72,7 +72,7 @@ pd-- 5 @ 0x10000456c
 ### Logging and outputs
 
 - Use `?e` for plain echo markers; avoid colors and progress noise. Keep section titles consistent with the demo write-up to ease Evaluation checks.
-- Redirect all command output into a file in `run.sh` (for example, `output.txt`), and reference it in the demo’s Observation.
+- Redirect all command output into a file in `run.sh` (for example, `output.txt`), and reference it in the demo's Observation.
 
 ### Safety and troubleshooting
 

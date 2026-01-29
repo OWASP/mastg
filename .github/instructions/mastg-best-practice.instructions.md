@@ -5,7 +5,7 @@
 
 Best practices live under `best-practices/` and each file name must be the best-practice ID, for example `MASTG-BEST-0001.md`.
 
-Best practices must be linked from MASTG tests using the `best-practices:` key in the test’s YAML front matter (use bare IDs, without the leading @).
+Best practices must be linked from MASTG tests using the `best-practices:` key in the test's YAML front matter (use bare IDs, without the leading @).
 
 They must include official references. You can cite the MASTG as a hub only when it points to official sources (for example, Google/Apple documentation, standards, or vendor advisories).
 
@@ -81,7 +81,7 @@ Example References section:
 
 ### Cross-linking
 
-- From tests: use `best-practices: [MASTG-BEST-0001, MASTG-BEST-0011]` in the test’s YAML front matter. The site generator will automatically create Mitigations links.
+- From tests: use `best-practices: [MASTG-BEST-0001, MASTG-BEST-0011]` in the test's YAML front matter. The site generator will automatically create Mitigations links.
 - In body text: reference tests, tools, or techniques with @ (for example, @MASTG-TEST-0252, @MASTG-TOOL-0031).
 
 ### Style

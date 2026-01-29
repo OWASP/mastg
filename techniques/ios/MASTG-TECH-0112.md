@@ -17,4 +17,4 @@ Signature size=4858
 ...
 ```
 
-In this case the version is 20400, since the output contains `v=20400`.
+In this case, the version is 20400, since the output contains `v=20400`.
