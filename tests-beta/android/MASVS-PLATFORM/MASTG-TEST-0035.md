@@ -25,6 +25,7 @@ This test checks whether the app implements overlay attack protections by lookin
    - The `android:filterTouchesWhenObscured` attribute in layout files
    - The `onFilterTouchEventForSecurity` method
    - Checks for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` flags
+   - The [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) method
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `targetSdkVersion`.
 
 ## Observation

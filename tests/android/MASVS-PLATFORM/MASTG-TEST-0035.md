@@ -10,7 +10,7 @@ masvs_v1_levels:
 profiles: [L2]
 status: deprecated
 covered_by: [MASTG-TEST-0035]
-deprecation_note: "New version available in MASTG V2 focusing on static analysis only"
+deprecation_note: "New version available in MASTG V2"
 ---
 
 ## Overview
