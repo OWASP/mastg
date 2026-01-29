@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Overlay Attack Protection Implementation
-id: MASTG-DEMO-0083
+id: MASTG-DEMO-0x83
 code: [kotlin, java]
-test: MASTG-TEST-0035
+test: MASTG-TEST-0x35
 tools: [semgrep]
 ---
 
