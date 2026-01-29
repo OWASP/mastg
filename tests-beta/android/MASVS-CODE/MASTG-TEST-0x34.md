@@ -14,12 +14,12 @@ If the app deserializes untrusted data without sufficient validation, it becomes
 ## Steps
 
 1. Reverse engineer the app (@MASTG-TECH-0013).
-2. Run static analysis (@MASTG-TECH-0014) using @MASTG-TOOL-0110 on the codebase searching for usages of deserialization APIs.
+2. Run static analysis (@MASTG-TECH-0014) using @MASTG-TOOL-0110 on the codebase searching for usages of deserialization.
 
 ## Observation
 
-The output should contain a list of locations where `readObject()` or equivalent deserialization APIs are used.
+The output should contain a list of locations where object deserialization is used.
 
 ## Evaluation
 
-The test case fails if the app uses `ObjectInputStream.readObject()` on data received from untrusted sources (e.g., Intent extras, network input) without proper validation or type filtering.
+The test case fails if the app deserializes data received from untrusted sources (e.g., Intent extras, network input) without proper validation or type filtering.
