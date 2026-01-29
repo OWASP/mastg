@@ -1,0 +1,83 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "class": "android.app.KeyguardManager",
+      "method": "isDeviceSecure",
+      "overloads": [
+        {
+          "args": []
+        }
+      ]
+    },
+    {
+      "class": "android.hardware.biometrics.BiometricManager",
+      "method": "canAuthenticate",
+      "overloads": [
+        {
+          "args": [
+            "int"
+          ]
+        }
+      ]
+    }
+  ],
+  "totalHooks": 2,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "fddff36f-e11f-49ec-adec-fd775db3e998",
+  "type": "hook",
+  "category": "STORAGE",
+  "time": "2025-12-14T16:07:38.487Z",
+  "class": "android.app.KeyguardManager",
+  "method": "isDeviceSecure",
+  "instanceId": 33293371,
+  "stackTrace": [
+    "android.app.KeyguardManager.isDeviceSecure(Native Method)",
+    "org.owasp.mastestapp.MastgTest.isDeviceSecure(MastgTest.kt:24)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:10)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [],
+  "returnValue": [
+    {
+      "declaredType": "boolean",
+      "value": false
+    }
+  ]
+}
+{
+  "id": "09e6ee6b-6db0-40d4-9c65-37522aaabcd0",
+  "type": "hook",
+  "category": "STORAGE",
+  "time": "2025-12-14T16:07:38.497Z",
+  "class": "android.hardware.biometrics.BiometricManager",
+  "method": "canAuthenticate",
+  "instanceId": 35486102,
+  "stackTrace": [
+    "android.hardware.biometrics.BiometricManager.canAuthenticate(Native Method)",
+    "org.owasp.mastestapp.MastgTest.checkStrongBiometricStatus(MastgTest.kt:38)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:11)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "int",
+      "value": 15
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "int",
+      "value": 11
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecKeyCreateRandomKey"
+    },
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecKeyCreateSignature"
+    },
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecKeyVerifySignature"
+    },
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecKeyCopyExternalRepresentation"
+    }
+  ],
+  "totalHooks": 4,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "e2493608-9a4b-49a6-bafd-c6d404e13710",
+  "type": "native-hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:32:23.208Z",
+  "module": "<global>",
+  "symbol": "SecKeyCreateRandomKey",
+  "address": "0x18206c97c",
+  "stackTrace": [
+    "0x10264d788 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:18:32",
+    "0x102650ed0 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "keyAttributes",
+      "type": "CFDictionary",
+      "value": "{\"private\":\"{\\n    atag = {length = 22, bytes = 0x6f72672e6f776173702e6d61732e7273612d31303134};\\n    perm = 1;\\n}\",\"bsiz\":1024,\"type\":\"42\"}"
+    },
+    {
+      "name": "error",
+      "type": "pointer",
+      "value": "0x16d919f30"
+    },
+    {
+      "name": "privateKey",
+      "type": "pointer",
+      "value": "i���\u0001"
+    }
+  ],
+  "retval": "0x600000c4c190"
+}
+{
+  "id": "c33fca47-d7d1-4b03-a08b-f7e683f423b9",
+  "type": "native-hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:32:23.235Z",
+  "module": "<global>",
+  "symbol": "SecKeyCopyExternalRepresentation",
+  "address": "0x182070484",
+  "stackTrace": [
+    "0x10264d800 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:29:36",
+    "0x102650ed0 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "key",
+      "type": "pointer",
+      "value": "0x600000c4c190"
+    },
+    {
+      "name": "error",
+      "type": "pointer",
+      "value": "0x16d919f30"
+    },
+    {
+      "name": "der",
+      "type": "CFData",
+      "value": "MIICXQIBAAKBgQCwrB5juV7dbUPSJcznCbLL3QbBr3v0QhkwIdaNw8RJfrHaVHuqysx2MIfhBuc5y7QjkRu32/DE0p/4Jd40mNJS+4cAxxBUqhAlekULvkcZvbwbvfFyuTHmL9cvvEcvys8wq4mG+QcCO1wVVqED+OBhXLtD5Tltnafit65Zh44dWwIDAQABAoGAE4jPH2Wqsz8BRbt/lCLYDdSANRWV1g8iQSvXUPt5Y6BKQq10CGa+BBTKTBD7AMKg8Lclt8buMJpoAlm6366aFVAPuFdoT1quv0e1SNmOx1XdiXhGl8mAkf9kehwfFMReuQ8PEVijb/i1S8H5K+51zDUCYS2sorXjJma+IOO4I8kCQQDyEhPFrIA4KMVtGfLL9sq+PeTgMDXjeExYG8ETkbEoWnHHuGHK+W0Qmi+2H/AKw8HHa8kR6QZnrxQ4tG4c0W1nAkEAutaqK/YDv+qsf1RFOuoen2qkdgFkNe9FOJ7kk0ILx0Y3DIK2zSfJVHJwbAhUUqpcMhOLc4u9sAYmhqKyCZtj7QJBAL5f0ybx7AC+p82Oy7D2zSnimV5q6+aSFFByu1y9hrr6rmLoshgkI08cQ4uTAIAmxf4k2YP5ZG0kdt3FoJePaN8CQGa+OzAXhjJYU2llpvhh3Fsf4rZ9x2SdYjxjrCCKdj2sEAOSMgIZOe51S/ssjWo0AqUK+Gme073jc/Yfq7X6vHUCQQDfzdoDLXtYa2veDX7GtlRQcn4wyNPhjsCxt9JGKziK9aFY089zrFd907WqRqVdbUiYRAp4bflVPq3QwSCgudGo",
+      "format": "base64"
+    }
+  ],
+  "retval": "0x103635fa0"
+}
+{
+  "id": "4c997802-4d14-49a3-acd0-e7fb10b079e6",
+  "type": "native-hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:32:23.236Z",
+  "module": "<global>",
+  "symbol": "SecKeyCopyExternalRepresentation",
+  "address": "0x182070484",
+  "stackTrace": [
+    "0x10264d99c MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:39:35",
+    "0x102650ed0 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "key",
+      "type": "pointer",
+      "value": "0x600000c31f30"
+    },
+    {
+      "name": "error",
+      "type": "pointer",
+      "value": "0x16d919f30"
+    },
+    {
+      "name": "der",
+      "type": "CFData",
+      "value": "MIGJAoGBALCsHmO5Xt1tQ9IlzOcJssvdBsGve/RCGTAh1o3DxEl+sdpUe6rKzHYwh+EG5znLtCORG7fb8MTSn/gl3jSY0lL7hwDHEFSqECV6RQu+Rxm9vBu98XK5MeYv1y+8Ry/KzzCriYb5BwI7XBVWoQP44GFcu0PlOW2dp+K3rlmHjh1bAgMBAAE=",
+      "format": "base64"
+    }
+  ],
+  "retval": "0x6000017513d0"
+}
+{
+  "id": "5e151303-cac1-4e8b-b7c3-604d18c1b8a0",
+  "type": "native-hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:32:23.238Z",
+  "module": "<global>",
+  "symbol": "SecKeyCreateSignature",
+  "address": "0x18206e284",
+  "stackTrace": [
+    "0x10264dc70 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:52:31",
+    "0x102650ed0 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "privateKey",
+      "type": "pointer",
+      "value": "0x600000c4c190"
+    },
+    {
+      "name": "algorithm",
+      "type": "pointer",
+      "value": "0x1e632a0c8"
+    },
+    {
+      "name": "dataToSign",
+      "type": "CFData",
+      "value": "VGhpcyBpcyBhIHNhbXBsZSB0ZXh0",
+      "format": "base64"
+    },
+    {
+      "name": "error",
+      "type": "pointer",
+      "value": "0x16d919f30"
+    },
+    {
+      "name": "signature",
+      "type": "CFData",
+      "value": "fcGu/G8QmjEQOoy3jQjo4siGs7QlpLjI5bZmPIIEKpEIxc2SGq1QB3iWo428EwsaIiq6BvSJx/vmR7VgfKdR2lmg+n5Tzxgpxi+YTc6y/AX2o7dmsKb2Q2hsDCUGPOHAmNIe7GHVZP2gcER0PmrhrMcfkSlGBHR9l4Opye3OgeM=",
+      "format": "base64"
+    }
+  ],
+  "retval": "0x600001751710"
+}
+{
+  "id": "889530c4-2b1a-43b7-a304-081a0706d233",
+  "type": "native-hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:32:23.239Z",
+  "module": "<global>",
+  "symbol": "SecKeyVerifySignature",
+  "address": "0x18206ea54",
+  "stackTrace": [
+    "0x10264ddf8 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:66:34",
+    "0x102650ed0 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "publicKey",
+      "type": "pointer",
+      "value": "0x600000c31f30"
+    },
+    {
+      "name": "algorithm",
+      "type": "pointer",
+      "value": "0x1e632a0c8"
+    },
+    {
+      "name": "dataToSign",
+      "type": "CFData",
+      "value": "VGhpcyBpcyBhIHNhbXBsZSB0ZXh0",
+      "format": "base64"
+    },
+    {
+      "name": "signature",
+      "type": "CFData",
+      "value": "fcGu/G8QmjEQOoy3jQjo4siGs7QlpLjI5bZmPIIEKpEIxc2SGq1QB3iWo428EwsaIiq6BvSJx/vmR7VgfKdR2lmg+n5Tzxgpxi+YTc6y/AX2o7dmsKb2Q2hsDCUGPOHAmNIe7GHVZP2gcER0PmrhrMcfkSlGBHR9l4Opye3OgeM=",
+      "format": "base64"
+    },
+    {
+      "name": "error",
+      "type": "pointer",
+      "value": "0x16d919f30"
+    }
+  ]
+}

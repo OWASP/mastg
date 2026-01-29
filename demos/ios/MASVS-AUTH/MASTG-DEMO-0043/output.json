@@ -1,0 +1,195 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecAccessControlCreateWithFlags"
+    },
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecItemAdd"
+    },
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecItemDelete"
+    },
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "SecItemCopyMatching"
+    }
+  ],
+  "totalHooks": 4,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "0c214d31-9ab8-4dc3-bb4a-2b61f0f721f5",
+  "type": "native-hook",
+  "category": "AUTH",
+  "time": "2025-12-14T16:30:00.610Z",
+  "module": "<global>",
+  "symbol": "SecAccessControlCreateWithFlags",
+  "address": "0x18203e4d4",
+  "stackTrace": [
+    "0x102ee94c0 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:13:31",
+    "0x102eeba8c MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "allocator",
+      "type": "pointer",
+      "value": "0x0"
+    },
+    {
+      "name": "protection",
+      "type": "pointer",
+      "value": "0x1e6328aa8"
+    },
+    {
+      "name": "flags",
+      "type": "uint32",
+      "value": 1
+    },
+    {
+      "name": "error",
+      "type": "pointer",
+      "value": "0x0"
+    },
+    {
+      "name": "accessControl",
+      "type": "pointer",
+      "value": "i���\u0001"
+    }
+  ],
+  "retval": "0x6000002191a0"
+}
+{
+  "id": "6b1e9ebb-d162-4f60-8d21-a8f3e31fd9ca",
+  "type": "native-hook",
+  "category": "AUTH",
+  "time": "2025-12-14T16:30:00.620Z",
+  "module": "<global>",
+  "symbol": "SecItemDelete",
+  "address": "0x182061bfc",
+  "stackTrace": [
+    "0x102ee975c MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:39:5",
+    "0x102eeba8c MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "query",
+      "type": "CFDictionary",
+      "value": "{\"class\":\"genp\",\"v_Data\":\"ODc2NzA4NmI5ZjZmOTc2Zy1hOGRmNzY=\",\"accc\":\"<SecAccessControlRef: ak;od(cpo(DeviceOwnerAuthentication));odel(true);oe(true)>\",\"acct\":\"com.mastg.sectoken\"}"
+    }
+  ]
+}
+{
+  "id": "7fcfe68f-9216-48f4-9ef5-1270e9fae91b",
+  "type": "native-hook",
+  "category": "AUTH",
+  "time": "2025-12-14T16:30:00.627Z",
+  "module": "<global>",
+  "symbol": "SecItemAdd",
+  "address": "0x1820603dc",
+  "stackTrace": [
+    "0x102ee979c MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:40:23",
+    "0x102eeba8c MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "query",
+      "type": "CFDictionary",
+      "value": "{\"class\":\"genp\",\"v_Data\":\"ODc2NzA4NmI5ZjZmOTc2Zy1hOGRmNzY=\",\"accc\":\"<SecAccessControlRef: ak;od(cpo(DeviceOwnerAuthentication));odel(true);oe(true)>\",\"acct\":\"com.mastg.sectoken\"}"
+    },
+    {
+      "name": "result",
+      "type": "pointer",
+      "value": "0x0"
+    }
+  ]
+}
+{
+  "id": "d84265fc-ade3-4e68-8dac-b463473a2f77",
+  "type": "native-hook",
+  "category": "AUTH",
+  "time": "2025-12-14T16:30:00.629Z",
+  "module": "<global>",
+  "symbol": "SecItemCopyMatching",
+  "address": "0x182061a18",
+  "stackTrace": [
+    "0x102ee9a04 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:62:23",
+    "0x102eeba8c MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()",
+    "0x1d9d5cd60 SwiftUI!partial apply for implicit closure #2 in implicit closure #1 in ButtonBehavior.body.getter",
+    "0x1da436c90 SwiftUI!partial apply for closure #1 in closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da431e6c SwiftUI!closure #2 in closure #1 in _ButtonGesture.internalBody.getter",
+    "0x1da437e20 SwiftUI!partial apply for closure #2 in PrimitiveButtonGestureCallbacks.dispatch(phase:state:)",
+    "0x1da914e58 SwiftUICore!<deduplicated_symbol>",
+    "0x1daa8b2f4 SwiftUICore!<deduplicated_symbol>",
+    "0x1d9951ed0 SwiftUI!<deduplicated_symbol>",
+    "0x1d9c0e8e8 SwiftUI!<deduplicated_symbol>"
+  ],
+  "inputParameters": [
+    {
+      "name": "query",
+      "type": "CFDictionary",
+      "value": "{\"acct\":\"com.mastg.sectoken\",\"r_Data\":1,\"m_Limit\":\"m_LimitOne\",\"class\":\"genp\"}"
+    },
+    {
+      "name": "result",
+      "type": "pointer",
+      "value": "0x16cfbdf30"
+    }
+  ]
+}

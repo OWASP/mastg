@@ -1,0 +1,254 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "class": "javax.crypto.Cipher",
+      "method": "init",
+      "overloads": [
+        {
+          "args": [
+            "int",
+            "java.security.Key"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "java.security.Signature",
+      "method": "initSign",
+      "overloads": [
+        {
+          "args": [
+            "java.security.PrivateKey"
+          ]
+        },
+        {
+          "args": [
+            "java.security.PrivateKey",
+            "java.security.SecureRandom"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "java.security.Signature",
+      "method": "initVerify",
+      "overloads": [
+        {
+          "args": [
+            "java.security.PublicKey"
+          ]
+        },
+        {
+          "args": [
+            "java.security.cert.Certificate"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "android.security.keystore.KeyGenParameterSpec$Builder",
+      "method": "$init",
+      "overloads": [
+        {
+          "args": [
+            "android.security.keystore.KeyGenParameterSpec"
+          ]
+        },
+        {
+          "args": [
+            "java.lang.String",
+            "int"
+          ]
+        }
+      ]
+    }
+  ],
+  "totalHooks": 7,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "14535033-08ea-4063-897c-eacd4a885d8b",
+  "type": "hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:02:21.782Z",
+  "class": "android.security.keystore.KeyGenParameterSpec$Builder",
+  "method": "$init",
+  "instanceId": 35486102,
+  "stackTrace": [
+    "android.security.keystore.KeyGenParameterSpec$Builder.<init>(Native Method)",
+    "org.owasp.mastestapp.MastgTest.generateKey(MastgTest.kt:97)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:41)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "java.lang.String",
+      "value": "MultiPurposeKey"
+    },
+    {
+      "declaredType": "int",
+      "value": 15
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "4c109cd7-3330-492e-9d24-d8d78d424e1e",
+  "type": "hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:02:21.914Z",
+  "class": "javax.crypto.Cipher",
+  "method": "init",
+  "instanceId": 27044119,
+  "stackTrace": [
+    "javax.crypto.Cipher.init(Native Method)",
+    "org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:126)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:47)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "int",
+      "value": 1
+    },
+    {
+      "declaredType": "java.security.Key",
+      "value": {
+        "modulusHex": "bb6c0a74ddcd5b9cef1dc6921c613f33062c0aea25305eb692055f167e46fc418a7655d0e9b83a843e3cd6cd9fd62ad23f1098725ea7c7e2d178b1e55bcc7302d8b52611d55b575f3a36e9af2f03a7b7c53c3b2c6c218a3652ce571b1cfbc82771e5844237b519531ca749830af18117bbe5a7d40e0046bd351558daa8421509aea41c6ac511c46960b3168176c6411cf8396b0923c1bd104a9d5cfd5d2582ffac4dbd859db53fef8085ef8718b5ef6bcbd27f447d2748db705984be15ed90e9366948b306808b4947f7808838e60bc1166c9d50b36b0e88392ed628931d4978ba92875d93a7b06f724b17ceee6f84d988e3a82cdb030d03729167dcb318acf9",
+        "modulusBitLength": 2048,
+        "publicExponentDec": "65537",
+        "keyHash": -195910326
+      },
+      "runtimeType": "com.android.org.conscrypt.OpenSSLRSAPublicKey",
+      "instanceId": "167981316",
+      "instanceToString": "OpenSSLRSAPublicKey{modulus=bb6c0a74ddcd5b9cef1dc6921c613f33062c0aea25305eb692055f167e46fc418a7655d0e9b83a843e3cd6cd9fd62ad23f1098725ea7c7e2d178b1e55bcc7302d8b52611d55b575f3a36e9af2f03a7b7c53c3b2c6c218a3652ce571b1cfbc82771e5844237b519531ca749830af18117bbe5a7d40e0046bd351558daa8421509aea41c6ac511c46960b3168176c6411cf8396b0923c1bd104a9d5cfd5d2582ffac4dbd859db53fef8085ef8718b5ef6bcbd27f447d2748db705984be15ed90e9366948b306808b4947f7808838e60bc1166c9d50b36b0e88392ed628931d4978ba92875d93a7b06f724b17ceee6f84d988e3a82cdb030d03729167dcb318acf9,publicExponent=10001}"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "51045998-e573-40f9-a7a4-075c9f9a32cc",
+  "type": "hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:02:21.933Z",
+  "class": "javax.crypto.Cipher",
+  "method": "init",
+  "instanceId": 157501165,
+  "stackTrace": [
+    "javax.crypto.Cipher.init(Native Method)",
+    "org.owasp.mastestapp.MastgTest.decrypt(MastgTest.kt:145)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:55)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "int",
+      "value": 2
+    },
+    {
+      "declaredType": "java.security.Key",
+      "value": {
+        "modulusHex": "bb6c0a74ddcd5b9cef1dc6921c613f33062c0aea25305eb692055f167e46fc418a7655d0e9b83a843e3cd6cd9fd62ad23f1098725ea7c7e2d178b1e55bcc7302d8b52611d55b575f3a36e9af2f03a7b7c53c3b2c6c218a3652ce571b1cfbc82771e5844237b519531ca749830af18117bbe5a7d40e0046bd351558daa8421509aea41c6ac511c46960b3168176c6411cf8396b0923c1bd104a9d5cfd5d2582ffac4dbd859db53fef8085ef8718b5ef6bcbd27f447d2748db705984be15ed90e9366948b306808b4947f7808838e60bc1166c9d50b36b0e88392ed628931d4978ba92875d93a7b06f724b17ceee6f84d988e3a82cdb030d03729167dcb318acf9",
+        "modulusBitLength": 2048,
+        "keyHash": -195910326
+      },
+      "runtimeType": "android.security.keystore2.AndroidKeyStoreRSAPrivateKey",
+      "instanceId": "120559906",
+      "instanceToString": "android.security.keystore2.AndroidKeyStoreRSAPrivateKey@58c7453e"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "23ab5c42-17f7-4d00-9620-8b42a369579a",
+  "type": "hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:02:21.960Z",
+  "class": "java.security.Signature",
+  "method": "initSign",
+  "instanceId": 96101609,
+  "stackTrace": [
+    "java.security.Signature.initSign(Native Method)",
+    "org.owasp.mastestapp.MastgTest.sign(MastgTest.kt:163)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:60)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "java.security.PrivateKey",
+      "value": {
+        "modulusHex": "bb6c0a74ddcd5b9cef1dc6921c613f33062c0aea25305eb692055f167e46fc418a7655d0e9b83a843e3cd6cd9fd62ad23f1098725ea7c7e2d178b1e55bcc7302d8b52611d55b575f3a36e9af2f03a7b7c53c3b2c6c218a3652ce571b1cfbc82771e5844237b519531ca749830af18117bbe5a7d40e0046bd351558daa8421509aea41c6ac511c46960b3168176c6411cf8396b0923c1bd104a9d5cfd5d2582ffac4dbd859db53fef8085ef8718b5ef6bcbd27f447d2748db705984be15ed90e9366948b306808b4947f7808838e60bc1166c9d50b36b0e88392ed628931d4978ba92875d93a7b06f724b17ceee6f84d988e3a82cdb030d03729167dcb318acf9",
+        "modulusBitLength": 2048,
+        "keyHash": -195910326
+      },
+      "runtimeType": "android.security.keystore2.AndroidKeyStoreRSAPrivateKey",
+      "instanceId": "5383534",
+      "instanceToString": "android.security.keystore2.AndroidKeyStoreRSAPrivateKey@58c7453e"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "af8354c2-dda9-4ec6-913a-c6be9cb24fd6",
+  "type": "hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:02:21.975Z",
+  "class": "java.security.Signature",
+  "method": "initVerify",
+  "instanceId": 192259087,
+  "stackTrace": [
+    "java.security.Signature.initVerify(Native Method)",
+    "org.owasp.mastestapp.MastgTest.verify(MastgTest.kt:177)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1012)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "java.security.PublicKey",
+      "value": {
+        "modulusHex": "bb6c0a74ddcd5b9cef1dc6921c613f33062c0aea25305eb692055f167e46fc418a7655d0e9b83a843e3cd6cd9fd62ad23f1098725ea7c7e2d178b1e55bcc7302d8b52611d55b575f3a36e9af2f03a7b7c53c3b2c6c218a3652ce571b1cfbc82771e5844237b519531ca749830af18117bbe5a7d40e0046bd351558daa8421509aea41c6ac511c46960b3168176c6411cf8396b0923c1bd104a9d5cfd5d2582ffac4dbd859db53fef8085ef8718b5ef6bcbd27f447d2748db705984be15ed90e9366948b306808b4947f7808838e60bc1166c9d50b36b0e88392ed628931d4978ba92875d93a7b06f724b17ceee6f84d988e3a82cdb030d03729167dcb318acf9",
+        "modulusBitLength": 2048,
+        "publicExponentDec": "65537",
+        "keyHash": -195910326
+      },
+      "runtimeType": "com.android.org.conscrypt.OpenSSLRSAPublicKey",
+      "instanceId": "195927196",
+      "instanceToString": "OpenSSLRSAPublicKey{modulus=bb6c0a74ddcd5b9cef1dc6921c613f33062c0aea25305eb692055f167e46fc418a7655d0e9b83a843e3cd6cd9fd62ad23f1098725ea7c7e2d178b1e55bcc7302d8b52611d55b575f3a36e9af2f03a7b7c53c3b2c6c218a3652ce571b1cfbc82771e5844237b519531ca749830af18117bbe5a7d40e0046bd351558daa8421509aea41c6ac511c46960b3168176c6411cf8396b0923c1bd104a9d5cfd5d2582ffac4dbd859db53fef8085ef8718b5ef6bcbd27f447d2748db705984be15ed90e9366948b306808b4947f7808838e60bc1166c9d50b36b0e88392ed628931d4978ba92875d93a7b06f724b17ceee6f84d988e3a82cdb030d03729167dcb318acf9,publicExponent=10001}"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 var target = {
   category: "STORAGE",
-  demo: "0060",
   hooks: [
     {
       class: "androidx.security.crypto.EncryptedSharedPreferences$Editor",

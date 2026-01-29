@@ -1,0 +1,102 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "type": "native",
+      "module": "<global>",
+      "symbol": "CCCrypt"
+    }
+  ],
+  "totalHooks": 1,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "235af42a-0e4f-4bf1-83be-950dc16d17bc",
+  "type": "native-hook",
+  "category": "CRYPTO",
+  "time": "2025-12-14T16:40:40.405Z",
+  "module": "<global>",
+  "symbol": "CCCrypt",
+  "address": "0x1d1ba1690",
+  "stackTrace": [
+    "0x102d12124 MASTestApp.debug.dylib!closure #1 in closure #1 in static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:15:17",
+    "0x102d12d60 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in static MastgTest.mastgTest(completion:) /<compiler-generated>:0",
+    "0x197571e14 libswiftCore.dylib!partial apply for closure #1 in _StringGuts.withCString<A>(_:)",
+    "0x1973590a8 libswiftCore.dylib!String.withCString<A>(_:)",
+    "0x102d11d04 MASTestApp.debug.dylib!closure #1 in static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:14:17",
+    "0x102d11de4 MASTestApp.debug.dylib!partial apply for closure #1 in static MastgTest.mastgTest(completion:) /<compiler-generated>:0",
+    "0x180b91f24 Foundation!__DataStorage.withUnsafeBytes<A>(in:apply:)",
+    "0x180b978f8 Foundation!Data._Representation.withUnsafeBytes<A>(_:)",
+    "0x180b90dac Foundation!Data.withUnsafeBytes<A>(_:)",
+    "0x102d114d4 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:) /Users/charlie/git/MASTestApp-iOS/MASTestApp/MastgTest.swift:13:32",
+    "0x102d14464 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter /Users/charlie/git/MASTestApp-iOS/MASTestApp/ContentView.swift:25:31",
+    "0x1d9dbf428 SwiftUI!<deduplicated_symbol>",
+    "0x1da4c02a0 SwiftUI!specialized static MainActor.assumeIsolated<A>(_:file:line:)",
+    "0x1da48ac9c SwiftUI!ButtonAction.callAsFunction()",
+    "0x1d977a88c SwiftUI!<deduplicated_symbol>",
+    "0x1d9d57214 SwiftUI!ButtonBehavior.ended()"
+  ],
+  "inputParameters": [
+    {
+      "name": "op",
+      "type": "uint32",
+      "value": 0
+    },
+    {
+      "name": "alg",
+      "type": "uint32",
+      "value": 2
+    },
+    {
+      "name": "options",
+      "type": "uint32",
+      "value": 1
+    },
+    {
+      "name": "key",
+      "type": "bytes",
+      "value": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3",
+      "format": "base64"
+    },
+    {
+      "name": "keyLength",
+      "type": "uint32",
+      "value": 24
+    },
+    {
+      "name": "iv",
+      "type": "bytes",
+      "value": "<null>",
+      "format": "base64"
+    },
+    {
+      "name": "dataIn",
+      "type": "bytes",
+      "value": "VGhpcyBpcyBhIHNhbXBsZSB0ZXh0",
+      "format": "base64"
+    },
+    {
+      "name": "dataInLength",
+      "type": "uint32",
+      "value": 21
+    },
+    {
+      "name": "dataOut",
+      "type": "bytes",
+      "value": "AuzY+uNaWuC5p0BFye68oukEdy7tjjM4",
+      "format": "base64"
+    },
+    {
+      "name": "dataOutAvailable",
+      "type": "uint32",
+      "value": 29
+    },
+    {
+      "name": "dataOutMoved",
+      "type": "pointer",
+      "value": "0x16d255ef8"
+    }
+  ],
+  "retval": "0x0"
+}
