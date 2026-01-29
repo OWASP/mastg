@@ -207,10 +207,10 @@ Note that line 37 did not trigger the rule because the random number is generate
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
 
-- [https://github.com/cpholguera/MASTestApp-Android](https://github.com/cpholguera/MASTestApp-Android)
-- [https://github.com/cpholguera/MASTestApp-iOS](https://github.com/cpholguera/MASTestApp-iOS)
+- [https://github.com/cpholguera/mas-app-android](https://github.com/cpholguera/mas-app-android)
+- [https://github.com/cpholguera/mas-app-ios](https://github.com/cpholguera/mas-app-ios)
 
-Simply clone the repository and follow the instructions to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
+Simply clone the repository and follow the instructions in the README files to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
 
 #### File
 
@@ -269,16 +269,20 @@ Example: semgrep
 
 #### Dynamic
 
+Example: frooky (preferred, see [mastg-frooky-hooks.instructions](mastg-frooky-hooks.instructions.md))
+
+`frooky -U -f org.owasp.mastestapp --platform android hooks.json`
+
 Example: frida-trace
 
-`frida-trace -U -f com.google.android.youtube --runtime=v8 -j '*!*certificate*/isu' > output.txt`
+`frida-trace -U -f org.owasp.mastestapp --runtime=v8 -j '*!*certificate*/isu' > output.txt`
 
-Example: frida
+Example: frida (use only when frooky is not enough, see [mastg-frida-scripts.instructions](mastg-frida-scripts.instructions.md))
 
-`frida -U sg.vp.owasp_mobile.omtg_android -l hook_edittext.js > output.txt`
+`frida -U org.owasp.mastestapp -l hook_edittext.js > output.txt`
 
 #### Networking
 
-Example: mitmproxy
+Example: mitmproxy (see [mastg-mitmproxy-scripts.instructions](mastg-mitmproxy-scripts.instructions.md))
 
 `mitmdump -s mitm_sensitive_logger.py`
