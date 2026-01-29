@@ -1,6 +1,9 @@
-## Porting MASTG v1 tests to v2
+---
+description: 'Porting MASTG v1 tests to v2'
+applyTo: 'tests*/**/*.md'
+---
 
-### Before you start
+## Before you start
 
 This document focuses on the porting workflow. For how to write v2 tests (front matter fields, required sections, styles), see `mastg-test.instructions.md`. Do not duplicate that guidance here—follow it when drafting the ported test.
 
@@ -16,7 +19,7 @@ Also, review these. We’ll be using them and creating new ones as well:
 * [https://mas.owasp.org/MASTG/techniques/](https://mas.owasp.org/MASTG/techniques/)
 * [https://mas.owasp.org/MASTG/tools/](https://mas.owasp.org/MASTG/tools/) 
 
-#### Guidelines
+### Guidelines
 
 * How to write new **tests**: [Writing MAS Weaknesses & Tests](https://docs.google.com/document/d/1EMsVdfrDBAu0gmjWAUEs60q-fWaOmDB5oecY9d9pOlg/edit?pli=1&tab=t.0#heading=h.j1tiymiuocrm)
 * How to write **demos**: [Writing MAS Weaknesses & Tests](https://docs.google.com/document/d/1EMsVdfrDBAu0gmjWAUEs60q-fWaOmDB5oecY9d9pOlg/edit?pli=1&tab=t.0#heading=h.y294y561hx14) 
@@ -47,7 +50,7 @@ Also, review these. We’ll be using them and creating new ones as well:
   - **good**: "You can use these APIs to encrypt data."
 - See [Style Guide \- OWASP Mobile Application Security](https://mas.owasp.org/contributing/5_Style_Guide/) 
 
-#### List of sources
+### List of sources
 
 Use the MASTG first: e.g., the guides for 0x04 (general), 0x05 (Android), and 0x06 (iOS), and **extend** with Android/Apple docs.
 
@@ -103,7 +106,7 @@ Theory must always be linked to the @MASTG-KNOW-xxxx components. If the theory i
 
 Review existing content and **UPDATE** it. Especially references to Android/iOS versions and things you know have changed since the text was written.
 
-#### Best practices linkage
+### Best practices linkage
 
 Best practices are platform-specific and must be linked in the test metadata. Our automation creates a "Mitigations" section automatically.
 
@@ -111,7 +114,7 @@ Best practices are platform-specific and must be linked in the test metadata. Ou
 2. If it doesn’t exist yet, create it new in `best-practices/` using the next available ID.
 3. Add a reference to the best practices in the test YAML front matter, for example `best-practices: [MASTG-BEST-0023]`.
 
-#### Deprecating V1 tests
+### Deprecating V1 tests
 
 Add metadata to the v1 file:
 

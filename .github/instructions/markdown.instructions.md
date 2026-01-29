@@ -1,5 +1,5 @@
 ---
-description: 'Documentation and content creation standards'
+description: 'Documentation and Content Creation Standards'
 applyTo: '**/*.md'
 ---
 
@@ -80,7 +80,7 @@ Use special identifiers to reference project components consistently:
 - Tests: `@MASTG-TEST-0001`
 - Tools: `@MASTG-TOOL-0034`
 - Similar patterns may exist for other entities (e.g., best practices, techniques) following `@MASTG-<KIND>-NNNN`.
-- Weaknesses: `@MASWE-0123` (this one is an exception to the usual pattern)
+- Weaknesses: `@MASWE-0023` (this one is an exception to the usual pattern)
 
 Usage rules:
 
