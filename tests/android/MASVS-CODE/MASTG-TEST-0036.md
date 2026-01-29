@@ -87,7 +87,7 @@ protected void onResume() {
 }
 ```
 
-> Source: [https://developer.android.com/guide/app-bundle/in-app-updates](https://developer.android.com/guide/app-bundle/in-app-updates "Support in-app updates")
+>Source: [https://developer.android.com/guide/app-bundle/in-app-updates](https://developer.android.com/guide/app-bundle/in-app-updates "Support in-app updates")
 
 ## Dynamic analysis
 
