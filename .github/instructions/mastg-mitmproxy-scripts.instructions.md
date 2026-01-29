@@ -1,5 +1,5 @@
 ---
-description: 'Writing mitmproxy Python scripts for MASTG demos'
+name: 'Writing mitmproxy Python scripts for MASTG demos'
 applyTo: 'demos/**/mitm_*.py'
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: 'Writing Frida scripts for MASTG demos'
+name: 'Writing Frida scripts for MASTG demos'
 applyTo: 'demos/**/script.js'
 ---
 

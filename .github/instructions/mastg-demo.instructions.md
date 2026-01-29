@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Demo Files'
+name: 'Writing MASTG Demo Files'
 applyTo: 'demos/**/*.md'
 ---
 
@@ -70,7 +70,7 @@ The title should concisely express what the demo is about.
 Example:
 
 ```md
-title: Common Uses of Insecure Random APIs
+name: Common Uses of Insecure Random APIs
 ```
 
 ### platform

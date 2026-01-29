@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Frooky Hook Configurations'
+name: 'Writing MASTG Frooky Hook Configurations'
 applyTo: 'demos/**/hooks.json'
 ---
 

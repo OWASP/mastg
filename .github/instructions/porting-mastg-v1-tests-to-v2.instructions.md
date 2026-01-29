@@ -1,5 +1,5 @@
 ---
-description: 'Porting MASTG v1 tests to v2'
+name: 'Porting MASTG v1 tests to v2'
 applyTo: 'tests*/**/*.md'
 ---
 

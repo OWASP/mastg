@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Knowledge Files'
+name: 'Writing MASTG Knowledge Files'
 applyTo: 'knowledge/**/*.md'
 ---
 
@@ -44,7 +44,7 @@ Required:
 
 - `masvs_category:` One of: `MASVS-AUTH`, `MASVS-CODE`, `MASVS-CRYPTO`, `MASVS-NETWORK`, `MASVS-PLATFORM`, `MASVS-PRIVACY`, `MASVS-RESILIENCE`, `MASVS-STORAGE`.
 - `platform:` One of: `android`, `ios`.
-- `title:` Clear and specific concept title (for example, "Android KeyStore").
+- `name:` Clear and specific concept title (for example, "Android KeyStore").
 
 Optional:
 
@@ -59,7 +59,7 @@ Examples:
 ---
 masvs_category: MASVS-STORAGE
 platform: android
-title: Android KeyStore
+name: Android KeyStore
 available_since: 18
 ---
 ```
@@ -103,7 +103,7 @@ If the source is gone, not relevant anymore, or too old, set the following in th
 ---
 masvs_category: MASVS-AUTH
 platform: android
-title: FingerprintManager
+name: FingerprintManager
 deprecated_since: 28
 available_since: 23
 status: deprecated

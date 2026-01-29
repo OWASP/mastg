@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Tool Files'
+name: 'Writing MASTG Tool Files'
 applyTo: 'tools/**/*.md'
 ---
 
@@ -30,7 +30,7 @@ Each file begins with a YAML front matter block.
 
 **Required:**
 
-- `title:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
+- `name:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
 - `platform:` One of: `android`, `ios`, `generic`, `network`
 
 **Preferred (add for new pages when possible):**
@@ -49,7 +49,7 @@ Each file begins with a YAML front matter block.
 
 ```yaml
 ---
-title: Frida for Android
+name: Frida for Android
 platform: android
 source: https://github.com/frida/frida
 hosts: [windows, linux, macOS]
@@ -108,7 +108,7 @@ If the original source is gone, not relevant anymore, or too old, set the follow
 
 ```yaml
 ---
-title: Cycript
+name: Cycript
 platform: ios
 source: https://www.cycript.org/
 status: deprecated

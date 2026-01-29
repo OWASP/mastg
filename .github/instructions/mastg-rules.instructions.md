@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG SAST Rules'
+name: 'Writing MASTG SAST Rules'
 applyTo: 'rules/*.(yml|yaml)'
 ---
 

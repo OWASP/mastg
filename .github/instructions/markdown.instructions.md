@@ -1,5 +1,5 @@
 ---
-description: 'Documentation and Content Creation Standards'
+name: 'Style and Formatting for MASTG Markdown Files'
 applyTo: '**/*.md'
 ---
 

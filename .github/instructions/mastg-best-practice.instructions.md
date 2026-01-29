@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Best Practices Files'
+name: 'Writing MASTG Best Practices Files'
 applyTo: 'best-practices/*.md'
 ---
 
@@ -27,7 +27,7 @@ Relationship to Tests and Knowledge (nuance):
 
 Include a YAML front matter block with the following fields:
 
-- title: Concise, action-oriented recommendation.
+- name: Concise, action-oriented recommendation.
 - id: Best-practice ID in the form `MASTG-BEST-\d{4}`.
 - platform: One of: android, ios.
 
@@ -44,7 +44,7 @@ Example:
 
 ```yaml
 ---
-title: Preventing Screenshots and Screen Recording
+name: Preventing Screenshots and Screen Recording
 alias: preventing-screenshots-and-screen-recording
 id: MASTG-BEST-0014
 platform: android

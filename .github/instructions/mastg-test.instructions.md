@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Test Files'
+name: 'Writing MASTG Test Files'
 applyTo: 'tests-beta/**/*.md'
 ---
 

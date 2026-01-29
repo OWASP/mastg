@@ -1,5 +1,5 @@
 ---
-description: 'Writing r2 scripts (radare2) for MASTG demos'
+name: 'Writing r2 scripts (radare2) for MASTG demos'
 applyTo: 'demos/**/*.r2'
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG Technique Files'
+name: 'Writing MASTG Technique Files'
 applyTo: 'techniques/**/*.md'
 ---
 
@@ -28,7 +28,7 @@ Include a YAML front matter block with these fields.
 
 Required:
 
-- `title:` Clear, action-oriented name for the technique (for example, "Method Tracing").
+- `name:` Clear, action-oriented name for the technique (for example, "Method Tracing").
 - `platform:` One of: `android`, `ios`, `generic`.
 
 Optional:
@@ -41,14 +41,14 @@ Examples:
 
 ```yaml
 ---
-title: Method Tracing
+name: Method Tracing
 platform: android
 ---
 ```
 
 ```yaml
 ---
-title: Intercepting HTTP Traffic Using an Interception Proxy
+name: Intercepting HTTP Traffic Using an Interception Proxy
 platform: generic
 ---
 ```
@@ -86,7 +86,7 @@ MkDocs callouts:
 
 ````markdown
 ---
-title: Obtaining App Permissions
+name: Obtaining App Permissions
 platform: android
 ---
 

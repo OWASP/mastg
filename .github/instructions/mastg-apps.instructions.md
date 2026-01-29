@@ -1,5 +1,5 @@
 ---
-description: 'Writing MASTG App Files'
+name: 'Writing MASTG App Files'
 applyTo: 'apps/*.md'
 ---
 
@@ -28,7 +28,7 @@ Each file begins with a YAML front matter block.
 
 **Required:**
 
-- `title:` App name, use the official capitalization. Add a disambiguator if needed (for example, _Android UnCrackable L1_)
+- `name:` App name, use the official capitalization. Add a disambiguator if needed (for example, _Android UnCrackable L1_)
 - `platform:` One of `android`, `ios`
 - `package:` Android application package ID or iOS bundle identifier (for example, `com.example.app`)
 - `source:` Canonical page to obtain the app (official repo, release artifact, or MASTG crackmes catalog entry). Prefer a stable, versioned URL
@@ -43,7 +43,7 @@ Each file begins with a YAML front matter block.
 
 ```yaml
 ---
-title: Android UnCrackable L1
+name: Android UnCrackable L1
 platform: android
 source: https://mas.owasp.org/crackmes/Android#android-uncrackable-l1
 package: sg.vantagepoint.uncrackable1
