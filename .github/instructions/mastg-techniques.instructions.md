@@ -28,7 +28,7 @@ Include a YAML front matter block with these fields.
 
 Required:
 
-- `name:` Clear, action-oriented name for the technique (for example, "Method Tracing").
+- `title:` Clear, action-oriented name for the technique (for example, "Method Tracing").
 - `platform:` One of: `android`, `ios`, `generic`.
 
 Optional:
@@ -41,14 +41,14 @@ Examples:
 
 ```yaml
 ---
-name: Method Tracing
+title: Method Tracing
 platform: android
 ---
 ```
 
 ```yaml
 ---
-name: Intercepting HTTP Traffic Using an Interception Proxy
+title: Intercepting HTTP Traffic Using an Interception Proxy
 platform: generic
 ---
 ```
@@ -86,7 +86,7 @@ MkDocs callouts:
 
 ````markdown
 ---
-name: Obtaining App Permissions
+title: Obtaining App Permissions
 platform: android
 ---
 

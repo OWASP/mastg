@@ -27,7 +27,7 @@ Relationship to Tests and Knowledge (nuance):
 
 Include a YAML front matter block with the following fields:
 
-- name: Concise, action-oriented recommendation.
+- title: Concise, action-oriented recommendation.
 - id: Best-practice ID in the form `MASTG-BEST-\d{4}`.
 - platform: One of: android, ios.
 

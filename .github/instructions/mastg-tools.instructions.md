@@ -49,7 +49,7 @@ Each file begins with a YAML front matter block.
 
 ```yaml
 ---
-name: Frida for Android
+title: Frida for Android
 platform: android
 source: https://github.com/frida/frida
 hosts: [windows, linux, macOS]
@@ -108,7 +108,7 @@ If the original source is gone, not relevant anymore, or too old, set the follow
 
 ```yaml
 ---
-name: Cycript
+title: Cycript
 platform: ios
 source: https://www.cycript.org/
 status: deprecated

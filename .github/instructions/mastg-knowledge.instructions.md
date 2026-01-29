@@ -44,7 +44,7 @@ Required:
 
 - `masvs_category:` One of: `MASVS-AUTH`, `MASVS-CODE`, `MASVS-CRYPTO`, `MASVS-NETWORK`, `MASVS-PLATFORM`, `MASVS-PRIVACY`, `MASVS-RESILIENCE`, `MASVS-STORAGE`.
 - `platform:` One of: `android`, `ios`.
-- `name:` Clear and specific concept title (for example, "Android KeyStore").
+- `title:` Clear and specific concept title (for example, "Android KeyStore").
 
 Optional:
 
@@ -59,7 +59,7 @@ Examples:
 ---
 masvs_category: MASVS-STORAGE
 platform: android
-name: Android KeyStore
+title: Android KeyStore
 available_since: 18
 ---
 ```
@@ -103,7 +103,7 @@ If the source is gone, not relevant anymore, or too old, set the following in th
 ---
 masvs_category: MASVS-AUTH
 platform: android
-name: FingerprintManager
+title: FingerprintManager
 deprecated_since: 28
 available_since: 23
 status: deprecated
