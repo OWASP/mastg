@@ -23,20 +23,7 @@ Examples:
 Typical spawn usage in `run.sh`:
 
 ```bash
-frooky -U -f org.owasp.mastestapp --platform android -o output.json hooks.json
-```
-
-Or for iOS:
-
-```bash
-frooky -U -f org.owasp.mastestapp.MASTestApp-iOS --platform ios -o output.json hooks.json
-```
-
-To attach to an already running app:
-
-```bash
-frooky -U -n "MASTestApp" --platform android -o output.json hooks.json
-```
+frooky -U -f org.owasp.mastestapp --platform android hooks.json
 
 ### Hook configuration format
 
@@ -64,6 +51,8 @@ Key fields:
   - `class`: Fully qualified class name to hook
   - `methods`: Array of method names to intercept
 
+See more in the [frooky Usage page](https://github.com/cpholguera/frooky/blob/main/docs/usage.md).
+
 ### Output format
 
 Frooky outputs JSON Lines (NDJSON) format to `output.json`.
@@ -72,7 +61,7 @@ Frooky outputs JSON Lines (NDJSON) format to `output.json`.
 
 - Keep hook configurations focused on the specific APIs relevant to the demo.
 - Use meaningful category names that align with MASVS categories.
-- The output JSON provides structured data that can be directly referenced in the Observation section.
+- The output JSON provides structured data that can be directly referenced in the demo's **Observation** section. For example as `{{ output.json }}`.
 - Stack traces are automatically captured, helping identify the code locations calling the hooked methods.
 
 ### Troubleshooting
