@@ -283,6 +283,6 @@ Example: frida (use only when frooky is not enough, see [mastg-frida-scripts.ins
 
 #### Networking
 
-Example: mitmproxy (see [mastg-mitmproxy-scripts.instructions](mastg-mitmproxy-scripts.instructions.md)))
+Example: mitmproxy (see [mastg-mitmproxy-scripts.instructions](mastg-mitmproxy-scripts.instructions.md))
 
 `mitmdump -s mitm_sensitive_logger.py`
