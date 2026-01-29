@@ -66,7 +66,6 @@ Do not force a fixed section template. Techniques in this repo commonly use what
 
 When a technique describes multiple tool-specific ways to achieve the same goal, prefer splitting them into tool subsections titled like `## Using @MASTG-TOOL-####`. This matches existing technique pages and keeps the options scannable. You can add short qualifiers in parentheses when needed (for example, "(Jailbroken Devices Only)").
 
-
 Cross-linking rules:
 
 - In body text, reference project identifiers with a leading `@` (for example, @MASTG-TEST-0204, @MASTG-TOOL-0031).

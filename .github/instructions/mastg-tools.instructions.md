@@ -33,14 +33,14 @@ Each file begins with a YAML front matter block.
 - `title:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
 - `platform:` One of: `android`, `ios`, `generic`, `network`
 
-**Preferred (add for new pages when possible)**
+**Preferred (add for new pages when possible):**
 
 - `source:` Canonical homepage, repository URL, or official documentation URL
 - `host:` List of operating systems the tool runs on
-  - Prefer a YAML list under `host:` (for example, `host: [windows, linux, macOS]` or a multi-line list)
-  - If you find `hosts:` in legacy pages, migrate to `host:` when touching the file
-  - Common values used in this repo include `windows`, `linux`, `macOS`, `ios`, `android`
-  - Some legacy pages use `macos`; prefer `macOS` when editing
+    - Prefer a YAML list under `host:` (for example, `host: [windows, linux, macOS]` or a multi-line list)
+    - If you find `hosts:` in legacy pages, migrate to `host:` when touching the file
+    - Common values used in this repo include `windows`, `linux`, `macOS`, `ios`, `android`
+    - Some legacy pages use `macos`; prefer `macOS` when editing
 
 **Optional:**
 
@@ -62,9 +62,7 @@ host: [windows, linux, macOS]
 
 Keep pages practical, scannable, and focused on security testing use.
 
-#### Recommended content
-
-Tool pages in this repo are often intentionally short. Prefer a small amount of high-signal content over a large, rigid template.
+Tool pages are often intentionally short. Prefer a small amount of high-signal content over a large, rigid template.
 
 Common patterns that match existing pages in `tools/`:
 

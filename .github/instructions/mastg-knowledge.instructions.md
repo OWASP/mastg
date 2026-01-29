@@ -3,8 +3,6 @@ description: 'Writing MASTG Knowledge Files'
 applyTo: 'knowledge/**/*.md'
 ---
 
-# Writing MASTG Knowledge Files
-
 Authoring standards for the Knowledge articles under `knowledge/`.
 
 Knowledge pages explain Android or iOS features and concepts that tests and techniques rely on.
@@ -77,7 +75,6 @@ Considerations for writing the content:
 - Include specific API names, version nuances, storage locations, and configuration knobs. Try to avoid code samples. Instead, refer to the existing MASTG-DEMO code files. If you include them, keep them short and explanatory.
 - Use references from official docs and standards. Avoid non-authoritative sources.
 - In body text, reference internal MAS identifiers with a leading `@` (for example, @MASTG-KNOW-0001, @MASTG-TEST-0204, @MASTG-TECH-0014, @MASTG-TOOL-0031, MASWE-0089).
-
 
 ## Writing conventions
 
