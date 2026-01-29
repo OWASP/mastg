@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0308
 ---
 
-### Sample
+## Sample
 
 This sample uses the code from @MASTG-DEMO-0071 and takes a dynamic approach to intercept the cryptographic operations at runtime (including encryption, decryption, signing, and verification) to demonstrate the misuse of an asymmetric key pair for multiple purposes.
 
 {{ ../MASTG-DEMO-0071/MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
@@ -22,7 +22,7 @@ This sample uses the code from @MASTG-DEMO-0071 and takes a dynamic approach to 
 
 {{ script.js # run.sh }}
 
-### Observation
+## Observation
 
 The output shows all usages of cryptographic operations.
 
@@ -30,7 +30,7 @@ The output shows all usages of cryptographic operations.
 
 Note all `WARNING` messages in the output.
 
-### Evaluation
+## Evaluation
 
 The test fails because the same asymmetric key pair is used across different groups of cryptographic operations.
 

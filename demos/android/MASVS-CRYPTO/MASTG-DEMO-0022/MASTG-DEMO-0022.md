@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0221
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code contains use of insecure encryption algorithms.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -20,13 +20,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified several instances in the code file where broken encryption algorithms are used. The specified line numbers can be located in the reverse-engineered code for further investigation and remediation.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails due to the use of broken encryption algorithms, specifically DES, 3DES, RC4 and Blowfish.
 

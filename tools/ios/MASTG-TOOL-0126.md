@@ -17,7 +17,7 @@ The libimobiledevice suite is cross-platform protocol library for interacting wi
 The following tools are part of the libimobiledevice suite:
 
 | Tool | Purpose |
-|------------------|---------------------|
+| --- | --- |
 | idevice_id | List attached devices or print device name of given device. |
 | idevicebackup | Create or restore backup from the current or specified directory (<iOS 4). |
 | idevicebackup2 | Create or restore backup from the current or specified directory (>= iOS 4). |

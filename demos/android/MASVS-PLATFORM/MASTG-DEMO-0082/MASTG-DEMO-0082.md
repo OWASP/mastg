@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0320
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows a sample that uses a WebView to store sensitive data in the cache and then performs a cleanup with `WebStorage` API.
 
@@ -17,7 +17,7 @@ The sensitive data is stored using `localStorage.setItem` in the inline HTML loa
 
 {{ MainActivityWebView.kt # MastgTestWebView.kt # AndroidManifest.xml }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
@@ -29,7 +29,7 @@ The sensitive data is stored using `localStorage.setItem` in the inline HTML loa
 
 {{ script.js # run.sh }}
 
-### Observation
+## Observation
 
 In the output we can see all instances of `deleteAllData()` of `WebStorage` called at runtime:
 
@@ -39,7 +39,7 @@ We can also see that the output of the `adb shell grep` command shows no matches
 
 {{ output_adb_deletion_succeeded.txt }}
 
-### Evaluation
+## Evaluation
 
 The test **passes** as the application properly cleans up all storage data from the WebView cache using the `WebStorage` API.
 

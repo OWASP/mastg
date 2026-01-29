@@ -176,7 +176,7 @@ The API specifications change with every new Android release. Critical bug fixes
 
 Noteworthy [API versions](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels "What is API level?"). See @MASTG-BEST-0010 for more information about security and privacy features introduced in different Android versions.
 
-Android development releases follow a unique structure. They are organized into families and given alphabetical codenames inspired by tasty treats. You can find them all [here](https://source.android.com/docs/setup/about/build-numbers "Codenames, tags, and build numbers").
+Android development releases follow a unique structure. They are organized into families and given alphabetical codenames inspired by tasty treats. You can find them all [on the Android source website](https://source.android.com/docs/setup/about/build-numbers "Codenames, tags, and build numbers").
 
 ### The App Sandbox
 
