@@ -148,7 +148,7 @@ Shortly describe the sample and specify the exact sample files using this notati
 Example:
 
 ```md
-### Sample
+## Sample
 
 The snippet below shows sample code that sends sensitive data over the network using the `HttpURLConnection` class. The data is sent to `https://httpbin.org/post`, which is a dummy endpoint that returns the data it receives.
 
@@ -162,7 +162,7 @@ A concise write-up following all steps from the linked test, including placehold
 Example:
 
 ```md
-### Steps
+## Steps
 
 Let's run our semgrep rule against the sample code.
 
@@ -178,7 +178,7 @@ A concise description of the observation for this specific demo, including place
 Example:
 
 ```md
-### Observation
+## Observation
 
 The rule has identified some instances in the code file where a non-random source is used. The specified line numbers can be located in the original code for further investigation and remediation.
 
@@ -187,12 +187,12 @@ The rule has identified some instances in the code file where a non-random sourc
 
 #### Evaluation
 
-A concise explanation of how you applied the test’s "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
+A concise explanation of how you applied the test's "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
 
 Example:
 
 ```md
-### Evaluation
+## Evaluation
 
 Review each of the reported instances.
 

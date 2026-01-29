@@ -7,7 +7,7 @@ test: MASTG-TEST-0287
 kind: pass
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code which stores sensitive data using `String` and `StringSet` from `EncryptedSharedPreferences`.
 
@@ -17,7 +17,7 @@ The code snippet below shows sample code which stores sensitive data using `Stri
 
 {{ MastgTest.kt # build.gradle.kts.libs }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
@@ -27,13 +27,13 @@ The code snippet below shows sample code which stores sensitive data using `Stri
 
 {{ hooks.js # run.sh }}
 
-### Observation
+## Observation
 
 The output shows all instances of strings written using `EncryptedSharedPreferences` via `SharedPreferences` that were found at runtime. A backtrace is also provided to help identify the location in the code.
 
 {{ output.json }}
 
-### Evaluation
+## Evaluation
 
 This test **passes** because sensitive data is stored using `EncryptedSharedPreferences`, which encrypts both keys and values at rest. Even if an attacker gains access to the app's sandbox, the data remains encrypted.
 

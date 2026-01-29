@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0201
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that creates two files in external storage using the `getExternalFilesDir` method and the `MediaStore` API.
 
 {{ MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
@@ -27,7 +27,7 @@ The `run.sh` script injects a @MASTG-TOOL-0001 script named `script.js`. This sc
 
 {{ run.sh # script.js }}
 
-### Observation
+## Observation
 
 In the output you can observe the file paths, the relevant stack traces, and other details that help identify which APIs were used to write to external storage and their respective callers.
 
@@ -51,6 +51,6 @@ The `ContentResolver.insert` call used the following `ContentValues`:
 
 Using this information we can infer the path of the file written to external storage: `/storage/emulated/0/Download/secretFile55.txt`.
 
-### Evaluation
+## Evaluation
 
 This test fails because the files are not encrypted and contain sensitive data (such as a password and an API key). This can be further confirmed by reverse-engineering the app to inspect its code and retrieving the files from the device.

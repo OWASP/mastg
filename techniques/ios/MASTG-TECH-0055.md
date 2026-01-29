@@ -160,7 +160,7 @@ ios-deploy --bundle 'pram/Payload/UnCrackable Level 1.app' -W -d -v
 Handling device type: 1
 Already found device? 0
 Hardware Model: D211AP
-Device Name: NVISO’s iPhone JBE
+Device Name: NVISO's iPhone JBE
 Model Name: iPhone 8 Plus
 SDK Name: iphoneos
 Architecture Name: arm64
