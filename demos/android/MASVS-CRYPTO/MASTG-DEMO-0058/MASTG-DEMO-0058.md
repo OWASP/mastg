@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0232
 ---
 
-### Sample
+## Sample
 
 This code demonstrates the risks of using AES in ECB mode (which is a broken mode of operation) using three scenarios:
 
@@ -24,10 +24,10 @@ When executing the code, you will see the following results for each of the thre
 2. Encryption succeeds. The import succeeds in this case because we explicitly disable randomized encryption (bad practice). Otherwise, `KeyStore.setEntry` would fail with an error similar to the one for scenario 3.
 3. Encryption cannot even happen because the generation fails (`KeyGenerator.init` specifically) due to randomized encryption not being disabled. The error says `"Randomized encryption (IND-CPA) required but may be violated by block mode: ECB. See android.security.keystore.KeyGenParameterSpec documentation"`.
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
-2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device
 3. Run `run.sh` to spawn the app with Frida
 4. Click the **Start** button
 5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
@@ -41,15 +41,15 @@ These are the relevant methods we are hooking to detect the use of ECB and wheth
     - [`KeyGenParameterSpec.Builder#setRandomizedEncryptionRequired`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setRandomizedEncryptionRequired(boolean))
     - [`KeyProtection.Builder#setRandomizedEncryptionRequired`](https://developer.android.com/reference/android/security/keystore/KeyProtection.Builder#setRandomizedEncryptionRequired(boolean))
 
-{{ hooks.js # run.sh }}
+{{ hooks.json # run.sh }}
 
-### Observation
+## Observation
 
 The output shows all instances of block modes that were found at runtime. A backtrace is also provided to help identify the location in the code. If randomized encryption is disabled, that is also indicated in the output.
 
 {{ output.json }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the `KeyGenParameterSpec.Builder#setBlockModes(...)` and `KeyProtection.Builder#setBlockModes(...)` methods have been called with ECB.
 

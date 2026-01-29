@@ -1,12 +1,17 @@
-## Rules
+---
+name: 'Writing MASTG SAST Rules'
+applyTo: 'rules/*.(yml|yaml)'
+---
 
 SAST rules live in the `rules/` folder. They are referenced and reused by demos and should be stable and consistently named.
 
-### Semgrep rules
+## Semgrep rules
 
-[https://semgrep.dev/docs/getting-started/quickstart/](https://semgrep.dev/docs/getting-started/quickstart/)
-[https://semgrep.dev/learn](https://semgrep.dev/learn)
-[https://academy.semgrep.dev/courses/secure-guardrails](https://academy.semgrep.dev/courses/secure-guardrails)
+We use [Semgrep](https://semgrep.dev/) for static analysis rules. Semgrep is a powerful, open-source static analysis tool that supports multiple programming languages, including those used in mobile app development. See the official documentation for installation and getting started:
+
+- [https://semgrep.dev/docs/getting-started/quickstart/](https://semgrep.dev/docs/getting-started/quickstart/)
+- [https://semgrep.dev/learn](https://semgrep.dev/learn)
+- [https://academy.semgrep.dev/courses/secure-guardrails](https://academy.semgrep.dev/courses/secure-guardrails)
 
 Tip: use [https://semgrep.dev/playground/new](https://semgrep.dev/playground/new) for experimentation.
 
@@ -25,7 +30,7 @@ Required fields per rule:
     - INFO
     - WARNING
     - ERROR
-- **languages**: usually `xml` or `java` (we don’t create rules for Kotlin as we work with decompiled Java; use `xml` for AndroidManifest and resource rules).
+- **languages**: usually `xml` or `java` (we don't create rules for Kotlin as we work with decompiled Java; use `xml` for AndroidManifest and resource rules).
 - **metadata**: must include summary
     - summary: Short description of the rule.
     - original_source: You may use rules from sources on the internet. Be sure to check that the license allows this, and always link to the source here. Modify the rule as needed, provided the license permits it.
@@ -34,7 +39,7 @@ Required fields per rule:
 
 Multiple rules per file
 
-- When grouping related detections, you may define multiple rules in a single file. Ensure each rule’s `id` shares a sensible prefix and is unique.
+- When grouping related detections, you may define multiple rules in a single file. Ensure each rule's `id` shares a sensible prefix and is unique.
 - Keep messages and severities aligned within the group; use `INFO` for inventory-style detections and `WARNING`/`ERROR` for clear weaknesses.
 
 General guidance
