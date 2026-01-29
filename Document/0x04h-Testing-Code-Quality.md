@@ -192,14 +192,14 @@ Verify that the following best practices have been followed:
 
 Consider how data will be rendered in a response. For example, if data is rendered in an HTML context, six control characters that must be escaped:
 
-| Character | Escaped    |
-|-----------|------------|
-| &         | &amp;amp;  |
-| <         | &amp;lt;   |
-| >         | &amp;gt;   |
-| "         | &amp;quot; |
-| '         | &amp;#x27; |
-| /         | &amp;#x2F; |
+| Character | Escaped |
+| --- | --- |
+| & | &amp;amp; |
+| < | &amp;lt; |
+| > | &amp;gt; |
+| " | &amp;quot; |
+| ' | &amp;#x27; |
+| / | &amp;#x2F; |
 
 For a comprehensive list of escaping rules and other prevention measures, refer to the [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html "OWASP XSS Prevention Cheat Sheet").
 
