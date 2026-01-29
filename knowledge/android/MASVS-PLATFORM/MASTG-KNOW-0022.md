@@ -16,6 +16,7 @@ Android provides several defensive mechanisms that apps can use to protect again
 
 - [`onFilterTouchEventForSecurity`](https://developer.android.com/reference/android/view/View#onFilterTouchEventForSecurity(android.view.MotionEvent)): Override this method for fine-grained control to implement custom security policies for views.
 - [`android:filterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#attr_android:filterTouchesWhenObscured): Set this layout attribute to `true` or call [`setFilterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean)) to filter touch events when the view is obscured by another visible window.
+- [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) (since API level 31): Call this method on the window to hide all non-system overlay windows while the activity is in the foreground. This provides a stronger protection by preventing overlays entirely rather than just filtering touch events.
 - [`FLAG_WINDOW_IS_OBSCURED`](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_OBSCURED) (since API level 9): Check this flag to detect if the window is obscured.
 - [`FLAG_WINDOW_IS_PARTIALLY_OBSCURED`](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_PARTIALLY_OBSCURED) (since API level 29): Check this flag to detect if the window is partially obscured.
 

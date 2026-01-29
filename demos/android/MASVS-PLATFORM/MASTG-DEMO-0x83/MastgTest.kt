@@ -1,94 +1,58 @@
 package org.owasp.mastestapp
 
-import android.os.Bundle
+import android.content.Context
 import android.view.MotionEvent
-import android.view.View
 import android.widget.Button
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import android.widget.LinearLayout
 
 // SUMMARY: This sample demonstrates different approaches to handling overlay attacks in Android apps, 
 // showing both vulnerable patterns and proper protections using filterTouchesWhenObscured.
 
-const val MASTG_TEXT_TAG = "mastgTestText"
+class MastgTest (private val context: Context){
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MainScreen()
-        }
-    }
-}
+    fun mastgTest(): String {
+        val layout = LinearLayout(context)
+        layout.orientation = LinearLayout.VERTICAL
 
-@Composable
-fun MainScreen() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        // FAIL: [MASTG-TEST-0035] Sensitive button without overlay protection
-        Button(
-            onClick = { 
+        // FAIL: [MASTG-TEST-0x35] Sensitive button without overlay protection
+        val vulnerableButton = Button(context).apply {
+            text = "Vulnerable: Confirm Payment"
+            setOnClickListener {
                 // Sensitive action: confirming a payment
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        ) {
-            Text("Vulnerable: Confirm Payment")
+            }
         }
+        layout.addView(vulnerableButton)
         
-        // PASS: [MASTG-TEST-0035] Button with overlay protection using filterTouchesWhenObscured
-        AndroidView(
-            factory = { context ->
-                Button(context).apply {
-                    text = "Protected: Confirm Payment"
-                    filterTouchesWhenObscured = true
-                    setOnClickListener {
-                        // Sensitive action protected from overlay attacks
-                        Toast.makeText(context, "Payment confirmed", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        )
+        // PASS: [MASTG-TEST-0x35] Button with overlay protection using filterTouchesWhenObscured
+        val protectedButton = Button(context).apply {
+            text = "Protected: Confirm Payment"
+            filterTouchesWhenObscured = true
+            setOnClickListener {
+                // Sensitive action protected from overlay attacks
+            }
+        }
+        layout.addView(protectedButton)
         
-        // PASS: [MASTG-TEST-0035] Custom view with manual obscured check
-        AndroidView(
-            factory = { context ->
-                object : Button(context) {
-                    override fun onFilterTouchEventForSecurity(event: MotionEvent): Boolean {
-                        if ((event.flags and MotionEvent.FLAG_WINDOW_IS_OBSCURED) != 0) {
-                            // Window is obscured, filter the touch event
-                            Toast.makeText(context, "Touch blocked - window obscured", Toast.LENGTH_SHORT).show()
-                            return false
-                        }
-                        return super.onFilterTouchEventForSecurity(event)
-                    }
-                }.apply {
-                    text = "Custom Protection: Grant Permission"
-                    setOnClickListener {
-                        // Sensitive permission grant protected by custom implementation
-                        Toast.makeText(context, "Permission granted", Toast.LENGTH_SHORT).show()
-                    }
+        // PASS: [MASTG-TEST-0x35] Custom view with manual obscured check
+        val customProtectedButton = object : Button(context) {
+            override fun onFilterTouchEventForSecurity(event: MotionEvent): Boolean {
+                if ((event.flags and MotionEvent.FLAG_WINDOW_IS_OBSCURED) != 0) {
+                    // Window is obscured, filter the touch event
+                    return false
                 }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        )
+                return super.onFilterTouchEventForSecurity(event)
+            }
+        }.apply {
+            text = "Custom Protection: Grant Permission"
+            setOnClickListener {
+                // Sensitive permission grant protected by custom implementation
+            }
+        }
+        layout.addView(customProtectedButton)
+
+        return "Created buttons with various overlay protections:\n" +
+               "1. Vulnerable button (no protection)\n" +
+               "2. Protected button (filterTouchesWhenObscured)\n" +
+               "3. Custom protected button (onFilterTouchEventForSecurity)"
     }
 }

@@ -16,9 +16,11 @@ Implement touch filtering to prevent touch events when the app's UI is obscured 
 
 2. **Call `setFilterTouchesWhenObscured(true)`** programmatically on sensitive views to enable touch filtering at runtime.
 
-3. **Override `onFilterTouchEventForSecurity`** for more granular control and to implement custom security policies based on your app's specific requirements.
+3. **Call `setHideOverlayWindows(true)`** on the window (API level 31+) to hide all non-system overlay windows while the activity is in the foreground. This provides stronger protection by preventing overlays entirely rather than just filtering touch events.
 
-4. **Check motion event flags** such as `FLAG_WINDOW_IS_OBSCURED` (API level 9+) or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` (API level 29+) in touch event handlers to detect obscured windows and respond appropriately.
+4. **Override `onFilterTouchEventForSecurity`** for more granular control and to implement custom security policies based on your app's specific requirements.
+
+5. **Check motion event flags** such as `FLAG_WINDOW_IS_OBSCURED` (API level 9+) or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` (API level 29+) in touch event handlers to detect obscured windows and respond appropriately.
 
 Apply these protections selectively to security-sensitive UI elements where user confirmation is critical, such as:
 
@@ -52,6 +54,7 @@ Touch filtering mechanisms help ensure that user interactions occur with the int
 - Android Developer Documentation: [Tapjacking](https://developer.android.com/privacy-and-security/risks/tapjacking)
 - Android Developer Documentation: [View Security](https://developer.android.com/reference/android/view/View#security)
 - Android Developer Documentation: [setFilterTouchesWhenObscured](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean))
+- Android Developer Documentation: [setHideOverlayWindows](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean))
 - Android Developer Documentation: [onFilterTouchEventForSecurity](https://developer.android.com/reference/android/view/View#onFilterTouchEventForSecurity(android.view.MotionEvent))
 - Android Developer Documentation: [FLAG_WINDOW_IS_OBSCURED](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_OBSCURED)
 - Android Developer Documentation: [FLAG_WINDOW_IS_PARTIALLY_OBSCURED](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_PARTIALLY_OBSCURED)
