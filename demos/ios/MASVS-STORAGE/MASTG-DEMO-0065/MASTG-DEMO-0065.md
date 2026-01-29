@@ -6,13 +6,13 @@ id: MASTG-DEMO-0065
 test: MASTG-TEST-0297
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code that insecurely logs a sensitive token:
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh` to find all occurrences of `NSLog`.
@@ -22,7 +22,7 @@ The code snippet below shows sample code that insecurely logs a sensitive token:
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output contains the location of `NSLog` usage in the binary.
 
@@ -30,6 +30,6 @@ The output contains the location of `NSLog` usage in the binary.
 
 Reading `output.asm` doesn't clearly show what arguments are passed to `NSLog`, so you can also make use of `function.asm` for a better overview.
 
-### Evaluation
+## Evaluation
 
 The test fails because the app calls `NSLog` with a secret token as an argument.

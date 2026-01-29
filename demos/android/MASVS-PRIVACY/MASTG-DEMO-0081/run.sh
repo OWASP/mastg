@@ -1,2 +1,2 @@
 #!/bin/bash
-../../../../utils/frida/android/run.sh ./hooks.js
+frooky -U -f org.owasp.mastestapp --platform android hooks.json

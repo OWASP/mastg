@@ -11,7 +11,7 @@ source: https://github.com/nowsecure/r2frida
 - Load Frida information such as maps, symbols, imports, classes and methods into radare2.
 - Call r2 commands from Frida as it exposes the r2pipe interface into the Frida Javascript API.
 
-Please refer to [r2frida's official installation instructions](https://github.com/nowsecure/r2frida/blob/master/README.md#installation "r2frida installation instructions").
+Please refer to [r2frida's official installation instructions](https://github.com/nowsecure/r2frida/blob/master/README.md#installation "r2frida installation instructions"). For detailed tutorials and practical examples on using r2frida, see the [r2frida section in the Frida Handbook](https://learnfrida.info/r2frida/).
 
 With frida-server running, you should now be able to attach to it using the pid, spawn path, host and port, or device-id. For example, to attach to PID 1234:
 

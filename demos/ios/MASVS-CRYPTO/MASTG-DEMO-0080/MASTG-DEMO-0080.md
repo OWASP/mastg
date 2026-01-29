@@ -6,13 +6,13 @@ id: MASTG-DEMO-0080
 test: MASTG-TEST-0317
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that uses the insecure ECB (Electronic Codebook) mode when encrypting data with CommonCrypto's `CCCrypt` function. ECB mode is vulnerable because it encrypts identical plaintext blocks to identical ciphertext blocks, revealing patterns in the data.
 
 {{ MastgTest.swift # function.asm }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
@@ -21,13 +21,13 @@ The snippet below shows sample code that uses the insecure ECB (Electronic Codeb
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output contains the disassembled code for the `CCCrypt` function in ECB mode.
 
 {{ output.asm }}
 
-### Evaluation
+## Evaluation
 
 Inspect the disassembled code to identify the use of insecure encryption modes.
 

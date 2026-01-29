@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0207
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that creates a file on the **internal storage** using using the [`filesDir`](https://developer.android.com/reference/android/content/Context#getFilesDir()) property of the context object.
 
 {{ MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Install an app on your device.
 2. Execute `run_before.sh` which runs @MASTG-TOOL-0004.
@@ -22,7 +22,7 @@ The snippet below shows sample code that creates a file on the **internal storag
 
 {{ run_before.sh # run_after.sh }}
 
-### Observation
+## Observation
 
 There is a list of all created files inside `output.txt`.
 
@@ -36,6 +36,6 @@ A password:
 
 The file was created in `/data/user/0/org.owasp.mastestapp/files/` which is equivalent to `/data/data/org.owasp.mastestapp/files/`.
 
-### Evaluation
+## Evaluation
 
 This test fails because the file is not encrypted and contains sensitive data (a password). You can further confirm this by reverse engineering the app and inspecting the code.
