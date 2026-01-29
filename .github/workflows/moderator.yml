@@ -139,7 +139,7 @@ jobs:
             Always return valid JSON with the exact keys requested.
           prompt: |
             Classify this GitHub item as one of these verdicts.
-            ok, ai-assisted, ai-gen-needs-review, spam.
+            ok, ai-assisted, ai-slop, spam.
 
             Return a JSON object with exactly these keys.
             verdict, confidence, reasons, evidence, action.
@@ -147,7 +147,7 @@ jobs:
             Verdict meanings.
             ok, normal contribution, no strong issues.
             ai-assisted, contributor disclosed AI use in the template and nothing else looks wrong.
-            ai-gen-needs-review, contributor claimed no AI use or disclosure is incomplete or contradictory, but signals suggest AI generated text or unreviewed bulk edits, or the PR scope suggests misuse such as sweeping unrelated changes.
+            ai-slop, contributor claimed no AI use or disclosure is incomplete or contradictory, but signals suggest AI generated text or unreviewed bulk edits, or the PR scope suggests misuse such as sweeping unrelated changes.
             spam, promotional, scam, or irrelevant.
 
             How to detect actual disclosure, without guessing.
@@ -155,9 +155,9 @@ jobs:
             Do not mark ai-assisted just because the template mentions AI.
 
             MAS contributing alignment checks to consider.
-            Low effort PRs, generic text, unrelated changes, and sweeping rewrites not justified by the title or described intent should be flagged for ai-gen-needs-review or spam.
+            Low effort PRs, generic text, unrelated changes, and sweeping rewrites not justified by the title or described intent should be flagged for ai-slop or spam.
             If PR change summary shows many files or high churn but the description is minimal or generic, raise suspicion.
-            If the author disclosed AI use but the PR looks like an unreviewed bulk rewrite, keep ai-assisted only if the description explains why the scope is necessary, otherwise ai-gen-needs-review with an action to request justification and review evidence.
+            If the author disclosed AI use but the PR looks like an unreviewed bulk rewrite, keep ai-assisted only if the description explains why the scope is necessary, otherwise ai-slop with an action to request justification and review evidence.
 
             Output constraints.
             confidence is an integer 0 to 100.
@@ -216,7 +216,7 @@ jobs:
             const evidence = Array.isArray(report.evidence) ? report.evidence : []
             const action = String(report.action || "").trim()
 
-            const allowed = new Set(["ok", "ai-assisted", "ai-gen-needs-review", "spam"])
+            const allowed = new Set(["ok", "ai-assisted", "ai-slop", "spam"])
             if (!allowed.has(verdict)) {
               core.setFailed(`Unexpected verdict: ${verdict}`)
               return
@@ -228,7 +228,7 @@ jobs:
 
             const labelForVerdict = {
               "ai-assisted": "ai-assisted",
-              "ai-gen-needs-review": "ai-gen-needs-review",
+              "ai-slop": "ai-slop",
               "spam": "spam"
             }
 
