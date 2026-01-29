@@ -36,11 +36,9 @@ Each file begins with a YAML front matter block.
 **Preferred (add for new pages when possible):**
 
 - `source:` Canonical homepage, repository URL, or official documentation URL
-- `host:` List of operating systems the tool runs on
-    - Prefer a YAML list under `host:` (for example, `host: [windows, linux, macOS]` or a multi-line list)
-    - If you find `hosts:` in legacy pages, migrate to `host:` when touching the file
+- `hosts:` List of operating systems the tool runs on
+    - Prefer a YAML list under `hosts:` (for example, `hosts: [windows, linux, macOS]` or a multi-line list)
     - Common values used in this repo include `windows`, `linux`, `macOS`, `ios`, `android`
-    - Some legacy pages use `macos`; prefer `macOS` when editing
 
 **Optional:**
 
@@ -54,7 +52,7 @@ Each file begins with a YAML front matter block.
 title: Frida for Android
 platform: android
 source: https://github.com/frida/frida
-host: [windows, linux, macOS]
+hosts: [windows, linux, macOS]
 ---
 ```
 
