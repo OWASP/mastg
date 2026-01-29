@@ -3,16 +3,16 @@ title: Launching a Repackaged App in Debug Mode
 platform: ios
 ---
 
-If you've repackaged an application with a Frida Gadget, or if you want to attach @MASTG-TOOL-0057 to the application, you have to launch the application in debug mode. When you launch the application via SpringBoard, it will not launch in debug mode and the application will crash.
+If you've repackaged an application with a Frida Gadget, or if you want to attach @MASTG-TOOL-0057 to the application, you have to launch the application in debug mode. When you launch the application via SpringBoard, it will not start in debug mode and will crash.
 
-After the application has been installed using @MASTG-TECH-0056, you can launch it in debug mode using the following commands.
+After installing the application with @MASTG-TECH-0056, you can launch it in debug mode with the following commands.
 
 !!! note
     The commands that are part of @MASTG-TOOL-0126 refer to the latest version available from GitHub. If you installed them via brew or other package managers, you may have an older version with different command-line flags.
 
 ## iOS 17 and newer
 
-First, make sure you know the correct Bundle Identifier. Depending on how you signed the application, the actual Bundle Identifier might be different from the original Bundle Identifier. To get an overview of the installed applications, use the `ideviceinstaller` tool (see @MASTG-TOOL-0126):
+First, ensure you have the correct Bundle Identifier. Depending on how you signed the application, the actual Bundle Identifier may differ from the original. To get an overview of the installed applications, use the `ideviceinstaller` tool (see @MASTG-TOOL-0126):
 
 ```bash
 $ ideviceinstaller list
@@ -78,7 +78,7 @@ Process 783 resuming
 (lldb)
 ```
 
-More information about debugging iOS apps can be found in @MASTG-TECH-0084.
+More information on debugging iOS apps is available in @MASTG-TECH-0084.
 
 If you manually injected a Frida Gadget, Frida will now be waiting for you to attach to it. Until you do so, the application will appear frozen.
 
@@ -177,7 +177,7 @@ Build Version: 20G81
 
 ### Attaching Frida
 
-If your application was repackaged with a Frida Gadget, the application will wait for you to attach to it before it continues launching.
+If your application was repackaged with a Frida Gadget, it will wait for you to attach the Frida Gadget before resuming launching.
 
 In a new terminal window, connect to the Frida gadget, just like in the iOS 17 scenario:
 

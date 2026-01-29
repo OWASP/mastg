@@ -3,7 +3,7 @@ title: Obtaining Compiler-Provided Security Features
 platform: ios
 ---
 
-The iOS compiler provides several [security features that can be enabled during compilation](../../Document/0x06i-Testing-Code-Quality-and-Build-Settings.md/#binary-protection-mechanisms). These features help protect the application from common vulnerabilities like buffer overflows and memory leaks. This technique provides guidance on how to check if these features are enabled in the compiled binary.
+The iOS compiler provides several [security features that can be enabled during compilation](../../Document/0x06i-Testing-Code-Quality-and-Build-Settings.md/#binary-protection-mechanisms). These features help protect the application against common vulnerabilities such as buffer overflows and memory leaks. This technique guides how to check if these features are enabled in the compiled binary.
 
 ## @MASTG-TOOL-0073
 
@@ -45,7 +45,7 @@ An iOS binary does not need to have all of these symbols to be considered ARC-en
 102 0x00007a14 0x100007a14 LOCAL  FUNC 0        imp.swift_retain
 ```
 
-The output shows that the binary contains symbols indicating the usage of ARC.
+The output shows that the binary contains symbols indicating ARC usage.
 
 ## @MASTG-TOOL-0074
 
@@ -61,4 +61,4 @@ FraudForce            dylib    False        False  True   True      False       
 ...
 ```
 
-The output shows `PIE`, `ARC` and `Canary` with a value of `True` or `False`.
+The output shows `PIE`, `ARC`, and `Canary` with a value of `True` or `False`.

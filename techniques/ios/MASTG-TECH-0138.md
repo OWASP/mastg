@@ -3,7 +3,7 @@ title: Convert Plist Files to JSON
 platform: ios
 ---
 
-You can convert Plist files, such as `Info.plist` or `PrivacyInfo.xcprivacy` (also a Plist file despite the extension), to JSON format for easier readability and analysis.
+You can convert Plist files, such as `Info.plist` or `PrivacyInfo.xcprivacy` (which is a Plist file despite the '.xcprivacy' extension), to JSON for easier readability and analysis.
 
 ## Using plutil
 
