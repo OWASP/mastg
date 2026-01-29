@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Injection flaws in android Content providers
+title: Injection flaws in Android Content providers
 id: MASTG-DEMO-00XX
 code: [kotlin]
 test: MASTG-TEST-02XX
@@ -9,9 +9,9 @@ status: new
 
 ### Sample
 
-The following code implements a vulnerable `ContentProvider` that appends user-controlled input from the URI path directly into a SQL.
+The following code implements a vulnerable `ContentProvider` that appends user-controlled input from the URI path directly into a SQL query.
 
-{{ MastgTest.kt # MastgTest_reversed.kt }}
+{{ MastgTest.kt # MastgTest_reversed.java }}
 
 ### Steps
 
@@ -38,4 +38,4 @@ Row: 1 id=2, name=Bob
 Row: 2 id=3, name=Charlie
 ```
 
-Refer to @MASTG-TECH-XXX, to know more on using content query.
+Refer to @MASTG-TECH-XXXX, to know more on using content query.
