@@ -26,5 +26,5 @@ The output should contain list the location where the Play Core In-App Update AP
 
 The test case fails if:
 
-- 1. The app does not reference the Play Core In-App Update API (`startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE`).
+- The app does not reference the Play Core In-App Update API (`startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE`).
 - The app triggers an immediate update flow but lacks enforcement logic in `onResume` to handle `UPDATE_AVAILABLE` or `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states.
