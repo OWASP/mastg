@@ -1,4 +1,7 @@
-## Frida Scripts
+---
+name: 'Writing Frida scripts for MASTG demos'
+applyTo: 'demos/**/script.js'
+---
 
 This guide defines how to write and use Frida scripts in MASTG demos. Scripts live alongside the demo content and are executed by `run.sh` to produce the demo's Observation output.
 
@@ -8,7 +11,7 @@ Version requirement
 
 - Use Frida 17 or later. See @MASTG-TOOL-0031 ([Frida 17](https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17)
 
-### Location and naming
+## Location and naming
 
 - Place scripts inside the demo folder and name them `script.js` unless multiple scripts are needed.
 - If multiple scripts are required, use specific names (for example, `hook_ssl.js`, `hook_keystore.js`) and document which to run in the demo Steps and `run.sh`.
@@ -18,12 +21,12 @@ Examples:
 - `demos/ios/MASVS-AUTH/MASTG-DEMO-0042/script.js`
 - `demos/android/MASVS-NETWORK/MASTG-DEMO-0007/script.js`
 
-### Runtime and invocation
+## Runtime and invocation
 
 - Typical spawn usage in `run.sh`:
     - `frida -U -f <bundle_or_package_id> -l script.js -o output.txt`
 
-### Coding conventions
+## Coding conventions
 
 - Keep scripts self-contained (no external module imports).
 - Keep output concise and deterministic for Evaluation parsing.
@@ -33,7 +36,7 @@ Examples:
 - Backtraces: use `DebugSymbol.fromAddress` and cap lines.
 - In `onEnter/onLeave`, capture context first (for example, `const ctx = this.context;`) before using nested arrow functions.
 
-### Inspiration
+## Inspiration
 
 - Don't reinvent the wheel when something already exists. Use existing open-source sources when available, for example, <https://codeshare.frida.re/browse>.
 - If you use a source, be sure to document it and give credit to the author. Include a link to the source in a comment at the beginning of the frida script.
@@ -70,13 +73,13 @@ Interceptor.attach(isEnabledFunc, {
 ...
 ```
 
-### Logging and outputs
+## Logging and outputs
 
 - Redirect script output to `output.txt` from `run.sh`.
 - Keep logs minimal and structured so Observation/Evaluation can reference them directly.
 - Cap list outputs (for example, backtraces) to keep diffs stable.
 
-### Safety and troubleshooting
+## Safety and troubleshooting
 
 - Use try/catch around complex hooks to prevent script termination.
 - If a symbol/method is missing, log and continue.

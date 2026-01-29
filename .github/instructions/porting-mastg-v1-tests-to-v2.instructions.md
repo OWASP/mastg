@@ -1,4 +1,7 @@
-# Porting MASTG v1 tests to v2
+---
+name: 'Porting MASTG v1 tests to v2'
+applyTo: 'tests*/**/*.md'
+---
 
 ## Before you start
 
@@ -103,7 +106,7 @@ Best practices are platform-specific and must be linked in the test metadata. Ou
 2. If it doesn't exist yet, create it new in `best-practices/` using the next available ID.
 3. Add a reference to the best practices in the test YAML front matter, for example `best-practices: [MASTG-BEST-0023]`.
 
-#### Deprecating V1 tests
+### Deprecating V1 tests
 
 Add metadata to the v1 file:
 

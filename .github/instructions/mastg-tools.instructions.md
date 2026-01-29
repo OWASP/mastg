@@ -1,4 +1,7 @@
-# Tools Authoring Instructions
+---
+name: 'Writing MASTG Tool Files'
+applyTo: 'tools/**/*.md'
+---
 
 Standards for authoring tool reference pages under `tools/`. These pages document tools used throughout tests, demos, and techniques in the MASTG.
 
@@ -21,7 +24,7 @@ Standards for authoring tool reference pages under `tools/`. These pages documen
 - Follow the global Markdown rules in `.github/instructions/markdown.instructions.md`
 - Headings in the body start at `##`. Use `##` and `###` only
 
-## Metadata
+### Metadata
 
 Each file begins with a YAML front matter block.
 
@@ -29,10 +32,13 @@ Each file begins with a YAML front matter block.
 
 - `title:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
 - `platform:` One of: `android`, `ios`, `generic`, `network`
-- `source:` Canonical homepage or repository URL
-- `host:` List of operating systems the tool runs on. Allowed values (case-sensitive): `windows`, `linux`, `macOS`, `ios`, `android`
-    - Use `host:` with a YAML list (preferred). If you find `hosts:` in legacy pages, migrate to `host:` when touching the file
-    - Use `ios` or `android` for on-device tools (for example, Filza)
+
+**Preferred (add for new pages when possible):**
+
+- `source:` Canonical homepage, repository URL, or official documentation URL
+- `hosts:` List of operating systems the tool runs on
+    - Prefer a YAML list under `hosts:` (for example, `hosts: [windows, linux, macOS]` or a multi-line list)
+    - Common values used in this repo include `windows`, `linux`, `macOS`, `ios`, `android`
 
 **Optional:**
 
@@ -46,30 +52,35 @@ Each file begins with a YAML front matter block.
 title: Frida for Android
 platform: android
 source: https://github.com/frida/frida
-host: [windows, linux, macOS]
+hosts: [windows, linux, macOS]
 ---
 ```
 
-## Body content
+### Body content
 
 Keep pages practical, scannable, and focused on security testing use.
 
-### Recommended content
+Tool pages are often intentionally short. Prefer a small amount of high-signal content over a large, rigid template.
 
-- Overview: One short paragraph describing what the tool is and where it fits
-- Capabilities and Use Cases: Bullet list of relevant features for mobile testing
-- Installation: Platform-specific notes (link out to official docs when appropriate). Include minimal, verified commands to get started
-- Usage: Common commands, flags, or workflows relevant to MASTG tests and demos. Prefer concrete, copyable examples
-- Examples: Short, targeted examples for typical tasks. If examples are long, link to demos or techniques instead
-- Caveats and Limitations: Version compatibility, jailbreak or root requirements, known issues
-- References: Links to official docs, repos, and authoritative resources
-- Related: Cross-link to relevant tests, demos, and techniques
+Common patterns that match existing pages in `tools/`:
 
-### Cross-linking
+- Start with a short description paragraph (often with a link to the upstream project or docs).
+- Add sections only when they add value for that tool. Typical headings are `## Installation`, `## Usage`, and tool-specific headings (for example, `## Installing Frida on iOS`).
+- Include copyable commands when relevant. If usage is extensive, keep only the most common commands and link to a technique or upstream docs.
+- Add caveats as `!!! note` / `!!! warning` admonitions when needed (version pinning, jailbreak/root requirements, security warnings).
+- Link to related techniques/tests/demos where it helps the reader complete a workflow.
 
-- Do not cross-link here to tests, demos, and techniques, etc.
-- Those components will cross-link to tools, typically techniques, and demos
-- To do that, they must add @MASTG-TOOL-0031 in their markdown body or as `tools: [MASTG-TOOL-0031]` in their YAML front matter
+If you are editing an existing tool page, keep its current structure unless there is a clear benefit to reorganizing it.
+
+MkDocs callouts:
+
+- You can use MkDocs Material admonitions such as `!!! note`, `!!! warning`, and collapsible blocks (`??? info`) for version caveats and long side-notes.
+
+## Cross-linking
+
+- Tool pages may cross-link to techniques, tests, demos, and chapters when it helps the reader complete a workflow.
+- Prefer using MASTG identifiers in body text where available (for example, @MASTG-TECH-0011).
+- Tests, demos, and techniques should reference tools by ID whenever available (for example, @MASTG-TOOL-0031 in body text, or `tools: [MASTG-TOOL-0031]` in YAML where applicable).
 
 ## Conventions and quality
 

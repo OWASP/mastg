@@ -1,4 +1,7 @@
-# Reference Apps Authoring Instructions
+---
+name: 'Writing MASTG App Files'
+applyTo: 'apps/*.md'
+---
 
 Standards for authoring reference application pages under `apps/`. These pages describe vulnerable or exemplary applications used across tests, techniques, and demos.
 

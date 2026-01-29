@@ -1,19 +1,22 @@
-## mitmproxy Python scripts
+---
+name: 'Writing mitmproxy Python scripts for MASTG demos'
+applyTo: 'demos/**/mitm_*.py'
+---
 
 This guide defines how to write and use mitmproxy scripts in MASTG demos. Scripts live with the demo and are executed by `mitmdump -s` from `run.sh` to produce Observation output.
 
-### Scope and terminology
+## Scope and terminology
 
 - "mitmproxy scripts" refers to Python addons for mitmproxy/mitmdump written against the mitmproxy scripting API.
 - Tools background (installation, proxy setup, certificates) lives in @MASTG-TOOL-0097 (mitmproxy). Do not duplicate setup steps here—link to the Tools page.
 - We use the command-line runner `mitmdump` in demos for reproducibility; `mitmweb` and the interactive `mitmproxy` UI are fine for exploration but not for demo automation.
 
-### Location and naming
+## Location and naming
 
 - Place scripts inside the demo folder; name them by purpose in snake_case (for example, `mitm_sensitive_logger.py`).
 - If multiple scripts are provided, document which one to run in the demo Steps and wire it in `run.sh`.
 
-### Invocation (run.sh)
+## Invocation (run.sh)
 
 - Canonical pattern used in demos:
     - `mitmdump -s mitm_sensitive_logger.py`
@@ -22,7 +25,7 @@ This guide defines how to write and use mitmproxy scripts in MASTG demos. Script
     - Managing output files produced by the script (for example, `sensitive_data.log`).
     - Ensuring the device/emulator routes traffic through the proxy (defer details to the Tools page).
 
-### Coding conventions
+## Coding conventions
 
 - Targeted processing via hooks:
     - Implement `def request(flow: http.HTTPFlow): ...` and/or `def response(flow: http.HTTPFlow): ...` as needed.
@@ -38,7 +41,7 @@ This guide defines how to write and use mitmproxy scripts in MASTG demos. Script
     - Wrap parsing in try/except where decoding may fail; log an informative line and continue.
     - Never print secrets to stdout unless the demo requires it; prefer file logging.
 
-### Example (excerpt)
+## Example (excerpt)
 
 ```python
 from mitmproxy import http
@@ -85,18 +88,13 @@ def response(flow: http.HTTPFlow):
     process_flow(flow)
 ```
 
-### Logging and outputs
+## Logging and outputs
 
 - Default to writing a deterministic, append-only file (for example, `sensitive_data.log`) in the demo folder. Reference it in the Observation and Evaluation sections.
 - Keep the format consistent and straightforward. Avoid timestamps unless needed for the demo to keep diffs small.
 - If multiple outputs are produced, document them in the demo's Steps.
 
-### Alignment with Tools
+## Alignment with Tools
 
 - Environment prep (install, certificates, proxy configuration, Android emulator notes) is documented under Tools: @MASTG-TOOL-0097. Link to that page; don't duplicate instructions in the demo.
 - If a demo requires non-default proxy ports or HTTPS sniffing modes, surface them in `run.sh` flags and document briefly in the demo body.
-
-### Cross-links
-
-- Tools: @MASTG-TOOL-0097 (mitmproxy)
-- Techniques: @MASTG-TECH-0122 (Passive Eavesdropping), @MASTG-TECH-0123/0124/0125 (MITM Positioning)

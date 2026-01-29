@@ -1,4 +1,7 @@
-## Best Practices
+---
+name: 'Writing MASTG Best Practices Files'
+applyTo: 'best-practices/*.md'
+---
 
 [https://mas.owasp.org/MASTG/best-practices/](https://mas.owasp.org/MASTG/best-practices/)
 [https://github.com/OWASP/owasp-mastg/tree/master/best-practices](https://github.com/OWASP/owasp-mastg/tree/master/best-practices)
@@ -20,7 +23,7 @@ Relationship to Tests and Knowledge (nuance):
 - Knowledge (MASTG-KNOW) describes the feature/API neutrally (no "what can go wrong").
 - Best Practices (MASTG-BEST) explains how to prevent or mitigate the issue the tests detect.
 
-### Markdown: Metadata
+## Markdown: Metadata
 
 Include a YAML front matter block with the following fields:
 
@@ -41,7 +44,7 @@ Example:
 
 ```yaml
 ---
-title: Preventing Screenshots and Screen Recording
+name: Preventing Screenshots and Screen Recording
 alias: preventing-screenshots-and-screen-recording
 id: MASTG-BEST-0014
 platform: android
@@ -60,7 +63,7 @@ Best Practices should contain:
 - any caveats or considerations (for example, "it's good to have it, but remember it can be bypassed this way")
 - official references
 
-### Recommended Structure
+## Recommended Structure
 
 Use clear sections to improve readability and enable consistent rendering.
 
@@ -79,12 +82,12 @@ Example References section:
 - Standard: https://www.rfc-editor.org
 ```
 
-### Cross-linking
+## Cross-linking
 
 - From tests: use `best-practices: [MASTG-BEST-0001, MASTG-BEST-0011]` in the test's YAML front matter. The site generator will automatically create Mitigations links.
 - In body text: reference tests, tools, or techniques with @ (for example, @MASTG-TEST-0252, @MASTG-TOOL-0031).
 
-### Style
+## Style
 
 - Follow the global Markdown rules and writing style (second person, active voice, concise, American spelling).
 - Use Chicago title case for titles.
