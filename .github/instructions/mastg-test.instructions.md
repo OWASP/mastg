@@ -19,9 +19,9 @@ MASTG-TEST-0205.md
 
 Example tests for reference:
 
-- [MASTG-TEST-0207](https://mas.owasp.org/MASTG/tests-beta/android/MASVS-STORAGE/MASTG-TEST-0207/)
-- [MASTG-TEST-0216](https://mas.owasp.org/MASTG/tests-beta/android/MASVS-STORAGE/MASTG-TEST-0216/)
-- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests-beta/android/MASVS-STORAGE/MASTG-TEST-0263/)
+- [MASTG-TEST-0207](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0207/)
+- [MASTG-TEST-0216](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0216/)
+- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0263/)
 
 Notes:
 
