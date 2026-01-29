@@ -26,7 +26,7 @@ Example tests for reference:
 Notes:
 
 - Tests with `platform: network` are still organized under the OS folder that the MASVS category belongs to (for example, Android network tests live under `tests-beta/android/MASVS-NETWORK/`).
-- Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach. 
+- Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach.
 
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
 
@@ -42,10 +42,10 @@ Avoid including Android or iOS unless necessary, as in "Insecure use of the Andr
 
 Follow a consistent style across all test titles.
 
-**Conventions**
+#### Conventions
 
 - Static: "References to…" (semgrep/r2)
-- Dynamic: "Runtime Use …" (frida)
+- Dynamic: "Runtime Use …" (frida/frooky)
 
 Exceptions may apply where "Runtime ..." feels forced, for example, tests using adb, local backups, or filesystem snapshots.
 

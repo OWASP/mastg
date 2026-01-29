@@ -21,41 +21,41 @@
       "rules": [
         {
           "name": "curly-double-quotes",
-          "message": "Do not use curly double quotes.",
+          "message": "MAS-LINT-001/Do not use curly double quotes.",
           "searchPattern": "/“|”/g",
           "replace": "\"",
           "searchScope": "text"
         },
         {
           "name": "nbsp",
-          "message": "Don't use no-break spaces",
+          "message": "MAS-LINT-002/Don't use no-break spaces",
           "searchPattern": "/ /g",
           "replace": " ",
           "searchScope": "all"
         },
         {
           "name": "curly-single-quotes",
-          "message": "Don't use curly single quotes",
+          "message": "MAS-LINT-003/Don't use curly single quotes",
           "searchPattern": "/‘|’/g",
           "replace": "'",
           "searchScope": "text"
         },
         {
           "name": "gender-neutrality",
-          "message": "Ensure gender-neutral language is used.",
+          "message": "MAS-LINT-004/Ensure gender-neutral language is used.",
           "searchPattern": "/\\bhe\\b|\\bshe\\b|\\bhis\\b|\\bhimself\\b|\\bherself\\b|\\bher\\b|\\bhim\\b|\\bhers\\b/g",
           "replace": ""
         },
         {
           "name": "trailing-spaces",
-          "message": "Avoid trailing spaces",
+          "message": "MAS-LINT-005/Avoid trailing spaces",
           "searchPattern": "/  +$/gm",
           "replace": "",
           "searchScope": "all"
         },
         {
           "name": "double-spaces",
-          "message": "Avoid double spaces",
+          "message": "MAS-LINT-006/Avoid double spaces",
           "searchPattern": "/([^\\s>])  ([^\\s|])/g",
           "replace": "$1 $2",
           "searchScope": "text"

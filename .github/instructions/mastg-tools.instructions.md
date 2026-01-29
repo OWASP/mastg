@@ -28,7 +28,7 @@ Standards for authoring tool reference pages under `tools/`. These pages documen
 
 Each file begins with a YAML front matter block.
 
-**Required**
+**Required:**
 
 - `title:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
 - `platform:` One of: `android`, `ios`, `generic`, `network`
@@ -42,12 +42,12 @@ Each file begins with a YAML front matter block.
   - Common values used in this repo include `windows`, `linux`, `macOS`, `ios`, `android`
   - Some legacy pages use `macos`; prefer `macOS` when editing
 
-**Optional**
+**Optional:**
 
 - `alternatives:` List of tool IDs that provide comparable functionality (YAML list of IDs only)
 - `status:` One of `draft`, `placeholder`, `deprecated`. If absent, the default is `new`
 
-**Examples**
+**Example:**
 
 ```yaml
 ---
@@ -96,8 +96,8 @@ MkDocs callouts:
 ## How tests and demos should reference tools
 
 - Tests and demos should reference tools by ID whenever available:
-  - In body text: `@MASTG-TOOL-0031`
-  - In YAML (for example, demo `tools:` list): `MASTG-TOOL-0031`
+    - In body text: `@MASTG-TOOL-0031`
+    - In YAML (for example, demo `tools:` list): `MASTG-TOOL-0031`
 - If a commonly used tool lacks an official MASTG tool page, demos may temporarily list the tool by name (for example, `tools: [semgrep]`). Prefer adding a tool page and switching to the ID in follow-ups
 
 ## Deprecation
@@ -108,7 +108,7 @@ If the original source is gone, not relevant anymore, or too old, set the follow
 - `deprecation_note:` Short clarifying note for deprecation. Keep phrasing concise and imperative
 - `covered_by:` List of MASTG-TOOL-xxxx tools covering for this one, if any.
 
-**Example**
+**Example:**
 
 ```yaml
 ---

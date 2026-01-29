@@ -20,7 +20,7 @@ Because of this separation, do not include "what can go wrong", threat scenarios
 Avoid language and structures that imply security testing or remediation, for example:
 
 - "attackers can …", "this is insecure …", "this is vulnerable …"
-- "the test fails if …", "to prevent this …", "you should/shouldn’t …"
+- "the test fails if …", "to prevent this …", "you should/shouldn't …"
 
 Locations and taxonomy:
 
@@ -100,7 +100,7 @@ If the source is gone, not relevant anymore, or too old, set the following in th
 - `deprecation_note:` Short clarifying note for deprecation. Keep phrasing concise and imperative
 - `covered_by:` List of MASTG-TOOL-xxxx tools covering for this one, if any.
 
-**Example**
+**Example:**
 
 ```yaml
 ---

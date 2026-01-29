@@ -5,9 +5,11 @@ applyTo: 'demos/**/script.js'
 
 This guide defines how to write and use Frida scripts in MASTG demos. Scripts live alongside the demo content and are executed by `run.sh` to produce the demo's Observation output.
 
+**Note:** Prefer Frooky hooks over Frida scripts where possible, as they require less code. See `mastg-frooky-scripts.instructions.md` for details.
+
 Version requirement
 
-- Use Frida 17 or later. See @MASTG-TOOL-0031 (Frida): https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17
+- Use Frida 17 or later. See @MASTG-TOOL-0031 ([Frida 17](https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17)
 
 ## Location and naming
 
@@ -22,7 +24,7 @@ Examples:
 ## Runtime and invocation
 
 - Typical spawn usage in `run.sh`:
-	- `frida -U -f <bundle_or_package_id> -l script.js -o output.txt`
+    - `frida -U -f <bundle_or_package_id> -l script.js -o output.txt`
 
 ## Coding conventions
 
@@ -36,7 +38,7 @@ Examples:
 
 ## Inspiration
 
-- Don't reinvent the wheel when something already exists. Use existing open-source sources when available, for example, https://codeshare.frida.re/browse.
+- Don't reinvent the wheel when something already exists. Use existing open-source sources when available, for example, <https://codeshare.frida.re/browse>.
 - If you use a source, be sure to document it and give credit to the author. Include a link to the source in a comment at the beginning of the frida script.
 
 Example:
@@ -50,7 +52,7 @@ var config = {
         "modulename": "Flutter",
         "patterns":{
             "arm64": [
-				...
+                ...
 ```
 
 ```js

@@ -12,23 +12,23 @@ The following markdown content rules are enforced in the validators:
 3. **Code Blocks**: Use fenced code blocks for code snippets. Specify the language for syntax highlighting.
 4. **Links**: Use standard Markdown link syntax.
 5. **Images**: Use HTML `<img>` tags for images. See the "Images" section for examples and guidelines.
-6. **Tables**: Use markdown tables for tabular data. Ensure proper formatting and alignment.
+6. **Tables**: Use Markdown tables for tabular data. Ensure proper formatting and alignment.
 7. **Whitespace**: Use appropriate whitespace to separate sections and improve readability.
 8. **Front Matter**: Include YAML front matter at the beginning of the file with required metadata fields.
 
 ## Formatting and Structure
 
-Follow these guidelines for formatting and structuring your markdown content:
+Follow these guidelines for formatting and structuring your Markdown content:
 
 - **Headings**: Use `##` for H2 and `###` for H3. Ensure that headings are used hierarchically. Recommend restructuring if the content includes H4, and more strongly recommend for H5.
 - **Lists**: Use `-` for bullet points and `1.` for numbered lists. Indent nested lists with four spaces to match the linter configuration. Prefer dashes `-` over asterisks `*` for unordered lists. Generally:
-  - Limit a single list to at most nine items when reasonable.
-  - Avoid more than two levels of nesting.
-  - Punctuate and capitalize list items consistently. Do not add end punctuation to list items that are not complete sentences unless they complete the introductory sentence. If list items complete an introductory sentence, end each (except the last) with a comma, omit the "and" before the last, and end the last item with appropriate punctuation.
+    - Limit a single list to at most nine items when reasonable.
+    - Avoid more than two levels of nesting.
+    - Punctuate and capitalize list items consistently. Do not add end punctuation to list items that are not complete sentences unless they complete the introductory sentence. If list items complete an introductory sentence, end each (except the last) with a comma, omit the "and" before the last, and end the last item with appropriate punctuation.
 - **Code Blocks**: Use triple backticks to create fenced code blocks. Specify the language after the opening backticks for syntax highlighting (e.g., kt, java, xml).
 - **Links**: Ensure the link text is descriptive and the URL is valid.
 - **Tables**: Use `|` to create tables. Ensure that columns are properly aligned and headers are included.
-  - Include leading and trailing pipes to conform to the linter setting (MD055: `leading_and_trailing`).
+    - Include leading and trailing pipes to conform to the linter setting (MD055: `leading_and_trailing`).
 - **Line Length**: There is no enforced hard limit.
 - **Whitespace**: Use blank lines to separate sections and improve readability. Avoid excessive whitespace.
 
@@ -49,17 +49,17 @@ Follow these guidelines for formatting and structuring your markdown content:
 
 - Avoid gendered pronouns (she/her/hers/herself, he/him/his/himself) and constructions like "he/she", "s/he", "his or her".
 - Prefer alternatives:
-  - Omit the pronoun where possible.
-  - Use articles ("the", "a") where appropriate.
-  - Use plural nouns and pronouns ("they") when it improves clarity.
-  - Use the second person ("you") or imperative form.
+    - Omit the pronoun where possible.
+    - Use articles ("the", "a") where appropriate.
+    - Use plural nouns and pronouns ("they") when it improves clarity.
+    - Use the second person ("you") or imperative form.
 
 ### Language and Conventions
 
 - Use American spelling and terminology.
 - Title capitalization follows the Chicago Manual of Style:
-  - Capitalize first and last words; nouns, pronouns, verbs, adjectives, adverbs, and subordinating conjunctions.
-  - Lowercase articles, prepositions, and coordinating conjunctions (except when first or last).
+    - Capitalize first and last words; nouns, pronouns, verbs, adjectives, adverbs, and subordinating conjunctions.
+    - Lowercase articles, prepositions, and coordinating conjunctions (except when first or last).
 - Numbers: spell out zero through ten; use numerals for numbers greater than ten.
 - Android versions: write as "Android X (API level YY)" and avoid codenames.
 - Contractions: prefer common contractions (e.g., "don't", "can't", "it's").
