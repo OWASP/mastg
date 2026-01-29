@@ -42,7 +42,7 @@ Follow a consistent style across all test titles.
 **Conventions**
 
 - Static: "References to…" (semgrep/r2)
-- Dynamic: "Runtime Use …" (frida)
+- Dynamic: "Runtime Use …" (frida/frooky)
 
 Exceptions may apply where "Runtime ..." feels forced, for example, tests using adb, local backups, or filesystem snapshots.
 

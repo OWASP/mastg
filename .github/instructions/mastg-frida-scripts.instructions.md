@@ -2,6 +2,8 @@
 
 This guide defines how to write and use Frida scripts in MASTG demos. Scripts live alongside the demo content and are executed by `run.sh` to produce the demo's Observation output.
 
+**Note:** Prefer Frooky hooks over Frida scripts where possible, as they require less code. See `mastg-frooky-scripts.instructions.md` for details.
+
 Version requirement
 
 - Use Frida 17 or later. See @MASTG-TOOL-0031 (Frida): https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17

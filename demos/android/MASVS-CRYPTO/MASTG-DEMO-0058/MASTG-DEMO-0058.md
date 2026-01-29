@@ -27,7 +27,7 @@ When executing the code, you will see the following results for each of the thre
 ## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
-2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device
 3. Run `run.sh` to spawn the app with Frida
 4. Click the **Start** button
 5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
@@ -41,7 +41,7 @@ These are the relevant methods we are hooking to detect the use of ECB and wheth
     - [`KeyGenParameterSpec.Builder#setRandomizedEncryptionRequired`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setRandomizedEncryptionRequired(boolean))
     - [`KeyProtection.Builder#setRandomizedEncryptionRequired`](https://developer.android.com/reference/android/security/keystore/KeyProtection.Builder#setRandomizedEncryptionRequired(boolean))
 
-{{ hooks.js # run.sh }}
+{{ hooks.json # run.sh }}
 
 ## Observation
 
