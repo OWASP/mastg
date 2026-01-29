@@ -48,8 +48,8 @@ Key fields:
 
 - `category`: A label for grouping hooks (for example, `STORAGE`, `CRYPTO`, `NETWORK`)
 - `hooks`: Array of hook definitions
-  - `class`: Fully qualified class name to hook
-  - `methods`: Array of method names to intercept
+    - `class`: Fully qualified class name to hook
+    - `methods`: Array of method names to intercept
 
 See more in the [frooky Usage page](https://github.com/cpholguera/frooky/blob/main/docs/usage.md).
 

@@ -16,27 +16,27 @@ This guide defines how to write and use mitmproxy scripts in MASTG demos. Script
 ### Invocation (run.sh)
 
 - Canonical pattern used in demos:
-  - `mitmdump -s mitm_sensitive_logger.py`
+    - `mitmdump -s mitm_sensitive_logger.py`
 - Keep `run.sh` responsible for:
-  - Starting/stopping mitmdump (foreground or background as appropriate to the demo flow).
-  - Managing output files produced by the script (for example, `sensitive_data.log`).
-  - Ensuring the device/emulator routes traffic through the proxy (defer details to the Tools page).
+    - Starting/stopping mitmdump (foreground or background as appropriate to the demo flow).
+    - Managing output files produced by the script (for example, `sensitive_data.log`).
+    - Ensuring the device/emulator routes traffic through the proxy (defer details to the Tools page).
 
 ### Coding conventions
 
 - Targeted processing via hooks:
-  - Implement `def request(flow: http.HTTPFlow): ...` and/or `def response(flow: http.HTTPFlow): ...` as needed.
-  - Factor common logic into helpers (for example, `process_flow(flow)`).
+    - Implement `def request(flow: http.HTTPFlow): ...` and/or `def response(flow: http.HTTPFlow): ...` as needed.
+    - Factor common logic into helpers (for example, `process_flow(flow)`).
 - Deterministic logging:
-  - Write to a known output filename (for example, `sensitive_data.log`) for Observation parsing.
-  - Keep log format stable: include URL, headers summary, and text body as needed.
+    - Write to a known output filename (for example, `sensitive_data.log`) for Observation parsing.
+    - Keep the log format stable: include URL, headers summary, and text body as needed.
 - Sensitive data handling:
-  - Define a clear list of sensitive strings or patterns at the top (for example, `SENSITIVE_DATA`), ideally documented in the demo explaining how they were identified (e.g., from the app's Data Safety section).
-  - Consider case-insensitive matching where appropriate.
+    - Define a clear list of sensitive strings or patterns at the top (for example, `SENSITIVE_DATA`), ideally documented in the demo explaining how they were identified (e.g., from the app's Data Safety section).
+    - Consider case-insensitive matching where appropriate.
 - Performance and safety:
-  - Avoid excessive buffering—use streaming-friendly `flow.request.text`/`flow.response.text` guarded with presence checks.
-  - Wrap parsing in try/except where decoding may fail; log an informative line and continue.
-  - Never print secrets to stdout unless the demo requires it; prefer file logging.
+    - Avoid excessive buffering—use streaming-friendly `flow.request.text`/`flow.response.text` guarded with presence checks.
+    - Wrap parsing in try/except where decoding may fail; log an informative line and continue.
+    - Never print secrets to stdout unless the demo requires it; prefer file logging.
 
 ### Example (excerpt)
 
@@ -54,11 +54,13 @@ SENSITIVE_DATA = {
 
 SENSITIVE_STRINGS = SENSITIVE_DATA.values()
 
+
 def contains_sensitive_data(s: str) -> bool:
     try:
         return any(p in s for p in SENSITIVE_STRINGS)
     except Exception:
         return False
+
 
 def process_flow(flow: http.HTTPFlow):
     url = flow.request.pretty_url
@@ -74,8 +76,10 @@ def process_flow(flow: http.HTTPFlow):
                 f.write(f"REQUEST URL: {url}\n")
                 f.write(f"Request Body: {req_body}\n\n")
 
+
 def request(flow: http.HTTPFlow):
     process_flow(flow)
+
 
 def response(flow: http.HTTPFlow):
     process_flow(flow)
@@ -89,7 +93,7 @@ def response(flow: http.HTTPFlow):
 
 ### Alignment with Tools
 
-- Environment prep (install, certificates, proxy configuration, Android emulator notes) is documented under Tools: @MASTG-TOOL-0097. Link to that page; don’t duplicate instructions in the demo.
+- Environment prep (install, certificates, proxy configuration, Android emulator notes) is documented under Tools: @MASTG-TOOL-0097. Link to that page; don't duplicate instructions in the demo.
 - If a demo requires non-default proxy ports or HTTPS sniffing modes, surface them in `run.sh` flags and document briefly in the demo body.
 
 ### Cross-links

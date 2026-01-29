@@ -1,4 +1,4 @@
-## Tests
+# Tests
 
 A MASWE weakness can have one or more platform-specific tests associated with it.
 
@@ -23,13 +23,13 @@ Example tests for reference:
 Notes:
 
 - Tests with `platform: network` are still organized under the OS folder that the MASVS category belongs to (for example, Android network tests live under `tests-beta/android/MASVS-NETWORK/`).
-- Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach. 
+- Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach.
 
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
 
-### Markdown: Metadata
+## Markdown: Metadata
 
-#### title
+### title
 
 Test titles should be concise and clearly state the purpose of the test.
 
@@ -39,14 +39,14 @@ Avoid including Android or iOS unless necessary, as in "Insecure use of the Andr
 
 Follow a consistent style across all test titles.
 
-**Conventions**
+#### Conventions
 
 - Static: "References to…" (semgrep/r2)
 - Dynamic: "Runtime Use …" (frida/frooky)
 
 Exceptions may apply where "Runtime ..." feels forced, for example, tests using adb, local backups, or filesystem snapshots.
 
-#### platform
+### platform
 
 The mobile platform. One of the following:
 
@@ -54,17 +54,17 @@ The mobile platform. One of the following:
 - `ios`
 - `network`: for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with `type: [network]`).
 
-#### id
+### id
 
 The test ID.
 
-#### weakness
+### weakness
 
 The MASWE weakness ID associated with this test.
 
 - In YAML front matter, specify the bare identifier (for example, `weakness: MASWE-0069`). In body text, include the leading `@` (for example, @MASWE-0069).
 
-#### type
+### type
 
 One or more test types.
 
@@ -89,7 +89,7 @@ Examples with multiple types:
 type: [dynamic, manual]
 ```
 
-#### best-practices
+### best-practices
 
 Reference platform-specific mitigations or best practices. Automation generates a "Mitigations" section.
 
@@ -101,7 +101,7 @@ Example:
 best-practices: [MASTG-BEST-0001]
 ```
 
-#### prerequisites
+### prerequisites
 
 List the conditions that must be known or available before running or evaluating the test. These items capture internal context that only the developer or the organization can provide. Existing files are in the `prerequisites/` folder. Create new ones when needed.
 
@@ -121,7 +121,7 @@ prerequisites:
 - identify-security-relevant-contexts
 ```
 
-#### profiles
+### profiles
 
 Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
 The profiles are described in [MAS Testing Profiles Guide](Document/0x03b-Testing-Profiles.md)
@@ -137,7 +137,7 @@ Example:
 profiles: [L1, L2, P]
 ```
 
-#### knowledge
+### knowledge
 
 Reference the related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
 
@@ -147,7 +147,7 @@ Example:
 knowledge: [MASTG-KNOW-0013]
 ```
 
-#### optional fields
+### optional fields
 
 Include these if relevant:
 
@@ -161,9 +161,9 @@ Notes:
 
 - For Android, available/deprecated API levels are integers (for example, `deprecated_since: 24`). For iOS, use the iOS release version (for example, `available_since: 13`).
 
-### Markdown: Body
+## Markdown: Body
 
-#### Overview
+### Overview
 
 The overview is platform-specific and extends the weakness overview with details on the area tested (the Knowledge items from the `knowledge` in the metadata).
 
@@ -190,7 +190,7 @@ Example:
 Android apps sometimes use insecure pseudorandom number generators (PRNGs) such as `java.util.Random`, which is essentially a linear congruential generator. This type of PRNG generates a predictable sequence of numbers for any given seed value, making the sequence reproducible and insecure for cryptographic use. In particular, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calling `nextDouble()` on a static `java.util.Random` instance) produce identical number sequences when initialized with the same seed across all Java implementations.
 ```
 
-#### Steps
+### Steps
 
 A test must include at least one step. Steps can be static, dynamic, manual, or a combination of these.
 
@@ -216,7 +216,7 @@ Notes:
 - Don't reference MASTG tools directly (this may still be happening in some tests, and we must fix it.)
 - Be consistent by reusing the steps from existing tests. Do not create new phrasing or wording when it's not necessary.
 
-#### Observation
+### Observation
 
 The output you get after executing all steps. It serves as evidence.
 
@@ -230,7 +230,7 @@ Example:
 The output should contain a list of locations where insecure random APIs are used.
 ```
 
-#### Evaluation
+### Evaluation
 
 Using the observation as input, describe how to evaluate it. State explicitly what makes the test fail.
 

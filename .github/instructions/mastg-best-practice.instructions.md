@@ -1,7 +1,7 @@
 ## Best Practices
 
 [https://mas.owasp.org/MASTG/best-practices/](https://mas.owasp.org/MASTG/best-practices/)
-[https://github.com/OWASP/owasp-mastg/tree/master/best-practices](https://github.com/OWASP/owasp-mastg/tree/master/best-practices) 
+[https://github.com/OWASP/owasp-mastg/tree/master/best-practices](https://github.com/OWASP/owasp-mastg/tree/master/best-practices)
 
 Best practices live under `best-practices/` and each file name must be the best-practice ID, for example `MASTG-BEST-0001.md`.
 

@@ -25,7 +25,7 @@ Required fields per rule:
     - INFO
     - WARNING
     - ERROR
-- **languages**: usually `xml` or `java` (we don’t create rules for Kotlin as we work with decompiled Java; use `xml` for AndroidManifest and resource rules).
+- **languages**: usually `xml` or `java` (we don't create rules for Kotlin as we work with decompiled Java; use `xml` for AndroidManifest and resource rules).
 - **metadata**: must include summary
     - summary: Short description of the rule.
     - original_source: You may use rules from sources on the internet. Be sure to check that the license allows this, and always link to the source here. Modify the rule as needed, provided the license permits it.

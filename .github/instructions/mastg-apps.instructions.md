@@ -23,20 +23,20 @@ Standards for authoring reference application pages under `apps/`. These pages d
 
 Each file begins with a YAML front matter block.
 
-**Required**
+**Required:**
 
-- `title:` App name, use the official capitalization. Add a disambiguator if needed (for example, *Android UnCrackable L1*)
+- `title:` App name, use the official capitalization. Add a disambiguator if needed (for example, _Android UnCrackable L1_)
 - `platform:` One of `android`, `ios`
 - `package:` Android application package ID or iOS bundle identifier (for example, `com.example.app`)
 - `source:` Canonical page to obtain the app (official repo, release artifact, or MASTG crackmes catalog entry). Prefer a stable, versioned URL
 
-**Optional**
+**Optional:**
 
 - `download_url`: URL to download the APK/IPA.
 - `store_url:` Store listing URL if relevant (e.g. Google Play, App Store)
 - `status:` use `placeholder` only if it's a draft, otherwise do not include `status` (default is `new` and you don't have to add it explicitly)
 
-**Examples**
+**Example:**
 
 ```yaml
 ---
