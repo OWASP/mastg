@@ -54,7 +54,7 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 
 All complaints will be reviewed and investigated, and appropriate action will be taken based on the circumstances. The project team is obligated to maintain confidentiality regarding the reporter of an incident. Additional details of enforcement policies may be posted separately.
 
-Project maintainers who fail to follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions, as determined by other members of the project’s leadership.
+Project maintainers who fail to follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions, as determined by other members of the project's leadership.
 
 ## Attribution
 

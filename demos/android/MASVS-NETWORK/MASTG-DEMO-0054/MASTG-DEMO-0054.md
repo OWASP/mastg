@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0282
 ---
 
-### Sample
+## Sample
 
 This sample connects to <https://tlsexpired.no>, which has an expired certificate, to demonstrate the insecure use of a custom `TrustManager` that ignores certificate chain validity. It does this by overriding the `checkServerTrusted(...)` method and leaving it empty, which effectively disables certificate validation.
 
@@ -18,7 +18,7 @@ If the app wouldn't use the insecure `TrustManager`, you would see this message:
 [https://tlsexpired.no] Error: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
 ```
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -26,12 +26,12 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule identified one instance in the code where `checkServerTrusted(...)` is used without exception handling.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because of the presence of the `checkServerTrusted(...)` method on in the `TrustManager` implementation, as well as the absence of exceptions being thrown.

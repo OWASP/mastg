@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0254
 ---
 
-### Sample
+## Sample
 
 The following is a sample AndroidManifest file that declares 4 dangerous permissions.
 
 {{ AndroidManifest.xml # AndroidManifest_reversed.xml }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample manifest file.
 
@@ -20,13 +20,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample manifest file.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified four instances in the AndroidManifest file where the app declares dangerous permissions.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app declares the following dangerous permissions:
 

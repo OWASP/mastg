@@ -34,7 +34,7 @@ Required fields per rule:
 
 Multiple rules per file
 
-- When grouping related detections, you may define multiple rules in a single file. Ensure each rule’s `id` shares a sensible prefix and is unique.
+- When grouping related detections, you may define multiple rules in a single file. Ensure each rule's `id` shares a sensible prefix and is unique.
 - Keep messages and severities aligned within the group; use `INFO` for inventory-style detections and `WARNING`/`ERROR` for clear weaknesses.
 
 General guidance
