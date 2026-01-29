@@ -201,3 +201,5 @@ public void android.view.View.cancelLongPress()
 public final void android.view.View.cancelPendingInputEvents()
 ...
 ```
+
+For more practical examples, check out the [Android section in the Frida Handbook](https://learnfrida.info/java/).
