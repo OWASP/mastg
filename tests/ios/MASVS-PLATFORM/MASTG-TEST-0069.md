@@ -98,9 +98,9 @@ You can use the [Apple Developer Documentation](https://developer.apple.com/docu
     ```default
     func checkForLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
-            // Location services are available, so query the user’s location.
+            // Location services are available, so query the user's location.
         } else {
-            // Update your app’s UI to show that the location is unavailable.
+            // Update your app's UI to show that the location is unavailable.
         }
     }
     ```

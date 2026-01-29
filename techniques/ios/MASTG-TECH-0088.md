@@ -15,7 +15,7 @@ Corellium is a commercial tool that offers virtual iOS devices running real iOS 
 
 Corellium allows you to launch multiple instances of a device (jailbroken or not), which are accessible as local devices (with a simple VPN configuration). It can take and restore device-state snapshots and also provides a convenient web-based shell for the device. Finally and most importantly, due to its "emulator" nature, you can execute applications downloaded from the Apple App Store, enabling any application analysis as you know it from real iOS (jailbroken) devices.
 
-Note that to install an IPA on Corellium devices, it has to be unencrypted and signed with a valid Apple developer certificate. See more information [here](https://support.corellium.com/features/apps/testing-ios-apps).
+Note that in order to install an IPA on Corellium devices it has to be unencrypted and signed with a valid Apple developer certificate. See more information [in Corellium's documentation](https://support.corellium.com/features/apps/testing-ios-apps).
 
 ## Unicorn
 

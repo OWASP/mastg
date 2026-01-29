@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0226
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows a sample manifest file with the debuggable flag enabled.
 
 {{ AndroidManifest.xml # AndroidManifest_reversed.xml }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the manifest file.
 
@@ -20,12 +20,12 @@ Let's run our @MASTG-TOOL-0110 rule against the manifest file.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified the `android:debuggable` attribute in the AndroidManifest.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test case fails because the `android:debuggable` attribute is explicitly set to `true`.

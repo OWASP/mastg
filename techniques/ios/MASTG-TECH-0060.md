@@ -27,4 +27,5 @@ To save the console output to a text file, go to the top right side of the Conso
 
 <img src="Images/Chapters/0x06b/idevicesyslog-screen.png" width="100%" />
 
-> **Note**: The `idevicesyslog` might not log all types of logs. E.g [debug](https://developer.apple.com/documentation/os/oslogtype/debug) and [info](https://developer.apple.com/documentation/os/oslogtype/info) logs might not be logged.
+!!! note
+    The `idevicesyslog` might not log all types of logs. E.g [debug](https://developer.apple.com/documentation/os/oslogtype/debug) and [info](https://developer.apple.com/documentation/os/oslogtype/info) logs might not be logged.

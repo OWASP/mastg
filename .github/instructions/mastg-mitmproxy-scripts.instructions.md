@@ -31,7 +31,7 @@ This guide defines how to write and use mitmproxy scripts in MASTG demos. Script
   - Write to a known output filename (for example, `sensitive_data.log`) for Observation parsing.
   - Keep log format stable: include URL, headers summary, and text body as needed.
 - Sensitive data handling:
-  - Define a clear list of sensitive strings or patterns at the top (for example, `SENSITIVE_DATA`), ideally documented in the demo explaining how they were identified (e.g., from the app’s Data Safety section).
+  - Define a clear list of sensitive strings or patterns at the top (for example, `SENSITIVE_DATA`), ideally documented in the demo explaining how they were identified (e.g., from the app's Data Safety section).
   - Consider case-insensitive matching where appropriate.
 - Performance and safety:
   - Avoid excessive buffering—use streaming-friendly `flow.request.text`/`flow.response.text` guarded with presence checks.
@@ -85,7 +85,7 @@ def response(flow: http.HTTPFlow):
 
 - Default to writing a deterministic, append-only file (for example, `sensitive_data.log`) in the demo folder. Reference it in the Observation and Evaluation sections.
 - Keep the format consistent and straightforward. Avoid timestamps unless needed for the demo to keep diffs small.
-- If multiple outputs are produced, document them in the demo’s Steps.
+- If multiple outputs are produced, document them in the demo's Steps.
 
 ### Alignment with Tools
 

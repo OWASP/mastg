@@ -81,7 +81,7 @@ Map to MASWE. You can check the new MASWE by searching for the old test ID in th
 
 7. Link general concepts to Document: Some content belongs in the Document chapter. For example, general cryptography concepts such as symmetric/asymmetric encryption, hashing, signing, etc. If the knowledge is still in `Document/`, link to it.
 
-   **Example:** ["Post Quantum"](https://mas.owasp.org/MASTG/Document/0x04g-Testing-Cryptography/#post-quantum)
+   **Example:** ["Post Quantum"](https://mas.owasp.org/MASTG/0x04g-Testing-Cryptography/#post-quantum)
 
 8. Avoid duplication: You may summarize, but focus the test on how to detect the issue in Android/iOS and why it matters for this test.
 
@@ -89,7 +89,7 @@ Map to MASWE. You can check the new MASWE by searching for the old test ID in th
 
 10. Trim non-essential parts: If parts of the v1 test aren’t relevant, remove them and note it in the ticket.
 
-    **Example:** In MASTG-TEST-0017, what’s written in dynamic analysis does not make sense: why should we validate that `setUserAuthenticationValidityDurationSeconds` is for real (we are not testing if Android features work; we assume they do). Perhaps we could also employ dynamic analysis, but using a different approach.
+    **Example:** In MASTG-TEST-0017, what's written in dynamic analysis does not make sense: why should we validate that `setUserAuthenticationValidityDurationSeconds` is for real (we are not testing if Android features work; we assume they do). Perhaps we could also employ dynamic analysis, but using a different approach.
 
 11. Fill missing links to docs and developer references as needed.
 
@@ -125,7 +125,7 @@ If you don't know, open a ticket "Add Deprecation Note for MASTG-TEST-00xx".
 
 ### Threat-based alignment
 
-Some findings apply only with stronger attacker capabilities (for example, root/jailbreak—typically L2). Double-check the threat model against the MASWE profile. If there’s a mismatch, consider creating a separate MASWE.
+Some findings apply only with stronger attacker capabilities (for example, root/jailbreak—typically L2). Double-check the threat model against the MASWE profile. If there's a mismatch, consider creating a separate MASWE.
 
 [https://mas.owasp.org/MASTG/tests/android/MASVS-PLATFORM/MASTG-TEST-0010/\#dynamic-analysis](https://mas.owasp.org/MASTG/tests/android/MASVS-PLATFORM/MASTG-TEST-0010/#dynamic-analysis)
 
@@ -143,7 +143,7 @@ What other things should we consider here?
 - **app**: another app on the device with the right permissions (e.g. full access to external storage)
 - **mitm**: a network-based attacker capable of performing MITM
 - **user computer**: the user using adb
-- **user UI**: using the app's or another app’s UI, e.g. third-party file manager;
+- **user UI**: using the app's or another app's UI, e.g. third-party file manager;
 - **user confirmation**: e.g. pasteboard confirmation
 
 ### Code Snippets
@@ -161,7 +161,7 @@ List of apps to get ideas from, as inspiration. You may include "inspired by" to
 
 ### Notes (keep in mind while porting)
 
-- A test must not describe the general problem again (that’s the Weakness’s job). Keep the test focused on detection and evaluation.
+- A test must not describe the general problem again (that's the Weakness's job). Keep the test focused on detection and evaluation.
 - If you find an edge case, consider whether it deserves a separate test with distinct steps/evaluation.
 
 ### OS version

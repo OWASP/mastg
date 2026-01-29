@@ -9,6 +9,8 @@ In the following examples, we'll assume that you are working on a jailbroken dev
 
 Frida comes with `frida-trace`, a function tracing tool. `frida-trace` accepts Objective-C methods via the `-m` flag. You can pass it wildcards as well-given `-[NSURL *]`, for example, `frida-trace` will automatically install hooks on all `NSURL` class selectors. We'll use this to get a rough idea about which library functions Safari calls when the user opens a URL.
 
+For detailed tutorials on using frida-trace on iOS, see the [frida-trace section in the Frida Handbook](https://learnfrida.info/basic_usage/#frida-trace).
+
 Run Safari on the device and make sure the device is connected via USB. Then start `frida-trace` as follows:
 
 ```bash

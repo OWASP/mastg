@@ -7,7 +7,8 @@ If you've repackaged an application with a Frida Gadget, or if you want to attac
 
 After installing the application with @MASTG-TECH-0056, you can launch it in debug mode with the following commands.
 
-> Note that the commands that are part of @MASTG-TOOL-0126 refer to the latest version available from GitHub. If you installed them via `brew` or other package managers, you may have an older version with different command-line flags.
+!!! note
+    The commands that are part of @MASTG-TOOL-0126 refer to the latest version available from GitHub. If you installed them via brew or other package managers, you may have an older version with different command-line flags.
 
 ## iOS 17 and newer
 
@@ -159,7 +160,7 @@ ios-deploy --bundle 'pram/Payload/UnCrackable Level 1.app' -W -d -v
 Handling device type: 1
 Already found device? 0
 Hardware Model: D211AP
-Device Name: NVISO’s iPhone JBE
+Device Name: NVISO's iPhone JBE
 Model Name: iPhone 8 Plus
 SDK Name: iphoneos
 Architecture Name: arm64

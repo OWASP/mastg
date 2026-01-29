@@ -5,6 +5,8 @@ platform: android
 
 Native methods tracing can be performed with relative ease compared to Java method tracing. `frida-trace` is a CLI tool for dynamically tracing function calls. It makes tracing native functions trivial and can be very useful for collecting information about an application.
 
+For detailed tutorials on using frida-trace, see the [frida-trace section in the Frida Handbook](https://learnfrida.info/basic_usage/#frida-trace).
+
 In order to use `frida-trace`, a Frida server should be running on the device. An example for tracing libc's `open` function using `frida-trace` is demonstrated below, where `-U` connects to the USB device and `-i` specifies the function to be included in the trace.
 
 ```bash
@@ -35,7 +37,8 @@ In this case, the generated script which traces all calls to the `open` function
 
 In the above script, `onEnter` takes care of logging the calls to this function and its two input parameters in the right format. You can edit the `onLeave` event to print the return values as shown above.
 
-> Note that libc is a well-known library. Frida can derive the input parameters of its `open` function and automatically log them correctly. But this won't be the case for other libraries or for Android Kotlin/Java code. In that case, you may want to obtain the signatures of the functions you're interested in by referring to Android Developers documentation or by reverse engineering the app first.
+!!! note
+    libc is a well-known library. Frida can automatically derive the input parameters of its `open` function and correctly log them. But this won't be the case for other libraries or for Android Kotlin/Java code. In that case, you may want to obtain the signatures of the functions you're interested in by referring to the Android Developer documentation or by reverse-engineering the app first.
 
 Another thing to notice in the output above is that it's colorized. An application can have multiple threads running, and each thread can call the `open` function independently. By using such a color scheme, the output can be easily visually segregated for each thread.
 

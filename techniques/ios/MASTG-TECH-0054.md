@@ -31,7 +31,8 @@ If you have an IPA with a decrypted app binary, unzip it, and you are ready to g
 
 ## Decrypting the App Binary
 
->**IMPORTANT NOTE:** In the United States, the Digital Millennium Copyright Act 17 U.S.C. 1201, or DMCA, makes it illegal and actionable to circumvent certain types of DRM. However, the DMCA also provides exemptions, such as for certain kinds of security research. A qualified attorney can help you determine if your research qualifies under the DMCA exemptions. (Source: [Corellium](https://support.corellium.com/en/articles/6181345-testing-third-party-ios-apps))
+!!! note "Important Note"
+    In the United States, the Digital Millennium Copyright Act (17 U.S.C. § 1201), or DMCA, makes it illegal and actionable to circumvent certain types of DRM. However, the DMCA also provides exemptions, such as for certain kinds of security research. A qualified attorney can help you determine if your research qualifies under the DMCA exemptions. (Source: [Corellium](https://support.corellium.com/en/articles/6181345-testing-third-party-ios-apps))
 
 If you don't have the original IPA, then you need a jailbroken device where you will install the app (e.g. via App Store). Once installed, you need to extract the app binary from memory and rebuild the IPA file. Because of DRM, the app binary is encrypted when stored on the iOS device, so simply pulling it from the Bundle (either via SSH or @MASTG-TOOL-0074) will not be enough to reverse-engineer it.
 
