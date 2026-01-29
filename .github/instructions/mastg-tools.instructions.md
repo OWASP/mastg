@@ -30,7 +30,7 @@ Each file begins with a YAML front matter block.
 
 **Required:**
 
-- `name:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
+- `title:` Concise tool name. Add a qualifier when needed to disambiguate (for example, "Frida for Android", "nm - iOS")
 - `platform:` One of: `android`, `ios`, `generic`, `network`
 
 **Preferred (add for new pages when possible):**

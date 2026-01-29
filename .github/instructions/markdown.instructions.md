@@ -171,7 +171,7 @@ best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 - After a colon, lowercase the first word unless it is a proper noun or starts two or more complete sentences or a direct question.
 - Use the serial comma (Oxford comma).
 - Use straight quotes and apostrophes (not curly quotes/apostrophes).
-- Avoid horizontal rules (`---`) to separate sections.
+- Avoid horizontal rules (`---`) to separate sections (`---` is still required for YAML front matter delimiters).
 - Emphasis/strong style: underscores for emphasis (`_text_`), asterisks for strong (`**text**`).
 - Trailing punctuation allowed in headings (MD026) is limited to: `.,;:`
 - Always prefer commas or parentheses over em-dashes, en-dashes, or hyphens.

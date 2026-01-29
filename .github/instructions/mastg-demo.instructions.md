@@ -70,7 +70,7 @@ The title should concisely express what the demo is about.
 Example:
 
 ```md
-name: Common Uses of Insecure Random APIs
+title: Common Uses of Insecure Random APIs
 ```
 
 ### platform
