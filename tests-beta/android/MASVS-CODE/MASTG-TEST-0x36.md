@@ -15,15 +15,12 @@ On Android, mandatory updates can be implemented using the [Google Play Core In-
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to identify calls to the Play Core In-App Update API, specifically `startUpdateFlowForResult` configured with the integer value `1` (`AppUpdateType.IMMEDIATE`).
-2. Review the code to verify that the app checks for pending updates in its `onResume` lifecycle method by calling `appUpdateManager.appUpdateInfo` and handling both `UPDATE_AVAILABLE` and `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states.
+1. Use @MASTG-TECH-0014 to identify calls to the Play Core In-App Update API.
+2. Review the code to verify that the app checks for pending updates in its `onResume` lifecycle method.
 
 ## Observation
 
-The output should contain:
-
-- Locations where `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(1).build()` is called.
-- Evidence of update enforcement logic in `onResume` that checks `updateAvailability()` and re-triggers the update flow when an update is still pending.
+The output should contain list the location where the Play Core In-App Update API is invoked.
 
 ## Evaluation
 
