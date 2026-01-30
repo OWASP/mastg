@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
                 }
                 else -> {
                     MainScreen(
-                        displayString = "App is running no mandatory updates are required",
+                        displayString = "App is running. No mandatory updates are required.",
                         onStartClick = {
                             mastgTest.checkForUpdate(appUpdateResultLauncher)
                         }
