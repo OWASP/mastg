@@ -1,10 +1,7 @@
 ---
 title: iproxy
 platform: ios
-host:
-- macOS
-- windows
-- linux
+hosts: [macOS, windows, linux]
 source: https://github.com/libimobiledevice/libusbmuxd
 ---
 

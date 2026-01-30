@@ -1,0 +1,18 @@
+rules:
+  - id: mastg-android-flag-secure-enable-flags
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Window uses FLAG_SECURE to block screenshots.
+    message: "[MASVS-PLATFORM] Make sure you use this flag for all screens with sensitive data"
+    pattern-either:
+      - patterns:
+          - pattern: $W.addFlags($F)
+          - metavariable-regex:
+              metavariable: $F
+              regex: ^(FLAG_SECURE|8192|0x2000)$
+      - patterns:
+          - pattern: $W.setFlags($FLAGS, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(FLAG_SECURE|8192|0x2000)$

@@ -8,6 +8,7 @@ type: [dynamic]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0018]
 ---
 
 ## Overview
@@ -16,7 +17,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0252.
 
 ## Steps
 
-1. Run a dynamic analysis tool like @MASTG-TOOL-0039 and either:
+1. Run a dynamic analysis tool like @MASTG-TOOL-0001 and either:
     - enumerate instances of `WebView` in the app and list their configuration values
     - or explicitly hook the setters of the `WebView` settings
 

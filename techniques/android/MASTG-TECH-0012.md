@@ -39,22 +39,22 @@ Somewhere in the application, both the endpoint and the certificate (or its hash
 - Certificate files: `find ./assets -type f \( -iname \*.cer -o -iname \*.crt \)`. Replace these files with your proxy's certificates, making sure they are in the correct format.
 - Truststore files: `find ./ -type f \( -iname \*.jks -o -iname \*.bks \)`. Add your proxy's certificates to the truststore and make sure they are in the correct format.
 
-> Keep in mind that an app might contain files without extension. The most common file locations are `assets` and `res` directories, which should also be investigated.
+> Keep in mind that an app might contain files without an extension. The most common file locations are `assets` and `res` directories, which should also be investigated.
 
-As an example, let's say that you find an application which uses a BKS (BouncyCastle) truststore and it's stored in the file `res/raw/truststore.bks`. To bypass SSL Pinning you need to add your proxy's certificate to the truststore with the command line tool `keytool`. `Keytool` comes with the Java SDK and the following values are needed to execute the command:
+As an example, let's say that you find an application that uses a BKS (BouncyCastle) truststore and it's stored in the file `res/raw/truststore.bks`. To bypass SSL Pinning, you need to add your proxy's certificate to the truststore with the command line tool `keytool`. `Keytool` comes with the Java SDK, and the following values are needed to execute the command:
 
 - password - Password for the keystore. Look in the decompiled app code for the hardcoded password.
 - providerpath - Location of the BouncyCastle Provider jar file. You can download it from [The Legion of the Bouncy Castle](https://www.bouncycastle.org/latest_releases.html "https://www.bouncycastle.org/latest_releases.html").
 - proxy.cer - Your proxy's certificate.
-- aliascert - Unique value which will be used as alias for your proxy's certificate.
+- aliascert - Unique value which will be used as an alias for your proxy's certificate.
 
-To add your proxy's certificate use the following command:
+To add your proxy's certificate, use the following command:
 
 ```bash
 keytool -importcert -v -trustcacerts -file proxy.cer -alias aliascert -keystore "res/raw/truststore.bks" -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath "providerpath/bcprov-jdk15on-164.jar" -storetype BKS -storepass password
 ```
 
-To list certificates in the BKS truststore use the following command:
+To list certificates in the BKS truststore, use the following command:
 
 ```bash
 keytool -list -keystore "res/raw/truststore.bks" -provider org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath "providerpath/bcprov-jdk15on-164.jar"  -storetype BKS -storepass password
@@ -66,13 +66,13 @@ If the application uses native libraries to implement network communication, fur
 
 ## Bypass Custom Certificate Pinning Dynamically
 
-Bypassing the pinning logic dynamically makes it more convenient as there is no need to bypass any integrity checks and it's much faster to perform trial & error attempts.
+Bypassing the pinning logic dynamically makes it more convenient, as there is no need to bypass any integrity checks, and it's much faster to perform trial & error attempts.
 
-Finding the correct method to hook is typically the hardest part and can take quite some time depending on the level of obfuscation. As developers typically reuse existing libraries, it is a good approach to search for strings and license files that identify the used library. Once the library has been identified, examine the non-obfuscated source code to find methods which are suited for dynamic instrumentation.
+Finding the correct method to hook is typically the hardest part and can take quite some time, depending on the level of obfuscation. As developers typically reuse existing libraries, it is a good approach to search for strings and license files that identify the used library. Once the library has been identified, examine the non-obfuscated source code to find methods that are suited for dynamic instrumentation.
 
-As an example, let's say that you find an application which uses an obfuscated OkHTTP3 library. The [documentation](https://square.github.io/okhttp/3.x/okhttp/ "OkHTTP3 documentation") shows that the `CertificatePinner.Builder` class is responsible for adding pins for specific domains. If you can modify the arguments to the [Builder.add method](https://square.github.io/okhttp/3.x/okhttp/okhttp3/CertificatePinner.Builder.html#add-java.lang.String-java.lang.String...- "Builder.add method"), you can change the hashes to the correct hashes belonging to your certificate. Finding the correct method can be done in either two ways, as explained in [this blog post](https://blog.nviso.eu/2019/04/02/circumventing-ssl-pinning-in-obfuscated-apps-with-okhttp/) by Jeroen Beckers:
+As an example, let's say that you find an application that uses an obfuscated OkHTTP3 library. The [documentation](https://square.github.io/okhttp/3.x/okhttp/ "OkHTTP3 documentation") shows that the `CertificatePinner.Builder` class is responsible for adding pins for specific domains. If you can modify the arguments to the [Builder.add method](https://square.github.io/okhttp/3.x/okhttp/okhttp3/CertificatePinner.Builder.html#add-java.lang.String-java.lang.String...- "Builder.add method"), you can change the hashes to the correct hashes belonging to your certificate. Finding the correct method can be done in either of two ways, as explained in [this blog post](https://blog.nviso.eu/2019/04/02/circumventing-ssl-pinning-in-obfuscated-apps-with-okhttp/) by Jeroen Beckers:
 
-- Search for hashes and domain names as explained in the previous section. The actual pinning method will typically be used or defined in close proximity to these strings
+- Search for hashes and domain names as explained in the previous section. The actual pinning method will typically be used or defined in proximity to these strings
 - Search for the method signature in the SMALI code
 
 For the Builder.add method, you can find the possible methods by running the following grep command: `grep -ri java/lang/String;\[Ljava/lang/String;)L ./`

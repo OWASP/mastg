@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0265
 ---
 
-### Sample
+## Sample
 
 This sample demonstrates the static detection of `StrictMode` in the app using Semgrep. The app enables a `StrictMode` policy to detect leaked SQLite objects and intentionally leaves a cursor unclosed to trigger the policy.
 
 {{ ../MASTG-DEMO-0037/MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,12 +20,12 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output shows all usages of APIs related to `StrictMode.setVmPolicy`.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the output shows usages of `StrictMode.setVmPolicy`.

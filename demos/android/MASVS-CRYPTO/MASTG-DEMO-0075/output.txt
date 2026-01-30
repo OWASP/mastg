@@ -1,0 +1,14 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-hardcoded-security-provider
+          [MASVS-CRYPTO-1] Explicitly specified security provider found. Do not hardcode a provider unless
+          using AndroidKeyStore.                                                                          
+                                                                                                          
+           71┆ Cipher cipherBC = Cipher.getInstance("AES/GCM/NoPadding", "BC");
+            ⋮┆----------------------------------------
+           85┆ Cipher cipherCustom = Cipher.getInstance("AES/CBC/PKCS5Padding", "CustomProvider");

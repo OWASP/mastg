@@ -3,6 +3,7 @@ title: Use Up-to-Date APK Signing Schemes
 alias: use-up-to-date-apk-signing-schemes
 id: MASTG-BEST-0006
 platform: android
+knowledge: [MASTG-KNOW-0003]
 ---
 
 Ensure that the app is signed with at least the v2 or v3 APK signing scheme, as these provide comprehensive integrity checks and protect the entire APK from tampering. For optimal security and compatibility, consider using v3, which also supports key rotation.

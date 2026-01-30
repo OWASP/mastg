@@ -112,7 +112,7 @@ Even if deep links contain the `android:autoVerify="true"` attribute, they must 
 
 #### Automatic Verification
 
-Use the [Android "App Link Verification" Tester](https://github.com/inesmartins/Android-App-Link-Verification-Tester) script to get the verification status for all app links (`verify-applinks`). See an example [here](https://github.com/inesmartins/Android-App-Link-Verification-Tester#use-an-apk-to-check-for-dals-for-all-app-links).
+Use the [Android "App Link Verification" Tester](https://github.com/inesmartins/Android-App-Link-Verification-Tester) script to get the verification status for all app links (`verify-applinks`). See an example [in the tool's README](https://github.com/inesmartins/Android-App-Link-Verification-Tester#use-an-apk-to-check-for-dals-for-all-app-links).
 
 **Only on Android 12 (API level 31) or higher:**
 

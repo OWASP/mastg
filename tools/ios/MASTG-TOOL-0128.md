@@ -1,8 +1,7 @@
 ---
 title: Filza
 platform: ios
-host:
-- ios
+hosts: [ios]
 source: https://tigisoftware.com/cydia/
 ---
 
