@@ -14,9 +14,14 @@ There are several types of overlay attacks affecting different Android versions:
 
 Android provides several defensive mechanisms that apps can use to protect against overlay attacks:
 
+**Prevention Mechanisms:**
+
+- [`HIDE_OVERLAY_WINDOWS`](https://developer.android.com/reference/android/Manifest.permission#HIDE_OVERLAY_WINDOWS) permission and [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) (since API level 31): Declare this permission in the manifest and call the method on the window to hide all non-system overlay windows while the activity is in the foreground. This provides the strongest protection by preventing overlays entirely.
+- [`android:filterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#attr_android:filterTouchesWhenObscured) attribute and [`setFilterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean)) method: Set this layout attribute to `true` in XML or call the method programmatically to filter touch events when the view is obscured by another visible window.
 - [`onFilterTouchEventForSecurity`](https://developer.android.com/reference/android/view/View#onFilterTouchEventForSecurity(android.view.MotionEvent)): Override this method for fine-grained control to implement custom security policies for views.
-- [`android:filterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#attr_android:filterTouchesWhenObscured): Set this layout attribute to `true` or call [`setFilterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean)) to filter touch events when the view is obscured by another visible window.
-- [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) (since API level 31): Call this method on the window to hide all non-system overlay windows while the activity is in the foreground. This provides a stronger protection by preventing overlays entirely rather than just filtering touch events.
+
+**Detection Mechanisms:**
+
 - [`FLAG_WINDOW_IS_OBSCURED`](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_OBSCURED) (since API level 9): Check this flag to detect if the window is obscured.
 - [`FLAG_WINDOW_IS_PARTIALLY_OBSCURED`](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_PARTIALLY_OBSCURED) (since API level 29): Check this flag to detect if the window is partially obscured.
 
