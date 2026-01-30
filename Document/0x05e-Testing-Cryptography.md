@@ -25,7 +25,8 @@ KeyStore and KeyChain provide APIs for storing and using keys (behind the scene,
 - archiving a key
 - deleting a key
 
-> Please note that storing of a key is analyzed in the chapter ["Testing Data Storage"](0x05d-Testing-Data-Storage.md).
+!!! note
+    Storing of a key is analyzed in the chapter ["Testing Data Storage"](0x05d-Testing-Data-Storage.md).
 
 These phases are managed by the Keystore/KeyChain system. However how the system works depends on how the application developer implemented it. For the analysis process you should focus on functions which are used by the application developer. You should identify and verify the following functions:
 

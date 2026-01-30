@@ -23,7 +23,7 @@ r2 frida://usb//sg.vantagepoint.helloworldjni
 
 Once in the r2frida session, all commands start with `:`. For example, in radare2 you'd run `i` to display the binary information, but in r2frida you'd use `:i`.
 
-### Memory Maps and Inspection
+## Memory Maps and Inspection
 
 You can retrieve the app's memory maps by running `:dm`. The output in Android can get very long (e.g. between 1500 and 2000 lines). To narrow your search and see only what directly belongs to the app, apply a grep (`~`) by package name `:dm~<package_name>`:
 
@@ -92,7 +92,7 @@ libnative-lib.so                                 0x7d1c499000  73728 (72.0 KiB) 
 
 You can even directly see the size and the path to that binary in the Android file system.
 
-### In-Memory Search
+## In-Memory Search
 
 In-memory search is a very useful technique to test for sensitive data that might be present in the app memory.
 
@@ -184,7 +184,8 @@ In-memory search can be very useful to quickly know if certain data is located i
 
 You can dump the app's process memory with @MASTG-TOOL-0038 and @MASTG-TOOL-0106. To take advantage of these tools on a non-rooted device, the Android app must be repackaged with `frida-gadget.so` and re-signed. A detailed explanation of this process can be found at @MASTG-TECH-0026. To use these tools on a rooted device, simply have frida-server installed and running.
 
-> Note: When using these tools, you might get several memory access violation errors, which can normally be ignored. These tools inject a Frida agent and try to dump all the mapped memory of the app regardless of the access permissions (read/write/execute). Therefore, when the injected Frida agent tries to read a region that's not readable, it'll return the corresponding _memory access violation errors_. Refer to the previous section "Memory Maps and Inspection" for more details.
+!!! note
+    When using these tools, you might get several memory access violation errors, which can normally be ignored. These tools inject a Frida agent and try to dump all the mapped memory of the app regardless of the access permissions (read/write/execute). Therefore, when the injected Frida agent tries to read a region that's not readable, it'll return the corresponding _memory access violation errors_. Refer to the previous section "Memory Maps and Inspection" for more details.
 
 With objection, it is possible to dump all memory of the running process on the device by using the command `memory dump all`.
 

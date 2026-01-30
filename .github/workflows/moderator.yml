@@ -1,0 +1,280 @@
+name: AI Moderator
+
+on:
+  workflow_dispatch:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  models: read
+  contents: read
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collaborator gate
+        id: allow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            if (!pr) {
+              core.setOutput('skip', 'false')
+              return
+            }
+
+            const author = pr.user?.login
+            if (!author) {
+              core.setOutput('skip', 'false')
+              return
+            }
+
+            try {
+              await github.rest.repos.checkCollaborator({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: author
+              })
+              console.log(`${author} is a collaborator. Skipping moderation.`)
+              core.setOutput('skip', 'true')
+            } catch (e) {
+              if (e.status === 404) {
+                console.log(`${author} is not a collaborator. Proceeding with moderation.`)
+                core.setOutput('skip', 'false')
+              } else {
+                console.log(`Error checking collaborator status: ${e.message}. Proceeding with moderation.`)
+                core.setOutput('skip', 'false')
+              }
+            }
+
+      - name: Heuristic signals
+        id: heur
+        if: steps.allow.outputs.skip != 'true'
+        shell: bash
+        env:
+          TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
+          BODY: ${{ github.event.issue.body || github.event.pull_request.body }}
+        run: |
+          python - << 'PY'
+          import os, re, json
+          title = os.environ.get("TITLE") or ""
+          body = os.environ.get("BODY") or ""
+          text = (title + "\n" + body).strip()
+          urls = re.findall(r'https?://\S+', text)
+          signals = {
+            "url_count": len(urls),
+            "repeated_urls": len(urls) != len(set(urls)),
+            "many_urls": len(urls) >= 3,
+            "empty_or_tiny": len(text) < 40,
+            "very_long": len(text) > 8000,
+            "keywordy": bool(re.search(r'\b(crypto|airdrop|giveaway|whatsapp|telegram|invest|forex)\b', text, re.I)),
+          }
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+            f.write("signals=" + json.dumps(signals, ensure_ascii=False) + "\n")
+          PY
+
+      - name: Pull request change summary
+        id: prmeta
+        if: steps.allow.outputs.skip != 'true' && github.event_name != 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request
+            const number = pr.number
+
+            const perPage = 100
+            let page = 1
+            let files = []
+            for (;;) {
+              const resp = await github.rest.pulls.listFiles({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: number,
+                per_page: perPage,
+                page
+              })
+              files = files.concat(resp.data || [])
+              if (!resp.data || resp.data.length < perPage) break
+              page += 1
+            }
+
+            const totalFiles = files.length
+            const additions = files.reduce((a, f) => a + (f.additions || 0), 0)
+            const deletions = files.reduce((a, f) => a + (f.deletions || 0), 0)
+
+            const topFiles = files
+              .slice()
+              .sort((a, b) => ((b.changes || 0) - (a.changes || 0)))
+              .slice(0, 8)
+              .map(f => ({
+                filename: f.filename,
+                status: f.status,
+                changes: f.changes,
+                additions: f.additions,
+                deletions: f.deletions
+              }))
+
+            const summary = { total_files: totalFiles, additions, deletions, top_files_by_changes: topFiles }
+            core.setOutput("summary", JSON.stringify(summary))
+
+      - name: Detect spam or low-quality content
+        id: ai
+        if: steps.allow.outputs.skip != 'true'
+        uses: actions/ai-inference@v1
+        with:
+          model: openai/gpt-4o-mini
+          system-prompt: |
+            You are a conservative moderation assistant for a technical open source repository.
+            Use only the provided title, body, heuristic signals, and PR change summary when present.
+            Do not guess missing context.
+
+            IMPORTANT, PR template handling.
+            The repository uses a PR template that contains an AI Tool Disclosure section and checkboxes.
+            Treat the presence of the template text as neutral boilerplate.
+            Only treat AI disclosure as a signal if the author clearly indicated a choice or provided concrete details.
+            If the checkboxes are both unchecked or both checked, or the disclosure fields are left as generic examples, treat disclosure as incomplete.
+
+            Always return valid JSON with the exact keys requested.
+          prompt: |
+            Classify this GitHub item as one of these verdicts.
+            ok, ai-assisted, ai-slop, spam.
+
+            Return a JSON object with exactly these keys.
+            verdict, confidence, reasons, evidence, action.
+
+            Verdict meanings.
+            ok, normal contribution, no strong issues.
+            ai-assisted, contributor disclosed AI use in the template and nothing else looks wrong.
+            ai-slop, contributor claimed no AI use or disclosure is incomplete or contradictory, but signals suggest AI generated text or unreviewed bulk edits, or the PR scope suggests misuse such as sweeping unrelated changes.
+            spam, promotional, scam, or irrelevant.
+
+            How to detect actual disclosure, without guessing.
+            Count AI disclosure as present only if the body shows a checked box marked with [x] or [X], or the author wrote specific tools, specific models, or a non generic prompt summary.
+            Do not mark ai-assisted just because the template mentions AI.
+
+            MAS contributing alignment checks to consider.
+            Low effort PRs, generic text, unrelated changes, and sweeping rewrites not justified by the title or described intent should be flagged for ai-slop or spam.
+            If PR change summary shows many files or high churn but the description is minimal or generic, raise suspicion.
+            If the author disclosed AI use but the PR looks like an unreviewed bulk rewrite, keep ai-assisted only if the description explains why the scope is necessary, otherwise ai-slop with an action to request justification and review evidence.
+
+            Output constraints.
+            confidence is an integer 0 to 100.
+            reasons is an array of 2 to 5 short strings.
+            evidence is an array of 1 to 5 objects with keys quote and note.
+            quote must be an exact substring from the title or body, or an empty string if no direct quote exists.
+            action is a short string telling maintainers what to do next.
+
+            Heuristic signals JSON.
+            ${{ steps.heur.outputs.signals }}
+
+            PR change summary JSON, empty for issues.
+            ${{ steps.prmeta.outputs.summary }}
+
+            Title.
+            ${{ github.event.issue.title || github.event.pull_request.title }}
+
+            Body.
+            ${{ github.event.issue.body || github.event.pull_request.body }}
+
+      - name: Write audit summary
+        if: steps.allow.outputs.skip != 'true'
+        shell: bash
+        run: |
+          {
+            echo "### AI moderation report"
+            echo ""
+            echo "Raw model output."
+            echo '```json'
+            echo '${{ steps.ai.outputs.response }}'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply label and comment if needed
+        if: steps.allow.outputs.skip != 'true' && steps.ai.outputs.response != ''
+        uses: actions/github-script@v7
+        env:
+          RAW_MODEL_OUTPUT: ${{ steps.ai.outputs.response }}
+        with:
+          script: |
+            let raw = String(process.env.RAW_MODEL_OUTPUT || "").trim()
+
+            raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim()
+
+            let report
+            try {
+              report = JSON.parse(raw)
+            } catch (e) {
+              core.setFailed(`Model output was not valid JSON. Output was: ${raw}`)
+              return
+            }
+
+            const verdict = String(report.verdict || "").trim()
+            const confidence = report.confidence
+            const reasons = Array.isArray(report.reasons) ? report.reasons : []
+            const evidence = Array.isArray(report.evidence) ? report.evidence : []
+            const action = String(report.action || "").trim()
+
+            const allowed = new Set(["ok", "ai-assisted", "ai-slop", "spam"])
+            if (!allowed.has(verdict)) {
+              core.setFailed(`Unexpected verdict: ${verdict}`)
+              return
+            }
+
+            const number = context.payload.issue
+              ? context.payload.issue.number
+              : context.payload.pull_request.number
+
+            const labelForVerdict = {
+              "ai-assisted": "ai-assisted",
+              "ai-slop": "ai-slop",
+              "spam": "spam"
+            }
+
+            if (verdict !== "ok") {
+              const label = labelForVerdict[verdict]
+              if (label) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: number,
+                  labels: [label],
+                })
+              }
+
+              const lines = []
+              lines.push("Automated moderation result.")
+              lines.push("")
+              lines.push(`Verdict, ${verdict}.`)
+              lines.push(`Confidence, ${confidence}.`)
+
+              if (reasons.length) {
+                lines.push("")
+                lines.push("Reasons.")
+                for (const r of reasons) lines.push(`${r}`)
+              }
+
+              if (evidence.length) {
+                lines.push("")
+                lines.push("Evidence.")
+                for (const ev of evidence.slice(0, 5)) {
+                  const q = (ev && typeof ev.quote === "string") ? ev.quote : ""
+                  const n = (ev && typeof ev.note === "string") ? ev.note : ""
+                  if (q) lines.push(`- "${q}", ${n}`)
+                  else lines.push(`- ${n}`)
+                }
+              }
+
+              if (action) {
+                lines.push("")
+                lines.push(`Suggested action, ${action}.`)
+              }
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: number,
+                body: lines.join("\n"),
+              })
+            }

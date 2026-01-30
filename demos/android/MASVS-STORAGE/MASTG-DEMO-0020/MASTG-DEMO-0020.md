@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0216
 ---
 
-### Sample
+## Sample
 
 The following samples contain:
 
@@ -16,7 +16,7 @@ The following samples contain:
 
 {{ MastgTest.kt # AndroidManifest.xml # backup_rules.xml }}
 
-### Steps
+## Steps
 
 1. Install the target app on your device.
 2. Open the app and exercise it to trigger file creations.
@@ -36,7 +36,7 @@ The `run.sh` script does the following:
 3. Takes a snapshot of the app data after the restore.
 4. Retrieves the list of restored files from the device.
 
-### Observation
+## Observation
 
 The output contains:
 
@@ -47,7 +47,7 @@ The output contains:
 
 {{ output.txt # output_before.txt # output_after.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because `secret.txt` is restored from the backup and it contains sensitive data.
 

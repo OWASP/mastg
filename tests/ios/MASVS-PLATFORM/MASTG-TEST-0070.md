@@ -170,7 +170,8 @@ An app might be calling other apps via universal links in order to simply trigge
 
 If you have the original source code, you can search it for the `openURL:options: completionHandler:` method and check the data being handled.
 
-> Note that the `openURL:options:completionHandler:` method is not only used to open universal links but also to call custom URL schemes.
+!!! note
+    The `openURL:options:completionHandler:` method is not only used to open universal links but also to call custom URL schemes.
 
 This is an example from the Telegram app:
 
@@ -258,7 +259,8 @@ If we long press on the second (`http://www.apple.com/today`) it shows options t
 
 <img src="Images/Chapters/0x06h/allowed_universal_link.png" width="400px" />
 
-> Note that there is a difference between a click and a long press. Once we long press a link and select an option, e.g. "Open in Safari", this will become the default option for all future clicks until we long press again and select another option.
+!!! note
+    There is a difference between a click and a long press. Once we long press a link and select an option, e.g. "Open in Safari", this will become the default option for all future clicks until we long press again and select another option.
 
 If we repeat the process on the method `application:continueUserActivity: restorationHandler:` by either hooking or tracing, we will see how it gets called as soon as we open the allowed universal link. For this you can use for example `frida-trace`:
 

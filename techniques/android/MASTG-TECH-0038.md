@@ -16,7 +16,8 @@ The first step is unpacking and disassembling the APK with `apktool`:
 apktool d target_apk.apk
 ```
 
-> Note: To save time, you may use the flag `--no-src` if you only want to unpack the APK but not disassemble the code. For example, when you only want to modify the Android Manifest and repack immediately.
+!!! note
+    To save time, you may use the flag `--no-src` if you only want to unpack the APK but not disassemble the code. For example, when you only want to modify the Android Manifest and repack immediately.
 
 ## Patching Example: Disabling Certificate Pinning
 
