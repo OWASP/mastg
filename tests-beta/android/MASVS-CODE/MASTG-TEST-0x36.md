@@ -1,4 +1,4 @@
-––---
+---
 title: Enforcing Mandatory In-App Updates
 platform: android
 id: MASTG-TEST-0x36
