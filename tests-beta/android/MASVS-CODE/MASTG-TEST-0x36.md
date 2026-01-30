@@ -20,7 +20,7 @@ On Android, mandatory updates can be implemented using the [Google Play Core In-
 
 ## Observation
 
-The output should contain list the location where the Play Core In-App Update API is invoked.
+The output should contain a list of the locations where the Play Core In-App Update API is invoked.
 
 ## Evaluation
 
