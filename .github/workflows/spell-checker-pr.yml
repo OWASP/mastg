@@ -24,6 +24,6 @@ jobs:
         uses: codespell-project/actions-codespell@master
         with:
           check_filenames: true
-          skip: "*.json,*.yml,*.apk,*.ipa,*.svg,*.txt"
+          skip: "*.json,*.yml,*.apk,*.ipa,*.svg,*.txt,*.kt,*.swift,*.xml"
           ignore_words_list: "aas,aaS,ba,bund,compliancy,firt,ist,keypair,ligh,Manuel,Manual,ro,ser,synopsys,theses,zuser,lief,EDE"
           path: ${{ env.CHANGED_FILES }}
