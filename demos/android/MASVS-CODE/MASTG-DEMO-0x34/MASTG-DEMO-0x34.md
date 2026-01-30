@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0x34
 ---
 
-### Sample
+## Sample
 
 The code snippet shows the utilization of object deserialization using `readObject()` method.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,13 +20,13 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output file shows usages of object deserialization in the code.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails if the app uses `ObjectInputStream.readObject()` on data received from untrusted sources without proper validation or type filtering. Review each of the reported instances:
 
