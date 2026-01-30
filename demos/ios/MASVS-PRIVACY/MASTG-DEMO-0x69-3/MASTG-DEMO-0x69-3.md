@@ -6,13 +6,13 @@ id: MASTG-DEMO-0x69-3
 test: MASTG-TEST-0x69-3
 ---
 
-### Sample
+## Sample
 
 The following sample code below requests access to protected resources requiring permissions.
 
 {{ ../MASTG-DEMO-0x69/MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056).
 2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the frida-server running on the device.
@@ -22,7 +22,7 @@ The following sample code below requests access to protected resources requiring
 
 {{ run.sh # script.js }}
 
-### Observation
+## Observation
 
 The output reveals runtime permission API calls including:
 
@@ -32,7 +32,7 @@ The output reveals runtime permission API calls including:
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app requests excessive permissions at runtime not justified by its core functionality. The output confirms the following permissions are actively requested and granted:
 

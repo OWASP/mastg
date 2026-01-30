@@ -6,13 +6,13 @@ id: MASTG-DEMO-0x69-1
 test: MASTG-TEST-0x69-1
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample entitlements declared in the provisioning profile. The embedded.mobileprovision file contains multiple entitlements that the app uses to request special permissions.
 
 {{ ../MASTG-DEMO-0x69/embedded.mobileprovision }}
 
-### Steps
+## Steps
 
 1. Sign the `.ipa` using @MASTG-TECH-0092.
 2. Unzip the app package (@MASTG-TECH-0058) and locate the provisioning profile at `./Payload/MASTestApp.app/embedded.mobileprovision`.
@@ -20,13 +20,13 @@ The code snippet below shows sample entitlements declared in the provisioning pr
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output reveals the full provisioning profile including the `Entitlements` dictionary, which lists all capabilities granted to the app by Apple's provisioning system.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the provisioning profile grants excessive entitlements not justified by the app's core functionality. Specifically:
 

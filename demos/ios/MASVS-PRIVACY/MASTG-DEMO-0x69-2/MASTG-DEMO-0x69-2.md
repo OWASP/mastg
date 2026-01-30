@@ -6,26 +6,26 @@ id: MASTG-DEMO-0x69-2
 test: MASTG-TEST-0x69-2
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code that accesses protected resources requiring entitlements. The app's `entitlements.plist` file declares multiple permissions that the app uses to request special access.
 
 {{ ../MASTG-DEMO-0x69/MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main app binary (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh` to extract the entitlements.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output reveals the entitlements plist extracted from the app binary's code signature, listing all capabilities embedded during the signing process.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app binary embeds entitlements that are excessive for its core functionality. Specifically:
 
