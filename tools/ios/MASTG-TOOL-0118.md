@@ -1,9 +1,7 @@
 ---
 title: Sideloadly
 platform: ios
-hosts:
-- windows
-- macos
+hosts: [windows, macOS]
 source: https://sideloadly.io/
 ---
 

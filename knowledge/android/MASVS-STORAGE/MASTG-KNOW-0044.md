@@ -5,28 +5,28 @@ title: Key Attestation
 available_since: 24
 ---
 
-For the applications which heavily rely on Android Keystore for business-critical operations, such as multi-factor authentication through cryptographic primitives, secure storage of sensitive data at the client-side, etc. Android provides the feature of [Key Attestation](https://developer.android.com/training/articles/security-key-attestation "Key Attestation"), which helps to analyze the security of cryptographic material managed through Android Keystore. From Android 8.0 (API level 26), the key attestation was made mandatory for all new (Android 7.0 or higher) devices that need to have device certification for Google apps. Such devices use attestation keys signed by the [Google hardware Attestation Root certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate "Google Hardware Attestation Root Certificate") and the same can be verified through the key attestation process.
+For applications that rely heavily on @MASTG-KNOW-0043 for business-critical operations, such as multi-factor authentication using cryptographic primitives and secure client-side storage of sensitive data, Android provides the [Key Attestation](https://developer.android.com/training/articles/security-key-attestation "Key Attestation") feature, which helps analyze and verify the security of cryptographic material managed through the Android KeyStore. Starting with Android 8.0 (API level 26), key attestation became mandatory for all new devices (Android 7.0 or higher) that require device certification for Google apps. These devices use attestation keys signed by the [Google Hardware Attestation Root Certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate "Google Hardware Attestation Root Certificate"), and these keys can be verified through the key attestation process.
 
-During key attestation, we can specify the alias of a key pair and in return, get a certificate chain, which we can use to verify the properties of that key pair. If the root certificate of the chain is the [Google Hardware Attestation Root certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate "Google Hardware Attestation Root certificate"), and the checks related to key pair storage in hardware are made, it gives an assurance that the device supports hardware-level key attestation, and that the key is in the hardware-backed keystore that Google believes to be secure. Alternatively, if the attestation chain has any other root certificate, then Google does not make any claims about the security of the hardware.
+During key attestation, we can specify the alias of a key pair and, in return, receive a certificate chain that we can use to verify the properties of that key pair. If the chain's root certificate is the [Google Hardware Attestation Root certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate "Google Hardware Attestation Root certificate") and the hardware-backed key pair storage checks are satisfied, this provides assurance that the device supports hardware-level key attestation and that the key is stored in the hardware-backed keystore that Google believes to be secure. Alternatively, if the attestation chain has any other root certificate, Google does not make any claims about the security of the hardware.
 
-Although the key attestation process can be implemented within the application directly, it is recommended that it should be implemented at the server-side for security reasons. The following are the high-level guidelines for the secure implementation of Key Attestation:
+Although the key attestation process can be implemented directly in the application, it is recommended that it be implemented on the server side for security reasons. The following are the high-level guidelines for the secure implementation of Key Attestation:
 
-- The server should initiate the key attestation process by creating a random number securely using CSPRNG (Cryptographically Secure Random Number Generator) and the same should be sent to the user as a challenge.
-- The client should call the `setAttestationChallenge` API with the challenge received from the server and should then retrieve the attestation certificate chain using the `KeyStore.getCertificateChain` method.
-- The attestation response should be sent to the server for the verification and following checks should be performed for the verification of the key attestation response:
-    - Verify the certificate chain, up to the root and perform certificate sanity checks such as validity, integrity and trustworthiness. Check the [Certificate Revocation Status List](https://developer.android.com/training/articles/security-key-attestation#certificate_status "Certificate Revocation Status List") maintained by Google, if none of the certificates in the chain was revoked.
-    - Check if the root certificate is signed with the Google attestation root key which makes the attestation process trustworthy.
-    - Extract the attestation [certificate extension data](https://developer.android.com/training/articles/security-key-attestation#certificate_schema "Certificate extension data schema"), which appears within the first element of the certificate chain, and perform the following checks:
-        - Verify that the attestation challenge is having the same value which was generated at the server while initiating the attestation process.
+- The server should initiate the key attestation process by generating a secure random number using a CSPRNG (Cryptographically Secure Random Number Generator) and sending it to the client as a challenge.
+- The client should call the `setAttestationChallenge` API with the challenge from the server, then retrieve the attestation certificate chain using the `KeyStore.getCertificateChain` method.
+- The attestation response should be sent to the server for verification, and the following checks should be performed:
+    - Verify the certificate chain up to the root and perform certificate sanity checks, including validity, integrity, and trustworthiness. Check the [Certificate Revocation Status List](https://developer.android.com/training/articles/security-key-attestation#certificate_status "Certificate Revocation Status List") maintained by Google to confirm that none of the certificates in the chain were revoked.
+    - Check whether the root certificate is signed with the Google attestation root key, which makes the attestation process trustworthy.
+    - Extract the attestation [certificate extension data](https://developer.android.com/training/articles/security-key-attestation#certificate_schema "Certificate extension data schema") from the first element of the certificate chain and perform the following checks:
+        - Verify that the attestation challenge matches the value generated by the server when initiating the attestation process.
         - Verify the signature in the key attestation response.
-        - Verify the security level of the Keymaster, to determine if the device has secure key storage mechanism. Keymaster is a piece of software that runs in the security context and provides all the secure keystore operations. The security level will be one of `Software`, `TrustedEnvironment` or `StrongBox`. The client supports hardware-level key attestation if the security level is `TrustedEnvironment` or `StrongBox` and the attestation certificate chain contains a root certificate signed with the Google attestation root key.
-        - Verify the client's status to ensure a full chain of trust - verified boot key, locked bootloader and verified boot state.
-        - Additionally, you can verify the key pair's attributes such as purpose, access time, authentication requirement, etc.
+        - Verify the Keymaster's security level to determine whether the device has a secure key storage mechanism. The security level will be one of `Software`, `TrustedEnvironment`, or `StrongBox` (see @MASTG-KNOW-0043 for details on hardware-backed KeyStore). The client supports hardware-level key attestation when the security level is `TrustedEnvironment` or `StrongBox` and the attestation certificate chain includes a root certificate signed by the Google attestation root key.
+        - Verify the client's status to ensure a full chain of trust - verified boot key, locked bootloader, and verified boot state.
+        - Additionally, you can verify the key pair's attributes, such as purpose, access time, authentication requirement, etc.
 
 !!! note
-    If that process fails for any reason, it means the key is not in the security hardware. That does not mean that the key is compromised.
+    If that process fails for any reason, the key is not stored in the security hardware. That does not mean the key is compromised.
 
-The typical example of Android Keystore attestation response looks like this:
+The typical Android Keystore attestation response is as follows:
 
 ```json
 {
@@ -44,22 +44,22 @@ The typical example of Android Keystore attestation response looks like this:
 }
 ```
 
-In the above JSON snippet, the keys have the following meaning:
+In the JSON snippet above, the keys have the following meanings:
 
 - `fmt`: Attestation statement format identifier
-- `authData`: It denotes the authenticator data for the attestation
-- `alg`: The algorithm that is used for the Signature
+- `authData`: Authenticator data for the attestation
+- `alg`: Algorithm used for the signature
 - `sig`: Signature
 - `x5c`: Attestation certificate chain
 
 !!! note
-    The `sig` is generated by concatenating `authData` and `clientDataHash` (challenge sent by the server) and signing through the credential private key using the `alg` signing algorithm. The same is verified at the server-side by using the public key in the first certificate.
+    The `sig` is generated by concatenating `authData` and `clientDataHash` (the challenge sent by the server) and signing with the credential's private key using the `alg` signing algorithm. The same is verified on the server side using the public key in the first certificate.
 
-For more understanding on the implementation guidelines, you can refer to [Google Sample Code](https://github.com/google/android-key-attestation/blob/master/src/main/java/com/android/example/KeyAttestationExample.java "Google Sample Code For Android Key Attestation").
+For more information on the implementation guidelines, you can refer to [Google Sample Code](https://github.com/google/android-key-attestation/blob/master/src/main/java/com/android/example/KeyAttestationExample.java "Google Sample Code For Android Key Attestation").
 
-For the security analysis perspective, the analysts may perform the following checks for the secure implementation of Key Attestation:
+From a security analysis perspective, the following checks can help ensure the secure implementation of Key Attestation:
 
-- Check if the key attestation is totally implemented on the client-side. In which case, it can be more easily bypassed by tampering the application, method hooking, etc.
-- Check if the server uses random challenge while initiating the key attestation. As failing to do that would lead to insecure implementation thus making it vulnerable to replay attacks. Also, checks pertaining to the randomness of the challenge should be performed.
-- Check if the server verifies the integrity of the key attestation response.
-- Check if the server performs basic checks such as integrity verification, trust verification, validity, etc. on the certificates in the chain.
+- Check whether key attestation is implemented entirely on the client side. In that case, it can be more easily bypassed through application tampering, method hooking, etc.
+- Check whether the server uses a random challenge when initiating key attestation. Failing to do so results in an insecure implementation vulnerable to replay attacks. Also, verify the challenge's randomness.
+- Check whether the server verifies the integrity of the key attestation response.
+- Check whether the server performs basic checks, such as integrity and trust verification, validity, etc., on the certificates in the chain.

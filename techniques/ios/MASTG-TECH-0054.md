@@ -25,16 +25,16 @@ Save the IPA file locally with the following command:
 
 ## Extracting the App Binary
 
-If you have an IPA with a decrypted app binary, unzip it and you are ready to go. The app binary is located in the main bundle directory (.app), e.g. `Payload/Telegram X.app/Telegram X`. See the following subsection for details on the extraction of the property lists.
+If you have an IPA with a decrypted app binary, unzip it, and you are ready to go. The app binary is located in the main bundle directory (.app), e.g. `Payload/Telegram X.app/Telegram X`. See the following subsection for details on extracting the property lists.
 
-> On macOS's Finder, .app directories are opened by right-clicking them and selecting "Show Package Content". On the terminal you can just `cd` into them.
+> On macOS's Finder, .app directories are opened by right-clicking them and selecting "Show Package Content". On the terminal, you can just `cd` into them.
 
 ## Decrypting the App Binary
 
 !!! note "Important Note"
     In the United States, the Digital Millennium Copyright Act (17 U.S.C. § 1201), or DMCA, makes it illegal and actionable to circumvent certain types of DRM. However, the DMCA also provides exemptions, such as for certain kinds of security research. A qualified attorney can help you determine if your research qualifies under the DMCA exemptions. (Source: [Corellium](https://support.corellium.com/en/articles/6181345-testing-third-party-ios-apps))
 
-If you don't have the original IPA, then you need a jailbroken device where you will install the app (e.g. via App Store). Once installed, you need to extract the app binary from memory and rebuild the IPA file. Because of DRM, **the app binary file is encrypted** when it is stored on the iOS device, so simply pulling it from the Bundle (either through SSH or Objection) will not be sufficient to reverse engineer it.
+If you don't have the original IPA, then you need a jailbroken device where you will install the app (e.g. via App Store). Once installed, you need to extract the app binary from memory and rebuild the IPA file. Because of DRM, the app binary is encrypted when stored on the iOS device, so simply pulling it from the Bundle (either via SSH or @MASTG-TOOL-0074) will not be enough to reverse-engineer it.
 
 You can verify this by running this command on the app binary:
 
@@ -55,7 +55,7 @@ rabin2 -I Payload/Telegram X.app/Telegram X | grep crypto
 crypto   true
 ```
 
-In order to retrieve the unencrypted version, you can use [frida-ios-dump](https://github.com/AloneMonkey/frida-ios-dump "frida-ios-dump"). It will extract the unencrypted version from memory while the application is running on the device.
+To retrieve the unencrypted version, you can use [frida-ios-dump](https://github.com/AloneMonkey/frida-ios-dump "frida-ios-dump"). It will extract the unencrypted version from memory while the application is running on the device.
 
 First, configure @MASTG-TOOL-0050 `dump.py`:
 
@@ -77,7 +77,7 @@ Enumerate the apps installed on the device by running `python dump.py -l`:
 
 You can dump the selected app, for example Telegram, by running `python dump.py -H 127.0.0.1 -p 2222 --user mobile -P alpine ph.telegra.Telegraph`, if you are using an SSH tunnel with `iproxy` and the default credentials on a jailbroken phone.
 
-After a couple of seconds, the `Telegram.ipa` file will be created in your current directory. You can validate the success of the dump by removing the app and reinstalling it (e.g. using @MASTG-TOOL-0054 `ios-deploy -b Telegram.ipa`). Note that this will only work on jailbroken devices, as otherwise the signature won't be valid.
+After a couple of seconds, the `Telegram.ipa` file will be created in your current directory. You can validate the dump's success by removing the app and reinstalling it (e.g., using @MASTG-TOOL-0054 `ios-deploy -b Telegram.ipa`). Note that this will only work on jailbroken devices; otherwise, the signature won't be valid.
 
 You can use @MASTG-TOOL-0129 to verify that the app binary is now unencrypted:
 
@@ -113,7 +113,7 @@ Mach header
 MH_MAGIC_64    ARM64        ALL  0x00     EXECUTE    33       4192   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
 
-To ease the app analysis, it's recommended create a so-called thin binary, which contains one architecture only:
+To ease the app analysis, it's recommended to create a so-called thin binary, which contains one architecture only:
 
 ```bash
 lipo -thin armv7 DamnVulnerableIOSApp -output DVIA32

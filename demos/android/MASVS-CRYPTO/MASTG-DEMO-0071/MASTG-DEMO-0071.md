@@ -6,13 +6,13 @@ code: [java]
 test: MASTG-TEST-0307
 ---
 
-### Sample
+## Sample
 
 This sample generates an RSA key pair using `KeyGenParameterSpec` with multiple purposes: `PURPOSE_SIGN`, `PURPOSE_VERIFY`, `PURPOSE_ENCRYPT`, and `PURPOSE_DECRYPT`. It subsequently uses it for encryption, decryption, signing, and verification.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Run the @MASTG-TOOL-0110 rule, as defined below, against the sample code.
 
@@ -20,13 +20,13 @@ Run the @MASTG-TOOL-0110 rule, as defined below, against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule flags the constructor call to `KeyGenParameterSpec.Builder` in the decompiled Java code. This includes the key alias and a number representing the combined purposes used during key generation.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the key is configured for multiple purposes.
 

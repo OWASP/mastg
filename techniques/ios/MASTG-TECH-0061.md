@@ -3,11 +3,11 @@ title: Dumping KeyChain Data
 platform: ios
 ---
 
-Dumping the KeyChain data can be done with multiple tools, but not all of them will work on any iOS version. As is more often the case, try the different tools or look up their documentation for information on the latest supported versions.
+Dumping Keychain data can be done with multiple tools, but not all of them work on all iOS versions. As is often the case, try different tools or consult their documentation for information on the latest supported versions.
 
 ## Objection (Jailbroken / non-Jailbroken)
 
-The KeyChain data can easily be viewed using Objection. First, connect objection to the @MASTG-APP-0028 app as described in "Recommended Tools - Objection". Then, use the `ios keychain dump` command to get an overview of the keychain:
+The KeyChain data can be easily viewed in @MASTG-TOOL-0074. First, connect objection to the @MASTG-APP-0028 app as described in "Recommended Tools - Objection". Then, use the `ios keychain dump` command to get an overview of the keychain:
 
 ```bash
 $ objection -n "iGoat-Swift" start
@@ -26,13 +26,13 @@ Created                    Accessible                      ACL    Type      Acco
 OWASP.iGoat-Swift on (iPhone: 12.0) [usb] # quit
 ```
 
-Note that currently, the latest versions of frida-server and objection do not correctly decode all keychain data. Different combinations can be tried to increase compatibility. For example, the previous printout was created with `frida-tools==1.3.0`, `frida==12.4.8` and `objection==1.5.0`.
+Note that currently, the latest versions of frida-server and objection do not correctly decode all keychain data. Different combinations can be tried to increase compatibility. For example, the previous printout was created with `frida-tools==1.3.0`, `frida==12.4.8`, and `objection==1.5.0`.
 
-Finally, since the keychain dumper is executed from within the application context, it will only print out keychain items that can be accessed by the application and **not** the entire keychain of the iOS device.
+Finally, since the keychain dumper runs within the application context, it will only print keychain items accessible to the application and **not** the entire keychain of the iOS device.
 
 ## Grapefruit (Jailbroken / non-Jailbroken)
 
-With @MASTG-TOOL-0061 it's possible to access the keychain data of the app you have selected. Inside the **Storage** section, click on **Keychain** and you can see a listing of the stored Keychain information.
+With @MASTG-TOOL-0061, it's possible to access the keychain data of the app you have selected. Inside the **Storage** section, click on **Keychain**, and you can see a listing of the stored Keychain information.
 
 <img src="Images/Chapters/0x06b/grapefruit_keychain.png" width="100%" />
 
@@ -65,4 +65,4 @@ Keychain Data: WOg1DfuH
 ```
 
 In newer versions of iOS (iOS 11 and up), additional steps are necessary. See the README.md for more details.
-Note that this binary is signed with a self-signed certificate that has a "wildcard" entitlement. The entitlement grants access to _all_ items in the Keychain. If you are paranoid or have very sensitive private data on your test device, you may want to build the tool from source and manually sign the appropriate entitlements into your build; instructions for doing this are available in the GitHub repository.
+Note that this binary is signed with a self-signed certificate that has a "wildcard" entitlement. The entitlement grants access to _all_ items in the Keychain. If you are paranoid or have highly sensitive private data on your test device, you may want to build the tool from source and manually sign the appropriate entitlements into your build; instructions are available in the GitHub repository.

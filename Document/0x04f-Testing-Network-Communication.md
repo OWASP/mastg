@@ -220,7 +220,7 @@ The specific interception method used depends on the app's security mechanisms a
 Here's an overview of interception techniques at different network layers:
 
 | **Interception Technique** | **Example Tools** | **Note** |
-|---------------------------|-------------------|-------------------|
+| --- | --- | --- |
 | API hooking (`HttpUrlConnection`, `NSURLSession`, `WebRequest`) | Frida | Modifies how apps handle network requests. |
 | Hooking TLS functions (`SSL_read`, `SSL_write`) | Frida, SSL Kill Switch | Intercepts encrypted data before it reaches the app. |
 | Proxy interception | Burp Suite, ZAP, mitmproxy | Requires app to respect proxy settings. |
