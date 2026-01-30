@@ -7,6 +7,8 @@ rules:
       summary: This rule looks for use of Object Deserialization
     message: "[MASVS-CODE-4] The application makes use of Object deserialization in the code."
     patterns:
-      - pattern:
+      - pattern: |-
           $VAR = new java.io.ObjectInputStream(...);
+          ...
           $OBJ = $VAR.readObject();
+          

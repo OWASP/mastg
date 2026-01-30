@@ -36,6 +36,7 @@ class MastgTest(private val context: Context) {
 
    
     fun mastgTest(): String {
+        // SUMMARY: This sample demonstrates insecure object deserialization from an untrusted source (Intent extra).
         val user = UserManager.currentUser
         val status = if (user is AdminUser && user.isAdmin) {
             "PRIVILEGED ADMIN!"
@@ -61,6 +62,7 @@ class MastgTest(private val context: Context) {
 
             try {
                 val serializedPayload = Base64.getDecoder().decode(b64Payload)
+                // FAIL: [mastg-android-object-deserialization] The app deserializes objects from an untrusted Intent extra without any type filtering or validation.
                 val ois = ObjectInputStream(ByteArrayInputStream(serializedPayload))
 
                 val untrustedObject = ois.readObject()
