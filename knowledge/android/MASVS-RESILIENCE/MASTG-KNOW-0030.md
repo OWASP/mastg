@@ -29,7 +29,8 @@ bullhead:/ # cat /proc/18370/maps | grep -i frida
 
 Looking at these two _traces_ that Frida _left behind_, you might assume detecting them would be trivial. In fact, bypassing detection will be trivial. But things can get much more complicated. The following table presents a set of typical Frida detection methods and a brief discussion of their effectiveness.
 
-> Some of the following detection methods are presented in the article ["The Jiu-Jitsu of Detecting Frida" by Berdhard Mueller](https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida "The Jiu-Jitsu of Detecting Frida") (archived). Please refer to it for more details, including code snippets.
+!!! note
+    Some of the following detection methods are presented in the article ["The Jiu-Jitsu of Detecting Frida" by Berdhard Mueller](https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida "The Jiu-Jitsu of Detecting Frida") (archived). Please refer to it for more details, including code snippets.
  
 | Method | Description | Discussion |
 | --- | --- | --- | 
@@ -45,4 +46,5 @@ Beyond detecting Frida's presence via artifacts and network signatures, apps can
 
 Many more techniques exist, and each depends on whether you're using a rooted device, the specific version of the rooting method, and/or the version of the tool itself. Additionally, the app can make it harder to detect the implemented protection mechanisms by using various obfuscation techniques. In the end, this is part of the cat-and-mouse game of protecting data being processed in an untrusted environment (an app running on a user device).
 
-> It is important to note that these controls only increase the complexity of the reverse engineering process. If used, the best approach is to combine the controls effectively rather than use them individually. However, none of them can guarantee 100% effectiveness, as the reverse engineer will always have full access to the device and will therefore always win! You also have to consider that integrating certain controls into your app might increase its complexity and even affect its performance.
+!!! note
+    It is important to note that these controls only increase the complexity of the reverse engineering process. If used, the best approach is to combine the controls effectively rather than use them individually. However, none of them can guarantee 100% effectiveness, as the reverse engineer will always have full access to the device and will therefore always win! You also have to consider that integrating certain controls into your app might increase its complexity and even affect its performance.

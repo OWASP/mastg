@@ -96,7 +96,8 @@ When Frida hooks a method, it replaces the original entry point with a pointer t
 - **Trampoline detection**: Scan the entry point for known hook signatures
 - **Stack inspection**: Look for Frida-related stack frames during execution
 
-Note: `ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
+!!! note
+    `ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
 
 ## Detecting Native Hooks
 
