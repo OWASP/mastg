@@ -317,6 +317,8 @@ See [mkdocs admonitions documentation](https://squidfunk.github.io/mkdocs-materi
 - Specify the language for syntax highlighting when possible.
 - For shell commands, do not include prompts (host name, username, etc.).
 
+When a command includes parameters the reader must change, surround them with angle brackets:
+
 Example:
 
 ````markdown
@@ -325,13 +327,13 @@ echo 'Hello World'
 ```
 ````
 
-When a command includes parameters the reader must change, surround them with angle brackets:
+Do not prepend dollar signs (`$`) or other prompt characters to shell commands.
+
+Example:
 
 ```shell
 adb pull <remote_file> <target_destination>
 ```
-
-Do not prepend dollar signs (`$`) or other prompt characters to shell commands.
 
 ## In-Text Keywords
 
