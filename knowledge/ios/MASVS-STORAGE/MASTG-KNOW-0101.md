@@ -19,3 +19,23 @@ Key concepts:
 - **Log Levels**: Unified logging supports multiple log levels (e.g., `debug`, `info`, `error`, `fault`) to help categorize messages based on their importance and severity.
 
 Apart from using secure logging APIs, developers can also implement build configurations or preprocessor directives to disable or limit logging in production builds. This ensures that sensitive information is not exposed in live environments.
+
+## Additional Logging Sources
+
+Beyond the standard iOS logging APIs, developers may introduce logs through various other mechanisms:
+
+### Native Libraries
+
+Lower-level native libraries written in C or C++ may write directly to standard output (`stdout`) or standard error (`stderr`) using functions such as `printf`, `fprintf`, or similar I/O functions. These outputs can appear in device logs, particularly during development and debugging sessions. When these libraries are integrated into iOS applications, their log output becomes part of the application's logging footprint.
+
+### Crash Reporting and Error Monitoring
+
+Crash reporting and error monitoring tools (such as Crashlytics, Sentry, or similar services) may record logs, breadcrumbs, or contextual data to disk before uploading them to remote servers. These persistent records can outlive a single app session and may include environmental data, user actions, or system state information captured at the time of an error or crash. The data collected by these tools is often retained locally until network connectivity allows for transmission.
+
+### Networking and HTTP Clients
+
+Networking stacks and HTTP client libraries sometimes provide verbose or debug logging modes that can output detailed information about network requests and responses. This may include HTTP headers, request URLs, response bodies, or authentication tokens. When these debug modes are inadvertently enabled in production builds, the detailed network logs may expose credentials, API keys, session tokens, or personal data.
+
+### WebViews and JavaScript Console
+
+Applications that embed web content using `WKWebView` or `UIWebView` (deprecated) can receive logging output from JavaScript code running within the web context. JavaScript's `console` methods (such as `console.log`, `console.error`, `console.warn`) produce messages that can be bridged into the native logging system. These messages can be captured by implementing the appropriate delegate methods, such as [`WKScriptMessageHandler`](https://developer.apple.com/documentation/webkit/wkscriptmessagehandler) for `WKWebView`, which allows the native app to receive and process JavaScript console output.
