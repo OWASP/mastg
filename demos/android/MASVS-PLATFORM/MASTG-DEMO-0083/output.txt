@@ -1,0 +1,60 @@
+=== Scanning XML Layout ===
+┌─────────────────┐
+│ 6 Code Findings │
+└─────────────────┘
+                      
+    activity_login.xml
+    ❯❱ rules.mastg-android-sensitive-view-without-protection
+          [MASVS-PLATFORM] Potentially sensitive view lacks accessibilityDataSensitive or
+          filterTouchesWhenObscured protection                                           
+                                                                                         
+           18┆ <EditText
+           19┆     android:id="@+id/passwordField"
+           20┆     android:layout_width="match_parent"
+           21┆     android:layout_height="wrap_content"
+           22┆     android:hint="Password"
+           23┆     android:inputType="textPassword"
+           24┆     android:accessibilityDataSensitive="true" />
+   
+     ❱ rules.mastg-android-accessibility-data-sensitive-xml
+          [MASVS-PLATFORM] View has accessibilityDataSensitive attribute set
+                                                                            
+           24┆ android:accessibilityDataSensitive="true" />
+   
+     ❱ rules.mastg-android-filter-touches-when-obscured-xml
+          [MASVS-PLATFORM] View has filterTouchesWhenObscured set (provides implicit
+          accessibilityDataSensitive protection on Android 16+)                     
+                                                                                    
+           33┆     android:filterTouchesWhenObscured="true" />
+   
+     ❱ rules.mastg-android-filter-touches-when-obscured-xml
+          [MASVS-PLATFORM] View has filterTouchesWhenObscured set (provides implicit
+          accessibilityDataSensitive protection on Android 16+)                     
+                                                                                    
+           43┆     android:filterTouchesWhenObscured="true" />
+   
+     ❱ rules.mastg-android-accessibility-data-sensitive-xml
+          [MASVS-PLATFORM] View has accessibilityDataSensitive attribute set
+                                                                            
+           42┆ android:accessibilityDataSensitive="true"
+
+=== Scanning Kotlin Code ===
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+
+    MastgTest.kt
+     ❱ rules.mastg-android-set-accessibility-data-sensitive
+          [MASVS-PLATFORM] View's accessibility data sensitivity is being set programmatically
+
+           18┆ confirmButton.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
+
+     ❱ rules.mastg-android-get-accessibility-data-sensitive
+          [MASVS-PLATFORM] Code is checking view's accessibility data sensitivity
+
+           22┆ val isDataSensitive = passwordField.accessibilityDataSensitive
+
+     ❱ rules.mastg-android-set-filter-touches-when-obscured
+          [MASVS-PLATFORM] View's filterTouchesWhenObscured is being set (provides implicit accessibility protection on Android 16+)
+
+           27┆ usernameField.setFilterTouchesWhenObscured(true)

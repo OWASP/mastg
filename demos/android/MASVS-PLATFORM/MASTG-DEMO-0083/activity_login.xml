@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SUMMARY: This sample demonstrates various configurations of accessibility data sensitivity and filterTouchesWhenObscured in Android layouts. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- FAIL: [MASTG-TEST-0321] Username field lacks protection from malicious accessibility services -->
+    <EditText
+        android:id="@+id/usernameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:inputType="text" />
+
+    <!-- PASS: [MASTG-TEST-0321] Password field is protected with explicit accessibilityDataSensitive -->
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:accessibilityDataSensitive="true" />
+
+    <!-- PASS: [MASTG-TEST-0321] PIN field is protected via filterTouchesWhenObscured (implicit accessibility protection on Android 16+) -->
+    <EditText
+        android:id="@+id/pinField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="PIN"
+        android:inputType="numberPassword"
+        android:filterTouchesWhenObscured="true" />
+
+    <!-- PASS: [MASTG-TEST-0321] Credit card field is protected with both attributes for defense in depth -->
+    <EditText
+        android:id="@+id/creditCardField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Credit Card Number"
+        android:inputType="number"
+        android:accessibilityDataSensitive="true"
+        android:filterTouchesWhenObscured="true" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login" />
+
+</LinearLayout>
