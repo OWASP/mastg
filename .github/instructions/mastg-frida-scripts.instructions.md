@@ -7,10 +7,6 @@ This guide defines how to write and use Frida scripts in MASTG demos. Scripts li
 
 **Note:** Prefer Frooky hooks over Frida scripts where possible, as they require less code. See `mastg-frooky-scripts.instructions.md` for details.
 
-Version requirement
-
-- Use Frida 17 or later. See @MASTG-TOOL-0031 ([Frida 17](https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17)
-
 ## Location and naming
 
 - Place scripts inside the demo folder and name them `script.js` unless multiple scripts are needed.
@@ -36,6 +32,29 @@ Examples:
 - Backtraces: use `DebugSymbol.fromAddress` and cap lines.
 - In `onEnter/onLeave`, capture context first (for example, `const ctx = this.context;`) before using nested arrow functions.
 
+## Use Frida 17 APIs exclusively
+
+| Area           | Before Frida 17                                     | Frida 17 and later                                            | Notes                                             |
+| -------------- | --------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
+| Global exports | `Module.getGlobalExportByName(null, "open")`        | `Module.getGlobalExportByName("open")`                        | Global lookup no longer accepts a module argument |
+| Global exports | `Module.findExportByName(null, "open")`             | `Module.findGlobalExportByName("open")`                       | Use this when the export may not exist            |
+| Symbols        | `Module.getSymbolByName(null, "open")`              | `Module.getGlobalExportByName("open")`                        | Symbol helpers removed for common cases           |
+| Module exports | `Module.findExportByName("libc.so", "open")`        | `Process.getModuleByName("libc.so").findExportByName("open")` | Static Module helpers removed                     |
+| Module exports | `Module.getExportByName("libc.so", "open")`         | `Process.getModuleByName("libc.so").getExportByName("open")`  | Same pattern applies to symbols and enumeration   |
+| Module base    | `Module.getBaseAddress("libc.so")`                  | `Process.getModuleByName("libc.so").base`                     | `findBaseAddress` removed as well                 |
+| Enumeration    | `Process.enumerateModules({ onMatch, onComplete })` | `Process.enumerateModules()`                                  | Same change applies to threads and ranges         |
+| Memory reads   | `Memory.readInt(ptr)`                               | `ptr.readInt()`                                               | Applies to all `read*` helpers                    |
+| Memory writes  | `Memory.writeUInt(ptr, val)`                        | `ptr.writeUInt(val)`                                          | Applies to all `write*` helpers                   |
+| Strings        | `Memory.readUtf8String(ptr)`                        | `ptr.readUtf8String()`                                        | Same for C, UTF16, ANSI strings                   |
+| Byte arrays    | `Memory.readByteArray(ptr, len)`                    | `ptr.readByteArray(len)`                                      | Writing uses the same pattern                     |
+
+See:
+
+- <https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17>
+- <https://frida.re/news/2025/05/17/frida-17-0-0-released/>
+
+Always validate against the latest [JavaScript API](https://frida.re/docs/javascript-api/).
+
 ## Inspiration
 
 - Don't reinvent the wheel when something already exists. Use existing open-source sources when available, for example, <https://codeshare.frida.re/browse>.
@@ -53,24 +72,6 @@ var config = {
         "patterns":{
             "arm64": [
                 ...
-```
-
-```js
-// SOURCE: https://github.com/iddoeldor/frida-snippets?tab=readme-ov-file#os-log
-
-var m = 'libsystem_trace.dylib';
-// bool os_log_type_enabled(os_log_t oslog, os_log_type_t type);
-var isEnabledFunc = Module.findExportByName(m, 'os_log_type_enabled');
-// _os_log_impl(void *dso, os_log_t log, os_log_type_t type, const char *format, uint8_t *buf, unsigned int size);
-var logFunc = Module.findExportByName(m, '_os_log_impl');
-
-// Enable all logs
-Interceptor.attach(isEnabledFunc, {
-  onLeave: function (ret) {
-    ret.replace(0x1);
-  }
-});
-...
 ```
 
 ## Logging and outputs
