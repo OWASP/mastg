@@ -53,7 +53,7 @@ Frida 17 introduces [breaking changes](https://frida.re/news/2025/05/17/frida-17
 
 **Bridges:**
 
-Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use CLI tools such as `frida`, `frida-trace` or @MASTG-TOOL-0145 this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
+Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use CLI tools such as `frida`, `frida-trace` or @MASTG-TOOL-0145, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
 
 However, if you are writing your own custom Frida-based tooling or scripts that depend on these bridges, you will now need to install them separately via `frida-pm`, Frida's package manager. For example, to install the Java bridge, run:
 

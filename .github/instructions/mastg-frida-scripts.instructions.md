@@ -36,7 +36,7 @@ Examples:
 
 When writing new Frida scripts for MASTG demos, always validate against the latest [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts) (human-readable version: [JavaScript API](https://frida.re/docs/javascript-api/)).
 
-Consider the following key changes introduced in Frida 17 and if you enounter any of the old APIs in existing scripts, update them accordingly:
+Consider the following key changes introduced in Frida 17 and if you encounter any of the old APIs in existing scripts, update them accordingly:
 
 | Area                       | Before Frida 17                                                                              | Frida 17 and later                                                                                                             | Notes                                                                                             |
 | -------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
