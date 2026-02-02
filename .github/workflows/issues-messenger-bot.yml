@@ -1,0 +1,121 @@
+name: Issue Assignment Bot Manual Helper
+
+on:
+  workflow_dispatch:
+    inputs:
+      number:
+        description: Issue or PR number
+        required: true
+        type: string
+      message:
+        description: Message to post
+        required: true
+        type: choice
+        options:
+          - guidelines-ask
+          - guidelines-confirmation
+      commenter:
+        description: GitHub username to mention, without the at sign
+        required: true
+        type: string
+
+permissions:
+  issues: write
+
+jobs:
+  post_message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post message
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const numberRaw = core.getInput("number", { required: true })
+            const messageKey = core.getInput("message", { required: true })
+            const commenter = core.getInput("commenter", { required: true }).trim()
+
+            const issueNumber = Number.parseInt(numberRaw, 10)
+            if (!Number.isFinite(issueNumber)) {
+              core.setFailed("number must be an integer")
+              return
+            }
+            if (!commenter) {
+              core.setFailed("commenter must be non empty")
+              return
+            }
+
+            console.log("manual_start")
+            console.log("issue_number", issueNumber)
+            console.log("message", messageKey)
+            console.log("commenter", commenter)
+
+            const repo = context.repo
+            const repoInfo = await github.rest.repos.get({
+              owner: repo.owner,
+              repo: repo.repo,
+            })
+
+            const defaultBranch = repoInfo.data.default_branch || "main"
+
+            const templateUrl =
+              "https://github.com/" +
+              repo.owner +
+              "/" +
+              repo.repo +
+              "/blob/" +
+              defaultBranch +
+              "/.github/PULL_REQUEST_TEMPLATE.md"
+
+            let body = ""
+
+            if (messageKey === "guidelines-ask") {
+              body = [
+                "Hi @" + commenter + ", thanks for your interest in contributing to OWASP MASTG.",
+                "",
+                "Before we can assign you to this issue, please confirm that you have read and understand our contribution guidelines.",
+                "",
+                "See <" + templateUrl + "> and all linked documents.",
+                "",
+                "To confirm, please reply with the following message, copy paste it exactly.",
+                "",
+                "```",
+                "I have read the contribution guidelines and the PR template and I confirm that I will follow them.",
+                "```",
+              ].join("\n")
+            }
+
+            if (messageKey === "guidelines-confirmation") {
+              body = [
+                "Thank you @" + commenter + " for accepting the contribution guidelines.",
+                "",
+                "Your assignment request has been noted and labeled, a maintainer will review and assign you to this issue shortly, please refrain from making a pull request until you have been officially assigned.",
+              ].join("\n")
+            }
+
+            if (!body) {
+              core.setFailed("unknown message value")
+              return
+            }
+
+            console.log("posting_comment")
+            const res = await github.rest.issues.createComment({
+              owner: repo.owner,
+              repo: repo.repo,
+              issue_number: issueNumber,
+              body,
+            })
+
+            console.log("comment_created", res.data?.html_url)
+
+            if (messageKey === "guidelines-confirmation") {
+              console.log("adding_label_request_issue_assignment")
+              await github.rest.issues.addLabels({
+                owner: repo.owner,
+                repo: repo.repo,
+                issue_number: issueNumber,
+                labels: ["request-issue-assignment"],
+              })
+            }
+
+            console.log("manual_done")
