@@ -34,26 +34,31 @@ Examples:
 
 ## Use Frida 17 APIs exclusively
 
-| Area           | Before Frida 17                                     | Frida 17 and later                                            | Notes                                             |
-| -------------- | --------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
-| Global exports | `Module.getExportByName(null, "open")`        | `Module.getGlobalExportByName("open")`                        | Global lookup no longer accepts a module argument |
-| Global exports | `Module.findExportByName(null, "open")`             | `Module.findGlobalExportByName("open")`                       | Use this when the export may not exist            |
-| Symbols        | `Module.getSymbolByName(null, "open")`              | `Module.getGlobalExportByName("open")`                        | Symbol helpers removed for common cases           |
-| Module exports | `Module.findExportByName("libc.so", "open")`        | `Process.getModuleByName("libc.so").findExportByName("open")` | Static Module helpers removed                     |
-| Module exports | `Module.getExportByName("libc.so", "open")`         | `Process.getModuleByName("libc.so").getExportByName("open")`  | Same pattern applies to symbols and enumeration   |
-| Module base    | `Module.getBaseAddress("libc.so")`                  | `Process.getModuleByName("libc.so").base`                     | `findBaseAddress` removed as well                 |
-| Enumeration    | `Process.enumerateModules({ onMatch, onComplete })` | `Process.enumerateModules()`                                  | Same change applies to threads and ranges         |
-| Memory reads   | `Memory.readInt(ptr)`                               | `ptr.readInt()`                                               | Applies to all `read*` helpers                    |
-| Memory writes  | `Memory.writeUInt(ptr, val)`                        | `ptr.writeUInt(val)`                                          | Applies to all `write*` helpers                   |
-| Strings        | `Memory.readUtf8String(ptr)`                        | `ptr.readUtf8String()`                                        | Same for C, UTF16, ANSI strings                   |
-| Byte arrays    | `Memory.readByteArray(ptr, len)`                    | `ptr.readByteArray(len)`                                      | Writing uses the same pattern                     |
+When writing new Frida scripts for MASTG demos, always validate against the latest [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts) (human-readable version: [JavaScript API](https://frida.re/docs/javascript-api/)).
 
-See:
+Consider the following key changes introduced in Frida 17 and if you enounter any of the old APIs in existing scripts, update them accordingly:
+
+| Area                       | Before Frida 17                                                                              | Frida 17 and later                                                                                                             | Notes                                                                                             |
+| -------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Global exports             | `Module.getExportByName(null, "open")` and `Module.findExportByName(null, "open")`           | `Module.getGlobalExportByName("open")` and `Module.findGlobalExportByName("open")`                                             | Global lookups are now explicit. `get*` throws if missing, `find*` returns null.                  |
+| Global symbol special case | `Module.getSymbolByName(null, "open")`                                                       | `Module.getGlobalExportByName("open")`                                                                                         | Only the null module symbol case maps to global exports. Not a general symbol replacement.        |
+| Module exports             | `Module.getExportByName("libc.so", "open")` and `Module.findExportByName("libc.so", "open")` | `Process.getModuleByName("libc.so").getExportByName("open")` and `Process.getModuleByName("libc.so").findExportByName("open")` | Static helpers removed. Use a `Module` instance. `get*` throws, `find*` returns null.             |
+| Module symbols             | `Module.getSymbolByName("libart.so", "ExecuteNterpImpl")`                                    | `Process.getModuleByName("libart.so").getSymbolByName("ExecuteNterpImpl")`                                                     | Symbol lookup still exists but only on `Module` instances, not statically and not on pointers.    |
+| Module base                | `Module.getBaseAddress("libc.so")`                                                           | `Process.getModuleByName("libc.so").base`                                                                                      | Base address helpers removed. Base is a property of a `Module` instance.                          |
+| Module initialization      | `Module.ensureInitialized("libobjc.A.dylib")`                                                | `Process.getModuleByName("libobjc.A.dylib").ensureInitialized()`                                                               | Static initializer removed. Instance method ensures initializers have run for that module.        |
+| Enumeration                | `Process.enumerateModules({ onMatch, onComplete })`                                          | `Process.enumerateModules()`                                                                                                   | Callback based enumeration removed. Now returns arrays. Same model for threads and ranges.        |
+| Memory access | `Memory.read*`, `Memory.write*`, `Memory.readUtf8String`, `Memory.writeUtf8String`, `Memory.readByteArray`, `Memory.writeByteArray` | `ptr.read*`, `ptr.write*`, `ptr.readUtf8String()`, `ptr.writeUtf8String()`, `ptr.readByteArray()`, `ptr.writeByteArray()` | All memory read and write helpers moved onto `NativePointer` instances, including numeric reads and writes, strings, and byte arrays. The `Memory.*` forms are replaced by instance methods on the pointer you want to access. |
+
+Here's one example of updating code for Frida 17 that can serve as a reference: <https://patch-diff.githubusercontent.com/raw/AloneMonkey/frida-ios-dump/pull/200.diff>.
+
+**Using ObjC and Java namespaces in Frida 17+:**
+
+The Frida scripts we're creating for MASTG demos are meant to be run with the Frida CLI, so you can keep using the `ObjC` and `Java` namespaces as before. However, be aware that starting with Frida 17, these namespaces are no longer part of the [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts). The Frida CLI pre-bundles those namespaces for you.
+
+For more details, see:
 
 - <https://mas.owasp.org/MASTG/tools/generic/MASTG-TOOL-0031/#frida-17>
 - <https://frida.re/news/2025/05/17/frida-17-0-0-released/>
-
-Always validate against the latest [JavaScript API](https://frida.re/docs/javascript-api/).
 
 ## Inspiration
 
