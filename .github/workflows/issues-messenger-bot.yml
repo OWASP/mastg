@@ -3,7 +3,7 @@ name: Issue Assignment Bot Manual Helper
 on:
   workflow_dispatch:
     inputs:
-      number:
+      issue_or_pr_number:
         description: Issue or PR number
         required: true
         type: string
@@ -32,12 +32,29 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const numberRaw = core.getInput("number")
-            const messageKey = core.getInput("message")
-            const commenter = core.getInput("commenter").trim()
+            const inputs = context.payload.inputs || {}
+            console.log("received_inputs", inputs)
+
+            const numberRaw =
+              inputs.issue_or_pr_number ||
+              inputs.number ||
+              inputs.issue_number ||
+              core.getInput("issue_or_pr_number") ||
+              core.getInput("number") ||
+              core.getInput("issue_number")
+
+            const messageKey =
+              inputs.message ||
+              core.getInput("message")
+
+            const commenterRaw =
+              inputs.commenter ||
+              core.getInput("commenter")
+
+            const commenter = String(commenterRaw || "").trim()
 
             if (!numberRaw) {
-              core.setFailed("missing input number")
+              core.setFailed("missing input number, check received_inputs in logs for the actual key name")
               return
             }
             if (!messageKey) {
@@ -49,9 +66,9 @@ jobs:
               return
             }
 
-            const issueNumber = Number.parseInt(numberRaw, 10)
+            const issueNumber = Number.parseInt(String(numberRaw), 10)
             if (!Number.isFinite(issueNumber)) {
-              core.setFailed("number must be an integer")
+              core.setFailed("issue or pr number must be an integer")
               return
             }
 
@@ -119,7 +136,7 @@ jobs:
               body,
             })
 
-            console.log("comment_created", res.data?.html_url)
+            console.log("comment_created_url", res.data?.html_url)
 
             if (messageKey === "guidelines-confirm") {
               console.log("adding_label_request_issue_assignment")
