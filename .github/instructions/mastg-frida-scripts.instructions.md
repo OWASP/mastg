@@ -51,9 +51,9 @@ Consider the following key changes introduced in Frida 17 and if you encounter a
 
 Here's one example of updating code for Frida 17 that can serve as a reference: <https://patch-diff.githubusercontent.com/raw/AloneMonkey/frida-ios-dump/pull/200.diff>.
 
-**Using ObjC and Java namespaces in Frida 17+:**
+**Using ObjC and Java runtime bridges in Frida 17+:**
 
-The Frida scripts we're creating for MASTG demos are meant to be run with the Frida CLI, so you can keep using the `ObjC` and `Java` namespaces as before. However, be aware that starting with Frida 17, these namespaces are no longer part of the [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts). The Frida CLI pre-bundles those namespaces for you.
+The Frida scripts we're creating for MASTG demos are meant to be run with the Frida CLI, so you can keep using the `ObjC` and `Java` runtime bridges as before. However, be aware that starting with Frida 17, these APIs are no longer part of the [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts). The Frida CLI pre-bundles these runtime bridges for you.
 
 For more details, see:
 
