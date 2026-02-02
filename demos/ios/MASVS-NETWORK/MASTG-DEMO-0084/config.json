@@ -1,0 +1,31 @@
+{
+  "category": "NETWORK",
+  "description": "Detect uses of HTTP URLs",
+  "targets": [
+    {
+      "type": "string",
+      "name": "http://",
+      "match_mode": "contains",
+      "description": "HTTP URLs"
+    }
+  ],
+  "actions": [
+    {
+      "type": "list_matches",
+      "target": "HTTP URLs",
+      "output": "Uses of http:// URLs"
+    },
+    {
+      "type": "show_xrefs",
+      "target": "HTTP URLs",
+      "output": "xrefs to HTTP URLs"
+    },
+    {
+      "type": "disasm_around_xrefs",
+      "target": "HTTP URLs",
+      "before": 0,
+      "after": 15,
+      "output": "Use of HTTP URLs"
+    }
+  ]
+}

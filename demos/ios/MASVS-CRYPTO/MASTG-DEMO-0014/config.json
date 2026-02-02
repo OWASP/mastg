@@ -1,0 +1,37 @@
+{
+  "category": "CRYPTO",
+  "description": "Detect uses of CryptoKit P256 ECDSA private key raw representation",
+  "targets": [
+    {
+      "type": "function",
+      "name": "CryptoKit.P256.Signing.PrivateKey",
+      "match_mode": "contains",
+      "description": "CryptoKit PrivateKey functions"
+    },
+    {
+      "type": "function",
+      "name": "CryptoKit.P256.Signing.PrivateKey.rawRepresentation",
+      "match_mode": "contains",
+      "description": "rawRepresentation"
+    }
+  ],
+  "actions": [
+    {
+      "type": "list_matches",
+      "target": "CryptoKit PrivateKey functions",
+      "output": "Uses of CryptoKit.P256.Signing.PrivateKey"
+    },
+    {
+      "type": "show_xrefs",
+      "target": "rawRepresentation",
+      "output": "xrefs to CryptoKit.P256.Signing.PrivateKey.rawRepresentation"
+    },
+    {
+      "type": "disasm_around_xrefs",
+      "target": "rawRepresentation",
+      "before": 9,
+      "after": 0,
+      "output": "Use of CryptoKit.P256.Signing.PrivateKey.rawRepresentation"
+    }
+  ]
+}

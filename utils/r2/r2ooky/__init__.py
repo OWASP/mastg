@@ -7,10 +7,11 @@ across different binaries.
 """
 
 from .core import R2Session
-from .finder import FunctionFinder, ImportFinder, StringFinder
-from .xref import XRefAnalyzer
+from .finder import FunctionFinder, ImportFinder, StringFinder, MatchResult
+from .xref import XRefAnalyzer, XRefResult
 from .disasm import DisasmHelper
 from .config import load_config, DemoConfig
+from .formatter import OutputBuffer, format_match_list, format_xref_list
 
 __version__ = "0.1.0"
 __all__ = [
@@ -18,8 +19,13 @@ __all__ = [
     "FunctionFinder",
     "ImportFinder", 
     "StringFinder",
+    "MatchResult",
     "XRefAnalyzer",
+    "XRefResult",
     "DisasmHelper",
     "load_config",
     "DemoConfig",
+    "OutputBuffer",
+    "format_match_list",
+    "format_xref_list",
 ]

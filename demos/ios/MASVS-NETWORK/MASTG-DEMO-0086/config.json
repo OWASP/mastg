@@ -1,0 +1,43 @@
+{
+  "category": "NETWORK",
+  "description": "Detect uses of BSD socket functions",
+  "targets": [
+    {
+      "type": "import",
+      "name": "getaddrinfo",
+      "match_mode": "contains",
+      "description": "getaddrinfo"
+    },
+    {
+      "type": "import",
+      "name": "send",
+      "match_mode": "contains",
+      "description": "send"
+    },
+    {
+      "type": "import",
+      "name": "recv",
+      "match_mode": "contains",
+      "description": "recv"
+    },
+    {
+      "type": "import",
+      "name": "connect",
+      "match_mode": "contains",
+      "description": "connect"
+    },
+    {
+      "type": "import",
+      "name": "socket",
+      "match_mode": "contains",
+      "description": "socket"
+    }
+  ],
+  "actions": [
+    {
+      "type": "list_matches",
+      "target": "getaddrinfo",
+      "output": "Uses of the BSD sockets functions"
+    }
+  ]
+}
