@@ -1,0 +1,55 @@
+{
+  "category": "CRYPTO",
+  "description": "Detect uses of CommonCrypto hash functions (MD5, SHA1)",
+  "targets": [
+    {
+      "type": "function",
+      "name": "CC_",
+      "match_mode": "contains",
+      "description": "All CommonCrypto functions"
+    },
+    {
+      "type": "function",
+      "name": "CC_MD5",
+      "match_mode": "exact",
+      "description": "CC_MD5"
+    },
+    {
+      "type": "function",
+      "name": "CC_SHA1",
+      "match_mode": "exact",
+      "description": "CC_SHA1"
+    }
+  ],
+  "actions": [
+    {
+      "type": "list_matches",
+      "target": "All CommonCrypto functions",
+      "output": "Uses of CommonCrypto hash function"
+    },
+    {
+      "type": "show_xrefs",
+      "target": "CC_MD5",
+      "output": "xrefs to CC_MD5"
+    },
+    {
+      "type": "show_xrefs",
+      "target": "CC_SHA1",
+      "output": "xrefs to CC_SHA1"
+    },
+    {
+      "type": "disasm_around_xrefs",
+      "target": "CC_MD5",
+      "before": 5,
+      "after": 0,
+      "output": "Use of MD5"
+    },
+    {
+      "type": "disasm_around_xrefs",
+      "target": "CC_SHA1",
+      "before": 5,
+      "after": 0,
+      "output": "Use of SHA1"
+    }
+  ]
+}
