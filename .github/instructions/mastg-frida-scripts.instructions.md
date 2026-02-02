@@ -32,7 +32,7 @@ Examples:
 - Backtraces: use `DebugSymbol.fromAddress` and cap lines.
 - In `onEnter/onLeave`, capture context first (for example, `const ctx = this.context;`) before using nested arrow functions.
 
-## Use Frida 17 APIs exclusively
+## Use and Validation of Frida APIs
 
 When writing new Frida scripts for MASTG demos, always validate against the latest [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts) (human-readable version: [JavaScript API](https://frida.re/docs/javascript-api/)).
 
