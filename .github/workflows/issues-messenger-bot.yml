@@ -13,14 +13,15 @@ on:
         type: choice
         options:
           - guidelines-ask
-          - guidelines-confirmation
+          - guidelines-confirm
       commenter:
-        description: GitHub username to mention, without the at sign
+        description: Github username to mention, without the at sign
         required: true
         type: string
 
 permissions:
   issues: write
+  contents: read
 
 jobs:
   post_message:
@@ -31,32 +32,44 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const numberRaw = core.getInput("number", { required: true })
-            const messageKey = core.getInput("message", { required: true })
-            const commenter = core.getInput("commenter", { required: true }).trim()
+            const numberRaw = core.getInput("number")
+            const messageKey = core.getInput("message")
+            const commenter = core.getInput("commenter").trim()
+
+            if (!numberRaw) {
+              core.setFailed("missing input number")
+              return
+            }
+            if (!messageKey) {
+              core.setFailed("missing input message")
+              return
+            }
+            if (!commenter) {
+              core.setFailed("missing input commenter")
+              return
+            }
 
             const issueNumber = Number.parseInt(numberRaw, 10)
             if (!Number.isFinite(issueNumber)) {
               core.setFailed("number must be an integer")
               return
             }
-            if (!commenter) {
-              core.setFailed("commenter must be non empty")
-              return
-            }
 
             console.log("manual_start")
             console.log("issue_number", issueNumber)
-            console.log("message", messageKey)
+            console.log("message_key", messageKey)
             console.log("commenter", commenter)
+            console.log("repo", context.repo)
 
             const repo = context.repo
+
             const repoInfo = await github.rest.repos.get({
               owner: repo.owner,
               repo: repo.repo,
             })
 
             const defaultBranch = repoInfo.data.default_branch || "main"
+            console.log("default_branch", defaultBranch)
 
             const templateUrl =
               "https://github.com/" +
@@ -85,7 +98,7 @@ jobs:
               ].join("\n")
             }
 
-            if (messageKey === "guidelines-confirmation") {
+            if (messageKey === "guidelines-confirm") {
               body = [
                 "Thank you @" + commenter + " for accepting the contribution guidelines.",
                 "",
@@ -108,7 +121,7 @@ jobs:
 
             console.log("comment_created", res.data?.html_url)
 
-            if (messageKey === "guidelines-confirmation") {
+            if (messageKey === "guidelines-confirm") {
               console.log("adding_label_request_issue_assignment")
               await github.rest.issues.addLabels({
                 owner: repo.owner,
