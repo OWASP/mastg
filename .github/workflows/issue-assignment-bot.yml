@@ -6,12 +6,30 @@ on:
 
 permissions:
   issues: write
+  contents: read
 
 jobs:
-  handle-assignment-request:
+  handle_assignment_request:
     if: ${{ !github.event.issue.pull_request }}
     runs-on: ubuntu-latest
+
     steps:
+      - name: Log event context
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue || {}
+            const comment = context.payload.comment || {}
+            console.log("event_name", context.eventName)
+            console.log("repo", context.repo)
+            console.log("issue_number", issue.number)
+            console.log("is_pr", Boolean(issue.pull_request))
+            console.log("comment_id", comment.id)
+            console.log("commenter", comment.user?.login)
+            console.log("comment_length", (comment.body || "").length)
+            console.log("labels", (issue.labels || []).map(l => l.name))
+            console.log("assignees", (issue.assignees || []).map(a => a.login))
+
       - name: Classify comment
         id: check
         uses: actions/github-script@v7
@@ -23,10 +41,13 @@ jobs:
             const commentBodyRaw = (comment.body || "").trim()
 
             const marker = "<!-- issue-assignment-bot -->"
-            const acceptPhrase = "I have read the contribution guidelines and the pr template and I confirm that I will follow them"
+
+            const acceptPhraseRaw =
+              "I have read the contribution guidelines and the PR template and I confirm that I will follow them."
+
             const normalize = (s) =>
               String(s || "")
-                .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, "")) 
+                .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, ""))
                 .replace(/[`"]/g, "")
                 .trim()
                 .replace(/\s+/g, " ")
@@ -34,46 +55,68 @@ jobs:
                 .toLowerCase()
 
             const commentBodyNorm = normalize(commentBodyRaw)
+            const acceptPhraseNorm = normalize(acceptPhraseRaw)
 
-            const existingLabels = (issue.labels || []).map(l => String(l.name || "").toLowerCase())
+            const existingLabels = (issue.labels || []).map((l) =>
+              String(l.name || "").toLowerCase()
+            )
+
+            console.log("classification_start")
+            console.log("commenter", commenter)
+            console.log("comment_raw", commentBodyRaw)
+            console.log("comment_norm", commentBodyNorm)
+            console.log("accept_norm", acceptPhraseNorm)
+            console.log("existing_labels", existingLabels)
+
             if (existingLabels.includes("request-issue-assignment")) {
+              console.log("skip_reason", "label_already_present")
               core.setOutput("type", "skip")
               return
             }
 
             if (!commenter) {
+              console.log("skip_reason", "missing_commenter")
               core.setOutput("type", "skip")
               return
             }
 
-            if (commentBodyNorm === acceptPhrase) {
+            if (commentBodyNorm === acceptPhraseNorm) {
+              console.log("classified_as", "acceptance")
               core.setOutput("type", "acceptance")
               core.setOutput("commenter", commenter)
               core.setOutput("marker", marker)
               return
             }
 
-            const assignees = (issue.assignees || []).map(a => String(a.login || "").toLowerCase())
+            const assignees = (issue.assignees || []).map((a) =>
+              String(a.login || "").toLowerCase()
+            )
             if (assignees.includes(commenter.toLowerCase())) {
+              console.log("skip_reason", "already_assigned")
               core.setOutput("type", "skip")
               return
             }
 
+            console.log("checking_collaborator_status")
             try {
               await github.rest.repos.checkCollaborator({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                username: commenter
+                username: commenter,
               })
+              console.log("skip_reason", "commenter_is_collaborator")
               core.setOutput("type", "skip")
               return
             } catch (e) {
-              if (e.status === 403) {
-                console.log("Cannot verify collaborator status, skipping to avoid spam.")
-                core.setOutput("type", "skip")
-                return
+              console.log("collaborator_check_error_status", e.status)
+              if (e.status === 404) {
+                console.log("commenter_is_not_collaborator")
+              } else if (e.status === 403) {
+                console.log("cannot_verify_collaborator_status_continuing")
+              } else {
+                console.log("unexpected_error_rethrowing")
+                throw e
               }
-              if (e.status !== 404) throw e
             }
 
             const isShort = commentBodyRaw.length <= 200
@@ -86,13 +129,20 @@ jobs:
               /\bi\s+would\s+like\s+to\s+work\s+on\s+this\b/i,
               /\bcan\s+i\s+(?:take|work\s+on)\s+this\b/i,
               /\bmay\s+i\s+(?:take|work\s+on)\s+this\b/i,
-              /\bi\s+can\s+take\s+this\b/i
+              /\bi\s+can\s+take\s+this\b/i,
             ]
-            const looksLikeRequest = isShort && patterns.some(r => r.test(commentBodyRaw))
+
+            const looksLikeRequest =
+              isShort && patterns.some((r) => r.test(commentBodyRaw))
+
+            console.log("is_short", isShort)
+            console.log("matched_pattern", patterns.find((r) => r.test(commentBodyRaw))?.toString() || "")
+            console.log("looks_like_request", looksLikeRequest)
 
             core.setOutput("type", looksLikeRequest ? "assignment_request" : "skip")
             core.setOutput("commenter", commenter)
             core.setOutput("marker", marker)
+            console.log("classified_as", looksLikeRequest ? "assignment_request" : "skip")
 
       - name: Handle assignment request
         if: steps.check.outputs.type == 'assignment_request'
@@ -107,43 +157,69 @@ jobs:
             const issueNumber = context.payload.issue.number
             const defaultBranch = context.payload.repository?.default_branch || "main"
 
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              per_page: 100
-            })
+            console.log("assignment_request_start")
+            console.log("issue_number", issueNumber)
+            console.log("commenter", commenter)
+            console.log("default_branch", defaultBranch)
 
-            const alreadyAsked = comments.some(c =>
-              String(c.body || "").includes(marker) &&
-              String(c.body || "").includes('@' + commenter)
+            console.log("fetching_existing_comments")
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                per_page: 100,
+              }
             )
+            console.log("existing_comments_count", comments.length)
 
-            if (alreadyAsked) return
+            const alreadyAsked = comments.some((c) => {
+              const body = String(c.body || "")
+              return body.includes(marker) && body.includes("Hi @" + commenter + ",")
+            })
+            console.log("already_asked", alreadyAsked)
 
-            const templateUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/blob/' + defaultBranch + '/.github/PULL_REQUEST_TEMPLATE.md'
+            if (alreadyAsked) {
+              console.log("assignment_request_exit", "already_asked_true")
+              return
+            }
+
+            const templateUrl =
+              "https://github.com/" +
+              context.repo.owner +
+              "/" +
+              context.repo.repo +
+              "/blob/" +
+              defaultBranch +
+              "/.github/PULL_REQUEST_TEMPLATE.md"
+
+            console.log("template_url", templateUrl)
 
             const guidelinesMessage = [
               marker,
-              'Hi @' + commenter + ', thanks for your interest in contributing to OWASP MASTG.',
-              '',
-              'Before we can assign you to this issue, please confirm that you have read and understand our contribution guidelines.',
-              '',
-              'See <' + templateUrl + '> and all linked documents.',
-              '',
-              'To confirm, please reply with the following message, copy paste it exactly.',
-              '',
-              '```',
-              'I have read the contribution guidelines and the PR template and I confirm that I will follow them.',
-              '```'
-            ].join('\n')
+              "Hi @" + commenter + ", thanks for your interest in contributing to OWASP MASTG.",
+              "",
+              "Before we can assign you to this issue, please confirm that you have read and understand our contribution guidelines.",
+              "",
+              "See <" + templateUrl + "> and all linked documents.",
+              "",
+              "To confirm, please reply with the following message, copy paste it exactly.",
+              "",
+              "```",
+              "I have read the contribution guidelines and the PR template and I confirm that I will follow them.",
+              "```",
+            ].join("\n")
 
-            await github.rest.issues.createComment({
+            console.log("creating_guidelines_comment")
+            const res = await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueNumber,
-              body: guidelinesMessage
+              body: guidelinesMessage,
             })
+            console.log("created_comment_id", res.data?.id)
+            console.log("created_comment_url", res.data?.html_url)
 
       - name: Handle acceptance
         if: steps.check.outputs.type == 'acceptance'
@@ -157,40 +233,64 @@ jobs:
             const marker = process.env.MARKER
             const issueNumber = context.payload.issue.number
 
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              per_page: 100
-            })
+            console.log("acceptance_start")
+            console.log("issue_number", issueNumber)
+            console.log("commenter", commenter)
 
-            const previouslyAsked = comments.some(c =>
-              String(c.body || "").includes(marker) &&
-              String(c.body || "").includes('@' + commenter)
+            console.log("fetching_existing_comments")
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                per_page: 100,
+              }
             )
+            console.log("existing_comments_count", comments.length)
 
-            if (!previouslyAsked) return
-
-            const labels = (context.payload.issue.labels || []).map(l => String(l.name || "").toLowerCase())
-            if (labels.includes("request-issue-assignment")) return
-
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              labels: ["request-issue-assignment"]
+            const previouslyAsked = comments.some((c) => {
+              const body = String(c.body || "")
+              return body.includes(marker) && body.includes("Hi @" + commenter + ",")
             })
+            console.log("previously_asked", previouslyAsked)
+
+            if (!previouslyAsked) {
+              console.log("acceptance_exit", "no_prior_bot_prompt_found")
+              return
+            }
+
+            const labels = (context.payload.issue.labels || []).map((l) =>
+              String(l.name || "").toLowerCase()
+            )
+            console.log("current_labels", labels)
+
+            if (!labels.includes("request-issue-assignment")) {
+              console.log("adding_label_request_issue_assignment")
+              const labelRes = await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: ["request-issue-assignment"],
+              })
+              console.log("labels_after_add", (labelRes.data || []).map(l => l.name))
+            } else {
+              console.log("label_already_present_noop")
+            }
 
             const confirmationMessage = [
               marker,
-              'Thank you @' + commenter + ' for accepting the contribution guidelines.',
-              '',
-              'Your assignment request has been noted and labeled, a maintainer will review and assign you to this issue shortly, please refrain from making a pull request until you have been officially assigned.'
-            ].join('\n')
+              "Thank you @" + commenter + " for accepting the contribution guidelines.",
+              "",
+              "Your assignment request has been noted and labeled, a maintainer will review and assign you to this issue shortly, please refrain from making a pull request until you have been officially assigned.",
+            ].join("\n")
 
-            await github.rest.issues.createComment({
+            console.log("creating_confirmation_comment")
+            const res = await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueNumber,
-              body: confirmationMessage
+              body: confirmationMessage,
             })
+            console.log("created_comment_id", res.data?.id)
+            console.log("created_comment_url", res.data?.html_url)
