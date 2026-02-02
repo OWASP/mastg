@@ -37,11 +37,7 @@ jobs:
 
             const numberRaw =
               inputs.issue_or_pr_number ||
-              inputs.number ||
-              inputs.issue_number ||
-              core.getInput("issue_or_pr_number") ||
-              core.getInput("number") ||
-              core.getInput("issue_number")
+              core.getInput("issue_or_pr_number")
 
             const messageKey =
               inputs.message ||
