@@ -36,7 +36,7 @@ Examples:
 
 | Area           | Before Frida 17                                     | Frida 17 and later                                            | Notes                                             |
 | -------------- | --------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
-| Global exports | `Module.getGlobalExportByName(null, "open")`        | `Module.getGlobalExportByName("open")`                        | Global lookup no longer accepts a module argument |
+| Global exports | `Module.getExportByName(null, "open")`        | `Module.getGlobalExportByName("open")`                        | Global lookup no longer accepts a module argument |
 | Global exports | `Module.findExportByName(null, "open")`             | `Module.findGlobalExportByName("open")`                       | Use this when the export may not exist            |
 | Symbols        | `Module.getSymbolByName(null, "open")`              | `Module.getGlobalExportByName("open")`                        | Symbol helpers removed for common cases           |
 | Module exports | `Module.findExportByName("libc.so", "open")`        | `Process.getModuleByName("libc.so").findExportByName("open")` | Static Module helpers removed                     |
