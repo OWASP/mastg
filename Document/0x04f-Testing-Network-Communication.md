@@ -68,7 +68,7 @@ Both Android and iOS recommendations match the "best case" which is:
 Pinning has gained a bad reputation since its introduction several years ago. We'd like to clarify a couple of points that are valid at least for mobile application security:
 
 - The bad reputation is due to operational reasons (e.g. implementation/pin management complexity) not lack of security.
-- If an app does not implement pinning, this shouldn't be reported as a vulnerability. However, if the app must verify against MASVS-L2 it must be implemented.
+- If an app does not implement pinning, this shouldn't be reported as a vulnerability. However, if the app must verify against MAS-L2 it must be implemented.
 - Both Android and iOS make implementing pinning very easy and follow the best practices.
 - Pinning protects against a compromised CA or a malicious CA that is installed on the device. In those cases, pinning will prevent the OS from establishing a secure connection from being established with a malicious server. However, if an attacker is in control of the device, they can easily disable any pinning logic and thus still allow the connection to happen. As a result, this will not prevent an attacker from accessing your backend and abusing server-side vulnerabilities.
 - Pinning in mobile apps is not the same as HTTP Public Key Pinning (HPKP). The HPKP header is no longer recommended on websites as it can lead to users being locked out of the website without any way to revert the lockout. For mobile apps, this is not an issue, as the app can always be updated via an out-of-band channel (i.e. the app store) in case there are any issues.
@@ -81,7 +81,8 @@ The [Android Developers](https://developer.android.com/training/articles/securit
 
 They also include this [note](https://developer.android.com/training/articles/security-config#CertificatePinning):
 
-> Note that, when using certificate pinning, you should always include a backup key so that if you are forced to switch to new keys or change CAs (when pinning to a CA certificate or an intermediate of that CA), your app's connectivity is unaffected. Otherwise, you must push out an update to the app to restore connectivity.
+!!! note
+    When using certificate pinning, you should always include a backup key so that if you are forced to switch to new keys or change CAs (when pinning to a CA certificate or an intermediate of that CA), your app's connectivity is unaffected. Otherwise, you must push out an update to the app to restore connectivity.
 
 The first statement can be mistakenly interpreted as saying that they "do not recommend certificate pinning". The second statement clarifies this: the actual recommendation is that if developers want to implement pinning they have to take the necessary precautions.
 
@@ -91,7 +92,7 @@ Apple recommends [thinking long-term](https://developer.apple.com/news/?id=g9ejc
 
 #### OWASP MASTG Recommendation
 
-Pinning is a recommended practice, especially for MASVS-L2 apps. However, developers must implement it exclusively for the endpoints under their control and be sure to include backup keys (aka. backup pins) and have a proper app update strategy.
+Pinning is a recommended practice, especially for MAS-L2 apps. However, developers must implement it exclusively for the endpoints under their control and be sure to include backup keys (aka. backup pins) and have a proper app update strategy.
 
 #### Learn more
 
@@ -219,7 +220,7 @@ The specific interception method used depends on the app's security mechanisms a
 Here's an overview of interception techniques at different network layers:
 
 | **Interception Technique** | **Example Tools** | **Note** |
-|---------------------------|-------------------|-------------------|
+| --- | --- | --- |
 | API hooking (`HttpUrlConnection`, `NSURLSession`, `WebRequest`) | Frida | Modifies how apps handle network requests. |
 | Hooking TLS functions (`SSL_read`, `SSL_write`) | Frida, SSL Kill Switch | Intercepts encrypted data before it reaches the app. |
 | Proxy interception | Burp Suite, ZAP, mitmproxy | Requires app to respect proxy settings. |

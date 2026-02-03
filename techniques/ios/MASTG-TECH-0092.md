@@ -3,15 +3,15 @@ title: Signing IPA files
 platform: ios
 ---
 
-To install an IPA file on a non-jailbroken device, it needs to have a valid signature. On a jailbroken device, this is not required after installing @MASTG-TOOL-0127.
+To install an IPA file on a non-jailbroken device, the IPA must have a valid signature. On a jailbroken device, this is not required after installing @MASTG-TOOL-0127.
 
-First, you need to obtain a developer provisioning profile and certificate, as explained in @MASTG-TECH-0079.
+First, you need to get a developer provisioning profile and certificate, as explained in @MASTG-TECH-0079.
 
 !!! Warning
 
-    If you have a normal Apple account, you will only be able to sign the IPA with a modified (unique) Bundle identifier. If you have a Developer account, you can sign with the original Bundle identifier.
+    If you have a standard Apple account, you will only be able to sign the IPA with a modified (unique) Bundle identifier. If you have a Developer account, you can sign with the original Bundle identifier.
 
-The signing process can be done using @MASTG-TOOL-0102, @MASTG-TOOL-0117, @MASTG-TOOL-0118 or @MASTG-TOOL-0114.
+The signing process can be done using @MASTG-TOOL-0102, @MASTG-TOOL-0117, @MASTG-TOOL-0118, or @MASTG-TOOL-0114.
 
 ## Using fastlane
 
@@ -60,7 +60,7 @@ More information can be found in the official documentation: ["Codesign an exist
 
 !!! warning
 
-    By default, fastlane will always use the Bundle identifier from the given provisioning profile, both for normal Apple accounts and Developer accounts. If you have a Developer account, you can specify the desired Bundle identifier by directly using the `resign.sh` script bundled with Fastlane and specifying the `--bundle-id` property:
+    By default, Fastlane always uses the Bundle identifier from the specified provisioning profile, for both standard Apple accounts and Developer accounts. If you have a Developer account, you can specify the desired Bundle identifier by directly using the `resign.sh` script bundled with Fastlane and specifying the `--bundle-id` property:
 
     ```bash
     $ /opt/homebrew/Cellar/fastlane/2.226.0/libexec/gems/fastlane-2.226.0/sigh/lib/assets/resign.sh /Users/MAS/uncrackable1.ipa <CERTIFICATE> -p /Users/MAS/embedded.mobileprovision /Users/MAS/signed.ipa -v --bundle-id "org.mas.myapp"
@@ -87,4 +87,4 @@ More information can be found in the official documentation: ["Codesign an exist
 
 ## Using Sideloadly
 
-Sideloadly can take care of obtaining a valid certificate for your app, but it is not possible to simply sign an existing IPA file in-place. Sideloadly will sign the given IPA file and directly install it on the connected device. When using a normal Apple account, Sideloadly will modify the original package name by appending your team identifier (e.g. `sg.vp.UnCrackable1` becomes `sg.vp.UnCrackable1.QH868V5764`)
+Sideloadly can handle getting a valid certificate for your app, but it is not possible to sign an existing IPA file in-place. Sideloadly will sign the provided IPA file and install it directly on the connected device. When using a standard Apple account, Sideloadly will modify the original package name by appending your team identifier (e.g. `sg.vp.UnCrackable1` becomes `sg.vp.UnCrackable1.QH868V5764`)

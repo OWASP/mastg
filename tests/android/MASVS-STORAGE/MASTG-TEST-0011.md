@@ -8,6 +8,9 @@ title: Testing Memory for Sensitive Data
 masvs_v1_levels:
 - L2
 profiles: [L2]
+status: deprecated
+covered_by: []
+deprecation_note: The associated weaknesses are best addressed during the development process. See @MASTG-KNOW-0051 for more details.
 ---
 
 ## Overview
@@ -262,7 +265,8 @@ Refer to the `SecureSecretKey` example above for an example `Editable` implement
 
 In all cases, make sure that sensitive data in memory is cleared when a user signs out of the application. Finally, make sure that highly sensitive information is cleared out the moment an Activity or Fragment's `onPause` event is triggered.
 
-> Note that this might mean that a user has to re-authenticate every time the application resumes.
+!!! note
+    This might mean that a user has to re-authenticate every time the application resumes.
 
 ## Dynamic Analysis
 

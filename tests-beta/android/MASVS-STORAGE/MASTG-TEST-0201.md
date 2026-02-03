@@ -6,6 +6,7 @@ apis: [Environment#getExternalStorageDirectory, Environment#getExternalStorageDi
 type: [dynamic]
 weakness: MASWE-0007
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0042]
 ---
 
 ## Overview

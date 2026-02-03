@@ -6,19 +6,19 @@ code: [kotlin]
 test: MASTG-TEST-0203
 ---
 
-### Sample
+## Sample
 
 The snippet contains many calls to logging APIs which are used to print out secrets such as passwords or IVs.
 
 {{ MastgTest.kt }}
 
-### Steps
+## Steps
 
 Execute `frida-trace` against the sample app, tracing logging classes and methods.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 `frida-trace` has identified several instances where log output has been printed.
 
@@ -28,7 +28,7 @@ As a reference, this is the corresponding logcat output obtained from Android St
 
 {{ logcat_output.txt }}
 
-### Evaluation
+## Evaluation
 
 Review each of the reported instances by using keywords and known secrets (e.g. passwords or usernames or values you keyed into the app).
 

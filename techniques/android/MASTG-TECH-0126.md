@@ -1,6 +1,6 @@
---- 
+---
 title: Obtaining App Permissions
-platform: android 
+platform: android
 ---
 
 Android permissions are declared in the `AndroidManifest.xml` file using the `<uses-permission>` tag. You can use multiple tools to view them.

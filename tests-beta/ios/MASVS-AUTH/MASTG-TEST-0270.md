@@ -6,6 +6,7 @@ apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
 type: [static]
 weakness: MASWE-0046
 profiles: [L2]
+knowledge: [MASTG-KNOW-0056]
 ---
 
 ## Overview

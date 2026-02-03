@@ -3,6 +3,7 @@ title: Use Secure Random Number Generator APIs
 alias: android-use-secure-random
 id: MASTG-BEST-0001
 platform: android
+knowledge: [MASTG-KNOW-0013]
 ---
 
 Use a cryptographically secure pseudorandom number generator as provided by the platform or programming language you are using.

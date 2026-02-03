@@ -6,13 +6,13 @@ code: [swift]
 test: MASTG-TEST-0270
 ---
 
-### Sample
+## Sample
 
 The following sample uses the `kSecAccessControlBiometryAny` flag, which is part of the biometric authentication API and can allow unauthorized access. This flag does not ensure that the associated keychain item becomes inaccessible when changes are made to the biometric database (e.g., when a new fingerprint or face is added). Consequently, users who enroll their biometric data after the item is created can unlock it.
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh`.
@@ -21,7 +21,7 @@ The following sample uses the `kSecAccessControlBiometryAny` flag, which is part
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 {{ output.asm }}
 
@@ -34,7 +34,7 @@ bl sym.imp.SecAccessControlCreateWithFlags
 
 The `flags` is an enum of [`SecAccessControlCreateFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags). `2` corresponds to [`kSecAccessControlBiometryAny`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/biometryany) (see [LAPublicDefines.h](https://github.com/xybp888/iOS-SDKs/blob/master/iPhoneOS18.4.sdk/System/Library/Frameworks/LocalAuthentication.framework/Headers/LAPublicDefines.h#L12-L18)). This means that the app invokes `SecAccessControlCreateWithFlags(..., kSecAccessControlBiometryAny)`, which means it will accept new biometric added in the system settings.
 
-### Evaluation
+## Evaluation
 
 The test fails because the output shows a reference to `SecAccessControlCreateWithFlags` with `kSecAccessControlBiometryAny`, which accepts any additional biometrics added after the Keychain entry was created.
 

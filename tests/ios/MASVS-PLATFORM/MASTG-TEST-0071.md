@@ -58,10 +58,11 @@ A very complete explanation about the use of these keys can be found [on Stackov
 Let's see a real-world example. We will take a File Manager app and take a look at these keys. We used @MASTG-TOOL-0038 here to read the `Info.plist` file.
 
 ```bash
-objection --gadget SomeFileManager run ios plist cat Info.plist
+objection --name SomeFileManager run ios plist cat Info.plist
 ```
 
-> Note that this is the same as if we would retrieve the IPA from the phone or accessed via e.g. SSH and navigated to the corresponding folder in the IPA / app sandbox. However, with objection we are just _one command away_ from our goal and this can be still considered static analysis.
+!!! note
+    This is the same as if we would retrieve the IPA from the phone or access it via e.g. SSH and navigate to the corresponding folder in the IPA / app sandbox. However, with objection, we are just _one command away_ from our goal, and this can still be considered static analysis.
 
 The first thing we noticed is that app does not declare any imported custom document types but we could find a couple of exported ones:
 

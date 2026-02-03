@@ -18,12 +18,13 @@ The **OWASP Mobile Application Security Testing Guide (MASTG)** is a comprehensi
 Start exploring the MASTG:
 
 <!-- markdownlint-disable search-replace -->
-<a href="/MASTG/tests/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-codescan-checkmark-24:  Tests</a>
-<a href="/MASTG/techniques/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-magic-staff:  Techniques</a>
-<a href="/MASTG/demos/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-flask-outline:  Demos</a>
-<a href="/MASTG/tools/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-tools-24:  Tools</a>
-<a href="/MASTG/apps/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-code-square-24:  Apps</a>
-<a href="/MASTG/best-practices/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-shield-check:  Best Practices</a>
+<a href="knowledge/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-book-open-blank-variant-outline:  Knowledge</a>
+<a href="tests/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-codescan-checkmark-24:  Tests</a>
+<a href="techniques/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-magic-staff:  Techniques</a>
+<a href="demos/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-flask-outline:  Demos</a>
+<a href="tools/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-tools-24:  Tools</a>
+<a href="apps/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-code-square-24:  Apps</a>
+<a href="best-practices/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-shield-check:  Best Practices</a>
 <!-- markdownlint-disable search-replace -->
 
 <br>
