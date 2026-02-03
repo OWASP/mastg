@@ -58,9 +58,12 @@ The level of scrutiny appropriate for each state may depend on the data's import
 
 ### MAS-ASSET Matrix
 
-Close to data classification are MAS Testing Profiles, which outline MAS Tests that evaluate applications. MAS Testing Profiles are designed to identify the sequence of tests to assess an application's security. MAS Asset classification is used to identify which data a test assesses.
+The MAS-ASSET classification combines the two data categories (Intellectual Property and User Data) with the three data states (at rest, in use, in transit) to produce six asset types. Each MAS Test targets one or more of these asset types, making it clear exactly what kind of data and in which state a test is designed to protect.
 
 |                           | Data at rest | Data in use | Data in transit |
 |---------------------------|--------------|-------------|-----------------|
 | **Intellectual Property** | MAS-ASSET-1  | MAS-ASSET-2 | MAS-ASSET-3     |
 | **User Data**             | MAS-ASSET-4  | MAS-ASSET-5 | MAS-ASSET-6     |
+
+> Note 
+    Close to data classification are MAS Testing Profiles, which outline MAS Tests that evaluate applications. MAS Testing Profiles are designed to identify the sequence of tests to assess an application's security. MAS Asset classification is used to identify which data a test assesses.
