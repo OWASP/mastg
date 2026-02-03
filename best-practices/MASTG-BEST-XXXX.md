@@ -18,6 +18,6 @@ For example:
   val cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder)
 ```
 
-- **Use Prepared Statements** : When performing insert, update, or delete operations, use SQLite prepared statements (for example, `SQLiteStatement` or `SQLiteDatabase` methods that support argument binding) instead of dynamically constructed SQL. Prepared statements ensure that untrusted input is bound as parameters and cannot alter the structure of the SQL query, effectively preventing SQL injection even when input originates from URIs or IPC calls.
+- **Use Prepared Statements**: When performing insert, update, or delete operations, use SQLite prepared statements (for example, `SQLiteStatement` or `SQLiteDatabase` methods that support argument binding) instead of dynamically constructed SQL. Prepared statements ensure that untrusted input is bound as parameters and cannot alter the structure of the SQL query, effectively preventing SQL injection even when input originates from URIs or IPC calls.
 
 Refer to ["Protect against malicious input"](https://developer.android.com/guide/topics/providers/content-provider-basics#Injection) for more information.
