@@ -5,6 +5,7 @@ id: MASTG-TEST-0316
 type: [static, manual]
 weakness: MASWE-0053
 profiles: [L2]
+assets: [MAS-ASSET-5]
 ---
 
 ## Overview
