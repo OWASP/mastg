@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: URL Lint Check
-        uses: tcort/github-action-markdown-link-check@v1.1.2
+        uses: tcort/github-action-markdown-link-check@v1.1.0
         with:
           use-verbose-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
