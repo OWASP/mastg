@@ -53,7 +53,7 @@ Frida 17 introduces [breaking changes](https://frida.re/news/2025/05/17/frida-17
 
 **Bridges:**
 
-Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use the commands `frida` and `frida-trace`, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
+Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use CLI tools such as `frida`, `frida-trace` or @MASTG-TOOL-0145, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
 
 However, if you are writing your own custom Frida-based tooling or scripts that depend on these bridges, you will now need to install them separately via `frida-pm`, Frida's package manager. For example, to install the Java bridge, run:
 
@@ -76,7 +76,9 @@ npx frida-compile -o agent.js -o _agent.js
 
 **API Changes:**
 
-Frida has made changes to its native APIs. While these changes may break some of your existing scripts, they encourage you to write more readable and performant code. For instance, now, `Process.enumerateModules()` returns an array of `Module` objects, allowing you to work with them directly.
+Frida has made changes to its native APIs. While these changes may break some of your existing scripts, they encourage you to write more readable and performant code. See a full overview in the [MASTG Frida scripts writing guide](https://mas.owasp.org/contributing/writing-content/mastg-frida-scripts.instructions#use-and-validation-of-frida-apis).
+
+For instance, now, `Process.enumerateModules()` returns an array of `Module` objects, allowing you to work with them directly.
 
 ```js
 for (const module of Process.enumerateModules()) {
@@ -94,7 +96,11 @@ Process.getModuleByName('libc.so').getExportByName('open')
 Module.getGlobalExportByName('open');
 ```
 
-For more details, refer to the [Frida 17.0.0 Release Notes](https://frida.re/news/2025/05/17/frida-17-0-0-released/).
+For more details, see:
+
+- the [Frida 17.0.0 Release Notes](https://frida.re/news/2025/05/17/frida-17-0-0-released/)
+- the [updated Frida JavaScript API documentation](https://frida.re/docs/javascript-api/)
+- the [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts)
 
 ## Tools
 
