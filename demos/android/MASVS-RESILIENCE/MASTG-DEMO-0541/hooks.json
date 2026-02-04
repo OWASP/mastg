@@ -1,0 +1,33 @@
+{
+  "category": "RESILIENCE",
+  "hooks": [
+    {
+      "class": "java.io.File",
+      "method": "$init",
+      "overloads": [
+        {
+          "args": ["java.lang.String"]
+        }
+      ],
+      "filterEventsByStacktrace": ["org.owasp.mastestapp.MastgTest"]
+    },
+    {
+      "class": "android.app.ApplicationPackageManager",
+      "method": "getPackageInfo",
+      "overloads": [
+        {
+          "args": ["java.lang.String", "int"]
+        }
+      ]
+    },
+    {
+      "class": "java.lang.Runtime",
+      "method": "exec",
+      "overloads": [
+        {
+          "args": ["java.lang.String"]
+        }
+      ]
+    }
+  ]
+}

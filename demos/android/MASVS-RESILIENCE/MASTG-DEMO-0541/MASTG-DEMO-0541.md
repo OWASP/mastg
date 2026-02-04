@@ -1,44 +1,43 @@
 ---
 platform: android
-title: Runtime Detection and Bypass of Root Detection
+title: Runtime Detection of Root Detection Mechanisms
 id: MASTG-DEMO-0541
 code: [kotlin]
 test: MASTG-TEST-0502
-tools: [MASTG-TOOL-0031]
+tools: [MASTG-TOOL-0145]
 ---
 
-### Sample
+## Sample
 
-This demo shows how to detect and bypass root detection mechanisms at runtime using Frida. The sample app from @MASTG-DEMO-0540 implements multiple root detection checks.
+This demo shows how to detect root detection mechanisms at runtime using Frooky. The sample app from @MASTG-DEMO-0540 implements multiple root detection checks.
 
 {{ ../MASTG-DEMO-0540/MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Ensure the target app is installed on the device and frida-server is running.
-2. Run the Frida script using @MASTG-TECH-0142 to bypass root detection.
+2. Run @MASTG-TOOL-0145 with the hooks configuration to monitor root detection methods.
 
-{{ run.sh # frida_script.js }}
+{{ run.sh }}
 
-The Frida script hooks common root detection methods to:
+The hooks configuration monitors common root detection methods:
 
-1. Monitor when root checks are performed
-2. Bypass the checks by returning safe values
-3. Log the detected checks for analysis
+{{ hooks.json }}
 
-### Observation
+## Observation
 
-The output shows all root detection mechanisms that were detected and bypassed during app execution.
+The output shows all root detection method invocations captured during app execution.
 
-{{ output.txt }}
+{{ output.json }}
 
-### Evaluation
+## Evaluation
 
-The test passes because the output confirms the app implements multiple root detection checks:
+The test passes because the output confirms the app implements root detection checks that were monitored at runtime:
 
-- **File.exists() checks** (lines 7-19): The app checks for su binaries at common locations (/system/xbin/su, /sbin/su, /system/bin/su)
-- **PackageManager.getPackageInfo() checks** (lines 21-28): The app looks for root management packages (SuperSU, Magisk)
-- **Build.TAGS check** (lines 30-33): The app verifies if the device has a test-keys build
-- **Runtime.exec() calls** (lines 35-41): The app executes getprop commands to read system properties (ro.debuggable, ro.secure)
+- **20 File constructor calls** (from `MastgTest.checkForSuBinary()` at line 68): By hooking the File constructor instead of `exists()`, we can see the actual paths being checked. The app checks for su binaries at 10 unique locations: `/system/app/Superuser.apk`, `/sbin/su`, `/system/bin/su`, `/system/xbin/su`, `/data/local/xbin/su`, `/data/local/bin/su`, `/system/sd/xbin/su`, `/system/bin/failsafe/su`, `/data/local/su`, and `/su/bin/su`. Each path check is visible twice because the test function was invoked twice.
 
-The successful bypass and detection of these checks demonstrates that the app implements runtime root detection, which aligns with resilience best practices. However, the fact that these checks can be bypassed with standard tools like Frida indicates that more sophisticated anti-tampering mechanisms would be needed for high-security applications.
+- **24 PackageManager.getPackageInfo() calls** (from `MastgTest.checkForRootPackages()` at line 96): The app checks for 12 root management packages including `com.topjohnwu.magisk`, `eu.chainfire.supersu`, `com.kingroot.kinguser`, `com.noshufou.android.su`, `com.koushikdutta.superuser`, `com.yellowes.su`, `com.kingo.root`, `com.smedialink.oneclickroot`, `com.zhiqupk.root.global`, `com.alephzain.framaroot`, `com.noshufou.android.su.elite`, and `com.thirdparty.superuser`. All throw `NameNotFoundException` as expected since none are installed. Each package is checked twice due to two test invocations.
+
+- **4 Runtime.exec() calls** (from `MastgTest.getSystemProperty()` at line 133, called by `checkForDangerousProps()` at line 123): The app executes `getprop ro.debuggable` and `getprop ro.secure` commands to read system properties that may indicate root access. Each property is checked twice.
+
+The output contains 50 total hook events: 48 from the root detection test (20 File + 24 PackageManager + 4 Runtime.exec) and 2 from system components. The stack traces confirm all root detection checks originate from `mastgTest()` being invoked twice, showing comprehensive root detection monitoring with minimal noise.
