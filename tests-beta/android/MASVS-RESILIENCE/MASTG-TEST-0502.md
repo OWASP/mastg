@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0027]
 
 ## Overview
 
-Android apps may implement root detection to identify whether the device has been rooted at runtime. If the app does not implement effective root detection, it becomes easier for attackers to perform dynamic analysis, hook into sensitive methods, bypass security controls, or extract sensitive data on rooted devices.
+Android apps may implement root detection to identify whether the device has been rooted at runtime. If the app does not implement effective root detection, it becomes easier for attackers to perform dynamic analysis, hook into sensitive methods, bypass security controls, or extract sensitive data on rooted devices. Additionally, rooted devices enable attackers to spoof or tamper with device sensors (e.g., GPS, accelerometer) and camera input, which poses a significant risk for identity verification and KYC workflows, allowing fraudsters to manipulate liveness checks, inject prerecorded or synthetic video streams.
 
 This test verifies whether an application implements runtime root detection by attempting to bypass common root detection mechanisms using automated tools. If the bypass tools successfully identify and neutralize root detection checks, it confirms that the app is performing root detection.
 

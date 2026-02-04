@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Root Detection Implementation in Code
+title: Uses of Root Detection Techniques with Semgrep
 id: MASTG-DEMO-0540
 code: [kotlin, java]
 test: MASTG-TEST-0501
