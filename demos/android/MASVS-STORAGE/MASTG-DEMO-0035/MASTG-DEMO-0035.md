@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0216
 ---
 
-### Sample
+## Sample
 
 This demo uses the sample from @MASTG-DEMO-0020.
 
 {{ ../MASTG-DEMO-0020/MastgTest.kt # ../MASTG-DEMO-0020/AndroidManifest.xml # ../MASTG-DEMO-0020/backup_rules.xml }}
 
-### Steps
+## Steps
 
 1. Install the target app on your device.
 2. Open the app and exercise it to trigger file creations.
@@ -22,7 +22,7 @@ This demo uses the sample from @MASTG-DEMO-0020.
 
 For simplicity, in `run.sh` we restrict the files to the `filesDir` directory in the backup structure (`apps/org.owasp.mastestapp/f`).
 
-### Observation
+## Observation
 
 The output contains:
 
@@ -31,7 +31,7 @@ The output contains:
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because `secret.txt` is part of the backup and it contains sensitive data.
 

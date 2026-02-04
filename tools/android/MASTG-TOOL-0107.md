@@ -2,10 +2,7 @@
 title: JNITrace
 platform: android
 source: https://github.com/chame1eon/jnitrace
-host:
-- windows
-- linux
-- macOS
+hosts: [windows, linux, macOS]
 ---
 
 A Frida based tool to trace use of the JNI API in Android apps.

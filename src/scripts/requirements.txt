@@ -9,4 +9,5 @@ Pillow==11.3.0
 semgrep
 frida
 frida-tools
+frooky
 r2pipe

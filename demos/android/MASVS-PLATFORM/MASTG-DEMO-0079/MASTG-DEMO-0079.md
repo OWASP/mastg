@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0316
 ---
 
-### Sample
+## Sample
 
 The following sample demonstrates a pair of username and password input fields in Compose.
 
 {{ MainActivity.kt # MainActivityKt_reversed.java # ComposableSingletons$MainActivityKt_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the Kotlin code.
 
@@ -20,13 +20,13 @@ Let's run our @MASTG-TOOL-0110 rule against the Kotlin code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule detected one instance of `SecureTextField` and one of `TextField`.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 After reviewing the decompiled code at the location specified in the output (file and line number), we can conclude that the test fails because the `SecureTextField`, found in line 143, is used with `textObfuscationMode` set to `TextObfuscationMode.Visible` (in Java this appears as `SecureTextFieldKt.m3241SecureTextFieldXvU6IwQ(..., TextObfuscationMode.Companion.m1459getVisiblevTwcZD0(),...)`).
 

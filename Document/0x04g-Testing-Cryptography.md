@@ -58,7 +58,8 @@ Recommended algorithms:
 - Digital signature algorithms: RSA (3072 bits and higher), ECDSA with NIST P-384 or EdDSA with Edwards448.
 - Key establishment algorithms: RSA (3072 bits and higher), DH (3072 bits or higher), ECDH with NIST P-384
 
-**Please note:** The recommendations are based on the current industry perception of what is considered appropriate. They align with NIST recommendations beyond 2030 but do not necessarily take into account advancements in quantum computing. For advice on post-quantum cryptography, please see the ["Post-Quantum"](#post-quantum) section below.
+!!! note
+    The recommendations are based on the current industry perception of what is considered appropriate. They align with NIST recommendations beyond 2030, but do not necessarily account for advancements in quantum computing. For advice on post-quantum cryptography, please see the ["Post-Quantum"](#post-quantum) section below.
 
 Additionally, you should always rely on secure hardware (if available) for storing encryption keys, performing cryptographic operations, etc.
 

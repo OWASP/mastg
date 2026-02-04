@@ -81,7 +81,8 @@ The [Android Developers](https://developer.android.com/training/articles/securit
 
 They also include this [note](https://developer.android.com/training/articles/security-config#CertificatePinning):
 
-> Note that, when using certificate pinning, you should always include a backup key so that if you are forced to switch to new keys or change CAs (when pinning to a CA certificate or an intermediate of that CA), your app's connectivity is unaffected. Otherwise, you must push out an update to the app to restore connectivity.
+!!! note
+    When using certificate pinning, you should always include a backup key so that if you are forced to switch to new keys or change CAs (when pinning to a CA certificate or an intermediate of that CA), your app's connectivity is unaffected. Otherwise, you must push out an update to the app to restore connectivity.
 
 The first statement can be mistakenly interpreted as saying that they "do not recommend certificate pinning". The second statement clarifies this: the actual recommendation is that if developers want to implement pinning they have to take the necessary precautions.
 
@@ -219,7 +220,7 @@ The specific interception method used depends on the app's security mechanisms a
 Here's an overview of interception techniques at different network layers:
 
 | **Interception Technique** | **Example Tools** | **Note** |
-|---------------------------|-------------------|-------------------|
+| --- | --- | --- |
 | API hooking (`HttpUrlConnection`, `NSURLSession`, `WebRequest`) | Frida | Modifies how apps handle network requests. |
 | Hooking TLS functions (`SSL_read`, `SSL_write`) | Frida, SSL Kill Switch | Intercepts encrypted data before it reaches the app. |
 | Proxy interception | Burp Suite, ZAP, mitmproxy | Requires app to respect proxy settings. |

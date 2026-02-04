@@ -6,11 +6,11 @@ code: [java]
 test: MASTG-TEST-0204
 ---
 
-### Sample
+## Sample
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -18,13 +18,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified five instances in the code file where an insecure random number generator is used. The specified line numbers can be located in the original code for further investigation and remediation.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 Review each of the reported instances.
 
