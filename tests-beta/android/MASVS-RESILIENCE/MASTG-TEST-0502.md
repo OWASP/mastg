@@ -19,7 +19,7 @@ The test works by running the app on a rooted device or in an environment with r
 
 ## Steps
 
-1. Run @MASTG-TECH-0142 to bypass root detection checks in the application.
+1. Run @MASTG-TECH-0542 to bypass root detection checks in the application.
 2. Observe the console output and the app's behavior to identify which root detection mechanisms were triggered and bypassed.
 
 ## Observation
