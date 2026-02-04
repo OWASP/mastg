@@ -9,7 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: URL Lint Check
-        uses: Diolor/github-action-markdown-link-check@1
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
+          use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
