@@ -1,29 +1,30 @@
 ---
 platform: android
 title: Runtime Detection and Bypass of Root Detection
-id: MASTG-DEMO-0041
-code: [javascript]
-test: MASTG-TEST-0290
+id: MASTG-DEMO-0541
+code: [kotlin]
+test: MASTG-TEST-0502
 tools: [MASTG-TOOL-0031]
 ---
 
 ### Sample
 
-This demo shows how to detect and bypass root detection mechanisms at runtime using Frida. The sample app from @MASTG-DEMO-0040 implements multiple root detection checks.
+This demo shows how to detect and bypass root detection mechanisms at runtime using Frida. The sample app from @MASTG-DEMO-0540 implements multiple root detection checks.
 
-The Frida script hooks common root detection methods to:
-1. Monitor when root checks are performed
-2. Bypass the checks by returning safe values
-3. Log the detected checks for analysis
-
-{{ frida_script.js }}
+{{ ../MASTG-DEMO-0540/MastgTest.kt }}
 
 ### Steps
 
 1. Ensure the target app is installed on the device and frida-server is running.
 2. Run the Frida script using @MASTG-TECH-0142 to bypass root detection.
 
-{{ run.sh }}
+{{ run.sh # frida_script.js }}
+
+The Frida script hooks common root detection methods to:
+
+1. Monitor when root checks are performed
+2. Bypass the checks by returning safe values
+3. Log the detected checks for analysis
 
 ### Observation
 

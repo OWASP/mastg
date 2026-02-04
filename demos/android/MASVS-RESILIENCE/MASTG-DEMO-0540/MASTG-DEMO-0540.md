@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Root Detection Implementation in Code
-id: MASTG-DEMO-0040
+id: MASTG-DEMO-0540
 code: [kotlin, java]
-test: MASTG-TEST-0289
+test: MASTG-TEST-0501
 tools: [MASTG-TOOL-0110]
 ---
 

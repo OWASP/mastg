@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Runtime Use of Root Detection Techniques
-id: MASTG-TEST-0290
+id: MASTG-TEST-0502
 type: [dynamic]
 weakness: MASWE-0097
 best-practices: [MASTG-BEST-0028]

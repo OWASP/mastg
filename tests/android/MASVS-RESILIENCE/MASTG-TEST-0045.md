@@ -9,8 +9,8 @@ masvs_v1_levels:
 - R
 profiles: [R]
 status: deprecated
-covered_by: [MASTG-TEST-0289, MASTG-TEST-0290]
-deprecation_note: "This test has been split into separate static and dynamic tests available in MASTG v2. Use MASTG-TEST-0289 for static analysis and MASTG-TEST-0290 for dynamic analysis."
+covered_by: [MASTG-TEST-0501, MASTG-TEST-0502]
+deprecation_note: "TNew version available in MASTG V2"
 ---
 
 ## Bypassing Root Detection

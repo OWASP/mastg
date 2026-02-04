@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Root Detection in Code
-id: MASTG-TEST-0289
+id: MASTG-TEST-0501
 type: [static]
 weakness: MASWE-0097
 best-practices: [MASTG-BEST-0028]

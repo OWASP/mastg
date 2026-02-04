@@ -1,7 +1,7 @@
 ---
 title: Implementing Root Detection
 alias: implementing-root-detection
-id: MASTG-BEST-0028
+id: MASTG-BEST-0528
 platform: android
 knowledge: [MASTG-KNOW-0027]
 ---
