@@ -3,7 +3,7 @@ title: Getting Loaded Classes and Methods Dynamically
 platform: android
 ---
 
-You can use the command `Java` in the Frida CLI to access the Java runtime and retrieve information from the running app. Remember that, unlike Frida for iOS, in Android you need to wrap your code inside a `Java.perform` function. Thus, it's more convenient to use Frida scripts to e.g. get a list of loaded Java classes and their corresponding methods and fields or for more complex information gathering or instrumentation. One such scripts is listed below. The script to list class's methods used below is available on [Github](https://github.com/frida/frida-java-bridge/issues/44 "Github").
+You can use the command `Java` in the Frida CLI to access the Java runtime and retrieve information from the running app. Remember that, unlike Frida for iOS, in Android, you need to wrap your code inside a `Java.perform` function. Thus, it's more convenient to use Frida scripts, e.g. get a list of loaded Java classes and their corresponding methods and fields, or for more complex information gathering or instrumentation. One such script is listed below. The script to list the class's methods used below is available on [Github](https://github.com/frida/frida-java-bridge/issues/44 "Github").
 
 ```java
 // Get list of loaded Java classes and methods
@@ -36,7 +36,7 @@ function describeJavaClass(className) {
 }
 ```
 
-After saving the script to a file called java_class_listing.js, you can tell Frida CLI to load it by using the flag `-l` and inject it to the process ID specified by `-p`.
+After saving the script to a file called java_class_listing.js, you can tell Frida CLI to load it by using the flag `-l` and inject it into the process ID specified by `-p`.
 
 ```bash
 frida -U -l java_class_listing.js -p <pid>
@@ -64,4 +64,4 @@ com.scottyab.rootbeer.sample.MainActivity
 ...
 ```
 
-Given the verbosity of the output, the system classes can be filtered out programmatically to make output more readable and relevant to the use case.
+Given the verbosity of the output, the system classes can be filtered out programmatically to make the output more readable and relevant to the use case.

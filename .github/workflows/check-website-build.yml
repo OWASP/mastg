@@ -3,8 +3,10 @@ on:
   pull_request:
     branches:
       - "*"
+
 jobs:
   build:
-    uses: ./.github/workflows/build-website-reusable.yml
+    uses: OWASP/mas-website/.github/workflows/build-website-reusable.yml@main
     with:
       deploy: false
+      sources_override_json: ${{ format('{{"OWASP/mastg":"refs/pull/{0}/head"}}', github.event.pull_request.number) }}

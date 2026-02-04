@@ -3,7 +3,7 @@ title: Get Open Connections
 platform: android
 ---
 
-You can find system-wide networking information in `/proc/net` or just by inspecting the `/proc/<pid>/net` directories (for some reason not process specific). There are multiple files present in these directories, of which `tcp`, `tcp6` and `udp` might be considered relevant from the tester's perspective.
+You can find system-wide networking information in `/proc/net` or just by inspecting the `/proc/<pid>/net` directories (for some reason, not process-specific). There are multiple files present in these directories, of which `tcp`, `tcp6`, and `udp` might be considered relevant from the tester's perspective.
 
 ```bash
 # cat /proc/7254/net/tcp
@@ -18,7 +18,7 @@ sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid 
 In the output above, the most relevant fields for us are:
 
 - `rem_address`: remote address and port number pair (in hexadecimal representation).
-- `tx_queue` and `rx_queue`: the outgoing and incoming data queue in terms of kernel memory usage. These fields give an indication how actively the connection is being used.
+- `tx_queue` and `rx_queue`: the outgoing and incoming data queue in terms of kernel memory usage. These fields give an indication of how actively the connection is being used.
 - `uid`: containing the effective UID of the creator of the socket.
 
 Another alternative is to use the `netstat` command, which also provides information about the network activity for the complete system in a more readable format, and can be easily filtered as per our requirements. For instance, we can easily filter it by PID:
@@ -35,8 +35,8 @@ tcp        0      0 192.168.1.17:38481      sc-in-f100.1e100.:https ESTABLISHED 
 ...
 ```
 
-`netstat` output is clearly more user friendly than reading `/proc/<pid>/net`. The most relevant fields for us, similar to the previous output, are following:
+`netstat` output is clearly more user-friendly than reading `/proc/<pid>/net`. The most relevant fields for us, similar to the previous output, are the following:
 
 - `Foreign Address`: remote address and port number pair (port number can be replaced with the well-known name of a protocol associated with the port).
-- `Recv-Q` and `Send-Q`: Statistics related to receive and send queue. Gives an indication on how actively the connection is being used.
+- `Recv-Q` and `Send-Q`: Statistics related to receive and send queues. Indicates how actively the connection is being used.
 - `State`: the state of a socket, for example, if the socket is in active use (`ESTABLISHED`) or closed (`CLOSED`).

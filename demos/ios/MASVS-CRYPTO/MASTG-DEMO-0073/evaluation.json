@@ -1,0 +1,32 @@
+[
+  {
+    "from": 12444,
+    "type": "CALL",
+    "perm": "--x",
+    "opcode": "bl sym.imp.drand48",
+    "fcn_addr": 12192,
+    "fcn_name": "sym.MASTestApp.MastgTest.generateRandomTokenDrand48_...yFZ_",
+    "realname": "func.00002fa0",
+    "refname": "sym.imp.drand48"
+  },
+  {
+    "from": 5228,
+    "type": "CALL",
+    "perm": "--x",
+    "opcode": "bl sym.imp.rand",
+    "fcn_addr": 5036,
+    "fcn_name": "sym.MASTestApp.MastgTest.generateRandomTokenRand_...yFZ_",
+    "realname": "func.000013ac",
+    "refname": "sym.imp.rand"
+  },
+  {
+    "from": 16004,
+    "type": "CALL",
+    "perm": "--x",
+    "opcode": "bl sym.imp.srand",
+    "fcn_addr": 15768,
+    "fcn_name": "sym.MASTestApp.MastgTest.mastg.completion_...FZ_",
+    "realname": "func.00003d98",
+    "refname": "sym.imp.srand"
+  }
+]

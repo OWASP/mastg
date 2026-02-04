@@ -4,13 +4,13 @@ platform: android
 source: https://github.com/radare/radare2
 ---
 
-[radare2](https://rada.re/r/ "Radare2 official website") (r2) is a popular open source reverse engineering framework for disassembling, debugging, patching and analyzing binaries that is scriptable and supports many architectures and file formats including Android and iOS apps. For Android, Dalvik DEX (odex, multidex), ELF (executables, .so, ART) and Java (JNI and Java classes) are supported. It also contains several useful scripts that can help you during mobile application analysis as it offers low level disassembling and safe static analysis that comes in handy when traditional tools fail.
+[radare2](https://rada.re/r/ "Radare2 official website") (r2) is a popular open source reverse engineering framework for disassembling, debugging, patching, and analyzing binaries that is scriptable and supports many architectures and file formats, including Android and iOS apps. For Android, Dalvik DEX (odex, multidex), ELF (executables, .so, ART), and Java (JNI and Java classes) are supported. It also contains several useful scripts that can help you during mobile application analysis, as it offers low-level disassembling and safe static analysis that comes in handy when traditional tools fail.
 
-radare2 implements a rich command line interface (CLI) where you can perform the mentioned tasks. However, if you're not really comfortable using the CLI for reverse engineering you may want to consider using the Web UI (via the `-H` flag) or the even more convenient Qt and C++ GUI version called [iaito](https://github.com/radareorg/iaito "iaito"). Do keep in mind that the CLI, and more concretely its Visual Mode and its scripting capabilities ([r2pipe](https://github.com/radare/radare2-r2pipe "r2pipe")), are the core of radare2's power and it's definitely worth learning how to use it.
+radare2 implements a rich command-line interface (CLI) where you can perform the mentioned tasks. However, if you're not really comfortable using the CLI for reverse engineering, you may want to consider using the Web UI (via the `-H` flag) or the even more convenient Qt and C++ GUI version called [iaito](https://github.com/radareorg/iaito "iaito"). Do keep in mind that the CLI, and more concretely its Visual Mode and its scripting capabilities ([r2pipe](https://github.com/radare/radare2-r2pipe "r2pipe")), are the core of radare2's power, and it's definitely worth learning how to use it.
 
 ## Installing radare2
 
-Please refer to [radare2's official installation instructions](https://github.com/radare/radare2/blob/master/README.md "radare2 installation instructions"). We highly recommend to always install radare2 from the GitHub version instead of via common package managers such as APT. Radare2 is in very active development, which means that third party repositories are often outdated.
+Please refer to [radare2's official installation instructions](https://github.com/radare/radare2/blob/master/README.md "radare2 installation instructions"). We highly recommend always installing radare2 from the GitHub version instead of via common package managers such as APT. Radare2 is in very active development, which means that third-party repositories are often outdated.
 
 ## Using radare2
 
@@ -39,11 +39,11 @@ Use the main `r2` utility to access the **r2 shell**. You can load DEX binaries 
 r2 classes.dex
 ```
 
-Enter `r2 -h` to see all available options. A very commonly used flag is `-A`, which triggers an analysis after loading the target binary. However, this should be used sparingly and with small binaries as it is very time and resource consuming. You can learn more about this in @MASTG-TECH-0018.
+Enter `r2 -h` to see all available options. A very commonly used flag is `-A`, which triggers an analysis after loading the target binary. However, this should be used sparingly and with small binaries, as it is very time and resource-intensive. You can learn more about this in @MASTG-TECH-0018.
 
 Once in the r2 shell, you can also access functions offered by the other radare2 utilities. For example, running `i` will print the information of the binary, exactly as `rabin2 -I` does.
 
-To print all the strings use `rabin2 -Z` or the command `iz` (or the less verbose `izq`) from the r2 shell.
+To print all the strings, use `rabin2 -Z` or the command `iz` (or the less verbose `izq`) from the r2 shell.
 
 ```bash
 [0x000009c8]> izq
@@ -61,7 +61,7 @@ To print all the strings use `rabin2 -Z` or the command `iz` (or the less verbos
 0x11bf 14 14 Root detected!
 ```
 
-Most of the time you can append special options to your commands such as `q` to make the command less verbose (quiet) or `j` to give the output in JSON format (use `~{}` to prettify the JSON string).
+Most of the time, you can append special options to your commands, such as `q` to make the command less verbose (quiet) or `j` to give the output in JSON format (use `~{}` to prettify the JSON string).
 
 ```bash
 [0x000009c8]> izj~{}
@@ -121,11 +121,11 @@ Num  Vaddr       Bind      Type Name
   36 0x00000604    NONE    FUNC Ljavax/crypto/spec/SecretKeySpec.method.<init>([BLjava/lang/String;)V
 ```
 
-A common approach when inspecting a binary is to search for something, navigate to it and visualize it in order to interpret the code. One of the ways to find something using radare2 is by filtering the output of specific commands, i.e. to grep them using `~` plus a keyword (`~+` for case-insensitive). For example, we might know that the app is verifying something, we can inspect all radare2 flags and see where we find something related to "verify".
+A common approach when inspecting a binary is to search for something, navigate to it, and visualize it in order to interpret the code. One of the ways to find something using radare2 is by filtering the output of specific commands, i.e. to grep them using `~` plus a keyword (`~+` for case-insensitive). For example, we might know that the app is verifying something, we can inspect all radare2 flags and see where we find something related to "verify".
 
 > When loading a file, radare2 tags everything it's able to find. These tagged names or references are called flags. You can access them via the command `f`.
 
-In this case we will grep the flags using the keyword "verify":
+In this case, we will grep the flags using the keyword "verify":
 
 ```bash
 [0x000009c8]> f~+verify
@@ -137,14 +137,14 @@ Lsg_vantagepoint_uncrackable1
 0x00001400 6 str.verify
 ```
 
-It seems that we've found one method in 0x00000a38 (that was tagged two times) and one string in 0x00001400. Let's navigate (seek) to that method by using its flag:
+It seems that we've found one method in 0x00000a38 (that was tagged twice) and one string in 0x00001400. Let's navigate (seek) to that method by using its flag:
 
 ```bash
 [0x000009c8]> s sym.Lsg_vantagepoint_uncrackable1_MainActivity.method. \
 verify_Landroid_view_View__V
 ```
 
-And of course you can also use the disassembler capabilities of r2 and print the disassembly with the command `pd` (or `pdf` if you know you're already located in a function).
+And of course, you can also use the disassembler capabilities of r2 and print the disassembly with the command `pd` (or `pdf` if you know you're already located in a function).
 
 ```bash
 [0x00000a38]> pd
@@ -154,11 +154,11 @@ r2 commands normally accept options (see `pd?`), e.g. you can limit the opcodes 
 
 <img src="Images/Chapters/0x05b/r2_pd_10.png" width="100%" />
 
-Instead of just printing the disassembly to the console you may want to enter the so-called **Visual Mode** by typing `V`.
+Instead of just printing the disassembly to the console, you may want to enter the so-called **Visual Mode** by typing `V`.
 
 <img src="Images/Chapters/0x05b/r2_visualmode_hex.png" width="100%" />
 
-By default, you will see the hexadecimal view. By typing `p` you can switch to different views, such as the disassembly view:
+By default, you will see the hexadecimal view. By typing `p`, you can switch to different views, such as the disassembly view:
 
 <img src="Images/Chapters/0x05b/r2_visualmode_disass.png" width="100%" />
 
@@ -166,6 +166,6 @@ Radare2 offers a **Graph Mode** that is very useful to follow the flow of the co
 
 <img src="Images/Chapters/0x05b/r2_graphmode.png" width="100%" />
 
-This is only a selection of some radare2 commands to start getting some basic information from Android binaries. Radare2 is very powerful and has dozens of commands that you can find on the [radare2 command documentation](https://book.rada.re/first_steps/commandline_flags.html). Radare2 will be used throughout the guide for different purposes such as reversing code, debugging or performing binary analysis. We will also use it in combination with other frameworks, especially Frida (see the r2frida section for more information).
+This is only a selection of some radare2 commands to start getting some basic information from Android binaries. Radare2 is very powerful and has dozens of commands that you can find on the [radare2 command documentation](https://book.rada.re/first_steps/commandline_flags.html). Radare2 will be used throughout the guide for different purposes, such as reversing code, debugging, or performing binary analysis. We will also use it in combination with other frameworks, especially Frida (see the r2frida section for more information).
 
 Please refer to @MASTG-TECH-0018 for more detailed use of radare2 on Android, especially when analyzing native libraries. You may also want to read the [official radare2 book](https://book.rada.re/ "Radare2 book").

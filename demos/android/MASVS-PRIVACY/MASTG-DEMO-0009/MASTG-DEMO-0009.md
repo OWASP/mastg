@@ -1,18 +1,21 @@
 ---
 platform: android
-title: Detecting Sensitive Data in Network Traffic
+title: Detecting Undeclared PII in Network Traffic
 id: MASTG-DEMO-0009
 code: [kotlin]
 test: MASTG-TEST-0206
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that sends sensitive data over the network using the `HttpURLConnection` class. The data is sent to `https://httpbin.org/post` which is a dummy endpoint that returns the data it receives.
 
+!!! note
+    This demo app is not published on Google Play. However, imagine it represents a production application in which none of the sensitive data transmitted here is declared in the app's privacy policy or in its store disclosure (Data Safety Section).
+
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Start the device, in this case, the Android emulator:
 
@@ -30,7 +33,7 @@ Note that the script is preconfigured with data that's already considered sensit
 
 Launch the app from Android Studio and click the button which will send the sensitive data over the network. The script will capture the network traffic and log the sensitive data.
 
-### Observation
+## Observation
 
 The script has identified several instances of sensitive data in the network traffic.
 
@@ -39,10 +42,10 @@ The script has identified several instances of sensitive data in the network tra
 
 {{ sensitive_data.log }}
 
-### Evaluation
+## Evaluation
 
 After reviewing the captured network traffic, we can conclude that the test fails because the sensitive data is sent over the network.
 
-This is a dummy example, but in a real-world scenario, you should determine which of the reported instances are privacy-relevant and need to be addressed.
+This is a dummy example, but in a real-world scenario, you should identify which reported instances are relevant to privacy and require remediation because they are not included in the app's privacy policy or the App Store privacy declaration.
 
 Note that both the request and the response are encrypted using TLS, so they can be considered secure. However, this might represent a privacy issue depending on the relevant privacy regulations and the app's privacy policy. You should now check the privacy policy and the App Store Privacy declarations to see if the app is allowed to send this data to a third-party.

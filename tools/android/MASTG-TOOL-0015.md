@@ -9,11 +9,11 @@ source: https://github.com/WithSecureLabs/drozer
 drozer can be used during Android security assessments to automate tasks. It allows testers and reverse engineers to:
 
 - Discover and interact with the attack surface exposed by Android apps.
-- Execute dynamic Java-code on a device, to avoid the need to compile and install small test scripts.
+- Execute dynamic Java code on a device to avoid the need to compile and install small test scripts.
 
-drozer runs both in Android emulators and on real devices. It does not require USB debugging or other development features to be enabled; so you can perform assessments on devices in their production state to simulate attacks.
+drozer runs both in Android emulators and on real devices. It does not require USB debugging or other development features to be enabled, so you can perform assessments on devices in their production state to simulate attacks.
 
-You can extend drozer with additional modules to find, test and exploit other weaknesses; this, combined with scripting possibilities, helps to automate regression testing for security issues.
+You can extend drozer with additional modules to find, test, and exploit other weaknesses; this, combined with scripting possibilities, helps to automate regression testing for security issues.
 
 ## Installing drozer and Setup
 
@@ -51,7 +51,7 @@ This lists the names of all exported Activities, together with the permissions r
 
 #### Starting an Activity
 
-In order to launch an exported activity, use the following command:
+To launch an exported activity, use the following command:
 
 ```sh
 run app.activity.start --component <package> <component name>

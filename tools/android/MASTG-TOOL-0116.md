@@ -1,10 +1,7 @@
 ---
 title: Blutter
 platform: android
-hosts:
-- linux
-- windows
-- macos
+hosts: [linux, windows, macOS]
 source: https://github.com/worawit/blutter
 ---
 

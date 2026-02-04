@@ -3,7 +3,7 @@ title: Runtime Reverse Engineering
 platform: android
 ---
 
-Runtime reverse engineering can be seen as the on-the-fly version of reverse engineering where you don't have the binary data to your host computer. Instead, you'll analyze it straight from the memory of the app.
+Runtime reverse engineering can be seen as the on-the-fly version of reverse engineering, where you don't have the binary data on your host computer. Instead, you'll analyze it straight from the memory of the app.
 
 We'll keep using the HelloWorld JNI app, open a session with r2frida `r2 frida://usb//sg.vantagepoint.helloworldjni` and you can start by displaying the target binary information by using the `:i` command:
 
@@ -59,9 +59,9 @@ And list the exports with `:iE <lib>`:
 0x7d1c49954c f Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI
 ```
 
-> For big binaries it's recommended to pipe the output to the internal less program by appending `~..`, i.e. `:ii libandroid_runtime.so~..` (if not, for this binary, you'd get almost 2500 lines printed to your terminal).
+> For big binaries, it's recommended to pipe the output to the internal less program by appending `~..`, i.e. `:ii libandroid_runtime.so~..` (if not, for this binary, you'd get almost 2500 lines printed to your terminal).
 
-The next thing you might want to look at are the **currently loaded** Java classes:
+The next thing you might want to look at is the **currently loaded** Java classes:
 
 ```bash
 [0x00000000]> :ic~sg.vantagepoint.helloworldjni
@@ -76,7 +76,7 @@ public native java.lang.String sg.vantagepoint.helloworldjni.MainActivity.string
 public sg.vantagepoint.helloworldjni.MainActivity()
 ```
 
-Note that we've filtered by package name as this is the `MainActivity` and it includes all methods from Android's `Activity` class.
+Note that we've filtered by package name, as this is the `MainActivity` and it includes all methods from Android's `Activity` class.
 
 You can also display information about the class loader:
 
@@ -108,7 +108,7 @@ java.lang.BootClassLoader@b1f1189dalvik.system.PathClassLoader[
  ]
 ```
 
-Next, imagine that you are interested into the method exported by libnative-lib.so `0x7d1c49954c f Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI`. You can seek to that address with `s 0x7d1c49954c`, analyze that function `af` and print 10 lines of its disassembly `pd 10`:
+Next, imagine that you are interested in the method exported by libnative-lib.so `0x7d1c49954c f Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI`. You can seek to that address with `s 0x7d1c49954c`, analyze that function `af` and print 10 lines of its disassembly `pd 10`:
 
 ```bash
 [0x7d1c49954c]> pdf
