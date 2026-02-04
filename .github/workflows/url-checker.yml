@@ -14,10 +14,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: link-check
+      - name: Link Check
         uses: tcort/github-action-markdown-link-check@v1
         with:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
-          folder-path: '.'
