@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: URL Lint Check
-        uses: Diolor/github-action-markdown-link-check@1
+        uses: Diolor/github-action-markdown-link-check@1.1
         with:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
