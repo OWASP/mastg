@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# Run semgrep to detect root detection code
-semgrep --config ../../../../rules/mastg-android-root-detection.yaml ./MastgTest_reversed.java --text > output.txt
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-root-detection.yaml ./MastgTest_reversed.java > output.txt
