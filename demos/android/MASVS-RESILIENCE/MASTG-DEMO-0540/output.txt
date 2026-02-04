@@ -1,10 +1,3 @@
-               
-               
-┌─────────────┐
-│ Scan Status │
-└─────────────┘
-  Scanning 1 file tracked by git with 5 Code rules:
-  Scanning 1 file with 5 java rules.
                    
                    
 ┌─────────────────┐
@@ -16,41 +9,30 @@
           [MASVS-RESILIENCE-1] The app checks for file existence, which may be part of root detection
           implementation.                                                                            
                                                                                                      
-           80┆ if (new File(path).exists()) {
+           66┆ if (new File(path).exists()) {
    
      ❱ rules.mastg-android-root-detection-package-check
           [MASVS-RESILIENCE-1] The app checks for installed packages, which may be looking for root management
           apps.                                                                                               
                                                                                                               
-          107┆ this.context.getPackageManager().getPackageInfo(packageName, 0);
+           77┆ this.context.getPackageManager().getPackageInfo(packageName, 0);
    
      ❱ rules.mastg-android-root-detection-test-keys
           [MASVS-RESILIENCE-1] The app checks Build.TAGS for test-keys, indicating custom ROM or root
           detection.                                                                                 
                                                                                                      
-          118┆ return buildTags != null && buildTags.contains("test-keys");
+           87┆ return buildTags != null && StringsKt.contains$default((CharSequence) buildTags,
+               (CharSequence) "test-keys", false, 2, (Object) null);                           
    
      ❱ rules.mastg-android-root-detection-runtime-exec
           [MASVS-RESILIENCE-1] The app uses Runtime.exec(), which may be attempting to execute su or other
           commands for root detection.                                                                    
                                                                                                           
-          140┆ Process process = Runtime.getRuntime().exec("getprop " + key);
+          105┆ Process process = Runtime.getRuntime().exec("getprop " + key);
    
      ❱ rules.mastg-android-root-detection-system-properties
           [MASVS-RESILIENCE-1] The app reads system properties via getprop, which may be checking for root
           indicators.                                                                                     
                                                                                                           
-          140┆ Process process = Runtime.getRuntime().exec("getprop " + key);
+          105┆ Process process = Runtime.getRuntime().exec("getprop " + key);
 
-                
-                
-┌──────────────┐
-│ Scan Summary │
-└──────────────┘
-✅ Scan completed successfully.
- • Findings: 5 (5 blocking)
- • Rules run: 5
- • Targets scanned: 1
- • Parsed lines: ~100.0%
- • No ignore information available
-Ran 5 rules on 1 file: 5 findings.

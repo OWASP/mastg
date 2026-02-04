@@ -28,6 +28,11 @@ rules:
           - pattern-inside: |
               $TAGS = Build.TAGS;
               ...
+      - patterns:
+          - pattern: StringsKt.contains$default(..., "test-keys", ...)
+          - pattern-inside: |
+              $TAGS = Build.TAGS;
+              ...
 
   - id: mastg-android-root-detection-system-properties
     severity: INFO
