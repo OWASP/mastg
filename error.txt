@@ -4,16 +4,6 @@
 (node:15296) [DEP0184] DeprecationWarning: Instantiating Gunzip without the 'new' keyword has been deprecated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 
-  ERROR: 1 dead link found in ./Document/0x04e-Testing-Authentication-and-Session-Management.md !
-  [✖] https://pdfs.semanticscholar.org/13aa/7bf53070ac8e209a84f6389bab58a1e2c888.pdf → Status: 202
-
-  ERROR: 1 dead link found in ./Document/0x09-Suggested-Reading.md !
-  [✖] http://gsec.hitb.org/materials/sg2016/D1%20-%20Bernhard%20Mueller%20-%20Attacking%20Software%20Tokens.pdf → Status: 404
-(node:15531) [DEP0184] DeprecationWarning: Instantiating Gunzip without the 'new' keyword has been deprecated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-
-  ERROR: 1 dead link found in ./knowledge/android/MASVS-RESILIENCE/MASTG-KNOW-0027.md !
-  [✖] https://www.infosecinstitute.com/resources/application-security/android-hacking-security-part-8-root-detection-evasion/ → Status: 403
   ERROR: 2 dead links found in ./Document/0x02c-Acknowledgements.md !
   [✖] ../news/posts/2025-04-09-celebrating-3-years-advocate-nowsecure.md → Status: 400
   [✖] ../news/posts/2025-05-23-new-advocate-guardsquare.md → Status: 400
