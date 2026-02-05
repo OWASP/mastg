@@ -112,6 +112,12 @@
             "pattern": "^https://academy.realm.io/posts/russ-bishop-unsafe-swift/"
         }
     ],
+    "replacementPatterns": [
+        {
+            "pattern": "^Images/",
+            "replacement": "{{BASEURL}}/Document/Images/"
+        }
+    ],
     "httpHeaders": [
         {
             "urls": [
