@@ -4,7 +4,7 @@ platform: android
 title: Binary Protection Mechanisms
 ---
 
-Detecting the presence of [binary protection mechanisms](0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) heavily depend on the language used for developing the application.
+Detecting the presence of [binary protection mechanisms](../../../Document/0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) heavily depend on the language used for developing the application.
 
 In general all binaries should be tested, which includes both the main app executable as well as all libraries/dependencies. However, on Android we will focus on native libraries since the main executables are considered safe as we will see next.
 

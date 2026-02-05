@@ -4,7 +4,7 @@ platform: ios
 title: Binary Protection Mechanisms
 ---
 
-Detecting the presence of [binary protection mechanisms](0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) heavily depend on the language used for developing the application.
+Detecting the presence of [binary protection mechanisms](../../../Document/0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) heavily depend on the language used for developing the application.
 
 Although Xcode enables all binary security features by default, it may be relevant to verify this for old applications or to check for compiler flag misconfigurations. The following features are applicable:
 
