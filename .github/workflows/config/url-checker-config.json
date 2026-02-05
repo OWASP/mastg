@@ -104,6 +104,12 @@
         },
         {
             "pattern": "^/checklists/"
+        },
+        {
+            "pattern": "^https://stackoverflow.com/"
+        },
+        {
+            "pattern": "^https://academy.realm.io/posts/russ-bishop-unsafe-swift/"
         }
     ],
     "httpHeaders": [
