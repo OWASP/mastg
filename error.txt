@@ -1,8 +1,5 @@
-
   ERROR: 1 dead link found in ./tools/ios/MASTG-TOOL-0051.md !
   [✖] http://cydia.radare.org/pool/main/g/gdb/ → Status: 0
-(node:15296) [DEP0184] DeprecationWarning: Instantiating Gunzip without the 'new' keyword has been deprecated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
 
   ERROR: 2 dead links found in ./Document/0x02c-Acknowledgements.md !
   [✖] ../news/posts/2025-04-09-celebrating-3-years-advocate-nowsecure.md → Status: 400
@@ -10,9 +7,15 @@
 
   ERROR: 1 dead link found in ./Document/index.md !
   [✖] ../assets/mastg_cover.png → Status: 400
-(node:15614) [DEP0184] DeprecationWarning: Instantiating Gunzip without the 'new' keyword has been deprecated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:15672) [DEP0184] DeprecationWarning: Instantiating Gunzip without the 'new' keyword has been deprecated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-(node:15678) [DEP0184] DeprecationWarning: Instantiating Gunzip without the 'new' keyword has been deprecated.
-(Use `node --trace-deprecation ...` to show where the warning was created)
+
+  ERROR: 1 dead link found in Document/0x04a-Mobile-App-Taxonomy.md !
+  [✖] https://framework7.io/ → Status: 403
+
+  ERROR: 1 dead link found in Document/index.md !
+  [✖] ../assets/mastg_cover.png → Status: 400
+
+  ERROR: 1 dead link found in tests-beta/ios/MASVS-CODE/MASTG-TEST-0229.md !
+  [✖] ../../../Document/0x04h-Testing-Code-Quality#stack-smashing-protection → Status: 400
+
+  ERROR: 1 dead link found in tools/ios/MASTG-TOOL-0051.md !
+  [✖] http://cydia.radare.org/pool/main/g/gdb/ → Status: 0
