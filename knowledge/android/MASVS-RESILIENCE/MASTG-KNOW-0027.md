@@ -14,7 +14,7 @@ Root detection can also be implemented through libraries such as [RootBeer](http
 
 Perhaps the most widely used method of programmatic detection is checking for files typically found on rooted devices, such as package files of common rooting apps and their associated files and directories, including the following:
 
-```default
+```sh
 /system/app/Superuser.apk
 /system/etc/init.d/99SuperSUDaemon
 /dev/com.koushikdutta.superuser.daemon/
@@ -23,7 +23,7 @@ Perhaps the most widely used method of programmatic detection is checking for fi
 
 Detection code also often looks for binaries that are usually installed once a device has been rooted. These searches include checking for busybox and attempting to open the _su_ binary at different locations:
 
-```default
+```sh
 /sbin/su
 /system/bin/su
 /system/bin/failsafe/su
@@ -102,7 +102,7 @@ Supersu-by far the most popular rooting tool-runs an authentication daemon named
 
 You can use the Android package manager to obtain a list of installed packages. The following package names belong to popular rooting tools:
 
-```txt
+```sh
 eu.chainfire.supersu
 com.noshufou.android.su
 com.koushikdutta.superuser
