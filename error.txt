@@ -13,6 +13,3 @@
 
   ERROR: 1 dead link found in tests-beta/ios/MASVS-CODE/MASTG-TEST-0229.md !
   [✖] ../../../Document/0x04h-Testing-Code-Quality#stack-smashing-protection → Status: 400
-
-  ERROR: 1 dead link found in tools/ios/MASTG-TOOL-0051.md !
-  [✖] http://cydia.radare.org/pool/main/g/gdb/ → Status: 0
