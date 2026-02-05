@@ -13,4 +13,4 @@ jobs:
         with:
           use-quiet-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
-          #check-modified-files-only: 'yes'
+          check-modified-files-only: 'yes'
