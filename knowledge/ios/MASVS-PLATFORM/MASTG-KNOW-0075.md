@@ -133,7 +133,7 @@ let stringData = String(data: data, encoding: .utf8)
 // })
 ```
 
-JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on iOS"](0x06d-Testing-Data-Storage.md) for more details.
+JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on iOS"](../../../Document/0x06d-Testing-Data-Storage.md) for more details.
 
 ## Property Lists and Codable
 
