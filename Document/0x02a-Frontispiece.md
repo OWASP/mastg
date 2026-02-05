@@ -14,7 +14,7 @@ The OWASP MASVS and MASTG are trusted by the following platform providers and st
 
 ## Authors
 
-<!-- markdownlint-disable search-replace -->
+<!-- markdown-link-check-disable -->
 
 ### Bernhard Mueller
 
@@ -48,7 +48,7 @@ Jeroen is a mobile security lead responsible for quality assurance on mobile sec
 
 Vikas is an experienced cyber security researcher, with expertise in mobile security. In his career he has worked to secure applications for various industries including fintech, banks and governments. He enjoys reverse engineering, especially obfuscated native code and cryptography. He holds masters in security and mobile computing, and an OSCP certification. He is always open to share his knowledge and exchange ideas.
 
-<!-- markdownlint-disable search-replace -->
+<!-- markdown-link-check-enable -->
 
 <!-- \pagebreak -->
 

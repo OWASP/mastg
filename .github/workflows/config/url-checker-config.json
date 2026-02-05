@@ -131,6 +131,9 @@
         },
         {
             "pattern": "https://apkmirror.com"
+        },
+        {
+            "pattern": "^https://codeshare.frida.re/"
         }
     ],
     "replacementPatterns": [
