@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: URL Link Check
-        uses: Diolor/github-action-markdown-link-check@1.2
+        uses: Diolor/github-action-markdown-link-check@1.3
         with:
           use-quiet-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
