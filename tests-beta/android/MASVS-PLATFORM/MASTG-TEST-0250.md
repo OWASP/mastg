@@ -20,7 +20,7 @@ The JavaScript code would have access to any content providers on the device suc
 - declared by the app, **even if they are not exported**.
 - declared by other apps, **only if they are exported** and if they are not following recommended [best practices](https://developer.android.com/privacy-and-security/security-tips#content-providers) to restrict access.
 
-Refer to [WebView Content Provider Access](../../../Document/0x05h-Testing-Platform-Interaction.md/#webview-content-provider-access) for more information on the `setAllowContentAccess` method, the specific files that can be accessed and the conditions under which they can be accessed.
+Refer to @MASTG-KNOW-0018 for more information on the `setAllowContentAccess` method, the specific files that can be accessed and the conditions under which they can be accessed.
 
 **Example Attack Scenario:**
 

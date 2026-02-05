@@ -33,7 +33,7 @@ Now you can read/write the object with `ObjectInputStream`/`ObjectOutputStream` 
 ## JSON
 
 There are several ways to serialize the contents of an object to JSON. Android comes with the `JSONObject` and `JSONArray` classes. A wide variety of libraries, including [GSON](https://github.com/google/gson "Google Gson"), [Jackson](https://github.com/FasterXML/jackson-core "Jackson core"), [Moshi](https://github.com/square/moshi "Moshi"), can also be used. The main differences between the libraries are whether they use reflection to compose the object, whether they support annotations, whether the create immutable objects, and the amount of memory they use. Note that almost all the JSON representations are String-based and therefore immutable. This means that any secret stored in JSON will be harder to remove from memory.
-JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on Android"](0x05d-Testing-Data-Storage.md) for more details. A simple example (from the GSON User Guide) of writing and reading JSON with GSON follows. In this example, the contents of an instance of the `BagOfPrimitives` is serialized into JSON:
+JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on Android"](../../../Document/0x05d-Testing-Data-Storage.md) for more details. A simple example (from the GSON User Guide) of writing and reading JSON with GSON follows. In this example, the contents of an instance of the `BagOfPrimitives` is serialized into JSON:
 
 ```java
 class BagOfPrimitives {
@@ -64,7 +64,7 @@ Similarly to JSON, XML has the issue of working mostly String based, which means
 There are libraries that provide functionality for directly storing the contents of an object in a database and then instantiating the object with the database contents. This is called Object-Relational Mapping (ORM). Libraries that use the SQLite database include
 
 - [OrmLite](https://github.com/j256/ormlite-android "OrmLite"),
-- [SugarORM](https://satyan.github.io/sugar/ "Sugar ORM"),
+- [SugarORM](https://github.com/chennaione/sugar "Sugar ORM"),
 - [GreenDAO](https://github.com/greenrobot/greenDAO "GreenDAO") and
 - [ActiveAndroid](https://github.com/pardom-zz/ActiveAndroid "ActiveAndroid").
 

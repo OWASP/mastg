@@ -206,7 +206,7 @@ Review each of the reported instances.
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
 ```
 
-## Code Samples {#code-samples}
+## Code Samples
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
 

@@ -116,6 +116,21 @@
         },
         {
             "pattern": "^https://www.hhs.gov/hipaa"
+        },
+        {
+            "pattern": "^https://www.cvedetails.com/cve/CVE"
+        },
+        {
+            "pattern": "https://tlsexpired.no"
+        },
+        {
+            "pattern": "https://mitm-software.badssl.com/"
+        },
+        {
+            "pattern": "https://www.npmjs.com/package/itms-services"
+        },
+        {
+            "pattern": "https://apkmirror.com"
         }
     ],
     "replacementPatterns": [
