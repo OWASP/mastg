@@ -134,6 +134,9 @@
         },
         {
             "pattern": "^https://codeshare.frida.re/"
+        },
+        {
+            "pattern": "^https://developer.hashicorp.com/"
         }
     ],
     "replacementPatterns": [
