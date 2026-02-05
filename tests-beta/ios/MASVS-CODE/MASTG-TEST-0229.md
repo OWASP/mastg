@@ -10,7 +10,7 @@ knowledge: [MASTG-KNOW-0061]
 
 ## Overview
 
-This test case checks if the main binary or any libraries of the app are compiled without stack canaries and therefore lack [stack smashing protection](../../../Document/0x04h-Testing-Code-Quality#stack-smashing-protection), a common mitigation technique against buffer overflow attacks.
+This test case checks if the main binary or any libraries of the app are compiled without stack canaries and therefore lack [stack smashing protection](../../../Document/0x04h-Testing-Code-Quality.md#stack-smashing-protection), a common mitigation technique against buffer overflow attacks.
 
 This test applies to all binaries and libraries:
 
