@@ -34,9 +34,9 @@ The output shows all root detection method invocations captured during app execu
 
 The test passes because the output confirms the app implements root detection checks that were monitored at runtime:
 
-- **20 File constructor calls** (from `MastgTest.checkForSuBinary()` at line 68): By hooking the File constructor instead of `exists()`, we can see the actual paths being checked. The app checks for su binaries at 10 unique locations: `/system/app/Superuser.apk`, `/sbin/su`, `/system/bin/su`, `/system/xbin/su`, `/data/local/xbin/su`, `/data/local/bin/su`, `/system/sd/xbin/su`, `/system/bin/failsafe/su`, `/data/local/su`, and `/su/bin/su`. Each path check is visible twice because the test function was invoked twice.
+- **20 File constructor calls** (from `MastgTest.checkForSuBinary()` at line 68): By hooking the File constructor instead of `exists()`, we can see the actual paths being checked. The app checks for su binaries at 10 unique locations: `/system/app/Superuser.apk`, `/sbin/su`, `/system/bin/su`, `/system/xbin/su`, etc. Each path check is visible twice because the test function was invoked twice.
 
-- **24 PackageManager.getPackageInfo() calls** (from `MastgTest.checkForRootPackages()` at line 96): The app checks for 12 root management packages including `com.topjohnwu.magisk`, `eu.chainfire.supersu`, `com.kingroot.kinguser`, `com.noshufou.android.su`, `com.koushikdutta.superuser`, `com.yellowes.su`, `com.kingo.root`, `com.smedialink.oneclickroot`, `com.zhiqupk.root.global`, `com.alephzain.framaroot`, `com.noshufou.android.su.elite`, and `com.thirdparty.superuser`. All throw `NameNotFoundException` as expected since none are installed. Each package is checked twice due to two test invocations.
+- **24 PackageManager.getPackageInfo() calls** (from `MastgTest.checkForRootPackages()` at line 96): The app checks for 12 root management packages including `com.topjohnwu.magisk`, `eu.chainfire.supersu`, etc. All throw `NameNotFoundException` as expected since none are installed. Each package is checked twice due to two test invocations.
 
 - **4 Runtime.exec() calls** (from `MastgTest.getSystemProperty()` at line 133, called by `checkForDangerousProps()` at line 123): The app executes `getprop ro.debuggable` and `getprop ro.secure` commands to read system properties that may indicate root access. Each property is checked twice.
 
