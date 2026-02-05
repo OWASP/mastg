@@ -24,19 +24,19 @@ objection provides built-in commands to bypass common root detection checks:
 
 1. Start objection session with the target app:
 
-```bash
-# For patched APK with Frida gadget
-objection -g <package_name> explore
+    ```bash
+    # For patched APK with Frida gadget
+    objection -g <package_name> explore
 
-# For rooted device with frida-server running
-objection -g <package_name> explore
-```
+    # For rooted device with frida-server running
+    objection -g <package_name> explore
+    ```
 
 2. Disable root detection:
 
-```bash
-android root disable
-```
+    ```bash
+    android root disable
+    ```
 
 This command hooks common root detection APIs and methods, returning false or safe values to bypass checks.
 
@@ -49,7 +49,7 @@ For more sophisticated root detection mechanisms, custom Frida scripts may be re
 3. Load and execute the script:
 
 ```bash
-frida -U -f <package_name> -l bypass_root.js --no-pause
+frida -U -f <package_name> -l bypass_root.js
 ```
 
 Example Frida script to bypass common checks:
@@ -62,7 +62,7 @@ Java.perform(function() {
         console.log("[*] RootBeer.isRooted() bypassed");
         return false;
     };
-    
+
     // Hook file existence checks
     var File = Java.use("java.io.File");
     File.exists.implementation = function() {
@@ -108,8 +108,3 @@ After applying the bypass:
 - [Frida - Dynamic Instrumentation Toolkit](https://frida.re/docs/home/)
 - [RootBeer - Root Detection Library](https://github.com/scottyab/rootbeer)
 - [Android Root Detection Evasion](https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05j-testing-resiliency-against-reverse-engineering#bypassing-root-detection)
-
-## Related
-
-- Tools: @MASTG-TOOL-0029, @MASTG-TOOL-0031
-- Knowledge: @MASTG-KNOW-0027
