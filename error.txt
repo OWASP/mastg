@@ -10,6 +10,3 @@
 
   ERROR: 1 dead link found in Document/0x04a-Mobile-App-Taxonomy.md !
   [✖] https://framework7.io/ → Status: 403
-
-  ERROR: 1 dead link found in tests-beta/ios/MASVS-CODE/MASTG-TEST-0229.md !
-  [✖] ../../../Document/0x04h-Testing-Code-Quality#stack-smashing-protection → Status: 400
