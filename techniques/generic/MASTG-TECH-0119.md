@@ -28,5 +28,5 @@ This would work pretty well for apps using standard API library functions and cl
 
 See some examples:
 
-- ["Universal interception. How to bypass SSL Pinning and monitor traffic of any application"](https://hackmag.com/security/ssl-sniffing/), sections "Grabbing payload prior to transmission" and "Grabbing payload prior to encryption"
+- ["Universal interception. How to bypass SSL Pinning and monitor traffic of any application"](https://web.archive.org/web/20251007161718/https://hackmag.com/security/ssl-sniffing/), sections "Grabbing payload prior to transmission" and "Grabbing payload prior to encryption"
 - ["Frida as an Alternative to Network Tracing"](https://gaiaslastlaugh.medium.com/frida-as-an-alternative-to-network-tracing-5173cfbd7a0b)
