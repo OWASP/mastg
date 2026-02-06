@@ -5,12 +5,12 @@ id: MASTG-TEST-0243
 type: [static]
 weakness: MASWE-0047
 profiles: [L2]
-knowledge: [MASTG-KNOW-0015]
+knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
 ---
 
 ## Overview
 
-Apps can configure expiration dates for pinned certificates in the [Network Security Configuration (NSC)]("../../../Document/0x05g-Testing-Network-Communication.md#certificate-pinning") by using the `expiration` attribute. When a pin expires, the app no longer enforces certificate pinning and instead relies on its configured trust anchors. This means the connection will still succeed if the server presents a valid certificate from a trusted CA (such as a system CA or a custom CA defined in the app's configuration). However, if no trusted certificate is available, the connection will fail.
+Apps can configure expiration dates for pinned certificates in the Network Security Configuration (NSC) (@MASTG-KNOW-0014) by using the `expiration` attribute. When a pin expires, the app no longer enforces certificate pinning and instead relies on its configured trust anchors. This means the connection will still succeed if the server presents a valid certificate from a trusted CA (such as a system CA or a custom CA defined in the app's configuration). However, if no trusted certificate is available, the connection will fail.
 
 If developers assume pinning is still in effect but don't realize it has expired, the app may start trusting CAs it was never intended to.
 
