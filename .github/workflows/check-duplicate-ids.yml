@@ -1,0 +1,17 @@
+name: Check Duplicate File IDs
+
+on:
+  pull_request:
+    paths:
+      - 'apps/**'
+      - 'best-practices/**'
+      - 'demos/**'
+      - 'tests-beta/**'
+      - 'tools/**'
+      - 'techniques/**'
+
+jobs:
+  check-duplicates:
+    name: Duplicate IDs Check
+    uses: ./.github/workflows/reusable/duplicate-ids-checker.yml
+    secrets: inherit

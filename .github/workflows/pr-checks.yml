@@ -34,8 +34,3 @@ jobs:
     secrets: inherit
     with:
       pr_number: ${{ github.event.pull_request.number }}
-
-  duplicate-ids:
-    name: Duplicate IDs Check
-    uses: ./.github/workflows/reusable/duplicate-ids-checker.yml
-    secrets: inherit
