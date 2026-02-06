@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - cluster-workflows # temporary, for testing master flow on the branch
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
