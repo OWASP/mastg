@@ -1,31 +1,33 @@
+
 [+] Frida script loaded. Hooking Cipher.doFinal() to extract sensitive data.
+
 
 
 [*] Cipher.doFinal(byte[]) called
     Algorithm: AES/GCM/NoPadding
     Mode: ENCRYPT_MODE
     Input (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
-    Output (ciphertext hex): 7a3f8b2e1d4c5a6f9e0b8c7d2a1f3e4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f
+    Output (ciphertext hex): b1e23e01082d0b660385a200566d1912f0be8e4bb843ae509b1752557da3a2586b9105bebcea2bbef1bba39e32a5ee98455aec67f7fe
 
 Backtrace:
 javax.crypto.Cipher.doFinal(Native Method)
-org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:46)
-org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$9$lambda$8(MainActivity.kt:53)
-org.owasp.mastestapp.MainActivityKt.$r8$lambda$PhzGLzmkS_ibruOfiTT32AhzWl4(Unknown Source:0)
-org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
-java.lang.Thread.run(Thread.java:1012)
+org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:48)
+org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)
+org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)
+org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)
+java.lang.Thread.run(Thread.java:1119)
 
 
 [*] Cipher.doFinal(byte[]) called
     Algorithm: AES/GCM/NoPadding
     Mode: DECRYPT_MODE
-    Input (ciphertext hex): 7a3f8b2e1d4c5a6f9e0b8c7d2a1f3e4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f
+    Input (ciphertext hex): b1e23e01082d0b660385a200566d1912f0be8e4bb843ae509b1752557da3a2586b9105bebcea2bbef1bba39e32a5ee98455aec67f7fe
     Output (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
 
 Backtrace:
 javax.crypto.Cipher.doFinal(Native Method)
-org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:55)
-org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$9$lambda$8(MainActivity.kt:53)
-org.owasp.mastestapp.MainActivityKt.$r8$lambda$PhzGLzmkS_ibruOfiTT32AhzWl4(Unknown Source:0)
-org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
-java.lang.Thread.run(Thread.java:1012)
+org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:58)
+org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)
+org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)
+org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)
+java.lang.Thread.run(Thread.java:1119)
