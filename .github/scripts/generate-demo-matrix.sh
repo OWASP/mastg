@@ -4,6 +4,7 @@
 # Example: generate-demo-matrix.sh android pull_request abc123
 
 set -e
+shopt -s nullglob  # Make globs expand to nothing if no matches
 
 PLATFORM="$1"
 EVENT_NAME="$2"
@@ -39,6 +40,11 @@ if [ "$EVENT_NAME" = "pull_request" ]; then
   fi
 else
   # Default behavior: include all demos for master branch
-  matrix=$(echo ${DEMO_PATH}/*/MASTG-DEMO-* | sed 's/ /","/g')
-  echo "{\"demo\":[\"$matrix\"]}"
+  demos=(${DEMO_PATH}/*/MASTG-DEMO-*)
+  if [ ${#demos[@]} -eq 0 ]; then
+    echo '{"demo":[]}'
+  else
+    matrix=$(printf '%s\n' "${demos[@]}" | sed 's/.*/"&"/' | paste -sd, -)
+    echo "{\"demo\":[$matrix]}"
+  fi
 fi
