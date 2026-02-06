@@ -5,6 +5,7 @@ id: MASTG-TEST-0295
 type: [static]
 profiles: [L1, L2]
 weakness: MASWE-0058
+knowledge: [MASTG-KNOW-0019]
 ---
 
 ## Overview
@@ -13,7 +14,7 @@ Custom URL schemes (e.g., `myapp://...`) are not exclusive on Android—any app 
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0110 on the `AndroidManifest.xml` to list the `VIEW/BROWSABLE` intent-filters declaring non-HTTP(S) schemes.
+1. Run @MASTG-TECH-XXXX on the manifest to look for Unverified Custom URL Schemes.
 
 ## Observation
 
@@ -21,4 +22,4 @@ The output should include the manifest declarations and locations where the app 
 
 ## Evaluation
 
-The test fails if the app relies on custom URL schemes for high-risk operations that should use verified App Links (HTTPS) with Digital Asset Links. Mitigations include migrating to App Links for exclusivity or implementing robust in-app validation and user confirmation.
+The test fails if the app relies on custom URL schemes for high-risk operations that should use verified App Links (HTTPS) with Digital Asset Links.

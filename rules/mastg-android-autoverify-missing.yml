@@ -5,7 +5,7 @@ rules:
     - xml
   metadata:
     summary: This rule looks for insecure deep link configurations.
-  message: '[MASVS-PLATFORM] Deep link intent filter missing android:autoVerify="true",enabling malicious apps to hijack links.'
+  message: '[MASVS-PLATFORM] Deep link intent filter missing android:autoVerify="true", enabling malicious apps to hijack links.'
   patterns:
     - pattern-inside: |
         <activity ...>

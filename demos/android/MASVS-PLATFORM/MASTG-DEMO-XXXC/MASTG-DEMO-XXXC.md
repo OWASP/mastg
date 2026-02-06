@@ -7,17 +7,13 @@ test: MASTG-TEST-XXXC
 status: new
 ---
 
-### Overview
+## Sample
 
 The following is a sample `AndroidManifest.xml` snippet that defines a deep link intent filter using custom URL schemes which can be registered by multiple apps, allowing interception or spoofing.
 
-### Sample
-
-This demo references a manifest that declares a custom scheme:
-
 {{ AndroidManifest_reversed.xml }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the reversed AndroidManifest file.
 
@@ -25,13 +21,13 @@ Let's run our @MASTG-TOOL-0110 rule against the reversed AndroidManifest file.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified one location in the manifest file where the app has set the custom URL schemes.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because a sensitive action (toggling app state) is performed through an unverified custom URL scheme with no validation or user interaction. Any app can register the same scheme/host to intercept or spoof these links. Trigger the deep link using @MASTG-TOOL-0004:
 

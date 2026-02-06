@@ -11,7 +11,7 @@ Deep link entry points can be discovered by examining intent filters in the `And
 
 ### Inspection of the AndroidManifest File
 
-Extract and review intent-filters that declare VIEW/BROWSABLE handlers. Use @MASTG-TOOL-0124, then select `intent-filter` with `android.intent.action.VIEW"` and `android.intent.category.BROWSABLE`.
+Extract and review intent filters that declare VIEW/BROWSABLE handlers. Use @MASTG-TOOL-0124, then select `intent-filter` with `android.intent.action.VIEW"` and `android.intent.category.BROWSABLE`.
 
 ```bash
 aapt2 dump xmltree app.apk AndroidManifest.xml 
@@ -67,7 +67,7 @@ Check for invalid Digital Asset Links files served via HTTPS. For example:
 
 - The file contains invalid JSON.
 - The file doesn't include the target app's package.
-- If an intent filter lists multiple hosts with different subdomains, there must be a valid Digital Asset Links file on each domain.
+- If an intent-filter lists multiple hosts with different subdomains, there must be a valid Digital Asset Links file on each domain.
 
 @MASTG-TOOL-014X can be also used get the verification status for all app links (verify-applinks).
 
@@ -142,4 +142,4 @@ dz> run app.activity.start \
   --data-uri "https://example.com/deeplink/path?foo=bar"
 ```
 
-This is useful to exercise exported Activities and intent-filters from a malicious-app perspective.
+This is useful to exercise exported Activities and intent filters from a malicious-app perspective.
