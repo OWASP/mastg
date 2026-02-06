@@ -1,0 +1,44 @@
+name: Spell Checker (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      check_modified_files_only:
+        description: 'Only check files changed in the PR'
+        required: false
+        default: false
+        type: boolean
+      pr_number:
+        description: 'PR number (required when check_modified_files_only is true)'
+        required: false
+        type: number
+
+jobs:
+  codespell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Changed Files from Pull Request
+        if: inputs.check_modified_files_only
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          files=$(gh pr diff ${{ inputs.pr_number }} --name-only | xargs -I {} sh -c 'echo "./{}"' | tr '\n' ' ')
+          echo "CHANGED_FILES=$files" >> "$GITHUB_ENV"
+
+      - name: Check Spelling (Changed Files)
+        if: inputs.check_modified_files_only
+        uses: codespell-project/actions-codespell@master
+        with:
+          check_filenames: true
+          skip: "*.json,*.yml,*.apk,*.ipa,*.svg,*.txt,*.kt,*.swift,*.xml,*.java"
+          ignore_words_list: "aas,aaS,ba,bund,compliancy,firt,ist,keypair,ligh,Manuel,Manual,ro,ser,synopsys,theses,zuser,lief,EDE"
+          path: ${{ env.CHANGED_FILES }}
+
+      - name: Check Spelling (All Files)
+        if: ${{ !inputs.check_modified_files_only }}
+        uses: codespell-project/actions-codespell@master
+        with:
+          skip: "*.json,*.yml,*.apk,*.ipa,*.svg,*.txt,*.kt,*.swift,*.xml,*.java"
+          ignore_words_list: "aas,aaS,ba,bund,compliancy,firt,ist,keypair,ligh,Manuel,Manual,ro,ser,synopsys,theses,zuser,lief,EDE"

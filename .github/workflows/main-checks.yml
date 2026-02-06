@@ -1,0 +1,20 @@
+name: Main Checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  spell-check:
+    uses: ./.github/workflows/reusable/spell-checker.yml
+    secrets: inherit
+
+  url-check:
+    uses: ./.github/workflows/reusable/url-checker.yml
+    secrets: inherit
+
+  markdown-lint:
+    uses: ./.github/workflows/reusable/markdown-linter.yml
+    secrets: inherit

@@ -1,0 +1,22 @@
+name: PR Checks
+
+on:
+  pull_request:
+
+jobs:
+  spell-check:
+    uses: ./.github/workflows/reusable/spell-checker.yml
+    secrets: inherit
+    with:
+      check_modified_files_only: true
+      pr_number: ${{ github.event.pull_request.number }}
+
+  url-check:
+    uses: ./.github/workflows/reusable/url-checker.yml
+    secrets: inherit
+    with:
+      check_modified_files_only: true
+
+  markdown-lint:
+    uses: ./.github/workflows/reusable/markdown-linter.yml
+    secrets: inherit
