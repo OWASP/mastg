@@ -124,4 +124,4 @@ _Inline hooks_ overwrite a few instructions at the beginning or end of the funct
 - [XposedDetector](https://github.com/vvb2060/XposedDetector/) - Example implementation of Xposed detection
 - [Anti-Frida Techniques](https://github.com/apkunpacker/Anti-Frida) - Collection of anti-Frida detection methods
 - ["Detecting and bypassing Frida dynamic function call tracing"](https://link.springer.com/article/10.1007/s11416-022-00458-7) - Soriano-Salvador & Guardiola-Múzquiz, Journal of Computer Virology and Hacking Techniques, 2023
-- [Bad For Enterprise](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)] - Attacking BYOD Enterprise Mobile Security Solutions, Vincent Tan, 2016
+- [Bad For Enterprise](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf) - Attacking BYOD Enterprise Mobile Security Solutions, Vincent Tan, 2016
