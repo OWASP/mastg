@@ -13,4 +13,4 @@ jobs:
     uses: OWASP/mas-website/.github/workflows/build-website-reusable.yml@main
     with:
       deploy: false
-      sources_override_json: ${{ format('{"OWASP/mastg":"refs/pull/{0}/head"}', inputs.pr_number) }}
+      sources_override_json: ${{ format('{{"OWASP/mastg":"refs/pull/{0}/head"}}', inputs.pr_number) }}
