@@ -12,7 +12,7 @@ on:
       - master
     paths:
       - 'demos/**'
-      - '.github/workflows/build-ios-demos.yml'
+
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest

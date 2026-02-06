@@ -12,7 +12,6 @@ on:
       - master
     paths:
       - 'demos/**'
-      - '.github/workflows/build-android-demos.yml'
 
 jobs:
   generate-matrix:
