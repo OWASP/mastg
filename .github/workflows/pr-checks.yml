@@ -5,6 +5,7 @@ on:
 
 jobs:
   spell-check:
+    name: Spell Check (Changed Files)
     uses: ./.github/workflows/reusable/spell-checker.yml
     secrets: inherit
     with:
@@ -12,11 +13,13 @@ jobs:
       pr_number: ${{ github.event.pull_request.number }}
 
   url-check:
+    name: URL Check (Changed Files)
     uses: ./.github/workflows/reusable/url-checker.yml
     secrets: inherit
     with:
       check_modified_files_only: true
 
   markdown-lint:
+    name: Markdown Lint
     uses: ./.github/workflows/reusable/markdown-linter.yml
     secrets: inherit
