@@ -1,0 +1,31 @@
+[+] Frida script loaded. Hooking Cipher.doFinal() to extract sensitive data.
+
+
+[*] Cipher.doFinal(byte[]) called
+    Algorithm: AES/GCM/NoPadding
+    Mode: ENCRYPT_MODE
+    Input (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
+    Output (ciphertext hex): 7a3f8b2e1d4c5a6f9e0b8c7d2a1f3e4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f
+
+Backtrace:
+javax.crypto.Cipher.doFinal(Native Method)
+org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:46)
+org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$9$lambda$8(MainActivity.kt:53)
+org.owasp.mastestapp.MainActivityKt.$r8$lambda$PhzGLzmkS_ibruOfiTT32AhzWl4(Unknown Source:0)
+org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+java.lang.Thread.run(Thread.java:1012)
+
+
+[*] Cipher.doFinal(byte[]) called
+    Algorithm: AES/GCM/NoPadding
+    Mode: DECRYPT_MODE
+    Input (ciphertext hex): 7a3f8b2e1d4c5a6f9e0b8c7d2a1f3e4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f
+    Output (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
+
+Backtrace:
+javax.crypto.Cipher.doFinal(Native Method)
+org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:55)
+org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$9$lambda$8(MainActivity.kt:53)
+org.owasp.mastestapp.MainActivityKt.$r8$lambda$PhzGLzmkS_ibruOfiTT32AhzWl4(Unknown Source:0)
+org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+java.lang.Thread.run(Thread.java:1012)
