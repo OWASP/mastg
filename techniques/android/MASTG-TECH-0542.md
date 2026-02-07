@@ -74,10 +74,10 @@ This will intercept calls to `File.exists()` and return false for paths commonly
 
 Alternative approaches when automated tools fail:
 
-- **Renaming binaries**: Rename `su` binary to evade basic file-based checks.
-- **Hiding processes**: Use process hiding techniques to conceal root-related processes.
-- **Patching the APK**: Directly modify the app's bytecode to remove or neutralize root detection logic. See @MASTG-TECH-0038.
-- **Using kernel modules**: Hook system calls at the kernel level to hide root artifacts. See @MASTG-TECH-0032.
+- **Renaming binaries:** Rename or relocate the `su` binary. This only defeats basic file existence checks and is ineffective against modern detection.
+- **Hiding processes:** @MASTG-TOOL-0021 with Zygisk and DenyList provides per app isolation using mount namespaces and Zygote injection so that root related artifacts and indicators are not visible from the app's process. This is not true kernel level process hiding. Frameworks like [LSPosed](https://github.com/LSPosed/LSPosed) combined with detection bypass modules hook Java and native APIs such as process enumeration calls and selectively filter results returned to the app.
+- **Patching the APK:** Static patching is commonly done using tools like apktool to decompile and modify Smali code, removing or neutralizing root detection logic. See @MASTG-TECH-0038.
+- **Using kernel modules:** True kernel level hiding is implemented by custom kernels or loadable kernel modules rather than mainstream rooting tools. Projects such as [KernelSU](https://github.com/tiann/KernelSU) and research LKM based rootkits hook syscalls or task iteration logic to hide processes, files, and mounts globally. This approach directly corresponds to syscall hooking techniques described in kernel focused research and is distinct from user space hiding.
 
 ## Validation
 
