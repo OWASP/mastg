@@ -3,53 +3,39 @@ package org.owasp.mastestapp
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import java.io.File
 
 // SUMMARY: This sample demonstrates common root detection techniques used in Android applications.
 
 class MastgTest(private val context: Context) {
+
+    private val tag = "MASTG.RootDetect"
+
     fun mastgTest(): String {
         val checks = mutableListOf<String>()
-        
-        // FAIL: [MASTG-TEST-0289] The app checks for su binary in common locations
-        if (checkForSuBinary()) {
-            checks.add("✓ Found su binary")
-        } else {
-            checks.add("✗ No su binary found")
-        }
-        
-        // FAIL: [MASTG-TEST-0289] The app checks for root management packages
-        if (checkForRootPackages()) {
-            checks.add("✓ Found root management apps")
-        } else {
-            checks.add("✗ No root management apps found")
-        }
-        
-        // FAIL: [MASTG-TEST-0289] The app checks for test-keys build
-        if (checkForTestKeys()) {
-            checks.add("✓ Device has test-keys build")
-        } else {
-            checks.add("✗ Device has release-keys build")
-        }
-        
-        // FAIL: [MASTG-TEST-0289] The app checks for dangerous system properties
-        if (checkForDangerousProps()) {
-            checks.add("✓ Found dangerous system properties")
-        } else {
-            checks.add("✗ No dangerous system properties")
-        }
-        
-        val isRooted = checkForSuBinary() || checkForRootPackages() || 
-                       checkForTestKeys() || checkForDangerousProps()
-        
-        return "Root Detection Results:\n\n" + 
-               checks.joinToString("\n") + 
-               "\n\nDevice appears to be rooted: $isRooted"
+        Log.i(tag, "Starting root detection checks")
+
+        val su = checkForSuBinary()
+        checks.add(if (su) "✓ Found su binary" else "✗ No su binary found")
+
+        val pkgs = checkForRootPackages()
+        checks.add(if (pkgs) "✓ Found root management apps" else "✗ No root management apps found")
+
+        val testKeys = checkForTestKeys()
+        checks.add(if (testKeys) "✓ Device has test-keys build" else "✗ Device has release-keys build")
+
+        val props = checkForDangerousProps()
+        checks.add(if (props) "✓ Found dangerous system properties" else "✗ No dangerous system properties")
+
+        val isRooted = su || pkgs || testKeys || props
+        Log.i(tag, "Completed checks: rooted=$isRooted")
+
+        return "Root Detection Results:\n\n" +
+                checks.joinToString("\n") +
+                "\n\nDevice appears to be rooted: $isRooted"
     }
-    
-    /**
-     * Check for su binary in common locations
-     */
+
     private fun checkForSuBinary(): Boolean {
         val paths = arrayOf(
             "/system/app/Superuser.apk",
@@ -63,18 +49,29 @@ class MastgTest(private val context: Context) {
             "/data/local/su",
             "/su/bin/su"
         )
-        
+
+        Log.d(tag, "checkForSuBinary: testing ${paths.size} paths")
+
+        var found = false
         for (path in paths) {
-            if (File(path).exists()) {
-                return true
+            try {
+                val exists = File(path).exists()
+                Log.d(tag, "su path check: path=$path, exists=$exists")
+                if (exists) found = true
+            } catch (se: SecurityException) {
+                Log.w(tag, "su path check blocked: path=$path, msg=${se.message}")
+            } catch (t: Throwable) {
+                Log.w(
+                    tag,
+                    "su path check error: path=$path, err=${t::class.java.simpleName}, msg=${t.message}"
+                )
             }
         }
-        return false
+
+        Log.i(tag, "checkForSuBinary result: found=$found")
+        return found
     }
-    
-    /**
-     * Check for root management packages
-     */
+
     private fun checkForRootPackages(): Boolean {
         val packages = arrayOf(
             "com.noshufou.android.su",
@@ -90,49 +87,103 @@ class MastgTest(private val context: Context) {
             "com.zhiqupk.root.global",
             "com.alephzain.framaroot"
         )
-        
+
+        Log.d(tag, "checkForRootPackages: testing ${packages.size} package names")
+
+        var foundAny = false
         for (packageName in packages) {
             try {
                 context.packageManager.getPackageInfo(packageName, 0)
-                return true
-            } catch (e: PackageManager.NameNotFoundException) {
-                // Package not found, continue
+                Log.i(tag, "root package detected: package=$packageName")
+                foundAny = true
+            } catch (_: PackageManager.NameNotFoundException) {
+                Log.d(tag, "root package not present: package=$packageName")
+            } catch (se: SecurityException) {
+                Log.w(
+                    tag,
+                    "package check blocked: package=$packageName, msg=${se.message}"
+                )
+            } catch (t: Throwable) {
+                Log.w(
+                    tag,
+                    "package check error: package=$packageName, err=${t::class.java.simpleName}, msg=${t.message}"
+                )
             }
         }
-        return false
+
+        Log.i(tag, "checkForRootPackages result: found=$foundAny")
+        return foundAny
     }
-    
-    /**
-     * Check for test-keys build
-     */
+
     private fun checkForTestKeys(): Boolean {
         val buildTags = Build.TAGS
-        return buildTags != null && buildTags.contains("test-keys")
+        val isTestKeys = buildTags != null && buildTags.contains("test-keys")
+        Log.i(
+            tag,
+            "checkForTestKeys: buildTags=$buildTags, isTestKeys=$isTestKeys"
+        )
+        return isTestKeys
     }
-    
-    /**
-     * Check for dangerous system properties
-     */
+
     private fun checkForDangerousProps(): Boolean {
         val dangerousProps = mapOf(
             "ro.debuggable" to "1",
             "ro.secure" to "0"
         )
-        
-        for ((prop, value) in dangerousProps) {
-            val propValue = getSystemProperty(prop)
-            if (propValue == value) {
-                return true
-            }
+
+        Log.d(
+            tag,
+            "checkForDangerousProps: testing ${dangerousProps.size} properties"
+        )
+
+        var matchedAny = false
+        for ((prop, expected) in dangerousProps) {
+            val actual = getSystemProperty(prop)
+            val matched = actual == expected
+            Log.i(
+                tag,
+                "system property check: prop=$prop, actual=$actual, expected=$expected, matched=$matched"
+            )
+            if (matched) matchedAny = true
         }
-        return false
+
+        Log.i(tag, "checkForDangerousProps result: matched=$matchedAny")
+        return matchedAny
     }
-    
+
     private fun getSystemProperty(key: String): String? {
         return try {
-            val process = Runtime.getRuntime().exec("getprop $key")
-            process.inputStream.bufferedReader().use { it.readText().trim() }
-        } catch (e: Exception) {
+            Log.d(tag, "getSystemProperty exec: key=$key")
+            val process = Runtime.getRuntime().exec(arrayOf("getprop", key))
+
+            val stdout = process.inputStream.bufferedReader().use { it.readText().trim() }
+            val stderr = process.errorStream.bufferedReader().use { it.readText().trim() }
+            val exit = try { process.waitFor() } catch (_: Throwable) { -1 }
+
+            if (stderr.isNotEmpty()) {
+                Log.w(
+                    tag,
+                    "getprop stderr: key=$key, exit=$exit, stderr=$stderr"
+                )
+            } else {
+                Log.d(
+                    tag,
+                    "getprop ok: key=$key, exit=$exit"
+                )
+            }
+
+            stdout.ifEmpty { null }
+        } catch (se: SecurityException) {
+            Log.w(
+                tag,
+                "getSystemProperty blocked: key=$key, msg=${se.message}"
+            )
+            null
+        } catch (t: Throwable) {
+            Log.w(
+                tag,
+                "getSystemProperty error: key=$key, err=${t::class.java.simpleName}, msg=${t.message}"
+            )
             null
         }
     }
