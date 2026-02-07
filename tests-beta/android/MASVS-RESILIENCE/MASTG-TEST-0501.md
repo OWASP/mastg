@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Root Detection in Code
+title: References to Root Detection Mechanisms
 id: MASTG-TEST-0501
 type: [static]
 weakness: MASWE-0097
