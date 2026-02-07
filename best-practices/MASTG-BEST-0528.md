@@ -17,9 +17,10 @@ To maximize effectiveness of the root detection techniques, consider the followi
 1. **Layer defenses**: Combine root detection with other security measures (integrity checks, anti-debugging, obfuscation).
 2. **Distribute checks**: Scatter detection code throughout the app rather than centralizing it.
 3. **Use multiple methods**: Implement checks at Java, native, and system call levels.
-4. **Avoid predictability**: Don't use only well-known detection patterns from public sources.
+4. **Avoid well-known patterns**: Don't use only well-known detection patterns from public sources.
 5. **Consider proportional responses**: Rather than blocking all functionality, consider limiting only high-risk operations.
 6. **Server-side validation**: When possible, perform risk assessments server-side where they cannot be bypassed.
+7. **Randomness:** Introduce randomness in the placement and implementation of detection logic, so attackers cannot easily reuse patches or prior knowledge of the checks' implementation across builds.
 
 ## Caveats and Considerations
 
