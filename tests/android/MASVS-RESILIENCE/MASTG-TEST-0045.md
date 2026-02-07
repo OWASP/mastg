@@ -10,7 +10,7 @@ masvs_v1_levels:
 profiles: [R]
 status: deprecated
 covered_by: [MASTG-TEST-0501, MASTG-TEST-0502]
-deprecation_note: "TNew version available in MASTG V2"
+deprecation_note: "New version available in MASTG V2"
 ---
 
 ## Bypassing Root Detection
@@ -35,7 +35,7 @@ Check for root detection mechanisms, including the following criteria:
 
 Develop bypass methods for the root detection mechanisms and answer the following questions:
 
-- Can the mechanisms be easily bypassed with standard tools, such as @MASTG-TOOL-0142?
+- Can the mechanisms be easily bypassed with standard tools, such as @MASTG-TOOL-0029?
 - Is static/dynamic analysis necessary to handle the root detection?
 - Do you need to write custom code?
 - How long did successfully bypassing the mechanisms take?
