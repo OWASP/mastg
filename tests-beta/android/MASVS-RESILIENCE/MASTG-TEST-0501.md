@@ -4,26 +4,21 @@ title: References to Root Detection Mechanisms
 id: MASTG-TEST-0501
 type: [static]
 weakness: MASWE-0097
-best-practices: [MASTG-BEST-0028]
+best-practices: [MASTG-BEST-0528]
 profiles: [R]
 knowledge: [MASTG-KNOW-0027]
 ---
 
 ## Overview
 
-Android apps may implement root detection to identify whether the device has been rooted. If the app does not implement root detection, it becomes easier for attackers to perform dynamic analysis, hook into sensitive methods, bypass security controls, or extract sensitive data on rooted devices. Additionally, rooted devices enable attackers to spoof or tamper with device sensors (e.g., GPS, accelerometer) and camera input, which poses a significant risk for identity verification and KYC (Know Your Customer) workflows, allowing fraudsters to manipulate liveness checks, inject prerecorded or synthetic video streams.
-
-This test checks whether the app implements root detection by statically analyzing the app binary for common root detection patterns. These may include checks for:
-
-- Files typically found on rooted devices (e.g., `/system/xbin/su`, `/sbin/su`) (accessed via `java.io.File` or native file APIs)
-- Root management apps (e.g., SuperSU, Magisk, KernelSU) (via `PackageManager` queries)
-- Running processes associated with root (e.g., `daemonsu`) (via `ActivityManager` or native process APIs)
-- System properties indicating custom ROMs or test builds (e.g., `ro.debuggable`, `ro.secure`) (via `android.os.Build` or `Runtime.exec()`)
-- Signs of modified system integrity (e.g., SELinux status, system partition mount status)
-- Writable system partitions (e.g., checking if `/system` is writable)
-- Presence of root-related libraries or APIs (e.g., `com.scottyab.rootbeer.RootBeer`)
+This test checks whether the app implements root detection by statically analyzing the app binary for common root detection patterns. These may include checks for files and artifacts typically associated with rooted devices, as well as calls to known root detection APIs or libraries.
 
 See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts to look for.
+
+This test is best combined with @MASTG-TEST-0502, which performs dynamic testing to confirm whether the identified root detection mechanisms are active at runtime. This way, you can use static analysis to surface potential root detection logic and then focus your dynamic testing on those specific checks to confirm they are triggered at runtime. Alternatively, you can perform dynamic testing first to identify any root detection mechanisms that are active at runtime, and then use static analysis to further investigate their implementation and coverage.
+
+!!! note "Out of Scope"
+    This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0528 for best practices on implementing root detection effectively and understanding its limitations.
 
 ## Steps
 
