@@ -100,16 +100,26 @@ Supersu-by far the most popular rooting tool-runs an authentication daemon named
 
 ## Checking Installed App Packages
 
-You can use the Android package manager to obtain a list of installed packages. The following package names belong to popular rooting tools:
+You can probe for known root manager packages using `PackageManager`, for example by calling `getPackageInfo` for specific package names. Common examples include.
 
 ```sh
 eu.chainfire.supersu
 com.noshufou.android.su
 com.koushikdutta.superuser
-com.zachspong.temprootremovejb
-com.ramdroid.appquarantine
 com.topjohnwu.magisk
 ```
+
+On Android 11 and later, [package visibility restrictions](https://developer.android.com/training/package-visibility) affect this technique. If a package is installed but not visible to the app, [`getPackageInfo`](https://developer.android.com/reference/android/content/pm/PackageManager#getPackageInfo(java.lang.String,%20int)) behaves the same as if the package were not installed, typically by throwing [`PackageManager.NameNotFoundException`](https://developer.android.com/reference/android/content/pm/PackageManager.NameNotFoundException). This can create false negatives for package based root detection.
+
+To reliably query specific packages on Android 11 and later, declare them in the app manifest using the `<queries>` element, instead of requesting broad visibility.
+
+```xml
+<queries>
+    <package android:name="com.topjohnwu.magisk" />
+</queries>
+```
+
+This is preferred to requesting the `QUERY_ALL_PACKAGES` permission, which grants visibility to all installed apps but is [subject to Google Play restrictions](https://support.google.com/googleplay/android-developer/answer/10158779) and may not be justifiable for many use cases.
 
 ## Checking for Writable Partitions and System Directories
 
