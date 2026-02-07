@@ -1,2 +1,2 @@
 #!/bin/bash
-frooky -U -n MASTestApp --platform android hooks.json
+frooky -U -f org.owasp.mastestapp --platform android hooks.json

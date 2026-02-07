@@ -9,7 +9,7 @@
           "args": ["java.lang.String"]
         }
       ],
-      "filterEventsByStacktrace": ["org.owasp.mastestapp"]
+      "filterEventsByStacktrace": ["org.owasp.mastestapp.MastgTest"]
     },
     {
       "class": "android.app.ApplicationPackageManager",
@@ -18,14 +18,15 @@
         {
           "args": ["java.lang.String", "int"]
         }
-      ]
+      ],
+      "filterEventsByStacktrace": ["org.owasp.mastestapp.MastgTest"]
     },
     {
       "class": "java.lang.Runtime",
       "method": "exec",
       "overloads": [
         {
-          "args": ["java.lang.String"]
+          "args": ["[Ljava.lang.String;"]
         }
       ]
     }
