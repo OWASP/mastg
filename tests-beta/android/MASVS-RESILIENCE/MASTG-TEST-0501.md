@@ -30,6 +30,6 @@ The output should contain a list of locations where root detection checks are im
 
 ## Evaluation
 
-The test fails if the app does not implement any root detection checks. However, note that static analysis may not detect all root detection mechanisms, especially if they are proprietary, obfuscated, or implemented in native code.
+The test case fails if the app does not implement any root detection checks. However, note that static analysis may not detect all root detection mechanisms, especially if they are proprietary, obfuscated, or implemented in native code.
 
 If root detection checks are found, this is a positive sign, but you should still evaluate their effectiveness. See @MASTG-BEST-0528.

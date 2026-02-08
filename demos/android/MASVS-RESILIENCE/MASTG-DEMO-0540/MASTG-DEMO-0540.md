@@ -2,7 +2,7 @@
 platform: android
 title: Uses of Root Detection Techniques with Semgrep
 id: MASTG-DEMO-0540
-code: [kotlin]
+code: [kotlin, xml]
 test: MASTG-TEST-0501
 tools: [MASTG-TOOL-0110]
 kind: pass

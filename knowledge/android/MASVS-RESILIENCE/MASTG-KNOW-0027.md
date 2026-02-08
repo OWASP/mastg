@@ -100,7 +100,7 @@ Supersu-by far the most popular rooting tool-runs an authentication daemon named
 
 ## Checking Installed App Packages
 
-You can probe for known root manager packages using `PackageManager`, for example by calling `getPackageInfo` for specific package names. Common examples include.
+You can probe for known root manager packages using `PackageManager`, for example by calling `getPackageInfo` for specific package names. Common examples include:
 
 ```sh
 eu.chainfire.supersu
@@ -111,7 +111,7 @@ com.topjohnwu.magisk
 
 On Android 11 and later, [package visibility restrictions](https://developer.android.com/training/package-visibility) affect this technique. If a package is installed but not visible to the app, [`getPackageInfo`](https://developer.android.com/reference/android/content/pm/PackageManager#getPackageInfo(java.lang.String,%20int)) behaves the same as if the package were not installed, typically by throwing [`PackageManager.NameNotFoundException`](https://developer.android.com/reference/android/content/pm/PackageManager.NameNotFoundException). This can create false negatives for package based root detection.
 
-To reliably query specific packages on Android 11 and later, declare them in the app manifest using the `<queries>` element, instead of requesting broad visibility.
+Developers can query specific packages on Android 11 and later by declaring them in the app manifest using the `<queries>` element:
 
 ```xml
 <queries>
