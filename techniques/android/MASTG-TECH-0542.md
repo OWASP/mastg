@@ -42,17 +42,20 @@ frida -U -f <package_name> -l bypass_root.js
 Example Frida script to bypass common checks:
 
 ```javascript
-Java.perform(function() {
-    // Hook file existence checks
-    var File = Java.use("java.io.File");
-    File.exists.implementation = function() {
-        var path = this.getAbsolutePath();
-        if (path.indexOf("su") !== -1 || path.indexOf("magisk") !== -1) {
-            console.log("[*] File.exists() bypassed for: " + path);
-            return false;
-        }
-        return this.exists.call(this);
-    };
+'use strict';
+
+Java.perform(function () {
+  var File = Java.use("java.io.File");
+  var exists = File.exists.overload();
+
+  exists.implementation = function () {
+    var path = this.getAbsolutePath();
+    if (path.indexOf("su") !== -1 || path.indexOf("magisk") !== -1) {
+      console.log("[*] File.exists bypass " + path);
+      return false;
+    }
+    return exists.call(this);
+  };
 });
 ```
 
