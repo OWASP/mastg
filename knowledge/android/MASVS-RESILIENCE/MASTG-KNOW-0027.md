@@ -8,7 +8,7 @@ In the context of anti-reversing, the goal of root detection is to make running 
 
 For Android, we define "root detection" a bit more broadly, including custom ROMs detection, i.e., determining whether the device is a stock Android build or a custom build.
 
-Root detection can also be implemented through libraries such as [RootBeer](https://github.com/scottyab/rootbeer "RootBeer").
+Root detection can also be implemented through libraries such as @MASTG-TOOL-0146 or @MASTG-TOOL-0147 (none of them endorsed by OWASP, see the disclaimers in their respective sections). These libraries implement multiple root detection techniques using both Java and native code to make bypassing more difficult. They also provide sample apps to demonstrate their capabilities, see @MASTG-APP-0032 and @MASTG-APP-0033.
 
 ## File Existence Checks
 
@@ -127,7 +127,7 @@ Unusual permissions on system directories may indicate a customized or rooted de
 
 ## Checking for Custom Android Builds
 
-Checking for signs of test builds and custom ROMs is also helpful. One way to do this is to check the `BUILD.TAGS` for `test-keys`, which normally [indicates a custom Android image](https://www.infosecinstitute.com/resources/application-security/android-hacking-security-part-8-root-detection-evasion/). For example, [RootBeer checks the BUILD.TAGS as follows](https://github.com/scottyab/rootbeer/blob/0.1.1/rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java#L71-L80):
+Checking for signs of test builds and custom ROMs is also helpful. One way to do this is to check the `BUILD.TAGS` for `test-keys`, which normally [indicates a custom Android image](https://www.infosecinstitute.com/resources/application-security/android-hacking-security-part-8-root-detection-evasion/). For example, @MASTG-TOOL-0146 [checks the BUILD.TAGS as follows](https://github.com/scottyab/rootbeer/blob/0.1.1/rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java#L71-L80):
 
 ```java
 public boolean detectTestKeys() {
