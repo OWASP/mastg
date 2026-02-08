@@ -40,7 +40,9 @@ rules:
     metadata:
       summary: Detection of system property checks via getprop
     message: "[MASVS-RESILIENCE-1] The app reads system properties via getprop, which may be checking for root indicators."
-    pattern: Runtime.getRuntime().exec("getprop " + $PROP)
+    pattern-either:
+      - pattern: Runtime.getRuntime().exec("getprop " + $PROP)
+      - pattern: Runtime.getRuntime().exec(new String[] { "getprop", $PROP })
 
   - id: mastg-android-root-detection-runtime-exec
     severity: INFO
@@ -48,4 +50,7 @@ rules:
     metadata:
       summary: Detection of Runtime.exec calls that may be used for root detection
     message: "[MASVS-RESILIENCE-1] The app uses Runtime.exec(), which may be attempting to execute su or other commands for root detection."
-    pattern: Runtime.getRuntime().exec($CMD)
+    patterns:
+      - pattern: Runtime.getRuntime().exec($CMD)
+      - pattern-not: Runtime.getRuntime().exec("getprop " + $PROP)
+      - pattern-not: Runtime.getRuntime().exec(new String[] { "getprop", $PROP })

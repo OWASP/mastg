@@ -24,9 +24,9 @@
           100┆ if (buildTags != null && StringsKt.contains$default((CharSequence) buildTags,
                (CharSequence) "test-keys", false, 2, (Object) null)) {                      
    
-     ❱ rules.mastg-android-root-detection-runtime-exec
-          [MASVS-RESILIENCE-1] The app uses Runtime.exec(), which may be attempting to execute su or other
-          commands for root detection.                                                                    
+     ❱ rules.mastg-android-root-detection-system-properties
+          [MASVS-RESILIENCE-1] The app reads system properties via getprop, which may be checking for root
+          indicators.                                                                                     
                                                                                                           
           129┆ Process process = Runtime.getRuntime().exec(new String[]{"getprop", key});
 
