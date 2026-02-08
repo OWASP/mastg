@@ -127,15 +127,13 @@ Unusual permissions on system directories may indicate a customized or rooted de
 
 ## Checking for Custom Android Builds
 
-Checking for signs of test builds and custom ROMs is also helpful. One way to do this is to check the BUILD tag for test-keys, which normally [indicate a custom Android image](https://resources.infosecinstitute.com/android-hacking-security-part-8-root-detection-evasion// "InfoSec Institute - Android Root Detection and Evasion"). [Check the BUILD tag as follows](https://github.com/scottyab/rootbeer/blob/master/rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java#L76 "Rootbeer - detectTestKeys function"):
+Checking for signs of test builds and custom ROMs is also helpful. One way to do this is to check the `BUILD.TAGS` for `test-keys`, which normally [indicates a custom Android image](https://www.infosecinstitute.com/resources/application-security/android-hacking-security-part-8-root-detection-evasion/). For example, [RootBeer checks the BUILD.TAGS as follows](https://github.com/scottyab/rootbeer/blob/0.1.1/rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java#L71-L80):
 
 ```java
-private boolean isTestKeyBuild()
-{
-String str = Build.TAGS;
-if ((str != null) && (str.contains("test-keys")));
-for (int i = 1; ; i = 0)
-  return i;
+public boolean detectTestKeys() {
+    String buildTags = android.os.Build.TAGS;
+
+    return buildTags != null && buildTags.contains("test-keys");
 }
 ```
 
