@@ -34,8 +34,16 @@ The output shows all root detection method invocations captured during app execu
 
 The test passes because the output confirms the app implements root detection checks that were monitored at runtime:
 
-- **10 File constructor calls** (from `MastgTest.checkForSuBinary()` at line 56): By hooking the `File` constructor instead of `exists()`, we can see the actual paths being checked. The app checks for su binaries at 10 unique locations: `/system/app/Superuser.apk`, `/sbin/su`, `/system/bin/su`, `/system/xbin/su`, etc. Each path check is visible twice because the test function was invoked twice.
+- **`java.io.File.<init>` calls for `su` path checks:**
+    - From `MastgTest.checkForSuBinary()` at line 56.
+    - The app checks for 10 `su` binary locations such as `/system/app/Superuser.apk`, `/sbin/su`, `/system/bin/su`, `/system/xbin/su`, etc.
+    - Additional constructor calls from libraries like `androidx.profileinstaller.ProfileInstaller` may appear in the trace but are not related to root detection.
 
-- **12 PackageManager.getPackageInfo() calls** (from `MastgTest.checkForRootPackages()` at line 94): The app checks for 12 root management packages including `com.topjohnwu.magisk`, `eu.chainfire.supersu`, etc. All throw `NameNotFoundException` as expected since none are installed. Each package is checked twice due to two test invocations.
+- **`PackageManager.getPackageInfo` calls for root packages:**
+    - From `MastgTest.checkForRootPackages` at line 94.
+    - The app checks for 12 root management packages including `com.topjohnwu.magisk`, `eu.chainfire.supersu`, etc. In the captured output, the relevant `getPackageInfo` calls throw `NameNotFoundException` as expected since none of these packages are installed.
+    - Additional `getPackageInfo` calls from system or library components may appear in the trace but are unrelated to root detection.
 
-- **2 Runtime.exec() calls** (from `MastgTest.getSystemProperty()` at line 155, called by `checkForDangerousProps()` at line 139): The app executes `getprop ro.debuggable` and `getprop ro.secure` commands to read system properties that may indicate root access. Each property is checked twice.
+- **`Runtime.exec` calls for system property checks:**
+    - From `MastgTest.getSystemProperty` at line 155, called by `checkForDangerousProps` at line 139.
+    - The app executes `getprop ro.debuggable` and `getprop ro.secure` commands to read system properties.
