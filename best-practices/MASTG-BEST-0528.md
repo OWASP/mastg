@@ -6,13 +6,9 @@ platform: android
 knowledge: [MASTG-KNOW-0027]
 ---
 
-## Overview
-
 Root detection is a defensive mechanism that allows Android apps to identify whether they are running on a rooted device. While root detection alone cannot prevent an attacker from analyzing or tampering with an app, it raises the bar by making it more difficult and time-consuming to perform attacks on rooted devices.
 
-See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts to look for.
-
-To maximize effectiveness of the root detection techniques, consider the following best practices:
+Apply the relevant root detection techniques described in @MASTG-KNOW-0027 based on the app's threat model and risk tolerance. For example, if the app handles highly sensitive data or performs critical operations, it may warrant more aggressive root detection measures. To maximize effectiveness, consider the following best practices:
 
 1. **Layer defenses**: Combine root detection with other security measures (integrity checks, anti-debugging, obfuscation).
 2. **Distribute checks**: Scatter detection code throughout the app rather than centralizing it.
@@ -24,7 +20,9 @@ To maximize effectiveness of the root detection techniques, consider the followi
 
 ## Caveats and Considerations
 
-Root detection has important limitations that should be understood:
+Do not implement root detection if the app's threat model does not justify it. For example, if the app is a simple utility with no sensitive data or critical operations, root detection may be unnecessary and could alienate users who have rooted their devices for legitimate reasons.
+
+Root detection has important caveats and limitations that must be understood:
 
 - **Root detection is inherently bypassable:** see @MASTG-TECH-0542. Attackers with sufficient time and skill can:
     - Hook root detection methods using Frida or Xposed
