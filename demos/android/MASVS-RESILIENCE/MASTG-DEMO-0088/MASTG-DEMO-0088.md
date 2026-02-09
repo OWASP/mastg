@@ -1,17 +1,17 @@
 ---
 platform: android
 title: Runtime Detection of Root Detection Mechanisms
-id: MASTG-DEMO-0541
+id: MASTG-DEMO-0088
 code: [kotlin]
-test: MASTG-TEST-0502
+test: MASTG-TEST-0325
 tools: [MASTG-TOOL-0145]
 ---
 
 ## Sample
 
-This demo shows how to detect root detection mechanisms at runtime using Frooky. The sample app from @MASTG-DEMO-0540 implements multiple root detection checks.
+This demo shows how to detect root detection mechanisms at runtime using Frooky. The sample app from @MASTG-DEMO-0087 implements multiple root detection checks.
 
-{{ ../MASTG-DEMO-0540/MastgTest.kt }}
+{{ ../MASTG-DEMO-0087/MastgTest.kt }}
 
 ## Steps
 

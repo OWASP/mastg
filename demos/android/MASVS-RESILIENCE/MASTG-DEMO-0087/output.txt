@@ -13,8 +13,8 @@
    
      ❱ rules.mastg-android-root-detection-package-check
           [MASVS-RESILIENCE-1] The app checks for installed packages, which may be looking for root management
-          apps.                                                                                               
-                                                                                                              
+          apps.                                                                                                
+                                                                                                               
            82┆ this.context.getPackageManager().getPackageInfo(packageName, 0);
    
      ❱ rules.mastg-android-root-detection-test-keys
@@ -27,6 +27,5 @@
      ❱ rules.mastg-android-root-detection-system-properties
           [MASVS-RESILIENCE-1] The app reads system properties via getprop, which may be checking for root
           indicators.                                                                                     
-                                                                                                          
+                                                                                                           
           129┆ Process process = Runtime.getRuntime().exec(new String[]{"getprop", key});
-
