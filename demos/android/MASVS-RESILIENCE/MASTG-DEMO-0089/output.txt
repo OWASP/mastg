@@ -1,5 +1,4 @@
 [+] BufferedReader.readLine() hooked: filtering Frida-related entries from /proc/self/maps
-[+] Process.killProcess() hooked: blocking self-termination as a safety net
 [+] Cipher.doFinal() hooked: extracting sensitive data
 
 [*] Hiding line from /proc/self/maps: 6d69a0b000-6d6a351000 r--p 00000000 00:01 188                            /memfd:frida-agent-64.so (deleted)
@@ -16,7 +15,7 @@
     Algorithm: AES/GCM/NoPadding
     Mode: ENCRYPT_MODE
     Input (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
-    Output (ciphertext hex): d0cca71c2cbd98de04196f731142ffdc1db4eb6fd32215fefe8f7f30c8fc6f378d690abb520160ebdf208ba35fc8f32454aa069ecb7e
+    Output (ciphertext hex): e9ff1fd068d108fad6e3e64aca3ce460c169d956123a119ab596887d7f62d14245a24eeb93da5cb8395bbab4f8bc637d0852221fc96e
 
 Backtrace:
 javax.crypto.Cipher.doFinal(Native Method)
@@ -30,7 +29,7 @@ java.lang.Thread.run(Thread.java:1119)
 [*] Cipher.doFinal(byte[]) called
     Algorithm: AES/GCM/NoPadding
     Mode: DECRYPT_MODE
-    Input (ciphertext hex): d0cca71c2cbd98de04196f731142ffdc1db4eb6fd32215fefe8f7f30c8fc6f378d690abb520160ebdf208ba35fc8f32454aa069ecb7e
+    Input (ciphertext hex): e9ff1fd068d108fad6e3e64aca3ce460c169d956123a119ab596887d7f62d14245a24eeb93da5cb8395bbab4f8bc637d0852221fc96e
     Output (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
 
 Backtrace:

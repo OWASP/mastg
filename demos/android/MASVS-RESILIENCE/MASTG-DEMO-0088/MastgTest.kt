@@ -90,8 +90,8 @@ class MastgTest(private val context: Context) {
             val decryptedString = String(decryptedBytes, Charsets.UTF_8)
 
             "Encryption and decryption successful.\n" +
-                "Encrypted: $encryptedData\n" +
-                "Decrypted: $decryptedString"
+                    "Encrypted: $encryptedData\n" +
+                    "Decrypted: $decryptedString"
         } catch (e: Exception) {
             "Error: ${e.message}"
         }

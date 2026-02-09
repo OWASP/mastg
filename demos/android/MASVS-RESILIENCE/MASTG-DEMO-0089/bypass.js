@@ -1,6 +1,6 @@
 Java.perform(() => {
 
-    // --- Bypass 1: Hook BufferedReader.readLine() to hide Frida from /proc/self/maps ---
+    // --- Bypass: Hook BufferedReader.readLine() to hide Frida from /proc/self/maps ---
 
     let BufferedReader = Java.use("java.io.BufferedReader");
 
@@ -20,22 +20,7 @@ Java.perform(() => {
 
     console.log("[+] BufferedReader.readLine() hooked: filtering Frida-related entries from /proc/self/maps");
 
-    // --- Bypass 2: Hook Process.killProcess() to prevent app termination ---
-
-    let Process = Java.use("android.os.Process");
-    let myPid = Process.myPid();
-
-    Process["killProcess"].implementation = function (pid) {
-        if (pid === myPid) {
-            console.log("[*] Blocked Process.killProcess(" + pid + ") — preventing self-termination");
-            return;
-        }
-        this["killProcess"](pid);
-    };
-
-    console.log("[+] Process.killProcess() hooked: blocking self-termination as a safety net");
-
-    // --- Hooks: Cipher.doFinal() to extract sensitive data ---
+    // --- Hook Cipher.doFinal() to extract sensitive data ---
 
     function printBacktrace(maxLines = 8) {
         let Exception = Java.use("java.lang.Exception");
