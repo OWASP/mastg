@@ -6,6 +6,9 @@ rules:
       summary: Detection of file existence checks commonly used for root detection
     message: "[MASVS-RESILIENCE-1] The app checks for file existence, which may be part of root detection implementation."
     pattern: new File($PATH).exists()
+    metavariable-regex:
+      metavariable: $PATH
+      regex: '.*(su|magisk|Superuser\.apk).*'
 
   - id: mastg-android-root-detection-package-check
     severity: INFO
