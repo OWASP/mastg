@@ -4,7 +4,7 @@ title: Testing Runtime Hook Detection
 id: MASTG-TEST-03te
 type: [dynamic]
 weakness: MASWE-0107
-best-practices: []
+best-practices: [MASTG-BEST-0029]
 profiles: [R]
 knowledge: [MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw]
 prerequisites:
