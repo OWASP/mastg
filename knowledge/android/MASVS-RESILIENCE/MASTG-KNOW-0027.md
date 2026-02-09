@@ -119,7 +119,7 @@ Developers can query specific packages on Android 11 and later by declaring them
 </queries>
 ```
 
-This is preferred to requesting the `QUERY_ALL_PACKAGES` permission, which grants visibility to all installed apps but is [subject to Google Play restrictions](https://support.google.com/googleplay/android-developer/answer/10158779) and may not be justifiable for many use cases.
+Otherwise they can use the `QUERY_ALL_PACKAGES` permission, which grants visibility to all installed apps but is [subject to Google Play restrictions](https://support.google.com/googleplay/android-developer/answer/10158779) and may not be justifiable for many use cases.
 
 ## Checking for Writable Partitions and System Directories
 

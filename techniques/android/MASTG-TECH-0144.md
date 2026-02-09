@@ -51,7 +51,7 @@ Java.perform(function () {
   exists.implementation = function () {
     var path = this.getAbsolutePath();
     if (path.indexOf("su") !== -1 || path.indexOf("magisk") !== -1) {
-      console.log("[*] File.exists bypass " + path);
+      console.log("[*] File.exists() bypassed for: " + path);
       return false;
     }
     return exists.call(this);
