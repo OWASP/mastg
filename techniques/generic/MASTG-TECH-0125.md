@@ -1,15 +1,15 @@
 ---
-title: Intercepting Xamarin Traffic
+title: Intercepting Xamarin (End of Support) Traffic
 platform: generic
 ---
 
-Xamarin is a mobile app development platform that allows developers to create [native Android](https://docs.microsoft.com/en-us/xamarin/android/get-started/ "Getting Started with Android") and [iOS apps](https://docs.microsoft.com/en-us/xamarin/ios/get-started/ "Getting Started with iOS") using Visual Studio and C#.
+Xamarin (End of Support) is a mobile app development platform that allows developers to create native Android and iOS apps using Visual Studio and C#.
 
-When testing a Xamarin app, setting the system proxy in the Device Wi-Fi settings will not capture any HTTP requests in your interception proxy. This is because Xamarin apps do not use the local proxy settings of your device. There are three ways to bypass this limitation:
+When testing a Xamarin (End of Support) app, setting the system proxy in the Device Wi-Fi settings will not capture any HTTP requests in your interception proxy. This is because Xamarin (End of Support) apps do not use the local proxy settings of your device. There are three ways to bypass this limitation:
 
-## Option 1: Manipulating Xamarin's Network Stack Default Proxy
+## Option 1: Manipulating Xamarin (End of Support)'s Network Stack Default Proxy
 
-Patch the app to use a [default proxy](https://developer.xamarin.com/api/type/System.Net.WebProxy/ "System.Net.WebProxy Class") by adding the following code in the `OnCreate` or `Main` method:
+Patch the app to use a default proxy by adding the following code in the `OnCreate` or `Main` method:
 
 ```cs
 WebRequest.DefaultWebProxy = new WebProxy("192.168.11.1", 8080);

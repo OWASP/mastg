@@ -94,14 +94,14 @@ myWebView.setWebViewClient(new WebViewClient(){
 
 Alternatively, it is better to use an OkHttpClient with configured pins and let it act as a proxy overriding `shouldInterceptRequest` of the `WebViewClient`.
 
-### Xamarin Applications
+### Xamarin (End of Support) Applications
 
-Applications developed in Xamarin will typically use `ServicePointManager` to implement pinning.
+Applications developed in Xamarin (End of Support) will typically use `ServicePointManager` to implement pinning.
 
 Normally a function is created to check the certificate(s) and return the boolean value to the method `ServerCertificateValidationCallback`:
 
 ```cs
-[Activity(Label = "XamarinPinning", MainLauncher = true)]
+[Activity(Label = "XamarinPinning (End of Support)", MainLauncher = true)]
     public class MainActivity : Activity
     {
         // SupportedPublicKey - Hexadecimal value of the public key.
@@ -115,7 +115,7 @@ Normally a function is created to check the certificate(s) and return the boolea
                 SslPolicyErrors sslPolicyErrors
             )
         {
-            //Log.Debug("Xamarin Pinning",chain.ChainElements[X].Certificate.GetPublicKeyString());
+            //Log.Debug("Xamarin (End of Support) Pinning",chain.ChainElements[X].Certificate.GetPublicKeyString());
             //return true;
             return SupportedPublicKey == chain.ChainElements[1].Certificate.GetPublicKeyString();
         }
@@ -132,13 +132,13 @@ Normally a function is created to check the certificate(s) and return the boolea
 
 In this particular example we are pinning the intermediate CA of the certificate chain. The output of the HTTP response will be available in the system logs.
 
-Sample Xamarin app with the previous example can be obtained on the [MASTG repository](https://github.com/OWASP/mastg/raw/master/Samples/Android/02_CertificatePinning/certificatePinningXamarin.apk "Xamarin app with certificate pinning")
+Sample Xamarin (End of Support) app with the previous example can be obtained on the MASTG repository
 
 After decompressing the APK file, use a .NET decompiler like dotPeak, ILSpy or dnSpy to decompile the app dlls stored inside the 'Assemblies' folder and confirm the usage of the ServicePointManager.
 
 Learn more:
 
-- Certificate and Public Key Pinning with Xamarin - <https://thomasbandt.com/certificate-and-public-key-pinning-with-xamarin>
+- Certificate and Public Key Pinning with Xamarin (End of Support)
 - ServicePointManager - <https://msdn.microsoft.com/en-us/library/system.net.servicepointmanager(v=vs.110).aspx>
 
 ### Cordova Applications
