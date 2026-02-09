@@ -1,69 +1,72 @@
 ---
-title: Converting XAPK to APK
+title: Working with XAPK Files
 platform: android
 ---
 
-When downloading APKs from alternative app stores like APKPure or APKMirror, you may encounter XAPK files instead of standard APK files. XAPK is a package format that bundles an APK along with additional files such as OBB data files or split APKs.
+When downloading apps from alternative stores such as APKPure or APKMirror, you may receive XAPK files instead of a single APK. XAPK is not an Android standard format. It is simply a ZIP archive used by third-party stores to bundle one or more APKs together with optional additional data.
 
-## Understanding XAPK Format
+## What an XAPK Contains
 
-An XAPK file is essentially a ZIP archive containing:
+An XAPK file is a regular ZIP archive that typically includes:
 
-- The main APK file (or split APKs for app bundles)
-- OBB files (additional data files, if any)
-- A manifest JSON file describing the contents
+- A base APK
+- Optional split APKs generated from an Android App Bundle
+- Optional OBB data files
+- A manifest.json file describing the package contents
 
-## Extracting XAPK Files
+## Extracting an XAPK
 
-The simplest way to work with XAPK files is to extract them as ZIP archives:
-
-```bash
-unzip app.xapk -d app_extracted
-```
-
-After extraction, you'll find:
-
-- The main APK file (usually named like `com.example.app.apk`)
-- Split APK files (if the app uses App Bundles), typically in a folder or with names like `split_config.arm64_v8a.apk`
-- OBB files in an `Android/obb` directory structure (if present)
-- A `manifest.json` file describing the package contents
-
-## Installing from XAPK
-
-If you need to install the app on a device:
-
-### For Single APK
-
-If the XAPK contains a single APK file:
-
-```bash
-unzip app.xapk
-adb install com.example.app.apk
-```
-
-### For Split APKs (App Bundles)
-
-If the XAPK contains multiple split APKs:
+Because XAPK is just a ZIP file, it can be extracted using standard tools.
 
 ```bash
 unzip app.xapk -d app_extracted
-adb install-multiple app_extracted/*.apk
 ```
 
-### With OBB Files
+After extraction you may see a single APK or multiple APK files. For example:
 
-If the XAPK includes OBB files, you need to:
+```sh
+ls -1 app_extracted
+base.apk
+config.ar.apk
+config.arm64_v8a.apk
+...
+config.xxxhdpi.apk
+icon.png
+manifest.json
+```
 
-1. Install the APK(s) as described above
-2. Push the OBB files to the correct location on the device:
+## Installing Apps from an XAPK
+
+### Single APK Case
+
+If the extracted directory contains only one APK, it can be installed normally.
 
 ```bash
-adb push Android/obb/com.example.app /sdcard/Android/obb/com.example.app
+adb install app_extracted/*.apk
 ```
 
-## Converting to Standard APK Bundle
+### Split APK Case
 
-For analysis purposes, if you have split APKs, you can work with them individually or use @MASTG-TOOL-0004 to analyze the extracted APKs directly. Each split APK can be decompiled and analyzed separately.
+If multiple APKs are present, the app was built as an Android App Bundle. There is no reliable or supported way to convert these splits into one universal APK. The correct approach is to install the base APK together with the splits that match the target device.
 
-!!! note
-    When analyzing apps distributed as XAPK files with split APKs, remember that the app's functionality may be distributed across multiple APK files. You should analyze all split APKs together to get the complete picture of the app's behavior.
+```bash
+adb install-multiple -r app_extracted/*.apk
+```
+
+### OBB Data
+
+If the XAPK contains OBB files, install the APKs first, then push the OBB directory to the device.
+
+```bash
+adb push app_extracted/Android/obb/<package.name> /sdcard/Android/obb/
+```
+
+## Reverse Engineering
+
+For reverse engineering and static analysis, you can open the base APK and all relevant split APKs together using @MASTG-TOOL-0018 like this:
+
+```bash
+jadx app_extracted/*.apk
+```
+
+See @MASTG-TECH-0017 for more details on decompiling Android apps.
