@@ -19,6 +19,9 @@ class MastgTest(private val context: Context) {
         val su = checkForSuBinary()
         checks.add(if (su) "✓ Found su binary" else "✗ No su binary found")
 
+        val whichSu = checkForWhichSu()
+        checks.add(if (whichSu) "✓ Found su via which command" else "✗ su not found via which command")
+
         val pkgs = checkForRootPackages()
         checks.add(if (pkgs) "✓ Found root management apps" else "✗ No root management apps found")
 
@@ -28,7 +31,7 @@ class MastgTest(private val context: Context) {
         val props = checkForDangerousProps()
         checks.add(if (props) "✓ Found dangerous system properties" else "✗ No dangerous system properties")
 
-        val isRooted = su || pkgs || testKeys || props
+        val isRooted = su || whichSu || pkgs || testKeys || props
         Log.i(tag, "Completed checks: rooted=$isRooted")
 
         return "Root Detection Results:\n\n" +
@@ -70,6 +73,40 @@ class MastgTest(private val context: Context) {
 
         Log.i(tag, "checkForSuBinary result: found=$found")
         return found
+    }
+
+    private fun checkForWhichSu(): Boolean {
+        return try {
+            Log.d(tag, "checkForWhichSu: executing which su")
+            val process = Runtime.getRuntime().exec(arrayOf("which", "su"))
+
+            val stdout = process.inputStream.bufferedReader().use { it.readText().trim() }
+            val stderr = process.errorStream.bufferedReader().use { it.readText().trim() }
+            val exit = try { process.waitFor() } catch (_: Throwable) { -1 }
+
+            val found = stdout.isNotEmpty() && exit == 0
+            if (found) {
+                Log.i(tag, "su found via which: path=$stdout")
+            } else {
+                Log.d(
+                    tag,
+                    "which su not found: exit=$exit, stderr=$stderr"
+                )
+            }
+            found
+        } catch (se: SecurityException) {
+            Log.w(
+                tag,
+                "checkForWhichSu blocked: msg=${se.message}"
+            )
+            false
+        } catch (t: Throwable) {
+            Log.w(
+                tag,
+                "checkForWhichSu error: err=${t::class.java.simpleName}, msg=${t.message}"
+            )
+            false
+        }
     }
 
     private fun checkForRootPackages(): Boolean {

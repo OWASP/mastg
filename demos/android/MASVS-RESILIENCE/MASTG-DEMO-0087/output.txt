@@ -1,7 +1,7 @@
                    
                    
 ┌─────────────────┐
-│ 4 Code Findings │
+│ 5 Code Findings │
 └─────────────────┘
                            
     MastgTest_reversed.java
@@ -9,24 +9,30 @@
           [MASVS-RESILIENCE-1] The app checks for file existence, which may be part of root detection
           implementation.                                                                            
                                                                                                      
-           61┆ boolean exists = new File(path).exists();
+           63┆ boolean exists = new File(path).exists();
+   
+     ❱ rules.mastg-android-root-detection-runtime-exec
+          [MASVS-RESILIENCE-1] The app uses Runtime.exec(), which may be attempting to execute su or other
+          commands for root detection.                                                                    
+                                                                                                          
+           83┆ Process process = Runtime.getRuntime().exec(new String[]{"which", "su"});
    
      ❱ rules.mastg-android-root-detection-package-check
           [MASVS-RESILIENCE-1] The app checks for installed packages, which may be looking for root management
           apps.                                                                                               
                                                                                                               
-           82┆ this.context.getPackageManager().getPackageInfo(packageName, 0);
+          133┆ this.context.getPackageManager().getPackageInfo(packageName, 0);
    
      ❱ rules.mastg-android-root-detection-test-keys
           [MASVS-RESILIENCE-1] The app checks Build.TAGS for test-keys, indicating custom ROM or root
           detection.                                                                                 
                                                                                                      
-          100┆ if (buildTags != null && StringsKt.contains$default((CharSequence) buildTags,
+          151┆ if (buildTags != null && StringsKt.contains$default((CharSequence) buildTags,
                (CharSequence) "test-keys", false, 2, (Object) null)) {                      
    
      ❱ rules.mastg-android-root-detection-system-properties
           [MASVS-RESILIENCE-1] The app reads system properties via getprop, which may be checking for root
           indicators.                                                                                     
                                                                                                           
-          129┆ Process process = Runtime.getRuntime().exec(new String[]{"getprop", key});
+          180┆ Process process = Runtime.getRuntime().exec(new String[]{"getprop", key});
 

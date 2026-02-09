@@ -23,7 +23,7 @@ import kotlin.text.Charsets;
 import kotlin.text.StringsKt;
 
 /* compiled from: MastgTest.kt */
-@Metadata(d1 = {"\u0000\"\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0010\u000b\n\u0002\b\u0006\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\b\u001a\u00020\u0007J\b\u0010\t\u001a\u00020\nH\u0002J\b\u0010\u000b\u001a\u00020\nH\u0002J\b\u0010\f\u001a\u00020\nH\u0002J\b\u0010\r\u001a\u00020\nH\u0002J\u0012\u0010\u000e\u001a\u0004\u0018\u00010\u00072\u0006\u0010\u000f\u001a\u00020\u0007H\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000¨\u0006\u0010"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "tag", "", "mastgTest", "checkForSuBinary", "", "checkForRootPackages", "checkForTestKeys", "checkForDangerousProps", "getSystemProperty", "key", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
+@Metadata(d1 = {"\u0000\"\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0010\u000b\n\u0002\b\u0007\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\b\u001a\u00020\u0007J\b\u0010\t\u001a\u00020\nH\u0002J\b\u0010\u000b\u001a\u00020\nH\u0002J\b\u0010\f\u001a\u00020\nH\u0002J\b\u0010\r\u001a\u00020\nH\u0002J\b\u0010\u000e\u001a\u00020\nH\u0002J\u0012\u0010\u000f\u001a\u0004\u0018\u00010\u00072\u0006\u0010\u0010\u001a\u00020\u0007H\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000¨\u0006\u0011"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "tag", "", "mastgTest", "checkForSuBinary", "", "checkForWhichSu", "checkForRootPackages", "checkForTestKeys", "checkForDangerousProps", "getSystemProperty", "key", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
 /* loaded from: classes3.dex */
 public final class MastgTest {
     public static final int $stable = 8;
@@ -41,13 +41,15 @@ public final class MastgTest {
         Log.i(this.tag, "Starting root detection checks");
         boolean su = checkForSuBinary();
         checks.add(su ? "✓ Found su binary" : "✗ No su binary found");
+        boolean whichSu = checkForWhichSu();
+        checks.add(whichSu ? "✓ Found su via which command" : "✗ su not found via which command");
         boolean pkgs = checkForRootPackages();
         checks.add(pkgs ? "✓ Found root management apps" : "✗ No root management apps found");
         boolean testKeys = checkForTestKeys();
         checks.add(testKeys ? "✓ Device has test-keys build" : "✗ Device has release-keys build");
         boolean props = checkForDangerousProps();
         checks.add(props ? "✓ Found dangerous system properties" : "✗ No dangerous system properties");
-        boolean isRooted = su || pkgs || testKeys || props;
+        boolean isRooted = su || whichSu || pkgs || testKeys || props;
         Log.i(this.tag, "Completed checks: rooted=" + isRooted);
         return "Root Detection Results:\n\n" + CollectionsKt.joinToString$default(checks, "\n", null, null, 0, null, null, 62, null) + "\n\nDevice appears to be rooted: " + isRooted;
     }
@@ -71,6 +73,55 @@ public final class MastgTest {
         }
         Log.i(this.tag, "checkForSuBinary result: found=" + found);
         return found;
+    }
+
+    private final boolean checkForWhichSu() {
+        int exit;
+        try {
+            Log.d(this.tag, "checkForWhichSu: executing which su");
+            boolean found = true;
+            Process process = Runtime.getRuntime().exec(new String[]{"which", "su"});
+            InputStream inputStream = process.getInputStream();
+            Intrinsics.checkNotNullExpressionValue(inputStream, "getInputStream(...)");
+            Reader inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
+            BufferedReader bufferedReader = inputStreamReader instanceof BufferedReader ? (BufferedReader) inputStreamReader : new BufferedReader(inputStreamReader, 8192);
+            try {
+                BufferedReader it = bufferedReader;
+                String stdout = StringsKt.trim((CharSequence) TextStreamsKt.readText(it)).toString();
+                CloseableKt.closeFinally(bufferedReader, null);
+                InputStream errorStream = process.getErrorStream();
+                Intrinsics.checkNotNullExpressionValue(errorStream, "getErrorStream(...)");
+                Reader inputStreamReader2 = new InputStreamReader(errorStream, Charsets.UTF_8);
+                bufferedReader = inputStreamReader2 instanceof BufferedReader ? (BufferedReader) inputStreamReader2 : new BufferedReader(inputStreamReader2, 8192);
+                try {
+                    BufferedReader it2 = bufferedReader;
+                    String stderr = StringsKt.trim((CharSequence) TextStreamsKt.readText(it2)).toString();
+                    CloseableKt.closeFinally(bufferedReader, null);
+                    try {
+                        exit = process.waitFor();
+                    } catch (Throwable th) {
+                        exit = -1;
+                    }
+                    if (!(stdout.length() > 0) || exit != 0) {
+                        found = false;
+                    }
+                    if (found) {
+                        Log.i(this.tag, "su found via which: path=" + stdout);
+                    } else {
+                        Log.d(this.tag, "which su not found: exit=" + exit + ", stderr=" + stderr);
+                    }
+                    return found;
+                } finally {
+                }
+            } finally {
+            }
+        } catch (SecurityException se) {
+            Log.w(this.tag, "checkForWhichSu blocked: msg=" + se.getMessage());
+            return false;
+        } catch (Throwable t) {
+            Log.w(this.tag, "checkForWhichSu error: err=" + t.getClass().getSimpleName() + ", msg=" + t.getMessage());
+            return false;
+        }
     }
 
     private final boolean checkForRootPackages() {

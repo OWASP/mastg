@@ -13,6 +13,7 @@ kind: pass
 This sample demonstrates common root detection techniques used in Android applications, including:
 
 - Checking for the `su` binary in common locations
+- Checking for the `su` binary using the `which` command
 - Detecting root management packages using `PackageManager`
 - Identifying `test-keys` builds indicating custom ROMs
 - Reading system properties that may indicate root or debugging
@@ -39,7 +40,8 @@ The output shows all locations where root detection checks are implemented in th
 
 The test passes because the output shows multiple root detection implementations:
 
-- Line 61: File existence checks for `su` binaries and root-related files
-- Line 82: `PackageManager` checks for root management apps
-- Line 100: `Build.TAGS` check for `test-keys` indicating custom ROM
-- Line 129: `Runtime.exec()` and `getprop` calls to read system properties
+- Line 63: File existence checks for `su` binaries and root-related files
+- Line 83: `which su` command execution
+- Line 133: `PackageManager` checks for root management apps
+- Line 151: `Build.TAGS` check for `test-keys` indicating custom ROM
+- Line 180: `Runtime.exec()` and `getprop` calls to read system properties
