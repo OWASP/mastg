@@ -13,7 +13,7 @@ This sample uses the same code as @MASTG-DEMO-0088, which encrypts and decrypts 
 
 See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime detection mechanisms.
 
-{{ MastgTest.kt }}
+{{ ../MASTG-DEMO-0088/MastgTest.kt }}
 
 ## Steps
 
