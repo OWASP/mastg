@@ -1,6 +1,6 @@
 ---
-title: Defending Against Runtime Hooking
-alias: defending-against-runtime-hooking
+title: Hardening Against Runtime Hooking
+alias: hardening-against-runtime-hooking
 id: MASTG-BEST-0029
 platform: android
 knowledge: [MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw]
