@@ -9,7 +9,7 @@ Controls in this category verify the integrity of the app's memory to defend aga
 Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning for tool-specific strings or checking for open ports), this document focuses on detecting the _modifications_ that instrumentation tools make to the app's code and memory.
 
 !!! note
-    Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously—determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices. These techniques should be part of a defense-in-depth strategy, not a standalone solution.
+    Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously—determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These techniques should be part of a defense-in-depth strategy, not a standalone solution.
 
 ## Techniques
 
@@ -96,6 +96,8 @@ When Frida hooks a method, it replaces the original entry point with a pointer t
 - **Trampoline detection**: Scan the entry point for known hook signatures
 - **Stack inspection**: Look for Frida-related stack frames during execution
 
+See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida) by Bernhard Mueller, [Soriano-Salvador & Guardiola-Múzquiz (2023)](https://link.springer.com/article/10.1007/s11416-022-00458-7), and the [Anti-Frida Techniques](https://github.com/apkunpacker/Anti-Frida) collection for additional detection approaches.
+
 !!! note
     `ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
 
@@ -105,7 +107,7 @@ Native function hooks can be installed in ELF binaries by overwriting function p
 
 ### GOT Hook Detection
 
-The Global Offset Table (GOT) resolves library function calls. At runtime, the dynamic linker patches this table with the absolute addresses of global symbols. _GOT hooks_ overwrite the stored function addresses, redirecting legitimate function calls to adversary-controlled code. This type of hook can be detected by enumerating the process memory map and verifying that each GOT entry points to a legitimate library.
+The Global Offset Table (GOT) resolves library function calls. At runtime, the dynamic linker patches this table with the absolute addresses of global symbols. _GOT hooks_ overwrite the stored function addresses, redirecting legitimate function calls to adversary-controlled code (e.g., using libraries such as [xHook](https://github.com/iqiyi/xHook)). This type of hook can be detected by enumerating the process memory map and verifying that each GOT entry points to a legitimate library.
 
 Unlike GNU `ld`, which resolves symbol addresses only when they are first used (lazy binding), the Android linker resolves all external functions and writes the corresponding GOT entries immediately after a library is loaded (immediate binding). As a result, you can expect all GOT entries to point to valid memory locations in the code sections of their respective libraries at runtime. GOT hook detection methods typically walk the GOT and verify this.
 
@@ -114,14 +116,3 @@ For GOT hook detection, the app can parse its own ELF structure, locate the GOT 
 ### Inline Hook Detection
 
 _Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library.
-
-## References
-
-- ["The Jiu-Jitsu of Detecting Frida" by Bernhard Mueller](https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida) - Comprehensive overview of Frida detection techniques
-- [ARM A64 Instruction Set Architecture](https://developer.arm.com/documentation/ddi0602/latest/) - Official ARM documentation for instruction encoding (LDR literal, BR)
-- [O-MVLL Anti-Hook Pass](https://obfuscator.re/omvll/passes/anti-hook/) - Documentation on preventing Frida hooks using X16/X17 register tricks
-- [xHook - PLT Hook Library for Android](https://github.com/iqiyi/xHook) - Understanding how PLT/GOT hooking works on Android
-- [XposedDetector](https://github.com/vvb2060/XposedDetector/) - Example implementation of Xposed detection
-- [Anti-Frida Techniques](https://github.com/apkunpacker/Anti-Frida) - Collection of anti-Frida detection methods
-- ["Detecting and bypassing Frida dynamic function call tracing"](https://link.springer.com/article/10.1007/s11416-022-00458-7) - Soriano-Salvador & Guardiola-Múzquiz, Journal of Computer Virology and Hacking Techniques, 2023
-- [Bad For Enterprise](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf) - Attacking BYOD Enterprise Mobile Security Solutions, Vincent Tan, 2016
