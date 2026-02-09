@@ -8,18 +8,18 @@ knowledge: [MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw]
 
 Defending against runtime hooking requires a layered approach that combines several types of security controls:
 
-- **Preventive controls**: Implement root detection (@MASTG-KNOW-0027) and device/app attestation (@MASTG-KNOW-0035) as the first layer of defense, since most hooking frameworks (e.g., Frida server, Xposed) require rooted devices.
-- **Detective controls**: Scan for tool signatures with artifact-based detection (@MASTG-KNOW-0030) and verify the app's code and memory integrity at runtime (@MASTG-KNOW-0032) to catch hooking attempts.
+- **Preventive controls**: Implement root detection (@MASTG-KNOW-0027) and device/app attestation (@MASTG-KNOW-0035) as the first line of defense, since most hooking frameworks (e.g., Frida server, Xposed) require rooted devices.
+- **Detective controls**: Scan for tool signatures using artifact-based detection (@MASTG-KNOW-0030) and verify the app's code and memory integrity at runtime (@MASTG-KNOW-0032) to detect hooking attempts.
 - **Deterrent controls**: Obfuscate detection logic, scatter checks throughout the app, and vary their timing to increase the cost and effort required to bypass protections.
 - **Responsive controls**: Terminate the session, clear sensitive data from memory, or even alert the backend server when a threat is detected.
 
-Since hooking can also occur on non-rooted devices (e.g., by repackaging the app with an embedded frida-gadget, see @MASTG-TECH-0026), do not rely on preventive controls alone. Apply the detective, deterrent, and responsive controls described below to protect against hooking regardless of the device's root status.
+Because hooking can also occur on non-rooted devices (e.g., by repackaging the app with an embedded frida-gadget, see @MASTG-TECH-0026), do not rely solely on preventive controls. Apply the detective, deterrent, and responsive controls described below to protect against hooking regardless of the device's root status.
 
 ## Detective Controls
 
 ### Combine Artifact-Based and Integrity-Based Detection
 
-Implement both artifact-based detection (@MASTG-KNOW-0030) and runtime integrity verification (@MASTG-KNOW-0032). Use artifact-based detection to scan for known tool signatures (e.g., Frida server processes, libraries, open ports) and runtime integrity verification to catch the _modifications_ these tools make to the app's code and memory (e.g., GOT hooks, inline trampolines, ART method entry point changes). Do not rely on only one approach, as each has blind spots the other covers.
+Implement both artifact-based detection (@MASTG-KNOW-0030) and runtime integrity verification (@MASTG-KNOW-0032). Use artifact-based detection to scan for known tool signatures (e.g., Frida server processes, libraries, open ports) and runtime integrity verification to detect the _modifications_ these tools make to the app's code and memory (e.g., GOT hooks, inline trampolines, ART method entry point changes). Do not rely on only one approach, as each has blind spots the other covers.
 
 ### Apply Multiple Detection Techniques
 
