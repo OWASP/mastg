@@ -15,7 +15,12 @@ The attestation process follows a challenge-response protocol: the server genera
 
 - The certificate chain up to the root, including validity, integrity, and [revocation status](https://developer.android.com/training/articles/security-key-attestation#certificate_status).
 - That the root certificate is the Google Hardware Attestation Root Certificate.
-- The [attestation extension data](https://developer.android.com/training/articles/security-key-attestation#certificate_schema) in the leaf certificate, including: the challenge value, the signature, the Keymaster security level (`Software`, `TrustedEnvironment`, or `StrongBox`; see @MASTG-KNOW-0043), the device integrity signals (verified boot key, locked bootloader, verified boot state; see @MASTG-KNOW-01kw), and optionally the key pair attributes (purpose, access time, authentication requirement).
+- The [attestation extension data](https://developer.android.com/training/articles/security-key-attestation#certificate_schema) in the leaf certificate, including:
+    - The challenge value matches the server-issued nonce.
+    - The signature of the attestation response.
+    - The Keymaster security level (`Software`, `TrustedEnvironment`, or `StrongBox`).
+    - The device integrity signals: verified boot state, verified boot key, and bootloader lock status (see @MASTG-KNOW-01kw).
+    - The key pair attributes: purpose, origin, authentication requirement, etc. (see @MASTG-KNOW-01kw).
 
 !!! note
     If attestation fails, it indicates the key is not confirmed to be in secure hardware. This does not mean the key is compromised.
