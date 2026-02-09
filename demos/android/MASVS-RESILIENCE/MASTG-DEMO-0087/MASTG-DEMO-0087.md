@@ -16,18 +16,18 @@ This sample encrypts and decrypts a sensitive API key using AES/GCM via the Andr
 ## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
-2. Use @MASTG-TECH-0033 to target `Cipher.dofinal()` API
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device
 3. Run `run.sh` to spawn the app with Frida
 4. Click the **Start** button
 5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
 
-{{ script.js # run.sh }}
+{{ hooks.json # run.sh }}
 
 ## Observation
 
-The output contains all instances of `Cipher` method calls found at runtime. A backtrace is also provided to help identify the location in the code. The `doFinal` calls reveal the sensitive API key in plaintext: as the input parameter during encryption and as the return value during decryption.
+The output contains all instances of `Cipher.doFinal()` method calls found at runtime. A backtrace is also provided to help identify the location in the code. The first `doFinal` call reveals the sensitive API key in plaintext as the input parameter during encryption and the second call reveals it as the return value during decryption.
 
-{{ output.txt }}
+{{ output.json }}
 
 ## Evaluation
 
