@@ -34,4 +34,4 @@ The output contains no instances of `Cipher` method calls found at runtime. The 
 The test passes because the hooking attempt fails due to the app's defensive response. The app detects the Frida agent by scanning `/proc/self/maps` for entries containing "frida" or "gadget" and terminates the process via `Process.killProcess()`. The process terminates before `Cipher.doFinal()` hooks execute, so no sensitive data is extracted.
 
 !!! note
-    Even if the test case passes, it might still be possible to bypass the app's defensive response. For example, an attacker could hook the `detectHooking()` method itself or lower level APIs such as the file reading APIs to hide Frida from the process memory map. @MASTG-KNOW-0030 and @MASTG-KNOW-0032 describe such challenges.
+    Even if the test case passes, it might still be possible to bypass the app's defensive response. For example, an attacker could hook the `detectHooking()` method itself or lower level APIs such as the file reading APIs to hide Frida from the process memory map. @MASTG-DEMO-0089 demonstrates such a bypass. @MASTG-KNOW-0030 and @MASTG-KNOW-0032 describe such challenges.
