@@ -1,4 +1,7 @@
-## Demos
+---
+name: 'Writing MASTG Demo Files'
+applyTo: 'demos/**/*.md'
+---
 
 A collection of demos (demonstrative examples) of the test that include working code samples and test scripts to ensure reproducibility and reliability.
 
@@ -48,9 +51,9 @@ output.txt
 run.sh*
 ```
 
-### Markdown: Metadata
+## Markdown: Metadata
 
-#### id
+### id
 
 The demo ID. This should match the folder name.
 
@@ -60,7 +63,7 @@ Example:
 id: MASTG-DEMO-0054
 ```
 
-#### title
+### title
 
 The title should concisely express what the demo is about.
 
@@ -70,11 +73,11 @@ Example:
 title: Common Uses of Insecure Random APIs
 ```
 
-#### platform
+### platform
 
 The mobile platform. One of: `ios`, `android`.
 
-#### tools
+### tools
 
 Tools used in the demo.
 
@@ -92,7 +95,7 @@ Example without an official ID:
 tools: [semgrep]
 ```
 
-#### code
+### code
 
 The language(s) in which the samples are written. Multiple values are supported.
 
@@ -108,7 +111,7 @@ Multi-language example:
 code: [xml, kotlin]
 ```
 
-#### kind
+### kind
 
 Optional. When helpful, specify whether the demo demonstrates a passing or failing case.
 
@@ -120,16 +123,16 @@ Example:
 kind: pass
 ```
 
-#### optional fields
+### optional fields
 
 Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note providing additional context
 
-### Markdown: Body
+## Markdown: Body
 
-#### Sample
+### Sample
 
 Shortly describe the sample and specify the exact sample files using this notation:
 
@@ -155,7 +158,7 @@ The snippet below shows sample code that sends sensitive data over the network u
 {{ MastgTest.kt # MastgTest_reversed.java }}
 ```
 
-#### Steps
+### Steps
 
 A concise write-up following all steps from the linked test, including placeholders for testing code and scripts (for example, SAST rules, `run.sh`).
 
@@ -171,7 +174,7 @@ Let's run our semgrep rule against the sample code.
 {{ run.sh }}
 ```
 
-#### Observation
+### Observation
 
 A concise description of the observation for this specific demo, including placeholders for output files (for example, `output.txt`, `output.json`).
 
@@ -185,7 +188,7 @@ The rule has identified some instances in the code file where a non-random sourc
 {{ output.txt }}
 ```
 
-#### Evaluation
+### Evaluation
 
 A concise explanation of how you applied the test's "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
 
@@ -203,7 +206,7 @@ Review each of the reported instances.
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
 ```
 
-### Code Samples {#code-samples}
+## Code Samples {#code-samples}
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
 
@@ -212,7 +215,7 @@ Code samples for demos **must be** **created using one of our test apps** to ens
 
 Simply clone the repository and follow the instructions in the README files to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
 
-#### File
+### File
 
 Must be a modified version of the original files in the apps' repos:
 
@@ -221,7 +224,7 @@ Must be a modified version of the original files in the apps' repos:
 
 When working on a new demo, you **must include the whole file** with the original name in the demo folder.
 
-#### Summary
+### Summary
 
 Must contain a summary as a comment.
 
@@ -231,14 +234,14 @@ Example:
 // SUMMARY: This sample demonstrates various common ways of generating random numbers insecurely in Java.
 ```
 
-#### Logic
+### Logic
 
 The file must include code that demonstrates the addressed weakness.
 The provided default `MastgTest.kt` and `MastgTest.swift` files contain some basic logic that returns a string to the UI. If possible, try to return some meaningful string.
 
 For example, if you generate a random number, you can return it; or if you write files to external storage, you can return a list of file paths so that the app's user can read them. You can also use that string to display some meaningful errors.
 
-#### Fail/Pass
+### Fail/Pass
 
 Must contain comments indicating fail/pass and the test alias. This way, we can validate that the output is correct (e.g., the code contains three failures of `MASTG-TEST-0204`). We can easily parse and count the comments, and we can do the same in the output.
 

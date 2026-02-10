@@ -1,25 +1,13 @@
 {
     "ignorePatterns": [
         {
-            "pattern": "https://github.com/Your_Github_Handle/owasp-mstg"
-        },
-        {
             "pattern": "changelog"
-        },
-        {
-            "pattern": "https://github.com/commjoen/contributors-mstg"
-        },
-        {
-            "pattern": "https://www.dhanjani.com/blog/2010/11/insecure-handling-of-url-schemes-in-apples-ios.html"
         },
         {
             "pattern": "^http://127.0.0.1"
         },
         {
             "pattern": "^http://localhost"
-        },
-        {
-            "pattern": "https://haveibeenpwned.com"
         },
         {
             "pattern": "https://www.hackingwithswift.com"
@@ -106,9 +94,6 @@
             "pattern": "^https://github.com/sushi2k/MSTG-MASVS-Internal"
         },
         {
-            "pattern": "^https://fidoalliance.org/"
-        },
-        {
             "pattern": "^/MASVS/"
         },
         {
@@ -121,12 +106,17 @@
             "pattern": "^/checklists/"
         },
         {
-            "pattern": "https://techbeacon.com/evolution-devops-new-thinking-gene-kim"
+            "pattern": "^https://stackoverflow.com/"
         },
         {
-            "pattern": "https://research.checkpoint.com/2020/new-joker-variant-hits-google-play-with-an-old-trick/"
+            "pattern": "^https://academy.realm.io/posts/russ-bishop-unsafe-swift/"
         }
-        
+    ],
+    "replacementPatterns": [
+        {
+            "pattern": "^Images/",
+            "replacement": "{{BASEURL}}/Document/Images/"
+        }
     ],
     "httpHeaders": [
         {
@@ -135,7 +125,7 @@
                 "http://"
             ],
             "headers": {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0"
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
             }
         }
     ],

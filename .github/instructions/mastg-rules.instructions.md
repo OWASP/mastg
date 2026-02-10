@@ -1,12 +1,17 @@
-## Rules
+---
+name: 'Writing MASTG SAST Rules'
+applyTo: 'rules/*.(yml|yaml)'
+---
 
 SAST rules live in the `rules/` folder. They are referenced and reused by demos and should be stable and consistently named.
 
-### Semgrep rules
+## Semgrep rules
 
-[https://semgrep.dev/docs/getting-started/quickstart/](https://semgrep.dev/docs/getting-started/quickstart/)
-[https://semgrep.dev/learn](https://semgrep.dev/learn)
-[https://academy.semgrep.dev/courses/secure-guardrails](https://academy.semgrep.dev/courses/secure-guardrails)
+We use [Semgrep](https://semgrep.dev/) for static analysis rules. Semgrep is a powerful, open-source static analysis tool that supports multiple programming languages, including those used in mobile app development. See the official documentation for installation and getting started:
+
+- [https://semgrep.dev/docs/getting-started/quickstart/](https://semgrep.dev/docs/getting-started/quickstart/)
+- [https://semgrep.dev/learn](https://semgrep.dev/learn)
+- [https://academy.semgrep.dev/courses/secure-guardrails](https://academy.semgrep.dev/courses/secure-guardrails)
 
 Tip: use [https://semgrep.dev/playground/new](https://semgrep.dev/playground/new) for experimentation.
 
