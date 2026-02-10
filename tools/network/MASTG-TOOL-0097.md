@@ -16,11 +16,11 @@ source: https://github.com/mitmproxy/mitmproxy/
 brew install mitmproxy
 ```
 
-The installation instructions are [here](https://docs.mitmproxy.org/stable/overview-installation).
+The installation instructions are [in the official documentation](https://docs.mitmproxy.org/stable/overview-installation).
 
 ## Usage
 
-The documentation is [here](https://docs.mitmproxy.org/stable/). Mitmproxy starts as a regular HTTP proxy by default and listens on `http://localhost:8080`. You need to configure your browser or device to route all traffic through mitmproxy. For example, on Android emulator you need to follow the steps indicated [here](https://docs.mitmproxy.org/stable/howto-install-system-trusted-ca-android/).
+The documentation is [available on the mitmproxy website](https://docs.mitmproxy.org/stable/). Mitmproxy starts as a regular HTTP proxy by default and listens on `http://localhost:8080`. You need to configure your browser or device to route all traffic through mitmproxy. For example, on Android emulator you need to follow the steps indicated [in the mitmproxy Android guide](https://docs.mitmproxy.org/stable/howto-install-system-trusted-ca-android/).
 
 For example, to capture all traffic to a file:
 

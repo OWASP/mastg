@@ -155,6 +155,9 @@ jobs:
           cp -f "$demo/MastgTest.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt 2>/dev/null \
             && echo "Copied MastgTest.kt for $demo" \
             || echo "No MastgTest.kt found for $demo"
+          cp -f "$demo/MainActivity.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MainActivity.kt 2>/dev/null \
+            && echo "Copied MainActivity.kt for $demo" \
+            || echo "No MainActivity.kt found for $demo"
           cp -f "$demo/MastgTestWebView.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt 2>/dev/null \
             && echo "Copied MastgTestWebView.kt for $demo" \
             || echo "No MastgTestWebView.kt found for $demo"

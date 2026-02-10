@@ -3,62 +3,62 @@ title: Reviewing Disassembled Objective-C and Swift Code
 platform: ios
 ---
 
-In this section we will be exploring iOS application's binary code manually and perform static analysis on it. Manual analysis can be a slow process and requires immense patience. A good manual analysis can make the dynamic analysis more successful.
+In this section, we will manually examine an iOS application's binary code and perform static analysis. Manual analysis can be a slow process and requires immense patience. A thorough manual analysis can improve the success of dynamic analysis.
 
-There are no hard written rules for performing static analysis, but there are few rules of thumb which can be used to have a systematic approach to manual analysis:
+There are no hard-wired rules for performing static analysis, but there are a few rules of thumb that can be used to have a systematic approach to manual analysis:
 
 - Understand the working of the application under evaluation - the objective of the application and how it behaves in case of wrong input.
-- Explore the various strings present in the application binary, this can be very helpful, for example in spotting interesting functionalities and possible error handling logic in the application.
-- Look for functions and classes having names relevant to our objective.
+- Explore the various strings present in the application binary. This can be very helpful, for example, for spotting interesting functionality and potential error-handling logic in the application.
+- Look for functions and classes having names relevant to our goal.
 - Lastly, find the various entry points into the application and follow along from there to explore the application.
 
 > Techniques discussed in this section are generic and applicable irrespective of the tools used for analysis.
 
 ## Objective-C
 
-To effectively review disassembled native code, it's important to have a basic understanding of the [Objective-C runtime](https://developer.apple.com/documentation/objectivec/objective-c_runtime "Objective-C runtime"). Functions like `_objc_msgSend` and `_objc_release` are particularly significant within the Objective-C runtime.
+To effectively review disassembled native code, it's essential to have a basic understanding of the [Objective-C runtime](https://developer.apple.com/documentation/objectivec/objective-c_runtime "Objective-C runtime"). Functions like `_objc_msgSend` and `_objc_release` are particularly significant within the Objective-C runtime.
 
 In addition to what you've learned in @MASTG-TECH-0068, we will apply these concepts using @MASTG-APP-0025. The objective of this app is to find a secret string hidden within its binary.
 
-The application features a simple home screen, allowing user interaction by inputting custom strings into the provided text field. Our goal is to reverse engineer the app to uncover the hidden secret string.
+The application features a simple home screen that allows users to interact by entering custom strings in the provided text field. Our goal is to reverse-engineer the app to uncover the hidden secret string.
 
 <img src="Images/Chapters/0x06c/manual_reversing_app_home_screen2.png" width="400px" />
 
-When the user inputs the wrong string, the application shows a pop-up with the "Verification Failed" message.
+When the user enters an invalid string, the application displays a pop-up with the "Verification Failed" message.
 
 <img src="Images/Chapters/0x06c/manual_reversing_app_wrong_input.png" width="400px" />
 
-You can keep note of the strings displayed in the pop-up, as this might be helpful when searching for the code where the input is processed and a decision is being made. Luckily, the complexity and interaction with this application is straightforward, which bodes well for our reversing endeavors.
+You can note the strings displayed in the pop-up, as this may help when searching for the code where the input is processed and a decision is made. Luckily, the application's complexity and interaction are straightforward, which bodes well for our reverse engineering efforts.
 
-> For static analysis in this section, we will be using Ghidra 9.0.4. Ghidra 9.1_beta auto-analysis has a bug and does not show the Objective-C classes.
+> For static analysis in this section, we will be using Ghidra 9.0.4. Ghidra 9.1_beta auto-analysis has a bug and does not display' Objective-C classes.
 
-We can start by checking the strings present in the binary by opening it in Ghidra. The listed strings might be overwhelming at first, but with some experience in reversing Objective-C code, you'll learn how to _filter_ and discard the strings that are not really helpful or relevant. For instance, the ones shown in screenshot below, which are generated for the Objective-C runtime. Other strings might be helpful in some cases, such as those containing symbols (function names, class names, etc.) and we'll be using them when performing static analysis to check if some specific function is being used.
+We can start by checking the strings present in the binary by opening it in Ghidra. The listed strings might be overwhelming at first, but with some experience in reversing Objective-C code, you'll learn how to _filter_ and discard the strings that are not really helpful or relevant. For instance, the ones shown in the screenshot below are generated by the Objective-C runtime. Other strings may be beneficial in some cases, such as those containing symbols (function names, class names, etc.), and we'll use them during static analysis to check whether a specific function is being used.
 
 <img src="Images/Chapters/0x06c/manual_reversing_ghidra_objc_runtime_strings.png" width="100%" />
 
-If we continue our careful analysis, we can spot the string, "Verification Failed", which is used for the pop-up when a wrong input is given. If you follow the cross-references (Xrefs) of this string, you will reach `buttonClick` function of the `ViewController` class. We will look into the `buttonClick` function later in this section. When further checking the other strings in the application, only a few of them look a likely candidate for a _hidden flag_. You can try them and verify as well.
+If we continue our careful analysis, we can spot the string "Verification Failed" used in the pop-up when incorrect input is provided. If you follow the cross-references (Xrefs) of this string, you will reach the `buttonClick` function of the `ViewController` class. We will look into the `buttonClick` function later in this section. After further reviewing the other strings in the application, only a few appear to be likely candidates for a _hidden flag_. You can try them and verify as well.
 
 <img src="Images/Chapters/0x06c/manual_reversing_ghidra_strings.png" width="100%" />
 
-Moving forward, we have two paths to take. Either we can start analyzing the `buttonClick` function identified in the above step, or start analyzing the application from the various entry points. In real world situation, most times you will be taking the first path, but from a learning perspective, in this section we will take the latter path.
+Moving forward, we have two paths to take. Either we can start analyzing the `buttonClick` function identified in the previous step, or we can start analyzing the application from various entry points. In a real-world situation, you will most often take the first path, but for learning purposes in this section, we will take the latter route.
 
-An iOS application calls different predefined functions provided by the iOS runtime depending on its the state within the [application life cycle](https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle "Managing Your App\'s Life Cycle"). These functions are known as the entry points of the app. For example:
+An iOS application calls different predefined functions provided by the iOS runtime depending on its state within the [application life cycle](https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle "Managing Your App\'s Life Cycle"). These functions are the app's entry points. For example:
 
 - `[AppDelegate application:didFinishLaunchingWithOptions:]` is called when the application is started for the first time.
 - `[AppDelegate applicationDidBecomeActive:]` is called when the application is moving from inactive to active state.
 
-Many applications execute critical code in these sections and therefore they're normally a good starting point in order to follow the code systematically.
+Many applications execute critical code in these sections. Therefore, they're a good starting point for systematically following the code.
 
-Once we're done with the analysis of all the functions in the `AppDelegate` class, we can conclude that there is no relevant code present. The lack of any code in the above functions raises the question - from where is the application's initialization code being called?
+Once we've completed the analysis of all functions in the `AppDelegate` class, we can conclude that there is no relevant code. The absence of any code in the functions above raises the question: from where is the application's initialization code being called?
 
-Luckily the current application has a small code base, and we can find another `ViewController` class in the **Symbol Tree** view. In this class, function `viewDidLoad` function looks interesting. If you check the documentation of [`viewDidLoad`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload "viewDidLoad()"), you can see that it can also be used to perform additional initialization on views.
+Fortunately, the current application has a small codebase, and we can find another `ViewController` class in the **Symbol Tree** view. In this class, the function `viewDidLoad` looks interesting. If you check the documentation of [`viewDidLoad`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload "viewDidLoad()"), you can see that it can also be used to perform additional initialization on views.
 
 <img src="Images/Chapters/0x06c/manual_reversing_ghidra_viewdidload_decompile.png" width="600px" />
 
-If we check the decompilation of this function, there are a few interesting things going on. For instance, there is a call to a native function at line 31 and a label is initialized with a `setHidden` flag set to 1 in lines 27-29. You can keep a note of these observations and continue exploring the other functions in this class. For brevity, exploring the other parts of the function is left as an exercise for the readers.
+If we examine the decompilation of this function, we see a few interesting things. For instance, there is a call to a native function at line 31, and a label is initialized with a `setHidden` flag set to 1 in lines 27-29. You can keep a note of these observations and continue exploring the other functions in this class. For brevity, studying the different parts of the function is left as an exercise for the readers.
 
-In our first step, we observed that the application verifies the input string only when the UI button is pressed. Thus, analyzing the `buttonClick` function is an obvious target. As earlier mentioned, this function also contains the string we see in the pop-ups. At line 29 a decision is being made, which is based on the result of `isEqualString` (output saved in `uVar1` at line 23). The input for the comparison is coming from the text input field (from the user) and the value of the `label`. Therefore, we can assume that the hidden flag is stored in that label.
+In our first step, we observed that the application verifies the input string only when the UI button is pressed. Thus, analyzing the `buttonClick` function is an obvious target. As mentioned earlier, this function also contains the string we see in the pop-ups. At line 29, a decision is being made, which is based on the result of `isEqualString` (output saved in `uVar1` at line 23). The input for the comparison comes from the text input field (from the user) and from the `label` value. Therefore, we can assume that the hidden flag is stored in that label.
 
 <img src="Images/Chapters/0x06c/manual_reversing_ghidra_buttonclick_decompiled.png" width="600px" />
 
-Now we have followed the complete flow and have all the information about the application flow. We also concluded that the hidden flag is present in a text label and in order to determine the value of the label, we need to revisit `viewDidLoad` function, and understand what is happening in the native function identified. Analysis of the native function is discussed in @MASTG-TECH-0077.
+We have now completed the whole flow and have all the information about the application. We also concluded that the hidden flag is present in a text label, and to determine the label's value, we need to revisit the `viewDidLoad` function and understand what is happening in the identified native function. The native function is analyzed in @MASTG-TECH-0077.

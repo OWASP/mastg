@@ -7,6 +7,7 @@ type: [dynamic]
 weakness: MASWE-0044
 best-practices: []
 profiles: [L2]
+knowledge: [MASTG-KNOW-0056]
 ---
 
 ## Overview

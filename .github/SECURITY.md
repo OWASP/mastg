@@ -13,6 +13,6 @@ Please report any security vulnerability by opening an issue in our GitHub repos
 - Any potential impacts.
 - Suggestions for remediation. If possible, please open a pull request including the fix.
 
-If you have any questions please reach out to the project leaders:
+If you have any questions, please reach out to the project leaders:
 
-https://mas.owasp.org/contact/
+<https://mas.owasp.org/contact/>

@@ -5,13 +5,13 @@ platform: ios
 
 This technique allows you to inject arbitrary libraries into an IPA file. After injecting the library, you'll have to install the modified IPA onto your device using @MASTG-TECH-0056.
 
-This technique is useful when you want to add additional functionality or testing capabilities to an application. For example, you can inject the Frida Gadget into an IPA file to enable dynamic instrumentation of the application.
+This technique is appropriate when you want to add functionality or test capabilities to an application. For example, you can inject the Frida Gadget into an IPA file to enable dynamic instrumentation of the application.
 
-We'll use the Frida Gadget (`FridaGadget.dylib`) as an example but you can use this technique to inject any `.dylib` library you want.
+We'll use the Frida Gadget (`FridaGadget.dylib`) as an example, but you can use this technique to inject any `.dylib` library you want.
 
 ## Obtaining the Library
 
-In our example, the library is Frida Gadget, which can be downloaded from the [GitHub release page](https://github.com/frida/frida/releases) of the Frida project. Look for the latest release that matches your target platform and download the `frida-gadget-XX.YY.ZZ-ios-universal.dylib.xz` file.
+In our example, the library is Frida Gadget, which can be downloaded from the Frida project's [GitHub release page](https://github.com/frida/frida/releases). Look for the latest release that matches your target platform and download the `frida-gadget-XX.YY.ZZ-ios-universal.dylib.xz` file.
 
 Decompress the file using the `xz` tool and save it as `FridaGadget.dylib`:
 
@@ -55,4 +55,4 @@ After injecting the `load` command, you need to repackage the IPA:
 zip -r patched.ipa Payload
 ```
 
-To debug an iOS application obtained from the App Store, it needs to be re-signed with a development provisioning profile with the `get-task-allow` entitlement. How to re-sign an application is discussed in @MASTG-TECH-0079.
+To debug an iOS application obtained from the App Store, it must be re-signed with a development provisioning profile that includes the `get-task-allow` entitlement. How to re-sign an application is discussed in @MASTG-TECH-0079.

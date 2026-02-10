@@ -25,6 +25,8 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: 3.x
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y libxml2-dev libxslt1-dev
     - name: Install dependencies
       run: pip install -r src/scripts/requirements.txt
 

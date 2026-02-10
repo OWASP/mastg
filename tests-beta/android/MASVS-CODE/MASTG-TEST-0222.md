@@ -6,6 +6,7 @@ deprecated_since: 21
 type: [static]
 weakness: MASWE-0116
 profiles: [L2]
+knowledge: [MASTG-KNOW-0006]
 ---
 
 ## Overview

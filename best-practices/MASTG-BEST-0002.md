@@ -3,6 +3,7 @@ title: Remove Logging Code
 alias: remove-logging-code
 id: MASTG-BEST-0002
 platform: android
+knowledge: [MASTG-KNOW-0049]
 ---
 
 Ideally, a release build shouldn't use any logging functions, making it easier to assess sensitive data exposure.

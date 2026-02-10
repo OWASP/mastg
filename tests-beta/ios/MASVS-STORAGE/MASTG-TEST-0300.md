@@ -6,14 +6,15 @@ type: [static]
 profiles: [L2]
 best-practices: [MASTG-BEST-0024]
 weakness: MASWE-0006
+knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---
 
 ## Overview
 
-This test checks whether the app writes unencrypted sensitive data to private storage (@MASTG-KNOW-0108). It focuses on:
+This test checks whether the app writes unencrypted sensitive data to private storage. It focuses on:
 
-- APIs that persist data in the app sandbox directories (@MASTG-KNOW-0091), including Foundation `FileManager` methods, low-level POSIX and BSD file I/O calls and high-level APIs such as `UserDefaults`, Core Data and SQLite wrappers.
-- Keychain APIs (@MASTG-KNOW-0057) used to:
+- APIs that persist data in the app sandbox directories, including Foundation `FileManager` methods, low-level POSIX and BSD file I/O calls and high-level APIs such as `UserDefaults`, Core Data and SQLite wrappers.
+- Keychain APIs used to:
     - store sensitive data directly within the Keychain
     - manage keys from the Keychain (that could be used to encrypt data before writing to private storage).
 

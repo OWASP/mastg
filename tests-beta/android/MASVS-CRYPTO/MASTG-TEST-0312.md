@@ -6,6 +6,7 @@ type: [static]
 weakness: MASWE-0020
 best-practices: [MASTG-BEST-0020]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0011]
 ---
 
 ## Overview
@@ -16,7 +17,7 @@ Android cryptography APIs based on the Java Cryptography Architecture (JCA) allo
 - The _Crypto_ provider was deprecated in Android 7.0 (API level 24) and [removed in Android 9 (API level 28)](https://developer.android.com/about/versions/pie/android-9.0-changes-all#conscrypt_implementations_of_parameters_and_algorithms).
 - The _BouncyCastle_ provider was [deprecated in Android 9 (API level 28) and removed in Android 12 (API level 31)](https://developer.android.com/about/versions/12/behavior-changes-all#bouncy-castle).
 
-This test identifies cases where an app explicitly specifies a security provider when using JCA APIs that is not the default provider, `AndroidOpenSSL` ([Conscrypt](https://github.com/google/conscrypt)), which is actively maintained and should generally be used (see @MASTG-KNOW-0011). It examines `getInstance` calls and flags any use of a named provider other than legitimate exceptions such as `KeyStore.getInstance("AndroidKeyStore")`.
+This test identifies cases where an app explicitly specifies a security provider when using JCA APIs that is not the default provider, `AndroidOpenSSL` ([Conscrypt](https://github.com/google/conscrypt)), which is actively maintained and should generally be used. It examines `getInstance` calls and flags any use of a named provider other than legitimate exceptions such as `KeyStore.getInstance("AndroidKeyStore")`.
 
 ## Steps
 

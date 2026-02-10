@@ -9,11 +9,12 @@ prerequisites:
 - identify-sensitive-data
 profiles: [L2]
 best-practices: [MASTG-BEST-0027]
+knowledge: [MASTG-KNOW-0054]
 ---
 
 ## Overview
 
-This test verifies that the app correctly handles notifications (@MASTG-KNOW-0054), ensuring that sensitive information, such as personally identifiable information (PII), one-time passwords (OTPs), or other sensitive data, like health or financial details, is not exposed.
+This test verifies that the app correctly handles notifications, ensuring that sensitive information, such as personally identifiable information (PII), one-time passwords (OTPs), or other sensitive data, like health or financial details, is not exposed.
 
 On Android 13 and higher, apps targeting API level 33 or above must request the runtime permission [`POST_NOTIFICATIONS`](https://developer.android.com/reference/android/Manifest.permission#POST_NOTIFICATIONS) to send notifications. Below API level 33, this permission is not required. For testing purposes, we consider the value of the app's `minSdkVersion` because it indicates the lowest Android version on which the app can run.
 

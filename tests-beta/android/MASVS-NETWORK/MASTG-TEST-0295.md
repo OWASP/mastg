@@ -5,12 +5,13 @@ id: MASTG-TEST-0295
 type: [static]
 weakness: MASWE-0052
 profiles: [L2]
-best-practices: [MASTG-BEST-0020, MASTG-KNOW-0021]
+best-practices: [MASTG-BEST-0020]
+knowledge: [MASTG-KNOW-0011, MASTG-KNOW-0010]
 ---
 
 ## Overview
 
-This test checks whether the Android app ensures the Security Provider (@MASTG-KNOW-0011) is [updated to mitigate SSL/TLS vulnerabilities](https://developer.android.com/privacy-and-security/security-gms-provider). The provider should be updated using Google Play Services APIs, and the implementation should handle exceptions properly (see @MASTG-KNOW-0010).
+This test checks whether the Android app ensures the Security Provider is [updated to mitigate SSL/TLS vulnerabilities](https://developer.android.com/privacy-and-security/security-gms-provider). The provider should be updated using Google Play Services APIs, and the implementation should handle exceptions properly.
 
 ## Steps
 

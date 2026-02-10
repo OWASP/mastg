@@ -3,6 +3,7 @@ title: Ensure Proper Error and Exception Handling
 alias: ensure-proper-error-and-exception-handling
 id: MASTG-BEST-0021
 platform: android
+knowledge: [MASTG-KNOW-0010]
 ---
 
 Secure exception and error handling in Android is about preventing the leakage of sensitive information, managing failures gracefully, and ensuring that errors do not compromise security. User-facing error messages should remain generic, while controlled logging is reserved for developers. The [OWASP DevGuide](https://devguide.owasp.org/en/12-appendices/01-implementation-dos-donts/06-exception-error-handling/) reinforces these principles with a focus on not disclosing internal details to end users, not disclosing sensitive user data to developers, and ensuring secure failure modes that do not weaken authentication or authorization.

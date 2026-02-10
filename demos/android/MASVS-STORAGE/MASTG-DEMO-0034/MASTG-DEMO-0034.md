@@ -6,26 +6,26 @@ code: [kotlin]
 test: MASTG-TEST-0262
 ---
 
-### Sample
+## Sample
 
 This demo uses the sample from @MASTG-DEMO-0020.
 
 {{ ../MASTG-DEMO-0020/MastgTest.kt # ../MASTG-DEMO-0020/AndroidManifest.xml # ../MASTG-DEMO-0020/backup_rules.xml }}
 
-### Steps
+## Steps
 
 1. Read the AndroidManifest.xml and backup_rules.xml files.
 2. Run the semgrep script.
 
 {{ run.sh # ../../../../rules/mastg-android-backup-manifest.yml }}
 
-### Observation
+## Observation
 
 The output contains all backup-related attributes from the AndroidManifest.xml file.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the sensitive file `secret.txt` ends up in the backup. This is due to:
 

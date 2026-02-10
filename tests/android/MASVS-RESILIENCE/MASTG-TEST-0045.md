@@ -8,11 +8,14 @@ title: Testing Root Detection
 masvs_v1_levels:
 - R
 profiles: [R]
+status: deprecated
+covered_by: [MASTG-TEST-0324, MASTG-TEST-0325]
+deprecation_note: "New version available in MASTG V2"
 ---
 
 ## Bypassing Root Detection
 
-Run execution traces with jdb, [DDMS](https://developer.android.com/studio/profile/monitor "DDMS"), `strace`, and/or kernel modules to find out what the app is doing. You'll usually see all kinds of suspect interactions with the operating system, such as opening `su` for reading and obtaining a list of processes. These interactions are surefire signs of root detection. Identify and deactivate the root detection mechanisms, one at a time. If you're performing a black box resilience assessment, disabling the root detection mechanisms is your first step.
+Run execution traces with jdb, Android Studio Profiler, `strace`, and/or kernel modules to find out what the app is doing (see @MASTG-TECH-0032). You'll usually see all kinds of suspect interactions with the operating system, such as opening `su` for reading and obtaining a list of processes. These interactions are surefire signs of root detection. Identify and deactivate the root detection mechanisms, one at a time. If you're performing a black box resilience assessment, disabling the root detection mechanisms is your first step.
 
 To bypass these checks, you can use several techniques, most of which were introduced in the "Reverse Engineering and Tampering" chapter:
 
@@ -32,7 +35,7 @@ Check for root detection mechanisms, including the following criteria:
 
 Develop bypass methods for the root detection mechanisms and answer the following questions:
 
-- Can the mechanisms be easily bypassed with standard tools, such as @MASTG-TOOL-0142?
+- Can the mechanisms be easily bypassed with standard tools, such as @MASTG-TOOL-0029?
 - Is static/dynamic analysis necessary to handle the root detection?
 - Do you need to write custom code?
 - How long did successfully bypassing the mechanisms take?

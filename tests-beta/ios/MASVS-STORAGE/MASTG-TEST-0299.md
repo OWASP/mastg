@@ -8,11 +8,12 @@ prerequisites:
 profiles: [L1]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0024]
+knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0108]
 ---
 
 ## Overview
 
-This test retrieves the data protection classes of files (@MASTG-KNOW-0091) created or modified in the app's private storage (@MASTG-KNOW-0108) during typical app usage. The goal is to ensure that files containing sensitive data are assigned appropriate data protection classes to safeguard them when the device is locked.
+This test retrieves the data protection classes of files created or modified in the app's private storage during typical app usage. The goal is to ensure that files containing sensitive data are assigned appropriate data protection classes to safeguard them when the device is locked.
 
 ## Steps
 

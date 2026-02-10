@@ -8,11 +8,12 @@ profiles: [L2]
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0026]
+knowledge: [MASTG-KNOW-0100]
 ---
 
 ## Overview
 
-This test complements @MASTG-TEST-0313. It monitors text inputs in the app at runtime, for example [`UITextField`](https://developer.apple.com/documentation/uikit/uitextfield), [`UITextView`](https://developer.apple.com/documentation/uikit/uitextview) or [`UISearchBar`](https://developer.apple.com/documentation/uikit/uisearchbar), and checks whether they are eligible for keyboard caching when the user enters sensitive information (@MASTG-KNOW-0100).
+This test complements @MASTG-TEST-0313. It monitors text inputs in the app at runtime, for example [`UITextField`](https://developer.apple.com/documentation/uikit/uitextfield), [`UITextView`](https://developer.apple.com/documentation/uikit/uitextview) or [`UISearchBar`](https://developer.apple.com/documentation/uikit/uisearchbar), and checks whether they are eligible for keyboard caching when the user enters sensitive information.
 
 ## Steps
 
