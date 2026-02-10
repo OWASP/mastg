@@ -8,13 +8,13 @@ In the context of anti-reversing, the goal of root detection is to make running 
 
 For Android, we define "root detection" a bit more broadly, including custom ROMs detection, i.e., determining whether the device is a stock Android build or a custom build.
 
-Root detection can also be implemented through libraries such as [RootBeer](https://github.com/scottyab/rootbeer "RootBeer").
+Root detection can also be implemented through libraries such as @MASTG-TOOL-0146 or @MASTG-TOOL-0147 (none of them endorsed by OWASP, see the disclaimers in their respective sections). These libraries implement multiple root detection techniques using both Java and native code to make bypassing more difficult. They also provide sample apps to demonstrate their capabilities, see @MASTG-APP-0032 and @MASTG-APP-0033.
 
 ## File Existence Checks
 
 Perhaps the most widely used method of programmatic detection is checking for files typically found on rooted devices, such as package files of common rooting apps and their associated files and directories, including the following:
 
-```default
+```sh
 /system/app/Superuser.apk
 /system/etc/init.d/99SuperSUDaemon
 /dev/com.koushikdutta.superuser.daemon/
@@ -23,7 +23,7 @@ Perhaps the most widely used method of programmatic detection is checking for fi
 
 Detection code also often looks for binaries that are usually installed once a device has been rooted. These searches include checking for busybox and attempting to open the _su_ binary at different locations:
 
-```default
+```sh
 /sbin/su
 /system/bin/su
 /system/bin/failsafe/su
@@ -100,16 +100,26 @@ Supersu-by far the most popular rooting tool-runs an authentication daemon named
 
 ## Checking Installed App Packages
 
-You can use the Android package manager to obtain a list of installed packages. The following package names belong to popular rooting tools:
+You can probe for known root manager packages using `PackageManager`, for example by calling `getPackageInfo` for specific package names. Common examples include:
 
-```txt
+```sh
 eu.chainfire.supersu
 com.noshufou.android.su
 com.koushikdutta.superuser
-com.zachspong.temprootremovejb
-com.ramdroid.appquarantine
 com.topjohnwu.magisk
 ```
+
+On Android 11 and later, [package visibility restrictions](https://developer.android.com/training/package-visibility) affect this technique. If a package is installed but not visible to the app, [`getPackageInfo`](https://developer.android.com/reference/android/content/pm/PackageManager#getPackageInfo(java.lang.String,%20int)) behaves the same as if the package were not installed, typically by throwing [`PackageManager.NameNotFoundException`](https://developer.android.com/reference/android/content/pm/PackageManager.NameNotFoundException). This can create false negatives for package based root detection.
+
+Developers can query specific packages on Android 11 and later by declaring them in the app manifest using the `<queries>` element:
+
+```xml
+<queries>
+    <package android:name="com.topjohnwu.magisk" />
+</queries>
+```
+
+Otherwise they can use the `QUERY_ALL_PACKAGES` permission, which grants visibility to all installed apps but is [subject to Google Play restrictions](https://support.google.com/googleplay/android-developer/answer/10158779) and may not be justifiable for many use cases.
 
 ## Checking for Writable Partitions and System Directories
 
@@ -117,15 +127,13 @@ Unusual permissions on system directories may indicate a customized or rooted de
 
 ## Checking for Custom Android Builds
 
-Checking for signs of test builds and custom ROMs is also helpful. One way to do this is to check the BUILD tag for test-keys, which normally [indicate a custom Android image](https://resources.infosecinstitute.com/android-hacking-security-part-8-root-detection-evasion// "InfoSec Institute - Android Root Detection and Evasion"). [Check the BUILD tag as follows](https://github.com/scottyab/rootbeer/blob/master/rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java#L76 "Rootbeer - detectTestKeys function"):
+Checking for signs of test builds and custom ROMs is also helpful. One way to do this is to check the `BUILD.TAGS` for [`test-keys`](https://source.android.com/docs/core/ota/sign_builds#release-keys), which normally [indicates a custom Android image](https://www.infosecinstitute.com/resources/application-security/android-hacking-security-part-8-root-detection-evasion/). For example, @MASTG-TOOL-0146 [checks the BUILD.TAGS as follows](https://github.com/scottyab/rootbeer/blob/0.1.1/rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java#L71-L80):
 
 ```java
-private boolean isTestKeyBuild()
-{
-String str = Build.TAGS;
-if ((str != null) && (str.contains("test-keys")));
-for (int i = 1; ; i = 0)
-  return i;
+public boolean detectTestKeys() {
+    String buildTags = android.os.Build.TAGS;
+
+    return buildTags != null && buildTags.contains("test-keys");
 }
 ```
 

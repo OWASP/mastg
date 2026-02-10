@@ -21,7 +21,7 @@ Example tests for reference:
 
 - [MASTG-TEST-0207](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0207/)
 - [MASTG-TEST-0216](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0216/)
-- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0263/)
+- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests/android/MASVS-RESILIENCE/MASTG-TEST-0263/)
 
 Notes:
 
@@ -127,7 +127,7 @@ prerequisites:
 ### profiles
 
 Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in [MAS Testing Profiles Guide](Document/0x03b-Testing-Profiles.md)
+The profiles are described in [MAS Testing Profiles Guide](../../Document/0x03b-Testing-Profiles.md)
 
 - L1 denotes Essential Security.
 - L2 denotes Advanced Security.
