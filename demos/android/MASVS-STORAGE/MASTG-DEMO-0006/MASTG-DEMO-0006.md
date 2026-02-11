@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Tracing Common Logging APIs Looking for Secrets
+title: Tracing Common Logging APIs Looking for Authenticators
 id: MASTG-DEMO-0006
 code: [kotlin]
 test: MASTG-TEST-0203
@@ -8,7 +8,7 @@ test: MASTG-TEST-0203
 
 ## Sample
 
-The snippet contains many calls to logging APIs which are used to print out secrets such as passwords or IVs.
+The snippet contains many calls to logging APIs which are used to print out authenticators such as API keys.
 
 {{ MastgTest.kt }}
 
@@ -30,6 +30,6 @@ As a reference, this is the corresponding logcat output obtained from Android St
 
 ## Evaluation
 
-Review each of the reported instances by using keywords and known secrets (e.g. passwords or usernames or values you keyed into the app).
+Review each of the reported instances looking for known authenticators (e.g. API keys).
 
-Note: You could refine the test to input a known secret and then search for it in the logs.
+Note: You could refine the test to input a known authenticators and then search for it in the logs.

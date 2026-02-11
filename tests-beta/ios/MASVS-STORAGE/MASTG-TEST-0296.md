@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Sensitive Data Exposure Through Insecure Logging
+title: User Sensitive Data Exposure in Logs
 id: MASTG-TEST-0296
 type: [dynamic]
 weakness: MASWE-0001
@@ -15,7 +15,7 @@ knowledge: [MASTG-KNOW-0101]
 
 This test is the dynamic counterpart to @MASTG-TEST-0297.
 
-In this test, we will monitor and capture the device logs and then analyze them for sensitive data.
+In this test, we will monitor and capture the device logs and then analyze them for user sensitive data.
 
 !!! warning Limitation
     - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative you can use dynamic analysis with @MASTG-TOOL-0039.
@@ -35,4 +35,4 @@ The output should contain all logged data.
 
 ## Evaluation
 
-The test case fails if you can find sensitive data inside the output.
+The test case fails if you can find user sensitive data inside the output.

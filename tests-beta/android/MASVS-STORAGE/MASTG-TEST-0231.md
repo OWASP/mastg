@@ -1,6 +1,6 @@
 ---
 platform: android
-title: References to Logging APIs
+title: References to Logging APIs Exposing User Sensitive Data
 id: MASTG-TEST-0231
 apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#printStackTrace, android.util.Log]
 type: [static]
@@ -24,4 +24,4 @@ The output should contain a list of locations where logging APIs are used.
 
 ## Evaluation
 
-The test fails if an app logs sensitive information from any of the listed locations.
+The test fails if an app logs user sensitive information from any of the listed locations.

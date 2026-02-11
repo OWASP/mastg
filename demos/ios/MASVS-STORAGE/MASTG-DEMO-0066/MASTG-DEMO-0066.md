@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Sensitive Data Logging with idevicesyslog
+title: Authenticators Logged with idevicesyslog
 code: [swift]
 id: MASTG-DEMO-0066
 test: MASTG-TEST-0296
