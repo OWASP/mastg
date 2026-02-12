@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Extracting Sensitive Data from Cipher.doFinal via Frida Hooking
-id: MASTG-DEMO-0te1
+id: MASTG-DEMO-0de1
 code: [kotlin]
 test: MASTG-TEST-03te
 kind: fail
@@ -9,7 +9,7 @@ kind: fail
 
 ## Sample
 
-This sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0te2 demonstrates a runtime hook detection mechanism.
+This sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0de2 demonstrates a runtime hook detection mechanism.
 
 {{ MastgTest.kt }}
 
