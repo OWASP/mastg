@@ -1,39 +1,39 @@
 ---
 platform: android
-title: References to APIs for Keys used in Biometric Authentication with Extended Validity Duration
+title: References to APIs Enforcing Authentication without Explicit User Action
 id: MASTG-TEST-0324
-apis: [KeyGenParameterSpec.Builder, setUserAuthenticationParameters, setUserAuthenticationValidityDurationSeconds]
+apis: [BiometricPrompt.PromptInfo.Builder, setConfirmationRequired]
 type: [static]
 weakness: MASWE-0044
 profiles: [L2]
+knowledge: [MASTG-KNOW-0001]
 ---
 
 ## Overview
 
-This test checks if the app configures cryptographic keys with an extended validity duration that allows keys to remain unlocked beyond the immediate operation. When using biometric authentication with [`CryptoObject`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.CryptoObject), the authentication validity duration determines how long a key remains usable after successful authentication.
+> **Note**: Android offers the `BiometricPrompt` class in 2 different ways:
+> 1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
+> 2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
+> 
+> The examples in this test uses the `android.hardware.biometrics` framework API.
 
-On Android, developers can configure this behavior using [`setUserAuthenticationParameters(int timeout, int type)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationParameters(int,%20int)) or the deprecated [`setUserAuthenticationValidityDurationSeconds(int)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationValidityDurationSeconds(int)) when generating keys with [`KeyGenParameterSpec.Builder`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder):
-
-- **Duration = 0**: The key requires authentication for every cryptographic operation. This is the most secure configuration as each use of the key requires fresh biometric verification.
-
-- **Duration > 0**: The key remains unlocked for the specified duration (in seconds) after successful authentication. When the duration is set to a high value in the range of minutes or hours an attacker with runtime access can exploit the unlocked key  to perform unauthorized cryptographic operations without biometric verification.
+This test checks if the app enforces biometric authentication [without requiring explicit user action](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action). When using [`BiometricPrompt`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt), the [`setConfirmationRequired()`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder#setConfirmationRequired(boolean)) method in [`BiometricPrompt.PromptInfo.Builder`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder) controls whether the user must explicitly confirm their authentication, which is enforced by default.
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify instances of `KeyGenParameterSpec.Builder` with `setUserAuthenticationParameters` or `setUserAuthenticationValidityDurationSeconds`.
-2. Identify the timeout/duration values configured for keys used with biometric authentication.
+Use @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify instances of `BiometricPrompt.PromptInfo.Builder` with the method `setConfirmationRequired(false)`.
 
 ## Observation
 
-The output should contain a list of locations where cryptographic keys are generated with authentication validity duration settings, showing the configured timeout values.
+The output should contain a list of locations where biometric authentication is configured without explicit user confirmation.
 
 ## Evaluation
 
-The test fails if the app configures keys used for sensitive operations with:
+The test fails if the app uses `BiometricPrompt.PromptInfo.Builder` with `setConfirmationRequired(false)` for sensitive operations that require explicit user authorization.
 
-- `setUserAuthenticationParameters(duration, type)` where duration > 0
-- `setUserAuthenticationValidityDurationSeconds(duration)` where duration > 0
+The test passes if the app either:
 
-The test passes if the app uses `setUserAuthenticationParameters(0, type)` to require authentication for every cryptographic operation when protecting sensitive data resources or sensitive functionality.
+- Uses `setConfirmationRequired(true)` explicitly for sensitive operations, or
+- Relies on the default behavior, which requires confirmation.
 
-> Note: A non-zero authentication validity duration is not inherently a vulnerability. Short durations (e.g., 5-30 seconds) may be acceptable for certain use cases where multiple related operations need to be performed in quick succession. However, for high-security applications and sensitive operations, requiring authentication per use (duration = 0) provides the strongest protection against unauthorized key usage and runtime attacks.
+**Note:** Using [`setConfirmationRequired(false)`](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action) is not inherently a vulnerability. It may be appropriate for low-risk operations, but for sensitive operations like payments or data access, the app should use `setConfirmationRequired(true)` or rely on the default behavior to [ensure the user explicitly confirms the authentication](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action). 

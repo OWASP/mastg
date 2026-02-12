@@ -1,36 +1,40 @@
 ---
 platform: android
-title: References to APIs for Event-Bound Biometric Authentication
+title: References to APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0321
-apis: [BiometricPrompt, BiometricPrompt.CryptoObject, authenticate]
+apis: [BiometricPrompt, BiometricManager.Authenticators, setAllowedAuthenticators]
 type: [static]
-weakness: MASWE-0044
+weakness: MASWE-0045
 profiles: [L2]
+knowledge: [MASTG-KNOW-0001]
 ---
 
 ## Overview
 
-This test checks if the app implements event-bound biometric authentication to access sensitive resources (e.g., tokens, keys), where authentication success relies solely on a callback result rather than being cryptographically bound to sensitive operations and requiring user presence.
+> **Note**: Android offers the `BiometricPrompt` class in 2 different ways:
+> 1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
+> 2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
+> 
+> The examples in this test uses the `android.hardware.biometrics` framework API.
 
-On Android, [`BiometricPrompt.authenticate()`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt#authenticate(androidx.biometric.BiometricPrompt.PromptInfo)) can be called with or without a [`CryptoObject`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.CryptoObject). When used **without CryptoObject** the app relies on the [`onAuthenticationSucceeded`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.AuthenticationCallback#onAuthenticationSucceeded(androidx.biometric.BiometricPrompt.AuthenticationResult)) callback to determine if authentication was successful. This makes it susceptible to logic manipulation by overwrite the callback without successfully passing the biometric verification.
+This test checks if the app uses biometric authentication mechanisms that allow fallback to device credentials (PIN, pattern, or password) for sensitive operations. On Android, the [`BiometricPrompt`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) API can be configured to accept different types of [`BiometricManager.Authenticators`](https://developer.android.com/reference/android/hardware/biometrics/BiometricManager.Authenticators#constants_1) via the method[`setAllowedAuthenticators`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt.Builder#setAllowedAuthenticators(int)).
 
-In contrast, when **CryptoObject** is used (crypto-bound), the app passes a cryptographic object (e.g., `Cipher`, `Signature`, `Mac`) that requires user authentication. This ensures authentication is not just a one-time boolean, but part of a secure data retrieval path (out-of-process), so bypassing authentication becomes significantly harder.
+When the authenticator constant `DEVICE_CREDENTIAL` is included (either alone or combined with biometric authenticators using the `OR` operator "`|`"), the authentication allows fallback to device credentials, which is considered weaker than requiring biometrics alone because passcodes are more susceptible to compromise (e.g., through shoulder surfing).
+
+Similarly, using [`setDeviceCredentialAllowed(true)`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt.Builder#setDeviceCredentialAllowed(boolean)) (deprecated since API 30) also enables fallback to device credentials.
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify instances of `BiometricPrompt.authenticate()`.
-2. Analyze whether the calls include a `CryptoObject` parameter.
-3. Analyze whether `setUserAuthenticationRequired(true)` is set when generating the key.
+Use @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify instances of `BiometricPrompt.PromptInfo.Builder` with `setAllowedAuthenticators` including `DEVICE_CREDENTIAL` or `setDeviceCredentialAllowed(true)`.
 
 ## Observation
 
-The output should contain a list of locations where `BiometricPrompt.authenticate()` is called, indicating whether a `CryptoObject` is passed and if `setUserAuthenticationRequired(true)` is set.
+The output should contain a list of locations where biometric authentication has been configured, with the option of using device credentials as a fallback.
 
 ## Evaluation
 
-The test fails for each sensitive operation worth protecting if:
+The test fails if the app uses `BiometricPrompt` with authenticators that include `DEVICE_CREDENTIAL` for any sensitive data resource that needs protection.
 
-- `BiometricPrompt.authenticate(PromptInfo)` is used without a `CryptoObject`.
-- There are no calls to key generation with `setUserAuthenticationRequired(true)` in conjunction with biometric authentication, as by default, the key is authorized to be used regardless of whether the user has been authenticated or not.
+The test passes if the app uses only `BiometricPrompt` with `BIOMETRIC_STRONG` to enforce biometric-only access for any sensitive data resource that needs protection.
 
-The test passes if the app uses `BiometricPrompt.authenticate(PromptInfo, CryptoObject)` with properly configured cryptographic keys from the Android KeyStore for sensitive operations and uses for key generation `.setUserAuthenticationRequired(true)`. This ensures that the key can only be used after successful biometric authentication, binding the authentication to a cryptographic operation.
+**Note:** Using `DEVICE_CREDENTIAL` is not inherently a vulnerability, but in high-security applications (e.g., finance, government, health), their use can represent a weakness or misconfiguration that reduces the intended security posture. This issue is therefore better categorized as a security weakness or hardening issue, not a critical vulnerability.

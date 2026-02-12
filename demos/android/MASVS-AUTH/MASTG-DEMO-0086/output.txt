@@ -1,21 +1,16 @@
-                   
-                   
-┌─────────────────┐
-│ 2 Code Findings │
-└─────────────────┘
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
                                               
-    ../MASTG-DEMO-0082/MastgTest_reversed.java
-    ❯❱ rules.mastg-android-biometric-validity-duration
-          [MASVS-AUTH-2] Key configured with authentication validity duration > 0. For sensitive operations,
-          use setUserAuthenticationParameters(0, type) to require authentication for every cryptographic    
-          operation.                                                                                        
-                                                                                                            
-          192┆ KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(KEY_NAME, 3).setB
-               lockModes("CBC").setEncryptionPaddings("PKCS7Padding").setUserAuthenticationRequired(false)
-               .setUserAuthenticationValidityDurationSeconds(86400).setInvalidatedByBiometricEnrollment(fa
-               lse).setUserAuthenticationParameters(86400, 3).build();                                    
-            ⋮┆----------------------------------------
-          192┆ KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(KEY_NAME, 3).setB
-               lockModes("CBC").setEncryptionPaddings("PKCS7Padding").setUserAuthenticationRequired(false)
-               .setUserAuthenticationValidityDurationSeconds(86400).setInvalidatedByBiometricEnrollment(fa
-               lse).setUserAuthenticationParameters(86400, 3).build();                                    
+    ../MASTG-DEMO-0084/MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-no-confirmation-required
+          [MASVS-AUTH-3] BiometricPrompt allows authentication without explicit user confirmation. For
+          sensitive operations, consider using setConfirmationRequired(true).                         
+                                                                                                      
+           82┆ final BiometricPrompt prompt1 = new BiometricPrompt.Builder(this.context).setTitle("Test 1:
+               No CryptoObject").setSubtitle("Insecure: No cryptographic binding").setDescription("Secret 
+               returned directly without CryptoObject                                                     
+               protection").setAllowedAuthenticators(32783).setConfirmationRequired(false).build();       
+

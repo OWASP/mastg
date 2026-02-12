@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Uses of BiometricPrompt with Event-Bound Authentication with semgrep
+title: Uses of BiometricPrompt with Device Credential Fallback with semgrep
 id: MASTG-DEMO-0083
 code: [kotlin]
 test: MASTG-TEST-0321
@@ -8,31 +8,32 @@ test: MASTG-TEST-0321
 
 ### Sample
 
-The following sample insecurely accesses sensitive resources, a secret token, relying solely on the `BiometricPrompt` API without a `CryptoObject` for event-bound biometric authentication, instead of using the crypto-bound authentication (with a `CryptoObject`) and requiring user presence.
+The following sample demonstrates the use of the `BiometricPrompt` API with different authenticator configurations used in `BiometricPrompt.Builder()`. It shows both weaker configurations that allow fallback to device credentials (PIN, pattern, password), which are more susceptible to compromise (e.g., through shoulder surfing) and secure configurations that requires a strong biometric authentication only.
 
-The key being generated and used with `CryptoObject` has not set [`.setUserAuthenticationRequired(true)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationRequired(boolean)) which means the key is authorized to be used regardless of whether the user has been authenticated or not, which is the default behavior when generating keys.
-
-{{ ../MASTG-DEMO-0082/MastgTest.kt # ../MASTG-DEMO-0082/MastgTest_reversed.java }}
+{{ MastgTest.kt # MastgTest_reversed.java }}
 
 ### Steps
 
-Run @MASTG-TOOL-0110 rules against the sample code.
+Let's run @MASTG-TOOL-0110 rules against the sample code.
 
-{{ ../../../../rules/mastg-android-biometric-event-bound.yml }}
+{{ ../../../../rules/mastg-android-biometric-device-credential-fallback.yml }}
 
 {{ run.sh }}
 
 ### Observation
 
-The output shows the usage of `BiometricPrompt.authenticate()` without using `CryptoObject` and setting `.setUserAuthenticationRequired(false)`.
+The output shows all usages of APIs that configure biometric authentication.
 
 {{ output.txt }}
 
 ### Evaluation
 
-The test fails because the output shows both:
+The test fails because the output shows references to biometric authentication configurations that allow fallback to device credentials:
 
-- Line 76: `BiometricPrompt.authenticate(PromptInfo)` is used without a `CryptoObject` and
-- Line 192:  `setUserAuthenticationRequired(false)` is set for key generation.
+- Line 38: `setAllowedAuthenticators(32783)` is called with `BIOMETRIC_STRONG | DEVICE_CREDENTIAL`, which allows the user to authenticate with either biometrics or their device PIN/pattern/password. The value `32783` is the sum of `32768` and `15`. Decompiled code contains integer values of the [`Authenticator` constants](https://developer.android.com/reference/android/hardware/biometrics/BiometricManager.Authenticators) instead of the name:
+    - `BIOMETRIC_STRONG` = 15 (0x000F)
+    - `BIOMETRIC_WEAK` = 255 (0x00FF)
+    - `DEVICE_CREDENTIAL` = 32768 (0x8000)
+- Also in line 38: [`setDeviceCredentialAllowed(true)`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt.Builder#setDeviceCredentialAllowed(boolean)) is called and can give the user the option to authenticate with their device PIN, pattern, or password instead of a biometric.
 
-For sensitive operations, the app should use `CryptoObject` when doing biometric authentication and the key generated should have set `setUserAuthenticationRequired(true)`.
+For sensitive operations, the app should use [`BIOMETRIC_STRONG`](https://developer.android.com/identity/sign-in/biometric-auth#declare-supported-authentication-types) to enforce biometric-only authentication.

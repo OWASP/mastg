@@ -1,20 +1,17 @@
-                   
-                   
-┌─────────────────┐
-│ 2 Code Findings │
-└─────────────────┘
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
                                               
-    ../MASTG-DEMO-0082/MastgTest_reversed.java
-    ❯❱ rules.mastg-android-biometric-no-confirmation-required
-          [MASVS-AUTH-3] BiometricPrompt allows authentication without explicit user confirmation. For
-          sensitive operations, consider using setConfirmationRequired(true).                         
-                                                                                                      
-           90┆ BiometricPrompt.PromptInfo promptInfo = new                                                
-               BiometricPrompt.PromptInfo.Builder().setTitle("🔒 Crypto-Based Auth").setSubtitle("Uses    
-               CryptoObject").setDescription("Encrypting token: MySecretToken123").setNegativeButtonText("
-               Cancel").setConfirmationRequired(false).setAllowedAuthenticators(15).build();              
-            ⋮┆----------------------------------------
-          181┆ BiometricPrompt.PromptInfo promptInfo = new                                                
-               BiometricPrompt.PromptInfo.Builder().setTitle("🔓 Decrypt Token").setSubtitle("Authenticate
-               to decrypt").setDescription("Decrypting the encrypted token").setNegativeButtonText("Cancel
-               ").setConfirmationRequired(false).setAllowedAuthenticators(15).build();                    
+    ../MASTG-DEMO-0084/MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-invalidated-enrollment
+          [MASVS-AUTH-2] Key configured with setInvalidatedByBiometricEnrollment(false). For sensitive    
+          operations, keys should be invalidated when biometric enrollment changes to prevent unauthorized
+          access by newly enrolled biometrics.                                                            
+                                                                                                          
+           52┆ keyGenerator.init(new KeyGenParameterSpec.Builder(this.KEY_NAME, 3).setBlockModes("GCM").se
+               tEncryptionPaddings("NoPadding").setUserAuthenticationRequired(false).setInvalidatedByBiome
+               tricEnrollment(false).setUserAuthenticationParameters(86400,                               
+               0).setUserAuthenticationValidityDurationSeconds(86400).build());                           
+

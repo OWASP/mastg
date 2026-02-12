@@ -10,11 +10,23 @@ rules:
 
     pattern-either:
       # Pattern 1: BiometricPrompt.authenticate() without CryptoObject (event-bound authentication)
+      # Used in androidx Biometric library
       - patterns:
           - pattern: $INSTANCE.authenticate($PROMPT_INFO)
           - pattern-not: $ANY.authenticate($PROMPT_INFO, $CRYPTO_OBJECT)
 
-      # Pattern 2: KeyGenParameterSpec.Builder without setUserAuthenticationRequired(true)
+      # Pattern 2: android.hardware.biometrics.BiometricPrompt.authenticate() without CryptoObject
+      # This is the older Android framework API (deprecated in favor of androidx.biometric)
+      # The insecure version has 3 parameters: authenticate(CancellationSignal, Executor, Callback)
+      # The secure version has 4 parameters: authenticate(CryptoObject, CancellationSignal, Executor, Callback)
+      - patterns:
+          - pattern: $INSTANCE.authenticate($CANCEL, $EXECUTOR, $CALLBACK)
+          - pattern-not: $ANY.authenticate($CRYPTO_OBJECT, $CANCEL, $EXECUTOR, $CALLBACK)
+          - pattern-inside: |
+              import android.hardware.biometrics.BiometricPrompt;
+              ...
+
+      # Pattern 3: KeyGenParameterSpec.Builder without setUserAuthenticationRequired(true)
       - patterns:
           - pattern: new KeyGenParameterSpec.Builder(...)
           - pattern-not-inside: |

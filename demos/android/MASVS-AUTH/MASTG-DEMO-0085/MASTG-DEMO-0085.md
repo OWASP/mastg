@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Uses of BiometricPrompt without Explicit User Confirmation with semgrep
+title: Uses of setInvalidatedByBiometricEnrollment with semgrep
 id: MASTG-DEMO-0085
 code: [kotlin]
 test: MASTG-TEST-0323
@@ -8,28 +8,28 @@ test: MASTG-TEST-0323
 
 ### Sample
 
-This sample demonstrates the use of `BiometricPrompt.PromptInfo.Builder` with the `setConfirmationRequired()` method. It shows both, insecure configurations that allow authentication without explicit user action and secure configurations that require explicit confirmation.
+This sample demonstrates the insecure use of [`setInvalidatedByBiometricEnrollment(false)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)) when generating cryptographic keys for biometric authentication.
 
-When `setConfirmationRequired(false)` is used, passive biometrics (like face recognition) can authenticate the user as soon as the device detects their biometric data, without requiring them to tap a confirmation button.
-
-{{ ../MASTG-DEMO-0082/MastgTest.kt # ../MASTG-DEMO-0082/MastgTest_reversed.java }}
+{{ ../MASTG-DEMO-0084/MastgTest.kt # ../MASTG-DEMO-0084/MastgTest_reversed.java }}
 
 ### Steps
 
 Run @MASTG-TOOL-0110 rules against the sample code.
 
-{{ ../../../../rules/mastg-android-biometric-no-confirmation-required.yml }}
+{{ ../../../../rules/mastg-android-biometric-invalidated-enrollment.yml }}
 
 {{ run.sh }}
 
 ### Observation
 
-The output shows the configuration of biometric authentication without requiring explicit user confirmation.
+The output shows the usage of `setInvalidatedByBiometricEnrollment(false)` when generating cryptographic keys.
 
 {{ output.txt }}
 
 ### Evaluation
 
-The test fails because the output shows two references to biometric authentications that disables explicitly user confirmation:
+The test fails because the output shows:
 
-- Line 90 and 181: `setConfirmationRequired(false)` is called, which allows the authentication to succeed implicitly without the user actively confirming the action.
+- Line 52: `setInvalidatedByBiometricEnrollment(false)` is called when creating a key for biometric authentication.
+
+For sensitive operations, keys should use `setInvalidatedByBiometricEnrollment(true)` (or rely on the default behavior) to ensure that keys are permanently invalidated when biometric enrollment changes, preventing newly enrolled biometrics from accessing existing encrypted data.

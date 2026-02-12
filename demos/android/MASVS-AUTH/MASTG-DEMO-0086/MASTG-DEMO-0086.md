@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Uses of Extended Validity Duration in setUserAuthenticationParameters with semgrep
+title: Uses of BiometricPrompt without Explicit User Confirmation with semgrep
 id: MASTG-DEMO-0086
 code: [kotlin]
 test: MASTG-TEST-0324
@@ -8,31 +8,28 @@ test: MASTG-TEST-0324
 
 ### Sample
 
-This sample demonstrates the insecure use of [`setUserAuthenticationParameters`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationParameters(int,%20int)) with an extended validity duration when generating cryptographic keys for biometric authentication.
+This sample demonstrates the use of `BiometricPrompt.PromptInfo.Builder` with the `setConfirmationRequired()` method. It shows both, insecure configurations that allow authentication without explicit user action and secure configurations that require explicit confirmation.
 
-When a key is configured with `setUserAuthenticationParameters(86400, type)` (86400 seconds = 24 hours), it remains unlocked for 24 hours after successful authentication. During this window, a malicious app can use the key for cryptographic operations without biometric verification, defeating the purpose of biometric authentication.
+When `setConfirmationRequired(false)` is used, passive biometrics (like face recognition) can authenticate the user as soon as the device detects their biometric data, without requiring them to tap a confirmation button.
 
-{{ ../MASTG-DEMO-0082/MastgTest.kt # ../MASTG-DEMO-0082/MastgTest_reversed.java }}
+{{ ../MASTG-DEMO-0084/MastgTest.kt # ../MASTG-DEMO-0084/MastgTest_reversed.java }}
 
 ### Steps
 
-Let's run @MASTG-TOOL-0110 rules against the sample code.
+Run @MASTG-TOOL-0110 rules against the sample code.
 
-{{ ../../../../rules/mastg-android-biometric-validity-duration.yml }}
+{{ ../../../../rules/mastg-android-biometric-no-confirmation-required.yml }}
 
 {{ run.sh }}
 
 ### Observation
 
-The output shows the usage of `setUserAuthenticationParameters` and `setUserAuthenticationValidityDurationSeconds` with non-zero duration values.
+The output shows the configuration of biometric authentication without requiring explicit user confirmation.
 
 {{ output.txt }}
 
 ### Evaluation
 
-The test fails because the output shows:
+The test fails because the output shows one reference to a biometric authentication that disables explicitly user confirmation:
 
-- Line 279: `setUserAuthenticationValidityDurationSeconds(86400)` is called, configuring the key to remain unlocked for 86400 seconds (24 hours) after authentication.
-- Line 281: `setUserAuthenticationParameters(86400, ...)` is also called with the same 24-hour duration.
-
-For sensitive operations, keys should use `setUserAuthenticationParameters(0, type)` to require authentication for every cryptographic operation, ensuring that each use of the key requires fresh biometric verification and the user's presence.
+- Line 82: `setConfirmationRequired(false)` is called, which allows the authentication to succeed implicitly without the user actively confirming the action.
