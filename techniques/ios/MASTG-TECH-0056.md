@@ -3,23 +3,23 @@ title: Installing Apps
 platform: ios
 ---
 
-When you install an application without using Apple's App Store, this is called sideloading. There are various ways of sideloading which are described below. On the iOS device, the actual installation process is then handled by the installd daemon, which will unpack and install the application. To integrate app services or be installed on an iOS device, all applications must be signed with a certificate issued by Apple. This means that the application can be installed only after successful code signature verification, which is explained in @MASTG-TECH-0092.
+Installing an application outside the Apple App Store is called sideloading. There are several ways of sideloading, as described below. On iOS, the installation process is handled by the installd daemon, which unpacks and installs the application. To integrate app services or be installed on an iOS device, all applications must be signed with a certificate issued by Apple. This means the application can be installed only after successful code-signature verification, as explained in @MASTG-TECH-0092.
 
 **Disabling Signature Verification (optional)**: On a jailbroken device, you can bypass the signature verification requirement using @MASTG-TOOL-0127, which hooks the appropriate system daemon and disables signature verification for any installations you do with the tools listed below while it's enabled.
 
-Different methods exist for installing an IPA package onto an iOS device, which are described in detail below.
+Different methods exist for installing an IPA package on an iOS device. They are described below.
 
 ## Sideloadly
 
-@MASTG-TOOL-0118 is a GUI tool that can automate all required steps for you. It requires valid Apple developer credentials, as it will obtain a valid signature from Apple servers.
+@MASTG-TOOL-0118 is a GUI tool that automates all required steps for you. It requires valid Apple developer credentials because it obtains a signature from Apple servers.
 
-Simply connect your device via USB, enter your Apple ID and drag-and-drop the IPA file onto SideLoadly. Click start to automatically sign and install the given IPA.
+Connect your device via USB, enter your Apple ID, and drag-and-drop the IPA file into SideLoadly. Click Start to sign and install the given IPA automatically.
 
 <img src="Images/Techniques/0056-Sideloadly.png" width="400px" />
 
 ## libimobiledevice
 
-On Linux and also macOS, you can alternatively use @MASTG-TOOL-0126. This allows you to install apps over a USB connection by executing `ideviceinstaller`. The connection is implemented with the USB multiplexing daemon [usbmuxd](https://www.theiphonewiki.com/wiki/Usbmux "Usbmux"), which provides a TCP tunnel over USB.
+On Linux and macOS, you can alternatively use @MASTG-TOOL-0126. This allows you to install apps over a USB connection by executing `ideviceinstaller`. The connection is implemented with the USB multiplexing daemon [usbmuxd](https://www.theiphonewiki.com/wiki/Usbmux "Usbmux"), which provides a TCP tunnel over USB.
 
 Let's install the @MASTG-APP-0028 app with the following command:
 
@@ -31,11 +31,11 @@ Install: Complete
 
 ## Filza
 
-@MASTG-TOOL-0128 allows you to install an IPA file which is already located on your device. You can use either `scp` (@MASTG-TECH-0053) or [AirDrop](https://support.apple.com/en-us/119857) to copy the IPA file to your device, after which you can simply navigate to the IPA file on your file system and click the `Install` button in the top right corner.
+@MASTG-TOOL-0128 allows you to install an IPA file already on your device. You can use either `scp` (@MASTG-TECH-0053) or [AirDrop](https://support.apple.com/en-us/119857) to copy the IPA file to your device, after which you can navigate to the IPA file on your file system and click the `Install` button in the top right corner.
 
 ## ipainstaller
 
-The IPA can also be directly installed on the iOS device via the command line with @MASTG-TOOL-0138. Naturally, this requires a jailbroken device, as otherwise you cannot SSH into the device. After copying the file over to the device, for example via `scp` (@MASTG-TECH-0053) or [AirDrop](https://support.apple.com/en-us/119857), you can execute `ipainstaller` with the IPA's filename:
+The IPA can also be installed directly on an iOS device via the command line using @MASTG-TOOL-0138. Naturally, this requires a jailbroken device; otherwise, you cannot SSH into it. After copying the file over to the device, for example, via `scp` (@MASTG-TECH-0053) or [AirDrop](https://support.apple.com/en-us/119857), you can execute `ipainstaller` with the IPA's filename:
 
 ```bash
 ipainstaller Uncrackable.ipa
@@ -43,7 +43,7 @@ ipainstaller Uncrackable.ipa
 
 ## ios-deploy
 
-On macOS you can also use the @MASTG-TOOL-0054 tool to install iOS apps from the command line. You'll need to unzip your IPA since ios-deploy uses the app bundles to install apps.
+On macOS, you can also use the @MASTG-TOOL-0054 tool to install iOS apps from the command line. You'll need to unzip your IPA since ios-deploy uses the app bundles to install apps.
 
 ```bash
 unzip UnCrackable.ipa
@@ -86,7 +86,7 @@ It is also possible to use the Xcode IDE to install iOS apps by executing the fo
 
 ## Allow Application Installation on a Non-iPad Device
 
-Sometimes an application can require to be used on an iPad device. If you only have iPhone or iPod touch devices then you can force the application to accept to be installed and used on these kinds of devices. You can do this by changing the value of the property **UIDeviceFamily** to the value **1** in the **Info.plist** file.
+Sometimes an application must be used on an iPad. If you only have iPhone or iPod touch devices, you can force the application to be installed and used on these devices. You can do this by changing the value of the property **UIDeviceFamily** to the value **1** in the **Info.plist** file.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -105,6 +105,6 @@ Sometimes an application can require to be used on an iPad device. If you only h
 
 Note that changing this value will break the original signature, so you must re-sign the IPA (@MASTG-TECH-0092) to install it on a device that does not have signature validation disabled.
 
-This bypass might not work if the application requires capabilities that are specific to modern iPads while your iPhone or iPod is a bit older.
+This workaround might not work if the application requires capabilities specific to modern iPads, while your iPhone or iPod is a bit older.
 
 Possible values for the property [UIDeviceFamily](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW11 "UIDeviceFamily property") can be found in the Apple Developer documentation.

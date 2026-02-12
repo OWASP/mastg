@@ -2,10 +2,7 @@
 title: fastlane
 platform: ios
 source: https://github.com/fastlane/fastlane
-hosts:
-- macOS
-- linux
-- windows
+hosts: [macOS, linux, windows]
 alternatives:
 - MASTG-TOOL-0114
 - MASTG-TOOL-0102

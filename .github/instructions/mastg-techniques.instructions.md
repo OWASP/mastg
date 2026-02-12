@@ -1,6 +1,9 @@
-## Techniques
+---
+name: 'Writing MASTG Technique Files'
+applyTo: 'techniques/**/*.md'
+---
 
-Authoring standards for the techniques catalog under `techniques/`. Techniques document reusable procedures and workflows used by tests and demos.
+Authoring standards for the techniques catalog under `techniques/`. Techniques document reusable procedures and workflows that are referenced by tests, demos, and other content across the guide.
 
 Locations:
 
@@ -17,7 +20,9 @@ File naming and IDs:
 
 Follow the global Markdown rules (see `.github/instructions/markdown.instructions.md`). Use `##` for top-level sections inside the page.
 
-### Markdown: Metadata
+Note: YAML front matter uses `---` delimiters. Do not use `---` as a horizontal rule in the body.
+
+## Markdown: Metadata
 
 Include a YAML front matter block with these fields.
 
@@ -28,10 +33,9 @@ Required:
 
 Optional:
 
-- `status:` `draft`, `placeholder`, or `deprecated`.
-- `note:` Short free-form note for scope or caveats.
-- `available_since:` Minimum platform/API level where this technique applies (Android: integer API level; iOS: release version, for example `13`).
-- `deprecated_since:` Last applicable platform/API level.
+- `status:` Use this only when needed. Currently, `placeholder` is used for stub pages. Other values such as `draft` or `deprecated` may be used when the catalog needs them.
+
+Avoid adding extra front matter keys unless you know the site uses them.
 
 Examples:
 
@@ -49,61 +53,62 @@ platform: generic
 ---
 ```
 
-### Markdown: Body
+## Markdown: Body
 
-Keep techniques practical, step-by-step, and tool-agnostic when possible. Where tool specifics are necessary, prefer linking to tool pages and keep commands minimal.
+Keep techniques practical and focused. Many existing technique pages start with a short introduction paragraph and then jump directly into sections. A dedicated "Overview" section is optional.
 
-Recommended structure:
+Prefer tool-agnostic wording where possible. Where tool specifics are necessary, link to the tool pages and keep commands minimal.
 
-- Overview: What the technique does and when to use it.
-- Prerequisites: Any environmental requirements (device state, jailbreak/root, certificates, OS tooling).
-- Steps: Ordered steps with commands and short explanations. Prefer resilient commands and include expected prompts/outputs briefly.
-- Validation: How to confirm success (signals, artifacts, logs). Mention common failure modes and remediation tips.
-- Variations: Platform- or framework-specific variants (for example, Flutter, React Native), and alternatives.
-- References: Authoritative docs or guides.
-- Related: Cross-links to tests, tools, and demos using this technique.
+Do not force a fixed section template. Techniques in this repo commonly use whatever headings best describe the workflow, for example:
+
+- Task-oriented headings such as "Remote Shell", "Installing the Proxy Certificate", "Simulator Shell".
+- Tool- or format-oriented headings such as "Using jq", "Using plistlib".
+
+When a technique describes multiple tool-specific ways to achieve the same goal, prefer splitting them into tool subsections titled like `## Using @MASTG-TOOL-####`. This matches existing technique pages and keeps the options scannable. You can add short qualifiers in parentheses when needed (for example, "(Jailbroken Devices Only)").
 
 Cross-linking rules:
 
 - In body text, reference project identifiers with a leading `@` (for example, @MASTG-TEST-0204, @MASTG-TOOL-0031).
 - In YAML front matter, always use bare identifiers (no `@`).
 
-### Writing conventions
+MkDocs callouts:
+
+- You can use MkDocs Material admonitions for long notes, version caveats, and collapsible content (for example, `??? info` and `??? note`). Follow existing patterns in the catalog.
+
+## Writing conventions
 
 - Prefer imperative voice in steps ("Run", "Attach", "Export").
 - Keep commands copyable and self-contained. Where platform prompts or additional context are needed, explain in one short sentence.
 - Favor official sources for installation instructions; avoid endorsing third-party distributions.
 - Use HTML `<img>` tags for images, per the markdown instructions.
 
-### Examples
+## Examples
 
 ````markdown
-## Overview
+---
+title: Obtaining App Permissions
+platform: android
+---
 
-Method tracing captures method entry/exit events to understand runtime behavior. This helps locate sensitive logic and verify mitigations.
+Android permissions are declared in the `AndroidManifest.xml` file using the `<uses-permission>` tag. You can use multiple tools to view them.
 
-## Prerequisites
+## Using the AndroidManifest
 
-- USB debugging enabled
-- @MASTG-TOOL-0031 (Frida)
+Extract the `AndroidManifest.xml` as explained in @MASTG-TECH-0117 and retrieve all [`<uses-permission>`](https://developer.android.com/guide/topics/manifest/uses-permission-element) elements.
 
-## Steps
+## Using @MASTG-TOOL-0124
 
-1. List app processes: `frida-ps -Uai | grep com.example.app`
-2. Trace target APIs:
+`aapt` can be used to view the permissions requested by an application.
 
-```sh
-frida-trace -U -i "*Network*" -n com.example.app
+```bash
+$ aapt d permissions org.owasp.mastestapp.apk
+package: org.owasp.mastestapp
+uses-permission: name='android.permission.INTERNET'
+...
 ```
 
-## Validation
+...
 
-You should see method entries in the console matching the targeted patterns. If nothing appears, verify the process name and that the device permits tracing.
-
-## Related
-
-- Tests: @MASTG-TEST-0252
-- Tools: @MASTG-TOOL-0031
 ````
 
 ### Edge cases and guidance

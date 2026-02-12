@@ -3,7 +3,7 @@ title: Extracting Entitlements from MachO Binaries
 platform: ios
 ---
 
-Several tools can be used to extract entitlements from MachO binaries on iOS. This is useful for security assessments, as entitlements can reveal permissions and capabilities granted to an app.
+Several tools can be used to extract entitlements from Mach-O binaries on iOS. This is useful for security assessments, as entitlements can reveal permissions and capabilities granted to an app.
 
 ## Using @MASTG-TOOL-0129
 

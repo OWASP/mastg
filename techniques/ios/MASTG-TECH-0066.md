@@ -3,6 +3,6 @@ title: Static Analysis on iOS
 platform: ios
 ---
 
-The preferred method of statically analyzing iOS apps involves using the original Xcode project files. Ideally, you will be able to compile and debug the app to quickly identify any potential issues with the source code.
+The preferred method for statically analyzing iOS apps is to use the original Xcode project files. Ideally, you can compile and debug the app to quickly identify potential issues in the source code.
 
-Black box analysis of iOS apps without access to the original source code requires reverse engineering. For example, no decompilers are available for iOS apps (although most commercial and open-source disassemblers can provide a pseudo-source code view of the binary), so a deep inspection requires you to read assembly code.
+Black box analysis of iOS apps without access to the source code requires @MASTG-TECH-0065. For example, no decompilers are available for iOS apps (although most commercial and open-source disassemblers can provide a pseudo-source code view of the binary). Hence, a deep inspection requires you to read assembly code.
