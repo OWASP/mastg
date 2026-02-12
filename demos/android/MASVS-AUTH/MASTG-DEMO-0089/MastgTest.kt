@@ -11,6 +11,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import java.util.concurrent.CountDownLatch
 
+// SUMMARY: This sample demonstrates insecure biometric authentication that allows fallback to device credentials (PIN, pattern, password).
+
 class MastgTest(private val context: Context) {
 
     // Run in background thread - we'll post UI operations to main thread
@@ -27,6 +29,7 @@ class MastgTest(private val context: Context) {
         val latch1 = CountDownLatch(1)
         var authResult1: String? = null
 
+        // FAIL: [MASTG-TEST-0326] Using DEVICE_CREDENTIAL allows fallback to PIN/pattern/password
         val prompt1 = BiometricPrompt.Builder(context)
             .setTitle("Test 1: Device Credential")
             .setSubtitle("Using DEVICE_CREDENTIAL (Security: FAIL)")
@@ -95,6 +98,7 @@ class MastgTest(private val context: Context) {
         val latch2 = CountDownLatch(1)
         var authResult2: String? = null
 
+        // PASS: [MASTG-TEST-0326] Using BIOMETRIC_STRONG only requires biometric authentication
         val prompt2 = BiometricPrompt.Builder(context)
             .setTitle("Test 2: Biometric Strong")
             .setSubtitle("Using BIOMETRIC_STRONG (Security: PASS)")

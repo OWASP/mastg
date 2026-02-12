@@ -19,6 +19,8 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
+// SUMMARY: This sample demonstrates event-bound biometric authentication where authenticate() is called without CryptoObject, making it vulnerable to bypass.
+
 class MastgTest(private val context: Context) {
 
     // Run in background thread - we'll post UI operations to main thread
@@ -97,7 +99,7 @@ class MastgTest(private val context: Context) {
             .setConfirmationRequired(false)
             .build()
 
-        // Post authenticate to main thread
+        // FAIL: [MASTG-TEST-0327] BiometricPrompt.authenticate() called without CryptoObject for sensitive operations
         mainHandler.post {
             prompt1.authenticate(
                 CancellationSignal(),
@@ -172,6 +174,7 @@ class MastgTest(private val context: Context) {
             }
             .build()
 
+        // PASS: [MASTG-TEST-0327] BiometricPrompt.authenticate() called with CryptoObject for crypto-bound authentication
         mainHandler.post {
             promptEncrypt.authenticate(
                 encryptCryptoObject,
