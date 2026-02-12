@@ -13,6 +13,13 @@ This sample uses the same code as @MASTG-DEMO-0de2, which encrypts and decrypts 
 
 See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime detection mechanisms.
 
+!!! note
+    This is a series of correlated tests.
+
+    - @MASTG-DEMO-0de1 is a failed test (failed defence/successful attack) against a data exfiltration attack.
+    - @MASTG-DEMO-0de2 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0de1.
+    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0de2 by using a more "complex" attack.
+
 {{ ../MASTG-DEMO-0de2/MastgTest.kt }}
 
 ## Steps

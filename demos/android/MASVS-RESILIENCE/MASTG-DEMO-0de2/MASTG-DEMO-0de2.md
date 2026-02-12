@@ -11,6 +11,13 @@ kind: pass
 
 This sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. Unlike the unprotected variant in @MASTG-DEMO-0de1, this version includes a runtime hook detection mechanism that reads `/proc/self/maps` to check for the presence of Frida-related libraries (e.g., `frida-agent`, `frida-gadget`). If detected, the app terminates the process immediately via `Process.killProcess()` before any cryptographic operations are performed.
 
+!!! note
+    This is a series of correlated tests.
+
+    - @MASTG-DEMO-0de1 is a failed test (failed defence/successful attack) against a data exfiltration attack.
+    - This test is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0de1.
+    - @MASTG-DEMO-0de3 is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0de2 by using a more "complex" attack.
+
 {{ MastgTest.kt }}
 
 ## Steps

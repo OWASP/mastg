@@ -11,6 +11,13 @@ kind: fail
 
 This sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0de2 demonstrates a runtime hook detection mechanism.
 
+!!! note
+    This is a series of correlated tests.
+
+    - This test is a failed test (failed defence/successful attack) against a data exfiltration attack.
+    - @MASTG-DEMO-0de2 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0de1.
+    - @MASTG-DEMO-0de3 is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0de2 by using a more "complex" attack.
+
 {{ MastgTest.kt }}
 
 ## Steps
