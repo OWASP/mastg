@@ -4,7 +4,7 @@
 │ 2 Code Findings │
 └─────────────────┘
                                               
-    ../MASTG-DEMO-0084/MastgTest_reversed.java
+    ../MASTG-DEMO-0090/MastgTest_reversed.java
     ❯❱ rules.mastg-android-biometric-event-bound
           [MASVS-AUTH-2] BiometricPrompt.authenticate called without a CryptoObject or key not requiring user
           authentication. Use authenticate(PromptInfo, CryptoObject) with a keystore-backed key configured   

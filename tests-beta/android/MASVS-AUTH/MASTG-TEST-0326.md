@@ -1,7 +1,7 @@
 ---
 platform: android
 title: References to APIs Allowing Fallback to Non-Biometric Authentication
-id: MASTG-TEST-0321
+id: MASTG-TEST-0326
 apis: [BiometricPrompt, BiometricManager.Authenticators, setAllowedAuthenticators]
 type: [static]
 weakness: MASWE-0045

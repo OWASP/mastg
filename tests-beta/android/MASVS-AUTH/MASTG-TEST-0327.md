@@ -1,7 +1,7 @@
 ---
 platform: android
 title: References to APIs for Event-Bound Biometric Authentication
-id: MASTG-TEST-0322
+id: MASTG-TEST-0327
 apis: [BiometricPrompt, BiometricPrompt.CryptoObject, authenticate]
 type: [static]
 weakness: MASWE-0044

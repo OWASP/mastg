@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Uses of Extended Validity Duration in setUserAuthenticationParameters with semgrep
-id: MASTG-DEMO-0087
+id: MASTG-DEMO-0093
 code: [kotlin]
-test: MASTG-TEST-0325
+test: MASTG-TEST-0330
 ---
 
 ### Sample
@@ -12,7 +12,7 @@ This sample demonstrates the insecure use of [`setUserAuthenticationParameters`]
 
 When a key is configured with `setUserAuthenticationParameters(86400, type)` (86400 seconds = 24 hours), it remains unlocked for 24 hours after successful authentication. During this window misuse of the app can be a potential risk, for example in case physical access to the device is possible executing sensitive operations without re-authenticating through biometric verification.
 
-{{ ../MASTG-DEMO-0084/MastgTest.kt # ../MASTG-DEMO-0084/MastgTest_reversed.java }}
+{{ ../MASTG-DEMO-0090/MastgTest.kt # ../MASTG-DEMO-0090/MastgTest_reversed.java }}
 
 ### Steps
 

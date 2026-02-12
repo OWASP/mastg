@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Uses of BiometricPrompt with Device Credential Fallback with semgrep
-id: MASTG-DEMO-0083
+id: MASTG-DEMO-0089
 code: [kotlin]
-test: MASTG-TEST-0321
+test: MASTG-TEST-0326
 ---
 
 ### Sample
