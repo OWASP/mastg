@@ -4,6 +4,8 @@ platform: android
 title: WebViews
 ---
 
+On Android versions prior to 4.4, WebViews used the WebKit rendering engine to display web pages. Since Android 4.4, [WebViews have been based on Chromium](https://developer.android.com/about/versions/lollipop#WebView), providing improved performance and compatibility. However, the pages are still stripped down to minimal functions; for example, pages don't have address bars.
+
 ## URL Loading in WebViews
 
 WebViews are Android's embedded components which allow your app to open web pages within your application. In addition to mobile apps related threats, WebViews may expose your app to common web threats (e.g. XSS, Open Redirect, etc.).
@@ -26,11 +28,26 @@ Virus Total provides an API for analyzing URLs and local files for known threats
 
 ## JavaScript Execution in WebViews
 
-JavaScript can be injected into web applications via reflected, stored, or DOM-based Cross-Site Scripting (XSS). Mobile apps are executed in a sandboxed environment and don't have this vulnerability when implemented natively. Nevertheless, WebViews may be part of a native app to allow web page viewing. Every app has its own WebView cache, which isn't shared with the native Browser or other apps.
-
-On Android versions prior to 4.4, WebViews used the WebKit rendering engine to display web pages. Since Android 4.4, [WebViews have been based on Chromium](https://developer.android.com/about/versions/lollipop#WebView), providing improved performance and compatibility. However, the pages are still stripped down to minimal functions; for example, pages don't have address bars.
+JavaScript can be injected into web applications via reflected, stored, or DOM-based Cross-Site Scripting (XSS). Mobile apps are executed in a sandboxed environment and don't have this vulnerability when implemented natively. Nevertheless, WebViews may be part of a native app to allow web page viewing.
 
 Android WebViews can use [`setJavaScriptEnabled`](https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)) to enable JavaScript execution. This feature is disabled by default, but if enabled, it can be used to execute JavaScript code in the context of the loaded page. This can be dangerous if the WebView loads untrusted content.
+
+## WebView-Native bridges
+
+Android allows websites loaded inside a WebView to call native Android code via JavaScript. This mechanism is commonly referred to as a "WebView JavaScript bridge" or "native bridge".
+
+When JavaScript is enabled with `setJavaScriptEnabled(true)` and the app registers a Java or Kotlin object with [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface), that object becomes a JavaScript Interface Object (bridge) and is exposed to all JavaScript running within the WebView. These methods could return data to the WebView or perform specific functionality within the app.
+
+Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**, whether statically within the app or dynamically (both inside or outside the organization's control or trust boundaries). This means that when the user navigates within trusted domains, all scripts executing on those pages inherit access to the bridge. It also means that, if the user navigates outside your app or domain, all other external pages and their scripts will also have access to the bridge.
+
+If the exposed interface provides access to sensitive data or privileged functionality, it can introduce serious security risks. Attackers with direct or indirect control of those websites or scripts (e.g. via [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)) can access the WebView and thus read such data or execute arbitrary code on the device.
+
+Starting with Android 4.2 (API level 17), the [`@JavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/JavascriptInterface) annotation was introduced to mark which methods are exposed to JavaScript explicitly. Only methods annotated with `@JavascriptInterface` are callable from JavaScript.
+
+!!! warning
+    Apps targeting Android versions below 4.2 (API level 17) require extreme caution. Due to [a flaw](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution) in the original implementation of `addJavascriptInterface`, all public methods of the exposed object were accessible via JavaScript by default. This could be exploited through reflection, since all Java Object methods are accessible by default.
+
+Visit [Android WebView Security Best Practices](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges#risk-addjavascriptinterface-risks) and [Security checklist](https://developer.android.com/privacy-and-security/security-tips#webview) for more information.
 
 ## WebView Local File Access Settings
 
@@ -188,24 +205,9 @@ The WebView can access any data accessible via content providers (if the app has
 
 Data from other apps accessible via content providers (if the app has any and they are exported) can also be accessed.
 
-## WebView-Native bridges
-
-Android allows websites loaded inside a WebView to call native Android code via JavaScript. This mechanism is commonly referred to as a "WebView JavaScript bridge" or "native bridge".
-
-When JavaScript is enabled with `setJavaScriptEnabled(true)` and the app registers a Java or Kotlin object with [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface), that object becomes a JavaScript Interface Object (bridge) and is exposed to all JavaScript running within the WebView. These methods could return data to the WebView or perform specific functionality within the app.
-
-Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**, whether statically within the app or dynamically (both inside or outside the organization's control or trust boundaries). This means that when the user navigates within trusted domains, all scripts executing on those pages inherit access to the bridge. It also means that, if the user navigates outside your app or domain, all other external pages and their scripts will also have access to the bridge.  If the exposed interface provides access to sensitive data or privileged functionality, it can introduce serious security risks. Attackers with direct or indirect control of those websites or scripts (e.g. via [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)) can access the WebView and thus read such data or execute arbitrary code on the device.
-
-Starting with Android 4.2 (API level 17), the [`@JavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/JavascriptInterface) annotation was introduced to mark which methods are exposed to JavaScript explicitly. Only methods annotated with `@JavascriptInterface` are callable from JavaScript.
-
-!!! warning
-    Apps targeting Android versions below 4.2 (API level 17) require extreme caution. Due to [a flaw](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution) in the original implementation of `addJavascriptInterface`, all public methods of the exposed object were accessible via JavaScript by default. This could be exploited through reflection, since all Java Object methods are accessible by default.
-
-Visit [Android WebView Security Best Practices](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges#risk-addjavascriptinterface-risks) and [Security checklist](https://developer.android.com/privacy-and-security/security-tips#webview) for more information.
-
 ## WebView Storage
 
-Android WebView embeds a Chromium based browser engine. As a result, most web related data is stored inside the Chromium profile directory located at:
+Android WebView embeds a Chromium based browser engine. Every app has its own WebView cache, which isn't shared with the native Browser or other apps. As a result, most web related data is stored inside the Chromium profile directory located at:
 
 `/data/data/<app_package>/app_webview/`
 
