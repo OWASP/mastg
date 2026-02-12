@@ -196,12 +196,13 @@ When JavaScript is enabled with `setJavaScriptEnabled(true)` and the app registe
 
 Any website loaded in the WebView, whether statically within the app or dynamically (both inside or outside the organization's control or trust boundaries), can access the registered JavaScript interface. This applies particularly to JavaScript scripts loaded on those websites. So even when the user navigates within trusted domains, all scripts executing on those pages inherit access to the bridge.
 
+Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**. This implies that, if the user navigates outside your app or domain, all other external pages will also have access to those JavaScript Interface objects, which might present a potential security risk if any sensitive data is being exposed through those interfaces.
+
 If the exposed interface provides access to sensitive data or privileged functionality, it can introduce serious security risks. Attackers with direct control of those websites (or scripts) or indirect (e.g. via [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)) can access the WebView and thus read such data or execute arbitrary code on the device.
 
-Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**. This implies that, if the user navigates outside your app or domain, all other external pages will also have access to those JavaScript Interface objects, which might present a potential security risk if any sensitive data is being exposed through those interfaces.
 Starting with Android 4.2 (API level 17), the [`@JavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/JavascriptInterface) annotation was introduced to mark which methods are exposed to JavaScript explicitly. Only methods annotated with `@JavascriptInterface` are callable from JavaScript.
 
-!!! Warning
+!!! warning
     Apps targeting Android versions below 4.2 (API level 17) require extreme caution. Due to [a flaw](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution) in the original implementation of `addJavascriptInterface`, all public methods of the exposed object were accessible via JavaScript by default, even if this vulnerability could be exploited through reflection. This was because all Java Object methods are accessible by default.
 
 Visit [Android WebView Security Best Practices](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges#risk-addjavascriptinterface-risks) and [Security checklist](https://developer.android.com/privacy-and-security/security-tips#webview) for more information.
