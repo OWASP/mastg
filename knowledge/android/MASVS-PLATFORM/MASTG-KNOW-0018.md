@@ -18,7 +18,7 @@ To provide a safer web browsing experience, Android 8.1 (API level 27) introduce
 
 By default, WebViews show a warning to users about the security risk with the option to load the URL or stop the page from loading. With the SafeBrowsing API you can customize your application's behavior by either reporting the threat to SafeBrowsing or performing a particular action such as returning back to safety each time it encounters a known threat. Please check the [Android Developers documentation](https://developer.android.com/about/versions/oreo/android-8.1#safebrowsing) for usage examples.
 
-You can use the SafeBrowsing API independently from WebViews using the [SafetyNet library](https://developer.android.com/training/safetynet/safebrowsing), which implements a client for Safe Browsing Network Protocol v4. SafetyNet allows you to analyze all the URLs that your app is supposed load. You can check URLs with different schemes (e.g. http, file) since SafeBrowsing is agnostic to URL schemes, and against `TYPE_POTENTIALLY_HARMFUL_APPLICATION` and `TYPE_SOCIAL_ENGINEERING` threat types.
+You can use the SafeBrowsing API independently from WebViews using the [SafetyNet library](https://developer.android.com/training/safetynet/safebrowsing), which implements a client for Safe Browsing Network Protocol v4. SafetyNet allows you to analyze all the URLs that your app is supposed to load. You can check URLs with different schemes (e.g. http, file) since SafeBrowsing is agnostic to URL schemes, and against `TYPE_POTENTIALLY_HARMFUL_APPLICATION` and `TYPE_SOCIAL_ENGINEERING` threat types.
 
 > When sending URLs or files to be checked for known threats make sure they don't contain sensitive data which could compromise a user's privacy, or expose sensitive content from your application.
 
@@ -76,7 +76,7 @@ The WebView can access any file that the app has permission to access via `file:
 
 [`setAllowFileAccess`](https://developer.android.com/reference/android/webkit/WebSettings.html#setAllowFileAccess%28boolean%29 "Method setAllowFileAccess()") enables the WebView to load local files using the `file://` scheme. In this example, the WebView is configured to allow file access and then loads an HTML file from the external storage (sdcard).
 
-```java
+```kotlin
 webView.settings.apply {
     allowFileAccess = true
 }
@@ -187,7 +187,7 @@ The setting `setAllowContentAccess` controls whether the WebView can access cont
 webView.settings.apply {
     allowContentAccess = true
 }
-webView.loadUrl("content://com.example.myapp.provider/data");
+webView.loadUrl("content://com.example.myapp.provider/data")
 ```
 
 **Which files can be accessed by the WebView?:**
@@ -207,7 +207,7 @@ Data from other apps accessible via content providers (if the app has any and th
 
 ## WebView Storage
 
-Android WebView embeds a Chromium based browser engine. Every app has its own WebView cache, which isn't shared with the native Browser or other apps. As a result, most web related data is stored inside the Chromium profile directory located at:
+Android WebView embeds a Chromium based browser engine. Every app has its own WebView cache, which isn't shared with the native Browser or other apps. Most web related data is stored inside the Chromium profile directory located at:
 
 `/data/data/<app_package>/app_webview/`
 
@@ -289,10 +289,6 @@ Testing WebView cleanup is a complex task that requires extensive information ga
 3. Thirdly, the tester must determine the lifecycle of every sensitive data item and its designated retention period.
 4. Finally, there is a lack of a guarantee that the clear methods will always be called, particularly if the app process is killed abruptly before those occur (e.g., due to a system process kill), and in sequence if mitigation measures exist for these scenarios.
 
-## Additional Resources
-
-You can find more security best practices when using WebViews on [Android Developers](https://developer.android.com/training/articles/security-tips?hl=en#WebView "Security Tips - Use WebView").
-
 ## Secure Alternatives to WebView
 
 [Trusted Web Activities](https://developer.android.com/develop/ui/views/layout/webapps/trusted-web-activities) or [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/) provide a more secure way to display web content, with JavaScript executed in the browser environment. They benefit from:
@@ -302,3 +298,7 @@ You can find more security best practices when using WebViews on [Android Develo
 - Built-in mitigations against common web vulnerabilities (e.g., Cross-Site Scripting (XSS), Man-in-the-Middle (MITM) attacks)
 
 A trade-off of this approach is that you may lose some control over the user experience or the application's look and feel. However, this is a necessary compromise to ensure the security and integrity of your application.
+
+## Additional Resources
+
+You can find more security best practices when using WebViews on [Android Developers](https://developer.android.com/training/articles/security-tips?hl=en#WebView "Security Tips - Use WebView").
