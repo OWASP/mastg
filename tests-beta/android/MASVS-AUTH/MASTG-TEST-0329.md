@@ -14,10 +14,8 @@ best-practices: []
 
 !!! note
     Android offers the `BiometricPrompt` class in 2 different ways:
-    
     1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
     2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
-
     The examples in this test uses the `android.hardware.biometrics` framework API.
 
 This test checks if the app enforces biometric authentication [without requiring explicit user action](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action). When using [`BiometricPrompt`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt), the [`setConfirmationRequired()`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder#setConfirmationRequired(boolean)) method in [`BiometricPrompt.PromptInfo.Builder`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder) controls whether the user must explicitly confirm their authentication, which is enforced by default.

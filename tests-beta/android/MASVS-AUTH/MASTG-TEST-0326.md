@@ -14,10 +14,8 @@ best-practices: []
 
 !!! note
     Android offers the `BiometricPrompt` class in 2 different ways:
-    
     1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
     2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
-
     The examples in this test uses the `android.hardware.biometrics` framework API.
 
 This test checks if the app uses biometric authentication mechanisms that allow fallback to device credentials (PIN, pattern, or password) for sensitive operations. On Android, the [`BiometricPrompt`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) API can be configured to accept different types of [`BiometricManager.Authenticators`](https://developer.android.com/reference/android/hardware/biometrics/BiometricManager.Authenticators#constants_1) via the method[`setAllowedAuthenticators`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt.Builder#setAllowedAuthenticators(int)).

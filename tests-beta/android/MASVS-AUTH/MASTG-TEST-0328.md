@@ -14,10 +14,8 @@ best-practices: []
 
 !!! note
     Android offers the `BiometricPrompt` class in 2 different ways:
-    
     1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
     2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
-
     The examples in this test uses the `android.hardware.biometrics` framework API.
 
 This test checks whether the app fails to protect sensitive operations against unauthorized access following biometric enrollment changes. An attacker who obtains the device passcode could add a new fingerprint or facial representation via system settings and use it to authenticate in the app.

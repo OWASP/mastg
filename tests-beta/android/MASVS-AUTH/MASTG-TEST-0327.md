@@ -14,10 +14,8 @@ best-practices: []
 
 !!! note
     Android offers the `BiometricPrompt` class in 2 different ways:
-    
     1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
     2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
-
     The examples in this test uses the `android.hardware.biometrics` framework API.
 
 This test checks if the app implements event-bound biometric authentication to access sensitive resources (e.g., tokens, keys), where authentication success relies solely on a callback result rather than being cryptographically bound to sensitive operations and requiring user presence.
