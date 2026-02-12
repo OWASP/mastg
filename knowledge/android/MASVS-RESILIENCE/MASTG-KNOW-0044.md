@@ -20,8 +20,9 @@ A challenge (nonce) can be included to provide freshness, proving the attestatio
 - The attestation extension data in the leaf certificate, which follows an [ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema), including:
     - `attestationChallenge`: the challenge value matches the server-issued nonce.
     - `attestationSecurityLevel`: the Keymaster security level (`Software`, `TrustedEnvironment`, or `StrongBox`).
-    - `softwareEnforced` / `teeEnforced`: the key pair attributes such as `purpose`, `origin`, `algorithm`, and authentication requirements (see @MASTG-KNOW-01kw).
+    - `softwareEnforced` / `teeEnforced`: the key pair attributes (see [Key Properties](#key-properties) below).
     - `rootOfTrust`: device integrity signals including `verifiedBootState`, `verifiedBootKey`, and `deviceLocked` (see @MASTG-KNOW-01kw).
+    - `attestationApplicationId`: the application identity including package name and signing certificate digests (see @MASTG-KNOW-02kw).
 
 The following example shows how to configure a `KeyGenParameterSpec` for key attestation using an EC key pair on the `secp256r1` (P-256) curve with StrongBox, an attestation challenge, and device properties attestation:
 
@@ -77,3 +78,13 @@ A typical Android KeyStore attestation response:
 The signature is verified on the server side using the public key in the first certificate.
 
 For a reference implementation, see [Google's Key Attestation Sample Code](https://github.com/google/android-key-attestation/blob/master/src/main/java/com/android/example/KeyAttestationExample.java).
+
+## Key Properties
+
+The `softwareEnforced` and `teeEnforced` fields in the attestation extension describe the configuration of the attested key pair, depending on whether the property is enforced by software or by the trusted execution environment:
+
+- **`purpose`**: The authorized operations for the key (e.g., signing, encryption).
+- **`algorithm`**: The cryptographic algorithm of the key (e.g., EC, RSA).
+- **`origin`**: Whether the key was generated on the device (`KeyOrigin.GENERATED`) or imported. A device-generated key has never existed outside the hardware.
+- **`attestationSecurityLevel`**: Whether the key is protected by `Software`, `TrustedEnvironment` (Trusted Execution Environment), or `StrongBox` (dedicated secure element). Only `TrustedEnvironment` and `StrongBox` indicate hardware-backed protection. See @MASTG-KNOW-0047 for the full key storage hierarchy.
+- **Authentication requirements**: Whether user authentication (e.g., biometric via [`setUserAuthenticationRequired`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setuserauthenticationrequired)) is required before key use, indicated by fields such as `noAuthRequired` and `userAuthType`.
