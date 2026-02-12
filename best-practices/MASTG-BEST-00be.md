@@ -1,7 +1,7 @@
 ---
 title: Hardening Against Runtime Hooking
 alias: hardening-against-runtime-hooking
-id: MASTG-BEST-0029
+id: MASTG-BEST-00be
 platform: android
 knowledge: [MASTG-KNOW-0027, MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw]
 ---

@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Bypassing Frida Detection in /proc/self/maps to Extract Sensitive Data
-id: MASTG-DEMO-0089
+id: MASTG-DEMO-0te3
 code: [kotlin]
 test: MASTG-TEST-03te
 kind: fail
@@ -9,11 +9,11 @@ kind: fail
 
 ## Sample
 
-This sample uses the same code as @MASTG-DEMO-0088, which encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The code includes a runtime hook detection mechanism that scans `/proc/self/maps` for Frida-related libraries and terminates the process via `Process.killProcess()` if any are found. This demo demonstrates bypassing the detection by hooking `BufferedReader.readLine()` to hide Frida entries from `/proc/self/maps`, causing `detectHooking()` to return `false` so the termination path is never reached.
+This sample uses the same code as @MASTG-DEMO-0te2, which encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The code includes a runtime hook detection mechanism that scans `/proc/self/maps` for Frida-related libraries and terminates the process via `Process.killProcess()` if any are found. This demo demonstrates bypassing the detection by hooking `BufferedReader.readLine()` to hide Frida entries from `/proc/self/maps`, causing `detectHooking()` to return `false` so the termination path is never reached.
 
 See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime detection mechanisms.
 
-{{ ../MASTG-DEMO-0088/MastgTest.kt }}
+{{ ../MASTG-DEMO-0te2/MastgTest.kt }}
 
 ## Steps
 
