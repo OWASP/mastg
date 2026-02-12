@@ -1,4 +1,4 @@
-name: Main Branch Checks
+name: Markdown Lint
 
 on:
   workflow_dispatch:
@@ -12,16 +12,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  spell-check:
-    name: Spell Check (Full)
-    uses: ./.github/workflows/reusable-spell-checker.yml
-    secrets: inherit
-
-  url-check:
-    name: URL Check (Full)
-    uses: ./.github/workflows/reusable-url-checker.yml
-    secrets: inherit
-
   markdown-lint:
     name: Markdown Lint
     uses: ./.github/workflows/reusable-markdown-linter.yml

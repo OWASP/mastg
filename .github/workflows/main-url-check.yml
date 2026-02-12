@@ -1,0 +1,18 @@
+name: URL Check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - cluster-workflows
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  url-check:
+    name: URL Check (Full)
+    uses: ./.github/workflows/reusable-url-checker.yml
+    secrets: inherit
