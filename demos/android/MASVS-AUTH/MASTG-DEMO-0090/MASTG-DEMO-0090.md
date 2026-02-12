@@ -33,6 +33,6 @@ The output shows the usage of `BiometricPrompt.authenticate()` without using `Cr
 The test fails because the output shows both:
 
 - Line 139: `BiometricPrompt.authenticate(PromptInfo)` is used without a `CryptoObject` and
-- Line 52:  `setUserAuthenticationRequired(false)` is set for key generation.
+- Line 52: `setUserAuthenticationRequired(false)` is set for key generation.
 
 For sensitive operations, the app should use `CryptoObject` when doing biometric authentication and the key generated should have set `setUserAuthenticationRequired(true)`.
