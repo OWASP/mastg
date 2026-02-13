@@ -20,7 +20,7 @@ Or refer to the [installation page](https://www.frida.re/docs/installation/ "Fri
 
 ## Modes of Operation
 
-Code can be injected in several ways. For example, Xposed permanently modifies the Android app loader, providing hooks for running your own code every time a new process is started.
+Code can be injected in several ways. For example, @MASTG-TOOL-0149 permanently modifies the Android app loader, providing hooks for running your own code every time a new process is started.
 In contrast, Frida implements code injection by writing code directly into the process memory. When attached to a running app:
 
 - Frida uses ptrace to hijack a thread of a running process. This thread is used to allocate a chunk of memory and populate it with a mini-bootstrapper.
