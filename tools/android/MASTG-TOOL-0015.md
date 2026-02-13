@@ -71,6 +71,6 @@ You can learn more about how intents are created by running `help intents`.
 
 Other resources where you might find useful information are:
 
-- [Official drozer User Manual](https://labs.withsecure.com/tools/drozer "drozer User Manual")
+- [Official drozer User Manual](https://labs.reversec.com/tools/drozer "drozer User Manual")
 - [drozer GitHub page](https://github.com/WithSecureLabs/drozer "GitHub repo - drozer")
 - [drozer Agent GitHub page](https://github.com/WithSecureLabs/drozer-agent "GitHub repo - drozer-agent")
