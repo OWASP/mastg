@@ -7,4 +7,3 @@ covered_by: [MASTG-TOOL-0142]
 ---
 
 RootCloak Plus is a Cydia Substrate Module used to check for commonly known indications of root
-    
