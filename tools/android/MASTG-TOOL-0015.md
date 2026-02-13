@@ -1,7 +1,7 @@
 ---
 title: drozer
 platform: android
-source: https://github.com/WithSecureLabs/drozer
+source: https://github.com/ReversecLabs/drozer
 ---
 
 drozer is a security testing framework for Android that allows you to search for security vulnerabilities in apps and devices by assuming the role of an app interacting with the Android runtime, other apps' IPC endpoints, and the underlying OS.
@@ -21,7 +21,7 @@ Detailed instructions on how to install and set up the drozer console on your ma
 
 ### Example usage
 
-Once drozer is set up, you can use drozer to perform reconnaissance and exploitation of Android applications from the perspective of a malicious app on the device. [The drozer User Manual](https://labs.withsecure.com/tools/drozer#3 "drozer User Manual") introduces an intentionally vulnerable application - [sieve](https://github.com/WithSecureLabs/sieve "GitHub repo - sieve") - together with step-by-step exploitation instructions.
+Once drozer is set up, you can use drozer to perform reconnaissance and exploitation of Android applications from the perspective of a malicious app on the device. [The drozer User Manual](https://labs.reversec.com/tools/drozer "drozer User Manual") introduces an intentionally vulnerable application - [sieve](https://github.com/ReversecLabs/sieve "GitHub repo - sieve") - together with step-by-step exploitation instructions.
 
 Some common drozer commands include:
 

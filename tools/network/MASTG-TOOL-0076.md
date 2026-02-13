@@ -20,5 +20,3 @@ For Kali Linux you can install bettercap with `apt-get`:
 apt-get update
 apt-get install bettercap
 ```
-
-There are installation instructions as well for Ubuntu Linux 18.04 on [LinuxHint](https://linuxhint.com/install-bettercap-on-ubuntu-18-04-and-use-the-events-stream/ "Install Bettercap on Ubuntu 18.04").
