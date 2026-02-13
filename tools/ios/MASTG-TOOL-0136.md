@@ -2,6 +2,7 @@
 title: plistlib
 platform: ios
 hosts: [macOS, windows, linux]
+source: https://docs.python.org/3/library/plistlib.html
 ---
 
 The plistlib is part of the Python standard library and allows you to programmatically read, modify, and write `.plist` (Property List) files. It supports both XML and binary plist formats and provides a native dictionary-based API.
