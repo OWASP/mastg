@@ -3,7 +3,7 @@ platform: android
 title: Using SharedPreferences to Write Sensitive Data Unencrypted to the App Sandbox
 id: MASTG-DEMO-0059
 code: [kotlin]
-test: MASTG-TEST-0207
+test: MASTG-TEST-0287
 ---
 
 ## Sample
