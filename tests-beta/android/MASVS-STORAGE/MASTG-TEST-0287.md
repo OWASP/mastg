@@ -4,7 +4,7 @@ platform: android
 id: MASTG-TEST-0287
 type: [dynamic]
 weakness: MASWE-0006
-best-practices: []
+best-practices: [MASTG-BEST-0x31]
 profiles: [L1, L2]
 prerequisites:
 - identify-sensitive-data
@@ -14,8 +14,6 @@ knowledge: [MASTG-KNOW-0036]
 ## Overview
 
 When apps use the `SharedPreferences` API to store sensitive data without encryption, the data is written to plain-text XML files in the app's sandbox at `/data/data/<package-name>/shared_prefs/`. While `MODE_PRIVATE` restricts file access to the app itself, it doesn't protect the data from being read by attackers who gain access to the device's file system (for example, through device compromise, backup extraction, or physical access to rooted/unlocked devices).
-
-Apps should use `EncryptedSharedPreferences` or other secure storage mechanisms when storing sensitive data such as user credentials, authentication tokens, API keys, or personally identifiable information (PII). If the app writes sensitive data using the standard `SharedPreferences` API without encryption, the data can be easily accessed and exploited by attackers.
 
 This test uses runtime instrumentation to detect when the app writes data via `SharedPreferences` and determines whether sensitive data is being stored unencrypted.
 
