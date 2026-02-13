@@ -3,7 +3,7 @@ title: Xposed
 platform: android
 source: https://github.com/ElderDrivers/EdXposed
 status: deprecated
-deprecation_note: Xposed does not work on Android 9 (API level 28). However, it was forked to EdXposed, and then LSPosed, both of which have been abandoned. There are multiple forks of LSPosed available, that are under active development.
+deprecation_note: Xposed does not work on Android 9 (API level 28). However, it was forked to EdXposed, which has been abandoned, and then to LSPosed. The original LSPosed has been abandoned, but there are multiple active forks of LSPosed available (see MASTG-TOOL-0149).
 covered_by: [MASTG-TOOL-0020, MASTG-TOOL-0025, MASTG-TOOL-0029, MASTG-TOOL-0140]
 
 ---
