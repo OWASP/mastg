@@ -6,4 +6,5 @@ status: deprecated
 covered_by: [MASTG-TOOL-0142]
 ---
 
-A Cydia Substrate Module used to check for commonly known indications of root - <https://github.com/devadvance/rootcloakplus>
+RootCloak Plus is a Cydia Substrate Module used to check for commonly known indications of root
+    

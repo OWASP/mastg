@@ -2,11 +2,15 @@
 title: Xposed
 platform: android
 source: https://github.com/ElderDrivers/EdXposed
+
+
+status: deprecated
+deprecation_note: Xposed does not work on Android 9 (API level 28). However, it was forked to EdXposed, and then LSPosed, both of which have been abandoned. There are multiple forks of LSPosed available, that are under active development.
+covered_by: [MASTG-TOOL-0020, MASTG-TOOL-0025, MASTG-TOOL-0029, MASTG-TOOL-0140]
+
 ---
 
-> Xposed does not work on Android 9 (API level 28). However, it was unofficially ported in 2019 under the name EdXposed, supporting Android 8-10 (API level 26 till 29). You can find the code and usage examples at [EdXposed](https://github.com/ElderDrivers/EdXposed "EdXposed") Github repo.
-
-[Xposed](https://f-droid.org/de/packages/de.robv.android.xposed.installer/ "Xposed Installer") is a framework that allows modifying the system or application aspect and behavior at runtime, without modifying any Android application package (APK) or re-flashing. Technically, it is an extended version of Zygote that exports APIs for running Java code when a new process is started. Running Java code in the context of the newly instantiated app makes it possible to resolve, hook, and override Java methods belonging to the app. Xposed uses [reflection](https://docs.oracle.com/javase/tutorial/reflect/ "Reflection Tutorial") to examine and modify the running app. Changes are applied in memory and persist only during the process's runtime since the application binaries are not modified.
+Xposed is a framework that allows modifying the system or application aspect and behavior at runtime, without modifying any Android application package (APK) or re-flashing. Technically, it is an extended version of Zygote that exports APIs for running Java code when a new process is started. Running Java code in the context of the newly instantiated app makes it possible to resolve, hook, and override Java methods belonging to the app. Xposed uses [reflection](https://docs.oracle.com/javase/tutorial/reflect/ "Reflection Tutorial") to examine and modify the running app. Changes are applied in memory and persist only during the process's runtime since the application binaries are not modified.
 
 To use Xposed, you need to first install the Xposed framework on a rooted device as explained on [XDA-Developers Xposed framework hub](https://www.xda-developers.com/xposed-framework-hub/ "Xposed framework hub from XDA"). Modules can be installed through the Xposed Installer app, and they can be toggled on and off through the GUI.
 

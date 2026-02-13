@@ -1,5 +1,5 @@
 ---
-title: nm - iOS
+title: nm (iOS)
 platform: ios
 source: http://www.manpagez.com/man/1/nm/osx-10.12.6.php
 ---

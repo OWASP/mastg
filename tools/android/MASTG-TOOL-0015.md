@@ -4,7 +4,7 @@ platform: android
 source: https://github.com/WithSecureLabs/drozer
 ---
 
-[drozer](https://github.com/WithSecureLabs/drozer "drozer on GitHub") is a security testing framework for Android that allows you to search for security vulnerabilities in apps and devices by assuming the role of an app interacting with the Android runtime, other apps' IPC endpoints, and the underlying OS.
+drozer is a security testing framework for Android that allows you to search for security vulnerabilities in apps and devices by assuming the role of an app interacting with the Android runtime, other apps' IPC endpoints, and the underlying OS.
 
 drozer can be used during Android security assessments to automate tasks. It allows testers and reverse engineers to:
 
