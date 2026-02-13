@@ -17,7 +17,7 @@ You can extend drozer with additional modules to find, test, and exploit other w
 
 ## Installing drozer and Setup
 
-Detailed instructions on how to install and set up the drozer console on your machine and the drozer agent on the Android phone can be found in the [drozer Github repo](https://github.com/WithSecureLabs/drozer "Installation instructions of drozer").
+Detailed instructions on how to install and set up the drozer console on your machine and the drozer agent on the Android phone can be found in the [drozer Github repo](https://github.com/ReversecLabs/drozer "Installation instructions of drozer").
 
 ### Example usage
 
@@ -72,5 +72,5 @@ You can learn more about how intents are created by running `help intents`.
 Other resources where you might find useful information are:
 
 - [Official drozer User Manual](https://labs.reversec.com/tools/drozer "drozer User Manual")
-- [drozer GitHub page](https://github.com/WithSecureLabs/drozer "GitHub repo - drozer")
-- [drozer Agent GitHub page](https://github.com/WithSecureLabs/drozer-agent "GitHub repo - drozer-agent")
+- [drozer GitHub page](https://github.com/ReversecLabs/drozer "GitHub repo - drozer")
+- [drozer Agent GitHub page](https://github.com/ReversecLabs/drozer-agent "GitHub repo - drozer-agent")
