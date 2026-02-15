@@ -1,5 +1,2 @@
   ERROR: 1 dead link found in ./tools/ios/MASTG-TOOL-0051.md !
   [✖] http://cydia.radare.org/pool/main/g/gdb/ → Status: 0
-
-  ERROR: 1 dead link found in Document/0x04a-Mobile-App-Taxonomy.md !
-  [✖] https://framework7.io/ → Status: 403

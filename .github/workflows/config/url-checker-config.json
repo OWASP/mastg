@@ -137,6 +137,9 @@
         },
         {
             "pattern": "^https://developer.hashicorp.com/"
+        },
+        {
+            "pattern": "^https://framework7.io/"
         }
     ],
     "replacementPatterns": [
