@@ -112,9 +112,6 @@
             "pattern": "^https://academy.realm.io/posts/russ-bishop-unsafe-swift/"
         },
         {
-            "pattern": "^https://cydia.radare.org/pool/main/g/gdb/"
-        },
-        {
             "pattern": "^https://www.hhs.gov/hipaa"
         },
         {

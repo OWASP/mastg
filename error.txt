@@ -1,2 +1,0 @@
-  ERROR: 1 dead link found in ./tools/ios/MASTG-TOOL-0051.md !
-  [✖] http://cydia.radare.org/pool/main/g/gdb/ → Status: 0
