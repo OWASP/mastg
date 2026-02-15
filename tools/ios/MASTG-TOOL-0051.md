@@ -3,6 +3,7 @@ title: gdb
 platform: ios
 status: deprecated
 deprecation_note: This tool is not compatible with recent iOS versions or jailbreaks.
+#<!-- markdown-link-check-disable-next-line -->
 source: https://cydia.radare.org/pool/main/g/gdb/
 covered_by: [MASTG-TOOL-0057]
 
