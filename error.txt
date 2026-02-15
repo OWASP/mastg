@@ -1,10 +1,6 @@
   ERROR: 1 dead link found in ./tools/ios/MASTG-TOOL-0051.md !
   [✖] http://cydia.radare.org/pool/main/g/gdb/ → Status: 0
 
-  ERROR: 2 dead links found in ./Document/0x02c-Acknowledgements.md !
-  [✖] ../news/posts/2025-04-09-celebrating-3-years-advocate-nowsecure.md → Status: 400
-  [✖] ../news/posts/2025-05-23-new-advocate-guardsquare.md → Status: 400
-
   ERROR: 1 dead link found in ./Document/index.md !
   [✖] ../assets/mastg_cover.png → Status: 400
 
