@@ -4,7 +4,7 @@ platform: generic
 source: https://github.com/sensepost/objection
 ---
 
-[Objection](https://github.com/sensepost/objection "Objection on GitHub") is a "runtime mobile exploration toolkit, powered by Frida". Its main goal is to allow security testing on non-rooted devices through an intuitive interface. You can find the [full list of features](https://github.com/sensepost/objection/wiki/Features) on the project's page, but here are a few platform-agnostic ones:
+Objection is a "runtime mobile exploration toolkit, powered by Frida". Its main goal is to allow security testing on non-rooted devices through an intuitive interface. You can find the [full list of features](https://github.com/sensepost/objection/wiki/Features) on the project's page, but here are a few platform-agnostic ones:
 
 - Access application storage to download or upload files
 - Execute custom Frida scripts
