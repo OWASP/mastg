@@ -140,6 +140,21 @@
         },
         {
             "pattern": "^https://framework7.io/"
+        },
+        {
+            "pattern": "^https://sourceforge.net/projects/machoview/"
+        },
+        {
+            "pattern": "^https://academy.semgrep.dev/courses/secure-guardrails"
+        },
+        {
+            "pattern": "^https://developer.apple.com/forums/thread/79662"
+        },
+        {
+            "pattern": "^https://code.tutsplus.com/tutorials/android-best-practices-strictmode--mobile-7581"
+        },
+        {
+            "patter": "^https://www.contributor-covenant.org/version/1/4/code-of-conduct.html"
         }
     ],
     "replacementPatterns": [
