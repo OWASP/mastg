@@ -14,7 +14,7 @@ Learn more about Android obfuscation techniques:
 
 - ["Security Hardening of Android Native Code"](https://darvincitech.wordpress.com/2020/01/07/security-hardening-of-android-native-code/) by Gautam Arvind
 - ["APKiD: Fast Identification of AppShielding Products"](https://github.com/enovella/cve-bio-enovella/blob/master/slides/APKiD-NowSecure-Connect19-enovella.pdf) by Eduardo Novella (@MASTG-TOOL-0009)
-- ["Challenges of Native Android Applications: Obfuscation and Vulnerabilities"](https://ged.univ-rennes1.fr/nuxeo/site/esupversions/f95d8015-ef76-413d-8d4a-2a3702eecd97?inline) by Pierre Graux
+- ["Challenges of Native Android Applications: Obfuscation and Vulnerabilities"](https://theses.hal.science/tel-03164744/document) by Pierre Graux
 
 ## Using ProGuard
 
