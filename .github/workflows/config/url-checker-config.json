@@ -112,6 +112,9 @@
             "pattern": "^https://academy.realm.io/posts/russ-bishop-unsafe-swift/"
         },
         {
+            "pattern": "^https://cocoapods.org"
+        },
+        {
             "pattern": "^https://www.hhs.gov/hipaa"
         },
         {
