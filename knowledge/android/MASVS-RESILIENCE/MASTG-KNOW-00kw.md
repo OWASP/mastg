@@ -24,7 +24,7 @@ RASP can be implemented in several ways:
 
 Developers can implement their own RASP checks directly in the application code. This includes:
 
-- Checking for root indicators (see @MASTG-KNOW-0031)
+- Checking for root indicators (see @MASTG-KNOW-0031 and @MASTG-KNOW-0027)
 - Detecting reverse engineering tools (see @MASTG-KNOW-0030)
 - Verifying runtime integrity (see @MASTG-KNOW-0032)
 - Implementing file integrity checks (see @MASTG-KNOW-0029)
