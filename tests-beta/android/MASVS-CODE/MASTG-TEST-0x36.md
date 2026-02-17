@@ -11,7 +11,7 @@ profiles: [L2]
 
 If the app does not properly enforce mandatory updates, users may continue running outdated versions that contain known security vulnerabilities or deprecated functionality. This can lead to exploitation of patched vulnerabilities, data leakage, or incompatibility with backend security requirements.
 
-On Android, mandatory updates can be implemented using the [Google Play Core In-App Update API](https://developer.android.com/guide/playcore/in-app-updates/kotlin-java) by invoking `startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE` (value `1`). However, simply calling `startUpdateFlowForResult` is insufficient, users can dismiss the update dialog or background the app before the update completes. Without additional enforcement in the `onResume` lifecycle method to detect `UPDATE_AVAILABLE` or `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states.
+On Android, mandatory updates can be implemented using the [Google Play Core In-App Update API](https://developer.android.com/guide/playcore/in-app-updates/kotlin-java) by invoking `startUpdateFlowForResult` with `AppUpdateType.IMMEDIATE` (value `1`). However, simply calling `startUpdateFlowForResult` is insufficient users can dismiss the update dialog or background the app before the update completes. Without additional enforcement in the `onResume` lifecycle method to detect `UPDATE_AVAILABLE` or `DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS` states, users can bypass the update entirely.
 
 ## Steps
 

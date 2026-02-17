@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0x36
 ---
 
-### Sample
+## Sample
 
 The following code implements immediate in-app updates using the Google Play Core API. It calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)` or value `1` and includes comprehensive update state handling and bypass prevention logic in `enforceUpdateOnResume`.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,13 +20,13 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output file shows usages of the Google Play Core API enforcing immediate update.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test passes because the app correctly implements enforced immediate updates. Specifically:
 
