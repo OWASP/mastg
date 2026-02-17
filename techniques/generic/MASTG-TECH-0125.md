@@ -1,7 +1,12 @@
 ---
 title: Intercepting Xamarin Traffic
 platform: generic
+status: deprecated
 ---
+
+!!! note
+    Xamarin is End of Support. New development should use .NET MAUI instead.
+    This technique is kept for legacy applications only.
 
 Xamarin is a mobile app development platform that allows developers to create [native Android](https://docs.microsoft.com/en-us/xamarin/android/get-started/ "Getting Started with Android") and [iOS apps](https://docs.microsoft.com/en-us/xamarin/ios/get-started/ "Getting Started with iOS") using Visual Studio and C#.
 
