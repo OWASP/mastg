@@ -29,14 +29,16 @@ Developers can implement their own RASP checks directly in the application code.
 - Verifying runtime integrity (see @MASTG-KNOW-0032)
 - Implementing file integrity checks (see @MASTG-KNOW-0029)
 
-### Commercial RASP SDKs
+### Commercial RASP Vendors
 
-Several commercial solutions provide RASP capabilities as SDKs that can be integrated into mobile apps. These typically offer:
+Several commercial solutions provide RASP capabilities as SDKs or compiler toolchains. Both may offer:
 
 - Obfuscated detection logic that is harder to bypass
 - Continuous updates to detect new threats
 - Server-side attestation and threat intelligence
 - Tamper-resistant implementation in native code
+
+The biggest difference is that SDKs operate as standalone frameworks delivered within the application, they sit alongside the app's core functionality, and the app must ‘call out’ to the security SDK. By contrast, compiler toolchains inject detections between user code and randomly obfuscate the resulting code at each compilation.
 
 ### Google Play Integrity API
 
