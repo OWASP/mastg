@@ -9,7 +9,8 @@ iOS app permissions and capabilities are declared through three mechanisms: purp
 
 The `plutil` tool converts and inspects property list files. Use it to examine purpose strings declared in the `Info.plist` file. These strings explain why the app requests access to sensitive resources.
 
-> **Note:** The `plistutil` binary is part of the `libimobiledevice` suite and can be used for plist conversion and inspection.
+!!! note
+    The `plistutil` binary is part of the @MASTG-TOOL-0126 suite and can be used for plist conversion and inspection.
 
 Convert `Info.plist` to XML format:
 

@@ -1,7 +1,7 @@
 ---
 masvs_category: MASVS-PRIVACY
 platform: ios
-title: iOS Entitlements and Usage Descriptions
+title: iOS Permission Mechanisms
 ---
 
 Entitlements are key-value pairs that grant an iOS app permission to use specific system services or capabilities beyond the default app sandbox. They are the mechanism through which apps access privileged resources such as HealthKit, HomeKit, VPN configuration, iCloud containers, Apple Pay, or App Groups.
@@ -50,4 +50,4 @@ Common usage description keys include:
 - `NSMicrophoneUsageDescription` — microphone access
 - `NSPhotoLibraryUsageDescription` — photo library access
 
-The system displays these strings in the permission dialog presented to the user. Each key must include an actual description that serves as a rationale for the requested permission. Without the corresponding usage description key in `Info.plist`, the system terminates the app when it attempts to request the associated permission.
+The system displays these strings in the permission dialog presented to the user. Each key expects a non-empty string value that serves as a rationale for the requested permission. If the corresponding usage description key is missing from `Info.plist`, the system terminates the app when it attempts to request the associated permission.
