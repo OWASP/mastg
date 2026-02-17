@@ -1,14 +1,15 @@
 ---
 platform: ios
-title: Declaring Sensitive Permissions in entitlements.plist
+title: Extracting Entitlements from the App Binary's Code Signature
 code: [swift]
 id: MASTG-DEMO-0x69-2
 test: MASTG-TEST-0x69-2
+tools: [MASTG-TOOL-0073]
 ---
 
 ## Sample
 
-The code snippet below shows sample code that accesses protected resources requiring entitlements. The app's `entitlements.plist` file declares multiple permissions that the app uses to request special access.
+The code snippet below shows sample code that accesses protected resources requiring entitlements. The app's entitlements are embedded in the binary's code signature and declare multiple permissions that the app uses to request special access.
 
 {{ ../MASTG-DEMO-0x69/MastgTest.swift }}
 

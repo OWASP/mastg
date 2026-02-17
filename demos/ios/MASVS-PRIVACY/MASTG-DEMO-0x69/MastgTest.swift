@@ -24,6 +24,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     private let homeManager = HMHomeManager()
     private var nfcSession: NFCNDEFReaderSession?
     private var hasLoggedNFCOutcome = false
+    private var hasRequestedAlwaysAuthorization = false
 
     private var permissionStatus: [String: Bool] = [
         "Location": false,
@@ -76,17 +77,18 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         nfcSession?.invalidate()
         nfcSession = nil
         hasLoggedNFCOutcome = false
+        hasRequestedAlwaysAuthorization = false
     }
 
     func requestAllPermissionsSequentially(completion: @escaping (String) -> Void) {
         self.completionHandler = completion
         resetState()
         requestLocationPermission()
+        // Subsequent requests are triggered within delegates or callbacks
     }
     
     private func requestLocationPermission() {
         locationManager.requestWhenInUseAuthorization()
-        locationManager.requestAlwaysAuthorization()
     }
 
     private func requestCameraPermission() {
@@ -319,14 +321,29 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         completionHandler?(results)
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        let granted = (status == .authorizedAlways || status == .authorizedWhenInUse)
-        permissionStatus["Location"] = granted
-        results += "Requested Location services... \(granted ? "✅" : "❌")\n"
-        if granted {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            return
+        case .authorizedWhenInUse:
+            if !hasRequestedAlwaysAuthorization {
+                hasRequestedAlwaysAuthorization = true
+                results += "Requested Location (When In Use)... ✅\n"
+                manager.startUpdatingLocation()
+                manager.requestAlwaysAuthorization()
+                return
+            }
+        case .authorizedAlways:
+            permissionStatus["Location"] = true
+            results += "Requested Location (Always)... ✅\n"
             manager.startUpdatingLocation()
+        default:
+            permissionStatus["Location"] = false
+            results += "Requested Location services... ❌\n"
         }
-        requestCameraPermission()
+        DispatchQueue.main.async {
+            self.requestCameraPermission()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

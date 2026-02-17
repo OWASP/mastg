@@ -4,6 +4,7 @@ title: Declaring Sensitive Permissions in embedded.mobileprovision
 code: [swift]
 id: MASTG-DEMO-0x69-1
 test: MASTG-TEST-0x69-1
+tools: [MASTG-TOOL-0063]
 ---
 
 ## Sample
@@ -15,7 +16,7 @@ The code snippet below shows sample entitlements declared in the provisioning pr
 ## Steps
 
 1. Sign the `.ipa` using @MASTG-TECH-0092.
-2. Unzip the app package (@MASTG-TECH-0058) and locate the provisioning profile at `./Payload/MASTestApp.app/embedded.mobileprovision`.
+2. Unzip the app package @MASTG-TECH-0058 and locate the provisioning profile at `./Payload/MASTestApp.app/embedded.mobileprovision`.
 3. Run the `run.sh` script to decode the binary formatted profile into a readable XML format.
 
 {{ run.sh }}

@@ -20,7 +20,7 @@ plutil -convert xml1 Payload/MyApp.app/Info.plist -o -
 Alternatively, filter directly for keys containing `UsageDescription`:
 
 ```bash
-plutil -i Info.plist -f xml | grep -i UsageDescription
+plutil -convert xml1 -o - Info.plist | grep -i -A 1 UsageDescription
 ```
 
 Example purpose strings in XML format:
@@ -58,14 +58,14 @@ Example output:
 </dict>
 ```
 
-Verify that granted entitlements match the app's declared functionality.
+The output lists all entitlements granted to the app by Apple's provisioning system.
 
 ## Using @MASTG-TOOL-0114
 
 If you only have the app's IPA or an installed app on a jailbroken device, extract the entitlements directly from the signed app binary using the `codesign` tool. This is useful when `.entitlements` files or the `embedded.mobileprovision` file are not separately accessible.
 
 ```bash
-codesign -d --entitlements :- Payload/MyApp.app
+codesign -d --entitlements :- Payload/MyApp.app/MyApp
 ```
 
 This prints the entitlements plist to stdout:
@@ -83,39 +83,22 @@ This prints the entitlements plist to stdout:
 </plist>
 ```
 
-## Reviewing Permission Usage in Source Code
+## Locating Permission APIs in Source Code
 
-Perform a manual source code review to verify how permissions and capabilities are used in the app. Examine the code to ensure that declared permissions match their actual usage and that no sensitive data is unnecessarily exposed.
+Search the app's source code for framework-specific classes and methods that request or query permission status. The following list covers the most common iOS permission APIs:
 
-When reviewing source code, check for:
+- **Location**: [`CLLocationManager`](https://developer.apple.com/documentation/corelocation/cllocationmanager) — `requestWhenInUseAuthorization()`, `requestAlwaysAuthorization()`, `authorizationStatus`
+- **Camera/Microphone**: [`AVCaptureDevice`](https://developer.apple.com/documentation/avfoundation/avcapturedevice) — `requestAccess(for:completionHandler:)`, `authorizationStatus(for:)`
+- **Contacts**: [`CNContactStore`](https://developer.apple.com/documentation/contacts/cncontactstore) — `requestAccess(for:completionHandler:)`, `authorizationStatus(for:)`
+- **Calendar**: [`EKEventStore`](https://developer.apple.com/documentation/eventkit/ekeventstore) — `requestFullAccessToEvents(completion:)`, `authorizationStatus(for:)`
+- **Photos**: [`PHPhotoLibrary`](https://developer.apple.com/documentation/photokit/phphotolibrary) — `requestAuthorization(for:handler:)`, `authorizationStatus(for:)`
+- **Bluetooth**: [`CBCentralManager`](https://developer.apple.com/documentation/corebluetooth/cbcentralmanager) — `authorization`, [`state`](https://developer.apple.com/documentation/corebluetooth/cbmanager/1648600-state)
+- **Health**: [`HKHealthStore`](https://developer.apple.com/documentation/healthkit/hkhealthstore) — `requestAuthorization(toShare:read:completion:)`
+- **Notifications**: [`UNUserNotificationCenter`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter) — `requestAuthorization(options:completionHandler:)`
+- **Motion**: [`CMMotionActivityManager`](https://developer.apple.com/documentation/coremotion/cmmotionactivitymanager) — `startActivityUpdates(to:withHandler:)`, `authorizationStatus()`
+- **Siri**: [`INPreferences`](https://developer.apple.com/documentation/sirikit/inpreferences) — `requestSiriAuthorization(_:)`, `siriAuthorizationStatus()`
 
-- Whether declared purpose strings in `Info.plist` correspond to actual permission requests in the code.
-- Whether the app properly checks authorization status before accessing protected resources.
-- Whether permission related data flows are secure and not unnecessarily logged or transmitted.
-- Whether the app verifies user preferences when accessing sensitive features.
-
-Look for common authorization patterns in iOS frameworks:
-
-- Bluetooth: check calls to `CBCentralManager` and verification of [`state`](https://developer.apple.com/documentation/corebluetooth/cbmanager/1648600-state?language=objc "CBManager state") property
-- Location: search for `CLLocationManager` usage, particularly [`locationServicesEnabled()`](https://developer.apple.com/documentation/corelocation/cllocationmanager/1423648-locationservicesenabled?language=objc "CLLocationManager locationServicesEnabled") calls
-- Camera/Microphone: look for `AVCaptureDevice` authorization checks
-- Health data: verify `HKHealthStore` authorization requests
-
-Example authorization check pattern:
-
-```swift
-func checkForLocationServices() {
-    if CLLocationManager.locationServicesEnabled() {
-        // Location services are available, proceed with location access.
-    } else {
-        // Location services disabled, update UI accordingly.
-    }
-}
-```
-
-Review how the app handles data obtained through permissions. If sensitive data is stored locally, verify proper encryption. If transmitted over the network, ensure TLS/SSL is used.
-
-See the [Apple Developer Documentation](https://developer.apple.com/documentation/corelocation/adding_location_services_to_your_app "Getting the availability of Core Location services") for authorization patterns for each framework.
+Use `grep` or your IDE's search to locate usages of these classes and their authorization methods across the codebase.
 
 ## Using @MASTG-TOOL-0039
 
@@ -140,20 +123,32 @@ function traceLocationPermission() {
         });
     } catch(e) {}
 
+    try {
+        Interceptor.attach(CLLocationManager['- requestAlwaysAuthorization'].implementation, {
+            onEnter: function(args) {
+                console.log("[Location] Requesting Always...");
+            }
+        });
+    } catch(e) {}
+
     setTimeout(function() {
         try {
             var resolver = new ApiResolver('objc');
-            resolver.enumerateMatches('-[* locationManager:didChangeAuthorizationStatus:]').forEach(function(match) {
+
+            resolver.enumerateMatches('-[* locationManagerDidChangeAuthorization:]').forEach(function(match) {
                 Interceptor.attach(match.address, {
                     onEnter: function(args) {
-                        var status = new NativePointer(args[3]).toInt32();
-                        var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                        var granted = status === 3 || status === 4;
+                        var manager = ObjC.Object(args[2]);
+                        var s = Number(manager.authorizationStatus());
+                        var statusStr = statusMap[s] || "Unknown(" + s + ")";
+                        var granted = s === 3 || s === 4;
                         console.log("[Location] " + statusStr + " | " + (granted ? "GRANTED" : "DENIED"));
                     }
                 });
             });
-        } catch(e) {}
+        } catch(e) {
+            console.log("  [!] Location delegate hook error: " + e);
+        }
     }, 500);
 }
 

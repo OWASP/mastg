@@ -58,9 +58,9 @@ function traceLocationPermission() {
                 Interceptor.attach(match.address, {
                     onEnter: function(args) {
                         var manager = ObjC.Object(args[2]);
-                        var status = manager.authorizationStatus();
-                        var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                        var granted = status === 3 || status === 4;
+                        var s = Number(manager.authorizationStatus());
+                        var statusStr = statusMap[s] || "Unknown(" + s + ")";
+                        var granted = s === 3 || s === 4;
                         printStatus("Location", statusStr, granted);
                     }
                 });
@@ -266,8 +266,9 @@ function tracePhotoLibraryPermission() {
                 var origImpl = block.implementation;
 
                 block.implementation = function(status) {
-                    var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                    var granted = status === 3 || status === 4;
+                    var s = Number(status);
+                    var statusStr = statusMap[s] || "Unknown(" + s + ")";
+                    var granted = s === 3 || s === 4;
                     printStatus("PhotoLibrary", statusStr, granted);
                     origImpl(status);
                 };
@@ -307,10 +308,10 @@ function traceNotificationsPermission() {
                 var origImpl = block.implementation;
 
                 block.implementation = function(settings) {
-                    var status = settings.authorizationStatus();
+                    var s = Number(settings.authorizationStatus());
                     var statusMap = {0: "NotDetermined", 1: "Denied", 2: "Authorized", 3: "Provisional", 4: "Ephemeral"};
-                    var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                    var granted = status === 2 || status === 3 || status === 4;
+                    var statusStr = statusMap[s] || "Unknown(" + s + ")";
+                    var granted = s === 2 || s === 3 || s === 4;
                     printStatus("Notifications", statusStr, granted);
                     origImpl(settings);
                 };
@@ -389,10 +390,10 @@ function traceBluetoothPermission() {
                 Interceptor.attach(match.address, {
                     onEnter: function(args) {
                         var manager = ObjC.Object(args[2]);
-                        var state = manager.state();
+                        var s = Number(manager.state());
                         var stateMap = {0: "Unknown", 1: "Resetting", 2: "Unsupported", 3: "Unauthorized", 4: "PoweredOff", 5: "PoweredOn"};
-                        var stateStr = stateMap[state] || "Unknown(" + state + ")";
-                        var granted = state === 5;
+                        var stateStr = stateMap[s] || "Unknown(" + s + ")";
+                        var granted = s === 5;
                         printStatus("Bluetooth", stateStr, granted);
                     }
                 });
@@ -449,9 +450,9 @@ function traceHomeKitPermission() {
                 Interceptor.attach(match.address, {
                     onEnter: function(args) {
                         var manager = ObjC.Object(args[2]);
-                        var status = manager.authorizationStatus();
-                        var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                        var granted = status === 2;
+                        var s = Number(manager.authorizationStatus());
+                        var statusStr = statusMap[s] || "Unknown(" + s + ")";
+                        var granted = s === 2;
                         printStatus("HomeKit", statusStr, granted);
                     }
                 });
@@ -485,8 +486,9 @@ function traceSiriPermission() {
                 var origImpl = block.implementation;
 
                 block.implementation = function(status) {
-                    var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                    var granted = status === 3;
+                    var s = Number(status);
+                    var statusStr = statusMap[s] || "Unknown(" + s + ")";
+                    var granted = s === 3;
                     printStatus("Siri", statusStr, granted);
                     origImpl(status);
                 };

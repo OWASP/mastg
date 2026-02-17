@@ -4,6 +4,7 @@ title: Runtime Tracing of Permission API Calls with Frida
 code: [swift]
 id: MASTG-DEMO-0x69-3
 test: MASTG-TEST-0x69-3
+tools: [MASTG-TOOL-0039]
 ---
 
 ## Sample

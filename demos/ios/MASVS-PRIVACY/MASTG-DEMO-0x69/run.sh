@@ -1,1 +1,2 @@
-plistutil -i Info.plist -f xml | grep -i UsageDescription > output.txt
+#!/bin/bash
+plistutil -i Info.plist -f xml | grep -i -A 1 UsageDescription > output.txt

@@ -4,7 +4,7 @@ platform: ios
 id: MASTG-TEST-0x69-1
 type: [static]
 weakness: MASWE-0117
-profiles: [L1, L2]
+profiles: [P]
 ---
 
 ## Overview
@@ -12,6 +12,8 @@ profiles: [L1, L2]
 If an app declares entitlements that are not justified by its core functionality, it gains access to privileged capabilities beyond standard sandbox restrictions — such as HomeKit, HealthKit, VPN configuration, or iCloud containers. This can lead to unauthorized access to sensitive user data, expanded attack surface, or privacy violations through excessive privilege.
 
 On iOS, entitlements are declared in the provisioning profile (`embedded.mobileprovision`) as a cryptographically signed property list. They represent permissions granted by Apple's provisioning system for capabilities that go beyond the default app sandbox.
+
+**Note:** The `embedded.mobileprovision` file is only present in apps built for Development, Ad Hoc distribution, or Enterprise distribution. Apps distributed through the App Store do not contain this file.
 
 ## Steps
 

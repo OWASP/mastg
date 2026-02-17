@@ -4,7 +4,7 @@ title: Runtime Tracing of Permission API Calls
 id: MASTG-TEST-0x69-3
 type: [dynamic]
 weakness: MASWE-0117
-profiles: [L1, L2]
+profiles: [P]
 ---
 
 ## Overview
