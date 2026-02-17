@@ -22,7 +22,7 @@ The code snippet below shows sample code that accesses protected resources requi
 
 ## Observation
 
-The output reveals the entitlements plist extracted from the app binary's code signature, listing all capabilities embedded during the signing process.
+The output should contain the entitlements plist extracted from the app binary's code signature, listing all capabilities embedded during the signing process.
 
 {{ output.txt }}
 

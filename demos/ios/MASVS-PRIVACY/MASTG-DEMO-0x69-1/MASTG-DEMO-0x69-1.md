@@ -23,7 +23,7 @@ The code snippet below shows sample entitlements declared in the provisioning pr
 
 ## Observation
 
-The output reveals the full provisioning profile including the `Entitlements` dictionary, which lists all capabilities granted to the app by Apple's provisioning system.
+The output should contain the full provisioning profile including the `Entitlements` dictionary, which lists all capabilities granted to the app by Apple's provisioning system.
 
 {{ output.txt }}
 

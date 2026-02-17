@@ -25,7 +25,7 @@ The following sample code below requests access to protected resources requiring
 
 ## Observation
 
-The output reveals runtime permission API calls including:
+The output should contain runtime permission API calls including:
 
 - **Permission checks**: Calls to methods like `authorizationStatusForMediaType:`, `authorizationStatusForEntityType:`, and `CLLocationManager.authorizationStatus`.
 - **Permission requests**: Calls to methods like `requestAccessForMediaType:completionHandler:`, `requestWhenInUseAuthorization`, and `requestAuthorizationWithOptions:completionHandler:`.
