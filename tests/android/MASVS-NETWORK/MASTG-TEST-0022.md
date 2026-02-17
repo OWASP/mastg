@@ -12,6 +12,9 @@ status: deprecated
 covered_by: [MASTG-TEST-0242, MASTG-TEST-0243, MASTG-TEST-0244]
 deprecation_note: New version available in MASTG V2
 ---
+!!! note
+    Xamarin is End of Support. New development should use .NET MAUI instead.
+    The Xamarin guidance below applies to legacy applications only.
 
 ## Overview
 
@@ -94,7 +97,10 @@ myWebView.setWebViewClient(new WebViewClient(){
 
 Alternatively, it is better to use an OkHttpClient with configured pins and let it act as a proxy overriding `shouldInterceptRequest` of the `WebViewClient`.
 
-### Xamarin Applications
+### Xamarin Applications (Legacy – End of Support)
+
+Xamarin has reached End of Support. For new cross-platform development, .NET MAUI should be used instead.  
+The following applies only to existing legacy Xamarin apps.
 
 Applications developed in Xamarin will typically use `ServicePointManager` to implement pinning.
 
