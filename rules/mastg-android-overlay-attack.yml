@@ -1,13 +1,18 @@
 rules:
-  - id: android-missing-filterTouchesWhenObscured
+  - id: mastg-android-missing-filterTouchesWhenObscured
     severity: WARNING
     languages:
       - xml
-    summary:
-      The rule checks if the filterTouchesWhenObscured set to true on layout files.
+    metadata:
+      summary: The rule checks if filterTouchesWhenObscured is missing or set to false on sensitive layout elements.
+      masvs:
+        - "MASVS-PLATFORM-2"
     message: |
-      "[MASVS-CODE] Potential tapjacking on layout: this view does not call setFilterTouchesWhenObscured(true) to block obscured touch events. "
-    pattern-regex: |
-      (?s)<[^>]*(EditText|Button|View|TextView|ImageButton|CheckBox|RadioButton|Spinner)[^>]*>
-    pattern-not-regex: |
-      android:filterTouchesWhenObscured\s*=\s*"(true|True|TRUE)"
+      [MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured="true"` in layout XML.
+      The application may be vulnerable to tapjacking attacks. Ensure that sensitive views
+      explicitly set `android:filterTouchesWhenObscured="true"` to block obscured touch events.
+    patterns:
+      - pattern-regex: |
+          (?s)<(EditText|Button|View|TextView|ImageButton|CheckBox|RadioButton|Spinner)[^>]*>
+      - pattern-not-regex: |
+          android:filterTouchesWhenObscured\s*=\s*"(true|True|TRUE)"

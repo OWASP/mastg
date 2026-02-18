@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vulnerable_root"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:filterTouchesWhenObscured="false">
 
     <EditText
         android:id="@+id/username_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username or Account No."
+        android:hint="Username or Account No"
         android:inputType="text"
         android:padding="12dp"
         android:layout_marginBottom="16dp" />
@@ -21,8 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Execute Sensitive Action"
-        android:backgroundTint="#FF9800"
-        android:textColor="@android:color/white"
         android:padding="12dp" />
 
 </LinearLayout>

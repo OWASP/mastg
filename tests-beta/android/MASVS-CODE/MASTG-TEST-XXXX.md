@@ -1,28 +1,25 @@
 ---
 platform: android
-title: Overlay attack via malicious app overlay
+title: Testing for Overlay Attack Protection in Layouts
 id: MASTG-TEST-XXXX
 type: [static]
 weakness: MASWE-0056
 profiles: [L2]
 ---
 
-### Overview
+## Overview
 
-An Overlay Attack on Android is a user-interface (UI) based attack where a malicious application displays a visual layer on top of another legitimate application’s interface. This overlay can deceive the user into interacting with elements that appear to be part of the genuine app, but actually belong to the malicious overlay. The goal of the testcase is to verify whether the application layouts using `android:filterTouchesWhenObscured` is enabled in the xml layouts.
+If the app does not implement overlay attack protection on sensitive views, a malicious app can draw an overlay on top of the legitimate app to trick the user into performing unintended actions. This can lead to unauthorized permissions being granted, unintended purchases, or credential theft through UI redressing (also known as "Tapjacking"). This test checks whether the app properly protects sensitive UI elements against overlay attacks by using the `android:filterTouchesWhenObscured` attribute.
 
-### Steps
+## Steps
 
-1. Inspect `XML` layout files using @MASTG-TECH-0014 for the presence of the `android:filterTouchesWhenObscured` attribute on sensitive views like buttons or input fields, and verify it is set to `true`.
+1. Reverse engineer the app (@MASTG-TECH-0017) and identify sensitive views such as buttons or input fields for entering credentials.
+2. Review the XML layout files containing these sensitive views and check for the presence of the `android:filterTouchesWhenObscured` attribute set to `true`.
 
-### Observation
+## Observation
 
-The output shows the declaration of a sensitive activity in the `Layout file` that is vulnerable to overlay attacks.
+The output should contain a list of sensitive views in XML layout files that do not have the `android:filterTouchesWhenObscured` attribute set to `true`, indicating potential tapjacking vulnerabilities.
 
-### Evaluation
+## Evaluation
 
-The test fails if sensitive views (e.g., buttons for granting permissions, confirming purchases, or entering credentials) within the application's XML layout files do not include the attribute `android:filterTouchesWhenObscured="true"`.
-
-**Context Consideration**:
-
-When evaluating overlay attack prevention at the layout or view level, the context shifts from an application-wide setting to a `fine-grained`, `view-specific defense`. Developers should apply the `android:filterTouchesWhenObscured="true"` attribute directly to individual sensitive views within a layout, such as a "Grant Access" button, a "Confirm Purchase" button, or an field used for entering passwords.
+The test case fails if sensitive views (e.g., buttons for granting permissions, confirming purchases, or input fields for entering credentials) within the application's XML layout files do not include the `android:filterTouchesWhenObscured="true"` attribute or have it set to `false`.

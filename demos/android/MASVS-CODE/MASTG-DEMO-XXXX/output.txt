@@ -4,28 +4,27 @@
 │ 2 Code Findings │
 └─────────────────┘
                                                 
-  [36m[22m[24m  activity_vulnerable_login.xml[0m
-    ❯❱ rules.android-missing-filterTouchesWhenObscured
-          "[MASVS-CODE] Potential tapjacking on layout: this view does not call
-          setFilterTouchesWhenObscured(true) to block obscured touch events. " 
-                                                                               
-           10┆ <EditText
-           11┆     android:id="@+id/username_input"
-           12┆     android:layout_width="match_parent"
-           13┆     android:layout_height="wrap_content"
-           14┆     android:hint="Username or Account No."
-           15┆     android:inputType="text"
-           16┆     android:padding="12dp"
-           17┆     android:layout_marginBottom="16dp" />
-           18┆
+  activity_vulnerable_login.xml
+    ❯❱ rules.mastg-android-missing-filterTouchesWhenObscured
+          [MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured="true"` in layout XML. The application
+          may be vulnerable to tapjacking attacks. Ensure that sensitive views explicitly set                 
+          `android:filterTouchesWhenObscured="true"` to block obscured touch events.                          
+                                                                                                              
+           12┆ <EditText
+           13┆     android:id="@+id/username_input"
+           14┆     android:layout_width="match_parent"
+           15┆     android:layout_height="wrap_content"
+           16┆     android:hint="Username or Account No"
+           17┆     android:inputType="text"
+           18┆     android:padding="12dp"
+           19┆     android:layout_marginBottom="16dp" />
+           20┆
             ⋮┆----------------------------------------
-           19┆ <Button
-           20┆     android:id="@+id/login_button"
-           21┆     android:layout_width="match_parent"
-           22┆     android:layout_height="wrap_content"
-           23┆     android:text="Execute Sensitive Action"
-           24┆     android:backgroundTint="#FF9800"
-           25┆     android:textColor="@android:color/white"
+           21┆ <Button
+           22┆     android:id="@+id/login_button"
+           23┆     android:layout_width="match_parent"
+           24┆     android:layout_height="wrap_content"
+           25┆     android:text="Execute Sensitive Action"
            26┆     android:padding="12dp" />
            27┆
 
