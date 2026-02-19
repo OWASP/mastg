@@ -1,5 +1,5 @@
 ---
-title: Obtaining App Permissions
+title: Inspecting iOS App Permissions
 platform: ios
 ---
 
@@ -93,7 +93,7 @@ Search the app's source code for framework-specific classes and methods that req
 - **Motion**: [`CMMotionActivityManager`](https://developer.apple.com/documentation/coremotion/cmmotionactivitymanager) — `startActivityUpdates(to:withHandler:)`, `authorizationStatus()`
 - **Siri**: [`INPreferences`](https://developer.apple.com/documentation/sirikit/inpreferences) — `requestSiriAuthorization(_:)`, `siriAuthorizationStatus()`
 
-Use `grep` or your IDE's search to locate usages of these classes and their authorization methods across the codebase.
+Use `grep -rn "requestWhenInUseAuthorization\|requestAlwaysAuthorization\|requestAccess"` or your IDE's search to locate usages of these classes and their authorization methods across the codebase.
 
 ## Using @MASTG-TOOL-0039
 

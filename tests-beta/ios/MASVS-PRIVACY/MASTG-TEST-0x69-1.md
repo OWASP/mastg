@@ -1,6 +1,6 @@
 ---
-title: Entitlements in Embedded Provisioning Profile
 platform: ios
+title: Entitlements in Embedded Provisioning Profile
 id: MASTG-TEST-0x69-1
 type: [static]
 weakness: MASWE-0117
@@ -13,12 +13,13 @@ If an app declares entitlements that are not justified by its core functionality
 
 On iOS, entitlements are declared in the provisioning profile (`embedded.mobileprovision`) as a cryptographically signed property list. They represent permissions granted by Apple's provisioning system for capabilities that go beyond the default app sandbox.
 
-**Note:** The `embedded.mobileprovision` file is only present in apps built for Development, Ad Hoc distribution, or Enterprise distribution. Apps distributed through the App Store do not contain this file.
+!!! note
+    The `embedded.mobileprovision` file is only present in apps built for Development, Ad Hoc distribution, or Enterprise distribution. Apps distributed through the App Store do not contain this file.
 
 ## Steps
 
 1. Extract the app package contents using @MASTG-TECH-0058 and locate the embedded provisioning profile at `Payload/<appname>.app/embedded.mobileprovision`.
-2. Decode the provisioning profile from binary CMS format to XML using @MASTG-TOOL-0063 and extract the `Entitlements` dictionary.
+2. Decode the provisioning profile from binary CMS format to XML using @MASTG-TECH-0x69 and extract the `Entitlements` dictionary.
 
 ## Observation
 

@@ -10,7 +10,7 @@ On iOS, entitlements appear in two distinct locations, each serving a different 
 
 ## Embedded Entitlements (Code Signature)
 
-Every signed iOS app binary contains entitlements embedded directly in its [code signature](https://developer.apple.com/documentation/security/code-signing-services). These are the entitlements that the system enforces at runtime. They can be extracted from the binary using tools like `codesign` or @MASTG-TOOL-0073 without needing access to the provisioning profile.
+Every signed iOS app binary contains entitlements embedded directly in its [code signature](https://developer.apple.com/documentation/security/code-signing-services). These are the entitlements that the system enforces at runtime. You can extract them from the binary using tools like `codesign` or @MASTG-TOOL-0073 without needing access to the provisioning profile.
 
 These embedded entitlements represent the definitive set of capabilities the app has been signed with and are available regardless of the distribution method.
 

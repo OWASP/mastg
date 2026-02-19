@@ -1,10 +1,11 @@
 ---
-title: Entitlements Embedded in the App Binary
 platform: ios
+title: Entitlements Embedded in the App Binary
 id: MASTG-TEST-0x69-2
 type: [static]
 weakness: MASWE-0117
 profiles: [P]
+knowledge: [MASTG-KNOW-0x69]
 ---
 
 ## Overview

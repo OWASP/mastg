@@ -1,8 +1,8 @@
 ---
 platform: ios
 title: Declaring Sensitive Permissions in Info.plist
-code: [swift]
 id: MASTG-DEMO-0x69
+code: [swift]
 test: MASTG-TEST-0x69
 tools: [MASTG-TOOL-0126]
 ---
@@ -11,20 +11,18 @@ tools: [MASTG-TOOL-0126]
 
 The code snippet below shows sample code that accesses protected resources requiring purpose strings. The `Info.plist` file declares multiple usage descriptions that the app uses to request permissions.
 
-{{ MastgTest.swift }}
-
-{{ Info.plist }}
+{{ MastgTest.swift # Info.plist }}
 
 ## Steps
 
-1. Extract the app package content using (@MASTG-TOOL-0126) and locate the `Info.plist` file, which is located at `./Payload/MASTestApp.app/Info.plist`.
+1. Extract the app package content using @MASTG-TOOL-0126 and locate the `Info.plist` file, which is located at `./Payload/MASTestApp.app/Info.plist`.
 2. Run the `run.sh` script to parse the Info.plist and find all occurrences of permission related keys (those ending in `UsageDescription`) along with their corresponding purpose strings.
 
 {{ run.sh }}
 
 ## Observation
 
-The output lists 16 purpose strings found in the `Info.plist` file along with their corresponding description values, indicating the app declares access to a wide range of protected resources.
+The output contains all `UsageDescription` keys found in the `Info.plist` file, each paired with its corresponding description string.
 
 {{ output.txt }}
 

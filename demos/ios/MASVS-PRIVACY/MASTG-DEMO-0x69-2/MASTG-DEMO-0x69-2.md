@@ -1,8 +1,8 @@
 ---
 platform: ios
 title: Extracting Entitlements from the App Binary's Code Signature
-code: [swift]
 id: MASTG-DEMO-0x69-2
+code: [swift]
 test: MASTG-TEST-0x69-2
 tools: [MASTG-TOOL-0073]
 ---
@@ -22,7 +22,7 @@ The code snippet below shows sample code that accesses protected resources requi
 
 ## Observation
 
-The output should contain the entitlements plist extracted from the app binary's code signature, listing all capabilities embedded during the signing process.
+The output contains the entitlements plist extracted from the app binary's code signature, listing all capabilities embedded during the signing process.
 
 {{ output.txt }}
 

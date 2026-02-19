@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Runtime Tracing of Permission API Calls
+title: Runtime Use of Permission APIs
 id: MASTG-TEST-0x69-3
 type: [dynamic]
 weakness: MASWE-0117

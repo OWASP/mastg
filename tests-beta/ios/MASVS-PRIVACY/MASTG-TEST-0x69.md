@@ -1,6 +1,6 @@
 ---
-title: Excessive Permission Purpose Strings in Info.plist
 platform: ios
+title: Excessive Permission Purpose Strings in Info.plist
 id: MASTG-TEST-0x69
 type: [static]
 weakness: MASWE-0117
@@ -16,7 +16,7 @@ On iOS, apps must declare purpose strings (keys ending in `UsageDescription`) in
 ## Steps
 
 1. Extract the app package contents using @MASTG-TECH-0058 and locate the `Info.plist` file at `Payload/<appname>.app/Info.plist`.
-2. Convert the `Info.plist` to a readable format if needed using @MASTG-TOOL-0062.
+2. Convert the `Info.plist` to a readable format using @MASTG-TECH-0x69.
 3. Search for all keys ending with `UsageDescription` to identify all declared purpose strings.
 
 ## Observation

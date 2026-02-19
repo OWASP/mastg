@@ -1,15 +1,15 @@
 ---
 platform: ios
 title: Runtime Tracing of Permission API Calls with Frida
-code: [swift]
 id: MASTG-DEMO-0x69-3
+code: [swift]
 test: MASTG-TEST-0x69-3
 tools: [MASTG-TOOL-0039]
 ---
 
 ## Sample
 
-The following sample code below requests access to protected resources requiring permissions.
+The snippet below shows sample code below that requests access to protected resources requiring permissions.
 
 {{ ../MASTG-DEMO-0x69/MastgTest.swift }}
 
@@ -25,11 +25,7 @@ The following sample code below requests access to protected resources requiring
 
 ## Observation
 
-The output should contain runtime permission API calls including:
-
-- **Permission checks**: Calls to methods like `authorizationStatusForMediaType:`, `authorizationStatusForEntityType:`, and `CLLocationManager.authorizationStatus`.
-- **Permission requests**: Calls to methods like `requestAccessForMediaType:completionHandler:`, `requestWhenInUseAuthorization`, and `requestAuthorizationWithOptions:completionHandler:`.
-- **Permission status**: The granted/denied status returned by the system for each permission type.
+The output shows each intercepted permission API call with the permission name, authorization status (GRANTED or DENIED), and additional details such as the specific status value returned by the system.
 
 {{ output.txt }}
 
