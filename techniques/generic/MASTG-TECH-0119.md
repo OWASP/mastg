@@ -23,10 +23,10 @@ You just have to hook the right functions, e.g., `SSL_write` and `SSL_read` from
 
 This would work pretty well for apps using standard API library functions and classes; however, there might be some downsides:
 
-- The app might implement a custom network stack and you'll have to spend time analyzing the app to find out the APIs that you can use. See section "Searching for OpenSSL traces with signature analysis" in [this blog post](https://hackmag.com/security/ssl-sniffing/ "Searching for OpenSSL traces with signature analysis").
+- The app might implement a custom network stack and you'll have to spend time analyzing the app to find out the APIs that you can use. See section "Searching for OpenSSL traces with signature analysis" in [this blog post](https://web.archive.org/web/20251007161718/https://hackmag.com/security/ssl-sniffing/ "Searching for OpenSSL traces with signature analysis").
 - It might be very time consuming to craft the right hooking scripts to re-assemble HTTP response pairs (across many method calls and execution threads). You might find [ready-made scripts](https://github.com/fanxs-t/Android-SSL_read-write-Hook/blob/master/frida-hook.py) and even for [alternative network stacks](https://codeshare.frida.re/@owen800q/okhttp3-interceptor/), but depending on the app and the platform, these scripts might need a lot of maintenance and might not _always work_.
 
 See some examples:
 
-- ["Universal interception. How to bypass SSL Pinning and monitor traffic of any application"](https://hackmag.com/security/ssl-sniffing/), sections "Grabbing payload prior to transmission" and "Grabbing payload prior to encryption"
+- ["Universal interception. How to bypass SSL Pinning and monitor traffic of any application"](https://web.archive.org/web/20251007161718/https://hackmag.com/security/ssl-sniffing/), sections "Grabbing payload prior to transmission" and "Grabbing payload prior to encryption"
 - ["Frida as an Alternative to Network Tracing"](https://gaiaslastlaugh.medium.com/frida-as-an-alternative-to-network-tracing-5173cfbd7a0b)

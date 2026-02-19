@@ -26,7 +26,7 @@ The most obvious disadvantage of _native apps_ is that they are limited to one s
 
 Here are some cross-platform mobile frameworks that allow developers to compile a single codebase for different targets, including both Android and iOS:
 
-- [Xamarin](https://dotnet.microsoft.com/apps/xamarin "Xamarin")
+- [Xamarin](https://dotnet.microsoft.com/en-us/apps/xamarin "Xamarin (end of support)")
 - [MAUI](https://dotnet.microsoft.com/en-us/apps/maui ".NET MAUI")
 - [Flutter](https://flutter.dev/ "Google Flutter")
 - [React Native](https://reactnative.dev/ "React Native")

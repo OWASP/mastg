@@ -4,7 +4,7 @@ platform: ios
 title: Obfuscation
 ---
 
-The chapter ["Mobile App Tampering and Reverse Engineering"](0x04c-Tampering-and-Reverse-Engineering.md#obfuscation) introduces several well-known obfuscation techniques that can be used in mobile apps in general.
+The chapter ["Mobile App Tampering and Reverse Engineering"](../../../Document/0x04c-Tampering-and-Reverse-Engineering.md#obfuscation) introduces several well-known obfuscation techniques that can be used in mobile apps in general.
 
 ## Name Obfuscation
 
