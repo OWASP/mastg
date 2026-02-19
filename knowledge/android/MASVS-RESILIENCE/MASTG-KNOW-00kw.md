@@ -4,7 +4,7 @@ platform: android
 title: Runtime Application Self-Protection (RASP)
 ---
 
-Runtime Application Self-Protection (RASP) is a security technology embedded in mobile apps to detect and prevent real-time attacks. Unlike server-side or network-based security solutions, RASP integrates directly into the app's runtime environment, allowing the app to monitor its own execution and respond to threats from within the device.
+Runtime Application Self-Protection (RASP) is a security technology embedded in mobile apps to detect and prevent real-time attacks. Unlike server-side or network-based security solutions, RASP integrates directly into the app's runtime environment, enabling the app to monitor its own execution and respond to threats from within the device.
 
 ## Core Capabilities
 
@@ -38,7 +38,7 @@ Several commercial solutions provide RASP capabilities as SDKs or compiler toolc
 - Server-side attestation and threat intelligence
 - Tamper-resistant implementation in native code
 
-The biggest difference is that SDKs operate as standalone frameworks delivered within the application, they sit alongside the app's core functionality, and the app must ‘call out’ to the security SDK. By contrast, compiler toolchains inject detections between user code and randomly obfuscate the resulting code at each compilation.
+The biggest difference is that SDKs operate as standalone frameworks delivered within the application. They sit alongside the app's core functionality, and the app must ‘call out’ to the security SDK. By contrast, compiler toolchains inject detections between user code and randomly obfuscate the resulting code at each compilation.
 
 ### Google Play Integrity API
 
@@ -54,7 +54,7 @@ RASP provides defense-in-depth but has inherent limitations:
 
 - **Bypassable**: Determined attackers with sufficient time and resources can typically bypass RASP protections, especially on rooted devices where they have full control.
 - **Cat-and-Mouse**: RASP detection methods and bypass techniques evolve continuously, requiring ongoing updates.
-- **Performance Impact**: Extensive runtime checks can impact app performance and battery life.
+- **Performance Impact**: Extensive runtime checks can degrade app performance and battery life.
 - **False Positives**: Overly aggressive detection may incorrectly flag legitimate user environments (e.g., custom ROMs, accessibility tools).
 
-RASP should be considered one layer in a defense-in-depth strategy, not a complete security solution. Critical security logic should also be protected server-side where possible.
+RASP should be considered one layer in a defense-in-depth strategy, not a complete security solution. Critical security logic should also be protected server-side, where possible.
