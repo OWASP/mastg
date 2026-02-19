@@ -3,7 +3,7 @@ title: Hardening Against Runtime Hooking
 alias: hardening-against-runtime-hooking
 id: MASTG-BEST-00be
 platform: android
-knowledge: [MASTG-KNOW-0027, MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw]
+knowledge: [MASTG-KNOW-0027, MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw, MASTG-KNOW-0033]
 ---
 
 Defending against runtime hooking requires a layered approach that combines several types of security controls:
@@ -40,7 +40,7 @@ Consider writing detection checks in native (C/C++) code rather than Java/Kotlin
 
 ### Obfuscate Detection Logic
 
-Apply [code obfuscation](../Document/0x04c-Tampering-and-Reverse-Engineering.md#obfuscation) to all detection routines. Scatter checks throughout the app rather than centralizing them in a single function, and vary their timing (e.g., periodic, event-driven, or randomized) to prevent systematic bypassing.
+Apply code obfuscation (@MASTG-KNOW-0033) to all detection routines. Scatter checks throughout the app rather than centralizing them in a single function, and vary their timing (e.g., periodic, event-driven, or randomized) to prevent systematic bypassing.
 
 ## Responsive Controls
 

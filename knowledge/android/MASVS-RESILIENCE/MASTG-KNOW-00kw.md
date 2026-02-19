@@ -40,7 +40,7 @@ Several commercial solutions provide RASP capabilities as SDKs that can be integ
 
 ### Google Play Integrity API
 
-For Android apps distributed through Google Play, the [Play Integrity API](https://developer.android.com/google/play/integrity) provides device and app attestation. It can verify:
+For Android apps distributed through Google Play, the Play Integrity API (see @MASTG-KNOW-0035) provides device and app attestation. It can verify:
 
 - The app binary is the original, unmodified version from Google Play
 - The app is running on a genuine Android device
