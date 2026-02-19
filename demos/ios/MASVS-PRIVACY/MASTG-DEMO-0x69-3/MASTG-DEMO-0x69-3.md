@@ -18,7 +18,7 @@ The following sample code below requests access to protected resources requiring
 1. Install the app on a device (@MASTG-TECH-0056).
 2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the frida-server running on the device.
 3. Run `run.sh` to spawn the app with Frida and load the permission tracing script.
-4. Interact with the app to trigger permission requests (e.g., tap **Request All Permissions** button).
+4. Interact with the app to trigger permission requests.
 5. Stop the script by pressing `Ctrl+C`.
 
 {{ run.sh # script.js }}

@@ -10,15 +10,9 @@ iOS app permissions and capabilities are declared through three mechanisms: purp
 The `plutil` tool converts and inspects property list files. Use it to examine purpose strings declared in the `Info.plist` file. These strings explain why the app requests access to sensitive resources.
 
 !!! note
-    The `plistutil` binary is part of the @MASTG-TOOL-0126 suite and can be used for plist conversion and inspection.
+    The `plistutil` binary is part of the @MASTG-TOOL-0126 and can be used for plist conversion and inspection.
 
-Convert `Info.plist` to XML format:
-
-```bash
-plutil -convert xml1 Payload/MyApp.app/Info.plist -o -
-```
-
-Alternatively, filter directly for keys containing `UsageDescription`:
+Convert `Info.plist` to XML format for keys containing `UsageDescription`:
 
 ```bash
 plutil -convert xml1 -o - Info.plist | grep -i -A 1 UsageDescription
@@ -164,4 +158,4 @@ Run the script:
 frida -U -f com.example.app -l script.js
 ```
 
-The output shows which permission APIs are called during app execution, helping verify that declared permissions match actual runtime behavior.
+The output shows which permission APIs are called during app execution, to verify that declared permissions match actual runtime behavior.
