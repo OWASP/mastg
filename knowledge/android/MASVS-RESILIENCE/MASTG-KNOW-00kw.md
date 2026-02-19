@@ -38,7 +38,7 @@ Several commercial solutions provide RASP capabilities as SDKs or compiler toolc
 - Server-side attestation and threat intelligence
 - Tamper-resistant implementation in native code
 
-The biggest difference is that SDKs operate as standalone frameworks delivered within the application. They sit alongside the app's core functionality, and the app must ‘call out’ to the security SDK. By contrast, compiler toolchains inject detections between user code and randomly obfuscate the resulting code at each compilation.
+The biggest difference is that SDKs operate as standalone frameworks delivered within the application. They sit alongside the app's core functionality, and the app must 'call out' to the security SDK. By contrast, compiler toolchains inject detections between user code and randomly obfuscate the resulting code at each compilation.
 
 ### Google Play Integrity API
 
