@@ -1,6 +1,6 @@
 ---
 platform: android
-title: App Terminating on Frida Hook Detection Before Cipher.doFinal Execution
+title: Detecting Frida hooks and terminating the application on response
 id: MASTG-DEMO-0de2
 code: [kotlin]
 test: MASTG-TEST-03te
