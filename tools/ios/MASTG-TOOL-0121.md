@@ -1,5 +1,5 @@
 ---
-title: objdump - iOS
+title: objdump (iOS)
 platform: ios
 source: https://llvm.org/docs/CommandGuide/llvm-objdump.html
 alternatives:

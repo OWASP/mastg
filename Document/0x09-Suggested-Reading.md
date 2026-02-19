@@ -20,7 +20,7 @@
 
 - Bruce Dang, Alexandre Gazet, Elias Backaalany (2014) _Practical Reverse Engineering_. Wiley. Available at: <https://www.wiley.com/en-us/Practical+Reverse+Engineering%3A+x86%2C+x64%2C+ARM%2C+Windows+Kernel%2C+Reversing+Tools%2C+and+Obfuscation-p-9781118787311>
 - Skakenunny, Hangcom _iOS App Reverse Engineering_. Online. Available at: <https://github.com/iosre/iOSAppReverseEngineering/>
-- Bernhard Mueller (2016) _Hacking Soft Tokens - Advanced Reverse Engineering on Android_. HITB GSEC Singapore. Available at: <http://gsec.hitb.org/materials/sg2016/D1%20-%20Bernhard%20Mueller%20-%20Attacking%20Software%20Tokens.pdf>
+- Bernhard Mueller (2016) _Hacking Soft Tokens - Advanced Reverse Engineering on Android_. HITB GSEC Singapore. Available at: <https://web.archive.org/web/20190216145520/https://gsec.hitb.org/materials/sg2016/D1%20-%20Bernhard%20Mueller%20-%20Attacking%20Software%20Tokens.pdf>
 - Dennis Yurichev (2016) _Reverse Engineering for Beginners_. Online. Available at: <https://beginners.re/>
 - Michael Hale Ligh, Andrew Case, Jamie Levy, Aaron Walters (2014) _The Art of Memory Forensics._ Wiley. Available at: <https://www.wiley.com/en-us/The+Art+of+Memory+Forensics%3A+Detecting+Malware+and+Threats+in+Windows%2C+Linux%2C+and+Mac+Memory-p-9781118825099>
 - Jacob Baines (2016) _Programming Linux Anti-Reversing Techniques_. Leanpub. Available at: <https://leanpub.com/anti-reverse-engineering-linux>
