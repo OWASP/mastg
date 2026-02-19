@@ -13,13 +13,13 @@ In addition to declarative XML protections, Android allows developers to enforce
 
 ## Steps
 
-1. Reverse engineer the app in order to retrieve the Java and/or Kotlin source codes.
-2. Search for overrides of the `onFilterTouchEventForSecurity` method in the code or you could look for uses of `MotionEvent.FLAG_WINDOW_IS_O
-4. Analyze the logic in these methods to verify if touch events are returned as `false` (discarded) or handled properly when these flags are detected.
+1. Reverse engineer the app (@MASTG-TECH-0017) and identify sensitive custom views or activities handling critical user actions (e.g., login buttons, permission prompts, payment confirmation).
+2. Search for overrides of the `onFilterTouchEventForSecurity` method or manual checks for `MotionEvent.FLAG_WINDOW_IS_OBSCURED` or `MotionEvent.FLAG_WINDOW_IS_PARTIALLY_OBSCURED`.
+3. Analyze the logic in these methods to verify if touch events are discarded (return `false`) when the obscuration flags are detected.
 
 ## Observation
 
-The output should identify specific views or activities where `onFilterTouchEventForSecurity` is implemented or where `FLAG_WINDOW_IS_OBSCURED` is checked. It should highlight if the logic correctly rejects touches when an overlay is present.
+The output should contain a list of sensitive views or activities where `onFilterTouchEventForSecurity` is implemented or where `FLAG_WINDOW_IS_OBSCURED` is checked, along with whether the logic correctly rejects touches when an overlay is present.
 
 ## Evaluation
 

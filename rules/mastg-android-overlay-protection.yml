@@ -1,15 +1,11 @@
 rules:
-  - id: mastg-android-tapjacking-protection-verification
-    severity: INFO
+  - id: mastg-android-overlay-protection
+    severity: WARNING
     languages:
       - java
     metadata:
-      summary: Detects properly implemented Tapjacking protection in decompiled Java code.
-      masvs:
-        - "MASVS-PLATFORM-2"
-    message: |
-      [MASVS-PLATFORM-2] Tapjacking protection detected! 
-      The view overrides `onFilterTouchEventForSecurity` and correctly returns `false` when `FLAG_WINDOW_IS_OBSCURED` (1) or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` (2) is detected.
+      summary: This rule detects if Tapjacking protection is implemented.
+    message: "[MASVS-PLATFORM-2] Tapjacking protection detected!"
     patterns:
       - pattern: |
           public boolean onFilterTouchEventForSecurity(android.view.MotionEvent $EVENT) {

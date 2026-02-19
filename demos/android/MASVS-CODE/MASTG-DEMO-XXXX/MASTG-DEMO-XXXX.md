@@ -1,12 +1,10 @@
-
 ---
 platform: android
-title: Testing Overlay attack using semgrep
+title: Testing Overlay Attack using Semgrep
 id: MASTG-DEMO-XXXX
 code: [xml]
 test: MASTG-TEST-XXXX
 tools: [semgrep]
-status: new
 ---
 
 ## Sample

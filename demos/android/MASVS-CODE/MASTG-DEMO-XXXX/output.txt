@@ -6,10 +6,8 @@
                                                 
   activity_vulnerable_login.xml
     ❯❱ rules.mastg-android-missing-filterTouchesWhenObscured
-          [MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured="true"` in layout XML. The application
-          may be vulnerable to tapjacking attacks. Ensure that sensitive views explicitly set                 
-          `android:filterTouchesWhenObscured="true"` to block obscured touch events.                          
-                                                                                                              
+          "[MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured=\"true\"` in layout XML."
+                                                                                                  
            12┆ <EditText
            13┆     android:id="@+id/username_input"
            14┆     android:layout_width="match_parent"
