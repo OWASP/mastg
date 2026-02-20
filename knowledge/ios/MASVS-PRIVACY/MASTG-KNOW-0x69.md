@@ -33,13 +33,13 @@ The provisioning profile can be decoded from its binary CMS format to XML using 
 Both locations contain entitlement declarations, but they serve different roles:
 
 - **Embedded entitlements** (from the binary) are always present and reflect what the system enforces at runtime.
-- **Provisioning profile entitlements** (from `embedded.mobileprovision`) represent what Apple's provisioning system has authorized and may include additional context such as team identifiers and provisioning constraints.
+- **Provisioning profile entitlements** (from `embedded.mobileprovision`) represent what Apple's provisioning system has authorized. The broader provisioning profile also contains additional context such as team identifiers, certificate references, and device UDIDs, but these are separate fields from the entitlements dictionary itself.
 
 The two sets of entitlements typically overlap, but the provisioning profile is only available in non-App Store builds.
 
 ## Info.plist Usage Descriptions
 
-In addition to entitlements, iOS requires apps to declare **purpose strings** (also known as [usage descriptions](https://developer.apple.com/documentation/bundleresources/information-property-list/protected-resources)) in `Info.plist` for any permission that triggers a user-facing prompt. These are `NS...UsageDescription` keys that provide a human-readable rationale for why the app needs access to a specific resource.
+In addition to entitlements, iOS requires apps to declare **purpose strings** (also known as [usage descriptions](https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources)) in `Info.plist` for any permission that triggers a user-facing prompt. These are `NS...UsageDescription` keys that provide a human-readable rationale for why the app needs access to a specific resource.
 
 Common usage description keys include:
 
