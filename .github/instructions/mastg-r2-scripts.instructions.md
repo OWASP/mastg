@@ -1,14 +1,17 @@
-## r2 scripts (radare2)
+---
+name: 'Writing r2 scripts (radare2) for MASTG demos'
+applyTo: 'demos/**/*.r2'
+---
 
 This guide defines how to write and use radare2 scripts in MASTG demos. Scripts are included with the demo and executed by `run.sh` to produce the Observation output.
 
-### Scope and terminology
+## Scope and terminology
 
 - "r2 scripts" refers to radare2 command files executed with `-i <file>`.
 - The repo uses `.r2` as the primary extension (for example, `cchash.r2`); variations like `.jr2` are not used in this repository.
 - Tools background lives under @MASTG-TOOL-0073 (radare2) and @MASTG-TOOL-0129 (rabin2). Do not duplicate setup or installation steps—link to Tools pages.
 
-### Location and naming
+## Location and naming
 
 - Place scripts inside the demo folder; name them after the target concept or API, using lowercase with underscores if needed.
     - Examples:
@@ -16,7 +19,7 @@ This guide defines how to write and use radare2 scripts in MASTG demos. Scripts 
         - `demos/ios/MASVS-RESILIENCE/MASTG-DEMO-0021/jailbreak_detection.r2`
 - If multiple scripts are required, use descriptive names and document which one to run in the demo Steps and `run.sh`.
 
-### Invocation patterns (run.sh)
+## Invocation patterns (run.sh)
 
 - Canonical pattern used in demos:
     - `r2 -q -i script.r2 -A <binary> > output.asm`
@@ -35,7 +38,7 @@ Notes
 - Keep `run.sh` responsible for environment prep (paths, extraction/unzip, codesign stripping, etc.). The script should focus on r2 commands only.
 - If a path is dynamic, pass it via `-e` evals (for example, `-e bin.file=<path>`), or let `run.sh` build the `o <path>` command line.
 
-### Coding conventions for .r2 files
+## Coding conventions for .r2 files
 
 - Be explicit and quiet:
     - Start with `e scr.color=0` and `e scr.interactive=false` to keep logs clean and deterministic.
@@ -47,7 +50,7 @@ Notes
 - Bound outputs to minimize diffs; use filters like `afl~PATTERN`, `iz~PATTERN`, or limit disassembly lines (for example, `pd-- 5 @ <addr>` as seen in `cchash.r2`).
 - Prefer symbol-based references when available; fall back to addresses only when necessary and document the basis (for example, derived from `axt @ 0x...`).
 
-### Example: iOS CommonCrypto hashes (excerpt)
+## Example: iOS CommonCrypto hashes (excerpt)
 
 ```r2cmd
 ?e Uses of CommonCrypto hash function:
@@ -69,12 +72,12 @@ pd-- 5 @ 0x1000048c4
 pd-- 5 @ 0x10000456c
 ```
 
-### Logging and outputs
+## Logging and outputs
 
 - Use `?e` for plain echo markers; avoid colors and progress noise. Keep section titles consistent with the demo write-up to ease Evaluation checks.
 - Redirect all command output into a file in `run.sh` (for example, `output.txt`), and reference it in the demo's Observation.
 
-### Safety and troubleshooting
+## Safety and troubleshooting
 
 - If a symbol or address is not present across versions, add a preceding discovery block to compute it:
     - Example: `afl~CC_MD5[0]` to list and then `s <addr>` before `pd`.
@@ -83,12 +86,7 @@ pd-- 5 @ 0x10000456c
     - Use heuristics: strings (`iz`), imports (`ii`), and xrefs (`axt`) to locate targets.
 - Keep scripts idempotent: avoid `wt` or write operations; analysis should be read-only.
 
-### Alignment with Tools
+## Alignment with Tools
 
 - Installation and deeper usage guides are in Tools: @MASTG-TOOL-0073 (radare2), @MASTG-TOOL-0129 (rabin2), and related entries. Do not duplicate installation or environment requirements in demos.
 - When relevant, mention GUI options like Iaito @MASTG-TOOL-0098 for interactive exploration, but keep demo scripts CLI-focused and reproducible.
-
-### Cross-links
-
-- Tools: @MASTG-TOOL-0073 (radare2), @MASTG-TOOL-0129 (rabin2), @MASTG-TOOL-0098 (Iaito)
-- Techniques: @MASTG-TECH-0067 (Dynamic Analysis), @MASTG-TECH-0045 (Runtime Reverse Engineering)

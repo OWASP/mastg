@@ -29,7 +29,7 @@ This test uses dynamic analysis to monitor the relevant API calls and file syste
 
 ## Steps
 
-1. Install the app on a device (@MASTG-TECH-0056).
+1. Install the app on a device (@MASTG-TECH-0005).
 2. Use @MASTG-TECH-0033 to target WebView APIs for storage enablement and cleanup.
 3. Open the app.
 4. Use the app extensively to ensure that all relevant WebViews are covered and that sensitive data is loaded into them. Ensure you keep a list of the sensitive data you expect to be cleaned up.

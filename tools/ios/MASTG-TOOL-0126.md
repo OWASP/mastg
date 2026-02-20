@@ -1,10 +1,7 @@
 ---
 title: libimobiledevice suite
 platform: ios
-host:
-- macOS
-- windows
-- linux
+hosts: [macOS, windows, linux]
 source: https://libimobiledevice.org/
 ---
 

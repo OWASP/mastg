@@ -1,4 +1,7 @@
-## Frooky Hook Configurations
+---
+name: 'Writing MASTG Frooky Hook Configurations'
+applyTo: 'demos/**/hooks.json'
+---
 
 This guide defines how to write and use Frooky hook configurations in MASTG demos. Frooky (@MASTG-TOOL-0145) is a Frida-based dynamic analysis tool that uses JSON-based hook configurations, providing a declarative approach to method interception without writing custom Frida scripts.
 
