@@ -6,15 +6,15 @@ code: [kotlin]
 test: MASTG-TEST-0329
 ---
 
-### Sample
+## Sample
 
-This sample demonstrates the use of `BiometricPrompt.PromptInfo.Builder` with the `setConfirmationRequired()` method. It shows both, insecure configurations that allow authentication without explicit user action and secure configurations that require explicit confirmation.
+This sample demonstrates the use of [`setConfirmationRequired()`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt.Builder#setConfirmationRequired(boolean)). It shows both, insecure configurations that allow authentication without explicit user action and secure configurations that require explicit confirmation.
 
 When `setConfirmationRequired(false)` is used, passive biometrics (like face recognition) can authenticate the user as soon as the device detects their biometric data, without requiring them to tap a confirmation button.
 
 {{ ../MASTG-DEMO-0090/MastgTest.kt # ../MASTG-DEMO-0090/MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -22,13 +22,13 @@ Run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
-The output shows the configuration of biometric authentication without requiring explicit user confirmation.
+The output shows the uses of `setConfirmationRequired()`.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the output shows one reference to a biometric authentication that disables explicitly user confirmation:
 

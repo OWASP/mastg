@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0328
 ---
 
-### Sample
+## Sample
 
 This sample demonstrates the insecure use of [`setInvalidatedByBiometricEnrollment(false)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)) when generating cryptographic keys for biometric authentication.
 
 {{ ../MASTG-DEMO-0090/MastgTest.kt # ../MASTG-DEMO-0090/MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,13 +20,13 @@ Run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
-The output shows the usage of `setInvalidatedByBiometricEnrollment(false)` when generating cryptographic keys.
+The output shows the usage of `setInvalidatedByBiometricEnrollment()`.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the output shows:
 

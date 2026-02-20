@@ -6,13 +6,15 @@ code: [kotlin]
 test: MASTG-TEST-0326
 ---
 
-### Sample
+## Sample
 
-The following sample demonstrates the use of the `BiometricPrompt` API with different authenticator configurations used in `BiometricPrompt.Builder()`. It shows both weaker configurations that allow fallback to device credentials (PIN, pattern, password), which are more susceptible to compromise (e.g., through shoulder surfing) and secure configurations that requires a strong biometric authentication only.
+The following sample demonstrates the use of the built-in [`android.hardware.biometrics.BiometricPrompt`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+) with different authenticator configurations used in `BiometricPrompt.Builder()`. 
+
+It shows both weaker configurations that allow fallback to device credentials (PIN, pattern, password), which are more susceptible to compromise (e.g., through shoulder surfing) and secure configurations that requires a strong biometric authentication only.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,13 +22,13 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output shows all usages of APIs that configure biometric authentication.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the output shows references to biometric authentication configurations that allow fallback to device credentials:
 

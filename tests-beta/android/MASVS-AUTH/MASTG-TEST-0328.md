@@ -12,25 +12,19 @@ best-practices: []
 
 ## Overview
 
-!!! note
-    Android offers the `BiometricPrompt` class in 2 different ways:
-    1. Via the [androidx.biometric](https://developer.android.com/reference/androidx/biometric/BiometricPrompt) library (Jetpack), which provides backward compatibility to API level 23.
-    2. The built-in [android.hardware.biometrics](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+)
-    The examples in this test uses the `android.hardware.biometrics` framework API.
+This test checks whether the app fails to protect sensitive operations against unauthorized access following biometric enrollment changes (@MASTG-KNOW-0001). An attacker who obtains the device passcode could add a new fingerprint or facial representation via system settings and use it to authenticate in the app.
 
-This test checks whether the app fails to protect sensitive operations against unauthorized access following biometric enrollment changes. An attacker who obtains the device passcode could add a new fingerprint or facial representation via system settings and use it to authenticate in the app.
+This behaviour occurs when [`setInvalidatedByBiometricEnrollment`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)) is set to `false` when keys are generated.
 
-The test identifies if [`setInvalidatedByBiometricEnrollment(false)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)) is set when keys are generated. 
-
-By default and when set to `true`, a key becomes permanently invalidated if a new biometric is enrolled. As a result, only users whose biometric data was enrolled at the time the item was created can unlock it, preventing unauthorized access through later-enrolled biometrics.
+By default and when set to `true`, a key becomes permanently invalidated if a new biometric is enrolled. As a result, only users whose biometric data was enrolled when the item was created can unlock it. This prevents unauthorized access through biometrics enrolled later.
 
 ## Steps
 
-Use @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify instances of `KeyGenParameterSpec.Builder` and check if `setInvalidatedByBiometricEnrollment(false)` is called.
+1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
 
 ## Observation
 
-The output should contain a list of locations where cryptographic key generation is configured, indicating the value of `setInvalidatedByBiometricEnrollment`.
+The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
