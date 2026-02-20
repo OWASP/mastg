@@ -258,7 +258,7 @@ The OWASP Web Testing Guide ([WSTG-SESS-06](https://owasp.org/www-project-web-se
 
 ## Supplementary Authentication
 
-Authentication schemes are sometimes supplemented by [passive contextual authentication](https://pdfs.semanticscholar.org/13aa/7bf53070ac8e209a84f6389bab58a1e2c888.pdf "Best Practices for
+Authentication schemes are sometimes supplemented by [passive contextual authentication](https://web.archive.org/web/20190219011248/https://pdfs.semanticscholar.org/13aa/7bf53070ac8e209a84f6389bab58a1e2c888.pdf "Best Practices for
 Multi-factor Authentication"), which can incorporate:
 
 - Geolocation

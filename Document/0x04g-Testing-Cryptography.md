@@ -58,7 +58,8 @@ Recommended algorithms:
 - Digital signature algorithms: RSA (3072 bits and higher), ECDSA with NIST P-384 or EdDSA with Edwards448.
 - Key establishment algorithms: RSA (3072 bits and higher), DH (3072 bits or higher), ECDH with NIST P-384
 
-**Please note:** The recommendations are based on the current industry perception of what is considered appropriate. They align with NIST recommendations beyond 2030 but do not necessarily take into account advancements in quantum computing. For advice on post-quantum cryptography, please see the ["Post-Quantum"](#post-quantum) section below.
+!!! note
+    The recommendations are based on the current industry perception of what is considered appropriate. They align with NIST recommendations beyond 2030, but do not necessarily account for advancements in quantum computing. For advice on post-quantum cryptography, please see the ["Post-Quantum"](#post-quantum) section below.
 
 Additionally, you should always rely on secure hardware (if available) for storing encryption keys, performing cryptographic operations, etc.
 
@@ -225,5 +226,5 @@ Learn more:
 - [Complying with Encryption Export Regulations (Apple)](https://developer.apple.com/documentation/security/complying_with_encryption_export_regulations "Complying with Encryption Export Regulations")
 - [Export compliance overview (Apple)](https://help.apple.com/app-store-connect/#/dev88f5c7bf9 "Export compliance overview")
 - [Export compliance (Google)](https://support.google.com/googleplay/android-developer/answer/113770?hl=en "Export compliance")
-- [Encryption and Export Administration Regulations (USA)](https://www.bis.doc.gov/index.php/policy-guidance/encryption "Encryption and Export Administration Regulations")
+- [Encryption and Export Administration Regulations (USA)](https://web.stanford.edu/group/export/encrypt_ear.html "Encryption and Export Administration Regulations")
 - [World map of encryption laws and policies](https://www.gp-digital.org/WORLD-MAP-OF-ENCRYPTION/)

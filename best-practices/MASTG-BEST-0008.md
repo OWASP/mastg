@@ -3,6 +3,7 @@ title: Debugging Disabled for WebViews
 alias: debugging-disabled-webviews
 id: MASTG-BEST-0008
 platform: android
+knowledge: [MASTG-KNOW-0018]
 ---
 
 Ensure that WebView debugging is disabled in production builds to prevent attackers from exploiting this feature to eavesdrop, modify, or debug communication within WebViews.

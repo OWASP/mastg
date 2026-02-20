@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0200
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that creates two files in the external storage using the `getExternalFilesDir` method and the `MediaStore` API.
 
 {{ MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Install an app on your device.
 2. Execute `run_before.sh` which runs @MASTG-TOOL-0004.
@@ -22,7 +22,7 @@ The snippet below shows sample code that creates two files in the external stora
 
 {{ run_before.sh # run_after.sh }}
 
-### Observation
+## Observation
 
 There is a list of all created files inside `output.txt`.
 
@@ -38,6 +38,6 @@ And an API key:
 
 {{ new_files/secretFile75.txt }}
 
-### Evaluation
+## Evaluation
 
 This test fails because the files are not encrypted and contain sensitive data (a password and an API key). You can further confirm this by reverse engineering the app and inspecting the code.

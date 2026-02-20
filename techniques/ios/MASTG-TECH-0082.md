@@ -4,18 +4,18 @@ platform: ios
 ---
 
 
-To effectively identify and analyze shared libraries within an iOS application, it's important to distinguish between the app's bundled libraries and the system libraries provided by iOS. This distinction helps focus on the components that are unique to the app, thereby reducing noise during security assessments.
+To effectively identify and analyze shared libraries in an iOS application, it's important to distinguish between the app's bundled libraries and iOS system libraries. This distinction helps focus on the app-specific components, reducing noise during security assessments.
 
 - **System Libraries**: Part of the iOS SDK, located in directories such as `/System/Library/Frameworks` or `/usr/lib`. These libraries are standard for all iOS applications and generally don't require detailed analysis unless there is a specific reason.
-- **App-Bundled Libraries**: Included in the app bundle, often found in the `Frameworks` directory (`YourApp.app/Frameworks`). They include both first-party (custom) and third-party libraries that the developer intentionally incorporated into the app. They are the primary focus for security assessments. However, note that some **system libraries** may be also bundled with the app to ensure compatibility with specific versions of the iOS SDK so you'd need to filter them out.
+- **App-Bundled Libraries**: Included in the app bundle, often found in the `Frameworks` directory (`YourApp.app/Frameworks`). They include both first-party (custom) and third-party libraries that the developer intentionally incorporated into the app. They are the primary focus for security assessments. However, note that some **system libraries** may also be bundled with the app to ensure compatibility with specific versions of the iOS SDK, so you'd need to filter them out.
 
-Note that we're not considering static libraries, which, unlike dynamic libraries that are loaded at runtime, become part of the app's binary, resulting in a single executable file.
+Note that we're not considering static libraries, which, unlike dynamic libraries loaded at runtime, are linked into the app's binary, resulting in a single executable file.
 
-**Strategy**: Use one of the methods below, or a combination of them, to identify shared libraries, and then filter out system libraries to focus on those that are bundled with the app.
+**Strategy**: Use one or more of the methods below to identify shared libraries, then filter out system libraries to focus on those bundled with the app.
 
 ## Inspecting the Application Binary
 
-Navigate to the `Frameworks` directory within the application bundle to find the shared libraries. The shared libraries are usually in the form of `.framework` or `.dylib` files.
+Navigate to the `Frameworks` directory within the application bundle to find the shared libraries. Shared libraries are usually `.framework` or `.dylib` files.
 
 ```bash
 ls -1 Frameworks
@@ -69,7 +69,7 @@ RealmSwift      org.cocoapods.RealmSwift                   4.1.1      ...A-v2.ap
 ...
 ```
 
-The `list_bundles` command lists all of the application's bundles **that are not related to frameworks**. The output contains the executable name, bundle id, version of the library and path to the library.
+The `list_bundles` command lists all the application's bundles **that are not related to frameworks**. The output includes the executable name, bundle ID, library version, and path to the library.
 
 ```bash
 ...itudehacks.DVIAswiftv2.develop on (iPhone: 13.2.3) [usb] # ios bundles list_bundles
@@ -81,7 +81,7 @@ CoreGlyphs    com.apple.CoreGlyphs                               1  ...m/Library
 
 ## @MASTG-TOOL-0039
 
-The `Process.enumerateModules()` function in Frida's REPL allows enumeration of modules loaded into memory during runtime.
+The `Process.enumerateModules()` function in Frida's REPL enumerates modules loaded into memory at runtime.
 
 ```bash
 [iPhone::com.iOweApp]-> Process.enumerateModules()
