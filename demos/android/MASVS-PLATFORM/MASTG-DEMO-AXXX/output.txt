@@ -1,0 +1,23 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                          
+   MastgTest_reversed.java
+    ❯❱ rules.mastg-android-overlay-protection
+          [MASVS-PLATFORM-2] Tapjacking protection detected!
+                                                            
+          131┆ @Override // android.view.View
+          132┆ public boolean onFilterTouchEventForSecurity(MotionEvent event) {
+          133┆     Intrinsics.checkNotNullParameter(event, "event");
+          134┆     if ((event.getFlags() & 1) != 0 || (event.getFlags() & 2) != 0) {
+          135┆         Toast.makeText(getContext(), "Protected! Touch blocked by
+               onFilterTouchEventForSecurity.", 1).show();                      
+          136┆         Context context = getContext();
+          137┆         Activity activity = context instanceof Activity ? (Activity) context : null;
+          138┆         if (activity != null) {
+          139┆             activity.finish();
+          140┆             return false;
+             [hid 5 additional lines, adjust with --max-lines-per-finding] 
+

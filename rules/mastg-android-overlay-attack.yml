@@ -5,10 +5,7 @@ rules:
       - xml
     metadata:
       summary: This rule detects sensitive layout elements missing `android:filterTouchesWhenObscured="true"`, leaving them vulnerable to tapjacking.
-      masvs:
-        - "MASVS-PLATFORM-2"
-    message: |
-      "[MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured=\"true\"` in layout XML."
+    message: "[MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured=\"true\"` in layout XML."
     patterns:
       - pattern-regex: |
           (?s)<(EditText|Button|View|TextView|ImageButton|CheckBox|RadioButton|Spinner)[^>]*>

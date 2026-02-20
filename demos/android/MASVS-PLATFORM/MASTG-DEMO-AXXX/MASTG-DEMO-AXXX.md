@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Testing Overlay Attack using semgrep
+title: Testing for Tapjacking Protection using Semgrep
 id: MASTG-DEMO-AXXX
 code: [kotlin]
 Test: MASTG-TEST-AXXX 
@@ -8,7 +8,7 @@ Test: MASTG-TEST-AXXX
 
 ## Sample
 
-The following Activity implements a security control against overlay attacks (tapjacking) by overriding `onFilterTouchEventForSecurity`. It explicitly checks if the `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` flags are set on the `MotionEvent`, rejecting touches if an overlay is detected.
+The snippet below shows sample code that protects against overlay attacks (tapjacking) by overriding `onFilterTouchEventForSecurity`. The method checks for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` flags on the `MotionEvent` and rejects touches when an overlay is detected.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
