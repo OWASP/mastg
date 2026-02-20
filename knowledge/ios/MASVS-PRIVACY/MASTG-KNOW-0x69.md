@@ -39,7 +39,7 @@ The two sets of entitlements generally overlap; however, the provisioning profil
 
 ## Info.plist Usage Descriptions
 
-In addition to entitlements, iOS requires apps to declare **purpose strings** (also known as [usage descriptions](https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources)) in `Info.plist` for any permission that triggers a user-facing prompt. These are `NS...UsageDescription` keys that provide a human-readable rationale for why the app needs access to a specific resource.
+In addition to entitlements, iOS requires apps to declare **purpose strings** (also known as [usage descriptions](https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources)) in `Info.plist` for any permission that triggers a user-facing prompt. Each key contains a human-readable string that explains the reason why the app require access to a specific resource.
 
 Common usage description keys include:
 
