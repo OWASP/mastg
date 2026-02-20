@@ -322,26 +322,26 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .notDetermined:
-            return
-        case .authorizedWhenInUse:
-            if !hasRequestedAlwaysAuthorization {
-                hasRequestedAlwaysAuthorization = true
-                results += "Requested Location (When In Use)... ✅\n"
-                manager.startUpdatingLocation()
-                manager.requestAlwaysAuthorization()
-                return
-            }
-        case .authorizedAlways:
-            permissionStatus["Location"] = true
-            results += "Requested Location (Always)... ✅\n"
-            manager.startUpdatingLocation()
-        default:
-            permissionStatus["Location"] = false
-            results += "Requested Location services... ❌\n"
-        }
         DispatchQueue.main.async {
+            switch manager.authorizationStatus {
+            case .notDetermined:
+                return
+            case .authorizedWhenInUse:
+                if !self.hasRequestedAlwaysAuthorization {
+                    self.hasRequestedAlwaysAuthorization = true
+                    self.results += "Requested Location (When In Use)... ✅\n"
+                    manager.startUpdatingLocation()
+                    manager.requestAlwaysAuthorization()
+                    return
+                }
+            case .authorizedAlways:
+                self.permissionStatus["Location"] = true
+                self.results += "Requested Location (Always)... ✅\n"
+                manager.startUpdatingLocation()
+            default:
+                self.permissionStatus["Location"] = false
+                self.results += "Requested Location services... ❌\n"
+            }
             self.requestCameraPermission()
         }
     }
