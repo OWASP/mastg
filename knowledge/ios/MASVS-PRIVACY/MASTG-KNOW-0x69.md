@@ -6,7 +6,7 @@ title: iOS Permission Mechanisms
 
 Entitlements are key-value pairs that grant an iOS app permission to use specific system services or capabilities beyond the default app sandbox. They are the mechanism through which apps access privileged resources such as HealthKit, HomeKit, VPN configuration, iCloud containers, Apple Pay, or App Groups.
 
-On iOS, entitlements appear in two distinct locations, each serving a different purpose during app validation and execution.
+On iOS, entitlements appear in two distinct locations, each serving a different purpose during app validation and execution. Beyond entitlements, apps must also declare purpose strings in `Info.plist` for any permission that requires explicit user consent.
 
 ## Embedded Entitlements (Code Signature)
 
@@ -35,7 +35,7 @@ Both locations contain entitlement declarations, but they serve different roles:
 - **Embedded entitlements** (from the binary) are always present and reflect what the system enforces at runtime.
 - **Provisioning profile entitlements** (from `embedded.mobileprovision`) represent what Apple's provisioning system has authorized. The broader provisioning profile also contains additional context such as team identifiers, certificate references, and device UDIDs, but these are separate fields from the entitlements dictionary itself.
 
-The two sets of entitlements typically overlap, but the provisioning profile is only available in non-App Store builds.
+The two sets of entitlements generally overlap; however, the provisioning profile is only embedded in development, ad hoc, or enterprise builds and is not present in App Store–distributed builds.
 
 ## Info.plist Usage Descriptions
 
