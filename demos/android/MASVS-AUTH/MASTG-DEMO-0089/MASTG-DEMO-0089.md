@@ -8,7 +8,7 @@ test: MASTG-TEST-0326
 
 ## Sample
 
-The following sample demonstrates the use of the built-in [`android.hardware.biometrics.BiometricPrompt`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+) with different authenticator configurations used in `BiometricPrompt.Builder()`. 
+The following sample demonstrates the use of the built-in [`android.hardware.biometrics.BiometricPrompt`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt) framework API (available from API level 28+) with different authenticator configurations used in `BiometricPrompt.Builder()`.
 
 It shows both weaker configurations that allow fallback to device credentials (PIN, pattern, password), which are more susceptible to compromise (e.g., through shoulder surfing) and secure configurations that requires a strong biometric authentication only.
 
