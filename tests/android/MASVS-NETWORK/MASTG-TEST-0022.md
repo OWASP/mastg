@@ -97,7 +97,7 @@ myWebView.setWebViewClient(new WebViewClient(){
 
 Alternatively, it is better to use an OkHttpClient with configured pins and let it act as a proxy overriding `shouldInterceptRequest` of the `WebViewClient`.
 
-### Xamarin Applications (Legacy – End of Support(Eos))
+### Xamarin Applications (Legacy – End of Support)
 
 Xamarin has reached End of Support. For new cross-platform development, .NET MAUI should be used instead.The following applies only to existing legacy Xamarin apps.
 
