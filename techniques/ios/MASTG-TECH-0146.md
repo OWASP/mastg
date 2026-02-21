@@ -3,13 +3,16 @@ title: Dynamic Analysis on Non-Jailbroken Devices
 platform: ios
 ---
 
-If you don't have access to a jailbroken device, you can patch and repackage the target app to load a dynamic library at startup (e.g., the Frida gadget), enabling dynamic testing with Frida and related tools such as objection. This way, you can instrument the app and perform everything needed for dynamic analysis, though you can't break out of the sandbox. However, this technique only works if the app binary isn't FairPlay-encrypted (i.e., obtained from the App Store).
+If you do not have a jailbroken test device, you can still perform dynamic analysis on a non-jailbroken iOS device by patching and repackaging the target app to load a dynamic library at startup, such as the Frida Gadget. This enables runtime instrumentation with tools like Frida or objection while remaining inside the standard iOS sandbox. However, this approach requires a non-encrypted app binary. If the app was obtained from the App Store, you must first decrypt it, which **requires temporary access to a jailbroken device**. If you already have a non-encrypted IPA, for example from a development, enterprise, or self-built project, no jailbreak is required at any stage.
 
-The following sections walk through each step of the process.
+!!! note "Using the iOS Simulator"
+    For researchers and learners, the iOS Simulator is often the simplest starting point. Apps running in the Simulator are not FairPlay-encrypted and are not subject to the same code-signing and runtime restrictions as physical devices. You can attach Frida directly to the process without using the Frida Gadget, without patching the binary, and without re-signing the app. This makes the Simulator ideal for experimentation, scripting, and learning dynamic analysis techniques before moving to real-device testing. Keep in mind that the Simulator does not perfectly replicate real-device behavior, especially for hardware-backed features such as Secure Enclave, biometrics, keychain protection classes, push notifications, and certain anti-debugging or jailbreak-detection checks.
+
+The following sections walk through each step of the process for App Store apps:
 
 ## Step 1: Obtain the IPA
 
-Follow @MASTG-TECH-0054 to obtain the IPA file for the app you want to test. If the binary is FairPlay-encrypted, you'll need a jailbroken device to decrypt it first before proceeding.
+Follow @MASTG-TECH-0054 to obtain the IPA file for the app you want to test and ensure you obtain a **non-encrypted version before proceeding** (you'll need a jailbroken device).
 
 ## Step 2: Obtain a Developer Provisioning Profile
 
