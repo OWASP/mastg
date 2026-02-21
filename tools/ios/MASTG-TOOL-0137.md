@@ -2,8 +2,7 @@
 title: GlobalWebInspect
 platform: ios
 source: https://github.com/ChiChou/GlobalWebInspect
-host:
-- ios
+hosts: [ios]
 ---
 
 !!! warning

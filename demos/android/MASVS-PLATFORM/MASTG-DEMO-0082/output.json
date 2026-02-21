@@ -1,0 +1,29 @@
+Enumerating chromium.
+WebStorage.deleteAllData hooked.
+ContentSettingsAdapter.setDomStorageEnabled hooked.
+ContentSettingsAdapter.setDomStorageEnabled called, enabled is true.
+
+Backtrace:
+com.android.webview.chromium.ContentSettingsAdapter.setDomStorageEnabled(Native Method)
+org.owasp.mastestapp.MastgTestWebView.mastgTest(MastgTestWebView.kt:20)
+org.owasp.mastestapp.MainActivityWebViewKt$WebViewScreen$3.invoke$lambda$1(MainActivityWebView.kt:81)
+org.owasp.mastestapp.MainActivityWebViewKt$WebViewScreen$3.$r8$lambda$mzfzcYkVhAtctugnbe9BC6jefsk(Unknown Source:0)
+org.owasp.mastestapp.MainActivityWebViewKt$WebViewScreen$3$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+androidx.compose.ui.viewinterop.ViewFactoryHolder.<init>(AndroidView.android.kt:329)
+androidx.compose.ui.viewinterop.AndroidView_androidKt$createAndroidViewNodeFactory$1$1.invoke(AndroidView.android.kt:261)
+androidx.compose.ui.viewinterop.AndroidView_androidKt$createAndroidViewNodeFactory$1$1.invoke(AndroidView.android.kt:260)
+
+
+WebStorage.deleteAllData called.
+
+Backtrace:
+com.android.webview.chromium.e.deleteAllData(Native Method)
+org.owasp.mastestapp.MainActivityWebView.onStop(MainActivityWebView.kt:41)
+android.app.Instrumentation.callActivityOnStop(Instrumentation.java:1623)
+android.app.Activity.performStop(Activity.java:8838)
+android.app.ActivityThread.callActivityOnStop(ActivityThread.java:5368)
+android.app.ActivityThread.performStopActivityInner(ActivityThread.java:5348)
+android.app.ActivityThread.handleStopActivity(ActivityThread.java:5413)
+android.app.servertransaction.TransactionExecutor.performLifecycleSequence(TransactionExecutor.java:240)
+
+

@@ -1,9 +1,11 @@
 #!/bin/bash
 
-jq '
-  select(
-    .class=="android.security.keystore.KeyGenParameterSpec$Builder"
-    and .method=="setBlockModes"
-    and (.inputParameters[0].value | contains(["ECB"]))
-  )
-' output.json
+jq -r -s '
+  flatten
+  | .[]
+  | select(
+      .method=="setBlockModes"
+      and any(.inputParameters[]?.value[]?; . == "ECB")
+    )
+  | "Class: \(.class), Method: \(.method), Block modes: \([.inputParameters[]?.value[]?] | join(", "))"
+' output.json > evaluation.txt

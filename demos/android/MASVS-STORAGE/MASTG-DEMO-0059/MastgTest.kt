@@ -11,11 +11,12 @@ import javax.crypto.SecretKey
 import androidx.core.content.edit
 
 class MastgTest(private val context: Context) {
-    private val awsKey = "AKIAIOSFODNN7EXAMPLE"
-    private val githubToken = "ghp_1234567890abcdefghijklmnOPQRSTUV"
+    private val awsKey = "AKIAABCDEFGHIJKLMNOP"
+    private val githubToken = "ghp_1234567890abcdefghijklmnopqrstuvABCD"
     private val preSharedKeys = hashSetOf(
-        "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=",
-        "gJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=")
+        "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----",
+        "-----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----"
+    )
     private val keyAlias = "mastgKey"
 
     private fun getOrCreateSecretKey(): SecretKey {
@@ -58,9 +59,9 @@ class MastgTest(private val context: Context) {
             )
             sharedPref.edit {
                 putString("UnencryptedGitHubToken", githubToken)
-                returnStatus += "[FAIL]: Stored sensitive data (Github Token) using putString.\n\n"
+                returnStatus += "[FAIL]: Stored unencrypted sensitive data (Github Token) using putString.\n\n"
 
-                putString("EncryptedGitHubToken", encrypt(awsKey))
+                putString("EncryptedAwsKey", encrypt(awsKey))
                 returnStatus += "[OK]: Stored encrypted sensitive data (AWS key) using putString.\n\n"
 
                 putStringSet("UnencryptedPreSharedKeys", preSharedKeys)

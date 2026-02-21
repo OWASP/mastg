@@ -16,5 +16,3 @@ axt @ 0x1000076c4
 
 # Seek to the function where CCCrypt is called (Replace with the address found from axt output)
 pd-- 9 @ 0x1000040e0
-
-pdf @ sym.func.100004000 > function.asm
