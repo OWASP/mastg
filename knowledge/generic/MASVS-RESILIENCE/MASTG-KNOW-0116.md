@@ -1,7 +1,7 @@
 ---
 masvs_category: MASVS-RESILIENCE
 platform: generic
-title: Custom Tooling with Reverse Engineering Frameworks
+title: Symbolic Execution
 ---
 
 Even though most professional GUI-based disassemblers feature scripting facilities and extensibility, they are simply not well-suited to solving particular problems. Reverse engineering frameworks allow you to perform and automate any kind of reversing task without depending on a heavy-weight GUI. Notably, most reversing frameworks are open source and/or available for free. Popular frameworks with support for mobile architectures include @MASTG-TOOL-0073 and @MASTG-TOOL-0030.
@@ -31,7 +31,7 @@ To visualize this, in the above example, we can obtain the value of the external
 
 In addition, symbolic execution also comes in handy for supporting de-obfuscation tasks, such as simplifying control flow graphs. For example, Jonathan Salwan and Romain Thomas have [shown how to reverse engineer VM-based software protections using Dynamic Symbolic Execution](https://drive.google.com/file/d/1EzuddBA61jEMy8XbjQKFF3jyoKwW7tLq/view?usp=sharing "Jonathan Salwan and Romain Thomas: How Triton can help to reverse virtual machine based software protections") [#salwan] (i.e., using a mix of actual execution traces, simulation, and symbolic execution).
 
-In the Android section, you'll find a walkthrough for cracking a simple license check in an Android application using symbolic execution.
+In @MASTG-TECH-0037, you'll find a walkthrough for cracking a simple license check in an Android application using symbolic execution.
 
 ## References
 

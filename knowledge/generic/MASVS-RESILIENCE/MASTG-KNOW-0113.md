@@ -4,7 +4,7 @@ platform: generic
 title: Using Disassemblers and Decompilers
 ---
 
-Disassemblers and decompilers allow you to translate an app's binary code or bytecode back into a more or less understandable format. By using these tools on native binaries, you can obtain assembler code that matches the architecture the app was compiled for. 
+Disassemblers and decompilers allow you to translate an app's binary code or bytecode back into a more or less understandable format. By using these tools on native binaries, you can obtain assembler code that matches the architecture the app was compiled for.
 
 ## Disassemblers
 
