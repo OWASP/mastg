@@ -1,6 +1,6 @@
 ---
 masvs_category: MASVS-RESILIENCE
-platform: all
+platform: generic
 ---
 
 # Mobile App Tampering and Reverse Engineering
