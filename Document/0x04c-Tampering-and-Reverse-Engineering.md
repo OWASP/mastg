@@ -37,48 +37,8 @@ The bad news is that dealing with multi-threaded anti-debugging controls, crypto
 
 It's easy for beginners to get overwhelmed by the sheer scope of reversing. The best way to get started is to set up some basic tools (see the relevant sections in the Android and iOS reversing chapters) and start with simple reversing tasks and crackmes. You'll need to learn about the assembler/bytecode language, the operating system, obfuscations you encounter, and so on. Start with simple tasks and gradually level up to more difficult ones.
 
-In the following section, we'll give an overview of the techniques most commonly used in mobile app security testing. In later chapters, we'll drill down into OS-specific details of both Android and iOS.
-
-## Basic Tampering Techniques
-
-### Binary Patching
-
-See @MASTG-KNOW-0109.
-
-### Code Injection
-
-See @MASTG-KNOW-0110.
-
-## Static and Dynamic Binary Analysis
-
-Reverse engineering is the process of reconstructing the semantics of a compiled program's source code. In other words, you take the program apart, run it, simulate parts of it, and do other unspeakable things to it to understand what it does and how.
-
-### Using Disassemblers and Decompilers
-
-See @MASTG-KNOW-0113.
-
-### Obfuscation
-
-See @MASTG-KNOW-0111.
-
-### Debugging and Tracing
-
-See @MASTG-KNOW-0114.
-
-## Advanced Techniques
+In this section, you can find an overview of the techniques most commonly used in mobile app security testing. Including basic tampering techniques as well as static and dynamic binary analysis.
 
 For more complicated tasks, such as de-obfuscating heavily obfuscated binaries, you won't get far without automating certain parts of the analysis. For example, understanding and simplifying a complex control flow graph based on manual analysis in the disassembler would take you years (and most likely drive you mad long before you're done). Instead, you can augment your workflow with custom made tools. Fortunately, modern disassemblers come with scripting and extension APIs, and many useful extensions are available for popular disassemblers. There are also open source disassembling engines and binary analysis frameworks.
 
 As always in hacking, the anything-goes rule applies: simply use whatever is most efficient. Every binary is different, and all reverse engineers have their own style. Often, the best way to achieve your goal is to combine approaches (such as emulator-based tracing and symbolic execution). To get started, pick a good disassembler and/or reverse engineering framework, then get comfortable with their particular features and extension APIs. Ultimately, the best way to get better is to get hands-on experience.
-
-### Dynamic Binary Instrumentation
-
-See @MASTG-KNOW-0115.
-
-### Emulation-based Dynamic Analysis
-
-See @MASTG-KNOW-0112.
-
-### Symbolic Execution
-
-See @MASTG-KNOW-0116.
