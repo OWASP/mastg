@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>DEMO: This app scans NFC tags to demonstrate NFC capabilities.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>DEMO: This app requires access to Bluetooth even when in the background for testing.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>DEMO: This app requires access to Bluetooth peripherals for testing.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>DEMO: This app requires access to your calendar for testing.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>DEMO: This app requires access to your camera for testing.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>DEMO: This app requires access to your contacts for testing.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>DEMO: This app requires Face ID or Touch ID for biometric testing.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>DEMO: This app reads your Health data (e.g., steps) to demonstrate HealthKit APIs.</string>
+	<key>NSHomeKitUsageDescription</key>
+	<string>DEMO: This app accesses your Home data to demonstrate HomeKit capabilities.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>DEMO: This app requires your location even when in the background for testing.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>DEMO: This app requires your location while in use for testing.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>DEMO: This app requires access to your microphone for testing.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>DEMO: This app requires access to your motion and fitness data for testing.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>DEMO: This app requires access to your photo library for testing.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>DEMO: This app integrates with Siri for entitlement demonstrations.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>DEMO: This app requires notifications to demonstrate alert behavior.</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleWindowScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>
