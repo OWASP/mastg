@@ -370,18 +370,8 @@ function traceBluetoothPermission() {
     var CBCentralManager = ObjC.classes.CBCentralManager;
     if (!CBCentralManager) return;
 
-    var statusMap = {0: "NotDetermined", 1: "Restricted", 2: "Denied", 3: "AllowedAlways"};
-
-    try {
-        Interceptor.attach(CBCentralManager['+ authorization'].implementation, {
-            onLeave: function(retval) {
-                var status = retval.toInt32();
-                var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                var granted = status === 3;
-                printStatus("Bluetooth", statusStr, granted);
-            }
-        });
-    } catch(e) {}
+    var authMap = {0: "NotDetermined", 1: "Restricted", 2: "Denied", 3: "AllowedAlways"};
+    var stateMap = {0: "Unknown", 1: "Resetting", 2: "Unsupported", 3: "Unauthorized", 4: "PoweredOff", 5: "PoweredOn"};
 
     setTimeout(function() {
         try {
@@ -391,10 +381,12 @@ function traceBluetoothPermission() {
                     onEnter: function(args) {
                         var manager = ObjC.Object(args[2]);
                         var s = Number(manager.state());
-                        var stateMap = {0: "Unknown", 1: "Resetting", 2: "Unsupported", 3: "Unauthorized", 4: "PoweredOff", 5: "PoweredOn"};
+                        if (s === 0 || s === 1) return; // skip Unknown and Resetting (transient states)
+                        var a = Number(manager.authorization());
                         var stateStr = stateMap[s] || "Unknown(" + s + ")";
-                        var granted = s === 5;
-                        printStatus("Bluetooth", stateStr, granted);
+                        var authStr = authMap[a] || "Unknown(" + a + ")";
+                        var granted = a === 3;
+                        printStatus("Bluetooth", stateStr + " | " + authStr, granted);
                     }
                 });
             });
@@ -430,18 +422,16 @@ function traceHomeKitPermission() {
     var HMHomeManager = ObjC.classes.HMHomeManager;
     if (!HMHomeManager) return;
 
-    var statusMap = {0: "Determined", 1: "Restricted", 2: "Authorized"};
+    function describeHomeKitStatus(s) {
+        if (s === 0) return "NotDetermined";
+        var flags = [];
+        if (s & 1) flags.push("Determined");
+        if (s & 2) flags.push("Restricted");
+        if (s & 4) flags.push("Authorized");
+        return flags.length > 0 ? flags.join("|") : "Unknown(" + s + ")";
+    }
 
-    try {
-        Interceptor.attach(HMHomeManager['- authorizationStatus'].implementation, {
-            onLeave: function(retval) {
-                var status = retval.toInt32();
-                var statusStr = statusMap[status] || "Unknown(" + status + ")";
-                var granted = status === 2;
-                printStatus("HomeKit", statusStr, granted);
-            }
-        });
-    } catch(e) {}
+    var homeKitReported = false;
 
     setTimeout(function() {
         try {
@@ -449,16 +439,46 @@ function traceHomeKitPermission() {
             resolver.enumerateMatches('-[* homeManagerDidUpdateHomes:]').forEach(function(match) {
                 Interceptor.attach(match.address, {
                     onEnter: function(args) {
+                        if (homeKitReported) return;
                         var manager = ObjC.Object(args[2]);
-                        var s = Number(manager.authorizationStatus());
-                        var statusStr = statusMap[s] || "Unknown(" + s + ")";
-                        var granted = s === 2;
-                        printStatus("HomeKit", statusStr, granted);
+                        try {
+                            var s = Number(manager.authorizationStatus());
+                            if (s !== 0) {
+                                homeKitReported = true;
+                                printStatus("HomeKit", describeHomeKitStatus(s), (s & 4) !== 0);
+                            }
+                        } catch(e) {}
                     }
                 });
             });
         } catch(e) {}
     }, 500);
+
+    // Fallback: poll authorizationStatus directly after each HMHomeManager init.
+    // On iOS versions where homeManagerDidUpdateHomes: does not fire for denial,
+    // the poll detects the NotDetermined → Determined transition by reading the
+    // live value. Runs every 500ms until a non-zero status is observed.
+    try {
+        Interceptor.attach(HMHomeManager['- init'].implementation, {
+            onLeave: function(retval) {
+                homeKitReported = false;
+                var manager = ObjC.Object(retval);
+                function poll() {
+                    if (homeKitReported) return;
+                    try {
+                        var s = Number(manager.authorizationStatus());
+                        if (s !== 0) {
+                            homeKitReported = true;
+                            printStatus("HomeKit", describeHomeKitStatus(s), (s & 4) !== 0);
+                            return;
+                        }
+                    } catch(e) { return; }
+                    setTimeout(poll, 500);
+                }
+                setTimeout(poll, 500);
+            }
+        });
+    } catch(e) {}
 }
 // SIRI
 
