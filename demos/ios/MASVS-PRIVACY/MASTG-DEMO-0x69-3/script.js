@@ -432,46 +432,34 @@ function traceHomeKitPermission() {
     }
 
     var homeKitReported = false;
+    var lastStatus = 0;
 
-    setTimeout(function() {
-        try {
-            var resolver = new ApiResolver('objc');
-            resolver.enumerateMatches('-[* homeManagerDidUpdateHomes:]').forEach(function(match) {
-                Interceptor.attach(match.address, {
-                    onEnter: function(args) {
-                        if (homeKitReported) return;
-                        var manager = ObjC.Object(args[2]);
-                        try {
-                            var s = Number(manager.authorizationStatus());
-                            if (s !== 0) {
-                                homeKitReported = true;
-                                printStatus("HomeKit", describeHomeKitStatus(s), (s & 4) !== 0);
-                            }
-                        } catch(e) {}
-                    }
-                });
-            });
-        } catch(e) {}
-    }, 500);
+    try {
+        Interceptor.attach(HMHomeManager['- authorizationStatus'].implementation, {
+            onLeave: function(retval) {
+                var s = retval.toInt32();
+                if (!homeKitReported && s !== 0 && lastStatus === 0) {
+                    homeKitReported = true;
+                    printStatus("HomeKit", describeHomeKitStatus(s), (s & 4) !== 0);
+                }
+                lastStatus = s;
+            }
+        });
+    } catch(e) {}
 
-    // Fallback: poll authorizationStatus directly after each HMHomeManager init.
-    // On iOS versions where homeManagerDidUpdateHomes: does not fire for denial,
-    // the poll detects the NotDetermined → Determined transition by reading the
-    // live value. Runs every 500ms until a non-zero status is observed.
+    // Hook HMHomeManager init to poll authorizationStatus every 500ms.
+    // The polling drives the hook above — without it, denial would never be observed
+    // because iOS does not reliably call homeManagerDidUpdateHomes on denial.
     try {
         Interceptor.attach(HMHomeManager['- init'].implementation, {
             onLeave: function(retval) {
-                homeKitReported = false;
+                homeKitReported = false; // reset per manager instance
+                lastStatus = 0;
                 var manager = ObjC.Object(retval);
                 function poll() {
                     if (homeKitReported) return;
                     try {
-                        var s = Number(manager.authorizationStatus());
-                        if (s !== 0) {
-                            homeKitReported = true;
-                            printStatus("HomeKit", describeHomeKitStatus(s), (s & 4) !== 0);
-                            return;
-                        }
+                        manager.authorizationStatus(); // triggers the hook above on each call
                     } catch(e) { return; }
                     setTimeout(poll, 500);
                 }
