@@ -16,17 +16,16 @@ import NetworkExtension
 import PassKit
 
 class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDelegate, HMHomeManagerDelegate, NFCNDEFReaderSessionDelegate {
-
+    
     private let locationManager = CLLocationManager()
     private let motionManager = CMMotionActivityManager()
     private var bluetoothManager: CBCentralManager?
     private let healthStore = HKHealthStore()
-    private var homeManager: HMHomeManager?
+    private let homeManager = HMHomeManager()
     private var nfcSession: NFCNDEFReaderSession?
     private var hasLoggedNFCOutcome = false
     private var hasRequestedAlwaysAuthorization = false
-    private var hasProcessedBluetooth = false
-    private var hasLoggedHomeKitDecision = false
+    private var hasProcessedMotion = false
 
     private var permissionStatus: [String: Bool] = [
         "Location": false,
@@ -48,7 +47,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     ]
 
     static let shared = PermissionManager()
-
+    
     private var completionHandler: ((String) -> Void)?
     private var results: String = "--- Starting All Permission Requests ---\n" {
         didSet {
@@ -58,12 +57,14 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
             }
         }
     }
-
+    
     private override init() {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
+        bluetoothManager = CBCentralManager(delegate: self, queue: nil)
+        homeManager.delegate = self
     }
 
     private func resetState() {
@@ -73,14 +74,12 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         }
         locationManager.stopUpdatingLocation()
         motionManager.stopActivityUpdates()
-        bluetoothManager = nil
-        homeManager = nil
+        bluetoothManager = CBCentralManager(delegate: self, queue: nil)
         nfcSession?.invalidate()
         nfcSession = nil
         hasLoggedNFCOutcome = false
         hasRequestedAlwaysAuthorization = false
-        hasProcessedBluetooth = false
-        hasLoggedHomeKitDecision = false
+        hasProcessedMotion = false
     }
 
     func requestAllPermissionsSequentially(completion: @escaping (String) -> Void) {
@@ -89,7 +88,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         requestLocationPermission()
         // Subsequent requests are triggered within delegates or callbacks
     }
-
+    
     private func requestLocationPermission() {
         locationManager.requestWhenInUseAuthorization()
     }
@@ -113,7 +112,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
             }
         }
     }
-
+    
     private func requestContactsPermission() {
         CNContactStore().requestAccess(for: .contacts) { granted, _ in
             DispatchQueue.main.async {
@@ -143,22 +142,18 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
             }
         }
     }
-
+    
     private func requestPhotoLibraryPermission() {
         PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
             DispatchQueue.main.async {
                 let granted = (status == .authorized || status == .limited)
                 self.permissionStatus["PhotoLibrary"] = granted
                 self.results += "Requested Photo Library access... \(granted ? "✅" : "❌")\n"
-                self.requestBluetoothPermission()
+                self.results += "Bluetooth was requested on init...\n"
+                self.permissionStatus["Bluetooth"] = true
+                self.requestNotificationPermission()
             }
         }
-    }
-
-    private func requestBluetoothPermission() {
-        bluetoothManager = CBCentralManager(delegate: self, queue: nil)
-        results += "Requested Bluetooth access...\n"
-        // continues in centralManagerDidUpdateState delegate
     }
 
     private func requestNotificationPermission() {
@@ -177,10 +172,35 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     }
 
     private func requestMotionPermission() {
-        motionManager.startActivityUpdates(to: .main) { _ in
+        hasProcessedMotion = false
+        // startActivityUpdates triggers the permission dialog but the handler only
+        // fires on the first activity update (granted + device moving). Polling
+        // authorizationStatus every 200 ms advances the chain immediately after the
+        // user taps Allow or Don't Allow, without waiting for an activity event.
+        motionManager.startActivityUpdates(to: .main) { [weak self] _ in
+            guard let self, !self.hasProcessedMotion else { return }
+            self.hasProcessedMotion = true
             self.motionManager.stopActivityUpdates()
             self.permissionStatus["Motion"] = true
             self.results += "Requested Motion & Fitness access... ✅\n"
+            self.requestHealthKitPermission()
+        }
+        pollMotionAuthorization()
+    }
+
+    private func pollMotionAuthorization() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            guard let self, !self.hasProcessedMotion else { return }
+            let status = CMMotionActivityManager.authorizationStatus()
+            guard status != .notDetermined else {
+                self.pollMotionAuthorization()
+                return
+            }
+            self.hasProcessedMotion = true
+            self.motionManager.stopActivityUpdates()
+            let granted = status == .authorized
+            self.permissionStatus["Motion"] = granted
+            self.results += "Requested Motion & Fitness access... \(granted ? "✅" : "❌")\n"
             self.requestHealthKitPermission()
         }
     }
@@ -194,13 +214,17 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         }
 
         let readTypes: Set = [stepCount]
-        healthStore.requestAuthorization(toShare: [], read: readTypes) { granted, error in
+        // Note: the `granted` parameter only confirms the UI was presented — HealthKit
+        // intentionally never reveals whether the user denied a read type to protect
+        // privacy. Use error-only to detect system-level failures.
+        healthStore.requestAuthorization(toShare: [], read: readTypes) { _, error in
             DispatchQueue.main.async {
-                self.permissionStatus["HealthKit"] = granted
                 if let error = error {
+                    self.permissionStatus["HealthKit"] = false
                     self.results += "Requested HealthKit read access... ❌ (\(error.localizedDescription))\n"
                 } else {
-                    self.results += "Requested HealthKit read access... \(granted ? "✅" : "❌")\n"
+                    self.permissionStatus["HealthKit"] = true
+                    self.results += "Requested HealthKit read access... ✅\n"
                 }
                 self.requestHomeKitPermission()
             }
@@ -208,36 +232,18 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     }
 
     private func requestHomeKitPermission() {
-        homeManager = HMHomeManager()
-        homeManager?.delegate = self
-        let status = homeManager?.authorizationStatus ?? []
-
-        if status.contains(.determined) {
-            // Status already decided from a previous session — log and continue immediately
-            hasLoggedHomeKitDecision = true
-            let authorized = status.contains(.authorized)
-            permissionStatus["HomeKit"] = authorized
-            if status.contains(.restricted) {
-                results += "HomeKit authorization: Restricted ❌\n"
-            } else {
-                results += "HomeKit authorization: \(authorized ? "Authorized ✅" : "Denied ❌")\n"
-            }
-            requestSiriPermission()
-            return
+        let status = homeManager.authorizationStatus
+        let authorized = status == .authorized
+        permissionStatus["HomeKit"] = authorized
+        switch status {
+        case .authorized:
+            results += "HomeKit authorization status: Authorized ✅\n"
+        case .restricted:
+            results += "HomeKit authorization status: Restricted ❌\n"
+        default:
+            results += "HomeKit authorization status: Other (rawValue: \(status.rawValue)) ❌\n"
         }
-
-        // Not yet determined — wait for homeManagerDidUpdateHomes to continue the chain.
-        // Fallback: if the delegate never fires (e.g., denial on some iOS versions),
-        // check the status after a timeout and continue.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 15) { [weak self] in
-            guard let self, !self.hasLoggedHomeKitDecision else { return }
-            self.hasLoggedHomeKitDecision = true
-            let s = self.homeManager?.authorizationStatus ?? []
-            let authorized = s.contains(.authorized)
-            self.permissionStatus["HomeKit"] = authorized
-            self.results += "HomeKit access \(authorized ? "authorized... ✅" : "denied... ❌")\n"
-            self.requestSiriPermission()
-        }
+        requestSiriPermission()
     }
 
     private func requestSiriPermission() {
@@ -345,7 +351,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         results += "\n--- All permissions and entitlement-backed APIs have been exercised. Review device prompts or logs for detailed results. ---\n"
         completionHandler?(results)
     }
-
+    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         DispatchQueue.main.async {
             switch manager.authorizationStatus {
@@ -357,6 +363,14 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
                     self.results += "Requested Location (When In Use)... ✅\n"
                     manager.startUpdatingLocation()
                     manager.requestAlwaysAuthorization()
+                    // "Keep Only While Using" keeps the status as .authorizedWhenInUse,
+                    // so the delegate never fires again. Fall back after 5 s if unchanged.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+                        guard let self, manager.authorizationStatus == .authorizedWhenInUse else { return }
+                        self.permissionStatus["Location"] = true
+                        self.results += "Requested Location (Keep While Using)... ✅\n"
+                        self.requestCameraPermission()
+                    }
                     return
                 }
             case .authorizedAlways:
@@ -370,36 +384,24 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
             self.requestCameraPermission()
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         let formatted = String(format: "%.4f, %.4f", location.coordinate.latitude, location.coordinate.longitude)
         results += "Received Location update: \(formatted)\n"
         manager.stopUpdatingLocation()
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         results += "Location updates failed: \(error.localizedDescription)\n"
     }
-
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        guard central.state != .unknown, central.state != .resetting, !hasProcessedBluetooth else { return }
-        hasProcessedBluetooth = true
-        let authorized = central.authorization == .allowedAlways
-        DispatchQueue.main.async {
-            self.permissionStatus["Bluetooth"] = authorized
-            self.results += "Bluetooth authorization: \(authorized ? "✅" : "❌")\n"
-            self.requestNotificationPermission()
-        }
-    }
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {}
 
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        guard !hasLoggedHomeKitDecision, manager.authorizationStatus.contains(.determined) else { return }
-        hasLoggedHomeKitDecision = true
-        let authorized = manager.authorizationStatus.contains(.authorized)
-        permissionStatus["HomeKit"] = authorized
-        results += "HomeKit access \(authorized ? "authorized... ✅" : "denied... ❌")\n"
-        requestSiriPermission()
+        if permissionStatus["HomeKit"] == false && homeManager.authorizationStatus == .authorized {
+            permissionStatus["HomeKit"] = true
+            results += "HomeKit manager updated homes indicating authorization... ✅\n"
+        }
     }
 
     func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
