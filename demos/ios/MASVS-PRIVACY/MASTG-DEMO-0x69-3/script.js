@@ -157,7 +157,6 @@ function traceContactsPermission() {
 
     var statusMap = {0: "NotDetermined", 1: "Restricted", 2: "Denied", 3: "Authorized"};
 
-    // Hook authorizationStatusForEntityType:
     try {
         Interceptor.attach(CNContactStore['+ authorizationStatusForEntityType:'].implementation, {
             onLeave: function(retval) {
@@ -381,7 +380,7 @@ function traceBluetoothPermission() {
                     onEnter: function(args) {
                         var manager = ObjC.Object(args[2]);
                         var s = Number(manager.state());
-                        if (s === 0 || s === 1) return; // skip Unknown and Resetting (transient states)
+                        if (s === 0 || s === 1) return;
                         var a = Number(manager.authorization());
                         var stateStr = stateMap[s] || "Unknown(" + s + ")";
                         var authStr = authMap[a] || "Unknown(" + a + ")";
@@ -447,19 +446,16 @@ function traceHomeKitPermission() {
         });
     } catch(e) {}
 
-    // Hook HMHomeManager init to poll authorizationStatus every 500ms.
-    // The polling drives the hook above — without it, denial would never be observed
-    // because iOS does not reliably call homeManagerDidUpdateHomes on denial.
     try {
         Interceptor.attach(HMHomeManager['- init'].implementation, {
             onLeave: function(retval) {
-                homeKitReported = false; // reset per manager instance
+                homeKitReported = false;
                 lastStatus = 0;
                 var manager = ObjC.Object(retval);
                 function poll() {
                     if (homeKitReported) return;
                     try {
-                        manager.authorizationStatus(); // triggers the hook above on each call
+                        manager.authorizationStatus();
                     } catch(e) { return; }
                     setTimeout(poll, 500);
                 }
