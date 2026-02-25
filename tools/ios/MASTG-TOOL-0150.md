@@ -4,4 +4,4 @@ platform: ios
 source: https://sidestore.io/
 ---
 
-SideStore is an iOS sideloading app that allows you to sign and install apps using your Apple ID, bypassing the 7-day limit by refreshing them on-device via a local WireGuard VPN.
+SideStore is an iOS sideloading app that allows you to sign and install apps using your Apple ID, bypassing the seven-day limit by refreshing them on-device via a local WireGuard VPN.
