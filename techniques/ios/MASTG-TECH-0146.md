@@ -14,19 +14,6 @@ The following sections walk through each step of the process for App Store apps:
 
 Follow @MASTG-TECH-0054 to obtain the IPA file for the app you want to test and ensure you obtain a **non-encrypted version before proceeding** (you'll need a jailbroken device).
 
-### Overcoming Decryption Constraints (Version Mismatch)
-
-You might run into a situation where the target app requires a newer iOS version (like iOS 16+), but your jailbroken device is stuck on an older version (like iOS 14).
-
-**The MinimumOSVersion Workaround:**
-
-You can usually bypass the installation restriction just to get the decrypted binary:
-
-1. Extract the FairPlay-encrypted IPA via Apple Configurator.
-2. Unzip the archive and modify the `MinimumOSVersion` key within the `Info.plist` file to match the older jailbroken device's iOS version.
-3. Repackage and force-install the app using a tweak like AppSync Unified.
-4. The app will probably crash right away due to missing modern APIs. However, the decrypted Mach-O binary is usually already loaded in memory. You can dump it during this early initialization stage using standard tools like `frida-ios-dump`. Once you have the decrypted payload, just transfer it to your modern non-jailbroken device for patching.
-
 ## Step 2: Obtain a Developer Provisioning Profile
 
 Follow @MASTG-TECH-0079 to create a signing identity and obtain a valid provisioning profile. You'll need this to sign the repackaged IPA so iOS allows it to run on your device.
@@ -43,26 +30,9 @@ Follow @MASTG-TECH-0092 to re-sign the patched IPA using the provisioning profil
 
 Follow @MASTG-TECH-0056 to install the signed IPA on your device. Note that because you've modified the IPA, the Bundle Identifier may have changed depending on the signing tool you used.
 
-### Modern Sideloading for Persistence
-
-Standard free Apple developer accounts restrict app provisioning profiles to just seven days. For extended testing periods, this requires constant re-tethering to a workstation. To maintain persistence locally on the device, consider these sideloading methods:
-
-- **SideStore:** This tool handles profile renewals directly on the device. It works by routing the signing traffic wirelessly through a local WireGuard loopback.
-- **TrollStore:** If the testing device runs an iOS version susceptible to the CoreTrust vulnerability, you can use TrollStore. It essentially allows user-signed applications to be installed permanently, completely bypassing the seven-day expiration.
-
 ## Step 6: Launch the App in Debug Mode
 
 Follow @MASTG-TECH-0055 to launch the repackaged app in debug mode. Launching via SpringBoard will cause it to crash; you must use the debug launch method so the Frida Gadget can start and wait for your connection.
-
-## Automated Dynamic Analysis with MobSF
-
-You can also use Mobile Security Framework (MobSF) for automated dynamic instrumentation. If you're running MobSF in Docker and need it to communicate with the physical device via USB, make sure to mount the `usbmuxd` socket:
-
-```bash
-docker run -it --rm -p 8000:8000 -v /var/run/usbmuxd:/var/run/usbmuxd opensecurity/mobile-security-framework-mobsf:latest
-```
-
-Once the container has USB access, upload your repackaged and developer-signed IPA to the MobSF web interface. MobSF handles the deployment, starts the Frida session inside the app sandbox, and generates the dynamic analysis report.
 
 ## Troubleshooting and Modern iOS Caveats (iOS 16+)
 

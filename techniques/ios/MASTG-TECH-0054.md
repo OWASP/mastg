@@ -86,6 +86,19 @@ rabin2 -I Payload/Telegram X.app/Telegram X | grep crypto
 crypto   false
 ```
 
+### Overcoming Decryption Constraints (Version Mismatch)
+
+You might run into a situation where the target app requires a newer iOS version (like iOS 16+), but your jailbroken device is stuck on an older version (like iOS 14).
+
+**The MinimumOSVersion Workaround:**
+
+You can usually bypass the installation restriction just to get the decrypted binary (based on [this workaround](https://book.hacktricks.wiki/en/mobile-pentesting/ios-pentesting/ios-pentesting-without-jailbreak.html)):
+
+1. Extract the FairPlay-encrypted IPA via [Apple Configurator](https://support.apple.com/apple-configurator).
+2. Unzip the archive and modify the `MinimumOSVersion` key within the `Info.plist` file to match the older jailbroken device's iOS version.
+3. Repackage and force-install the app. Please refer to @MASTG-TECH-0056 for standard app installation methods. If standard methods fail due to the version mismatch, using a tweak like AppSync Unified (@MASTG-TOOL-0127) is a common workaround.
+4. The app will probably crash right away due to missing modern APIs. However, the decrypted Mach-O binary is usually already loaded in memory. You can dump it during this early initialization stage using standard tools like @MASTG-TOOL-0050 (`frida-ios-dump`). Once you have the decrypted payload, just transfer it to your modern non-jailbroken device for patching.
+
 ## Thinning the App Binary
 
 The app binary may contain multiple architectures, such as `armv7` (32-bit) and `arm64` (64-bit). That is called a "fat binary".
