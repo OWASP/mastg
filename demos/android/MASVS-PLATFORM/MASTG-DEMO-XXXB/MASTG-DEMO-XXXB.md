@@ -11,7 +11,7 @@ status: new
 
 The following is a sample `AndroidManifest.xml` snippet that defines a deep link intent filter without the `android:autoVerify="true"` attribute.
 
-{{ AndroidManifest_reversed.xml }}
+{{ AndroidManifest_reversed.xml # AndroidManifest.xml }}
 
 ## Steps
 

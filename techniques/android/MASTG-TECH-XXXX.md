@@ -28,7 +28,7 @@ Use adb to run the following command that will show all schemes:
 Use the Android @MASTG-TOOL-014X Tester to list all deep links (list-all) or only app links (list-applinks):
 
 ```bash
-$ python3 deeplink_analyser.py -op list-all -apk example.apk
+ python3 deeplink_analyser.py -op list-all -apk example.apk
 
 org.owasp.mastestapp.MainActivity
 

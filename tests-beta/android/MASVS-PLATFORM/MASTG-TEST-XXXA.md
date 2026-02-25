@@ -18,8 +18,8 @@ This vulnerability arises when an app accepts a URL from an external source such
 
 ## Observation
 
-The output file shows a data flow where data from an Intent is used in `WebView.loadUrl()` without prior sanitization or validation.
+The output should contain a data flow where data from an Intent is used in `WebView.loadUrl()` without prior sanitization or validation.
 
 ## Evaluation
 
-The test fails due to the application loading an unvalidated URL from an untrusted Intent extra into a WebView. A malicious application can create an Intent with a deep link containing a URL pointing to a malicious website. When this URL is loaded by the vulnerable WebView, the user is redirected to the attacker's site.
+The test case fails if the application loads an unvalidated URL from an untrusted Intent extra into a WebView. A malicious application can create an Intent with a deep link containing a URL pointing to a malicious website. When this URL is loaded by the vulnerable WebView, the user is redirected to the attacker's site.

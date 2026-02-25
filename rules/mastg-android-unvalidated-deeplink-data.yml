@@ -1,5 +1,5 @@
 rules:
-- id: android-unvalidated-deeplink-data
+- id: mastg-android-unvalidated-deeplink-data
   severity: WARNING
   languages:
     - java

@@ -1,5 +1,5 @@
 rules:
-- id: android-custom-deeplink-intent-filter
+- id: mastg-android-custom-deeplink-intent-filter
   severity: WARNING
   languages:
     - xml

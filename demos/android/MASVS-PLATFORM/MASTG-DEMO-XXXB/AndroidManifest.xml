@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="deeplink"
-                    android:scheme="vulnerable-app" />
+                    android:host="deeplink.example.com"
+                    android:scheme="https" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,5 @@
 rules:
-- id: android-autoverify-missing
+- id: mastg-android-autoverify-missing
   severity: WARNING
   languages:
     - xml
@@ -16,7 +16,7 @@ rules:
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="..." />
+          <data android:scheme="https" />
         </intent-filter>
     - pattern-not: |
         <intent-filter android:autoVerify="true">

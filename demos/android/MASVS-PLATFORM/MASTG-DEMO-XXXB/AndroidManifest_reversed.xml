@@ -20,6 +20,7 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:debuggable="true"
+        android:testOnly="true"
         android:allowBackup="true"
         android:supportsRtl="true"
         android:extractNativeLibs="false"
@@ -35,8 +36,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="vulnerable-app"
-                    android:host="deeplink"/>
+                    android:scheme="https"
+                    android:host="deeplink.example.com"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

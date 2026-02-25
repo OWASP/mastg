@@ -1,1 +1,1 @@
-NO_COLOR=true semgrep -c ../../../../rules/mastg-android-autoverify-missing.yml ../MASTG-DEMO-0062/AndroidManifest_reversed.xml --text -o output.txt
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-autoverify-missing.yml AndroidManifest_reversed.xml --text -o output.txt

@@ -1,7 +1,7 @@
 ---
 title: Use of Unverified Custom URL Schemes
 platform: android
-id: MASTG-TEST-0295
+id: MASTG-TEST-XXXC
 type: [static]
 profiles: [L1, L2]
 weakness: MASWE-0058
@@ -22,4 +22,4 @@ The output should include the manifest declarations and locations where the app 
 
 ## Evaluation
 
-The test fails if the app relies on custom URL schemes for high-risk operations that should use verified App Links (HTTPS) with Digital Asset Links.
+The test case fails if the app relies on custom URL schemes for high-risk operations that should use verified App Links (HTTPS) with Digital Asset Links.
