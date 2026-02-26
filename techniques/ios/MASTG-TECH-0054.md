@@ -96,7 +96,7 @@ You can usually bypass the installation restriction just to get the decrypted bi
 
 1. Extract the FairPlay-encrypted IPA via [Apple Configurator](https://support.apple.com/apple-configurator).
 2. Unzip the archive and modify the `MinimumOSVersion` key within the `Info.plist` file to match the older jailbroken device's iOS version.
-3. Repackage and force-install the app. Please refer to @MASTG-TECH-0056 for standard app installation methods. If standard methods fail due to the version mismatch, using a tweak like AppSync Unified (@MASTG-TOOL-0127) is a common workaround.
+3. Repackage and force-install the app. Please refer to @MASTG-TECH-0056 for standard app installation methods. If standard methods fail due to the version mismatch, using a tweak like @MASTG-TOOL-0127 is a common workaround.
 4. The app will probably crash right away due to missing modern APIs. However, the decrypted Mach-O binary is usually already loaded in memory. You can dump it during this early initialization stage using standard tools like @MASTG-TOOL-0050 (`frida-ios-dump`). Once you have the decrypted payload, just transfer it to your modern non-jailbroken device for patching.
 
 ## Thinning the App Binary

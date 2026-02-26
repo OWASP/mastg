@@ -88,8 +88,8 @@ It is also possible to use the Xcode IDE to install iOS apps by executing the fo
 
 Standard free Apple developer accounts restrict app provisioning profiles to just seven days. For extended testing periods, this requires constant re-tethering to a workstation. To maintain persistence locally on the device, consider these sideloading methods:
 
-- **SideStore (@MASTG-TOOL-0150):** This tool handles profile renewals directly on the device. It works by routing the signing traffic wirelessly through a local WireGuard loopback.
-- **TrollStore (@MASTG-TOOL-0151):** If the testing device runs an iOS version susceptible to the CoreTrust vulnerability, you can use TrollStore. It essentially allows user-signed applications to be installed permanently, completely bypassing the seven-day expiration.
+- @MASTG-TOOL-0150: This tool handles profile renewals directly on the device. It works by routing the signing traffic wirelessly through a local WireGuard loopback.
+- @MASTG-TOOL-0151: If the testing device runs an iOS version susceptible to the CoreTrust vulnerability, you can use TrollStore. It essentially allows user-signed applications to be installed permanently, completely bypassing the seven-day expiration.
 
 ## Allow Application Installation on a Non-iPad Device
 
