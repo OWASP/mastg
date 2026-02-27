@@ -4,7 +4,7 @@ platform: android
 title: Runtime Integrity Verification
 ---
 
-Controls in this category verify the integrity of the app's memory to defend against runtime memory patches. Such patches include unwanted changes to binary code, bytecode, function pointer tables, and important data structures, as well as rogue code loaded into process memory.
+Techniques in this category verify the integrity of the app's memory to defend against runtime memory patches. Such patches include unwanted changes to binary code, bytecode, function pointer tables, and important data structures, as well as rogue code loaded into process memory.
 
 Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning for tool-specific strings or checking for open ports), this document focuses on detecting the _modifications_ that instrumentation tools make to the app's code and memory.
 
