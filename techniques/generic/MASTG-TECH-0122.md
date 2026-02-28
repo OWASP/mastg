@@ -12,7 +12,6 @@ Passive eavesdropping is particularly useful in the following scenarios:
 - **Troubleshooting active MITM issues**: Identifying TLS handshake errors, certificate validation failures, and routing anomalies that may cause active interception techniques to fail.
 - **Analyzing plaintext non-HTTP traffic**: Monitoring protocols such as XMPP, MQTT, DNS, SMB, and custom UDP/TCP protocols used by the app. Also useful for analyzing push notification traffic from services like Google Cloud Messaging (GCM) / Firebase Cloud Messaging (FCM) on Android or Apple Push Notification Service (APNS) on iOS.
 - **Analyzing traffic from non-proxy-aware apps**: Some mobile apps ignore system proxy settings or actively detect and block interception proxies.
-Passive eavesdropping allows monitoring without triggering detection mechanisms.
 - **Investigating network anomalies and unintended data leaks**: Passive monitoring can help detect unexpected third-party communication, data leakage via DNS requests, or unusual outbound connections. Additionally, even if TLS encryption prevents direct payload inspection, metadata leaks (e.g., request size, timing patterns, domain names, or packet sequences) can still provide valuable insights and may be useful for side-channel attacks.
 
 ## How Does It Work?
