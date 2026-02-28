@@ -228,7 +228,7 @@ Once you have done this, all proxy traffic on your Android phone will be going t
 
 Even after setting up an interception proxy and achieving a MITM position, you may still not be able to see any HTTP requests. This is mainly for the following reasons:
 
-- The app is using a cross-platform framework that does not use the proxy settings of the Android OS or
+- The app uses a cross-platform framework that does not use the Android OS proxy settings.
 - The app you are testing is verifying if a proxy is set and is not allowing any communication.
 
 In both scenarios, you would need additional steps to finally be able to see the traffic. In the sections below, we are describing two different solutions, bettercap and iptables.
