@@ -226,7 +226,7 @@ Once you have done this, all proxy traffic on your Android phone will be going t
 
 ### Non-Proxy Aware Apps
 
-Once you have set up an interception proxy and have a MITM position, you might still not be able to see anything. This is mainly due to the following reasons:
+Even after setting up an interception proxy and achieving a MITM position, you may still not be able to see any HTTP requests. This is mainly for the following reasons:
 
 - The app is using a cross-platform framework that does not use the proxy settings of the Android OS or
 - The app you are testing is verifying if a proxy is set and is not allowing any communication.
