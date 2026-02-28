@@ -14,7 +14,6 @@ deprecation_note: New version available in MASTG V2
 ---
 !!! note
     Xamarin is End of Support. New development should use .NET MAUI instead.
-    The Xamarin guidance below applies to legacy applications only.
 
 ## Overview
 
