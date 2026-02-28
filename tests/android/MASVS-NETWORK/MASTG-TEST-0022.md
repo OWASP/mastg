@@ -96,7 +96,7 @@ Alternatively, it is better to use an OkHttpClient with configured pins and let 
 
 ### Xamarin Applications (Legacy – End of Support)
 
-Xamarin has reached End of Support. For new cross-platform development, .NET MAUI should be used instead.The following applies only to existing legacy Xamarin apps.
+Xamarin has been [End of Support (EoS)](https://dotnet.microsoft.com/en-us/apps/xamarin) since May 1, 2024 and no longer receives security patches or updates. New projects should target [.NET MAUI](https://dotnet.microsoft.com/en-us/apps/maui), Microsoft's supported cross-platform successor.
 
 Applications developed in Xamarin will typically use `ServicePointManager` to implement pinning.
 
