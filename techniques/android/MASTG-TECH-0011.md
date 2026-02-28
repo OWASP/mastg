@@ -231,7 +231,7 @@ Even after setting up an interception proxy and achieving a MITM position, you m
 - The app uses a cross-platform framework that does not use the Android OS proxy settings.
 - The app you are testing may also be verifying whether a proxy is set and not allowing any communication.
 
-In both scenarios, you would need additional steps to finally be able to see the traffic. In the sections below, we are describing two different solutions, bettercap and iptables.
+In both scenarios, additional steps are required to view the traffic. The sections below describe two solutions: `bettercap` and `iptables`.
 
 You could also use an access point that is under your control to redirect the traffic, but this would require additional hardware, and we focus for now on software solutions.
 
