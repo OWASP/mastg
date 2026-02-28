@@ -1,6 +1,7 @@
 ---
-title: Frida for Android
+title: Frida (Android)
 platform: android
+source: https://github.com/frida/frida
 ---
 
 Frida supports interaction with the Android Java runtime through the [Java API](https://www.frida.re/docs/javascript-api/#java "Frida - Java API"). You'll be able to hook and call both Java and native functions inside the process and its native libraries. Your JavaScript snippets have full access to memory, e.g. to read and/or write any structured data.
@@ -15,15 +16,12 @@ Here are some tasks that Frida APIs offer and are relevant or exclusive to Andro
 
 Remember that on Android, you can also benefit from the built-in tools provided when installing Frida, which include the Frida CLI (`frida`), `frida-ps`, `frida-ls-devices`, and `frida-trace`, to name some of them.
 
-Frida is often compared to Xposed. However, this comparison is far from fair, as both frameworks were designed with different goals in mind. This is important to understand as an app security tester so that you can know which framework to use in which situation:
+Frida is often compared to @MASTG-TOOL-0027 or @MASTG-TOOL-0149. However, this comparison is far from fair, as both frameworks were designed with different goals in mind. This is important to understand as an app security tester so that you can know which framework to use in which situation:
 
 - Frida is standalone. All you need is to run the frida-server binary from a known location in your target Android device (see "Installing Frida" below). This means that, in contrast to Xposed, it is not _deep_ installed in the target OS.
 - Reversing an app is an iterative process. As a consequence of the previous point, you obtain a shorter feedback loop when testing, as you don't need to (soft) reboot to apply or simply update your hooks. So you might prefer to use Xposed when implementing more permanent hooks.
 - You may inject and update your Frida JavaScript code on the fly at any point during the runtime of your process (similarly to Cycript on iOS). This way, you can perform the so-called _early instrumentation_ by letting Frida spawn your app, or you may prefer to attach to a running app that you might have brought to a certain state.
 - Frida can handle both Java and native code (JNI), allowing you to modify both of them. This is, unfortunately, a limitation of Xposed, which lacks native code support.
-
-!!! note
-    Xposed, as of early 2019, does not yet work on Android 9 (API level 28).
 
 ## Installing Frida on Android
 

@@ -1,5 +1,5 @@
 ---
-title: Frida for iOS
+title: Frida (iOS)
 platform: ios
 source: https://github.com/frida/frida
 ---
