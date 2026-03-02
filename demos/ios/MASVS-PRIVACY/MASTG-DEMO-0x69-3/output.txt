@@ -4,18 +4,11 @@ Permission            | Status  | Details
 Hooks installed. Tap 'Request All Permissions'...
 ==================================================
 
-Spawned `org.owasp.mastestapp.MASTestApp-iOS`. Resuming main thread!   
-[iPhone::org.owasp.mastestapp.MASTestApp-iOS ]-> HomeKit              | DENIED  | Determined
-Location             | DENIED  | Requesting...
+Spawned `org.owasp.mastestapp.MASTestApp.demo`. Resuming main thread!   
+[iPhone::org.owasp.mastestapp.MASTestApp.demo ]-> Location             | DENIED  | Requesting...
 Location             | DENIED  | NotDetermined
 Location             | GRANTED | AuthorizedWhenInUse
 Location             | DENIED  | Requesting Always...
-Location             | GRANTED | AuthorizedAlways
-HomeKit              | DENIED  | Unknown(5)
-HomeKit              | DENIED  | Unknown(5)
-HomeKit              | DENIED  | Unknown(5)
-Bluetooth            | GRANTED | AllowedAlways
-Bluetooth            | GRANTED | PoweredOn
 Camera               | GRANTED | Authorized
 Microphone           | GRANTED | Granted
 Contacts             | GRANTED | Authorized
@@ -23,11 +16,12 @@ Calendar             | GRANTED | Authorized
 PhotoLibrary         | DENIED  | NotDetermined
 PhotoLibrary         | GRANTED | Authorized
 PhotoLibrary         | GRANTED | Authorized
+Bluetooth            | GRANTED | PoweredOn | AllowedAlways
 Notifications        | GRANTED | Authorized
 Motion               | DENIED  | Requesting...
 Motion               | GRANTED | Authorized
 HealthKit            | GRANTED | Authorized
-HomeKit              | DENIED  | Unknown(5)
+HomeKit              | GRANTED | Determined|Authorized
 Siri                 | DENIED  | Denied
 NFC                  | DENIED  | NotAvailable
 PassLibrary          | GRANTED | Available

@@ -17,10 +17,16 @@ import PassKit
 
 class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDelegate, HMHomeManagerDelegate, NFCNDEFReaderSessionDelegate {
     
-    private let locationManager = CLLocationManager()
-    private let motionManager = CMMotionActivityManager()
+    private lazy var locationManager: CLLocationManager = {
+        let m = CLLocationManager()
+        m.delegate = self
+        m.desiredAccuracy = kCLLocationAccuracyBest
+        m.distanceFilter = kCLDistanceFilterNone
+        return m
+    }()
+    private lazy var motionManager = CMMotionActivityManager()
     private var bluetoothManager: CBCentralManager?
-    private let healthStore = HKHealthStore()
+    private lazy var healthStore = HKHealthStore()
     private var homeManager: HMHomeManager?
     private var nfcSession: NFCNDEFReaderSession?
     private var hasLoggedNFCOutcome = false
@@ -62,9 +68,8 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
     
     private override init() {
         super.init()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = kCLDistanceFilterNone
+        // All permission managers are initialized lazily inside their respective
+        // request methods to avoid triggering permission dialogs before intended.
     }
 
     private func resetState() {
@@ -406,7 +411,7 @@ class PermissionManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         guard !hasProcessedBluetooth else { return }
         guard central.state != .unknown, central.state != .resetting else { return }
         hasProcessedBluetooth = true
-        let granted = central.authorization == .allowedAlways
+        let granted = CBManager.authorization == .allowedAlways
         permissionStatus["Bluetooth"] = granted
         results += "Requested Bluetooth access... \(granted ? "✅" : "❌")\n"
         requestNotificationPermission()
