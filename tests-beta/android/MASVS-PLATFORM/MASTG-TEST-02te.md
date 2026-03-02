@@ -18,7 +18,8 @@ These bridges can be added via the [`addJavascriptInterface`](https://developer.
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for references of:
+2. Use @MASTG-TECH-0007 to determine the app's target API level.
+3. Use @MASTG-TECH-0014 to look for references of:
 
    - the `setJavaScriptEnabled` method
    - the `addJavascriptInterface` method
@@ -35,15 +36,13 @@ These bridges can be added via the [`addJavascriptInterface`](https://developer.
 
 ## Observation
 
-The output should contain a list of WebView instances, including the following methods and their arguments:
+The output should contain the app's API level and a list of WebView instances, including the following methods and their arguments:
 
 - `setJavaScriptEnabled` and if it's enabled or not
 - `addJavascriptInterface` and their associated classes
 - `@JavascriptInterface` and their associated methods
 
 ## Evaluation
-
-**Fail:**
 
 The test fails automatically if all the following are true:
 
@@ -55,8 +54,6 @@ The test also fails, after evaluating the `addJavascriptInterface` method(s) and
 
 - Sensitive data can be read through the interface methods.
 - Actions that can affect the confidentiality, integrity, or availability of the application can be performed via the interface methods.
-
-**Pass:**
 
 The test passes if any of the following are true:
 
