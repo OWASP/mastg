@@ -1,7 +1,7 @@
 ---
 title: Ensure WebViews Within Organizational Trust Boundaries
 alias: ensure-webviews-within-organizational-trust-boundaries
-id: MASTG-BEST-00be // TODO change before merge
+id: MASTG-BEST-00be
 platform: android
 knowledge: [MASTG-KNOW-0018]
 ---

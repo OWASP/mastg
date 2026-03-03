@@ -4,7 +4,7 @@ title: Native Code Exposed Through WebViews
 id: MASTG-TEST-02te
 type: [static]
 weakness: MASWE-0069
-best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-00be] // TODO
+best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-00be]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]
 ---
