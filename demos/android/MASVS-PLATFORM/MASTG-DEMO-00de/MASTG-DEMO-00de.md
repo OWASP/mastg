@@ -10,7 +10,7 @@ test: MASTG-TEST-02te
 
 The following demo demonstrates a `WebView` component that exposes native functionality to JavaScript via the `addJavascriptInterface()` method, compromising the app's integrity and confidentiality.
 
-{{ AndroidManifest.xml }}
+{{ AndroidManifest.xml # MastgTestWebView.kt # MastgTestWebView_reversed.java }}
 
 ## Steps
 

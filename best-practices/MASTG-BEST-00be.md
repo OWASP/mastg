@@ -6,7 +6,7 @@ platform: android
 knowledge: [MASTG-KNOW-0018]
 ---
 
-### Recommendation
+## Recommendation
 
 WebViews in Android allow applications to render web content, but they can introduce significant security risks if not properly managed.
 
@@ -16,7 +16,7 @@ Additionally, load only static WebViews packaged within the app bundle, and do n
 
 If your application must display dynamic web content from the internet, ensure that all websites loaded in your WebView are secure and under your organization's control (or at least within your organization's trust boundaries).
 
-When you need to load partial resources (especially JavaScript files) or even full websites outside your organisation's trust boundaries, do not load them directly into a WebView. Instead, open the website in the user's default browser or use safer alternatives such as [Trusted Web Activities](https://developer.android.com/guide/topics/app-bundle/trusted-web-activities) or [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/). These solutions leverage the browser's isolated environment.
+When you need to load partial resources (especially JavaScript files) or even full websites outside your organization's trust boundaries, do not load them directly into a WebView. Instead, open the website in the user's default browser or use safer alternatives such as [Trusted Web Activities](https://developer.android.com/guide/topics/app-bundle/trusted-web-activities) or [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/). These solutions leverage the browser's isolated environment.
 
 To enforce domain control and prevent untrusted content from loading inside your app, apply a control like the following:
 
@@ -42,7 +42,16 @@ webView.webViewClient = object : WebViewClient() {
 }
 
 fun isOutsideControl(url: String): Boolean {
-    val trustedDomains = listOf("https://my-domain.com", "https://another-trusted-domain.com")
-    return trustedDomains.none { url.startsWith(it) }
+    val trustedSchemes = setOf("https")
+    val trustedHosts = setOf("my-domain.com", "another-trusted-domain.com")
+    val uri = Uri.parse(url)
+    
+    val scheme = uri.scheme ?: return true
+    val host = uri.host ?: return true
+    
+    if (scheme !in trustedSchemes) {
+       return true
+    }
+    return host !in trustedHosts
 }
 ```
