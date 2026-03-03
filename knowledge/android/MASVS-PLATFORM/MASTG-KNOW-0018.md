@@ -289,15 +289,9 @@ Testing WebView cleanup is a complex task that requires extensive information ga
 3. Thirdly, the tester must determine the lifecycle of every sensitive data item and its designated retention period.
 4. Finally, there is a lack of a guarantee that the clear methods will always be called, particularly if the app process is killed abruptly before those occur (e.g., due to a system process kill), and in sequence if mitigation measures exist for these scenarios.
 
-## Secure Alternatives to WebView
+## Alternatives to WebView
 
-[Trusted Web Activities](https://developer.android.com/develop/ui/views/layout/webapps/trusted-web-activities) or [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/) provide a more secure way to display web content, with JavaScript executed in the browser environment. They benefit from:
-
-- Automatic security updates
-- Strong process sandboxing
-- Built-in mitigations against common web vulnerabilities (e.g., Cross-Site Scripting (XSS), Man-in-the-Middle (MITM) attacks)
-
-A trade-off of this approach is that you may lose some control over the user experience or the application's look and feel. However, this is a necessary compromise to ensure the security and integrity of your application.
+[Trusted Web Activities](https://developer.android.com/develop/ui/views/layout/webapps/trusted-web-activities) and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/) let your app display web content in the user's browser. With these options, JavaScript runs in the browser environment, and behavior follows the browser's security model and update cycle. For details on capabilities, limitations, and integration guidance, refer to the official Android and Chrome documentation.
 
 ## Additional Resources
 
