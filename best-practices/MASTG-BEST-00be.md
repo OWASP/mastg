@@ -3,7 +3,7 @@ title: Ensure WebViews Within Organizational Trust Boundaries
 alias: ensure-webviews-within-organizational-trust-boundaries
 id: MASTG-BEST-00be
 platform: android
-knowledge: [MASTG-KNOW-0018]
+knowledge: [ MASTG-KNOW-0018 ]
 ---
 
 ## Recommendation
@@ -45,10 +45,10 @@ fun isOutsideControl(url: String): Boolean {
     val trustedSchemes = setOf("https")
     val trustedHosts = setOf("my-domain.com", "another-trusted-domain.com")
     val uri = Uri.parse(url)
-    
+
     val scheme = uri.scheme ?: return true
     val host = uri.host ?: return true
-    
+
     if (scheme !in trustedSchemes) {
        return true
     }
