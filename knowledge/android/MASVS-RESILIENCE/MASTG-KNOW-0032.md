@@ -26,7 +26,7 @@ Techniques 1 and 2 are foundational approaches that underpin the more specific d
 
 ### Memory Checksums
 
-Memory checksums are integrity verification values computed over regions of an application's memory at runtime. At build or load time, the app calculates a hash or checksum (e.g., SHA-256) of critical memory regions such as code sections, function bodies, or constants. At runtime, the app periodically recalculates the checksum and compares it against the expected value. If the values differ, the memory has been modified.
+Memory checksums are integrity verification values computed over regions of an application's memory at runtime. At build time, the app calculates a hash or checksum (e.g., SHA-256) of critical memory regions such as code sections, function bodies, or constants. At runtime, the app periodically recalculates the checksum and compares it against the expected value. If the values differ, the memory has been modified.
 
 This technique can detect code patches, inline hooks (trampolines inserted at function entry points), and data tampering. However, attackers can bypass it by hooking the checksum function itself or by patching the comparison logic.
 

@@ -26,7 +26,7 @@ Implement both artifact-based detection (@MASTG-KNOW-0030) and runtime integrity
 Layer several techniques to maximize detection coverage:
 
 - **Memory scanning**: Scan `/proc/self/maps` and process memory for known artifacts (e.g., "LIBFRIDA", frida-agent libraries, Xposed bridge classes).
-- **Integrity checksums**: Compute checksums of critical code sections at build/load time and verify them periodically at runtime to detect patches and inline hooks.
+- **Integrity checksums**: Compute checksums of critical code sections at build time and verify them periodically at runtime to detect patches and inline hooks.
 - **GOT/PLT verification**: Verify that Global Offset Table entries point to addresses within their expected libraries.
 - **Function prologue inspection**: Compare the first bytes of security-critical functions against their expected values to detect trampoline patterns (e.g., `LDR X16, .+8; BR X16` on ARM64).
 - **ART method verification**: Use JNI's `FromReflectedMethod` to confirm that Java method entry points fall within legitimate regions (OAT file, interpreter, or JIT code cache).
