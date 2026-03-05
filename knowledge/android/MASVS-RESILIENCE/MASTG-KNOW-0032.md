@@ -9,7 +9,7 @@ Techniques in this category verify the integrity of the app's memory to defend a
 Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning for tool-specific strings or checking for open ports), this document focuses on detecting the _modifications_ that instrumentation tools make to the app's code and memory.
 
 !!! note
-    Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously—determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These techniques should be part of a defense-in-depth strategy, not a standalone solution.
+Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously—determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These techniques should be part of a defense-in-depth strategy, not a standalone solution.
 
 ## Techniques
 
@@ -33,7 +33,7 @@ This technique can detect code patches, inline hooks (trampolines inserted at fu
 
 ### Signature-based Detection
 
-Signature-based detection actively involves scanning memory for known byte patterns that indicate unwanted modifications. Unlike checksums, which detect _any_ change, signature-based detection looks for _specific_ patterns associated with hooking frameworks or tampering techniques. 
+Signature-based detection actively involves scanning memory for known byte patterns that indicate unwanted modifications. Unlike checksums, which detect _any_ change, signature-based detection looks for _specific_ patterns associated with hooking frameworks or tampering techniques.
 
 This technique complements checksums by identifying the specific type of modification rather than just detecting that a change occurred. However, attackers can evade detection by using alternative hooking methods or by obfuscating the hook signatures.
 
@@ -97,7 +97,7 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 "](https://link.springer.com/article/10.1007/s11416-022-00458-7), and the ["Anti-Frida Techniques"](https://github.com/apkunpacker/Anti-Frida) collection for additional detection approaches.
 
 !!! note
-    `ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
+`ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
 
 ### Native Hooks Detection
 
@@ -115,5 +115,6 @@ For GOT hook detection, the app can parse its own ELF structure, locate the GOT 
 
 _Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library. Common patterns to scan for include:
 
-- **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls—when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes `50 00 00 58 00 02 1F D6` (hex encoding). Scanning for such patterns at function entry points can reveal hooks. The [O-MVLL anti-hooking pass](https://obfuscator.re/omvll/passes/anti-hook/) exploits the fact that Frida's Interceptor requires X16/X17 as scratch registers by injecting prologues that use these registers, preventing Frida from hooking. Note that a custom Frida modification that uses different registers or inserts opcodes into the sequence may break the detection script, thereby bypassing the defense. Also note that ARM32/Thumb code uses different trampoline patterns (e.g., `LDR PC, [PC, #-4]`) and should be checked separately if the app includes 32-bit libraries.
+- **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls—when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes
+  `50 00 00 58 00 02 1F D6` (hex encoding). Scanning for such patterns at function entry points can reveal hooks. The [O-MVLL anti-hooking pass](https://obfuscator.re/omvll/passes/anti-hook/) exploits the fact that Frida's Interceptor requires X16/X17 as scratch registers by injecting prologues that use these registers, preventing Frida from hooking. Note that a custom Frida modification that uses different registers or inserts opcodes into the sequence may break the detection script, thereby bypassing the defense. Also note that ARM32/Thumb code uses different trampoline patterns (e.g., `LDR PC, [PC, #-4]`) and should be checked separately if the app includes 32-bit libraries.
 - **Modified function prologues**: Comparing the first few bytes of critical functions against their expected values can detect patches. For example, if a function's original prologue is known, any deviation indicates modification.
