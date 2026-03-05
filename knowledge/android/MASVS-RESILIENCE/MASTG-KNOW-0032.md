@@ -15,14 +15,15 @@ Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning f
 
 The following runtime integrity verification techniques are covered in this document:
 
-1. **Memory checksums**: Comparing memory contents or checksums against known good values.
-2. **Signature-based detection**: Searching memory for signatures of unwanted modifications.
-3. **Java Runtime tampering detection**: Detecting modifications to the Android Runtime (ART) made by hooking frameworks.
-4. **Injected class detection**: Identifying classes injected by frameworks like Xposed.
-5. **GOT hook detection**: Verifying Global Offset Table entries point to legitimate libraries.
-6. **Inline hook detection**: Inspecting function prologues/epilogues for trampolines or suspicious jump instructions.
+**Foundational approaches (how you detect):**
 
-Techniques 1 and 2 are foundational approaches that underpin the more specific detection methods (3-6).
+1. **Memory checksums**: Comparing memory contents or checksums against known good values.
+2. **Signature-based detection**: Searching memory for known byte patterns (e.g., trampoline instructions) that indicate unwanted modifications.
+
+**Specific detection methods (what you're detecting):**
+
+1. **Java Runtime tampering detection**: Detecting Android Runtime (ART) modifications made by hooking frameworks, including injected classes (Xposed) and altered method entry points (Frida).
+2. **Native hook detection**: Verifying GOT entries point to legitimate libraries and inspecting function prologues/epilogues for trampolines or suspicious jump instructions.
 
 ### Memory Checksums
 
@@ -32,19 +33,15 @@ This technique can detect code patches, inline hooks (trampolines inserted at fu
 
 ### Signature-based Detection
 
-Signature-based detection actively involves scanning memory for known byte patterns that indicate unwanted modifications. Unlike checksums, which detect _any_ change, signature-based detection looks for _specific_ patterns associated with hooking frameworks or tampering techniques.
-
-On Android, common signatures to detect include:
-
-- **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls—when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes `50 00 00 58 00 02 1F D6` (hex encoding). Scanning for such patterns at function entry points can reveal hooks. The [O-MVLL anti-hooking pass](https://obfuscator.re/omvll/passes/anti-hook/) exploits the fact that Frida's Interceptor requires X16/X17 as scratch registers by injecting prologues that use these registers, preventing Frida from hooking. Note that a custom Frida modification that uses different registers or inserts opcodes into the sequence may break the detection script, thereby bypassing the defense. Also note that ARM32/Thumb code uses different trampoline patterns (e.g., `LDR PC, [PC, #-4]`) and should be checked separately if the app includes 32-bit libraries.
-- **Modified function prologues**: Comparing the first few bytes of critical functions against their expected values can detect patches. For example, if a function's original prologue is known, any deviation indicates modification.
-- **Suspicious branch targets**: Branch instructions pointing outside the library's code section suggest redirection to injected code.
+Signature-based detection actively involves scanning memory for known byte patterns that indicate unwanted modifications. Unlike checksums, which detect _any_ change, signature-based detection looks for _specific_ patterns associated with hooking frameworks or tampering techniques. 
 
 This technique complements checksums by identifying the specific type of modification rather than just detecting that a change occurred. However, attackers can evade detection by using alternative hooking methods or by obfuscating the hook signatures.
 
+On Android, a common signature to scan for is **suspicious branch targets**: branch instructions pointing outside the library's code section suggest redirection to injected code.
+
 ### Java Runtime Tampering Detection
 
-Hooking frameworks such as @MASTG-TOOL-0027 and Frida's Java API modify the Android Runtime (ART) to intercept method calls. These modifications leave detectable traces.
+Hooking frameworks such as @MASTG-TOOL-0027 and @MASTG-TOOL-0001's Java API modify the Android Runtime (ART) to intercept method calls. These modifications leave detectable traces.
 
 #### Xposed Detection
 
@@ -102,7 +99,7 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 !!! note
     `ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
 
-### Detecting Native Hooks
+### Native Hooks Detection
 
 Native function hooks can be installed in ELF binaries by overwriting function pointers in memory (e.g., Global Offset Table or PLT hooking) or by patching parts of the function code itself (inline hooking). Checking the integrity of the corresponding memory regions is one way to detect this type of hook.
 
@@ -116,4 +113,7 @@ For GOT hook detection, the app can parse its own ELF structure, locate the GOT 
 
 #### Inline Hook Detection
 
-_Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library.
+_Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library. Common patterns to scan for include:
+
+- **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls—when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes `50 00 00 58 00 02 1F D6` (hex encoding). Scanning for such patterns at function entry points can reveal hooks. The [O-MVLL anti-hooking pass](https://obfuscator.re/omvll/passes/anti-hook/) exploits the fact that Frida's Interceptor requires X16/X17 as scratch registers by injecting prologues that use these registers, preventing Frida from hooking. Note that a custom Frida modification that uses different registers or inserts opcodes into the sequence may break the detection script, thereby bypassing the defense. Also note that ARM32/Thumb code uses different trampoline patterns (e.g., `LDR PC, [PC, #-4]`) and should be checked separately if the app includes 32-bit libraries.
+- **Modified function prologues**: Comparing the first few bytes of critical functions against their expected values can detect patches. For example, if a function's original prologue is known, any deviation indicates modification.
