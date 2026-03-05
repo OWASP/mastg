@@ -53,6 +53,7 @@ jobs:
 
   build:
     needs: generate-matrix
+    if: ${{ needs.generate-matrix.outputs.matrix != '{"demo":[]}' }}
     runs-on: macos-latest
     timeout-minutes: 15
     strategy:
