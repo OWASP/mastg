@@ -80,7 +80,7 @@ void doAntiXposed(C_JNIEnv *env, jobject object, intptr_t hash) {
 
 #### Frida Detection
 
-Frida's Java API hooks methods differently. It modifies the `ArtMethod` structure in ART's internal representation. Every Java method in memory is represented by an `ArtMethod` object containing fields such as:
+Frida's Java API hooks methods differently from Xposed. It modifies the `ArtMethod` structure in ART's internal representation. Every Java method in memory is represented by an `ArtMethod` object containing fields such as:
 
 - `entry_point_from_quick_compiled_code_`: Pointer to the compiled native code
 - `entry_point_from_interpreter_`: Pointer to interpreter entry
