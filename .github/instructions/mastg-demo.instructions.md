@@ -97,12 +97,12 @@ tools: [semgrep]
 
 ### code
 
-The language(s) in which the samples are written. Multiple values are supported.
+The language(s) in which the samples are written. This must not include the reverse-engineered files (e.g. `.java`, `.asm`, etc.)
 
 Example:
 
 ```md
-code: [java]
+code: [kotlin]
 ```
 
 Multi-language example:
