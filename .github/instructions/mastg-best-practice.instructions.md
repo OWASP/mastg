@@ -14,7 +14,6 @@ When creating a new best practice (whether during porting or writing from scratc
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-BEST-0025`) before the content is published.
 
-
 They must include official references. You can cite the MASTG as a hub only when it points to official sources (for example, Google/Apple documentation, standards, or vendor advisories).
 
 Scope and relationship to Knowledge:

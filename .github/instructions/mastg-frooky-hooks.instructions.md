@@ -65,7 +65,6 @@ Hook configurations are JSON files that declare which classes and methods to ins
 }
 ```
 
-
 Key fields:
 
 - `category`: A label for grouping hooks (for example, `STORAGE`, `CRYPTO`, `NETWORK`).
