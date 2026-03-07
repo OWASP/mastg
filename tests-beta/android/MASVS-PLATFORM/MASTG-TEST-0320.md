@@ -34,7 +34,7 @@ This test uses dynamic analysis to monitor the relevant API calls and file syste
 3. Open the app.
 4. Use the app extensively to ensure that all relevant WebViews are covered and that sensitive data is loaded into them. Ensure you keep a list of the sensitive data you expect to be cleaned up.
 5. Close the app.
-6. Use @MASTG-TECH-0002 to pull the contents of the `/data/data/<app_package>/app_webview/` directory or simply search for the sensitive data used in the WebView within that directory.
+6. Use @MASTG-TECH-0142 to inspect the contents of the `/data/data/<app_package>/app_webview/` directory or simply search for the sensitive data used in the WebView within that directory.
 
 ## Observation
 
