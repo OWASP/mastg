@@ -51,6 +51,12 @@ output.txt
 run.sh*
 ```
 
+## Creating Demo IDs
+
+When creating a new demo (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-DEMO-0x##` (for example, `MASTG-DEMO-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-DEMO-0x33`, `MASTG-DEMO-0x34`, `MASTG-DEMO-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-DEMO-0054`) before the content is published.
+
 ## Markdown: Metadata
 
 ### id
@@ -97,12 +103,12 @@ tools: [semgrep]
 
 ### code
 
-The language(s) in which the samples are written. Multiple values are supported.
+The language(s) in which the samples are written. This must not include the reverse-engineered files (e.g. `.java`, `.asm`, etc.)
 
 Example:
 
 ```md
-code: [java]
+code: [kotlin]
 ```
 
 Multi-language example:
