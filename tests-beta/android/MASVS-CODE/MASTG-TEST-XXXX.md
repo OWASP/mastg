@@ -9,11 +9,11 @@ profiles: [L1, L2]
 
 ## Overview
 
-Data stored in Android's `SharedPreference`s can be tampered with on a rooted device. If an application reads this data without verifying its integrity (e.g., with an HMAC signature), it can lead to security vulnerabilities. This test checks if the application properly validates data read from local storage.
+Data stored in Android's `SharedPreference`s can be tampered with on a rooted device. If an application reads this data without verifying its integrity and authenticity (e.g., with an HMAC signature), it can lead to security vulnerabilities. This test checks if the application properly validates data read from local storage.
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0110 on the code and look for patterns where data is read from `SharedPreferences` without a corresponding integrity check.
+1. Run @MASTG-TECH-0014 on the code and look for patterns where data is read from `SharedPreferences` without a correspondin integrity check.
 
 ## Observation
 
@@ -21,4 +21,4 @@ The output identifies code where `SharedPreferences` data is loaded without an i
 
 ## Evaluation
 
-The test fails if the application does not verify the integrity and authenticity of data loaded from local storage such as `SharedPreferences`.
+The test case fails if the application doesn't verify the integrity and authenticity of data loaded from local storage such as `SharedPreferences`.

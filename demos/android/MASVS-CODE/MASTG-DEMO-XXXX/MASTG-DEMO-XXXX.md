@@ -2,6 +2,7 @@
 platform: android
 title: Local Storage for Input Validation with semgrep
 id: MASTG-DEMO-XXXX
+tools: [MASTG-TOOL-0110]
 code: [kotlin]
 test: MASTG-TEST-XXXX
 ---
@@ -28,4 +29,7 @@ The rule identifies that data is being loaded without being validated.
 
 ### Evaluation
 
-The test fails as the code does not use an `HMAC` integrity check together with `SharedPreferences` data.
+The test fails because the application doesn't use an `HMAC` integrity check when loading sensitive data from `SharedPreferences`.
+
+- Line 23: The rule identifies an insecure initialization of the storage class where HMAC protection is explicitly disabled (`false`).
+- Line 35: Another instance of unvalidated data access is detected.
