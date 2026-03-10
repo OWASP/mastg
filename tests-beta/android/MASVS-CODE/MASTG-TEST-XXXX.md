@@ -13,7 +13,7 @@ Data stored in Android's `SharedPreference`s can be tampered with on a rooted de
 
 ## Steps
 
-1. Run @MASTG-TECH-0014 on the code and look for patterns where data is read from `SharedPreferences` without a correspondin integrity check.
+1. Run @MASTG-TECH-0014 on the code and look for patterns where data is read from `SharedPreferences` without a corresponding integrity check.
 
 ## Observation
 
