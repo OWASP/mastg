@@ -1,20 +1,29 @@
 ?e;?e
 
-?e Uses of allowFileAccessFromFileURLs:
-f~+allowFileAccessFromFileURLs,allowUniversalAccessFromFileURLs
+?e Uses of the APIs:
+f~AccessFromFileURLs
+f~loadFileURL
+f~setValue
 
 ?e
 
-?e xrefs to allowFileAccessFromFileURLs:
-axt @ 0x0000cc40
-axt @ 0x0000cc60
+?e xrefs:
+
+axt 0x10000a540
+axt 0x10000a560
+axt 0x100010170
+axt 0x100010150
 
 ?e
 
-?e Use of allowFileAccessFromFileURLs,allowUniversalAccessFromFileURLs:
+?e Use of the APIs:
 
-pd 20 @ 0x00001428
+pd-- 10 @ 0x100004700
 
 ?e ...
 
-pd 20 @ 0x000014b0
+pd-- 10 @ 0x100004750
+
+?e ...
+
+pd-- 10 @ 0x100004eb8
