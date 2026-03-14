@@ -1,0 +1,21 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-device-credential-fallback
+          [MASVS-AUTH-3] BiometricPrompt allows fallback to device credentials. For sensitive operations,
+          consider using BIOMETRIC_STRONG only.                                                          
+                                                                                                         
+           38┆ final BiometricPrompt prompt1 = new BiometricPrompt.Builder(this.context).setTitle("Test 1:
+               Device Credential").setSubtitle("Using DEVICE_CREDENTIAL (Security:                        
+               FAIL)").setDescription("This allows also PIN/pattern/password                              
+               authentication").setAllowedAuthenticators(32783).setDeviceCredentialAllowed(true).build(); 
+            ⋮┆----------------------------------------
+           38┆ final BiometricPrompt prompt1 = new BiometricPrompt.Builder(this.context).setTitle("Test 1:
+               Device Credential").setSubtitle("Using DEVICE_CREDENTIAL (Security:                        
+               FAIL)").setDescription("This allows also PIN/pattern/password                              
+               authentication").setAllowedAuthenticators(32783).setDeviceCredentialAllowed(true).build(); 
+

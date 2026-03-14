@@ -1,9 +1,0 @@
-{
-  "name": "automatecorellium",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "@corellium/corellium-cli": "^1.5.1",
-    "@corellium/corellium-api": "^1.9.3"
-  }
-}

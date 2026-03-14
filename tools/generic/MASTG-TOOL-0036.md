@@ -4,14 +4,14 @@ platform: generic
 source: https://github.com/nowsecure/r2frida
 ---
 
-[r2frida](https://github.com/nowsecure/r2frida "r2frida on Github") is a project that allows radare2 to connect to Frida, effectively merging the powerful reverse engineering capabilities of radare2 with the dynamic instrumentation toolkit of Frida. r2frida can be used in both on Android and iOS, allowing you to:
+r2frida is a project that allows radare2 to connect to Frida, effectively merging the powerful reverse engineering capabilities of radare2 with the dynamic instrumentation toolkit of Frida. r2frida can be used in both on Android and iOS, allowing you to:
 
 - Attach radare2 to any local process or remote frida-server via USB or TCP.
 - Read/Write memory from the target process.
 - Load Frida information such as maps, symbols, imports, classes and methods into radare2.
 - Call r2 commands from Frida as it exposes the r2pipe interface into the Frida Javascript API.
 
-Please refer to [r2frida's official installation instructions](https://github.com/nowsecure/r2frida/blob/master/README.md#installation "r2frida installation instructions").
+Please refer to [r2frida's official installation instructions](https://github.com/nowsecure/r2frida/blob/master/README.md#installation "r2frida installation instructions"). For detailed tutorials and practical examples on using r2frida, see the [r2frida section in the Frida Handbook](https://learnfrida.info/r2frida/).
 
 With frida-server running, you should now be able to attach to it using the pid, spawn path, host and port, or device-id. For example, to attach to PID 1234:
 

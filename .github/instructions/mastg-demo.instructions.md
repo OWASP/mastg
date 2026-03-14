@@ -1,13 +1,16 @@
-## Demos
+---
+name: 'Writing MASTG Demo Files'
+applyTo: 'demos/**/*.md'
+---
 
 A collection of demos (demonstrative examples) of the test that include working code samples and test scripts to ensure reproducibility and reliability.
 
 Demos live in `demos/android/` or `demos/ios/` under the corresponding MASVS category folder. Each demo has its own folder named using its ID and contains:
 
-* Markdown file: `MASTG-DEMO-xxx.md`
-* Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
-* Testing code (e.g. `*.sh`, `*.py`)
-* Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
+- Markdown file: `MASTG-DEMO-xxx.md`
+- Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
+- Testing code (e.g. `*.sh`, `*.py`)
+- Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
 
 **Language:** The samples are written in **Kotlin** or **Swift**, depending on the platform. In some cases, the samples will also include configuration files such as `AndroidManifest.xml` or `Info.plist`.
 
@@ -48,9 +51,15 @@ output.txt
 run.sh*
 ```
 
-### Markdown: Metadata
+## Creating Demo IDs
 
-#### id
+When creating a new demo (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-DEMO-0x##` (for example, `MASTG-DEMO-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-DEMO-0x33`, `MASTG-DEMO-0x34`, `MASTG-DEMO-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-DEMO-0054`) before the content is published.
+
+## Markdown: Metadata
+
+### id
 
 The demo ID. This should match the folder name.
 
@@ -60,7 +69,7 @@ Example:
 id: MASTG-DEMO-0054
 ```
 
-#### title
+### title
 
 The title should concisely express what the demo is about.
 
@@ -70,15 +79,15 @@ Example:
 title: Common Uses of Insecure Random APIs
 ```
 
-#### platform
+### platform
 
 The mobile platform. One of: `ios`, `android`.
 
-#### tools
+### tools
 
 Tools used in the demo.
 
-When available, prefer referencing official tool IDs from https://mas.owasp.org/MASTG/tools/ (for example, `MASTG-TOOL-0031`). If an official ID is not available, you may use a well-known tool name (for example, `semgrep`).
+When available, prefer referencing official tool IDs from <https://mas.owasp.org/MASTG/tools/> (for example, `MASTG-TOOL-0031`). If an official ID is not available, you may use a well-known tool name (for example, `semgrep`).
 
 Example:
 
@@ -92,14 +101,14 @@ Example without an official ID:
 tools: [semgrep]
 ```
 
-#### code
+### code
 
-The language(s) in which the samples are written. Multiple values are supported.
+The language(s) in which the samples are written. This must not include the reverse-engineered files (e.g. `.java`, `.asm`, etc.)
 
 Example:
 
 ```md
-code: [java]
+code: [kotlin]
 ```
 
 Multi-language example:
@@ -108,7 +117,7 @@ Multi-language example:
 code: [xml, kotlin]
 ```
 
-#### kind
+### kind
 
 Optional. When helpful, specify whether the demo demonstrates a passing or failing case.
 
@@ -120,16 +129,16 @@ Example:
 kind: pass
 ```
 
-#### optional fields
+### optional fields
 
 Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note providing additional context
 
-### Markdown: Body
+## Markdown: Body
 
-#### Sample
+### Sample
 
 Shortly describe the sample and specify the exact sample files using this notation:
 
@@ -148,21 +157,21 @@ Shortly describe the sample and specify the exact sample files using this notati
 Example:
 
 ```md
-### Sample
+## Sample
 
 The snippet below shows sample code that sends sensitive data over the network using the `HttpURLConnection` class. The data is sent to `https://httpbin.org/post`, which is a dummy endpoint that returns the data it receives.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 ```
 
-#### Steps
+### Steps
 
 A concise write-up following all steps from the linked test, including placeholders for testing code and scripts (for example, SAST rules, `run.sh`).
 
 Example:
 
 ```md
-### Steps
+## Steps
 
 Let's run our semgrep rule against the sample code.
 
@@ -171,28 +180,28 @@ Let's run our semgrep rule against the sample code.
 {{ run.sh }}
 ```
 
-#### Observation
+### Observation
 
 A concise description of the observation for this specific demo, including placeholders for output files (for example, `output.txt`, `output.json`).
 
 Example:
 
 ```md
-### Observation
+## Observation
 
 The rule has identified some instances in the code file where a non-random source is used. The specified line numbers can be located in the original code for further investigation and remediation.
 
 {{ output.txt }}
 ```
 
-#### Evaluation
+### Evaluation
 
-A concise explanation of how you applied the test’s "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
+A concise explanation of how you applied the test's "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
 
 Example:
 
 ```md
-### Evaluation
+## Evaluation
 
 Review each of the reported instances.
 
@@ -203,26 +212,25 @@ Review each of the reported instances.
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
 ```
 
-
-### Code Samples {#code-samples}
+## Code Samples
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
 
-* [https://github.com/cpholguera/MASTestApp-Android](https://github.com/cpholguera/MASTestApp-Android)
-* [https://github.com/cpholguera/MASTestApp-iOS](https://github.com/cpholguera/MASTestApp-iOS) 
+- [https://github.com/cpholguera/mas-app-android](https://github.com/cpholguera/mas-app-android)
+- [https://github.com/cpholguera/mas-app-ios](https://github.com/cpholguera/mas-app-ios)
 
-Simply clone the repository and follow the instructions to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
+Simply clone the repository and follow the instructions in the README files to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
 
-#### File
+### File
 
-Must be a modified version of the original files in the apps’ repos: 
+Must be a modified version of the original files in the apps' repos:
 
-* Android: `app/src/main/java/org/owasp/mastestapp/MastgTest.kt`
-* iOS: `MASTestApp/MastgTest.swift`
+- Android: `app/src/main/java/org/owasp/mastestapp/MastgTest.kt`
+- iOS: `MASTestApp/MastgTest.swift`
 
 When working on a new demo, you **must include the whole file** with the original name in the demo folder.
 
-#### Summary
+### Summary
 
 Must contain a summary as a comment.
 
@@ -232,14 +240,14 @@ Example:
 // SUMMARY: This sample demonstrates various common ways of generating random numbers insecurely in Java.
 ```
 
-#### Logic
+### Logic
 
 The file must include code that demonstrates the addressed weakness.
 The provided default `MastgTest.kt` and `MastgTest.swift` files contain some basic logic that returns a string to the UI. If possible, try to return some meaningful string.
 
 For example, if you generate a random number, you can return it; or if you write files to external storage, you can return a list of file paths so that the app's user can read them. You can also use that string to display some meaningful errors.
 
-#### Fail/Pass
+### Fail/Pass
 
 Must contain comments indicating fail/pass and the test alias. This way, we can validate that the output is correct (e.g., the code contains three failures of `MASTG-TEST-0204`). We can easily parse and count the comments, and we can do the same in the output.
 
@@ -262,7 +270,7 @@ Every demo that can be automated must contain a `run.sh` file that runs the anal
 
 #### Static
 
-Static demos must work using the **reverse-engineered code**. The apps’ repositories contain scripts or instructions to obtain the reversed files.
+Static demos must work using the **reverse-engineered code**. The apps' repositories contain scripts or instructions to obtain the reversed files.
 
 Example: semgrep
 
@@ -270,16 +278,20 @@ Example: semgrep
 
 #### Dynamic
 
+Example: frooky (preferred, see [mastg-frooky-hooks.instructions](mastg-frooky-hooks.instructions.md))
+
+`frooky -U -f org.owasp.mastestapp --platform android hooks.json`
+
 Example: frida-trace
 
-`frida-trace -U -f com.google.android.youtube --runtime=v8 -j '*!*certificate*/isu' > output.txt`
+`frida-trace -U -f org.owasp.mastestapp --runtime=v8 -j '*!*certificate*/isu' > output.txt`
 
-Example: frida
+Example: frida (use only when frooky is not enough, see [mastg-frida-scripts.instructions](mastg-frida-scripts.instructions.md))
 
-`frida -U sg.vp.owasp_mobile.omtg_android -l hook_edittext.js > output.txt`
+`frida -U org.owasp.mastestapp -l hook_edittext.js > output.txt`
 
 #### Networking
 
-Example: mitmproxy
+Example: mitmproxy (see [mastg-mitmproxy-scripts.instructions](mastg-mitmproxy-scripts.instructions.md))
 
 `mitmdump -s mitm_sensitive_logger.py`

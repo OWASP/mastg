@@ -83,4 +83,4 @@ You can either configure @MASTG-TOOL-0120 or create `iptables` rules to redirect
 
 - Use the app, and you should be able to intercept the HTTP traffic of the Flutter app.
 
-Further explanations for this setup can be found in the blog post from [Nviso](https://blog.nviso.eu/2019/08/13/intercepting-traffic-from-android-flutter-applications/).
+Further explanations for this setup can be found in the blog post from [Nviso](https://blog.nviso.eu/2022/08/18/intercept-flutter-traffic-on-ios-and-android-http-https-dio-pinning/).

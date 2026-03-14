@@ -6,7 +6,7 @@ code: [kotlin]
 test: MASTG-TEST-0258
 ---
 
-### Sample
+## Sample
 
 The code sample defines a method that creates a popup dialog for user input where 3 text input fields (`EditText`) are instantiated. For each `EditText`, the `inputType` property is set to define the type of input expected:
 
@@ -18,7 +18,7 @@ A dialog is also created using `AlertDialog.Builder`, and it includes "Sign Up" 
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rule against the sample code. The rule uses a pattern that captures every call to `setInputType` along with its argument.
 
@@ -26,7 +26,7 @@ Let's run @MASTG-TOOL-0110 rule against the sample code. The rule uses a pattern
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has detected several instances. For each one, the output shows:
 
@@ -37,7 +37,7 @@ The rule has detected several instances. For each one, the output shows:
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app doesn't use non-caching input types for some sensitive fields. Only the first input field (password) is configured correctly. The other two fields (passphrase and PIN) are set to caching input types.
 
