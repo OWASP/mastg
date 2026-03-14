@@ -30,10 +30,6 @@ The output should identify locations in the binary where the app references or e
 
 ## Evaluation
 
-The test fails if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for any `WKWebView` instance.
-
-## Evaluation
-
 The test **fails** if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
 Inspect each reported call site using @MASTG-TECH-0076.
