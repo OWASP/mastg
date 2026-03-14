@@ -1,8 +1,7 @@
 ---
 platform: ios
-title: References to File Access in WebViews
-id: MASTG-TEST-0318
-apis: [WKWebView, WKPreferences, WKWebViewConfiguration, allowFileAccessFromFileURLs, allowUniversalAccessFromFileURLs, loadFileURL, UIWebView]
+title: WebView File Origin Access Relaxed by Configuration
+id: MASTG-TEST-0xx321
 type: [static]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0028]
@@ -12,54 +11,41 @@ knowledge: [MASTG-KNOW-0076]
 
 ## Overview
 
-This test checks for references to file access configuration in iOS WebViews which can introduce security risks such as unauthorized file access and data exfiltration if improperly configured.
+`WKWebView` supports configuration that affects how JavaScript running from `file://` origins can access other resources. In particular, `allowFileAccessFromFileURLs` allows JavaScript running in the context of a `file://` URL to access content from other `file://` URLs, while `allowUniversalAccessFromFileURLs` allows JavaScript running in the context of a `file://` URL to access content from any origin. Both settings are considered dangerous when enabled because they relax the origin restrictions that normally apply to local content.
 
-For `UIWebView` (deprecated since iOS 12):
+This test checks whether the app enables either of these settings for any `WKWebView` instance. On iOS, these settings are commonly accessed through non-public or unsupported paths, for example by using key value coding on `WKPreferences` or `WKWebViewConfiguration` via `setValue:forKey:` or equivalent Swift calls.
 
-- The `file://` scheme is always enabled.
-- File access from `file://` URLs is always enabled.
-- Universal access from `file://` URLs is always enabled.
+Remember that JavaScript is enables by default unless the app explicitly calls `setJavaScriptEnabled` to set it to `false`.
 
-For `WKWebView`:
-
-- The `file://` scheme is always enabled and cannot be disabled.
-- File access from `file://` URLs is disabled by default but can be enabled.
-
-The following WebView properties can be used to configure file access in `WKWebView`:
-
-- `allowFileAccessFromFileURLs` (`WKPreferences`, `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from other `file://` scheme URLs.
-- `allowUniversalAccessFromFileURLs` (`WKWebViewConfiguration`, `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from any origin.
-
-These properties are **undocumented** and can be set using Key-Value Coding (KVC) by calling `setValue:forKey:`. When these settings are combined with JavaScript enabled, they can enable an attack in which a malicious HTML file gains elevated privileges, accesses local resources, and exfiltrates data over the network, effectively bypassing the security boundaries typically enforced by the same-origin policy.
-
-Additionally, the method `loadFileURL:allowingReadAccessToURL:` should be carefully reviewed. If the `allowingReadAccessToURL` parameter points to a directory instead of a single file, all files within that directory will be accessible to the WebView, which may expose sensitive data.
+This test is related to, but distinct from, @MASTG-TEST-xxxx, which evaluates the use of `loadFileURL(_:allowingReadAccessTo:)`. That test focuses on the **native file system read scope** granted to the WebView through the `readAccessURL` parameter. By contrast, this test focuses on **JavaScript origin restrictions** for content loaded from `file://` URLs. Even if the file read scope is correctly restricted, enabling `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` can allow JavaScript running in a local page to access additional resources or communicate with remote origins.
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 (radare2) or @MASTG-TOOL-0129 (rabin2) to search for:
-    - Usage of the deprecated `UIWebView` class.
-    - Usage of `WKWebView` and `WKWebViewConfiguration`.
-    - References to `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs`.
-    - Usage of the `loadFileURL:allowingReadAccessToURL:` method.
-    - Usage of `setValue:forKey:` method which may be setting undocumented WebView properties.
+1. Extract the app as described in @MASTG-TECH-0058.
+2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and search for references to the relevant configuration values.
 
 ## Observation
 
-The output should contain a list of locations where the relevant APIs and methods are used.
+The output should identify locations in the binary where the app references or enables the relevant configuration values.
 
 ## Evaluation
 
-**Fail:**
+The test fails if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for any `WKWebView` instance.
 
-The test fails if:
 
-- The app uses the deprecated `UIWebView` class, which always allows file access and universal access from `file://` URLs.
-- `WKWebView` is configured with `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` explicitly set to `true` via `setValue:forKey:`.
-- `loadFileURL:allowingReadAccessToURL:` is called with the `allowingReadAccessToURL` parameter pointing to a directory that may contain sensitive data.
 
-**Pass:**
+## Evaluation
 
-The test passes if:
+The test **fails** if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
-- The app uses `WKWebView` without enabling `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` (keeping their default value of `false`).
-- `loadFileURL:allowingReadAccessToURL:` is called with the `allowingReadAccessToURL` parameter pointing to a single file rather than a directory, or to a directory that does not contain sensitive data.
+Inspect each reported call site using @MASTG-TECH-0076.
+
+- Determine whether `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` is explicitly used and set to `true`, for example through `setValue:forKey:` or equivalent Swift calls.
+- Determine which `WKWebView` instance receives the configuration and whether it handles sensitive information or functionality.
+- Determine whether that `WKWebView` loads local `file://` content, for example using APIs such as `loadFileURL(_:allowingReadAccessTo:)` or `loadHTMLString(_:baseURL:)` with a `file://` base URL.
+
+Note that some apps may use variables or configuration logic to set these values, which can make them difficult to identify through static analysis alone. Dynamic analysis can help confirm whether the settings are enabled at runtime.
+
+For the identified WebViews, determine whether attacker-controlled JavaScript could execute in the local page context, for example through HTML injection, JavaScript injection, or other untrusted content. Also determine whether the attacker could exfiltrate accessed data, for example by sending it to a remote server using `fetch` or `XMLHttpRequest`, or by embedding it in requests to external resources such as images or iframes.
+
+Even if exploitability cannot be fully confirmed, it is recommended to remove these settings because they weaken the origin isolation normally applied to `file://` content. Enabling them increases the impact of other WebView vulnerabilities, such as content injection or improper handling of untrusted input.
