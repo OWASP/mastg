@@ -16,8 +16,8 @@ The sample:
 
 - Creates a `WKWebView` instance with custom configuration.
 - Uses Key-Value Coding (KVC) to set the undocumented properties:
-  - `allowFileAccessFromFileURLs` is set to `true`, allowing JavaScript to access other local files.
-  - `allowUniversalAccessFromFileURLs` is set to `true`, allowing JavaScript to access content from any origin.
+    - `allowFileAccessFromFileURLs` is set to `true`, allowing JavaScript to access other local files.
+    - `allowUniversalAccessFromFileURLs` is set to `true`, allowing JavaScript to access content from any origin.
 - Loads a local HTML file that could potentially access and exfiltrate sensitive data.
 
 ## Steps
