@@ -102,8 +102,8 @@ When loading local HTML files, developers typically use one of the following met
 
 The `baseURL` parameter in the first two methods determines the effective origin of the loaded content:
 
-- For `WKWebView`: setting `baseURL` to `nil` sets the effective origin to "null", which is safe as it prevents cross-origin access.
-- For `UIWebView` (deprecated): setting `baseURL` to `nil` results in an effective origin of `applewebdata://`, which does not implement same-origin policy and can allow access to local files.
+- For `WKWebView`: setting `baseURL` to `nil` sets the effective origin to `"null"`, which is treated as an opaque origin and is not considered the same as other origins under the same-origin policy.
+- For `UIWebView` (deprecated): setting `baseURL` to `nil` results in an effective origin with the `applewebdata://` scheme, which does not apply the same-origin policy in the same way and may allow the loaded content to access local files.
 
 When using `loadFileURL:allowingReadAccessToURL:`, the second parameter controls what files the WebView can access:
 

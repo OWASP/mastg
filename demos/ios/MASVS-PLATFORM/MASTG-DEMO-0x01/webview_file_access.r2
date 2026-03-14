@@ -1,3 +1,7 @@
+e asm.bytes=false
+e scr.color=false
+e asm.var=false
+
 ?e;?e
 
 ?e Uses of the APIs:

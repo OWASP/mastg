@@ -23,7 +23,7 @@ The sample:
 ## Steps
 
 1. Extract the app binary from the IPA (@MASTG-TECH-0054).
-2. Run @MASTG-TOOL-0129 (rabin2) to search for references to the relevant WebView methods.
+2. Run @MASTG-TOOL-0073 (radare2) using the provided script to search for references to the relevant WebView methods.
 
 {{ run.sh }}
 

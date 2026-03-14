@@ -4,14 +4,14 @@ title: Runtime Setting of Relaxed WebView File Origin Policies
 id: MASTG-TEST-0x02
 type: [dynamic]
 weakness: MASWE-0069
-best-practices: [MASTG-BEST-0028]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076]
 ---
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0xx321.
+This test is the dynamic counterpart to @MASTG-TEST-0x01.
 
 `WKWebView` supports configuration that affects how JavaScript running from `file://` origins can access other resources. In particular, `allowFileAccessFromFileURLs` allows JavaScript running in the context of a `file://` URL to access content from other `file://` URLs, while `allowUniversalAccessFromFileURLs` allows JavaScript running in the context of a `file://` URL to access content from any origin. Both settings are dangerous when enabled because they relax the origin restrictions that normally apply to local content.
 
@@ -39,7 +39,7 @@ The output should show whether the application enables `allowFileAccessFromFileU
 
 ## Evaluation
 
-The test fails if the application enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
+The test case fails if the application enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
 Inspect each reported call site using @MASTG-TECH-0077.
 

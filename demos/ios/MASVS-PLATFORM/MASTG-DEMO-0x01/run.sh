@@ -1,3 +1,3 @@
 #!/bin/bash
 
-r2 -q -i webview_file_access.r2 -A MASTestApp
+r2 -q -i webview_file_access.r2 -A MASTestApp > output.txt

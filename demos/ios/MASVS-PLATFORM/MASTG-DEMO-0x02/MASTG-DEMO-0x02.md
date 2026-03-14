@@ -10,15 +10,16 @@ test: MASTG-TEST-0x02
 
 This demo uses the same sample as @MASTG-DEMO-0081.
 
-{{ ../MASTG-DEMO-0081/MastgTest.swift }}
+{{ ../MASTG-DEMO-0x01/MastgTest.swift }}
 
 ## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056).
 2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the `frida-server` running on the device.
-3. Run `run.sh` to spawn the app with Frida.
-4. Click the **Start** button in the app to trigger the WebView configuration.
-5. Stop the script by pressing `Ctrl+C`.
+3. Launch the MASTestApp on the device.
+4. Run `run.sh` to attach Frida to the running app.
+5. Click the **Start** button in the app to trigger the WebView configuration.
+6. Stop the script by pressing `Ctrl+C`.
 
 {{ run.sh # script.js }}
 

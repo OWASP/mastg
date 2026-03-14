@@ -4,7 +4,7 @@ title: WebView File Origin Access Relaxed by Configuration
 id: MASTG-TEST-0x01
 type: [static]
 weakness: MASWE-0069
-best-practices: [MASTG-BEST-0028]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076]
 ---
@@ -15,7 +15,7 @@ knowledge: [MASTG-KNOW-0076]
 
 This test checks whether the app enables either of these settings for any `WKWebView` instance. On iOS, these settings are commonly accessed through non-public or unsupported paths, for example by using key value coding on `WKPreferences` or `WKWebViewConfiguration` via `setValue:forKey:` or equivalent Swift calls.
 
-Remember that JavaScript is enables by default unless the app explicitly calls `setJavaScriptEnabled` to set it to `false`.
+Remember that JavaScript is enabled by default unless the app explicitly calls `setJavaScriptEnabled` to set it to `false`.
 
 This test is related to, but distinct from, @MASTG-TEST-xxxx, which evaluates the use of `loadFileURL(_:allowingReadAccessTo:)`. That test focuses on the **native file system read scope** granted to the WebView through the `readAccessURL` parameter. By contrast, this test focuses on **JavaScript origin restrictions** for content loaded from `file://` URLs. Even if the file read scope is correctly restricted, enabling `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` can allow JavaScript running in a local page to access additional resources or communicate with remote origins.
 
@@ -30,7 +30,7 @@ The output should identify locations in the binary where the app references or e
 
 ## Evaluation
 
-The test **fails** if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
+The test case fails if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
 Inspect each reported call site using @MASTG-TECH-0076.
 
@@ -42,4 +42,4 @@ Note that some apps may use variables or configuration logic to set these values
 
 For the identified WebViews, determine whether attacker-controlled JavaScript could execute in the local page context, for example through HTML injection, JavaScript injection, or other untrusted content. Also determine whether the attacker could exfiltrate accessed data, for example by sending it to a remote server using `fetch` or `XMLHttpRequest`, or by embedding it in requests to external resources such as images or iframes.
 
-Even if exploitability cannot be fully confirmed, it is recommended to remove these settings because they weaken the origin isolation normally applied to `file://` content. Enabling them increases the impact of other WebView vulnerabilities, such as content injection or improper handling of untrusted input.
+These settings weaken the origin isolation normally applied to `file://` content, and enabling them increases the impact of other WebView vulnerabilities, such as content injection or improper handling of untrusted input.

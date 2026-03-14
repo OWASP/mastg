@@ -1,2 +1,2 @@
 #!/bin/bash
-frida -U -n MASTestApp -l script.js
+frida -U -n MASTestApp -l script.js -o output.txt
