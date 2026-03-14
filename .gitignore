@@ -2,8 +2,6 @@
 .cache
 ~*
 node_modules
-package.json
-package-lock.json
 *.out
 .idea
 Generated
