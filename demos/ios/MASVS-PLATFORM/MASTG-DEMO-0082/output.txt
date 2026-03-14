@@ -1,10 +1,7 @@
-[*] Starting WKWebView file access monitor...
-[*] Script loaded. Waiting for WebView instances...
-
-[+] Found WKWebView instance: <WKWebView: 0x10e820000; frame = (0 0; 390 844); layer = <CALayer: 0x600003a8c0a0>>
-    URL: file:///var/mobile/Containers/Data/Application/ABC123.../Documents/index.html
-    javaScriptEnabled: true
-    allowFileAccessFromFileURLs: 1
-    allowUniversalAccessFromFileURLs: 1
-
-[*] WKWebView enumeration complete
+[+] Hooks deployed successfully.
+[Local::MASTestApp ]-> 
+[WKPreferences: allowFileAccess] = 1
+[WKWebViewConfig: universalAccess] = 1
+[WKWebView] loadFileURL called
+  fileURL: file:///Users/charlie/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/51C850A3-E529-44E3-AD1E-AE9FCE20869F/Documents/index.html
+  readAccessURL: file:///Users/charlie/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/51C850A3-E529-44E3-AD1E-AE9FCE20869F/Documents/

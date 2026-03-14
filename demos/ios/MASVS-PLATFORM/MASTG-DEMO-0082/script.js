@@ -1,47 +1,50 @@
-// Frida script to enumerate WKWebView instances and inspect their file access configuration
+if (ObjC.available) {
+    // 1. Hooking Simple Setters (Booleans)
+    // We can use simpler swizzling here for stability
+    const WKPreferences = ObjC.classes.WKPreferences;
+    const WKWebViewConfiguration = ObjC.classes.WKWebViewConfiguration;
+    const WKWebView = ObjC.classes.WKWebView;
 
-console.log("[*] Starting WKWebView file access monitor...");
+    // Helper to hook boolean setters
+    function hookBoolMethod(klass, selector, label) {
+        const method = klass[selector];
+        const oldImpl = method.implementation;
 
-// Enumerate all WKWebView instances
-ObjC.choose(ObjC.classes['WKWebView'], {
-  onMatch: function (webView) {
-    console.log("\n[+] Found WKWebView instance: " + webView);
-    
-    try {
-      // Get the current URL
-      var url = webView.URL();
-      console.log("    URL: " + (url ? url.toString() : "null"));
-      
-      // Get the configuration
-      var config = webView.configuration();
-      var prefs = config.preferences();
-      
-      // Check JavaScript enabled
-      var jsEnabled = prefs.javaScriptEnabled();
-      console.log("    javaScriptEnabled: " + jsEnabled);
-      
-      // Check undocumented file access properties using valueForKey:
-      try {
-        var allowFileAccessFromFileURLs = prefs.valueForKey_("allowFileAccessFromFileURLs");
-        console.log("    allowFileAccessFromFileURLs: " + allowFileAccessFromFileURLs);
-      } catch (e) {
-        console.log("    allowFileAccessFromFileURLs: Error reading property - " + e);
-      }
-      
-      try {
-        var allowUniversalAccessFromFileURLs = config.valueForKey_("allowUniversalAccessFromFileURLs");
-        console.log("    allowUniversalAccessFromFileURLs: " + allowUniversalAccessFromFileURLs);
-      } catch (e) {
-        console.log("    allowUniversalAccessFromFileURLs: Error reading property - " + e);
-      }
-      
-    } catch (e) {
-      console.log("    Error inspecting WebView: " + e);
+        method.implementation = ObjC.implement(method, function (self, sel, value) {
+            console.log(`[${label}] = ${value}`);
+            oldImpl(self, sel, value);
+        });
     }
-  },
-  onComplete: function () {
-    console.log("\n[*] WKWebView enumeration complete");
-  }
-});
 
-console.log("[*] Script loaded. Waiting for WebView instances...");
+    hookBoolMethod(WKPreferences, "- _setAllowFileAccessFromFileURLs:", "WKPreferences: allowFileAccess");
+    hookBoolMethod(WKWebViewConfiguration, "- _setAllowUniversalAccessFromFileURLs:", "WKWebViewConfig: universalAccess");
+    hookBoolMethod(WKPreferences, "- setJavaScriptEnabled:", "WKPreferences: jsEnabled");
+
+    // 2. Hooking loadFileURL (The tricky one)
+    const loadMethod = WKWebView["- loadFileURL:allowingReadAccessToURL:"];
+    const oldLoadImpl = loadMethod.implementation;
+
+    loadMethod.implementation = ObjC.implement(loadMethod, function (self, sel, fileURLPtr, readAccessPtr) {
+        try {
+            // In ObjC.implement, Frida automatically wraps pointers as ObjC.Object if possible,
+            // but we use ObjC.Object() here to ensure we can call methods on them.
+            const fileURL = new ObjC.Object(fileURLPtr);
+            const readAccess = new ObjC.Object(readAccessPtr);
+
+            console.log("[WKWebView] loadFileURL called");
+            // Use absoluteString safely
+            console.log("  fileURL: " + fileURL.absoluteString().toString());
+            console.log("  readAccessURL: " + readAccess.absoluteString().toString());
+        } catch (e) {
+            console.log("[!] Error reading URLs: " + e);
+        }
+
+        // Always call the original implementation and return its value
+        return oldLoadImpl(self, sel, fileURLPtr, readAccessPtr);
+    });
+
+    console.log("[+] Hooks deployed successfully.");
+
+} else {
+    console.log("Objective-C runtime is not available.");
+}

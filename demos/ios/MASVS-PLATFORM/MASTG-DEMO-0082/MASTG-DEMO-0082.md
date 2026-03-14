@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Monitoring of WebView File Access with Frida
 id: MASTG-DEMO-0082
 code: [swift]
-test: MASTG-TEST-0319
+test: MASTG-TEST-0xx321
 ---
 
 ## Sample
@@ -15,34 +15,41 @@ This demo uses the same sample as @MASTG-DEMO-0081.
 ## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056).
-2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the frida-server running on the device.
+2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the `frida-server` running on the device.
 3. Run `run.sh` to spawn the app with Frida.
-4. Click the **Start** button to trigger the WebView configuration.
+4. Click the **Start** button in the app to trigger the WebView configuration.
 5. Stop the script by pressing `Ctrl+C`.
 
 {{ run.sh # script.js }}
 
-The Frida script performs the following:
+The Frida script hooks several WebKit APIs at runtime and logs their arguments when they are invoked:
 
-1. Enumerates all `WKWebView` instances in the application.
-2. For each WebView instance found:
-   - Retrieves the current URL being loaded.
-   - Checks if JavaScript is enabled.
-   - Uses `valueForKey:` to read the undocumented properties `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs`.
-   - Displays the configuration values.
+- `WKPreferences _setAllowFileAccessFromFileURLs:` to detect when the app enables access from `file://` pages to other local files.
+- `WKWebViewConfiguration _setAllowUniversalAccessFromFileURLs:` to detect when the app allows `file://` pages to access any origin.
+- `WKPreferences setJavaScriptEnabled:` to determine whether JavaScript execution is enabled in the WebView.
+- `WKWebView loadFileURL:allowingReadAccessToURL:` to identify when the app loads local files into a WebView and to capture both the loaded file and the granted read access scope.
 
 ## Observation
 
-The output shows the WebView instances found and their configuration settings.
+The output shows that the application enables relaxed WebView file origin policies and loads a local HTML file into the WebView.
 
 {{ output.txt }}
 
+The logs indicate that:
+
+- `allowFileAccessFromFileURLs` is set to `1`.
+- `allowUniversalAccessFromFileURLs` is set to `1`.
+- The WebView loads a local file such as `Documents/index.html`.
+- The `readAccessURL` is set to the `Documents` directory.
+
 ## Evaluation
 
-The test **fails** because:
+The test **fails** because the application enables relaxed file origin policies for a `WKWebView` that loads local `file://` content.
 
-- A `WKWebView` instance was found with `javaScriptEnabled` set to `true`.
-- The `allowFileAccessFromFileURLs` property is set to `1` (true), allowing JavaScript running in a `file://` context to access other local files.
-- The `allowUniversalAccessFromFileURLs` property is set to `1` (true), allowing JavaScript to bypass same-origin policy restrictions.
+Specifically:
 
-These settings combined could allow malicious JavaScript in a local HTML file to access and exfiltrate sensitive data from the device's file system.
+- `allowFileAccessFromFileURLs` is set to `true`, allowing JavaScript running in a `file://` page to access other local files.
+- `allowUniversalAccessFromFileURLs` is set to `true`, allowing JavaScript running in a `file://` page to access resources from any origin.
+- The WebView loads a local HTML file and grants read access to the application's `Documents` directory.
+
+These settings weaken the isolation normally applied to local content and increase the impact of WebView vulnerabilities. If attacker-controlled JavaScript executes in the local page context, it may access sensitive files within the granted read scope and potentially exfiltrate them to remote servers.
