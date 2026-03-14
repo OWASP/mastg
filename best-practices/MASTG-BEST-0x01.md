@@ -1,7 +1,7 @@
 ---
 title: Securely Load File Content in a WebView
 alias: securely-load-file-content-in-webview-ios
-id: MASTG-BEST-0028
+id: MASTG-BEST-0x01
 platform: ios
 knowledge: [MASTG-KNOW-0076]
 ---
