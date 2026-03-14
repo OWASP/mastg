@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Runtime Setting of Relaxed WebView File Origin Policies
-id: MASTG-TEST-0xx323
+id: MASTG-TEST-0x02
 type: [dynamic]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0028]

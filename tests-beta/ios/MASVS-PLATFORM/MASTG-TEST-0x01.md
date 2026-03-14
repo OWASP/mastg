@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: WebView File Origin Access Relaxed by Configuration
-id: MASTG-TEST-0xx321
+id: MASTG-TEST-0x01
 type: [static]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0028]
