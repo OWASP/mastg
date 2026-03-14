@@ -6,87 +6,53 @@ platform: ios
 knowledge: [MASTG-KNOW-0076]
 ---
 
-## Recommendation
+## Avoid Enabling `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs`
 
-When loading local content in iOS WebViews, follow these practices to prevent unauthorized file access and data exfiltration:
-
-### Use WKWebView Instead of UIWebView
-
-`UIWebView` is deprecated since iOS 12 and should not be used. Always use `WKWebView` for displaying web content, as it provides better security controls and performance.
-
-### Avoid Enabling File Access from File URLs
-
-For `WKWebView`, the properties `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs` are set to `false` by default and should remain disabled unless there is a specific, well-justified need:
-
-- `allowFileAccessFromFileURLs` (`WKPreferences`): enables JavaScript running in the context of a `file://` scheme URL to access content from other `file://` scheme URLs.
-- `allowUniversalAccessFromFileURLs` (`WKWebViewConfiguration`): enables JavaScript running in the context of a `file://` scheme URL to access content from any origin.
-
-These properties are **undocumented** and can only be set using Key-Value Coding (KVC). Avoid setting them to `true`:
-
-```swift
-// DO NOT DO THIS unless absolutely necessary
-webView.configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
-webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
-```
+For `WKWebView`, the properties `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs` are disabled by default and should remain disabled unless there is a specific, well-justified need. These properties are not part of the public iOS `WKWebView` API and are typically accessed through Key-Value Coding (KVC).
 
 If you must enable these properties, ensure that:
 
 - The WebView only loads trusted content from controlled sources.
-- Proper input validation and sanitization are in place.
+- Proper input validation and sanitization are implemented.
 - The app does not store sensitive data in locations accessible to the WebView.
 
-### Load Local Files Securely
+These settings apply only to `WKWebView`. `UIWebView` always allowed unrestricted file access and lacked modern security controls, which is one reason it was deprecated and replaced by `WKWebView`.
 
-When loading local HTML files using `loadHTMLString:baseURL:` or `loadData:MIMEType:textEncodingName:baseURL:`, set the `baseURL` parameter appropriately:
+## Load Local Files Securely
 
-- For `WKWebView`: setting `baseURL` to `nil` sets the effective origin to "null", which is safe and prevents cross-origin access.
-- Alternatively, use the app's resource URL: `[NSBundle mainBundle].resourceURL`.
+When loading local HTML files using `loadHTMLString(_:baseURL:)` or `load(_:mimeType:characterEncodingName:baseURL:)`, set the `baseURL` parameter appropriately:
 
-Example in Swift:
+- For `WKWebView`, setting `baseURL` to `nil` results in a `null` origin, which prevents the page from accessing other local resources.
+- Alternatively, use a controlled resource location such as the app bundle (`Bundle.main.resourceURL`).
 
-```swift
-let htmlPath = Bundle.main.url(forResource: "index", withExtension: "html")!
-let htmlString = try! String(contentsOf: htmlPath, encoding: .utf8)
-webView.loadHTMLString(htmlString, baseURL: Bundle.main.resourceURL)
-```
+Avoid using broad `file://` base URLs unless strictly necessary.
 
-### Use loadFileURL Carefully
+## Use `loadFileURL` Carefully
 
-When using `loadFileURL:allowingReadAccessToURL:`, ensure that the `allowingReadAccessToURL` parameter points to a single file rather than a directory:
+When using `loadFileURL(_:allowingReadAccessTo:)`, ensure that the `allowingReadAccessTo` parameter grants the **minimum required file system scope**.
 
 ```swift
-// Good: Restricting access to a single file
+// Good: Restrict access to a specific file
 let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     .appendingPathComponent("safe.html")
-webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
 
-// Bad: Granting access to an entire directory
-let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-webView.loadFileURL(fileURL, allowingReadAccessTo: dirURL) // Avoid this
+webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
 ```
 
-If you must grant access to a directory, ensure it does not contain any sensitive data.
+```swift
+// Risky: Grants access to an entire directory
+let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
-## Rationale
+webView.loadFileURL(fileURL, allowingReadAccessTo: dirURL) // Avoid if possible
+```
 
-File access from `file://` URLs in WebViews can be exploited by malicious content to:
+If directory access is required, ensure that the directory contains only WebView assets and no sensitive application data.
 
-- Access sensitive data stored in the app's sandbox.
-- Exfiltrate data to remote servers.
-- Bypass same-origin policy protections.
+## Additional Considerations
 
-By keeping file access disabled and using secure loading methods, you minimize the attack surface and protect user data.
+Even when these precautions are followed, WebViews should only load content from trusted sources. If attacker-controlled JavaScript executes in a WebView that has access to local files, it may read and exfiltrate sensitive data from the application sandbox.
 
-## Caveats
-
-- These settings only affect `WKWebView`. `UIWebView` always allows file access and cannot be secured, which is one reason it was deprecated.
-- Disabling JavaScript (`javaScriptEnabled = false`) can also mitigate some risks, but this may impact functionality if the WebView needs to execute scripts.
-- Even with these protections, ensure that WebViews only load content from trusted sources to prevent XSS and other web-based attacks.
-
-## References
-
-- [WKWebView Apple Documentation](https://developer.apple.com/documentation/webkit/wkwebview)
-- [WKPreferences Apple Documentation](https://developer.apple.com/documentation/webkit/wkpreferences)
-- [loadFileURL:allowingReadAccessToURL: Apple Documentation](https://developer.apple.com/documentation/webkit/wkwebview/1414973-loadfileurl)
-- [UIWebView Deprecation](https://developer.apple.com/documentation/uikit/uiwebview)
-- [WebKit Source - allowFileAccessFromFileURLs](https://github.com/WebKit/webkit/blob/master/Source/WebKit/UIProcess/API/Cocoa/WKPreferences.mm#L470)
+- Consider disabling JavaScript (`javaScriptEnabled = false`) if the WebView only displays static content.
+- Avoid loading untrusted input into WebViews to prevent HTML or JavaScript injection.
+- Keep WebView-accessible files separate from application data or credentials.
+- Prefer loading content from the application bundle or controlled sources instead of broad `file://` paths.
