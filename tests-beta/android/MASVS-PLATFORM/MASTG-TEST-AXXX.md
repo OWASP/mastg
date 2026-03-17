@@ -5,6 +5,7 @@ id: MASTG-TEST-XXXX
 type: [static]
 weakness: MASWE-0056
 profiles: [L2]
+knowledge: [MASTG-KNOW-0022]
 ---
 
 ## Overview
