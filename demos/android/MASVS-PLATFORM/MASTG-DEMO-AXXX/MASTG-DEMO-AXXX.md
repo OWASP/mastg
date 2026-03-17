@@ -22,9 +22,11 @@ Let's run the rules against the sample code.
 
 {{ run.sh }}
 
-To verify the leaked content 
+Run the following command in the drozer to check for leaked content. 
 
-{{ run app.provider.query content://org.owasp.mastestapp.credentials/credentials }}
+```bash
+dz> run app.provider.query content://org.owasp.mastestapp.credentials/credentials
+```
 
 ## Observation
 
