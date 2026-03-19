@@ -29,4 +29,7 @@ The rule has identified an activity that is sensitive to overlay attacks because
 
 ## Evaluation
 
-The test fails because the application does not implement adequate defenses against overlay attacks (tapjacking) on a sensitive UI element. Specifically, a `Button` that could initiate a potentially dangerous action does not include the security attribute `android:filterTouchesWhenObscured="true"`. By omitting this attribute, the application allows touch events to be processed even when another window (an overlay) is obscuring the UI element, enabling an attacker to trick the user into granting permissions or initiating unintended actions. The absence of this attribute makes the application vulnerable to UI redressing.
+The test fails because two sensitive UI elements in the layout are missing `android:filterTouchesWhenObscured="true"`.
+
+- Line 12: The `<EditText>` used to capture a username or account number. Without touch filtering, an overlay could be placed on top of this field to silently intercept credential input.
+- Line 21: The `<Button>` labeled "Execute Sensitive Action". A malicious overlay can trick the user into tapping this button unintentionally, leading to unauthorized actions such as confirming a payment or granting a permission.

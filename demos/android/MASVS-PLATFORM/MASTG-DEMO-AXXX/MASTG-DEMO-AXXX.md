@@ -3,7 +3,8 @@ platform: android
 title: Testing for Tapjacking Protection using Semgrep
 id: MASTG-DEMO-AXXX
 code: [kotlin]
-Test: MASTG-TEST-AXXX 
+test: MASTG-TEST-AXXX
+tools: [semgrep]
 ---
 
 ## Sample
@@ -28,4 +29,7 @@ The rule has identified that the application explicitly handles touch filtering 
 
 ## Evaluation
 
-The test passes because the application implements adequate defenses against overlay attacks on the code level. By overriding `onFilterTouchEventForSecurity` or checking `FLAG_WINDOW_IS_OBSCURED`, the application ensures that touch events are not processed if the window is fully or partially covered by another window. This prevents attackers from tricking the user into interacting with the application through a malicious overlay.
+The test passes because the application implements programmatic tapjacking protection.
+
+- Line 132: The `onFilterTouchEventForSecurity` method is overridden in an anonymous subclass of `AppCompatButton`, establishing the interception point for touch events.
+- Line 134: The method checks `event.getFlags() & 1` (`FLAG_WINDOW_IS_OBSCURED`) and `event.getFlags() & 2` (`FLAG_WINDOW_IS_PARTIALLY_OBSCURED`). When either flag is set, the method returns `false` (lines 139–142), blocking the touch event from being processed.

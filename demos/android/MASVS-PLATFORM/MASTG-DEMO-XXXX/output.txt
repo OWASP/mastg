@@ -5,7 +5,7 @@
 └─────────────────┘
                                                 
   activity_vulnerable_login.xml
-    ❯❱ rules.mastg-android-missing-filterTouchesWhenObscured
+    ❯❱ rules.mastg-android-overlay-attack
           [MASVS-PLATFORM-2] Missing `android:filterTouchesWhenObscured="true"` in layout XML.
                                                                                               
            12┆ <EditText

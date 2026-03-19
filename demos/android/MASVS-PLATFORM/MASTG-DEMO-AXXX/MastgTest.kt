@@ -1,3 +1,4 @@
+// SUMMARY: This sample demonstrates tapjacking protection by overriding onFilterTouchEventForSecurity to block touch events when the window is obscured by an overlay.
 package org.owasp.mastestapp
 
 import android.annotation.SuppressLint
@@ -92,6 +93,7 @@ class MastgTest(private val runnerContext: Context? = null) : AppCompatActivity(
             ).apply { setMargins(0, 0, 0, 50) }
         }
 
+        // PASS: The app overrides onFilterTouchEventForSecurity and returns false when FLAG_WINDOW_IS_OBSCURED or FLAG_WINDOW_IS_PARTIALLY_OBSCURED is detected, blocking touch events under an overlay.
         val loginButton = object : AppCompatButton(this) {
             override fun onFilterTouchEventForSecurity(event: MotionEvent): Boolean {
                 if ((event.flags and MotionEvent.FLAG_WINDOW_IS_OBSCURED) != 0 ||

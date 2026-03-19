@@ -1,5 +1,5 @@
 rules:
-  - id: mastg-android-missing-filterTouchesWhenObscured
+  - id: mastg-android-overlay-attack
     severity: WARNING
     languages:
       - xml

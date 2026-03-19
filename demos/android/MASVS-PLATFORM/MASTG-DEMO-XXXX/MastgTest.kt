@@ -1,3 +1,4 @@
+// SUMMARY: This sample demonstrates a vulnerable login activity whose layout does not set android:filterTouchesWhenObscured="true", leaving sensitive UI elements exposed to overlay (tapjacking) attacks.
 package org.owasp.mastestapp
 
 import android.annotation.SuppressLint
@@ -74,6 +75,7 @@ class VulnerableLoginActivity : AppCompatActivity() {
 
         val isButtonProtected = loginButton.filterTouchesWhenObscured
 
+        // FAIL: The login button does not have filterTouchesWhenObscured set to true, allowing overlay attacks to intercept touch events on this sensitive UI element.
         if (!isButtonProtected) {
             dynamicResults.add(
                 Pair(
