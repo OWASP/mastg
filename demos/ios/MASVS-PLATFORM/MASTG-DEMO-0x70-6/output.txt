@@ -1,0 +1,5 @@
+Spawned `org.owasp.mastestapp.MASTestApp-iOS`. Resuming main thread!    
+[iPhone::org.owasp.mastestapp.MASTestApp-iOS ]-> [*] Triggering URL via Frida (V1 Methodology)...
+[+] UIApplication.openURL_ executed.
+[+] Target: https://attacker.example.com/reset_password?token=malicious_123
+[+] Result: true

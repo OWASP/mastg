@@ -1,0 +1,4 @@
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+        <string>applinks:*.example.com</string>
+    </array>
