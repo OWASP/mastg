@@ -6,13 +6,13 @@ id: MASTG-DEMO-0018
 test: MASTG-TEST-0210
 ---
 
-### Sample
+## Sample
 
 The snippet below shows sample code that uses the insecure 3DES encryption algorithm when encrypting data with CommonCrypto's `CCCrypt` function. 3DES is considered weak due to its shorter effective key length and vulnerabilities to specific attacks.
 
 {{ MastgTest.swift # function.asm # decompiled-o1-review.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
@@ -21,13 +21,13 @@ The snippet below shows sample code that uses the insecure 3DES encryption algor
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output contains the disassembled code of the function using `CCCrypt`.
 
 {{ output.asm }}
 
-### Evaluation
+## Evaluation
 
 Inspect the disassembled code to identify the use of insecure algorithms.
 
@@ -90,4 +90,5 @@ With this information, we can now inspect the disassembled code, and we'll see t
 
 The test fails because the 3DES encryption algorithm was found in the code.
 
-**Note**: Using artificial intelligence, we're able to decompile the disassembled code and review it. The output is a human-readable version of the assembly code. The AI-decompiled code may not be perfect and might contain errors, but in this case, it clearly shows the use of `CCCrypt` and the associated algorithm.
+!!! note
+    Using artificial intelligence, we're able to decompile the disassembled code and review it. The output is a human-readable version of the assembly code. The AI-decompiled code may not be perfect and might contain errors, but in this case, it clearly shows the use of `CCCrypt` and the associated algorithm.

@@ -9,13 +9,13 @@ In taint analysis, data flows from a "source" to a "sink". A source is where sen
 
 In large applications, manual information flow analysis can be very time-consuming and inaccurate. Taint analysis automates this, with two main methods: static and dynamic. The former examines code without running it, offering broad coverage but potentially yielding false positives. In contrast, dynamic analysis observes real-time application execution, providing actual context but possibly overlooking untriggered issues. A thorough comparison of these techniques is beyond this section's scope.
 
-There are multiple tools which perform taint analysis on native code, including [Triton](https://github.com/jonathansalwan/Triton "Triton") and [bincat](https://github.com/airbus-seclab/bincat "bincat"). However, in this section, we'll primarily focus on Android Java code and utilize @MASTG-TOOL-0099 for the taint analysis. Another notable tool supporting taint analysis for Android apps is [GDA](https://github.com/charles2gan/GDA-android-reversing-Tool/wiki/GDA-Static-Taint-Analysis "GDA").
+There are multiple tools which perform taint analysis on native code, including [Triton](https://github.com/jonathansalwan/Triton "Triton"), [bincat](https://github.com/airbus-seclab/bincat "bincat"), and @MASTG-TOOL-0110. However, in this section, we'll primarily focus on Android Java code and utilize @MASTG-TOOL-0099 for the taint analysis. Another notable tool supporting taint analysis for Android apps is [GDA](https://github.com/charles2gan/GDA-android-reversing-Tool/wiki/GDA-Static-Taint-Analysis "GDA").
 
 For our demonstration, we'll use the @MASTG-TOOL-0099 command line tool to perform taint analysis on the [InsecureShop v1.0](https://github.com/hax0rgb/InsecureShop/releases/tag/v1.0 "InsecureShop") application.
 
 The InsecureShop app accepts a username and password as input and stores them in the app's shared preferences. In our taint analysis, we're interested in how this stored username and password are used. In this context, the username and password are the sensitive information, and reading from shared preferences is the source. The sink in this analysis could be various operations, such as sending info over the network, transmitting info via an `Intent`, or storing info in an external file.
 
-To use FlowDroid, firstly, we need to provide an input list of potential sources and sinks to evaluate for. In our case, _reading from shared preferences_ will be the source, while _adding parameters to an `Intent`_ will be the sink. The configuration file will look as follows (we'll name it "source_sink.txt"):
+To use FlowDroid, firstly, we need to provide an input list of potential sources and sinks to evaluate. In our case, _reading from shared preferences_ will be the source, while _adding parameters to an `Intent`_ will be the sink. The configuration file will look as follows (we'll name it "source_sink.txt"):
 
 ```Jimple
 <android.content.SharedPreferences: java.lang.String getString(java.lang.String, java.lang.String)> -> _SOURCE_
@@ -68,4 +68,4 @@ fun onSendData(view: View) {
     }
 ```
 
-Taint analysis is especially beneficial for automating data flow analysis in intricate applications. However, given the complexity of some apps, the accuracy of such tools can vary. Thus, it's essential for reviewers to find a balance between the accuracy of tools and the time spent on manual analysis.
+Taint analysis is especially beneficial for automating data flow analysis in intricate applications. However, given the complexity of some apps, the accuracy of such tools can vary. Thus, reviewers need to find a balance between the accuracy of tools and the time spent on manual analysis.

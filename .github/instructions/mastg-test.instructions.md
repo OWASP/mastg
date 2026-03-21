@@ -1,4 +1,7 @@
-## Tests
+---
+name: 'Writing MASTG Test Files'
+applyTo: 'tests-beta/**/*.md'
+---
 
 A MASWE weakness can have one or more platform-specific tests associated with it.
 
@@ -16,19 +19,26 @@ MASTG-TEST-0205.md
 
 Example tests for reference:
 
-- [MASTG-TEST-0207](https://mas.owasp.org/MASTG/tests-beta/android/MASVS-STORAGE/MASTG-TEST-0207/)
-- [MASTG-TEST-0216](https://mas.owasp.org/MASTG/tests-beta/android/MASVS-STORAGE/MASTG-TEST-0216/)
-- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests-beta/android/MASVS-STORAGE/MASTG-TEST-0263/)
+- [MASTG-TEST-0207](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0207/)
+- [MASTG-TEST-0216](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0216/)
+- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests/android/MASVS-RESILIENCE/MASTG-TEST-0263/)
 
 Notes:
 
 - Tests with `platform: network` are still organized under the OS folder that the MASVS category belongs to (for example, Android network tests live under `tests-beta/android/MASVS-NETWORK/`).
+- Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach.
 
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
 
-### Markdown: Metadata
+## Creating Test IDs
 
-#### title
+When creating a new test (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-TEST-0x##` (for example, `MASTG-TEST-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-TEST-0x33`, `MASTG-TEST-0x34`, `MASTG-TEST-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-TEST-0233`) before the content is published.
+
+## Markdown: Metadata
+
+### title
 
 Test titles should be concise and clearly state the purpose of the test.
 
@@ -38,30 +48,32 @@ Avoid including Android or iOS unless necessary, as in "Insecure use of the Andr
 
 Follow a consistent style across all test titles.
 
-**Conventions**
+#### Conventions
 
-- Static: “References to…” (semgrep/r2)
-- Dynamic: “Runtime Use …” (frida)
+- Static: "References to…" (semgrep/r2)
+- Dynamic: "Runtime Use …" (frida/frooky)
 
 Exceptions may apply where "Runtime ..." feels forced, for example, tests using adb, local backups, or filesystem snapshots.
 
-#### platform
+### platform
 
-The mobile platform. One of the following: iOS, Android, or network.
+The mobile platform. One of the following:
 
-- Use network for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with type: [network]).
+- `android`
+- `ios`
+- `network`: for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with `type: [network]`).
 
-#### id
+### id
 
 The test ID.
 
-#### weakness
+### weakness
 
 The MASWE weakness ID associated with this test.
 
 - In YAML front matter, specify the bare identifier (for example, `weakness: MASWE-0069`). In body text, include the leading `@` (for example, @MASWE-0069).
 
-#### type
+### type
 
 One or more test types.
 
@@ -86,11 +98,11 @@ Examples with multiple types:
 type: [dynamic, manual]
 ```
 
-#### best-practices
+### best-practices
 
-Reference platform-specific mitigations or best practices. Automation generates a “Mitigations” section.
+Reference platform-specific mitigations or best practices. Automation generates a "Mitigations" section.
 
-New best practice files can be added under [best-practices/](https://github.com/OWASP/owasp-mastg/tree/master/best-practices).
+Reference the related `best-practices/` pages for background using their ID. Create the pages if they don't exist yet.
 
 Example:
 
@@ -98,13 +110,7 @@ Example:
 best-practices: [MASTG-BEST-0001]
 ```
 
-This links to https://mas.owasp.org/MASTG/best-practices/MASTG-BEST-0001/
-
-Notes:
-
-- If no applicable best practices exist yet, you can omit the field or set an empty list: `best-practices: []`.
-
-#### prerequisites
+### prerequisites
 
 List the conditions that must be known or available before running or evaluating the test. These items capture internal context that only the developer or the organization can provide. Existing files are in the `prerequisites/` folder. Create new ones when needed.
 
@@ -124,10 +130,10 @@ prerequisites:
 - identify-security-relevant-contexts
 ```
 
-#### profiles
+### profiles
 
-Specify the MASVS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in [MAS Testing Profiles Guide]( https://docs.google.com/document/d/1paz7dxKXHzAC9MN7Mnln1JiZwBNyg7Gs364AJ6KudEs/edit?tab=t.0#heading=h.il6q80u4fm3n)
+Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
+The profiles are described in [MAS Testing Profiles Guide](../../Document/0x03b-Testing-Profiles.md)
 
 - L1 denotes Essential Security.
 - L2 denotes Advanced Security.
@@ -140,25 +146,50 @@ Example:
 profiles: [L1, L2, P]
 ```
 
-#### optional fields
+### knowledge
+
+Must always reference related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
+
+Example:
+
+```md
+knowledge: [MASTG-KNOW-0013]
+```
+
+### optional fields
 
 Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note
-- `available_since:` minimum platform/API level
-- `deprecated_since:` last applicable platform/API level
+- `available_since:` minimum platform/API level (e.g. 13 in Android or 2.0 in iOS)
+- `deprecated_since:` last applicable platform/API level (e.g. 24 in Android or 12.0 in iOS)
 - `apis:` list of relevant APIs
 
 Notes:
 
 - For Android, available/deprecated API levels are integers (for example, `deprecated_since: 24`). For iOS, use the iOS release version (for example, `available_since: 13`).
 
-### Markdown: Body
+## Markdown: Body
 
-#### Overview
+### Overview
 
-The overview is platform-specific and extends the weakness overview with details on the area tested. It may mention specific APIs and features.
+The overview is platform-specific and extends the weakness overview with details on the area tested (the Knowledge items from the `knowledge` in the metadata).
+
+Very important: the overview must be phrased like an issue.
+
+- Describe the relevant platform feature/API from the perspective of "what can go wrong" (risk, failure mode, exposure).
+- Make it clear why the test exists: what the tester is trying to detect and why that matters.
+
+Do not repeat the weakness description here. Focus on the specific issue the test is checking for on the given platform.
+
+Good patterns for issue framing:
+
+- "If the app uses/implements/configures X, Y can happen …"
+- "This can lead to … (exposure, bypass, integrity failure, privacy leak) …"
+- "This test checks/verifies whether the app …"
+
+Do not write the overview like a neutral platform description. Neutral/descriptive explanations belong in `knowledge/`.
 
 Example:
 
@@ -168,7 +199,7 @@ Example:
 Android apps sometimes use insecure pseudorandom number generators (PRNGs) such as `java.util.Random`, which is essentially a linear congruential generator. This type of PRNG generates a predictable sequence of numbers for any given seed value, making the sequence reproducible and insecure for cryptographic use. In particular, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calling `nextDouble()` on a static `java.util.Random` instance) produce identical number sequences when initialized with the same seed across all Java implementations.
 ```
 
-#### Steps
+### Steps
 
 A test must include at least one step. Steps can be static, dynamic, manual, or a combination of these.
 
@@ -194,11 +225,11 @@ Notes:
 - Don't reference MASTG tools directly (this may still be happening in some tests, and we must fix it.)
 - Be consistent by reusing the steps from existing tests. Do not create new phrasing or wording when it's not necessary.
 
-#### Observation
+### Observation
 
 The output you get after executing all steps. It serves as evidence.
 
-It MUST start with “The output should contain ...”.
+It MUST start with "The output should contain ...".
 
 Example:
 
@@ -208,11 +239,11 @@ Example:
 The output should contain a list of locations where insecure random APIs are used.
 ```
 
-#### Evaluation
+### Evaluation
 
 Using the observation as input, describe how to evaluate it. State explicitly what makes the test fail.
 
-It MUST start with “The test case fails if ...”.
+It MUST start with "The test case fails if ...".
 
 Example:
 
@@ -221,3 +252,5 @@ Example:
 
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts.
 ```
+
+IMPORTANT: Do not include remediation advice or best practices in the evaluation section. Remediation belongs in `best-practices/` and must be linked in the test metadata `best-practices`. If it does not exist yet, create it.

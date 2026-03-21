@@ -6,13 +6,14 @@ type: [dynamic]
 profiles: [L2]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0024]
+knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---
 
 ## Overview
 
 This test is the dynamic counterpart to @MASTG-TEST-0300 and is designed to be used together with @MASTG-TEST-0302.
 
-It uses runtime method hooking to identify if sensitive data is written unencrypted to private storage (@MASTG-KNOW-0108) or directly in the Keychain by monitoring file (@MASTG-KNOW-0091) and Keychain (@MASTG-KNOW-0057) APIs.
+It uses runtime method hooking to identify if sensitive data is written unencrypted to private storage or directly in the Keychain by monitoring file and Keychain APIs.
 
 Note that some of the target APIs route I/O through system daemons or otherwise avoid direct `open` and `write` syscalls, so you'll have to hook the relevant Objective C or Swift APIs rather than tracing syscalls only.
 

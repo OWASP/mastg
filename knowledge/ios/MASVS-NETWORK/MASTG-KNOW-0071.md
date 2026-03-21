@@ -84,8 +84,8 @@ Source: [Apple Developer Documentation](https://developer.apple.com/library/cont
 The following table summarizes the global ATS exceptions. For more information about these exceptions, please refer to [table 2 in the official Apple developer documentation](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW34 "App Transport Security dictionary primary keys").
 
 | Key | Description |
-| --------------| ------------|
-| `NSAllowsArbitraryLoads` | Disable ATS restrictions globally excepts for individual domains specified under `NSExceptionDomains` |
+| --- | --- |
+| `NSAllowsArbitraryLoads` | Disable ATS restrictions globally except for individual domains specified under `NSExceptionDomains` (this key is ignored if any of the ones below are set, regardless of their values) |
 | `NSAllowsArbitraryLoadsInWebContent` | Disable ATS restrictions for all the connections made from web views |
 | `NSAllowsLocalNetworking` | Allow connection to unqualified domain names and .local domains |
 | `NSAllowsArbitraryLoadsForMedia` | Disable all ATS restrictions for media loaded through the AV Foundations framework |
@@ -93,15 +93,17 @@ The following table summarizes the global ATS exceptions. For more information a
 The following table summarizes the per-domain ATS exceptions. For more information about these exceptions, please refer to [table 3 in the official Apple developer documentation](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW44 "App Transport Security dictionary primary keys").
 
 | Key | Description |
-| --------------| ------------|
+| --- | --- |
 | `NSIncludesSubdomains` | Indicates whether ATS exceptions should apply to subdomains of the named domain |
 | `NSExceptionAllowsInsecureHTTPLoads` | Allows HTTP connections to the named domain, but does not affect TLS requirements |
 | `NSExceptionMinimumTLSVersion` | Allows connections to servers with TLS versions less than 1.2 |
 | `NSExceptionRequiresForwardSecrecy` | Disable perfect forward secrecy (PFS) |
 
+You may encounter exception keys prefixed with `NSTemporaryException...` in old examples or documentation. These keys were originally introduced as temporary ATS exception helpers during the early iOS 9 era and while they still work, they are deprecated and undocumented by Apple. Developers should use the modern non-temporary `NSException...` equivalents instead.
+
 **Justifying Exceptions:**
 
-Starting from January 1 2017, Apple App Store review [requires justification](https://developer.apple.com/documentation/security/preventing_insecure_network_connections#3138036) if one of the following ATS exceptions are defined.
+Starting from January 1, 2017, Apple App Store review [requires justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) if one of the following ATS exceptions are defined.
 
 - `NSAllowsArbitraryLoads`
 - `NSAllowsArbitraryLoadsForMedia`

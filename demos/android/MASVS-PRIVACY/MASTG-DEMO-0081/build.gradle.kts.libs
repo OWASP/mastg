@@ -1,0 +1,1 @@
+implementation("com.google.firebase:firebase-analytics:23.0.0")

@@ -103,7 +103,7 @@ if (!mKeyguardManager.isKeyguardSecure()) {
             if (resultCode == RESULT_OK) {
                 //use the key for the actual authentication flow
             } else {
-                // The user canceled or didn’t complete the lock screen
+                // The user canceled or didn't complete the lock screen
                 // operation. Go to error/cancellation flow.
             }
         }

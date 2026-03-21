@@ -6,13 +6,13 @@ code: [swift]
 test: MASTG-TEST-0268
 ---
 
-### Sample
+## Sample
 
 The following sample correctly uses the Keychain API for local authentication (`SecAccessControlCreateWithFlags`) but it uses the [`kSecAccessControlUserPresence`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/userpresence) flag which allows fallback to device passcode when biometric authentication fails or isn't yet configured.
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh`.
@@ -21,7 +21,7 @@ The following sample correctly uses the Keychain API for local authentication (`
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 {{ output.asm }}
 
@@ -34,7 +34,7 @@ bl sym.imp.SecAccessControlCreateWithFlags
 
 The `flags` is an enum of [`SecAccessControlCreateFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags). `1` corresponds with `kSecAccessControlUserPresence` (see [LAPublicDefines.h](https://github.com/xybp888/iOS-SDKs/blob/master/iPhoneOS18.4.sdk/System/Library/Frameworks/LocalAuthentication.framework/Headers/LAPublicDefines.h#L12-L18)). This means that the app invokes `SecAccessControlCreateWithFlags(..., kSecAccessControlUserPresence)`, which means it falls back to device's passcode authentication.
 
-### Evaluation
+## Evaluation
 
 The test fails because the output shows references to biometric verification that falls back to device's passcode authentication, specifically `kSecAccessControlUserPresence`.
 

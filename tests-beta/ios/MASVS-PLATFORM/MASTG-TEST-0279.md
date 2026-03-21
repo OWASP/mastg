@@ -6,11 +6,12 @@ type: [static]
 weakness: MASWE-0053
 threat: [app]
 profiles: [L2]
+knowledge: [MASTG-KNOW-0083]
 ---
 
 ## Overview
 
-This test checks if the app sets an expiration date for the contents of the general [pasteboard](../../../Document/0x06h-Testing-Platform-Interaction.md/#pasteboard) using the `UIPasteboard.setItems(_:options:)` method with the `UIPasteboard.Options.expirationDate` option. If sensitive data is left in the pasteboard without an expiration date, it can be accessed by other apps indefinitely, leading to potential data leaks.
+This test checks if the app sets an expiration date for the contents of the general @MASTG-KNOW-0083 using the `UIPasteboard.setItems(_:options:)` method with the `UIPasteboard.Options.expirationDate` option. If sensitive data is left in the pasteboard without an expiration date, it can be accessed by other apps indefinitely, leading to potential data leaks.
 
 ## Steps
 

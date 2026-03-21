@@ -6,11 +6,11 @@ id: MASTG-DEMO-0015
 test: MASTG-TEST-0211
 ---
 
-### Sample
+## Sample
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
@@ -19,13 +19,13 @@ test: MASTG-TEST-0211
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output contains all uses of CommonCrypto hash functions in the binary, the xrefs for `CC_MD5` and `CC_SHA1` and the disassembled code of the region where each of these functions is called.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the MD5 and SHA1 algorithms were found in the code.
 
