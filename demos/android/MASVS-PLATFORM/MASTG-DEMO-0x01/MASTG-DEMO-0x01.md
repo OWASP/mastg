@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Uses of Insecure PendingIntent
-id: MASTG-DEMO-0076
+id: MASTG-DEMO-0x01
 code: [kotlin]
-test: MASTG-TEST-0313
+test: MASTG-TEST-0x01
 ---
 
 ## Sample
