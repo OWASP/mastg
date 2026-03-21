@@ -154,6 +154,12 @@ Shortly describe the sample and specify the exact sample files using this notati
 {{ MastgTest.kt # MastgTest_reversed.java }}
 ```
 
+You can reuse any files from other demos to avoid duplication (this also applies to scripts, hooks, rules, etc):
+
+```md
+{{ ../MASTG-DEMO-0095/MastgTest.swift }}
+```
+
 Example:
 
 ```md
@@ -249,7 +255,7 @@ For example, if you generate a random number, you can return it; or if you write
 
 ### Fail/Pass
 
-Must contain comments indicating fail/pass and the test alias. This way, we can validate that the output is correct (e.g., the code contains three failures of `MASTG-TEST-0204`). We can easily parse and count the comments, and we can do the same in the output.
+Optionally, may contain comments indicating fail/pass and the test alias. This way, we can validate that the output is correct (e.g., the code contains three failures of `MASTG-TEST-0204`). We can easily parse and count the comments, and we can do the same in the output.
 
 Each FAIL/PASS comment must include the test ID and an explanation of why it fails/passes.
 
