@@ -1,57 +1,41 @@
 ---
-title: Ensure WebViews Within Organizational Trust Boundaries
-alias: ensure-webviews-within-organizational-trust-boundaries
+title: Prefer Origin Scoped Messaging Over Legacy JavaScript Bridges
+alias: prefer-origin-scoped-messaging-over-legacy-javascript-bridges
 id: MASTG-BEST-00be
 platform: android
-knowledge: [ MASTG-KNOW-0018 ]
+knowledge: [MASTG-KNOW-0018]
 ---
 
-## Recommendation
+JavaScript bridges are not inherently unsafe, but they are a high impact `WebView` feature and should only be exposed to content you fully trust. The main risk is not the bridge alone, but the combination of a bridge with untrusted or weakly validated content.
 
-WebViews in Android allow applications to render web content, but they can introduce significant security risks if not properly managed.
+## Avoid the Legacy `addJavascriptInterface` Model
 
-Whenever possible, follow the guidance in @MASTG-BEST-0012.
+The [legacy `addJavascriptInterface`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge#addjavascriptinterface) mechanism is exposed to every frame in the `WebView`, including iframes, and does not provide origin based access control. This makes it unsuitable as a security boundary when the `WebView` may render untrusted or weakly validated content.
 
-Additionally, load only static WebViews packaged within the app bundle, and do not load resources or link (redirect) to external domains. This approach ensures that the displayed content cannot be tampered with remotely.
+Android also [notes that one safer way to use `addJavascriptInterface()`](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges#addjavascriptinterface-risks-target-api-level-21-or-higher) is to [target API level 21 or higher](https://developer.android.com/reference/android/webkit/WebView#addJavascriptInterface(java.lang.Object,%20java.lang.String)), because then JavaScript can only access methods explicitly annotated with `@JavascriptInterface`, whereas older target levels also exposed public fields of the injected object. Even with that improvement, the mechanism still lacks origin based access control, so Android recommends newer origin aware alternatives for modern bridge designs.
 
-If your application must display dynamic web content from the internet, ensure that all websites loaded in your WebView are secure and under your organization's control (or at least within your organization's trust boundaries).
+## Prefer `addWebMessageListener` When a Bridge Is Required
 
-When you need to load partial resources (especially JavaScript files) or even full websites outside your organization's trust boundaries, do not load them directly into a WebView. Instead, open the website in the user's default browser or use safer alternatives such as [Trusted Web Activities](https://developer.android.com/guide/topics/app-bundle/trusted-web-activities) or [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/). These solutions leverage the browser's isolated environment.
+Android explicitly documents [`addWebMessageListener`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) as the **recommended** modern bridge mechanism. It is described as the most modern and recommended approach, and the [mechanism comparison table](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge#summary-mechanisms) marks it as **Recommended: Yes** and **Security: Highest (Allowlist-based)**.
 
-To enforce domain control and prevent untrusted content from loading inside your app, apply a control like the following:
+Use it when you need communication between web content and native code and can define a narrow allowlist of trusted origins. Configure a strict `allowedOriginRules` set, register the listener before calling `loadUrl()`, and validate the sender information in the callback before processing messages.
 
-```kotlin
-webView.webViewClient = object : WebViewClient() {
-    override fun shouldOverrideUrlLoading(
-        view: WebView?,
-        request: WebResourceRequest?
-    ): Boolean {
-        val url = request?.url.toString()
-        Log.d("WebView", "About to load: $url")
+## Use `postWebMessage` Only as an Alternative
 
-        // You can intercept or allow it:
-        val outsideControl = isOutsideControl(url)
-        if(outsideControl){
-            // Handle the case where the URL is outside your control
-            // For example, open it in the default browser instead
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context.startActivity(intent)
-        }
-        return outsideControl // return true if you want to handle it manually
-    }
-}
+Android documents [`postWebMessage`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) as an **alternative** asynchronous messaging mechanism. In the same comparison table it is marked **Recommended: No** and **Security: High (Origin aware)**, which is stronger than `addJavascriptInterface` but not as strong as `addWebMessageListener`.
 
-fun isOutsideControl(url: String): Boolean {
-    val trustedSchemes = setOf("https")
-    val trustedHosts = setOf("my-domain.com", "another-trusted-domain.com")
-    val uri = Uri.parse(url)
+If this mechanism is used, configure a strict target origin and avoid wildcard targets such as `*`. Android's security guidance specifically warns that lack of origin control in `postWebMessage()` and `postMessage()` can allow attackers to intercept messages or send messages to native handlers.
 
-    val scheme = uri.scheme ?: return true
-    val host = uri.host ?: return true
+## Minimize Exposed Native Functionality
 
-    if (scheme !in trustedSchemes) {
-       return true
-    }
-    return host !in trustedHosts
-}
-```
+Regardless of the bridge mechanism, minimize the native functionality exposed to JavaScript:
+
+- expose only the specific operations the page needs
+- avoid broad utility objects or generic command dispatchers
+- do not expose sensitive capabilities unless they are essential
+- require simple, well defined message formats
+- reject unexpected inputs and unsupported actions
+
+## Scope and Limitations
+
+This best practice is about bridge design and origin scoping. It should be combined with related controls for JavaScript enablement, trusted origin restrictions, and file access hardening. It does not by itself prevent attacker controlled JavaScript from executing in a trusted page.
