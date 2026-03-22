@@ -34,20 +34,25 @@ Android WebViews can use [`setJavaScriptEnabled`](https://developer.android.com/
 
 ## WebView-Native bridges
 
-Android allows websites loaded inside a WebView to call native Android code via JavaScript. This mechanism is commonly referred to as a "WebView JavaScript bridge" or "native bridge".
+Android provides multiple mechanisms for communication between web content in a `WebView` and native app code, which differ in their design, capabilities, and security properties. Some are based on asynchronous message passing, while others use a synchronous injected object model.
 
-When JavaScript is enabled with `setJavaScriptEnabled(true)` and the app registers a Java or Kotlin object with [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface), that object becomes a JavaScript Interface Object (bridge) and is exposed to all JavaScript running within the WebView. These methods could return data to the WebView or perform specific functionality within the app.
+For additional platform details, see Android's documentation on ["Access native APIs with JavaScript bridge"](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) and ["WebView – Native bridges"](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges).
 
-Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**, whether statically within the app or dynamically (both inside or outside the organization's control or trust boundaries). This means that when the user navigates within trusted domains, all scripts executing on those pages inherit access to the bridge. It also means that, if the user navigates outside your app or domain, all other external pages and their scripts will also have access to the bridge.
+### `addWebMessageListener`
 
-If the exposed interface provides access to sensitive data or privileged functionality, it can introduce serious security risks. Attackers with direct or indirect control of those websites or scripts (e.g. via [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)) can access the WebView and thus read such data or execute arbitrary code on the device.
+[`addWebMessageListener`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) is a message based bridge API provided through AndroidX WebKit. Android describes it as the most modern and recommended approach for communication between web content and native app code. The app registers a listener object name, such as `myObject`, together with a set of `allowedOriginRules`. Matching pages receive an injected JavaScript proxy object that can exchange messages with the app asynchronously. The callback also provides metadata such as the sender origin, whether the message came from the main frame, and a reply proxy for sending a response.
 
-Starting with Android 4.2 (API level 17), the [`@JavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/JavascriptInterface) annotation was introduced to mark which methods are exposed to JavaScript explicitly. Only methods annotated with `@JavascriptInterface` are callable from JavaScript.
+Android documents this mechanism as allowlist-based. The injected object is exposed only to origins that match the configured origin rules, and the same mechanism can work across matching frames. The native side typically uses `WebViewCompat.addWebMessageListener(...)`, and the JavaScript side communicates through the injected proxy object's `postMessage` and `onmessage` APIs.
 
-!!! warning
-    Apps targeting Android versions below 4.2 (API level 17) require extreme caution. Due to [a flaw](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution) in the original implementation of `addJavascriptInterface`, all public methods of the exposed object were accessible via JavaScript by default. This could be exploited through reflection, since all Java Object methods are accessible by default.
+### `postWebMessage`
 
-Visit [Android WebView Security Best Practices](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges#risk-addjavascriptinterface-risks) and [Security checklist](https://developer.android.com/privacy-and-security/security-tips#webview) for more information.
+[`postWebMessage`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) is an asynchronous messaging API that Android documents as an alternative similar to the web platform's `window.postMessage`. The app sends a payload to the web page's main frame with `WebViewCompat.postWebMessage(...)`. For bidirectional communication, the app can create a `WebMessageChannel` and transfer one of its ports to the page. Android characterizes this mechanism as origin aware and notes that it is limited to the main frame. The documentation also notes URI related constraints for content loaded with `data:`, `file:`, or `loadData()` unless `*` is used as the target origin.
+
+### `addJavascriptInterface`
+
+[`addJavascriptInterface`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge#addjavascriptinterface) is the oldest bridge mechanism. Android describes it as a synchronous legacy model. The app creates a Java or Kotlin object, annotates exposed methods with [`@JavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/JavascriptInterface), and injects the object into the `WebView` with `addJavascriptInterface(Object, String)`. JavaScript can then call the exposed methods through the injected object name.
+
+Android also notes several implementation details that are specific to this mechanism. The injected object is available to every frame in the `WebView`, including iframes, and the mechanism does not provide origin based access control. The bridge documentation also states that methods such as `WebView.getUrl()` are not suitable for determining which frame invoked the interface. Android's security guidance also notes that before API level 21, JavaScript could use reflection to access the public fields of an injected object.
 
 ## WebView Local File Access Settings
 
