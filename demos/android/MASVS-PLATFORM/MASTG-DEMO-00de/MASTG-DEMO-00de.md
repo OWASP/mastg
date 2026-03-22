@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Native Code Exposed Through WebViews
+title: Sensitive Data and Functionality Exposed Through WebView JavaScript Bridges
 id: MASTG-DEMO-00de
 code: [kotlin]
 test: MASTG-TEST-02te
@@ -8,9 +8,14 @@ test: MASTG-TEST-02te
 
 ## Sample
 
-The following demo demonstrates a `WebView` component that exposes native functionality to JavaScript via the `addJavascriptInterface()` method, compromising the app's integrity and confidentiality.
+The following demo demonstrates a `WebView` component rendering a "Contact Support" form. A native bridge class, `SupportBridge`, is registered via `addJavascriptInterface()` and exposes three methods to JavaScript: one that reads the user's name, email, and JWT from `SharedPreferences` and returns them as JSON, one that submits a support message, and one that writes a preference value back to `SharedPreferences`. JavaScript is explicitly enabled on the `WebView`, which means any JavaScript running in the page (including injected scripts) can call these bridge methods directly.
 
-{{ AndroidManifest.xml # MastgTestWebView.kt # MastgTestWebView_reversed.java }}
+{{ MastgTestWebView.kt # MastgTestWebView_reversed.java }}
+
+Some payloads that could be executed by an attacker who can run JavaScript in this page include:
+
+- `<img src=x onerror='showStolenData(MASBridge.getUserProfileJson())'>`
+- `<img src=x onerror='MASBridge.updateSupportPreference("malicious value")'>`
 
 ## Steps
 
@@ -22,10 +27,16 @@ Let's run our @MASTG-TOOL-0110 rule against the reversed Java code.
 
 ## Observation
 
-The rule detected the location of a JavaScript/Native Bridge class (with three methods annotated with `@JavascriptInterface`). The `WebView` had `setJavaScriptEnabled` set to `true`, and the Bridge was passed through the `addJavascriptInterface()` method in that WebView.
+The rule detected the `SupportBridge` class with three methods annotated with `@JavascriptInterface`, as well as the `addJavascriptInterface()` call that registers the bridge on a `WebView` with JavaScript enabled.
 
-{{ output.txt # output2.txt }}
+{{ output.txt }}
 
 ## Evaluation
 
-After reviewing the decompiled code at the location specified in the output (file and line number), we can conclude that the test fails because JavaScript is enabled in this webview, a WebView Bridge is attached, and this Bridge allows reading of sensitive data, specifically a first and a last name (PII) and a JWT via the `@JavascriptInterface` annotated methods.
+After reviewing the decompiled code at the locations reported in the output, we can conclude that the test fails because:
+
+- JavaScript is enabled on the `WebView` and a native bridge (`SupportBridge`) is registered via `addJavascriptInterface()` (line 85).
+- There are three sensitive methods annotated with `@JavascriptInterface` that are reachable from JavaScript running in the page, without any origin restrictions or other mitigations:
+    - `getUserProfileJson()` (line 37) reads the user's name, email, and a JWT from `SharedPreferences` and returns them to JavaScript as a JSON string, exposing PII and a credential.
+    - `submitSupportMessage(email, message)` (line 58) allows JavaScript to trigger a support-message submission on behalf of the user, affecting integrity.
+    - `updateSupportPreference(value)` (line 71) allows JavaScript to write arbitrary values to `SharedPreferences`, affecting app integrity.

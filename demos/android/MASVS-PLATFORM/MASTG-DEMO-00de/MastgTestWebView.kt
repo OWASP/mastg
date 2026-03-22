@@ -1,79 +1,195 @@
 package org.owasp.mastestapp
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
+import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.webkit.JavascriptInterface
+import org.json.JSONObject
+import androidx.core.content.edit
 
-class MastgTestWebView (private val context: Context){
+class MastgTestWebView(private val context: Context) {
 
-    // Insecure demo JS bridge for testing (do NOT use in production)
-    inner class Bridge {
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences("support_demo_prefs", Context.MODE_PRIVATE)
 
-        //Affects i.e. confidentiality
+    // Intentionally insecure demo bridge, do not use in production.
+    inner class SupportBridge {
+
         @JavascriptInterface
-        fun getName(): String {
-            return "John Doe"
+        fun getUserProfileJson(): String {
+            val name = prefs.getString("name", "") ?: ""
+            val email = prefs.getString("email", "") ?: ""
+            val jwt = prefs.getString("jwt", "") ?: ""
+
+            return JSONObject().apply {
+                put("name", name)
+                put("email", email)
+                put("jwt", jwt)
+            }.toString()
         }
 
-        //Affects i.e. confidentiality and/or integrity
         @JavascriptInterface
-        fun getJwt(): String {
-            return "header.payload.signature" // Dummy JWT for demo purposes
+        fun submitSupportMessage(email: String, message: String): String {
+            return JSONObject().apply {
+                put("status", "ok")
+                put("email", email)
+                put("message", message)
+            }.toString()
         }
 
-        //Affects i.e. integrity
         @JavascriptInterface
-        fun changeConfiguration(config: String) {
-            // write to app configuration or disk
+        fun updateSupportPreference(value: String) {
+            prefs.edit { putString("support_preference", value) }
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     fun mastgTest(webView: WebView) {
-        // Intentionally insecure WebView demo
+        seedDemoSessionData()
+
         val demoHtml = """
+            <!doctype html>
             <html>
+            <head>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <title>Contact Support</title>
+                <style>
+                    body {
+                        font-family: sans-serif;
+                        margin: 0;
+                        padding: 16px;
+                        background: #ff444444;
+                    }
+                    .card {
+                        background: white;
+                        border: 1px solid #d9d9d9;
+                        border-radius: 10px;
+                        padding: 16px;
+                        max-width: 500px;
+                        margin: 0 auto;
+                    }
+                    h1 {
+                        margin-top: 0;
+                        font-size: 22px;
+                    }
+                    label {
+                        display: block;
+                        margin-top: 12px;
+                        margin-bottom: 6px;
+                        font-weight: 600;
+                    }
+                    input, textarea {
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 10px;
+                        border: 1px solid #bbb;
+                        border-radius: 8px;
+                        font-size: 14px;
+                    }
+                    textarea {
+                        min-height: 160px;
+                        resize: vertical;
+                    }
+                    .row {
+                        display: flex;
+                        gap: 8px;
+                        margin-top: 12px;
+                    }
+                    button {
+                        padding: 10px 14px;
+                        border: 1px solid #999;
+                        border-radius: 8px;
+                        background: #fff;
+                        cursor: pointer;
+                    }
+                    .hint {
+                        color: #666;
+                        font-size: 13px;
+                        margin-top: 8px;
+                    }
+                    .hidden {
+                        display: none;
+                    }
+                    .messageBox {
+                        width: 100%;
+                        box-sizing: border-box;
+                        min-height: 180px;
+                        padding: 10px;
+                        border: 1px solid #bbb;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        background: white;
+                        white-space: pre-wrap;
+                        word-break: break-word;
+                    }
+                </style>
+            </head>
             <body>
-                <h1>Insecure WebView Demo</h1>
-                <button onclick="showName()">Get Name</button>
-                <button onclick="showJwt()">Get JWT</button>
-                <button onclick="changeConfig()">Change Config</button>
-                <p id="output"></p>
-                
+                <div class="card">
+                    <div id="formView">
+                        <h1>Contact Support</h1>
+                        <p class="hint">Send a message to the support team.</p>
+
+                        <label for="email">Email</label>
+                        <input id="email" type="text" value="john.doe@example.com" />
+
+                        <label for="message">Message</label>
+                        <textarea id="message" placeholder="Describe your issue here"></textarea>
+
+                        <div class="row">
+                            <button onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+
+                    <div id="resultView" class="hidden">
+                        <h1>Support</h1>
+                        <div id="resultText" class="messageBox"></div>
+                        <div class="row">
+                            <button onclick="showForm()">Send another message</button>
+                        </div>
+                    </div>
+                </div>
+
                 <script>
-                    function showName() {
-                        var name = MASBridge.getName();
-                        document.getElementById("output").innerText = "Name: " + name;
+                    function showForm() {
+                        document.getElementById("resultView").classList.add("hidden");
+                        document.getElementById("formView").classList.remove("hidden");
+                        document.getElementById("email").value = "john.doe@example.com";
+                        document.getElementById("message").value = "";
+                        document.getElementById("resultText").innerHTML = "";
                     }
-                    
-                    function showJwt() {
-                        var jwt = MASBridge.getJwt();
-                        document.getElementById("output").innerText = "JWT: " + jwt;
+
+                    function showStolenData(text) {
+                        document.getElementById("resultText").innerText = text;
                     }
-                    
-                    function changeConfig() {
-                        MASBridge.changeConfiguration("newConfigValue");
-                        document.getElementById("output").innerText = "Configuration Changed";
+
+                    function sendMessage() {
+                        const email = document.getElementById("email").value;
+                        const message = document.getElementById("message").value;
+
+                        MASBridge.submitSupportMessage(email, message);
+
+                        document.getElementById("formView").classList.add("hidden");
+                        document.getElementById("resultView").classList.remove("hidden");
+
+                        // Intentionally insecure.
+                        document.getElementById("resultText").innerHTML =
+                            "Message sent, you'll soon hear from us in " + email;
                     }
                 </script>
             </body>
             </html>
-            
         """.trimIndent()
 
         webView.apply {
-            // Enable JavaScript (part of the failing conditions for the test)
             settings.javaScriptEnabled = true
-
-            // Add an exposed JS interface (part of the failing conditions for the test)
-            addJavascriptInterface(Bridge(), "MASBridge")
-
-            // Basic client to keep navigation inside the WebView
+            addJavascriptInterface(SupportBridge(), "MASBridge")
             webViewClient = object : WebViewClient() {}
-
-            // Load HTML under a cleartext base URL to emulate mixed conditions (requires usesCleartextTraffic=true to fetch network, but base URL is enough for origin in this inline demo)
             loadDataWithBaseURL(
-                "http://insecure.example/", // intentional cleartext origin for the demo
+                "https://appassets.androidplatform.net/assets/support/",
                 demoHtml,
                 "text/html",
                 "utf-8",
@@ -82,4 +198,14 @@ class MastgTestWebView (private val context: Context){
         }
     }
 
+    private fun seedDemoSessionData() {
+        prefs.edit {
+            putString("name", "John Doe")
+                .putString("email", "john.doe@example.com")
+                .putString(
+                    "jwt",
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE2MjM5MDIyLCJleHAiOjE5OTk5OTk5OTksImF1ZCI6Im1hc3Rlc3RhcHAiLCJpc3MiOiJodHRwczovL2F1dGguZXhhbXBsZS5jb20ifQ.s5vXz8Q1w4m0l9B2x3G7g8J9k1N2p3Q4r5S6t7U8v9w"
+                )
+        }
+    }
 }
