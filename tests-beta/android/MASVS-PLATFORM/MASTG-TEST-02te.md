@@ -7,55 +7,41 @@ weakness: MASWE-0069
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-00be]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]
+prerequisites:
+- identify-security-relevant-contexts
 ---
 
 ## Overview
 
 This test verifies Android apps that use WebViews with WebView-Native bridges do not expose native code to websites loaded inside the WebView.
 
-These bridges can be added via the [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface) method in the `WebView` class. Their functionality requires that JavaScript is enabled on the WebView with [`WebSettings.setJavaScriptEnabled(true)`](https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)). On API level 17 and above, the `@JavascriptInterface` annotation is required to expose methods to JavaScript.
+These bridges are created by registering a Java object with the WebView through [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface). Public methods of that object that are annotated with [`@JavascriptInterface`](https://developer.android.com/reference/android/webkit/JavascriptInterface) become callable from JavaScript running inside the WebView, using the provided `name` as the global JavaScript object.
+
+For this mechanism to work, JavaScript execution must be enabled on the WebView by calling [`WebSettings.setJavaScriptEnabled(true)`](https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)) (default is `false`), since the exposed interface is invoked from JavaScript code executed within the page.
 
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0007 to determine the app's target API level.
-3. Use @MASTG-TECH-0014 to look for references of:
-
-   - the `setJavaScriptEnabled` method
-   - the `addJavascriptInterface` method
-
-### Sub-method 1
-
-1. Use @MASTG-TECH-0014 to look for references to the `@JavascriptInterface` annotation.
-
-### Sub-method 2
-
-1. Install and run the app.
-2. Navigate to the WebView you want to analyze.
-3. Use @MASTG-TECH-0033 targeting the `@JavascriptInterface` and log their arguments.
+2. Use @MASTG-TECH-0014 to look for references of the relevant WebView APIs.
 
 ## Observation
 
-The output should contain the app's API level and a list of WebView instances, including the following methods and their arguments:
-
-- `setJavaScriptEnabled` and if it's enabled or not
-- `addJavascriptInterface` and their associated classes
-- `@JavascriptInterface` and their associated methods
+The output should contain any references to the relevant WebView APIs.
 
 ## Evaluation
 
-The test fails automatically if all the following are true:
+The test fails if all the following are true:
 
-- The application is targeting API level 16 or lower.
-- `setJavaScriptEnabled` is `true`.
+- `setJavaScriptEnabled` is explicitly set to `true`.
 - `addJavascriptInterface` is used at least once.
+- At least one method annotated with `@JavascriptInterface` handles sensitive data or actions and is reachable from untrusted content. See below.
 
-The test also fails, after evaluating the `addJavascriptInterface` method(s) and `@JavascriptInterface` annotation(s), if all the following are true:
+**Context Considerations**:
 
-- Sensitive data can be read through the interface methods.
-- Actions that can affect the confidentiality, integrity, or availability of the application can be performed via the interface methods.
+To reduce false positives, make sure you understand the context in which the bridge is being used before reporting the associated code as insecure. Ensure that it is being used in a security-relevant context to protect sensitive data or actions, and that it is reachable from untrusted content. For example, if the WebView can load arbitrary or weakly validated URLs, or if the app does not implement proper origin allowlisting for the bridge.
 
-The test passes if any of the following are true:
+**Well-known Challenges when testing for WebView-Native bridges**:
 
-- `setJavaScriptEnabled` is `false` or not used at all.
-- `addJavascriptInterface` is not used at all.
+- The app may use parametrized or indirect calls to these APIs, for example through utility methods or wrapper classes. Static analysis may not be able to resolve these calls, and dynamic analysis may require specific app states or user interactions to trigger them.
+- The app may use several WebViews with different configurations, and it may be difficult to determine which values are set for each WebView instance, especially if they are created dynamically, in different code paths or even across different files.
+- The app may use obfuscation, reflection, or dynamic code loading to hide the use of these APIs.
