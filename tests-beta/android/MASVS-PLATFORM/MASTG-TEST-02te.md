@@ -13,7 +13,7 @@ prerequisites:
 
 ## Overview
 
-This test verifies Android apps that use WebViews with WebView-Native bridges do not expose native code to websites loaded inside the WebView.
+This test verifies Android apps that use WebViews with [legacy WebView-Native bridges](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge#addjavascriptinterface) do not expose native code to websites loaded inside the WebView.
 
 These bridges are created by registering a Java object with the WebView through [`addJavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/WebView#addjavascriptinterface). Public methods of that object that are annotated with [`@JavascriptInterface`](https://developer.android.com/reference/android/webkit/JavascriptInterface) become callable from JavaScript running inside the WebView, using the provided `name` as the global JavaScript object.
 
