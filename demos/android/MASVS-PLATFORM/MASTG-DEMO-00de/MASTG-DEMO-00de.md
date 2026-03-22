@@ -40,3 +40,8 @@ After reviewing the decompiled code at the locations reported in the output, we 
     - `getUserProfileJson()` (line 37) reads the user's name, email, and a JWT from `SharedPreferences` and returns them to JavaScript as a JSON string, exposing PII and a credential.
     - `submitSupportMessage(email, message)` (line 58) allows JavaScript to trigger a support-message submission on behalf of the user, affecting integrity.
     - `updateSupportPreference(value)` (line 71) allows JavaScript to write arbitrary values to `SharedPreferences`, affecting app integrity.
+
+Two remediation paths exist for this issue:
+
+- One is to prevent attacker controlled input from being rendered as executable HTML or JavaScript in the `WebView`. This is intentionally left vulnerable in the demo to simulate an XSS style condition, but in a real app the JavaScript execution primitive could come from many other causes, not only obvious reflected input.
+- The other is to redesign the native bridge by removing the legacy `addJavascriptInterface()` model and using a message based bridge with explicit origin restrictions, such as `WebViewCompat.addWebMessageListener()` with a narrow `allowedOriginRules` allowlist and sender validation. In this demo, that bridge redesign alone would not visibly stop the exploit because the injected script executes in the same trusted main page origin, so it would still satisfy the origin policy. Even so, it remains an important hardening measure, and it becomes effective when attacker controlled JavaScript runs from a different origin or untrusted frame, which is the broader class of risk associated with legacy JavaScript bridges.
