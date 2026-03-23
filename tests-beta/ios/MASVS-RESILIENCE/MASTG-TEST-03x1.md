@@ -29,7 +29,7 @@ The output should contain a list of logging function calls found in the binary.
 
 ## Evaluation
 
-The test fails if the app logs verbose debug messages in production builds that expose implementation details such as:
+The test case fails if the app logs verbose debug messages in production builds that expose implementation details such as:
 
 - Internal function names or code paths
 - Detailed error messages with stack information
