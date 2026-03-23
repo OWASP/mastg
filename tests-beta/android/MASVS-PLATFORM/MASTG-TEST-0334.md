@@ -2,7 +2,7 @@
 platform: android
 title: Native Code Exposed Through WebViews
 id: MASTG-TEST-0334
-type: [static, dynamic]
+type: [static]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0035]
 profiles: [L1, L2]
@@ -22,7 +22,7 @@ For this mechanism to work, JavaScript execution must be enabled on the WebView 
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for references of the relevant WebView APIs.
+2. Use @MASTG-TECH-0014 to look for references to the relevant WebView APIs.
 
 ## Observation
 
@@ -30,7 +30,7 @@ The output should contain any references to the relevant WebView APIs.
 
 ## Evaluation
 
-The test fails if all the following are true:
+The test case fails if all the following are true:
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `addJavascriptInterface` is used at least once.
