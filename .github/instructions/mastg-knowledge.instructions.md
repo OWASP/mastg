@@ -1,4 +1,7 @@
-## Knowledge Articles
+---
+name: 'Writing MASTG Knowledge Files'
+applyTo: 'knowledge/**/*.md'
+---
 
 Authoring standards for the Knowledge articles under `knowledge/`.
 
@@ -15,7 +18,7 @@ Because of this separation, do not include "what can go wrong", threat scenarios
 Avoid language and structures that imply security testing or remediation, for example:
 
 - "attackers can …", "this is insecure …", "this is vulnerable …"
-- "the test fails if …", "to prevent this …", "you should/shouldn’t …"
+- "the test fails if …", "to prevent this …", "you should/shouldn't …"
 
 Locations and taxonomy:
 
@@ -31,9 +34,13 @@ File naming and IDs:
 - Do not add an `id:` field to the YAML front matter.
 - Place the file in the platform (`android` or `ios`) and MASVS category folder that best matches the subject.
 
+When creating a new knowledge page (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-KNOW-0x##` (for example, `MASTG-KNOW-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-KNOW-0x33`, `MASTG-KNOW-0x34`, `MASTG-KNOW-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-KNOW-0112`) before the content is published.
+
 Follow the global Markdown rules (see `.github/instructions/markdown.instructions.md`). Use `##` and `###` headings in the body.
 
-### Markdown: Metadata
+## Markdown: Metadata
 
 Include a YAML front matter block with these fields.
 
@@ -61,7 +68,7 @@ available_since: 18
 ---
 ```
 
-### Markdown: Body
+## Markdown: Body
 
 Keep content authoritative, concise, and platform-focused. Avoid duplicating OS documentation. Instead, cite it and summarize the feature, including its purpose and functionality.
 
@@ -73,14 +80,13 @@ Considerations for writing the content:
 - Use references from official docs and standards. Avoid non-authoritative sources.
 - In body text, reference internal MAS identifiers with a leading `@` (for example, @MASTG-KNOW-0001, @MASTG-TEST-0204, @MASTG-TECH-0014, @MASTG-TOOL-0031, MASWE-0089).
 
-
-### Writing conventions
+## Writing conventions
 
 - Use American spelling, second person, and active voice.
 - Prefer short paragraphs and bullet lists for scannability.
 - Use HTML `<img>` for images as per the markdown instructions.
 
-### Edge cases and guidance
+## Edge cases and guidance
 
 - Cross-category content: If a topic spans two MASVS categories, choose the best fit and reference the other in the body; avoid duplicate pages.
 - Generic vs platform: Concepts that are identical across platforms should be split into platform folders if platform detail matters; otherwise, place details where they differ and keep overviews succinct.
@@ -95,7 +101,7 @@ If the source is gone, not relevant anymore, or too old, set the following in th
 - `deprecation_note:` Short clarifying note for deprecation. Keep phrasing concise and imperative
 - `covered_by:` List of MASTG-TOOL-xxxx tools covering for this one, if any.
 
-**Example**
+**Example:**
 
 ```yaml
 ---

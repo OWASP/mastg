@@ -1,0 +1,24 @@
+rules:
+  - id: mastg-android-biometric-validity-duration
+    languages:
+      - java
+      - kotlin
+    severity: WARNING
+    metadata:
+      summary: This rule detects KeyGenParameterSpec configurations with extended authentication validity duration (non-zero timeout).
+    message: "[MASVS-AUTH-2] Key configured with authentication validity duration > 0. For sensitive operations, use setUserAuthenticationParameters(0, type) to require authentication for every cryptographic operation."
+
+    pattern-either:
+      # Pattern 1: setUserAuthenticationParameters with non-zero duration
+      - patterns:
+          - pattern: $BUILDER.setUserAuthenticationParameters($DURATION, ...)
+          - metavariable-comparison:
+              metavariable: $DURATION
+              comparison: $DURATION > 0
+
+      # Pattern 2: Deprecated setUserAuthenticationValidityDurationSeconds with non-zero duration
+      - patterns:
+          - pattern: $BUILDER.setUserAuthenticationValidityDurationSeconds($DURATION)
+          - metavariable-comparison:
+              metavariable: $DURATION
+              comparison: $DURATION > 0

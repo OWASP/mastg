@@ -7,13 +7,13 @@ test: MASTG-TEST-0323
 kind: fail
 ---
 
-### Sample
+## Sample
 
 The code sample code uses BSD sockets directly to establish a connection to `httpbin.org` on port `80`. The demo doesn't send any data over the connection, but for the purposes of this demo, assume that it does.
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run @MASTG-TOOL-0073 with the script to search for BSD socket APIs in the binary.
@@ -22,13 +22,13 @@ The code sample code uses BSD sockets directly to establish a connection to `htt
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output contains references to BSD socket APIs found in the binary:
 
 {{ output.asm }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app uses BSD sockets directly, including `socket`, `connect`, `send`, `recv`, and `getaddrinfo`. The binary imports these symbols and calls them to create a cleartext network connection that bypasses ATS. The `getaddrinfo` call resolves the hostname `httpbin.org` and is supplied with a service value representing port `80`.
 

@@ -5,7 +5,7 @@ platform: ios
 
 ## Using @MASTG-TOOL-0138 (Jailbroken Devices Only)
 
-Before being able to access the app directories, you need to know where they are located on the filesystem.
+Before you can access the app directories, you need to know where they are located in the filesystem.
 
 Connect to the terminal on the device (@MASTG-TECH-0052) and run `ipainstaller -i`:
 
@@ -17,11 +17,11 @@ Application: /private/var/containers/Bundle/Application/3ADAF47D-A734-49FA-B274-
 Data: /private/var/mobile/Containers/Data/Application/8C8E7EB0-BC9B-435B-8EF8-8F5560EB0693
 ```
 
-Now you can `cd` into these directories to explore their content. If you want to extract these directories to your computer for further analysis you can use @MASTG-TECH-0053.
+Now you can `cd` into these directories to explore their content. If you want to extract these directories to your computer for further analysis, you can use @MASTG-TECH-0053.
 
 ## Using @MASTG-TOOL-0074 (Jailbroken and Non-Jailbroken Devices)
 
-Using objection's command `env` will also show you all the directory information of the app. Connecting to the application with objection is described in @MASTG-TOOL-0074. In this case we're connecting to @MASTG-APP-0028:
+Using @MASTG-TOOL-0074's `env` command will also show you all the app's directory information. In this example, we're connecting to @MASTG-APP-0028:
 
 ```bash
 OWASP.iGoat-Swift on (iPhone: 11.1.2) [usb] # env
@@ -90,7 +90,7 @@ Go to **Finder** -> **Home** to see the application data directory:
 
 ## Using a Terminal in macOS (iOS Simulator Only)
 
-For testing the local storage and verifying what data is stored within it, it's not mandatory to have an iOS device. With access to the source code and Xcode the app can be build and deployed in the iOS simulator. The file system of the current device of the iOS simulator is available in `~/Library/Developer/CoreSimulator/Devices`.
+To test local storage and verify what data is stored in it, an iOS device is not required. With access to the source code and Xcode, the app can be built and deployed in the iOS simulator. The file system of the current iOS simulator device is located at `~/Library/Developer/CoreSimulator/Devices`.
 
 Once the app is running in the iOS simulator, you can navigate to the directory of the latest simulator started with the following command:
 
@@ -98,7 +98,7 @@ Once the app is running in the iOS simulator, you can navigate to the directory 
 $ cd ~/Library/Developer/CoreSimulator/Devices/$(ls -alht ~/Library/Developer/CoreSimulator/Devices | head -n 2 | awk '{print $9}' | sed -n '1!p')/data/Containers/Data/Application
 ```
 
-The command above will automatically find the UUID of the latest simulator started and navigate to the Applications Data directory. From there you can `cd` into the app's data directory by looking for the app's name in the `Documents` folder of each application directory.
+The command above will automatically find the UUID of the most recently started simulator and navigate to the Applications Data directory. From there, you can `cd` into the app's data directory by looking for the app's name in the `Documents` folder of each application directory.
 
 ## Using Xcode (Jailbroken and Non-Jailbroken Devices - Debug Builds Only)
 
@@ -108,6 +108,6 @@ Go to **Window** -> **Devices and Simulators** in Xcode. Select your connected d
 
 <img src="Images/Chapters/0x06a/download-ios-app-container.png" width="400px" />
 
-This will allow you to save the app container to your local machine as a `.xcappdata` file. Once downloaded, you can right-click on the container file and select **Show Package Contents** to explore the app's directory structure.
+This will allow you to save the app container to your local machine as a `.xcappdata` file. Once downloaded, right-click the container file and select **Show Package Contents** to explore the app's directory structure.
 
 <img src="Images/Chapters/0x06a/ios-app-container.png" width="400px" />

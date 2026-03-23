@@ -6,13 +6,13 @@ id: MASTG-DEMO-0074
 test: MASTG-TEST-0311
 ---
 
-### Sample
+## Sample
 
 This demo uses the same sample code as in @MASTG-DEMO-0073. It demonstrates the use of insecure random number generation using various APIs.
 
 {{ ../MASTG-DEMO-0073/MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056)
 2. Make sure you have @MASTG-TOOL-0039 installed on your machine and the frida-server running on the device
@@ -22,7 +22,7 @@ This demo uses the same sample code as in @MASTG-DEMO-0073. It demonstrates the 
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 {{ output.txt }}
 
@@ -31,7 +31,7 @@ This output contains both insecure and secure APIs. For this test case the inter
 - `rand` and `srand`, which expose the insecure libc PRNG.
 - `drand48`, which also uses an insecure linear congruential generator.
 
-### Evaluation
+## Evaluation
 
 The test fails because insecure PRNGs are used in a security relevant context. See the evaluation section in @MASTG-DEMO-0073 for more details.
 

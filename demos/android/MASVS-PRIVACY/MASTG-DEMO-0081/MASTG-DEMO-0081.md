@@ -20,13 +20,13 @@ For the sake of this demo, we pretend that the app is published on Google Play a
 ## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
-2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device
 3. Run `run.sh` to spawn the app with Frida
 4. Select a blood type from the dropdown
 5. Click the **Start** button
 6. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
 
-{{ hooks.js # run.sh }}
+{{ hooks.json # run.sh }}
 
 ## Observation
 

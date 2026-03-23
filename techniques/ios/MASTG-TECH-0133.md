@@ -9,22 +9,22 @@ iOS has several dependency managers, where the most popular are:
 - [CocoaPods](https://github.com/CocoaPods/CocoaPods) and
 - [SwiftPM (Swift Package Manager)](https://github.com/swiftlang/swift-package-manager)
 
-The dependencies are integrated into the project during the build process and are then compiled into the IPA file. However, the version information of the dependencies may be stripped out during compilation, which means we cannot scan the IPA file. Fortunately, we can scan the artifacts produced by the dependency managers.
+Dependencies are integrated into the project during the build process and then compiled into the IPA file. However, the version information in the dependencies may be stripped during compilation, so we cannot scan the IPA file. Fortunately, we can scan the artifacts produced by the dependency managers.
 
-Tools such as @MASTG-TOOL-0131 can scan files created by all three dependency managers. These files list dependencies as [Common Platform Enumeration (CPE)](https://nvd.nist.gov/products/cpe "CPE") and their versions. The CPE will be included in the iOS app. These tools then search for known vulnerabilities, or [CVEs (Common Vulnerability and Exposure)](https://cve.mitre.org/ "CVE"), in the dependencies by checking them against a vulnerability database, such as the National Vulnerability Database (NVD).
+Tools such as @MASTG-TOOL-0131 can scan files created by all three dependency managers. These files list dependencies as [Common Platform Enumeration (CPE)](https://nvd.nist.gov/products/cpe "CPE") and their versions. The CPE will be included in the iOS app. These tools then search for known vulnerabilities, or [CVEs (Common Vulnerability and Exposure)](https://cve.mitre.org/ "CVE"), in dependencies by checking them against vulnerability databases such as the National Vulnerability Database (NVD).
 
 !!! note
     @MASTG-TOOL-0131 supports [Carthage](https://jeremylong.github.io/DependencyCheck/analyzers/carthage.html), [CocoaPods](https://jeremylong.github.io/DependencyCheck/analyzers/cocoapods.html) and [SwiftPM](https://jeremylong.github.io/DependencyCheck/analyzers/swift.html), but these analyzers are considered experimental. While these analyzers may be useful and provide valid results, additional testing is needed to ensure the false-negative/positive rates are acceptable.
 
 To test with @MASTG-TOOL-0131, we need to retrieve the dependency manager's corresponding file:
 
-- For Carthage it is the file `Cartfile.resolved`.
-- For CocoaPods it is the file `*.podspec` or `Podfile.lock`
-- For SwiftPM it is the file `Package.swift` or `Package.resolved`
+- For Carthage, it is the file `Cartfile.resolved`.
+- For CocoaPods, it is the file `*.podspec` or `Podfile.lock`
+- For SwiftPM, it is the file `Package.swift` or `Package.resolved`
 
-Keep in mind that developers may use more than one dependency manager, so you may need to perform more than one scan. When scanning with @MASTG-TOOL-0131, scanning the file created by the dependency manager is sufficient; you don't need access to the entire Xcode project or source code.
+Keep in mind that developers may use multiple dependency managers, so you may need to run various scans. When scanning with @MASTG-TOOL-0131, scanning the file created by the dependency manager is enough; you don't need access to the entire Xcode project or source code.
 
-Before running the scan, obtain an API key for NVD. This key is used to retrieve the latest CVE information. You can request the API key to access the NVD API from <https://nvd.nist.gov/developers/request-an-api-key>.
+Before running the scan, obtain an NVD API key. This key is used to retrieve the latest CVE information. You can request the API key to access the NVD API from <https://nvd.nist.gov/developers/request-an-api-key>.
 
 - To start a scan for a project using SwiftPM, execute the following command to scan the `Package.Swift` or `Package.resolved`:
 
@@ -44,6 +44,6 @@ $ dependency-check --enableExperimental -f SARIF --nvdApiKey <YOUR-API-KEY> -s P
 $ dependency-check --enableExperimental -f SARIF --nvdApiKey <YOUR-API-KEY> -s Cartfile.resolved
 ```
 
-The output is always a SARIF file which can be viewed using the Sarif viewer plugin in @MASTG-TOOL-0133. Any known vulnerabilities found will be listed with their CVE number and description.
+The output is always a SARIF file, which can be viewed using the Sarif viewer plugin in @MASTG-TOOL-0133. Any known vulnerabilities will be listed with their CVE numbers and descriptions.
 
 You can only scan one file at a time. When scanning for CocoaPods or Carthage, use the same command but scan the corresponding dependency manager file.

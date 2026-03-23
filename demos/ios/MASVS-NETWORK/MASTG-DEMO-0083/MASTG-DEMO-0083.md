@@ -7,7 +7,7 @@ test: MASTG-TEST-0322
 kind: fail
 ---
 
-### Sample
+## Sample
 
 The code below shows an insecure ATS configuration in an `Info.plist` file that disables App Transport Security in many ways:
 
@@ -19,7 +19,7 @@ The code below shows an insecure ATS configuration in an `Info.plist` file that 
 
 {{ Info.plist # Info_reversed.plist # MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Extract the app (@MASTG-TECH-0058) and locate the `Info.plist` file inside the app bundle (which we'll name `Info_reversed.plist`).
 2. Convert the Info.plist to pretty printed JSON (@MASTG-TECH-0138)
@@ -27,13 +27,13 @@ The code below shows an insecure ATS configuration in an `Info.plist` file that 
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output shows the relevant ATS configuration keys and values found in the `Info_reversed.plist` file:
 
 {{ output.txt # Info_reversed.json }}
 
-### Evaluation
+## Evaluation
 
 The test fails because several ATS settings are set to `true`, which disables ATS globally and allows cleartext HTTP traffic to any domain. Specifically, the following settings are misconfigured:
 

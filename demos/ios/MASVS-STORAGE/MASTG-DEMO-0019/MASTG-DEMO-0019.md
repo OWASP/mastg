@@ -6,13 +6,13 @@ id: MASTG-DEMO-0019
 test: MASTG-TEST-0215
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code that creates a file and marks it with `isExcludedFromBackupKey`.
 
 {{ MastgTest.swift # function.asm # decompiled-o1-review.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh`.
@@ -21,13 +21,13 @@ The code snippet below shows sample code that creates a file and marks it with `
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output reveals the use of `isExcludedFromBackupKey` in the app.
 
 {{ output.asm }}
 
-### Evaluation
+## Evaluation
 
 The test fails because `secret.txt` might be restored from the backup and it contains sensitive data.
 

@@ -6,7 +6,7 @@ id: MASTG-DEMO-0073
 test: MASTG-TEST-0311
 ---
 
-### Sample
+## Sample
 
 The following sample demonstrates various methods of generating random tokens, and contrasts insecure and secure approaches. It includes:
 
@@ -19,7 +19,7 @@ The following sample demonstrates various methods of generating random tokens, a
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file, as described in @MASTG-TECH-0058. For this demo the path is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run @MASTG-TOOL-0073 on the binary and use the `-i` option to execute the script below.
@@ -33,7 +33,7 @@ This script:
 - Uses `[1]` to select the address column from that output.
 - Uses `axtj @@=...` to run `axt` on each of those addresses and print cross references in JSON.
 
-### Observation
+## Observation
 
 The output of the script shows cross references to calls to functions whose names contain `rand` in the sample binary.
 
@@ -41,7 +41,7 @@ The output of the script shows cross references to calls to functions whose name
 
 **Note:** the output also shows calls to secure sources such as `SecRandomCopyBytes`, `CCRandomGenerateBytes`, `SystemRandomNumberGenerator`, and the Swift `FixedWidthInteger.random` implementation. These are present in the sample for contrast, but they are not the reason the test fails. The evaluation only treats uses of insecure libc PRNGs as findings.
 
-### Evaluation
+## Evaluation
 
 The test fails because insecure PRNGs are used in a security relevant context. Specifically:
 

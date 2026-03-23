@@ -12,7 +12,7 @@ Many apps log informative (and potentially sensitive) messages to the console lo
 3. Choose **Window** -> **Devices and Simulators**.
 4. Click on your connected iOS device in the left section of the Devices window.
 5. Reproduce the problem.
-6. Click on the **Open Console** button located in the upper right-hand area of the Devices window to view the console logs on a separate window.
+6. Click on the **Open Console** button located in the upper right-hand area of the Devices window to view the console logs in a separate window.
 
 <img src="Images/Chapters/0x06b/open_device_console.png" width="100%" />
 
@@ -23,7 +23,7 @@ To save the console output to a text file, go to the top right side of the Conso
 ## Using @MASTG-TOOL-0126
 
 1. Connect your device to your host computer.
-2. Run `idevicesyslog | grep YOUR_APP_NAME` in your terminal. The resulting output will include numerous device-specific logs related to that specific app.
+2. Run `idevicesyslog | grep YOUR_APP_NAME` in your terminal. The output will include many device-specific logs for that app.
 
 <img src="Images/Chapters/0x06b/idevicesyslog-screen.png" width="100%" />
 

@@ -19,13 +19,13 @@
   "totalErrors": 0
 }
 {
-  "id": "68f13e77-c2aa-4778-be90-fc7a5c50af60",
+  "id": "c6b211de-9e7f-442b-952b-bddddf4b7baa",
   "type": "hook",
   "category": "PRIVACY",
-  "time": "2025-12-04T14:03:05.046Z",
+  "time": "2026-01-23T10:45:21.192Z",
   "class": "com.google.firebase.analytics.FirebaseAnalytics",
   "method": "logEvent",
-  "instanceId": 33276343,
+  "instanceId": 18729008,
   "stackTrace": [
     "com.google.firebase.analytics.FirebaseAnalytics.logEvent(Native Method)",
     "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:35)",
@@ -43,8 +43,8 @@
       "declaredType": "android.os.Bundle",
       "value": "<instance: android.os.Bundle>",
       "runtimeType": "android.os.Bundle",
-      "instanceId": "130116900",
-      "instanceToString": "Bundle[{blood_type=A+, user_id=87495975}]"
+      "instanceId": "30215337",
+      "instanceToString": "Bundle[{blood_type=A+, user_id=90600554}]"
     }
   ],
   "returnValue": [

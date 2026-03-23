@@ -23,7 +23,7 @@ r2 frida://usb//sg.vantagepoint.helloworldjni
 
 Once in the r2frida session, all commands start with `:`. For example, in radare2 you'd run `i` to display the binary information, but in r2frida you'd use `:i`.
 
-### Memory Maps and Inspection
+## Memory Maps and Inspection
 
 You can retrieve the app's memory maps by running `:dm`. The output in Android can get very long (e.g. between 1500 and 2000 lines). To narrow your search and see only what directly belongs to the app, apply a grep (`~`) by package name `:dm~<package_name>`:
 
@@ -92,7 +92,7 @@ libnative-lib.so                                 0x7d1c499000  73728 (72.0 KiB) 
 
 You can even directly see the size and the path to that binary in the Android file system.
 
-### In-Memory Search
+## In-Memory Search
 
 In-memory search is a very useful technique to test for sensitive data that might be present in the app memory.
 

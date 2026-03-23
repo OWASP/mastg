@@ -5,6 +5,8 @@ platform: android
 
 Native methods tracing can be performed with relative ease compared to Java method tracing. `frida-trace` is a CLI tool for dynamically tracing function calls. It makes tracing native functions trivial and can be very useful for collecting information about an application.
 
+For detailed tutorials on using frida-trace, see the [frida-trace section in the Frida Handbook](https://learnfrida.info/basic_usage/#frida-trace).
+
 In order to use `frida-trace`, a Frida server should be running on the device. An example for tracing libc's `open` function using `frida-trace` is demonstrated below, where `-U` connects to the USB device and `-i` specifies the function to be included in the trace.
 
 ```bash

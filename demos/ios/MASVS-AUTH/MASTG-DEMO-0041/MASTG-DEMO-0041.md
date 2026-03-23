@@ -6,7 +6,7 @@ code: [swift]
 test: MASTG-TEST-0266
 ---
 
-### Sample
+## Sample
 
 The following sample insecurely accesses sensitive resources, a secret token, **relying solely** on the LocalAuthentication API for access control instead of using the Keychain API and requiring user presence. It does so by using the `evaluatePolicy` method of the `LAContext` class to authenticate the user with biometrics (`deviceOwnerAuthenticationWithBiometrics`).
 
@@ -14,7 +14,7 @@ This method is weak because it depends on an if statement to check if the authen
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh`.
@@ -23,7 +23,7 @@ This method is weak because it depends on an if statement to check if the authen
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 {{ output.asm }}
 
@@ -47,7 +47,7 @@ grep kLAPolicyDeviceOwnerAuthentication /Applications/Xcode.app/Contents/Develop
 
 Or you can view the full LAPublicDefines.h header online in public SDK mirrors on GitHub such as [GitHub - xybp888/iOS-SDKs](https://github.com/xybp888/iOS-SDKs/blob/master/iPhoneOS18.4.sdk/System/Library/Frameworks/LocalAuthentication.framework/Headers/LAPublicDefines.h#L12-L18).
 
-### Evaluation
+## Evaluation
 
 The test fails because the output only shows references to biometric verification with LocalAuthentication API and no calls to any Keychain APIs requiring user presence (`SecAccessControlCreateWithFlags`).
 
