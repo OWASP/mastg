@@ -30,5 +30,5 @@ If JavaScript is required, apply WebView specific hardening measures, covered in
 - Only load expected and allowlisted origins.
 - Validate scheme and host before calling `loadUrl`, `shouldOverrideUrlLoading`, or similar APIs.
 - Disable file and content access unless they are strictly needed (@MASTG-BEST-0011 and @MASTG-BEST-0013).
-- Avoid exposing JavaScript bridges to untrusted content (@MASTG-BEST-00be).
+- Avoid exposing JavaScript bridges to untrusted content (@MASTG-BEST-0035).
 - Enable Safe Browsing where supported by the WebView implementation, for example by calling [`WebSettings.setSafeBrowsingEnabled(true)`](https://developer.android.com/reference/android/webkit/WebSettings#setSafeBrowsingEnabled(boolean)) (available since Android 8.0, API level 26).
