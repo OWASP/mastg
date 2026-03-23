@@ -17,7 +17,7 @@ This test checks whether the app enables either of these settings for any `WKWeb
 
 Remember that JavaScript is enabled by default unless the app explicitly calls `setJavaScriptEnabled` to set it to `false`.
 
-This test is related to, but distinct from, @MASTG-TEST-xxxx, which evaluates the use of `loadFileURL(_:allowingReadAccessTo:)`. That test focuses on the **native file system read scope** granted to the WebView through the `readAccessURL` parameter. By contrast, this test focuses on **JavaScript origin restrictions** for content loaded from `file://` URLs. Even if the file read scope is correctly restricted, enabling `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` can allow JavaScript running in a local page to access additional resources or communicate with remote origins.
+This test is related to, but distinct from, @MASTG-TEST-0333, which evaluates the use of `loadFileURL(_:allowingReadAccessTo:)`. That test focuses on the **native file system read scope** granted to the WebView through the `readAccessURL` parameter. By contrast, this test focuses on **JavaScript origin restrictions** for content loaded from `file://` URLs. Even if the file read scope is correctly restricted, enabling `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` can allow JavaScript running in a local page to access additional resources or communicate with remote origins.
 
 ## Steps
 
