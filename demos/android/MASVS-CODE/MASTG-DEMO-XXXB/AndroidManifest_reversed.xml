@@ -50,6 +50,7 @@
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true"/>
         <activity
+            android:theme="@android:style/Theme.Material.Light.NoActionBar"
             android:name="androidx.activity.ComponentActivity"
             android:exported="true"/>
         <provider

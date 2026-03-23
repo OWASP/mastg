@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="refresh_token">rt_8f14e45f-ceea-367f-a27f-abc123def456</string>
+    <string name="user_email">admin@example.com</string>
+    <string name="api_key">sk-live-1234567890abcdef</string>
+    <string name="session_id">sess_a1b2c3d4e5f6</string>
+    <string name="auth_token">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4ifQ.secret</string>
+    <string name="credit_card_last4">4242</string>
+</map>

@@ -1,11 +1,10 @@
-package com.example.datainteceptor
+package org.owasp.masattackerapp
 
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 
-class InterceptorActivity : Activity() {
+class IntentInterceptorActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -17,8 +16,6 @@ class InterceptorActivity : Activity() {
             Log.w("INTERCEPTOR", "$key = $value")
         }
 
-        val textView = TextView(this)
-        textView.text = data.toString()
-        setContentView(textView)
+        this.finish()
     }
 }

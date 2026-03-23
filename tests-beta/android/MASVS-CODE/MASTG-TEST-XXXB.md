@@ -1,9 +1,9 @@
 ---
-title: Implicit intent to trigger internal app components
 platform: android
-id: MASTG-TEST-0287
+title: Implicit Intent to Trigger Internal App Components
+id: MASTG-TEST-XXXB
 type: [static]
-weakness: MASWE-0083
+weakness: MASWE-0066
 profiles: [L1, L2]
 ---
 

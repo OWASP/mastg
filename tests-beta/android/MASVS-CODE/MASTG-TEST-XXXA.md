@@ -1,9 +1,9 @@
 ---
-title: Implicit intent to intecept internal app components
 platform: android
-id: MASTG-TEST-0286
+title: Implicit Intent to Intercept Internal App Components
+id: MASTG-TEST-XXXA
 type: [dynamic]
-weakness: MASWE-0083
+weakness: MASWE-0066
 profiles: [L1, L2]
 ---
 
@@ -21,7 +21,7 @@ Android enables communication between its components through intents, which serv
 
 ## Observation
 
-The attacker's application was able to successfully launch the VulnerableActivity using an crafted intent and receive sensitive information.
+The attacker's application was able to successfully launch the VulnerableActivity using a crafted intent and receive sensitive information.
 
 ## Evaluation
 

