@@ -1,7 +1,7 @@
 ---
 title: Prefer Origin Scoped Messaging Over Legacy JavaScript Bridges
 alias: prefer-origin-scoped-messaging-over-legacy-javascript-bridges
-id: MASTG-BEST-00be
+id: MASTG-BEST-0035
 platform: android
 knowledge: [MASTG-KNOW-0018]
 ---

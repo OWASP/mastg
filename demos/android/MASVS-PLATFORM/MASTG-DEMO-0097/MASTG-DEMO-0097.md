@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Sensitive Data and Functionality Exposed Through WebView JavaScript Bridges
-id: MASTG-DEMO-00de
+id: MASTG-DEMO-0097
 code: [kotlin]
-test: MASTG-TEST-02te
+test: MASTG-TEST-0334
 ---
 
 ## Sample
