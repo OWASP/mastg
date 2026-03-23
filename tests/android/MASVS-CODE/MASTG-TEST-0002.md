@@ -15,7 +15,8 @@ profiles: [L1, L2]
 
 For any publicly accessible data storage, any process can override the data. This means that input validation needs to be applied the moment the data is read back again.
 
-> Note: The same is true for private accessible data on a rooted device
+!!! note
+    The same is true for private accessible data on a rooted device
 
 ## Static analysis
 

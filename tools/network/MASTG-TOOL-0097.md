@@ -4,7 +4,7 @@ platform: network
 source: https://github.com/mitmproxy/mitmproxy/
 ---
 
-[mitmproxy](https://mitmproxy.org/ "mitmproxy") is a free and open source interactive HTTPS intercepting proxy.
+mitmproxy is a free and open source interactive HTTPS intercepting proxy.
 
 - **Command Line**: `mitmdump` is the command-line version of mitmproxy. Think tcpdump for HTTP. It can be used to intercept, inspect, modify and replay web traffic such as HTTP/1, HTTP/2, WebSockets, or any other SSL/TLS-protected protocols. You can prettify and decode a variety of message types ranging from HTML to Protobuf, intercept specific messages on-the-fly, modify them before they reach their destination, and replay them to a client or server later on.
 - **Web Interface**: `mitmweb` is a web-based interface for mitmproxy. It gives you a similar experience as in Chrome's DevTools, plus additional features such as request interception and replay.
@@ -16,11 +16,11 @@ source: https://github.com/mitmproxy/mitmproxy/
 brew install mitmproxy
 ```
 
-The installation instructions are [here](https://docs.mitmproxy.org/stable/overview-installation).
+The installation instructions are [in the official documentation](https://docs.mitmproxy.org/stable/overview-installation).
 
 ## Usage
 
-The documentation is [here](https://docs.mitmproxy.org/stable/). Mitmproxy starts as a regular HTTP proxy by default and listens on `http://localhost:8080`. You need to configure your browser or device to route all traffic through mitmproxy. For example, on Android emulator you need to follow the steps indicated [here](https://docs.mitmproxy.org/stable/howto-install-system-trusted-ca-android/).
+The documentation is [available on the mitmproxy website](https://docs.mitmproxy.org/stable/). Mitmproxy starts as a regular HTTP proxy by default and listens on `http://localhost:8080`. You need to configure your browser or device to route all traffic through mitmproxy. For example, on Android emulator you need to follow the steps indicated [in the mitmproxy Android guide](https://docs.mitmproxy.org/stable/howto-install-system-trusted-ca-android/).
 
 For example, to capture all traffic to a file:
 

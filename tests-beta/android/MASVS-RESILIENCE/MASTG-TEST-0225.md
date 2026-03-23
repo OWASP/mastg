@@ -1,5 +1,5 @@
 ---
-title: Usage of Insecure Signature Key Size
+title: Usage of Insecure APK Signature Key Size
 platform: android
 id: MASTG-TEST-0225
 type: [static]

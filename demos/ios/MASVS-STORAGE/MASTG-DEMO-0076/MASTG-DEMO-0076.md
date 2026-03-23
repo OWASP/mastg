@@ -6,20 +6,20 @@ code: [swift]
 test: MASTG-TEST-0313
 ---
 
-### Sample
+## Sample
 
 The code snippet below creates multiple UI text inputs on the screen.
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
 2. Run `run.sh`.
 
 {{ run.sh # textinputs.r2 }}
 
-### Observation
+## Observation
 
 The output reveals:
 
@@ -30,7 +30,7 @@ The output reveals:
 
 {{ output.asm }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the static analysis reveals:
 

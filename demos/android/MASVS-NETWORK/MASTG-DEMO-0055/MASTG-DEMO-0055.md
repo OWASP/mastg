@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0283
 ---
 
-### Sample
+## Sample
 
 This sample connects to a URL with an subject alternative name that does not match the hostname and configures a `HostnameVerifier` that allows any hostname.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -20,13 +20,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule identified one instance of the use of the `HostnameVerifier` in the code.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because the app uses a `HostnameVerifier` that allows any hostname.
 

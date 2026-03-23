@@ -4,17 +4,17 @@ platform: ios
 title: Binary Protection Mechanisms
 ---
 
-Detecting the presence of [binary protection mechanisms](0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) heavily depend on the language used for developing the application.
+Detecting the presence of [binary protection mechanisms](../../../Document/0x04h-Testing-Code-Quality.md#binary-protection-mechanisms) heavily depend on the language used for developing the application.
 
 Although Xcode enables all binary security features by default, it may be relevant to verify this for old applications or to check for compiler flag misconfigurations. The following features are applicable:
 
-- [**PIE (Position Independent Executable)**](0x04h-Testing-Code-Quality.md#position-independent-code):
+- [**PIE (Position Independent Executable)**](../../../Document/0x04h-Testing-Code-Quality.md#position-independent-code):
     - PIE applies to executable binaries (Mach-O type `MH_EXECUTE`) [source](https://web.archive.org/web/20230328221404/https://opensource.apple.com/source/cctools/cctools-921/include/mach-o/loader.h.auto.html).
     - However it's not applicable for libraries (Mach-O type `MH_DYLIB`).
-- [**Memory management**](0x04h-Testing-Code-Quality.md#memory-management):
+- [**Memory management**](../../../Document/0x04h-Testing-Code-Quality.md#memory-management):
     - Both pure Objective-C, Swift and hybrid binaries should have ARC (Automatic Reference Counting) enabled.
-    - For C/C++ libraries, the developer is responsible for doing proper [manual memory management](0x04h-Testing-Code-Quality.md#manual-memory-management). See ["Memory Corruption Bugs"](0x04h-Testing-Code-Quality.md#memory-corruption-bugs).
-- [**Stack Smashing Protection**](0x04h-Testing-Code-Quality.md#stack-smashing-protection): For pure Objective-C binaries, this should always be enabled. Since Swift is designed to be memory safe, if a library is purely written in Swift, and stack canaries weren't enabled, the risk will be minimal.
+    - For C/C++ libraries, the developer is responsible for doing proper [manual memory management](../../../Document/0x04h-Testing-Code-Quality.md#manual-memory-management). See ["Memory Corruption Bugs"](../../../Document/0x04h-Testing-Code-Quality.md#memory-corruption-bugs).
+- [**Stack Smashing Protection**](../../../Document/0x04h-Testing-Code-Quality.md#stack-smashing-protection): For pure Objective-C binaries, this should always be enabled. Since Swift is designed to be memory safe, if a library is purely written in Swift, and stack canaries weren't enabled, the risk will be minimal.
 
 Learn more:
 

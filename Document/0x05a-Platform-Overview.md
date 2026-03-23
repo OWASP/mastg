@@ -63,9 +63,9 @@ Android supports device encryption from Android 2.3.4 (API level 10) and it has 
 
 - [File-Based Encryption (FBE)](https://source.android.com/security/encryption/file-based "File-Based Encryption"): Android 7.0 (API level 24) supports file-based encryption. File-based encryption allows different files to be encrypted with different keys so they can be deciphered independently. Devices that support this type of encryption support Direct Boot as well. Direct Boot enables the device to have access to features such as alarms or accessibility services even if the user didn't unlock the device.
 
-> Note: you might hear of [Adiantum](https://github.com/google/adiantum "Adiantum"), which is an encryption method designed for devices running Android 9 (API level 28) and higher whose CPUs lack AES instructions. **Adiantum is only relevant for ROM developers or device vendors**, Android does not provide an API for developers to use Adiantum from applications. As recommended by Google, Adiantum should not be used when shipping ARM-based devices with ARMv8 Cryptography Extensions or x86-based devices with AES-NI. AES is faster on those platforms.
->
->Further information is available in the [Android documentation](https://source.android.com/security/encryption/adiantum "Adiantum").
+!!! note
+    You might hear of [Adiantum](https://github.com/google/adiantum "Adiantum"), an encryption method designed for devices running Android 9 (API level 28) or higher whose CPUs lack AES instructions. **Adiantum is only relevant for ROM developers or device vendors**, Android does not provide an API for developers to use Adiantum from applications. As recommended by Google, Adiantum should not be used when shipping ARM-based devices with ARMv8 Cryptography Extensions or x86-based devices with AES-NI. AES is faster on those platforms.
+    Further information is available in the [Android documentation](https://source.android.com/security/encryption/adiantum "Adiantum").
 
 #### Trusted Execution Environment (TEE)
 
@@ -84,6 +84,14 @@ Android offers a trusted execution environment in dedicated hardware to solve th
 We need to have a way to ensure that code that is being executed on Android devices comes from a trusted source and that its integrity is not compromised. In order to achieve this, Android introduced the concept of verified boot. The goal of verified boot is to establish a trust relationship between the hardware and the actual code that executes on this hardware. During the verified boot sequence, a full chain of trust is established starting from the hardware-protected Root-of-Trust (RoT) up until the final system that is running, passing through and verifying all the required boot phases. When the Android system is finally booted you can rest assured that the system is not tampered with. You have cryptographic proof that the code which is running is the one that is intended by the OEM and not one that has been maliciously or accidentally altered.
 
 Further information is available in the [Android documentation](https://source.android.com/security/verifiedboot).
+
+#### Android Enterprise
+
+[Android Enterprise](https://developer.android.com/work) (formerly Android for Work) is a set of features and services designed for corporate and organizational use, providing enhanced security, privacy, and management capabilities beyond standard Android. It enables organizations to securely deploy and manage Android devices and apps through features like work profiles, which create a separate, encrypted container for work apps and data that's isolated from personal apps.
+
+Key security features include mandatory encryption, enhanced device administration controls, always-on VPN, and stricter security policies that can be enforced by an enterprise mobility management (EMM) solution. Newly added enhancements and updates to recent Android versions can be found in the [Android Enterprise documentation](https://developer.android.com/work/versions).
+
+Developers building apps for enterprise environments should be aware of [Android's work profile APIs](https://developer.android.com/work/versions), device policy restrictions, and should implement features like [managed configurations](https://developer.android.com/work/managed-configurations) to enable IT administrators to configure apps remotely, ensuring compliance with organizational security requirements.
 
 ### Software Isolation
 
@@ -168,7 +176,7 @@ The API specifications change with every new Android release. Critical bug fixes
 
 Noteworthy [API versions](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels "What is API level?"). See @MASTG-BEST-0010 for more information about security and privacy features introduced in different Android versions.
 
-Android development releases follow a unique structure. They are organized into families and given alphabetical codenames inspired by tasty treats. You can find them all [here](https://source.android.com/docs/setup/about/build-numbers "Codenames, tags, and build numbers").
+Android development releases follow a unique structure. They are organized into families and given alphabetical codenames inspired by tasty treats. You can find them all [on the Android source website](https://source.android.com/docs/setup/about/build-numbers "Codenames, tags, and build numbers").
 
 ### The App Sandbox
 
@@ -508,7 +516,7 @@ The Binder framework includes a client-server communication model. To use IPC, a
 
 <img src="Images/Chapters/0x05a/binder.jpg" width="400px" />
 
-- _Binder Overview - Image source: [Android Binder by Thorsten Schreiber](https://1library.net/document/z33dd47z-android-android-interprocess-communication-thorsten-schreiber-somorovsky-bussmeyer.html "Android Binder")_
+- _Binder Overview - Image source: [Android Binder by Thorsten Schreiber](https://web.archive.org/web/20240112052034/https://1library.net/document/z33dd47z-android-android-interprocess-communication-thorsten-schreiber-somorovsky-bussmeyer.html "Android Binder")_
 
 Services that allow other applications to bind to them are called _bound services_. These services must provide an IBinder interface to clients. Developers use the Android Interface Descriptor Language (AIDL) to write interfaces for remote services.
 
