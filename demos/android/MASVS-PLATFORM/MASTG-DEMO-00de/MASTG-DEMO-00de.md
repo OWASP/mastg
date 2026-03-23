@@ -14,7 +14,7 @@ The following demo demonstrates a `WebView` component rendering a "Contact Suppo
 
 Some payloads that could be executed by an attacker who can run JavaScript in this page include:
 
-- `<img src=x onerror='showStolenData(MASBridge.getUserProfileJson())'>`
+- `<img src=x onerror='document.getElementById("resultText").innerText = MASBridge.getUserProfileJson()'>`
 - `<img src=x onerror='MASBridge.updateSupportPreference("malicious value")'>`
 
 ## Steps

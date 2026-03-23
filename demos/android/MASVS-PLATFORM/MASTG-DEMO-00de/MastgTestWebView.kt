@@ -162,10 +162,6 @@ class MastgTestWebView(private val context: Context) {
                         document.getElementById("resultText").innerHTML = "";
                     }
 
-                    function showStolenData(text) {
-                        document.getElementById("resultText").innerText = text;
-                    }
-
                     function sendMessage() {
                         const email = document.getElementById("email").value;
                         const message = document.getElementById("message").value;
