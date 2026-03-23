@@ -1,5 +1,5 @@
 ---
-title: Usage of Insecure Signature Version
+title: Usage of Insecure APK Signature Version
 platform: android
 id: MASTG-TEST-0224
 type: [static]
