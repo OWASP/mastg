@@ -14,12 +14,12 @@ Use logging only for operational events that are necessary for support and monit
 
 In particular, avoid logging:
 
-- full request or response headers and bodies
-- authentication tokens, cookies, session identifiers, or API keys
-- usernames, email addresses, or other personal data unless strictly necessary and appropriately protected
-- full `NSError` objects, `userInfo` dictionaries, or stack traces
-- backend hostnames, staging endpoints, feature flags, or internal module and class names
-- certificate validation behavior, SSL pinning status, retry logic, or other network security details
+- full request or response headers and bodies.
+- authentication tokens, cookies, session identifiers, or API keys.
+- usernames, email addresses, or other personal data unless strictly necessary and appropriately protected.
+- full error objects, diagnostic context, attached metadata, nested causes, or stack traces.
+- backend hostnames, staging endpoints, feature flags, or internal module and class names.
+- certificate validation behavior, SSL pinning status, retry logic, or other network security details.
 
 ## Use Logging APIs with Privacy Controls
 
