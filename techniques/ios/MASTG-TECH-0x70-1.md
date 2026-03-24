@@ -26,7 +26,7 @@ Example output showing a wildcard entitlement:
 
 Use @MASTG-TOOL-0129 to extract Objective-C selectors from the compiled app binary. Two selectors are relevant for Universal Links:
 
-- `application:continueUserActivity:restorationHandler:`: The `UIApplicationDelegate` method that receives incoming Universal Links as `NSUserActivity` objects.
+- `application:continue:restorationHandler:`: The `UIApplicationDelegate` method that receives incoming Universal Links as `NSUserActivity` objects.
 - `openURL:options:completionHandler:`: The [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open) method used to hand off URLs to the operating system or other apps.
 
 Search for the Universal Link receiver selector:
@@ -38,7 +38,7 @@ rabin2 -zq Payload/MASTestApp.app/MASTestApp | grep "restorationHandler"
 Output:
 
 ```plaintext
-0x10000b2e4 53 52 application:continueUserActivity:restorationHandler:
+0x10000b2e4 53 52 application:continue:restorationHandler:
 ```
 
 Search for the outgoing URL selector:
@@ -61,7 +61,7 @@ The presence of these selectors confirms the app handles Universal Links. Use @M
 
 ### Triggering Universal Links
 
-Using @MASTG-TECH-0067 to programmatically call `UIApplication.sharedApplication().openURL_()`. This bypasses the OS level AASA domain check and forces the app to evaluate an arbitrary URL payload, to observe whether the app accepts attacker controlled links that would otherwise be filtered.
+Use @MASTG-TECH-0067 to programmatically call `UIApplication.sharedApplication().openURL_()`. This bypasses the OS level AASA domain check and forces the app to evaluate an arbitrary URL payload, to observe whether the app accepts attacker controlled links that would otherwise be filtered.
 
 ```bash
 frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l script.js
@@ -73,7 +73,7 @@ Example `script.js`:
 if (ObjC.available) {
 
     ObjC.schedule(ObjC.mainQueue, function () {
-        console.log("[*] Triggering URL via Frida (V1 Methodology)...");
+        console.log("[*] Triggering URL via Frida...");
 
         var UIApplication = ObjC.classes.UIApplication.sharedApplication();
 
@@ -94,7 +94,7 @@ Output:
 
 ```plaintext
 Spawned `org.owasp.mastestapp.MASTestApp-iOS`. Resuming main thread!
-[iPhone::org.owasp.mastestapp.MASTestApp-iOS ]-> [*] Triggering URL via Frida (V1 Methodology)...
+[iPhone::org.owasp.mastestapp.MASTestApp-iOS ]-> [*] Triggering URL via Frida...
 [+] UIApplication.openURL_ executed.
 [+] Target: https://attacker.example.com/reset_password?token=malicious_123
 [+] Result: true
@@ -143,7 +143,7 @@ Interceptor.attach(
 
 ## Validating the Live AASA File
 
-Retrieve the `apple-app-site-association` (AASA) file from the server using the associated domains obtained in `entitlement.plist`. The file must be served over HTTPS without redirects.
+Retrieve the `apple-app-site-association` (AASA) file from the server using the associated domains obtained in `entitlements.plist`. The file must be served over HTTPS without redirects.
 
 Apple checks two paths on the domain's server:
 
@@ -156,8 +156,9 @@ You can retrieve it via your browser, or using the command line:
 curl -s https://<domain>/.well-known/apple-app-site-association
 ```
 
-Alternatively, you can use the Apple App Site Association (AASA)[https://branch.io/resources/aasa-validator/] Validator. Upon entering the domain, it will retrieve the file, validate it, and display the results.
+Alternatively, you can use the [Apple App Site Association (AASA) Validator](https://branch.io/resources/aasa-validator/). Upon entering the domain, it will retrieve the file, validate it, and display the results.
 
 ```bash
 curl -s https://app-site-association.cdn-apple.com/a/v1/<domain>
 ```
+
