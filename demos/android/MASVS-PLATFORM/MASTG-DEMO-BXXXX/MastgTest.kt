@@ -1,8 +1,8 @@
 package org.owasp.mastestapp
 
-// SUMMARY: Demonstrates insecure exposure of sensitive stored data through exported ContentProviders.
-// FAIL: Exported providers allow external apps to access credentials database and internal files.
-// PASS: Providers should restrict access using permissions or caller validation.
+// SUMMARY: Demonstrates insecure exposure of sensitive stored data through an exported ContentProvider.
+// FAIL: Exported providers allow external apps to query credential records from the app database.
+// PASS: Providers should restrict access using manifest permissions or explicit caller validation.
 
 import android.content.ContentProvider
 import android.content.ContentUris
@@ -12,23 +12,17 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.net.Uri
-import android.os.ParcelFileDescriptor
-import java.io.File
 
 class MastgTest(private val context: android.content.Context) {
 
     fun mastgTest(): String {
-        val r = DemoResults("0x07IP")
+        val r = DemoResults("0x07")
 
         return try {
-            val secretFile = File(context.filesDir, "secret.txt")
-            secretFile.writeText("TOP_SECRET_TOKEN=tok_live_12345\nPIN=9876\n")
-
             context.openOrCreateDatabase(CredentialDbHelper.DB_NAME, 0, null).close()
-
             r.add(
                 Status.FAIL,
-                "Initialized secret.txt and seeded creds. App exposes them via exported ContentProviders (IPC). Try: content://org.owasp.mastestapp.credentials/credentials and content://org.owasp.mastestapp.files/files/secret.txt"
+                "Initialized sample data. The exported content provider allows external callers to read credential records via content://org.owasp.mastestapp.credentials/credentials"
             )
             r.toJson()
         } catch (e: Exception) {
@@ -149,38 +143,5 @@ class MastgTest(private val context: android.content.Context) {
                 addURI(AUTH, "credentials/#", MATCH_CREDENTIAL_BY_ID)
             }
         }
-    }
-
-    class FileLeakProvider : ContentProvider() {
-
-        override fun onCreate(): Boolean = true
-
-        override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor? {
-            val relative = uri.lastPathSegment ?: return null
-            val base = requireNotNull(context).filesDir
-            val target = File(base, relative)
-            return ParcelFileDescriptor.open(target, ParcelFileDescriptor.MODE_READ_ONLY)
-        }
-
-        override fun query(
-            uri: Uri,
-            projection: Array<out String>?,
-            selection: String?,
-            selectionArgs: Array<out String>?,
-            sortOrder: String?
-        ): Cursor? = null
-
-        override fun getType(uri: Uri): String? = "application/octet-stream"
-
-        override fun insert(uri: Uri, values: ContentValues?) = null
-
-        override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) = 0
-
-        override fun update(
-            uri: Uri,
-            values: ContentValues?,
-            selection: String?,
-            selectionArgs: Array<out String>?
-        ) = 0
     }
 }

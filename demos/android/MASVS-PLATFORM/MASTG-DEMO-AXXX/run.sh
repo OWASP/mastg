@@ -1,2 +1,2 @@
 #!/bin/bash
-semgrep -c ../rules/mastg-android-data-exposure-via-ipc-query.yml MastgTest_reversed.java > output.txt
+drozer console connect --command "run app.provider.query content://org.owasp.mastestapp.credentials/credentials"

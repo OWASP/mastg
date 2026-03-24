@@ -1,0 +1,34 @@
+rules:
+  - id: mastg-android-secure-ipc-signature-check
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detects runtime same-signature validation in the secure IPC implementation.
+      masvs:
+        - "MASVS-PLATFORM"
+    message: |
+      [MASVS-PLATFORM] The implementation validates that only callers signed with the same certificate can access the provider.
+    pattern-regex: 'pm\.checkSignatures\(myPkg,\s*strArr\[i\]\)\s*==\s*0\s*\?\s*1\s*:\s*null'
+
+  - id: mastg-android-secure-ipc-security-exception
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detects explicit rejection of unauthorized callers in the secure IPC implementation.
+      masvs:
+        - "MASVS-PLATFORM"
+    message: |
+      [MASVS-PLATFORM] The implementation throws a SecurityException when the caller is not signed with the same certificate.
+    pattern-regex: 'throw new SecurityException\("Caller not signed with same certificate"\);'
+
+  - id: mastg-android-secure-ipc-pass-demo
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detects the secure demo status message describing permission enforcement and runtime validation.
+      masvs:
+        - "MASVS-PLATFORM"
+        - "MASVS-STORAGE"
+    message: |
+      [MASVS-PLATFORM] The secure demo reports signature-level permissions, provider-level permission enforcement, runtime signature verification, and canonical-path validation.
+    pattern-regex: 'r\.add\(Status\.PASS,\s*"Initialized sample data\. Exported ContentProviders are protected with signature-level permissions, provider-level permission enforcement, runtime signature verification, and canonical-path validation\."\);'

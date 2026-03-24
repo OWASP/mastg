@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <permission
+        android:name="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+        android:protectionLevel="signature" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MASTestApp">
+
+        <activity
+            android:name="org.owasp.mastestapp.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="org.owasp.mastestapp.MastgTest$CredentialProvider"
+            android:authorities="org.owasp.mastestapp.credentials"
+            android:exported="true"
+            android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+            android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+            android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE" />
+
+        <provider
+            android:name="org.owasp.mastestapp.MastgTest$FileLeakProvider"
+            android:authorities="org.owasp.mastestapp.files"
+            android:exported="true"
+            android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+            android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+            android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+            android:grantUriPermissions="true">
+            <grant-uri-permission android:path="secret.txt" />
+        </provider>
+
+    </application>
+
+</manifest>

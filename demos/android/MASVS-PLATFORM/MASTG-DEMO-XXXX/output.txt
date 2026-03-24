@@ -1,16 +1,4 @@
-                  
-                  
-┌────────────────┐
-│ 1 Code Finding │
-└────────────────┘
-                                          
-  MastgTest_reversed.java
-    ❯❱ rules.mastg-android-data-exposure-via-ipc-read
-          [MASVS-STORAGE] The demo indicates sensitive data is exposed through a file-based ContentProvider
-          read path. Verify internal files are not exposed through exported providers without access       
-          restrictions.                                                                                    
-                                                                                                           
-           27┆ r.add(Status.FAIL, "Initialized secret.txt and seeded creds. App exposes them via exported
-               ContentProviders (IPC). Try: content://org.owasp.mastestapp.credentials/credentials and   
-               content://org.owasp.mastestapp.files/files/secret.txt");                                  
+Attempting to run shell module
 
+TOP_SECRET_TOKEN=tok_live_12345
+PIN=9876

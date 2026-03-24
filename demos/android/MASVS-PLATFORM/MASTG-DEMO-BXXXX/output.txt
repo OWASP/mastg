@@ -1,0 +1,44 @@
+                   
+                   
+┌─────────────────┐
+│ 5 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    rules.mastg-android-secure-ipc-pass-demo
+          [MASVS-PLATFORM] The secure demo reports signature-level permissions,     
+          provider-level permission enforcement, runtime signature verification, and
+          canonical-path validation.                                                
+                                                                                    
+           48┆ r.add(Status.PASS, "Initialized sample data. Exported           
+               ContentProviders are protected with signature-level permissions,
+               provider-level permission enforcement, runtime signature        
+               verification, and canonical-path validation.");                 
+   
+    rules.mastg-android-secure-ipc-signature-check
+          [MASVS-PLATFORM] The implementation validates that only callers signed with
+          the same certificate can access the provider.                              
+                                                                                     
+          136┆ String callerPkg = pm.checkSignatures(myPkg, strArr[i]) == 0 ? 1 :
+               null;                                                             
+   
+    rules.mastg-android-secure-ipc-security-exception
+          [MASVS-PLATFORM] The implementation throws a SecurityException when the
+          caller is not signed with the same certificate.                        
+                                                                                 
+          144┆ throw new SecurityException("Caller not signed with same
+               certificate");                                          
+   
+    rules.mastg-android-secure-ipc-signature-check
+          [MASVS-PLATFORM] The implementation validates that only callers signed with
+          the same certificate can access the provider.                              
+                                                                                     
+          246┆ String callerPkg = pm.checkSignatures(myPkg, strArr[i]) == 0 ? 1 :
+               null;                                                             
+   
+    rules.mastg-android-secure-ipc-security-exception
+          [MASVS-PLATFORM] The implementation throws a SecurityException when the
+          caller is not signed with the same certificate.                        
+                                                                                 
+          254┆ throw new SecurityException("Caller not signed with same
+               certificate");                                          

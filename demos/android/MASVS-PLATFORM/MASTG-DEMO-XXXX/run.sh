@@ -1,2 +1,2 @@
 #!/bin/bash
-semgrep -c ../rules/mastg-android-data-exposure-via-ipc-read.yml MastgTest_reversed.java > output.txt
+drozer console connect --command "run app.provider.read content://org.owasp.mastestapp.files/files/secret.txt"

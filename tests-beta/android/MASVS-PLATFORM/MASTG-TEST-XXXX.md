@@ -23,9 +23,9 @@
       - Look for subclasses of `android.content.ContentProvider`.
       - Look for file access patterns such as `openFile`, `ParcelFileDescriptor.open`, `File`, and use of the app's private storage directories.
    4. Perform dynamic verification from an external context:
-      1. Enumerate the app’s content providers and their authorities.
+      1. Enumerate the app's content providers and their authorities.
       2. Identify file-based content providers.
-      3. Attempt to read data from file-based providers via their `content://` URIs using known or guessable filenames under the provider’s exposed path.
+      3. Attempt to read data from file-based providers via their `content://` URIs using known or guessable filenames under the provider's exposed path.
    5. Record the retrieved data and the URIs used to retrieve it.
 
    ## Observation

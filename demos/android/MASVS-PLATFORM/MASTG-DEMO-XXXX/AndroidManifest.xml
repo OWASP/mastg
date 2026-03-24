@@ -27,12 +27,12 @@
         </activity>
 
         <provider
-            android:name="org.owasp.mastestapp.CredentialProvider"
+            android:name="org.owasp.mastestapp.MastgTest$CredentialProvider"
             android:authorities="org.owasp.mastestapp.credentials"
             android:exported="true" />
 
         <provider
-            android:name="org.owasp.mastestapp.FileLeakProvider"
+            android:name="org.owasp.mastestapp.MastgTest$FileLeakProvider"
             android:authorities="org.owasp.mastestapp.files"
             android:exported="true" />
     </application>

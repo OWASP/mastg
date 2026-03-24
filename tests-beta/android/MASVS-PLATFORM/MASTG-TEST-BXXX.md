@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
-id: MASTG-TEST-AXXX
+id: MASTG-TEST-0x07
 type: [static, dynamic]
 weakness: MASWE-0064
 profiles: [L1, L2]
@@ -34,4 +34,4 @@ The output should include a list of content provider authorities and one or more
 
 ## Evaluation
 
-The test case will fail if an external caller is able to access one or more database-backed content providers and obtain sensitive stored data from internal databases without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
+The test case fails if an external caller is able to access one or more database-backed content providers and obtain sensitive stored data from internal databases without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
