@@ -25,19 +25,29 @@ The sample intentionally invokes logging APIs during authentication, networking,
 
 ### Observation
 
-Static analysis of the binary shows cross references to multiple logging related imports, including `NSLog`, `print`, `debugPrint`, `dump`, and unified logging related symbols such as `Logger`, `_os_log_impl`, and `os_log_type_enabled`.
+The output shows cross references to multiple logging APIs:
 
 {{ output.txt }}
 
+Specifically:
+
+- `NSLog(...)` is used **10 times** in the sample and results in **9 binary xrefs** to `Foundation.NSLog...`.
+- `print(...)` is used **23 times** in the sample and results in **22 binary xrefs** to `print.separator.terminator`.
+- `debugPrint(...)` is used **2 times** in the sample and results in **2 binary xrefs** to `debugPrint.separator.terminator`.
+- `dump(...)` is used **1 time** in the sample and results in **1 binary xref** to `dump.name.indent...`.
+- `Logger(...)` is used **2 times** in the sample and results in **2 binary xrefs** to `Logger.subsystem.category...`.
+- `logger.debug`, `logger.error`, and `logger.fault` are used **4 times** in the sample and result in:
+    - **4 xrefs** to `Logger.logObject...`
+    - **4 xrefs** to `_os_log_impl`
+    - **4 xrefs** to `os_log_type_enabled`
+    - **4 log type xrefs**: **2 debug**, **1 error**, **1 fault**
+
+Note that the source count and xref count do not always match exactly. In this case, `NSLog` and `print` each show one fewer xref than the number of source calls. That can happen because of compiler optimizations, inlining, or code generation details in Swift.
+
+You'll notice that even though we aren't calling the old C style `os_log(...)` API directly, since we are using `Logger`, and `Logger` is part of Apple's Unified Logging system we see references to `os_log`. Under the hood, Swift logging relies on the unified logging machinery, which is why lower level logging symbols appear in the compiled binary.
+
 ### Evaluation
 
-The test fails because static analysis shows that the application binary invokes multiple logging APIs capable of producing verbose diagnostic and error output.
+The test fails because analysis showed that the application contains implemented logging paths that record verbose diagnostic and error related information, rather than merely linking against or referencing logging APIs.
 
-The Radare2 output demonstrates cross references to:
-
-- **Traditional logging APIs**: `NSLog`, `print`, and `debugPrint`.
-- **Object inspection APIs**: `dump`, which can disclose internal object state and structured error contents.
-- **Unified logging APIs**: `Logger` related symbols, `_os_log_impl`, and `os_log_type_enabled`.
-- **Multiple log severities**: Unified logging paths associated with debug, error, and fault level logging.
-
-This static evidence is sufficient to show that the binary contains multiple code paths that emit runtime log output. To confirm the specific sensitive content exposed by these log calls during execution, see the related dynamic demo for @MASTG-TEST-03x2.
+This was determined by reverse engineering the binary to inspect the data supplied to logging calls, and can be further validated by running the app and capturing runtime logs to confirm the specific content emitted during execution. Static analysis helps identify what may be logged across the binary, but can be difficult when code is optimized, stripped, or indirect (this demo). Dynamic analysis shows what is actually logged in tested scenarios, but may miss code paths that are not triggered (see @MASTG-DEMO-008y). Taken together, these approaches are sufficient to demonstrate that the app produces overly verbose production log output.
