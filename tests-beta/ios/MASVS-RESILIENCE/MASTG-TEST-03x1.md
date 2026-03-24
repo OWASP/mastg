@@ -19,7 +19,7 @@ This test focuses on verbose logging that exposes implementation details. For te
 ## Steps
 
 1. Use @MASTG-TECH-0065 to reverse engineer the app.
-2. Use @MASTG-TECH-0072 to look for uses of logging APIs such as `NSLog`, `print`, `os_log`, `dump`, and `debugPrint`.
+2. Use @MASTG-TECH-0072 to look for uses of logging APIs.
 3. Use @MASTG-TECH-0071 to look for logging strings.
 4. Use @MASTG-TECH-0076 to analyze the relevant code paths and correlate strings and logging API calls where needed.
 
@@ -29,11 +29,17 @@ The output should contain a list of logging function calls found in the binary.
 
 ## Evaluation
 
-The test case fails if the app logs verbose debug messages in production builds that expose implementation details such as:
+The test case fails if static analysis shows that the app contains implemented logging paths that produce verbose debug or error messages in production builds and expose internal implementation details.
 
-- Internal function names or code paths
-- Detailed error messages with stack information
-- API endpoints or internal URLs
-- Internal state or configuration details
-- Library or framework version information
-- Debugging information intended only for developers
+This determination should be based on analyzing how logging APIs are used, not merely on the presence of logging functions in the binary. Reverse engineering should be used to inspect the arguments, message strings, and surrounding code paths in order to establish what information is logged and under which conditions.
+
+Static analysis is well suited to identifying logging behavior across the codebase, including paths that may be difficult to reach at runtime, but it can require substantial effort when symbols are stripped, strings are obfuscated, or log messages are constructed indirectly. Dynamic verification, see @MASTG-TEST-03x2, can complement this test by confirming which messages are emitted during execution, but it may miss code paths that are not triggered in the tested scenarios.
+
+Examples of failing cases include logs that reveal:
+
+- internal function names or code paths
+- detailed error information, stack related details, or diagnostic context
+- API endpoints, backend routes, or internal URLs
+- internal state, configuration, or feature behavior
+- library, framework, or component version details
+- developer oriented debugging messages not intended for production use
