@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: References to File Access in WebViews with radare2
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0098
 code: [swift]
-test: MASTG-TEST-0x01
+test: MASTG-TEST-0335
 ---
 
 ## Sample

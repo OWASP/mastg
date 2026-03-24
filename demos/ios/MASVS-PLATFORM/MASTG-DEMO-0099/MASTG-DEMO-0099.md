@@ -1,16 +1,16 @@
 ---
 platform: ios
 title: Runtime Monitoring of WebView File Access with Frida
-id: MASTG-DEMO-0x02
+id: MASTG-DEMO-0099
 code: [swift]
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0336
 ---
 
 ## Sample
 
 This demo uses the same sample as @MASTG-DEMO-0081.
 
-{{ ../MASTG-DEMO-0x01/MastgTest.swift }}
+{{ ../MASTG-DEMO-0098/MastgTest.swift }}
 
 ## Steps
 
