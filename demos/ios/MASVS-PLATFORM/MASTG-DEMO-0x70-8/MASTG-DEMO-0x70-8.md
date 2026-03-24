@@ -33,5 +33,5 @@ The output contains the intercepted Objective-C method call, confirming that the
 
 The test fails because the application dynamically receives an untrusted Universal Link and immediately pulls the attacker-controlled payload into active memory for processing. The output confirms the following behavior:
 
-- **`[!] DYNAMIC ALERT (Receiver): App is reading incoming Universal Link:`** — Confirms that the `-[NSUserActivity webpageURL]` selector was executed by the app.
-- **`-> https://attacker.example.com/reset_password?token=malicious_123`** — The app accepted the attacker-controlled domain and malicious token without rejecting it, confirming the static vulnerability is exploitable at runtime.
+- The `[!] DYNAMIC ALERT (Receiver): App is reading incoming Universal Link:`, confirms that the `-[NSUserActivity webpageURL]` selector was executed by the app.
+- The app accepts the following URL `https://attacker.example.com/reset_password?token=malicious_123`. This confirms that at runtime, the app accepted the attacker controlled domain and malicious token without rejecting them.

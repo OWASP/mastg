@@ -33,5 +33,5 @@ The output contains the outgoing URL captured when the application attempts to h
 
 The test fails because the application dynamically executes an outgoing link containing an untrusted custom scheme without sanitization. The output confirms the following behavior:
 
-- **`[!] DYNAMIC ALERT (Outgoing): App is executing an outgoing link:`** — Confirms the `-[UIApplication openURL:options:completionHandler:]` API was invoked by the application.
-- **`-> malicious-app://steal-data?payload=123`** — The app blindly attempted to trigger a dangerous, unregistered URI scheme, making it vulnerable to URI Scheme Hijacking.
+- The`[!] DYNAMIC ALERT (Outgoing): App is executing an outgoing link:`, confirms the `-[UIApplication openURL:options:completionHandler:]` API was invoked by the application.
+- The app blindly attempted to trigger a dangerous, unregistered URI scheme`-> malicious-app://steal-data?payload=123`, making it vulnerable to URI Scheme Hijacking.

@@ -156,7 +156,7 @@ You can retrieve it via your browser, or using the command line:
 curl -s https://<domain>/.well-known/apple-app-site-association
 ```
 
-Alternatively, use Apple's CDN, which caches the file Apple fetched at app installation time:
+Alternatively, you can use the Apple App Site Association (AASA)[https://branch.io/resources/aasa-validator/] Validator. Upon entering the domain, it will retrieve the file, validate it, and display the results.
 
 ```bash
 curl -s https://app-site-association.cdn-apple.com/a/v1/<domain>
