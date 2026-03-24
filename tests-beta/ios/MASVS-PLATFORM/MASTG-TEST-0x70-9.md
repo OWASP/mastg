@@ -11,13 +11,12 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-Applications often execute external actions by passing URLs to the operating system via [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open). If the application constructs this outgoing URL using untrusted data (like query parameters from an inbound Universal Link), dynamic instrumentation can reveal if the app is vulnerable to URI Scheme Hijacking by blindly opening attacker-controlled deep links.
+If the app constructs an outgoing URL using untrusted data (such as query parameters from an inbound Universal Link) and passes it to [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open) without sanitization, an attacker can trigger URI Scheme Hijacking by controlling the destination of the outgoing link. This test verifies whether the app blindly opens attacker controlled deep links without prior validation.
 
 ## Steps
 
 1. Install the target application on a jailbroken device or Corellium instance (@MASTG-TECH-0056).
-2. Utilize method hooking techniques (@MASTG-TECH-0095) to intercept `-[UIApplication openURL:options:completionHandler:]` and capture outgoing URL requests.
-3. Interact with the app or feed it a malicious inbound link to trigger the logic that handles external routing.
+2. Use runtime method hooking and trace calls to `-[UIApplication openURL:options:completionHandler:]` while triggering the app's external routing logic with a crafted inbound link to capture outgoing URL payloads.
 
 ## Observation
 

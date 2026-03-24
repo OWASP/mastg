@@ -2,7 +2,6 @@ import SwiftUI
 
 // SUMMARY: This sample demonstrates insecure Universal Link handling: a wildcard associated-domains entitlement, a receiver that blindly accepts incoming URLs without validation, and an outgoing link that passes unvalidated URLs to UIApplication.shared.open.
 
-// Inherits NSObject so the Objective-C selectors are visible to binary analysis tools.
 class MastgTest: NSObject {
 
     static func mastgTest(completion: @escaping (String) -> Void) {
@@ -29,8 +28,6 @@ class MastgTest: NSObject {
         completion(results)
     }
 
-    // MARK: - Entitlements
-
     // FAIL: [MASTG-TEST-0070-1] The app declares a wildcard associated-domains entitlement (applinks:*.example.com), expanding the attack surface to any subdomain.
     func readEntitlementsFile() -> String {
         guard let path = Bundle.main.path(forResource: "entitlements", ofType: "plist"),
@@ -46,8 +43,6 @@ class MastgTest: NSObject {
         }
     }
 
-    // MARK: - Insecure Receiver
-
     // FAIL: [MASTG-TEST-0070-3] The app implements the application:continue:restorationHandler: delegate method, confirming the Universal Link attack surface in the binary.
     // FAIL: [MASTG-TEST-0070-4] The receiver extracts the webpageURL directly without validating the host, path, or query parameters using URLComponents.
     // @objc exposes this selector to the Objective-C runtime so it appears in binary analysis output.
@@ -60,9 +55,7 @@ class MastgTest: NSObject {
         }
         return false
     }
-
-    // MARK: - Insecure Outgoing Link
-
+    
     // FAIL: [MASTG-TEST-0070-5] The app imports and uses openURL:options:completionHandler:, passing an unvalidated URL directly to UIApplication.shared.open.
     // @objc exposes this selector to the Objective-C runtime so it appears in binary analysis output.
     @objc func openOtherAppLinkInsecurely(url: URL) {

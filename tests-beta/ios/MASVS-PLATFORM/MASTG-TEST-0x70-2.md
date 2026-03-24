@@ -11,12 +11,12 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-If the [apple-app-site-association](https://developer.apple.com/documentation/xcode/supporting-associated-domains) (AASA) file hosted on the server is misconfigured, overly permissive, or served over HTTP, an unauthorized app may be able to claim Universal Links intended for the legitimate application. The AASA file defines which application IDs are authorized to handle specific URL paths, and any weakness in its configuration can expose the app to link hijacking or unintended data exposure.
+If the [apple-app-site-association](https://developer.apple.com/documentation/xcode/supporting-associated-domains) (AASA) file is misconfigured through overly permissive `appIDs`, wildcard path entries, or being served over HTTP, an attacker can register an unauthorized app to claim Universal Links intended for the legitimate application. This can lead to link hijacking, unintended data exposure, or the interception of sensitive payloads passed via Universal Links. This test checks whether the AASA file is served securely and scoped to only the authorized app identifiers and paths.
 
 ## Steps
 
 1. Identify the allowed domains from the application's `com.apple.developer.associated-domains` entitlement.
-2. Intercept or manually fetch the AASA file from the server's well-known directory (@MASTG-TECH-0059): `https://<domain>/.well-known/apple-app-site-association`.
+2. Intercept or manually fetch the AASA file from the server's well-known directory from: `https://<domain>/.well-known/apple-app-site-association`.
 3. Analyze the JSON response for the target `appID` and allowed paths.
 
 ## Observation

@@ -9,7 +9,7 @@ tools: [MASTG-TOOL-0039]
 
 ## Sample
 
-The snippet below shows sample code that blindly extracts and processes an incoming Universal Link payload from the operating system without validation.
+The code snippet below shows sample code that blindly extracts and processes an incoming Universal Link payload from the operating system without validation.
 
 {{ ../MASTG-DEMO-0x70-1/MastgTest.swift }}
 
@@ -25,7 +25,7 @@ The snippet below shows sample code that blindly extracts and processes an incom
 
 ## Observation
 
-The output shows the intercepted Objective-C method call, confirming that the application actively read from the `NSUserActivity` object to extract the raw URL payload.
+The output contains the intercepted Objective-C method call, confirming that the application actively read from the `NSUserActivity` object to extract the raw URL payload.
 
 {{ output.txt }}
 

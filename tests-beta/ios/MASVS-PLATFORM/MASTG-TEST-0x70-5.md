@@ -11,13 +11,13 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-Applications frequently interact with other apps by passing URLs to the operating system via [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open). If the URL being opened is constructed from untrusted input (such as an inbound Universal Link) and is not validated, it can lead to URI Scheme Hijacking.
+If the app passes a URL constructed from untrusted input (such as an inbound Universal Link) into [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open) without validating the destination scheme, an attacker can trigger URI Scheme Hijacking. This test checks whether the binary contains this API and whether the URL passed to it can be attacker controlled.
 
 ## Steps
 
-1. Locate the main compiled app binary (@MASTG-TECH-0058).
-2. Disassemble or parse the binary imports and strings (@MASTG-TECH-0047).
-3. Search for instances of the application importing or executing the `openURL:options:completionHandler:` selector.
+1. Obtain the main app binary (@MASTG-TECH-0058).
+2. Extract the Objective-C method signatures and binary imports from the binary  using (@MASTG-TECH-0076).
+3. Search the extracted symbols for the `openURL:options:completionHandler:` selector.
 
 ## Observation
 

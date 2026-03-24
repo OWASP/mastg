@@ -11,13 +11,13 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-If the live [`apple-app-site-association`](https://developer.apple.com/documentation/xcode/supporting-associated-domains) (AASA) file served by the domain is misconfigured or overly permissive, an unauthorized application may intercept Universal Links intended for the legitimate app. Unlike static analysis of the app bundle, verifying the live server configuration confirms whether the deployed infrastructure correctly restricts Universal Link handling to the authorized application at runtime.
+If the live [`apple-app-site-association`](https://developer.apple.com/documentation/xcode/supporting-associated-domains) (AASA) file served by the domain is misconfigured or overly permissive, an unauthorized application may intercept Universal Links intended for the legitimate app. This test verifies whether the live server configuration correctly restricts Universal Link handling to the authorized application, which may differ from what is declared in the app bundle.
 
 ## Steps
 
 1. Identify the domains listed in the app's `entitlements.plist` file.
-2. Monitor or fetch the AASA file from the live server using standard network interception techniques (@MASTG-TECH-0059) to verify its accessibility and contents.
-3. Request the file from: `https://<domain>/.well-known/apple-app-site-association`.
+2. Set up network monitoring to intercept the AASA file request from the live server (@MASTG-TECH-0062).
+3. Request the file from `https://<domain>/.well-known/apple-app-site-association` and capture the response.
 
 ## Observation
 

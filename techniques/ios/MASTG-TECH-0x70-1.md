@@ -24,10 +24,10 @@ Example output showing a wildcard entitlement:
 
 ## Using @MASTG-TOOL-0129
 
-Use @MASTG-TOOL-0129 to extract Objective-C selectors from the compiled app binary (@MASTG-TECH-0047). Two selectors are relevant for Universal Links:
+Use @MASTG-TOOL-0129 to extract Objective-C selectors from the compiled app binary. Two selectors are relevant for Universal Links:
 
-- `application:continueUserActivity:restorationHandler:` — the [`UIApplicationDelegate`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application) method that receives incoming Universal Links as `NSUserActivity` objects.
-- `openURL:options:completionHandler:` — the [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open) method used to hand off URLs to the operating system or other apps.
+- `application:continueUserActivity:restorationHandler:`: The `UIApplicationDelegate` method that receives incoming Universal Links as `NSUserActivity` objects.
+- `openURL:options:completionHandler:`: The [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open) method used to hand off URLs to the operating system or other apps.
 
 Search for the Universal Link receiver selector:
 
@@ -37,7 +37,7 @@ rabin2 -zq Payload/MASTestApp.app/MASTestApp | grep "restorationHandler"
 
 Output:
 
-```
+```plaintext
 0x10000b2e4 53 52 application:continueUserActivity:restorationHandler:
 ```
 
@@ -49,7 +49,7 @@ rabin2 -zq Payload/MASTestApp.app/MASTestApp | grep openURL
 
 Output:
 
-```
+```plaintext
 0x10000b37c 35 34 openURL:options:completionHandler:
 ```
 
@@ -61,7 +61,7 @@ The presence of these selectors confirms the app handles Universal Links. Use @M
 
 ### Triggering Universal Links
 
-Inject a Frida script (@MASTG-TECH-0067) to programmatically call `UIApplication.sharedApplication().openURL_()`. This bypasses the OS-level AASA domain check and forces the app to evaluate an arbitrary URL payload, to observe whether the app accepts attacker-controlled links that would otherwise be filtered.
+Using @MASTG-TECH-0067 to programmatically call `UIApplication.sharedApplication().openURL_()`. This bypasses the OS level AASA domain check and forces the app to evaluate an arbitrary URL payload, to observe whether the app accepts attacker controlled links that would otherwise be filtered.
 
 ```bash
 frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l script.js
@@ -92,7 +92,7 @@ if (ObjC.available) {
 
 Output:
 
-```
+```plaintext
 Spawned `org.owasp.mastestapp.MASTestApp-iOS`. Resuming main thread!
 [iPhone::org.owasp.mastestapp.MASTestApp-iOS ]-> [*] Triggering URL via Frida (V1 Methodology)...
 [+] UIApplication.openURL_ executed.
@@ -107,7 +107,7 @@ The `Result: true` confirms the OS accepted the routing request.
 Use @MASTG-TECH-0095 to hook the `NSUserActivity` class and intercept calls to the `webpageURL` selector. This reveals the exact URL the app extracts from the OS, confirming whether untrusted payloads reach the receiver without validation.
 
 ```bash
-frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l hook_receiver.js
+frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l script.js
 ```
 
 ```javascript
@@ -125,7 +125,7 @@ Interceptor.attach(NSUserActivity["- webpageURL"].implementation, {
 Hook `-[UIApplication openURL:options:completionHandler:]` to capture every URL the application passes to the operating system. This reveals whether the app constructs outgoing URLs from unvalidated inbound data, making it vulnerable to URI Scheme Hijacking.
 
 ```bash
-frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l hook_outgoing.js
+frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l script.js
 ```
 
 ```javascript
@@ -143,10 +143,21 @@ Interceptor.attach(
 
 ## Validating the Live AASA File
 
-Fetch the [`apple-app-site-association`](https://developer.apple.com/documentation/xcode/supporting-associated-domains) file directly from the domain listed in the entitlement using @MASTG-TECH-0059:
+Retrieve the `apple-app-site-association` (AASA) file from the server using the associated domains obtained in `entitlement.plist`. The file must be served over HTTPS without redirects.
+
+Apple checks two paths on the domain's server:
+
+- `https://<domain>/apple-app-site-association`
+- `https://<domain>/.well-known/apple-app-site-association`
+
+You can retrieve it via your browser, or using the command line:
 
 ```bash
 curl -s https://<domain>/.well-known/apple-app-site-association
 ```
 
-Inspect the response to confirm it is served over HTTPS, contains the correct Team ID and Bundle ID in the `appIDs` array, and does not use overly permissive path wildcards for sensitive routes.
+Alternatively, use Apple's CDN, which caches the file Apple fetched at app installation time:
+
+```bash
+curl -s https://app-site-association.cdn-apple.com/a/v1/<domain>
+```

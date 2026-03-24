@@ -11,13 +11,13 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-If an application processes [Universal Link](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content) payloads at runtime without proper validation, an attacker can craft malicious inbound URLs to manipulate application state or exfiltrate sensitive data. Dynamically triggering the iOS URL routing mechanism allows testers to inject arbitrary payloads into the app's Universal Link processing flow, bypassing OS-level AASA domain checks that would normally filter out unauthorized links.
+If an application processes [Universal Link](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content) payloads at runtime without proper validation, an attacker can craft malicious inbound URLs to manipulate application state or exfiltrate sensitive data. This test verifies whether the app's Universal Link processing flow can be triggered with arbitrary payloads that bypass OS level AASA domain checks, and whether the app validates those payloads before acting on them.
 
 ## Steps
 
-1. Install the target application on a jailbroken device or Corellium instance (@MASTG-TECH-0056).
-2. Use dynamic analysis techniques (@MASTG-TECH-0067) to inject a script into the application's memory space.
-3. Programmatically invoke the non-public iOS URL routing APIs (e.g., `UIApplication.sharedApplication().openURL_()`) to force the operating system to evaluate and route a target URL scheme.
+1. Install the target application on a jailbroken device (@MASTG-TECH-0056).
+2. Launch the app and attach a Frida script to hook the `application:continue:restorationHandler:` delegate method.
+3. Invoke `UIApplication.sharedApplication().openURL_()` with a crafted URL to trigger the Universal Link processing flow, bypassing OS-level AASA validation.
 
 ## Observation
 
@@ -25,4 +25,4 @@ The output should contain the result of the URL routing API call, including the 
 
 ## Evaluation
 
-The test case fails if the script cannot trigger the API or the OS returns `false`, indicating it did not accept the routing payload.
+The test case fails if it returns `true` and the app processes the injected URL without validating its components, resulting in unintended application behavior or state change.

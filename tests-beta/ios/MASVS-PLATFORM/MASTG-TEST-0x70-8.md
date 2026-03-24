@@ -11,12 +11,12 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-Once a Universal Link routes to the application, dynamic instrumentation can be used to trace exactly how the app processes the URL payload at runtime. Hooking [`NSUserActivity.webpageURL`](https://developer.apple.com/documentation/foundation/nsuseractivity/1418086-webpageurl) exposes whether the application blindly accepts unvalidated input or properly sanitizes the URL components before routing the user or changing application state.
+If the app processes Universal Link payloads without validating the URL components received via [`NSUserActivity.webpageURL`](https://developer.apple.com/documentation/foundation/nsuseractivity/1418086-webpageurl), it may blindly accept untrusted input and route the user or alter application state based on attacker controlled data. This test verifies whether the app sanitizes URL components before acting on them by tracing the method at runtime.
 
 ## Steps
 
-1. Install the target application on a jailbroken device or Corellium instance (@MASTG-TECH-0056).
-2. Utilize method hooking techniques (@MASTG-TECH-0095) to intercept the `NSUserActivity` class and capture calls to the `webpageURL` selector.
+1. Install the target application on a jailbroken device (@MASTG-TECH-0056).
+2. Use runtime method hooking and trace calls to [`NSUserActivity.webpageURL`](https://developer.apple.com/documentation/foundation/nsuseractivity/1418086-webpageurl) while triggering a Universal Link payload to observe how the app processes the received URL.
 3. Trigger a Universal Link payload and monitor the application's runtime behavior in memory.
 
 ## Observation

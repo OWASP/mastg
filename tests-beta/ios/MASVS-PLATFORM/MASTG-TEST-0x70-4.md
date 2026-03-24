@@ -11,11 +11,11 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-After the receiver method extracts the incoming URL, the application's data handler processes it. Because the URL can be spoofed or maliciously crafted by an attacker using a bypassed domain, if the handler does not strictly deconstruct and validate the URL components (scheme, host, path, and query parameters) using [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) before execution, an attacker can manipulate the application's routing logic or trigger unintended actions.
+If the app's data handler processes incoming URLs without strictly validating each component—scheme, host, path, and query parameters—using [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents), an attacker who can spoof or craft a malicious URL (e.g., via a bypassed domain) can manipulate the app's routing logic or trigger unintended actions. This test verifies whether the handler enforces strict allow listing and structural validation of all URL components before execution, rather than relying on weak or partial string matching that can be bypassed.
 
 ## Steps
 
-1. Once the receiver method is identified, decompile the application binary (@MASTG-TECH-0048) to trace the data flow from the `application:continue:restorationHandler:` method.
+1. Once the receiver method is identified, decompile the application binary (@MASTG-TECH-0076) to trace the data flow from the `application:continue:restorationHandler:` method.
 2. Locate the specific data handling functions or routing classes where the URL is parsed.
 3. Review the decompiled code to verify if `URLComponents` (or an equivalent strict URL parser) is used to validate the payload prior to execution.
 

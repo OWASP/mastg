@@ -9,7 +9,7 @@ tools: [MASTG-TOOL-0039]
 
 ## Sample
 
-The snippet below shows sample code that blindly passes an unvalidated URL into `UIApplication.shared.open`, allowing the application to trigger external apps or URI schemes.
+The code snippet below shows sample code that blindly passes an unvalidated URL into `UIApplication.shared.open`, allowing the application to trigger external apps or URI schemes.
 
 {{ ../MASTG-DEMO-0x70-1/MastgTest.swift }}
 
@@ -25,7 +25,7 @@ The snippet below shows sample code that blindly passes an unvalidated URL into 
 
 ## Observation
 
-The output alerts the tester that the application is actively attempting to hand off an external URL to the operating system, capturing the exact destination scheme.
+The output contains the outgoing URL captured when the application attempts to hand off an external URL scheme to the operating system.
 
 {{ output.txt }}
 

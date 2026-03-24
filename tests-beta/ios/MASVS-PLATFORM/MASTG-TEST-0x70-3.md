@@ -11,12 +11,12 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-When a Universal Link is clicked, iOS passes the URL payload to the app via the [`application(_:continue:restorationHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application) delegate method. If the app implements this receiver, it accepts external payloads from Universal Links. Without proper validation of the incoming URL, an attacker can inject malicious payloads to trigger unauthorized actions or alter application state.
+If the app implements the [`application(_:continue:restorationHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application) delegate method, it accepts external URL payloads delivered via Universal Links. Without proper validation of the incoming URL, an attacker can craft a malicious Universal Link to inject unexpected payloads, trigger unauthorized actions, or alter application state. This test checks whether the binary contains this receiver method, confirming the app is exposed to Universal Link input and must be further assessed for URL validation.
 
 ## Steps
 
-1. Unzip the app package and locate the main compiled app binary (@MASTG-TECH-0058).
-2. Disassemble or extract the strings and Objective-C method signatures from the binary (@MASTG-TECH-0047).
+1. Unzip the app package and locate the main compiled app binary using @MASTG-TECH-0058.
+2. Disassemble or extract the strings and Objective-C method signatures from the binary using @MASTG-TOOL-0129.
 3. Search the extracted symbols for the `application:continue:restorationHandler:` (or equivalent `NSUserActivity`) delegate method.
 
 ## Observation

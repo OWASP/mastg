@@ -9,7 +9,7 @@ tools: [MASTG-TOOL-0039]
 
 ## Sample
 
-The snippet below shows the target application code that is designed to handle and process incoming Universal Links. You can use dynamic instrumentation to programmatically trigger the operating system's routing mechanisms to hit this entry point.
+The code snippet below shows the target application code that is designed to handle and process incoming Universal Links.
 
 {{ ../MASTG-DEMO-0x70-1/MastgTest.swift }}
 
@@ -25,16 +25,14 @@ The snippet below shows the target application code that is designed to handle a
 
 ## Observation
 
-The output shows the execution of the URL routing API call along with the target URL and the resulting boolean value indicating if the OS accepted the routing request.
+The output contains the result of the URL routing API call, including the target URL and a boolean value indicating whether the OS accepted the routing request.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test confirms that the application's URL handling mechanism can be successfully triggered by an external payload using dynamic instrumentation. The output confirms the following behavior:
+The test fails if the OS returns `true`, confirming the routing request was accepted. The output shows:
 
-- **`UIApplication.openURL_ executed`** — The script successfully called the non-public iOS routing API.
-- **`Target: https://attacker.example.com...`** — The exact malicious payload being injected into the OS.
-- **`Result: true`** — The operating system successfully received the URL, recognized the scheme, and accepted the responsibility of handling it.
-
-This establishes the necessary runtime conditions to proceed with tracing the app's internal receiver methods to see how it handles the injected data.
+- **`UIApplication.openURL_ executed`** — The non-public iOS routing API was successfully called.
+- **`Target: https://attacker.example.com...`** — The injected malicious payload was passed to the OS.
+- **`Result: true`** — The OS recognized the scheme and accepted the routing request.

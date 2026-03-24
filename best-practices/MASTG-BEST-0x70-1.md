@@ -18,11 +18,11 @@ iOS [Universal Links](https://developer.apple.com/documentation/xcode/allowing-a
 
 3. **Validate all URL components in the receiver method**
 
-     an [`NSUserActivity`](https://developer.apple.com/documentation/foundation/nsuseractivity) whose `webpageURL` originates from an external source and must be treated as untrusted. Use [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) to strictly allow-list the scheme, host, path, and query parameters before processing. Drop the request if the URL does not match the expected structure.
+    an `NSUserActivity` whose `webpageURL` originates from an external source and must be treated as untrusted. Use [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) to strictly allow-list the scheme, host, path, and query parameters before processing. Drop the request if the URL does not match the expected structure.
 
 4. **Validate the destination scheme before calling `UIApplication.open`**
 
-    When your app opens external URLs via [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open), verify that the URL scheme and host are on an explicit allow-list. Never pass a URL constructed from untrusted inbound data (such as query parameters from a received Universal Link) directly to this API, as it can trigger URI Scheme Hijacking by routing the user to an attacker-controlled app.
+    When your app opens external URLs via `UIApplication.open(_:options:completionHandler:)`, verify that the URL scheme and host are on an explicit allow-list. Never pass a URL constructed from untrusted inbound data (such as query parameters from a received Universal Link) directly to this API, as it can trigger URI Scheme Hijacking by routing the user to an attacker-controlled app.
 
 5. **Reject unexpected inputs gracefully**
 
