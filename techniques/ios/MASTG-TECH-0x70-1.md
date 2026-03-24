@@ -161,4 +161,3 @@ Alternatively, you can use the [Apple App Site Association (AASA) Validator](htt
 ```bash
 curl -s https://app-site-association.cdn-apple.com/a/v1/<domain>
 ```
-
