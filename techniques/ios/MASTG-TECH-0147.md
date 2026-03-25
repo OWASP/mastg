@@ -39,10 +39,10 @@ Ensure **No get-task-allow** is unticked. If you leave it checked, debugging wil
     unzip target_app.ipa -d extracted_app
     ```
 
-3. **Verify the entitlements**: You can inspect the current entitlements of the app binary using @MASTG-TOOL-0114:
+3. **Verify the entitlements**: You can inspect the current entitlements of the app binary using @MASTG-TECH-0111 with @MASTG-TOOL-0114:
 
     ```bash
-    codesign -d --entitlements - "extracted_app/Payload/TargetApp.app"
+    codesign -d --entitlements - "extracted_app/Payload/TargetApp.app/TargetApp"
     ```
 
     For release builds from the App Store, you will typically see that `get-task-allow` is either missing or set to `false`.
@@ -64,10 +64,10 @@ Ensure **No get-task-allow** is unticked. If you leave it checked, debugging wil
 
 ### Verification
 
-To verify that the `get-task-allow` entitlement is now present, check the entitlements of the re-signed app:
+To verify that the `get-task-allow` entitlement is now present, check the entitlements of the re-signed app using @MASTG-TECH-0111:
 
 ```bash
-codesign -d --entitlements - "extracted_app/Payload/TargetApp.app"
+codesign -d --entitlements - "extracted_app/Payload/TargetApp.app/TargetApp"
 ```
 
 You should see:
