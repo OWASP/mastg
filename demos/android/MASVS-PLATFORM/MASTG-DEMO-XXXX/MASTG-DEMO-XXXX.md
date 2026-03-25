@@ -1,12 +1,11 @@
 ---
 platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
-id: MASTG-DEMO-0x07
+id: MASTG-DEMO-XXXX
 code: [kotlin, xml]
 tools: [MASTG-TOOL-0015]
 status: draft
 kind: fail
-note: Tested on Android 15 (API level 35) with Android Studio Ladybug and a Pixel 8 emulator.
 ---
 
 ## Sample
@@ -32,11 +31,7 @@ The output should contain evidence that `org.owasp.mastestapp.files` is exported
 
 ## Evaluation
 
-Apply the evaluation from @MASTG-TEST-0x07 to this output.
-
-- The exported provider information shows that the app exposes a file-based IPC entry point without any read restrictions.
-- The returned `TOP_SECRET_TOKEN` and `PIN` values prove that the provider can disclose sensitive stored data from the app's private directory.
-- This demo is therefore a failing case because external callers can retrieve sensitive stored data outside the app sandbox.
+The test fails because the application exposes sensitive stored data through an exported file based content provider without enforcing appropriate access restrictions. The returned TOP_SECRET_TOKEN and PIN values show that external callers can retrieve sensitive stored data from the app's private directory outside the application sandbox.
 
 ```bash
 dz> run app.package.attacksurface org.owasp.mastestapp

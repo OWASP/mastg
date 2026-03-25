@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
-id: MASTG-DEMO-0x07
+id: MASTG-DEMO-BXXX
 code: [kotlin]
 tools: [MASTG-TOOL-0015]
 status: new

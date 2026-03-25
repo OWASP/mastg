@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
-id: MASTG-DEMO-0x07
+id: MASTG-DEMO-AXXX
 code: [kotlin]
 tools: [MASTG-TOOL-0015]
 status: new
@@ -30,4 +30,4 @@ The output should contain the database records returned through the exported con
 
 ## Evaluation
 
-The test fails because the application exposes sensitive stored data through an exported database-backed content provider without enforcing appropriate access restrictions. External callers can query credential records via IPC, demonstrating that sensitive stored data is accessible outside the application sandbox.
+The test fails because the application exposes sensitive stored data through an exported database backed content provider without enforcing appropriate access restrictions. External callers can query credential records via IPC, demonstrating that sensitive stored data is accessible outside the application sandbox.

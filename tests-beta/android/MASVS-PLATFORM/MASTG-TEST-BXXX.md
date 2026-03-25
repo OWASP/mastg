@@ -1,37 +1,30 @@
 ---
+title: Determining Whether Sensitive Stored Data Is Properly Protected in IPC Mechanisms
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
-id: MASTG-TEST-0x07
-type: [static, dynamic]
+id: MASTG-TEST-BXXX
 weakness: MASWE-0064
-profiles: [L1, L2]
+type: [static, dynamic]
 best-practices: [MASTG-BEST-XXXX]
-knowledge: [MASTG-KNOW-0020]
+profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0x07]
+status: draft
 ---
 
 ## Overview
 
-If the app exposes database-backed content providers without proper access restrictions, other apps on the device can use IPC to query sensitive stored data, such as credentials stored in internal databases. This can cause unauthorized disclosure of data that is intended to remain private to the application. This test case checks whether database-backed content providers can be accessed from outside the app and whether they return sensitive stored data.
+If the app exports an Android content provider without enforcing access restrictions, external callers may query database records or open private files through `content://` URIs. This test checks whether exported providers expose sensitive stored data to callers that don't hold the required permissions or satisfy the app's runtime authorization checks.
 
 ## Steps
 
-1. Inspect `AndroidManifest.xml` and identify all `<provider>` components.
-2. For each provider, determine whether it is accessible to other apps:
-   - Check `android:exported` and any `<intent-filter>` that could implicitly export the provider.
-   - Check for access restrictions such as `android:permission`, `android:readPermission`, `android:writePermission`, or path-based permissions.
-3. Inspect the source code and identify providers that handle database-backed sensitive stored data:
-   - Look for subclasses of `android.content.ContentProvider`.
-   - Look for database access patterns such as `SQLiteDatabase.query`, table lookups, and returned credential-like fields.
-4. Perform dynamic verification from an external context:
-   1. Enumerate the app's content providers and their authorities.
-   2. Identify database-backed content providers.
-   3. Attempt to query provider data via their `content://` URIs.
-5. Record the retrieved data and the URIs used to retrieve it.
+1. Run @MASTG-TECH-0007 to inspect the Android manifest and identify each `<provider>` declaration, its authority, its exported state, and any read, write, or path based permissions.
+2. Run @MASTG-TECH-0014 on the reversed code and confirm which provider classes expose database queries or file access and whether they enforce caller validation before returning data.
+3. Run @MASTG-TECH-0002 from an external test context to query each exported provider URI and record whether access is granted or denied.
+4. Record the authorities, the returned data, and any permission denial or `SecurityException` messages.
 
 ## Observation
 
-The output should include a list of content provider authorities and one or more proof-of-access results indicating that an external caller can query database-backed provider URIs, including any sensitive stored data returned, such as usernames, passwords, or other credential records.
+The output should contain the exported provider authorities, the access control configured for each provider, and the result of each external access attempt.
 
 ## Evaluation
 
-The test case fails if an external caller is able to access one or more database-backed content providers and obtain sensitive stored data from internal databases without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
+The test case fails if an external caller can query an exported content provider or open provider backed private files without the required permissions or equivalent runtime authorization checks.
