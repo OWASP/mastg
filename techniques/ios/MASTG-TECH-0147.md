@@ -8,7 +8,7 @@ Making small changes to an iOS app can help overcome common obstacles during sec
 1. You can't intercept HTTPS traffic with a proxy because the app implements SSL pinning.
 2. You can't attach a debugger to the app because it lacks the `get-task-allow` entitlement.
 
-In most cases, both issues can be fixed by patching the app and then re-signing and repackaging it. Apps that implement additional integrity checks beyond default iOS code-signing can be available for high-risk applications, like financial apps or to avoid cheating in games. In those cases, you have to patch the additional checks as well.
+In most cases, both issues can be fixed by patching the app and then re-signing and repackaging it. High-risk applications, such as financial apps or games that try to prevent cheating, often implement additional integrity checks beyond default iOS code-signing. In those cases, you have to patch the additional checks as well.
 
 The first step is to obtain and extract the IPA file as described in @MASTG-TECH-0054.
 
@@ -25,9 +25,9 @@ To enable debugging on a release build, you need to re-sign the app with a devel
 
 ### Automated
 
-To resign the decrypted IPA with debugging privileges use @MASTG-TOOL-0102. Select the decrypted.ipa file, choose the "Apple Development" certificate, and select the "iOS Team Provisioning Profile" matching your bundle ID from Xcode.
+To re-sign the decrypted IPA with debugging privileges use @MASTG-TOOL-0102. Select the decrypted.ipa file, choose the "Apple Development" certificate, and select the "iOS Team Provisioning Profile" matching your bundle ID from Xcode.
 
-Ensure "No get-task-allow" is unticked, by leaving it checked it will disable debugging. Once you press `Start` the tool will resign your IPA.
+Ensure **No get-task-allow** is unticked. If you leave it checked, debugging will be disabled. Once you press **Start**, the tool will re-sign your IPA.
 
 ### Manual Steps
 
