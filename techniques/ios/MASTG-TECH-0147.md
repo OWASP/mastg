@@ -23,10 +23,9 @@ When reverse engineering apps, you'll often only have access to the release buil
 
 To enable debugging on a release build, you need to re-sign the app with a development provisioning profile that includes the `get-task-allow` entitlement.
 
-
 ### Automated
 
-To resign the decrypted IPA with debugging privileges use @MASTG-TOOL-0102. Select the decrypted.ipa file, choose the "Apple Development" certificate, and select the "iOS Team Provisioning Profile" matching your bundle ID from Xcode. 
+To resign the decrypted IPA with debugging privileges use @MASTG-TOOL-0102. Select the decrypted.ipa file, choose the "Apple Development" certificate, and select the "iOS Team Provisioning Profile" matching your bundle ID from Xcode.
 
 Ensure "No get-task-allow" is unticked, by leaving it checked it will disable debugging. Once you press `Start` the tool will resign your IPA.
 
