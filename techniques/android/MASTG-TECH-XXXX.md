@@ -25,7 +25,7 @@ In the vulnerable demo, both providers are exported and have no access restricti
 
 If the provider reads from an internal database or serves files from private storage, treat missing restrictions as a high-value review target.
 
-## Using drozer
+## Using @MASTG-TOOL-0015
 
 Use drozer to enumerate the package attack surface and inspect provider metadata from outside the app process.
 
@@ -73,7 +73,7 @@ $ dz> run app.provider.read content://org.owasp.mastestapp.files/files/../databa
 
 Successful access to these URIs confirms that sensitive stored data can be retrieved over IPC by an external caller.
 
-## Using adb
+## Using @MASTG-TOOL-0004
 
 `adb shell content` can reproduce the same behavior without drozer.
 

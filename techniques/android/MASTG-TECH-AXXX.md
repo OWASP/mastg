@@ -79,7 +79,7 @@ override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor? {
 
 These checks prevent both unauthorized IPC access and `../` traversal into other private files.
 
-## Using drozer
+## Using @MASTG-TOOL-0015
 
 Use drozer to confirm that the providers are still visible in the attack surface but no longer leak data to an external caller.
 
@@ -129,7 +129,7 @@ $ dz> run app.provider.query content://org.owasp.mastestapp.credentials/credenti
 
 The expected result is still denial.
 
-## Using adb
+## Using @MASTG-TOOL-0004
 
 `adb shell content` can be used to confirm the same behavior from another external execution context.
 

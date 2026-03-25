@@ -28,8 +28,6 @@ The output should contain the database records returned through the exported con
 
 {{ output.txt }}
 
-Reviewing `output.txt` shows that the provider exposes sensitive values stored in the application's internal database, including usernames and passwords.
-
 ## Evaluation
 
 The test fails because the application exposes sensitive stored data through an exported database-backed content provider without enforcing appropriate access restrictions. External callers can query credential records via IPC, demonstrating that sensitive stored data is accessible outside the application sandbox.

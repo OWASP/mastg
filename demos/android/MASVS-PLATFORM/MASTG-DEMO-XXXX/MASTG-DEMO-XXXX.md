@@ -30,11 +30,10 @@ The output should contain evidence that `org.owasp.mastestapp.files` is exported
 
 {{ output.txt }}
 
-In `output.txt`, the lines containing `TOP_SECRET_TOKEN=tok_live_12345` and `PIN=9876` show that an external caller can read sensitive values from private storage through IPC.
-
 ## Evaluation
 
 Apply the evaluation from @MASTG-TEST-0x07 to this output.
+
 - The exported provider information shows that the app exposes a file-based IPC entry point without any read restrictions.
 - The returned `TOP_SECRET_TOKEN` and `PIN` values prove that the provider can disclose sensitive stored data from the app's private directory.
 - This demo is therefore a failing case because external callers can retrieve sensitive stored data outside the app sandbox.
@@ -43,4 +42,3 @@ Apply the evaluation from @MASTG-TEST-0x07 to this output.
 dz> run app.package.attacksurface org.owasp.mastestapp
 dz> run app.provider.info -a org.owasp.mastestapp
 dz> run app.provider.read content://org.owasp.mastestapp.files/files/secret.txt
-```
