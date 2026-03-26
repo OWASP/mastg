@@ -16,7 +16,7 @@ If you must enable these properties, ensure that:
 - Proper input validation and sanitization are implemented.
 - The app does not store sensitive data in locations accessible to the WebView.
 
-These settings apply only to `WKWebView`. `UIWebView` always allowed unrestricted file access and lacked modern security controls, which is one reason it was deprecated and replaced by `WKWebView`.
+These settings apply only to `WKWebView`. `UIWebView` always allowed unrestricted file access and lacked modern security controls, which is one reason it was deprecated and replaced by `WKWebView`. See @MASTG-BEST-0032.
 
 ## Load Local Files Securely
 
