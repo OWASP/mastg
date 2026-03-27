@@ -18,13 +18,13 @@ The following WKWebView APIs are commonly targeted if they process untrusted inp
 **Remote URL Loading:**
 
 - [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:))
-- [`load(_:mimeType:characterEncodingName:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:))
 
 **Local URL and Content Loading:**
 
 - [`loadFileRequest(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:))
 - [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:))
 - [`loadHTMLString(_:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadhtmlstring(_:baseurl:))
+- [`load(_:mimeType:characterEncodingName:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:))
 
 Regardless of the source, passing a URL originating from attacker-controlled input (for example through a deep link, custom URL scheme, or user-supplied data from the UI) directly to the `WKWebView` URL load methods can lead to vulnerabilities such as unauthorized redirection, Cross-Site Scripting (XSS), or local file disclosure.
 
