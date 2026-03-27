@@ -10,10 +10,6 @@ WebViews are in-app browser components for displaying interactive web content. T
 
 There are multiple ways to include a WebView in an iOS application.
 
-### UIWebView
-
-[`UIWebView`](https://developer.apple.com/reference/uikit/uiwebview "UIWebView") is deprecated starting on iOS 12 and [must not be used](https://medium.com/ios-os-x-development/security-flaw-with-uiwebview-95bbd8508e3c "Security Flaw with UIWebView"). Make sure that either `WKWebView` or `SFSafariViewController` are used to embed web content. In addition to that, JavaScript cannot be disabled for `UIWebView` which is another reason to refrain from using it.
-
 ### WKWebView
 
 [`WKWebView`](https://developer.apple.com/reference/webkit/wkwebview "WKWebView") was introduced with iOS 8 and is the appropriate choice for extending app functionality, controlling displayed content (i.e., prevent the user from navigating to arbitrary URLs) and customizing.
@@ -45,100 +41,9 @@ There are a couple of things to consider:
 
 This should be sufficient for an app analysis and therefore, `SFSafariViewController`s are out of scope for the Static and Dynamic Analysis sections.
 
-## WebView File Access
+### UIWebView (DEPRECATED since iOS 12, don't use)
 
-WebViews in iOS can be configured to allow access to local files using the `file://` URL scheme. The behavior and configurability differ between `UIWebView` and `WKWebView`.
-
-### UIWebView File Access
-
-`UIWebView` is deprecated starting on iOS 12 and should not be used. When it comes to file access:
-
-- The `file://` scheme is always enabled.
-- File access from `file://` URLs is always enabled.
-- Universal access from `file://` URLs is always enabled.
-
-These settings cannot be changed, making `UIWebView` inherently insecure for loading local content, especially if JavaScript is enabled (which cannot be disabled in `UIWebView`).
-
-### WKWebView File Access
-
-`WKWebView` provides more granular control over file access through undocumented properties:
-
-- The `file://` scheme is always enabled and cannot be disabled.
-- File access from `file://` URLs is disabled by default.
-
-The following properties can be used to configure file access (both are undocumented and must be set via Key-Value Coding):
-
-- `allowFileAccessFromFileURLs` ([`WKPreferences`](https://developer.apple.com/documentation/webkit/wkpreferences), `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from other `file://` scheme URLs.
-- `allowUniversalAccessFromFileURLs` ([`WKWebViewConfiguration`](https://developer.apple.com/documentation/webkit/wkwebviewconfiguration), `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from any origin.
-
-These properties can be set using `setValue:forKey:`:
-
-Objective-C:
-
-```objectivec
-[webView.configuration.preferences setValue:@YES forKey:@"allowFileAccessFromFileURLs"];
-[webView.configuration setValue:@YES forKey:@"allowUniversalAccessFromFileURLs"];
-```
-
-Swift:
-
-```swift
-webView.configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
-webView.configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
-```
-
-### Loading Local Files
-
-When loading local HTML files, developers typically use one of the following methods:
-
-- [`loadHTMLString:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/1415004-loadhtmlstring): loads HTML content from a string with a specified base URL.
-- [`loadData:MIMEType:textEncodingName:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/1415011-loaddata): loads data with a specified MIME type and base URL.
-- [`loadFileURL:allowingReadAccessToURL:`](https://developer.apple.com/documentation/webkit/wkwebview/1414973-loadfileurl): loads a file from the local file system with controlled read access.
-
-The `baseURL` parameter in the first two methods determines the effective origin of the loaded content:
-
-- For `WKWebView`: setting `baseURL` to `nil` sets the effective origin to `"null"`, which is treated as an opaque origin and is not considered the same as other origins under the same-origin policy.
-- For `UIWebView` (deprecated): setting `baseURL` to `nil` results in an effective origin with the `applewebdata://` scheme, which does not apply the same-origin policy in the same way and may allow the loaded content to access local files.
-
-When using `loadFileURL:allowingReadAccessToURL:`, the second parameter controls what files the WebView can access:
-
-- If it points to a single file, only that file will be accessible.
-- If it points to a directory, all files in that directory will be accessible to the WebView.
-
-Example loading a single file:
-
-```swift
-var fileURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-fileURL = fileURL.appendingPathComponent("index.html")
-wkWebView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
-```
-
-Example granting access to a directory:
-
-```swift
-var dirURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-var fileURL = dirURL.appendingPathComponent("index.html")
-wkWebView.loadFileURL(fileURL, allowingReadAccessTo: dirURL) // All files in dirURL are accessible
-```
-
-## Native Functionality Exposed Through WebViews
-
-In iOS 7, Apple introduced APIs that allow communication between the JavaScript runtime in the WebView and the native Swift or Objective-C objects. If these APIs are used carelessly, important functionality might be exposed to attackers who manage to inject malicious scripts into the WebView (e.g., through a successful Cross-Site Scripting attack).
-
-Both `UIWebView` and `WKWebView` provide a means of communication between the WebView and the native app. Any important data or native functionality exposed to the WebView JavaScript engine would also be accessible to rogue JavaScript running in the WebView.
-
-**UIWebView:**
-
-There are two fundamental ways of how native code and JavaScript can communicate:
-
-- **JSContext**: When an Objective-C or Swift block is assigned to an identifier in a `JSContext`, JavaScriptCore automatically wraps the block in a JavaScript function.
-- **JSExport protocol**: Properties, instance methods and class methods declared in a `JSExport`-inherited protocol are mapped to JavaScript objects that are available to all JavaScript code. Modifications of objects that are in the JavaScript environment are reflected in the native environment.
-
-Note that only class members defined in the `JSExport` protocol are made accessible to JavaScript code.
-
-**WKWebView:**
-
-JavaScript code in a `WKWebView` can still send messages back to the native app but in contrast to `UIWebView`, it is not possible to directly reference the `JSContext` of a `WKWebView`. Instead, communication is implemented using a messaging system and using the `postMessage` function, which automatically serializes JavaScript objects into native Objective-C or Swift objects. Message handlers are configured using the method [`add(_ scriptMessageHandler:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/1537172-add "WKUserContentController add(_ scriptMessageHandler:name:)").
+[`UIWebView`](https://developer.apple.com/reference/uikit/uiwebview "UIWebView") is deprecated starting on iOS 12 and [must not be used](https://medium.com/ios-os-x-development/security-flaw-with-uiwebview-95bbd8508e3c "Security Flaw with UIWebView"). Make sure that either `WKWebView` or `SFSafariViewController` are used to embed web content. In addition to that, JavaScript cannot be disabled for `UIWebView` which is another reason to refrain from using it.
 
 ## WebView Network Security
 
@@ -162,53 +67,86 @@ Because WebKit enforces these protections and they cannot be disabled through pu
 
 ## Loading Content
 
-### Remote URLs into WebViews
+### Loading Remote URLs
 
-iOS apps can load remote URLs into a WebView using the `load(_:)` method with a `URLRequest` containing the target URL. If the URL is derived from attacker-controlled input without proper validation, it can lead to security issues such as loading malicious content or phishing pages. For example, if an app allows users to input a URL that is then loaded into a WebView without validation, an attacker could input a URL that points to a malicious site, leading to potential data theft or other attacks.
+iOS apps can load remote URLs into a WebView using the [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:)) API, which starts a top level navigation from the supplied [`URLRequest`](https://developer.apple.com/documentation/Foundation/URLRequest).
 
-### Local Files into WebViews
+`WKWebView` network communication sits on top of `URLSession`, so its `load(_:)` API is subject to App Transport Security.
 
-iOS WebViews can load local files using the `loadFileURL(_:allowingReadAccessTo:)` method. This method allows developers to specify a local file URL to load and a read access URL that defines the scope of local files the WebView can access. If the read access URL is set too broadly, it can allow malicious content loaded into the WebView to access sensitive files on the device. For example, if the read access URL is set to the entire `Documents` directory, a malicious page could potentially read any file in that directory, which may include sensitive user data.
+### Loading Local Files
 
-Other APIs that can be used to load content into WebViews include `loadHTMLString(_:baseURL:)`, which allows loading HTML content directly as a string, and `loadData(_:MIMEType:characterEncodingName:baseURL:)`, which allows loading raw data with a specified MIME type and character encoding.
+When loading local files, developers typically use one of the following methods:
 
-The `baseURL` parameter in these methods can also be a source of security issues if it is derived from attacker-controlled input, as it can affect the origin of the loaded content and potentially lead to cross-origin issues or allow access to unintended resources.
+- [`loadHTMLString:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/loadhtmlstring(_:baseurl:)): loads HTML content from a string with a specified base URL.
+- [`loadData:MIMEType:textEncodingName:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:)): loads data with a specified MIME type and base URL.
+- [`loadFileURL:allowingReadAccessToURL:`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)): loads a file from the local file system with controlled read access.
+- [`loadFileRequest:allowingReadAccessToURL:`](https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:)): loads a file from the local file system with controlled read access using a `URLRequest`.
 
-## File Access in WebViews
+The `baseURL` parameter in the first two methods determines the effective origin of the loaded content:
 
-On iOS, file access is primarily constrained by the `allowingReadAccessTo` directory boundary combined with the app sandbox. In contrast, on Android, file access behavior is primarily controlled by WebView settings that modify how `file://` origins interact with other files and network resources, and there is no direct per load directory restriction equivalent to `allowingReadAccessTo`.
+- For `WKWebView`: setting `baseURL` to `nil` sets the effective origin to `"null"`, which is treated as an opaque origin and is not considered the same as other origins under the same-origin policy.
+- For `UIWebView` (DEPRECATED since iOS 12, don't use): setting `baseURL` to `nil` results in an effective origin with the `applewebdata://` scheme, which does not apply the same-origin policy in the same way and may allow the loaded content to access local files.
 
-### Local File Access Scope
+In contrast to Android, iOS enforces a per-load directory boundary through `allowingReadAccessTo`. When using `loadFileURL:allowingReadAccessToURL:` or `loadFileRequest:allowingReadAccessToURL:`, file access is primarily constrained by the `allowingReadAccessToURL` boundary combined with the app sandbox. In contrast, on Android, file access behavior is primarily controlled by WebView settings that modify how `file://` origins interact with other files and network resources, and there is no direct per load directory restriction equivalent to `allowingReadAccessToURL`.
 
-On iOS, `WKWebView.loadFileURL(_:allowingReadAccessTo:)` loads a local file while granting the WebView permission to read additional files inside a specific directory. The `allowingReadAccessTo` parameter defines the maximum directory scope that WebKit may access for that load. Any resources requested by the page must reside within that directory or its subdirectories.
+If it points to a single file, only that file will be accessible. Example:
 
-This effectively creates a native file read boundary. If the scope is set broadly, such as the entire `Documents` directory or the app container root, content executing in the WebView may be able to trigger reads of other files within that permitted area.
+```swift
+var fileURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+fileURL = fileURL.appendingPathComponent("index.html")
+wkWebView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
+```
 
-The access remains limited by the iOS app sandbox. Even if the read scope points to the container root, the WebView cannot access system files or data belonging to other applications.
+If it points to a directory, all files in that directory will be accessible to the WebView. Example:
 
-In contrast to Android, iOS provides this explicit per load directory boundary. Android WebView does not have a direct equivalent to `allowingReadAccessTo`. Instead, file access behavior is controlled through global WebView settings and the underlying application sandbox.
+```swift
+var dirURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+var fileURL = dirURL.appendingPathComponent("index.html")
+wkWebView.loadFileURL(fileURL, allowingReadAccessTo: dirURL) // All files in dirURL are accessible
+```
 
-### File URL Security Flags
+## WebView File Access
 
-Two settings are frequently discussed in relation to WebView file access.
+WebViews in iOS can be configured to allow access to local files using the `file://` URL scheme. The behavior and configurability differ between `UIWebView` and `WKWebView`.
 
-`allowFileAccessFromFileURLs`
-`allowUniversalAccessFromFileURLs`
+### WKWebView File Access from File URLs
 
-On iOS these are internal WebKit preferences and are not public WKWebView APIs. Attempting to set them through key value coding is unsupported and may stop working across system versions.
+On iOS these are internal WebKit preferences and are not public `WKWebView` APIs. Attempting to set them through key value coding is unsupported and may stop working across system versions.
 
-Conceptually they influence how the web security model treats `file://` origins. The first allows JavaScript in one local file to access other local files. The second allows `file://` pages to perform cross origin network requests.
+Conceptually they influence how the web security model treats `file://` origins.
 
-Even if these preferences are enabled through unsupported mechanisms, they do not bypass the native file boundary defined by `allowingReadAccessTo`.
+The following properties can be used to configure file access (both are undocumented and must be set via Key-Value Coding, i.e. by using `setValue:forKey:`):
 
-In contrast to iOS, Android exposes these settings as public APIs through `WebSettings.setAllowFileAccessFromFileURLs` and `WebSettings.setAllowUniversalAccessFromFileURLs`. Misconfiguration of these flags has been repeatedly observed in Android WebView vulnerability reports because they weaken origin isolation for local files.
+- `allowFileAccessFromFileURLs` ([`WKPreferences`](https://developer.apple.com/documentation/webkit/wkpreferences), `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from other `file://` scheme URLs.
+- `allowUniversalAccessFromFileURLs` ([`WKWebViewConfiguration`](https://developer.apple.com/documentation/webkit/wkwebviewconfiguration), `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from any origin.
 
-### Conditions and Realistic Exfiltration Paths
+Even if these preferences are enabled through unsupported mechanisms, they do not bypass the native file boundary defined by `allowingReadAccessToURL`.
 
-Broad file read access alone does not expose data. Exploitation generally requires two elements. The WebView is granted access to sensitive directories through `loadFileURL(_:allowingReadAccessTo:)`, and the attacker can execute JavaScript in that WebView. Script execution can occur through injected HTML, attacker controlled pages loaded by the app, deep links that open untrusted URLs in a WebView, or exposed JavaScript bridges.
+### UIWebView File Access (DEPRECATED since iOS 12, don't use)
 
-If these conditions are met, malicious script may trigger the WebView to load additional files within the permitted directory. Access remains limited to the application sandbox, typically files in `Documents`, caches, or other app storage.
+`UIWebView` has both `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs` enabled by default and doesn't offer an option to disable them. This makes `UIWebView` inherently insecure for loading local content, especially if JavaScript is enabled (which cannot be disabled in `UIWebView`).
 
-Once data is accessible, exfiltration usually relies on normal WebView capabilities. The most common mechanism is sending the data to an attacker controlled server using standard web APIs such as `fetch` or `XMLHttpRequest`. If the application exposes native functionality through interfaces such as `WKScriptMessageHandler`, attacker controlled JavaScript can also pass data to the host application, which may then transmit it through the app's networking functionality. In some cases the script may store data in application controlled storage or APIs that are later uploaded or synchronized by the app.
+## Notes on Exploitation
 
-In contrast to Android, iOS enforces a per load directory boundary through `allowingReadAccessTo`. Android WebView does not provide an equivalent mechanism and instead relies on global settings such as `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs` to control how `file://` content interacts with other files and network resources.
+Broad file read access alone does not expose data. Exploitation generally requires several factors. The WebView must be granted access to sensitive directories through `loadFileURL(_:allowingReadAccessToURL:)`, and the attacker can execute JavaScript in that WebView. Script execution can occur through injected HTML, attacker controlled pages loaded by the app, deep links that open untrusted URLs in a WebView, or exposed JavaScript bridges.
+
+If these conditions are met, a malicious script may trigger the WebView to load additional files within the permitted directory, given that it also has the necessary SOP (Same-Origin Policy) Override `allowFileAccessFromFileURLs` to allow `fetch` requests to local files. Access remains limited to the app sandbox.
+
+Once data is accessible, exfiltration usually relies on normal WebView capabilities. The most common mechanism is sending the data to an attacker controlled server (conveniently configured to ignore CORS restrictions, e.g. with headers `Access-Control-Allow-Origin: *`) using standard web APIs such as `fetch` or `XMLHttpRequest`. For this to work the WebView must also include the SOP (Same-Origin Policy) Override `allowUniversalAccessFromFileURLs` setting, which allows JavaScript in a `file://` page to make network requests to any origin.
+
+## WebView-Native Bridges
+
+iOS WebViews provide a means of communication between the WebView and the native Swift or Objective-C code. Any important data or native functionality exposed to the WebView JavaScript engine would also be accessible to rogue JavaScript running in the WebView.
+
+### WKWebView
+
+JavaScript code in a `WKWebView` can send messages back to the native app. This communication is implemented using a messaging system and using the `postMessage` function, which automatically serializes JavaScript objects into native Objective-C or Swift objects. Message handlers are configured using the method [`add(_ scriptMessageHandler:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/add(_:name:)).
+
+### UIWebView (DEPRECATED since iOS 12, don't use)
+
+There are two fundamental ways of how native code and JavaScript can communicate:
+
+- **JSContext**: When an Objective-C or Swift block is assigned to an identifier in a `JSContext`, JavaScriptCore automatically wraps the block in a JavaScript function.
+- **JSExport protocol**: Properties, instance methods and class methods declared in a `JSExport`-inherited protocol are mapped to JavaScript objects that are available to all JavaScript code. Modifications of objects that are in the JavaScript environment are reflected in the native environment.
+
+Note that only class members defined in the `JSExport` protocol are made accessible to JavaScript code.
