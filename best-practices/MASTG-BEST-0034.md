@@ -6,7 +6,7 @@ platform: android
 knowledge: [MASTG-KNOW-0001]
 ---
 
-For sensitive operations requiring explicit user authorization (e.g., payments or access to health data), configure [`setConfirmationRequired(true)`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt.Builder#setConfirmationRequired(boolean)) in `BiometricPrompt.Builder`, or rely on the default behavior, which requires confirmation.
+For sensitive operations requiring explicit user authorization (e.g., payments or access to health data), configure [`setConfirmationRequired(true)`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder#setConfirmationRequired(boolean)) in `BiometricPrompt.Builder`, or rely on the default behavior, which requires confirmation.
 
 When `setConfirmationRequired(false)` is used, passive biometrics such as face recognition can authenticate the user implicitly as soon as the device detects their biometric data. This means authentication can complete without the user actively acknowledging the operation, which may not be appropriate for high-value actions.
 
