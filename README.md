@@ -1,6 +1,6 @@
 <img width="180px" align="right" style="float: right;" src="cover.png">
 
-# OWASP Mobile Application Security Testing Guide (MASTG)
+# OWASP Mobile Application Security Testing Guide (MASTG) - Mobile AppSec Guide
 
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-48A646.svg)](https://owasp.org/projects/)
 [![Creative Commons License](https://img.shields.io/github/license/OWASP/mastg?color=48A646)](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0")
