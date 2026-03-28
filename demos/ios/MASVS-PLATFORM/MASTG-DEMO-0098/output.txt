@@ -1,82 +1,72 @@
-Uses of the APIs:
 
-0x10000a540 28 str.allowFileAccessFromFileURLs
-0x10000a560 33 str.allowUniversalAccessFromFileURLs
-0x10000b0cb 37 str.loadFileURL:allowingReadAccessToURL:
-0x100010170 8 reloc.fixup.loadFileURL:allowingReadAccessT
-0x10000b169 17 str.setValue:forKey:
-0x100010150 8 reloc.fixup.setValue:forKey:
+
+Uses of the APIs:
+0x10000da70 28 str.allowFileAccessFromFileURLs
+0x10000da90 33 str.allowUniversalAccessFromFileURLs
+0x10000eb54 37 str.loadFileURL:allowingReadAccessToURL:
+0x100014190 8 reloc.fixup.loadFileURL:allowingReadAccessT
+0x10000ec2c 17 str.setValue:forKey:
+0x1000141d0 8 reloc.fixup.setValue:forKey:
 
 xrefs:
-
-sym.func.10000468c 0x100004700 [STRN:r--] add x8, x8, str.allowFileAccessFromFileURLs
-sym.func.10000468c 0x100004750 [STRN:r--] add x8, x8, str.allowUniversalAccessFromFileURLs
-sym.func.100004e14 0x100004eb8 [DATA:r--] ldr x1, reloc.fixup.loadFileURL:allowingReadAccessT
-sym.func.10000468c 0x100004720 [DATA:r--] ldr x1, reloc.fixup.setValue:forKey:
-sym.func.10000468c 0x100004768 [DATA:r--] ldr x1, reloc.fixup.setValue:forKey:
+sym.func.100004ad8 0x100004b64 [STRN:r--] add x8, x8, str.allowFileAccessFromFileURLs
+sym.func.100004ad8 0x100004bac [STRN:r--] add x8, x8, str.allowUniversalAccessFromFileURLs
+fcn.10000c680 0x10000c684 [DATA:r--] ldr x1, reloc.fixup.loadFileURL:allowingReadAccessT
+fcn.10000c780 0x10000c784 [DATA:r--] ldr x1, reloc.fixup.setValue:forKey:
 
 Use of the APIs:
-
-│           0x1000046d8      68000090       adrp x8, segment.__DATA    ; 0x100010000
-│           0x1000046dc      01a540f9       ldr x1, [x8, 0x148]        ; [0x100010148:4]=0xb0f0 ; reloc.fixup.preferences ; char *selector
-│           0x1000046e0      a8140094       bl sym.imp.objc_msgSend    ; void *objc_msgSend(void *instance, char *selector)
-│           0x1000046e4      fd031daa       mov x29, x29
-│           0x1000046e8      ca140094       bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
-│           0x1000046ec      f60300aa       mov x22, x0
-│           0x1000046f0      20008052       mov w0, 1
-│           0x1000046f4      2b140094       bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSNumberCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSNumberCyF)
-│           0x1000046f8      f70300aa       mov x23, x0
-│           0x1000046fc      280000d0       adrp x8, 0x10000a000
-│           0x100004700      08011591       add x8, x8, 0x540          ; 0x10000a540 ; "allowFileAccessFromFileURLs"
-│           0x100004704      088100d1       sub x8, x8, 0x20
-│           0x100004708      010141b2       orr x1, x8, 0x8000000000000000
-│           0x10000470c      600380d2       mov x0, 0x1b
-│           0x100004710      0000faf2       movk x0, 0xd000, lsl 48
-│           0x100004714      02140094       bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
-│           0x100004718      f80300aa       mov x24, x0
-│           0x10000471c      7b000090       adrp x27, segment.__DATA   ; 0x100010000
-│           0x100004720      61ab40f9       ldr x1, [x27, 0x150]       ; [0x100010150:4]=0xb169 ; "i\xb1" ; char *selector
-│           0x100004724      e00316aa       mov x0, x22                ; void *instance
+│           0x100004b3c      bl fcn.10000c760
+│           0x100004b40      mov x0, x19
+│           0x100004b44      bl fcn.10000c6a0
+│           0x100004b48      mov x29, x29
+│           0x100004b4c      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+│           0x100004b50      mov x23, x0
+│           0x100004b54      mov w0, 1
+│           0x100004b58      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSNumberCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSNumberCyF)
+│           0x100004b5c      mov x24, x0
+│           0x100004b60      adrp x8, 0x10000d000
+│           0x100004b64      add x8, x8, 0xa70                         ; 0x10000da70 ; "allowFileAccessFromFileURLs"
+│           0x100004b68      sub x8, x8, 0x20
+│           0x100004b6c      orr x1, x8, 0x8000000000000000
+│           0x100004b70      mov x0, 0x1b
+│           0x100004b74      movk x0, 0xd000, lsl 48
+│           0x100004b78      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+│           0x100004b7c      mov x25, x0
+│           0x100004b80      mov x0, x23
+│           0x100004b84      mov x2, x24
+│           0x100004b88      mov x3, x25
 ...
-│           0x100004728      e20317aa       mov x2, x23
-│           0x10000472c      e30318aa       mov x3, x24
-│           0x100004730      94140094       bl sym.imp.objc_msgSend    ; void *objc_msgSend(void *instance, char *selector)
-│           0x100004734      a5140094       bl sym.imp.objc_release_x22
-│           0x100004738      a7140094       bl sym.imp.objc_release_x23
-│           0x10000473c      a9140094       bl sym.imp.objc_release_x24
-│           0x100004740      20008052       mov w0, 1
-│           0x100004744      17140094       bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSNumberCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSNumberCyF)
-│           0x100004748      f60300aa       mov x22, x0
-│           0x10000474c      280000d0       adrp x8, 0x10000a000
-│           0x100004750      08811591       add x8, x8, 0x560          ; 0x10000a560 ; "allowUniversalAccessFromFileURLs"
-│           0x100004754      088100d1       sub x8, x8, 0x20
-│           0x100004758      20170091       add x0, x25, 5
-│           0x10000475c      010141b2       orr x1, x8, 0x8000000000000000
-│           0x100004760      ef130094       bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
-│           0x100004764      f70300aa       mov x23, x0
-│           0x100004768      61ab40f9       ldr x1, [x27, 0x150]       ; [0x100010150:4]=0xb169 ; "i\xb1" ; char *selector
-│           0x10000476c      e00313aa       mov x0, x19                ; void *instance
-│           0x100004770      e20316aa       mov x2, x22
-│           0x100004774      e30317aa       mov x3, x23
+│           0x100004b84      mov x2, x24
+│           0x100004b88      mov x3, x25
+│           0x100004b8c      bl fcn.10000c780
+│           0x100004b90      bl sym.imp.objc_release_x23
+│           0x100004b94      bl sym.imp.objc_release_x24
+│           0x100004b98      bl sym.imp.objc_release_x25
+│           0x100004b9c      mov w0, 0
+│           0x100004ba0      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSNumberCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSNumberCyF)
+│           0x100004ba4      mov x23, x0
+│           0x100004ba8      adrp x8, 0x10000d000
+│           0x100004bac      add x8, x8, 0xa90                         ; 0x10000da90 ; "allowUniversalAccessFromFileURLs"
+│           0x100004bb0      sub x8, x8, 0x20
+│           0x100004bb4      add x0, x26, 5
+│           0x100004bb8      orr x1, x8, 0x8000000000000000
+│           0x100004bbc      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+│           0x100004bc0      mov x24, x0
+│           0x100004bc4      mov x0, x19
+│           0x100004bc8      mov x2, x23
+│           0x100004bcc      mov x3, x24
+│           0x100004bd0      bl fcn.10000c780
 ...
-│       ┌─< 0x100004e90      c1030054       b.ne 0x100004f08
-│       │   ; CODE XREF from sym.func.100004e14 @ 0x100004f1c(x)
-│       │   0x100004e94      61000090       adrp x1, segment.__DATA    ; 0x100010000
-│       │   0x100004e98      21200a91       add x1, x1, 0x288          ; int64_t arg2
-│       │   0x100004e9c      e00316aa       mov x0, x22                ; int64_t arg1
-│       │   0x100004ea0      dafdff97       bl sym.func.100004608
-│       │   0x100004ea4      f40300aa       mov x20, x0
-│       │   0x100004ea8      72110094       bl sym.imp.Foundation.URL._bridgeToObjectiveC.NSURL_...F_ ; Foundation.URL._bridgeToObjectiveC.NSURL(...F)
-│       │   0x100004eac      e30300aa       mov x3, x0
-│       │   0x100004eb0      e00700f9       str x0, [var_8h]
-│       │   0x100004eb4      68000090       adrp x8, segment.__DATA    ; 0x100010000
-│           0x100004eb8      01b940f9       ldr x1, [x8, 0x170]        ; [0x100010170:4]=0xb0cb ; reloc.fixup.loadFileURL:allowingReadAccessT ; char *selector
-│           0x100004ebc      e00313aa       mov x0, x19                ; void *instance
-│           0x100004ec0      e20315aa       mov x2, x21
-│           0x100004ec4      af120094       bl sym.imp.objc_msgSend    ; void *objc_msgSend(void *instance, char *selector)
-│           0x100004ec8      fd031daa       mov x29, x29
-│           0x100004ecc      d1120094       bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
-│           0x100004ed0      b2120094       bl sym.imp.objc_release    ; void objc_release(void *instance)
-│           0x100004ed4      ba120094       bl sym.imp.objc_release_x21
-│           0x100004ed8      e00740f9       ldr x0, [var_8h]
-│           0x100004edc      fd7b43a9       ldp x29, x30, [var_30h]
+│           0x10000c670      br x16
+└           0x10000c674      brk 1
+            0x10000c678      brk 1
+            0x10000c67c      brk 1
+            ; CALL XREF from sym.func.1000050c0 @ 0x10000520c(x)
+┌ 24: fcn.10000c680 ();
+│           0x10000c680      adrp x1, segment.__DATA                   ; 0x100014000
+│           0x10000c684      ldr x1, [x1, 0x190]                       ; [0x10000eb54:4]=0x64616f6c ; "loadFileURL:allowingReadAccessToURL:"
+│           0x10000c688      adrp x16, segment.__DATA_CONST            ; 0x100010000
+│           0x10000c68c      ldr x16, [x16, 0x118]                     ; [0x100010118:4]=0
+│                                                                      ; reloc.objc_msgSend
+│           0x10000c690      br x16
+└           0x10000c694      brk 1

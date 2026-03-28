@@ -13,21 +13,24 @@ f~setValue
 
 ?e xrefs:
 
-axt 0x10000a540
-axt 0x10000a560
-axt 0x100010170
-axt 0x100010150
+axt 0x10000da70
+axt 0x10000da90
+axt 0x100014190
+axt 0x1000141d0
 
 ?e
 
 ?e Use of the APIs:
 
-pd-- 10 @ 0x100004700
+pd-- 10 @ 0x100004b64
 
 ?e ...
 
-pd-- 10 @ 0x100004750
+pd-- 10 @ 0x100004bac
 
 ?e ...
 
-pd-- 10 @ 0x100004eb8
+pd-- 5 @ 0x10000c684
+
+pdf @ 0x100004ad8 > function.asm
+pdf @ 0x1000050c0 > function2.asm
