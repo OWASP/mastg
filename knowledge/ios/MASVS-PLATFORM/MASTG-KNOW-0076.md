@@ -20,7 +20,7 @@ There are multiple ways to include a WebView in an iOS application.
 - The `JavaScriptCanOpenWindowsAutomatically` can be used to prevent JavaScript from opening new windows, such as pop-ups.
 - `WKWebView` implements out-of-process rendering, so memory corruption bugs won't affect the main app process.
 
-A JavaScript Bridge can be enabled when using `WKWebView` and `UIWebView`. See Section ["Native Functionality Exposed Through WebViews"](#native-functionality-exposed-through-webviews "Native Functionality Exposed Through WebViews") below for more information.
+A JavaScript Bridge can be enabled when using `WKWebView` and `UIWebView`. See Section ["WebView-Native Bridges"](#webview-native-bridges) below for more information.
 
 ### SFSafariViewController
 
