@@ -68,7 +68,6 @@ When creating a key with [`KeyGenParameterSpec.Builder`](https://developer.andro
 
 When a key only supports biometric credentials, it's invalidated by default when new biometrics are enrolled. This behavior can be controlled with [`setInvalidatedByBiometricEnrollment(boolean)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)).
 
-
 ## Third-Party SDKs
 
 Some apps use third-party SDKs that expose biometric features. On Android, biometric authentication is ultimately integrated with the platform biometric and Keystore infrastructure. Knowledge about a given SDK depends on how it maps to the Android biometric APIs, authenticator classes, and Keystore-backed cryptographic operations.
