@@ -1,7 +1,7 @@
 ---
 title: Invalidate Biometric Keys on Enrollment Changes
 alias: invalidate-biometric-keys-on-enrollment-changes
-id: MASTG-BEST-0033
+id: MASTG-BEST-0037
 platform: android
 knowledge: [MASTG-KNOW-0001]
 ---

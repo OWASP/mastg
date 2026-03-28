@@ -1,7 +1,7 @@
 ---
 title: Use Cryptographic Binding for Biometric Authentication
 alias: use-cryptographic-binding-for-biometric-authentication
-id: MASTG-BEST-0032
+id: MASTG-BEST-0036
 platform: android
 knowledge: [MASTG-KNOW-0001]
 ---

@@ -1,7 +1,7 @@
 ---
 title: Require Explicit User Confirmation for Biometric Authentication
 alias: require-explicit-user-confirmation-for-biometric-authentication
-id: MASTG-BEST-0034
+id: MASTG-BEST-0038
 platform: android
 knowledge: [MASTG-KNOW-0001]
 ---
