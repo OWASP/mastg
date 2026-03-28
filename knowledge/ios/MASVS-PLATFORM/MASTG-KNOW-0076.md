@@ -4,7 +4,7 @@ platform: ios
 title: WebViews
 ---
 
-WebViews are in-app browser components for displaying interactive web content. They can be used to embed web content directly into an app's user interface. iOS WebViews support JavaScript execution by default, so script injection and Cross-Site Scripting attacks can affect them.
+WebViews are in-app browser components for displaying interactive web content. They can be used to embed web content directly into an app's user interface. iOS WebViews execute JavaScript and render HTML, and therefore can execute injected scripts when untrusted content is rendered.
 
 ## Types of WebViews
 
@@ -43,7 +43,7 @@ This should be sufficient for an app analysis and therefore, `SFSafariViewContro
 
 ### UIWebView (DEPRECATED since iOS 12, don't use)
 
-[`UIWebView`](https://developer.apple.com/reference/uikit/uiwebview "UIWebView") is deprecated starting on iOS 12 and [must not be used](https://medium.com/ios-os-x-development/security-flaw-with-uiwebview-95bbd8508e3c "Security Flaw with UIWebView"). Make sure that either `WKWebView` or `SFSafariViewController` are used to embed web content. In addition to that, JavaScript cannot be disabled for `UIWebView` which is another reason to refrain from using it.
+[`UIWebView`](https://developer.apple.com/reference/uikit/uiwebview) was deprecated by Apple in iOS 12 and has since been superseded by `WKWebView` and `SFSafariViewController` for embedding web content. Reasons commonly cited include its older security model, the lack of support for disabling JavaScript, and the availability of more modern configuration and isolation controls in its successors.
 
 ## WebView Network Security
 
@@ -63,7 +63,7 @@ In `WKWebView`, active mixed content such as HTTP scripts loaded by an HTTPS pag
 
 The API [`hasOnlySecureContent`](https://developer.apple.com/documentation/webkit/wkwebview/hasonlysecurecontent) can be used after a page finishes loading to determine whether the WebView ultimately loaded only secure resources. However, it is **informational rather than preventive**. It reflects the final security state of the page, not whether the page attempted to load insecure resources that were blocked.
 
-Because WebKit enforces these protections and they cannot be disabled through public `WKWebView` APIs, the recommended approach is still to ensure that all content loaded into WebViews is served over HTTPS and to avoid unnecessarily relaxing ATS policies such as `NSAllowsArbitraryLoadsInWebContent`. The only way for a page to load mixed content is for the page itself to be loaded as HTTP.
+Because WebKit enforces these protections and they cannot be disabled through public `WKWebView` APIs, active mixed content can only be loaded when the page itself is requested over HTTP, regardless of ATS settings such as `NSAllowsArbitraryLoadsInWebContent`.
 
 ## Loading Content
 
@@ -120,7 +120,7 @@ The following properties can be used to configure file access (both are undocume
 - `allowFileAccessFromFileURLs` ([`WKPreferences`](https://developer.apple.com/documentation/webkit/wkpreferences), `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from other `file://` scheme URLs.
 - `allowUniversalAccessFromFileURLs` ([`WKWebViewConfiguration`](https://developer.apple.com/documentation/webkit/wkwebviewconfiguration), `false` by default): enables JavaScript running in the context of a `file://` scheme URL to access content from any origin.
 
-Even if these preferences are enabled through unsupported mechanisms, they do not bypass the native file boundary defined by `allowingReadAccessToURL`.
+`allowingReadAccessTo` and the undocumented `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs` do not govern the same scope. `allowingReadAccessTo` affects direct local document loading by the WebView, whereas the undocumented preferences affect whether JavaScript running in a `file://` origin can access additional local or cross-origin resources. That's why, even if `loadFileURL(_:allowingReadAccessTo:)` is restricted to a single file or directory, enabling these unsupported preferences can allow `fetch` and `XMLHttpRequest` to reach local files that would not be reachable through direct HTML embedding or `iframe` navigation alone.
 
 ### UIWebView File Access (DEPRECATED since iOS 12, don't use)
 
@@ -128,11 +128,11 @@ Even if these preferences are enabled through unsupported mechanisms, they do no
 
 ## Notes on Exploitation
 
-Broad file read access alone does not expose data. Exploitation generally requires several factors. The WebView must be granted access to sensitive directories through `loadFileURL(_:allowingReadAccessToURL:)`, and the attacker can execute JavaScript in that WebView. Script execution can occur through injected HTML, attacker controlled pages loaded by the app, deep links that open untrusted URLs in a WebView, or exposed JavaScript bridges.
+Broad file read access alone does not expose data. Exploitation generally requires several factors. The attacker must be able to execute JavaScript in the `WKWebView`, for example through injected HTML, attacker-controlled pages loaded by the app, deep links that open untrusted content in a WebView, or exposed JavaScript bridges.
 
-If these conditions are met, a malicious script may trigger the WebView to load additional files within the permitted directory, given that it also has the necessary SOP (Same-Origin Policy) Override `allowFileAccessFromFileURLs` to allow `fetch` requests to local files. Access remains limited to the app sandbox.
+If these conditions are met, enabling the undocumented `allowFileAccessFromFileURLs` preference can allow JavaScript running in a `file://` context to read additional local files using mechanisms such as `fetch` or `XMLHttpRequest`. This scope is distinct from the direct document loading scope controlled by `loadFileURL(_:allowingReadAccessTo:)` where access remains limited to locations the app can read, such as its sandboxed files.
 
-Once data is accessible, exfiltration usually relies on normal WebView capabilities. The most common mechanism is sending the data to an attacker controlled server (conveniently configured to ignore CORS restrictions, e.g. with headers `Access-Control-Allow-Origin: *`) using standard web APIs such as `fetch` or `XMLHttpRequest`. For this to work the WebView must also include the SOP (Same-Origin Policy) Override `allowUniversalAccessFromFileURLs` setting, which allows JavaScript in a `file://` page to make network requests to any origin.
+Once data is accessible to JavaScript, exfiltration usually relies on standard WebView networking capabilities. A common mechanism is sending the data to an attacker-controlled server using web APIs such as `fetch` or `XMLHttpRequest`. For this to work across origins, the WebView must also permit such requests, for example through the undocumented `allowUniversalAccessFromFileURLs` preference, and the destination server must allow the cross-origin request, for example by returning appropriate CORS headers such as `Access-Control-Allow-Origin`.
 
 ## WebView-Native Bridges
 

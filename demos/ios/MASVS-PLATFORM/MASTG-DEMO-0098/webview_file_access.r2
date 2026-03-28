@@ -1,5 +1,6 @@
 e asm.bytes=false
 e scr.color=false
+e scr.interactive=false
 e asm.var=false
 
 ?e;?e

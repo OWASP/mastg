@@ -31,7 +31,7 @@ struct MastgTest {
         preferences.allowsContentJavaScript = true
         configuration.defaultWebpagePreferences = preferences
 
-        // CONDITION 2: file:// URLs must have access to files. Change to true to see the fetch succeed.
+        // CONDITION 2: file:// URLs must have access to files. This demo sets it to true so the fetch succeeds; change to false to block the fetch.
         configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         configuration.setValue(false, forKey: "allowUniversalAccessFromFileURLs")
 

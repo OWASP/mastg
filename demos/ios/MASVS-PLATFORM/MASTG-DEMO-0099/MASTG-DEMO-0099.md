@@ -8,7 +8,7 @@ test: MASTG-TEST-0336
 
 ## Sample
 
-This demo uses the same sample as @MASTG-DEMO-0081.
+This demo uses the same sample as @MASTG-DEMO-0098.
 
 {{ ../MASTG-DEMO-0098/MastgTest.swift }}
 
@@ -32,25 +32,25 @@ The Frida script hooks several WebKit APIs at runtime and logs their arguments w
 
 ## Observation
 
-The output shows that the application enables relaxed WebView file origin policies and loads a local HTML file into the WebView.
+The output shows that the application enables file access from `file://` URLs in the WebView and loads a local HTML file from a demo directory under the app's caches directory.
 
 {{ output.txt }}
 
 The logs indicate that:
 
 - `allowFileAccessFromFileURLs` is set to `1`.
-- `allowUniversalAccessFromFileURLs` is set to `1`.
-- The WebView loads a local file such as `Documents/index.html`.
-- The `readAccessURL` is set to the `Documents` directory.
+- `allowUniversalAccessFromFileURLs` remains `0` (disabled).
+- The WebView loads a local file such as `.../Library/Caches/demoRoot/index.html`.
+- The `readAccessURL` is set to the `demoRoot` directory under the app's caches directory.
 
 ## Evaluation
 
-The test **fails** because the application enables relaxed file origin policies for a `WKWebView` that loads local `file://` content.
+The test **fails** because the application enables file access from `file://` URLs for a `WKWebView` that loads local `file://` content from the app's caches directory.
 
 Specifically:
 
-- `allowFileAccessFromFileURLs` is set to `true`, allowing JavaScript running in a `file://` page to access other local files.
-- `allowUniversalAccessFromFileURLs` is set to `true`, allowing JavaScript running in a `file://` page to access resources from any origin.
-- The WebView loads a local HTML file and grants read access to the application's `Documents` directory.
+- `allowFileAccessFromFileURLs` is set to `true`, allowing JavaScript running in a `file://` page to access other local files within the granted read scope.
+- `allowUniversalAccessFromFileURLs` remains disabled in this sample, but the combination of enabled local file access and a WebView that loads local HTML content under `demoRoot` still exposes local files to any JavaScript executed in that context.
+- The WebView loads a local HTML file and grants read access to the `demoRoot` directory under the application's caches directory.
 
-These settings weaken the isolation normally applied to local content and increase the impact of WebView vulnerabilities. If attacker-controlled JavaScript executes in the local page context, it may access sensitive files within the granted read scope and potentially exfiltrate them to remote servers.
+These settings weaken the isolation normally applied to local content and increase the impact of WebView vulnerabilities. If attacker-controlled JavaScript executes in the local page context, it may access files within the granted read scope and potentially exfiltrate them to remote servers.
