@@ -43,7 +43,7 @@ The script searches for:
 
 The output shows all cross-references and disassembled snippets.
 
-{{ output.txt # function.asm # # function2.asm}}
+{{ output.txt # function.asm # function2.asm }}
 
 ## Evaluation
 
