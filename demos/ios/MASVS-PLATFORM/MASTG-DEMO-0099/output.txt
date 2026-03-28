@@ -1,7 +1,6 @@
 [+] Hooks deployed successfully.
-[Local::MASTestApp ]-> 
 [WKPreferences: allowFileAccess] = 1
 [WKWebViewConfig: universalAccess] = 0
 [WKWebView] loadFileURL called
-  fileURL: file:///Users/user/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/51C850A3-E529-44E3-AD1E-AE9FCE20869F/Library/Caches/demoRoot/index.html
-  readAccessURL: file:///Users/user/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/51C850A3-E529-44E3-AD1E-AE9FCE20869F/Library/Caches/demoRoot/
+  fileURL: file:///Users/user/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/9FE766B8-FE7D-4485-B235-00A9BD4F89C0/Library/Caches/demoRoot/app/index.html
+  readAccessURL: file:///Users/user/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/9FE766B8-FE7D-4485-B235-00A9BD4F89C0/Library/Caches/demoRoot/app/index.html
