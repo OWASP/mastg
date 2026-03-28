@@ -55,14 +55,13 @@ The test case fails because attacker-controllable input (in this case the `usern
 This function is large and complex, so to simplify the analysis, we can use an LLM to assist with reverse engineering the application.
 
 !!! note "About `ai-decompiled.swift`"
-    The `ai-decompiled.swift` file is an AI-assisted reconstruction derived from `showWebView.asm` and is provided only as a convenience for understanding the logic. It may be inaccurate or incomplete; the assembly in `showWebView.asm` and the original binary are the authoritative sources for analysis.
+    The `ai-decompiled.swift` file is an AI-assisted reconstruction derived from `showWebView.asm`, `docDir-init.asm`, and `fileURL-init.asm` and is provided only as a convenience for understanding the logic. It may be inaccurate or incomplete; the assembly and the original binary are the authoritative sources for analysis.
 
-1. On **lines 6–8**, the function constructs a URL from a user-modifiable `username` argument.
-2. On **lines 8**, this user-controlled value is appended to the hardcoded base string meaning the final URL string is dynamically constructed rather than fixed.
-3. On **line 11**, the application creates a `URL` object directly from this concatenated string without validating the resulting host, path, or structure.
-4. On **line 21**, the constructed request is passed to `WKWebView.loadFileURL`, allowing a user who can alter `username` to influence the URL that is ultimately loaded.
+1. On **line 27**, the function constructs a URL string by concatenating `fileURL.absoluteString`, `"?username="`, and the attacker-controlled `username` argument without any validation.
+2. On **line 29**, the concatenated string is passed to `URL(string:)` to create a `URL` object without validating the resulting scheme, host, path, or structure.
+3. On **line 35**, the constructed URL is passed to `WKWebView.loadFileURL`, allowing a user who can alter `username` to influence the URL that is ultimately loaded.
 
-**Disassembly analysis of `sym.func.100004d24` (`showHtmlRegistrationView`):**
+**Disassembly analysis of the `username` completion closure at `0x100004d24` (used by `showHtmlRegistrationView`):**
 
 The `loadFileURL:allowingReadAccessToURL:` call is at `0x100004f20` (all addresses in Steps 1 and 2 are from `showWebView.asm`). The two arguments are built as follows.
 

@@ -1,84 +1,75 @@
-import Foundation
-import WebKit
-import UIKit
+// AI-assisted reconstruction
+// Derived from showWebView.asm, docDir-init.asm and fileURL-init.asm. May be inaccurate; the assembly is the authoritative source.
 
-enum MastgTest {
-    static let docDir: URL = {
+import Foundation
+import UIKit
+import WebKit
+
+struct MastgTest {
+
+    private static let docDir: URL = {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }()
 
-    static let fileURL: URL = {
+    private static let fileURL: URL = {
         docDir.appendingPathComponent("index.html")
     }()
 
-    static let secretURL: URL = {
-        docDir.appendingPathComponent("secret.txt")
+    private static let secretURL: URL = {
+        docDir.appendingPathComponent("secret.html")
     }()
 
-    static func mastg(completion: @escaping () -> Void) {
-        DispatchQueue.main.async {
-            let secret = "MY SECRET"
-            let html = """
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
-                    body { font-family: -apple-system, sans-serif; text-align: center; padding-top: 50px; }
-                    h1 { color: #007AFF; }
-                </style>
-            </head>
-            <body>
-                <h1>Registration</h1>
-                <p><b>First Name:</b></p>
-                <p id="firstname"></p>
-            </body>
-            </html>
-            """
-
-            try? secret.write(to: secretURL, atomically: true, encoding: .utf8)
-            try? html.write(to: fileURL, atomically: true, encoding: .utf8)
-
-            DispatchQueue.main.async {
-                completion()
-            }
-        }
+    public static func mastgTest(completion: @escaping (String) -> Void) {
+        showHtmlRegistrationView(username: "user", completion: completion)
     }
 
-    static func showHtmlRegistrationView(
-        firstname: String,
-        completion: @escaping (String) -> Void
-    ) {
-        DispatchQueue.main.async {
-            let webView = WKWebView()
-            webView.loadFileURL(fileURL, allowingReadAccessTo: docDir)
+    public static func showHtmlRegistrationView(username: String, completion: @escaping (String) -> Void) {
+        let urlString = fileURL.absoluteString + "?username=" + username
 
-            let viewController = UIViewController()
-            viewController.view = webView
-
-            guard let presenter = topViewController(base: nil) else {
-                completion("Failed to present: no view controller.")
-                return
-            }
-
-            presenter.present(viewController, animated: true) {
-                let javascript = "document.getElementById('firstname').innerHTML = \"\(firstname)\""
-
-                webView.evaluateJavaScript(javascript) { _, error in
-                    if let error = error {
-                        print("Injection error: \(error.localizedDescription)")
-                    }
-                }
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                    viewController.dismiss(animated: true, completion: nil)
-                    completion("Finished showing the WebView.")
-                }
-            }
+        guard let url = URL(string: urlString) else {
+            completion("Failed create URL object.")
+            return
         }
+
+        let webView = WKWebView()
+        webView.loadFileURL(url, allowingReadAccessTo: docDir)
+
+        let viewController = UIViewController()
+        viewController.view = webView
+
+        guard let topViewController = topViewController(base: nil) else {
+            completion("Failed to present: no view controller.")
+            return
+        }
+
+        topViewController.present(viewController, animated: true, completion: nil)
     }
 
-    static func topViewController(base: UIViewController? = nil) -> UIViewController? {
-        fatalError()
+    private static func topViewController(base: UIViewController?) -> UIViewController? {
+        let baseVC: UIViewController?
+
+        if let base = base {
+            baseVC = base
+        } else {
+            baseVC = UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+                .first(where: { $0.isKeyWindow })?
+                .rootViewController
+        }
+
+        if let nav = baseVC as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+
+        if let tab = baseVC as? UITabBarController {
+            return topViewController(base: tab.selectedViewController)
+        }
+
+        if let presented = baseVC?.presentedViewController {
+            return topViewController(base: presented)
+        }
+
+        return baseVC
     }
 }
