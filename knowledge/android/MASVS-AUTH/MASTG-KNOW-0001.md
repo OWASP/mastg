@@ -6,7 +6,9 @@ title: Biometric Authentication
 
 Android provides platform support for biometric authentication, such as fingerprint and face recognition, and exposes it to apps through the biometric APIs. At the framework level, Android includes support for face and fingerprint authentication, and device implementations can also support other biometric modalities. Biometric integration on Android is classified by biometric security, not only by modality. See the [Android Open Source Project overview](https://source.android.com/docs/security/features/biometric) and the [Android Developers guide](https://developer.android.com/identity/sign-in/biometric-auth).
 
-For app development, the recommended API surface is the [Jetpack Biometric library](https://developer.android.com/jetpack/androidx/releases/biometric), `androidx.biometric`. This library provides compatibility wrappers around the platform biometric APIs and expands on the deprecated `FingerprintManager` API, with support back to Android 6.0 (API level 23).
+For app development, use the recommended [Jetpack Biometric library](https://developer.android.com/jetpack/androidx/releases/biometric), with the package name prefix `androidx.biometric`. This library provides compatibility wrappers around the platform biometric APIs and expands on the deprecated `FingerprintManager` API, with support back to Android 6.0 (API level 23).
+
+It brings the classes `BiometricPrompt`, `BiometricManager`, authenticator constants, and related APIs to older Android versions and support for device credential authentication with a `CryptoObject` on Android 11 (API level 30) and higher.
 
 <img src="Images/Chapters/0x05f/biometricprompt-architecture.png" width="70%" />
 
@@ -26,15 +28,17 @@ Android biometric authentication is typically built around the following compone
 
 ### FingerprintManager
 
-[`FingerprintManager`](https://developer.android.com/reference/android/hardware/fingerprint/FingerprintManager) was the earlier fingerprint-specific API. It was deprecated in Android 9 (API level 28) in favor of the biometric APIs and is superseded by the Jetpack Biometric library.
+[`FingerprintManager`](https://developer.android.com/sdk/api_diff/b-dp2/changes/android.hardware.fingerprint.FingerprintManager) was the earlier fingerprint-specific API. It was deprecated in Android 9 (API level 28) in favor of the biometric APIs and is superseded by the Jetpack Biometric library.
 
 ## Authenticator Types
 
-Android lets apps declare which authenticator types they support through [`BiometricManager.Authenticators`](https://developer.android.com/reference/android/hardware/biometrics/BiometricManager.Authenticators) and [`BiometricPrompt.PromptInfo.Builder.setAllowedAuthenticators()`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder#setAllowedAuthenticators(int)). The main constants are:
+Android allows apps to declare which authenticator types they support through [`BiometricManager.Authenticators`](https://developer.android.com/reference/androidx/biometric/BiometricManager.Authenticators) and [`BiometricPrompt.PromptInfo.Builder.setAllowedAuthenticators()`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.PromptInfo.Builder#setAllowedAuthenticators(int)). The main constants are:
 
 - `BIOMETRIC_STRONG`: authentication using a Class 3 biometric.
 - `BIOMETRIC_WEAK`: authentication using a Class 2 biometric.
 - `DEVICE_CREDENTIAL`: authentication using the device screen lock credential, such as PIN, pattern, or password.
+
+The [biometric classes](https://source.android.com/docs/security/features/biometric/measure#biometric-classes) are based on their spoof and imposter acceptance rates.
 
 Apps can allow a single authenticator type or a bitwise combination of compatible types, for example `BIOMETRIC_STRONG | DEVICE_CREDENTIAL`. The supported combinations depend on platform version and device capabilities.
 
@@ -52,27 +56,18 @@ In a prompt-based flow, the app displays `BiometricPrompt` and receives a succes
 
 Android Keystore can associate key usage with user authentication requirements. In this model, an app generates or imports a key into the [Android Keystore](https://developer.android.com/privacy-and-security/keystore), defines how and when the key may be used, and then uses `BiometricPrompt` to authorize a cryptographic operation through a `CryptoObject`.
 
-The Android Keystore system stores key material in a way that makes extraction more difficult, keeps key material non-exportable, and can bind key material to secure hardware such as a Trusted Execution Environment or Secure Element when supported by the device. The Keystore also lets apps define authorizations for key usage, including user authentication requirements.
+The Android Keystore system stores key material in a secure way, keeps key material non-exportable, and can bind key material to secure hardware such as a Trusted Execution Environment (TEE) or Secure Element (SE) when supported by the device. The Keystore also lets apps define authorizations for key usage, including user authentication requirements.
 
 [`BiometricPrompt.CryptoObject`](https://developer.android.com/reference/androidx/biometric/BiometricPrompt.CryptoObject) can wrap cryptographic primitives such as `Cipher`, `Signature`, or `Mac` instances so that the authenticated result is tied to a specific cryptographic operation.
 
 ## Authentication Parameters in the Keystore
 
-When creating a key with [`KeyGenParameterSpec.Builder`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder), apps can define authentication-related parameters. The current API for configuring the validity window is [`setUserAuthenticationParameters(int timeout, int type)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationParameters(int,int)), where a timeout of `0` requires authentication for every individual cryptographic operation.
+When creating a key with [`KeyGenParameterSpec.Builder`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder), apps can define authentication-related parameters. The current API for configuring the validity window is [`setUserAuthenticationParameters(int timeout, int type)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationParameters(int,%20int)), where a timeout of `0` requires authentication for every individual cryptographic operation.
 
 [`setUserAuthenticationValidityDurationSeconds(int)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setUserAuthenticationValidityDurationSeconds(int)) is deprecated from API level 30 in favor of `setUserAuthenticationParameters(int, int)`.
 
 When a key only supports biometric credentials, it's invalidated by default when new biometrics are enrolled. This behavior can be controlled with [`setInvalidatedByBiometricEnrollment(boolean)`](https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment(boolean)).
 
-## Device Credentials and Keyguard
-
-[`KeyguardManager`](https://developer.android.com/reference/android/app/KeyguardManager) exposes device lock state and secure lock screen status through methods such as `isDeviceLocked()` and `isDeviceSecure()`.
-
-`KeyguardManager.createConfirmDeviceCredentialIntent()` was deprecated in API level 29 in favor of authenticator-based configuration on `BiometricPrompt`.
-
-## Biometric Compatibility Library
-
-The [Jetpack Biometric library](https://developer.android.com/jetpack/androidx/releases/biometric) provides the compatibility layer most apps use in practice. It brings `BiometricPrompt`, `BiometricManager`, authenticator constants, and related APIs to older Android versions through AndroidX. Release notes document version-specific behavior, such as support for device credential authentication with a `CryptoObject` on Android 11 (API level 30) and higher.
 
 ## Third-Party SDKs
 
