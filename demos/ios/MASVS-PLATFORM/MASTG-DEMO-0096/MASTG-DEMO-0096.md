@@ -11,7 +11,7 @@ kind: fail
 
 This sample demonstrates how overly broad file read access in a WebView can increase the impact of a separate HTML injection flaw. The app loads a trusted local HTML file and grants the WebView read access to the entire `Documents` directory by calling [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)).
 
-By itself, that broad read access is not enough to expose files. The issue becomes exploitable because the page also reads the `username` parameter from the URL and inserts it into the DOM using `innerHTML`. Since attacker controlled input is treated as HTML, an attacker can inject markup that loads other local files from the same directory. See @MASTG-DEMO-0095 for more details on the HTML injection aspect of the vulnerability.
+By itself, that broad read access is not enough to expose files. The issue becomes exploitable because the page also reads the `username` parameter from the URL and inserts it into the DOM using `innerHTML`. Since attacker-controlled input is treated as HTML, an attacker can inject markup that loads other local files from the same directory. See @MASTG-DEMO-0095 for more details on the HTML injection aspect of the vulnerability.
 
 Because the WebView can read the full `Documents` directory, injected elements such as an `<iframe>` can load sibling files like `secret.txt`. This shows how overly broad local file access can turn a separate WebView injection bug into a local file disclosure issue.
 

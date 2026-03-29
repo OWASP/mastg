@@ -16,7 +16,7 @@ struct MastgTest {
     }()
 
     private static let secretURL: URL = {
-        docDir.appendingPathComponent("secret.html")
+        docDir.appendingPathComponent("secret.txt")
     }()
 
     public static func mastgTest(completion: @escaping (String) -> Void) {

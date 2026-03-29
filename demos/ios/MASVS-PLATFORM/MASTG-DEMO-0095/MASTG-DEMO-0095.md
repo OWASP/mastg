@@ -11,7 +11,7 @@ kind: fail
 
 This sample demonstrates how attacker controlled input inside a WebView can alter the rendered page and trigger unintended navigation. The app loads a trusted local HTML file, but the page reads the `username` parameter from the URL and injects it into the DOM using `innerHTML`.
 
-Although the app uses `webView.loadFileURL(urlWithUsername, allowingReadAccessTo: docDir)`, broad file read access is not the focus of this demo. See @MASTG-DEMO-0096 for a deeper analysis of the file access aspect of this vulnerability. The issue demonstrated here is that attacker controlled input is rendered as HTML, which allows the attacker to inject content that changes page behavior and causes unintended navigation.
+Although the app uses `webView.loadFileURL(urlWithUsername, allowingReadAccessTo: docDir)`, broad file read access is not the focus of this demo. See @MASTG-DEMO-0096 for a deeper analysis of the file access aspect of this vulnerability. The issue demonstrated here is that attacker-controlled input is rendered as HTML, which allows the attacker to inject content that changes page behavior and causes unintended navigation.
 
 When selecting payloads, note that `<script>` payloads usually do not execute in this case because scripts inserted through `innerHTML` are generally inert. However, other injected elements can still have side effects. For example, `<img onerror>` and `<svg onload>` can execute JavaScript through event handlers, and `<meta http-equiv="refresh">` may also trigger navigation by instructing the page to refresh to a different URL.
 
@@ -29,7 +29,7 @@ Summary of steps leading to this vulnerability.
 4. The value is inserted into the DOM using `innerHTML`.
 5. Because the input is treated as HTML instead of plain text, the attacker can inject markup.
 6. The injected markup introduces active behavior, such as an event handler or a refresh directive.
-7. As a result, the WebView navigates to an attacker chosen destination.
+7. As a result, the WebView navigates to an attacker-chosen destination.
 
 {{ MastgTest.swift # ai-decompiled.swift }}
 
