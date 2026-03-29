@@ -7,7 +7,17 @@ if (ObjC.available) {
 
     // Helper to hook boolean setters
     function hookBoolMethod(klass, selector, label) {
+        if (!klass) {
+            console.log(`[!] Skipping ${label}, class is unavailable.`);
+            return;
+        }
+
         const method = klass[selector];
+        if (!method || !method.implementation) {
+            console.log(`[!] Skipping ${label}, selector ${selector} is unavailable.`);
+            return;
+        }
+
         const oldImpl = method.implementation;
 
         method.implementation = ObjC.implement(method, function (self, sel, value) {
@@ -21,27 +31,35 @@ if (ObjC.available) {
     hookBoolMethod(WKPreferences, "- setJavaScriptEnabled:", "WKPreferences: jsEnabled");
 
     // 2. Hooking loadFileURL (The tricky one)
-    const loadMethod = WKWebView["- loadFileURL:allowingReadAccessToURL:"];
-    const oldLoadImpl = loadMethod.implementation;
+    if (!WKWebView) {
+        console.log("[!] Skipping WKWebView loadFileURL hook, class is unavailable.");
+    } else {
+        const loadMethod = WKWebView["- loadFileURL:allowingReadAccessToURL:"];
+        if (!loadMethod || !loadMethod.implementation) {
+            console.log("[!] Skipping WKWebView loadFileURL hook, selector is unavailable.");
+        } else {
+            const oldLoadImpl = loadMethod.implementation;
 
-    loadMethod.implementation = ObjC.implement(loadMethod, function (self, sel, fileURLPtr, readAccessPtr) {
-        try {
-            // In ObjC.implement, Frida automatically wraps pointers as ObjC.Object if possible,
-            // but we use ObjC.Object() here to ensure we can call methods on them.
-            const fileURL = new ObjC.Object(fileURLPtr);
-            const readAccess = new ObjC.Object(readAccessPtr);
+            loadMethod.implementation = ObjC.implement(loadMethod, function (self, sel, fileURLPtr, readAccessPtr) {
+                try {
+                    // In ObjC.implement, Frida automatically wraps pointers as ObjC.Object if possible,
+                    // but we use ObjC.Object() here to ensure we can call methods on them.
+                    const fileURL = new ObjC.Object(fileURLPtr);
+                    const readAccess = new ObjC.Object(readAccessPtr);
 
-            console.log("[WKWebView] loadFileURL called");
-            // Use absoluteString safely
-            console.log("  fileURL: " + fileURL.absoluteString().toString());
-            console.log("  readAccessURL: " + readAccess.absoluteString().toString());
-        } catch (e) {
-            console.log("[!] Error reading URLs: " + e);
+                    console.log("[WKWebView] loadFileURL called");
+                    // Use absoluteString safely
+                    console.log("  fileURL: " + fileURL.absoluteString().toString());
+                    console.log("  readAccessURL: " + readAccess.absoluteString().toString());
+                } catch (e) {
+                    console.log("[!] Error reading URLs: " + e);
+                }
+
+                // Always call the original implementation and return its value
+                return oldLoadImpl(self, sel, fileURLPtr, readAccessPtr);
+            });
         }
-
-        // Always call the original implementation and return its value
-        return oldLoadImpl(self, sel, fileURLPtr, readAccessPtr);
-    });
+    }
 
     console.log("[+] Hooks deployed successfully.");
 
