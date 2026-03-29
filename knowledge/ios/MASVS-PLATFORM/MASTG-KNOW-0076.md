@@ -16,8 +16,8 @@ There are multiple ways to include a WebView in an iOS application.
 
 `WKWebView` comes with several security advantages over `UIWebView`:
 
-- JavaScript is enabled by default but it can be completely disabled using the `javaScriptEnabled` property of `WKWebView`, preventing all script injection flaws.
-- The `JavaScriptCanOpenWindowsAutomatically` can be used to prevent JavaScript from opening new windows, such as pop-ups.
+- JavaScript is enabled by default but it can be completely disabled using the `javaScriptEnabled` property of `WKWebView`, which helps mitigate script injection attacks by preventing injected scripts from executing.
+- The `javaScriptCanOpenWindowsAutomatically` property can be used to prevent JavaScript from opening new windows, such as pop-ups.
 - `WKWebView` implements out-of-process rendering, so memory corruption bugs won't affect the main app process.
 
 A JavaScript Bridge can be enabled when using `WKWebView` and `UIWebView`. See Section ["WebView-Native Bridges"](#webview-native-bridges) below for more information.
@@ -78,7 +78,7 @@ iOS apps can load remote URLs into a WebView using the [`load(_:)`](https://deve
 When loading local files, developers typically use one of the following methods:
 
 - [`loadHTMLString:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/loadhtmlstring(_:baseurl:)): loads HTML content from a string with a specified base URL.
-- [`loadData:MIMEType:textEncodingName:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:)): loads data with a specified MIME type and base URL.
+- [`loadData:MIMEType:characterEncodingName:baseURL:`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:)): loads data with a specified MIME type and base URL.
 - [`loadFileURL:allowingReadAccessToURL:`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)): loads a file from the local file system with controlled read access.
 - [`loadFileRequest:allowingReadAccessToURL:`](https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:)): loads a file from the local file system with controlled read access using a `URLRequest`.
 
