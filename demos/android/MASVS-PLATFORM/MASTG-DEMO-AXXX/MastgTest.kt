@@ -1,12 +1,9 @@
 package org.owasp.mastestapp
 
-// SUMMARY: Demonstrates insecure exposure of sensitive stored data through exported ContentProviders.
-// FAIL: Exported providers allow external apps to access credentials database and internal files.
-// PASS: Providers should restrict access using permissions or caller validation.
-
 import android.content.ContentProvider
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
 import android.content.UriMatcher
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -15,7 +12,11 @@ import android.net.Uri
 import android.os.ParcelFileDescriptor
 import java.io.File
 
-class MastgTest(private val context: android.content.Context) {
+// SUMMARY: Demonstrates insecure exposure of sensitive stored data through exported ContentProviders.
+// FAIL: Exported providers allow external apps to access credentials database and internal files.
+// PASS: Providers should restrict access using permissions or caller validation.
+
+class MastgTest(private val context: Context) {
 
     fun mastgTest(): String {
         val r = DemoResults("0x07IP")
@@ -37,7 +38,7 @@ class MastgTest(private val context: android.content.Context) {
         }
     }
 
-    class CredentialDbHelper(context: android.content.Context) :
+    class CredentialDbHelper(context: Context) :
         SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
         override fun onCreate(db: SQLiteDatabase) {
@@ -122,15 +123,21 @@ class MastgTest(private val context: android.content.Context) {
             }
         }
 
-        override fun getType(uri: Uri): String? = when (MATCHER.match(uri)) {
-            MATCH_CREDENTIALS -> "vnd.android.cursor.dir/vnd.mastestapp.credential"
-            MATCH_CREDENTIAL_BY_ID -> "vnd.android.cursor.item/vnd.mastestapp.credential"
-            else -> null
+        override fun getType(uri: Uri): String? {
+            return when (MATCHER.match(uri)) {
+                MATCH_CREDENTIALS -> "vnd.android.cursor.dir/vnd.mastestapp.credential"
+                MATCH_CREDENTIAL_BY_ID -> "vnd.android.cursor.item/vnd.mastestapp.credential"
+                else -> null
+            }
         }
 
         override fun insert(uri: Uri, values: ContentValues?): Uri? = null
 
-        override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int = 0
+        override fun delete(
+            uri: Uri,
+            selection: String?,
+            selectionArgs: Array<out String>?
+        ): Int = 0
 
         override fun update(
             uri: Uri,
@@ -172,15 +179,19 @@ class MastgTest(private val context: android.content.Context) {
 
         override fun getType(uri: Uri): String? = "application/octet-stream"
 
-        override fun insert(uri: Uri, values: ContentValues?) = null
+        override fun insert(uri: Uri, values: ContentValues?): Uri? = null
 
-        override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) = 0
+        override fun delete(
+            uri: Uri,
+            selection: String?,
+            selectionArgs: Array<out String>?
+        ): Int = 0
 
         override fun update(
             uri: Uri,
             values: ContentValues?,
             selection: String?,
             selectionArgs: Array<out String>?
-        ) = 0
+        ): Int = 0
     }
 }

@@ -3,31 +3,47 @@ platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
 id: MASTG-DEMO-BXXX
 code: [kotlin]
-tools: [MASTG-TOOL-0015]
+tools: [drozer]
 status: new
-kind: fail
+kind: pass
 ---
 
 ## Sample
 
-The code snippet below shows sample code that insecurely exposes database records through an exported `ContentProvider`.
+The following sample demonstrates an Android application that prevents exposure of sensitive stored data via IPC by protecting exported content providers.
 
-{{ MastgTest.kt # MastgTest_reversed.java }}
+The application defines two exported content providers:
+
+- `CredentialProvider`: accesses an internal SQLite database.
+- `FileLeakProvider`: serves files from the application’s private `filesDir`.
+
+The providers are protected with a signature-level permission and enforce runtime verification that the calling package is signed with the same certificate. The file provider additionally validates canonical paths to prevent traversal.
+
+{{ MastgTest.kt }}
+
+{{ AndroidManifest.xml }}
+
+---
 
 ## Steps
 
-1. Install the app on a device using @MASTG-TECH-0005.
-2. Access the ADB shell on the device using @MASTG-TECH-0001.
-3. Run `run.sh` to query the exported content provider from an external context.
-
-{{ run.sh }}
+1. Install and launch the application on a device or emulator.
+2. Initialize sample data so the database and internal file are created.
+3. Enumerate the application’s exported content providers.
+4. Attempt to query the database-backed provider from an external context.
+5. Attempt to read an internal file via the file-based provider from an external context.
 
 ## Observation
 
-The output should contain the database records returned through the exported content provider.
+The external caller can enumerate the exported content providers, but attempts to query the database provider or read internal files fail due to enforced access restrictions. Provider metadata indicates a signature-level read/write permission, and runtime verification prevents callers that are not signed with the same certificate.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test fails because the application exposes sensitive stored data through an exported database-backed content provider without enforcing appropriate access restrictions. External callers can query credential records via IPC, demonstrating that sensitive stored data is accessible outside the application sandbox.
+The test case passes because the exported content providers enforce appropriate access restrictions, including signature-level permissions and runtime caller validation.
+
+- The exported providers do not allow unauthorized external callers to access the IPC entry points.
+- Signature-level permission enforcement restricts access to apps signed with the same certificate.
+- Runtime caller validation blocks requests from callers that are not signed with the same certificate.
+- Sensitive stored data such as credential records and internal file contents cannot be retrieved through IPC by unauthorized apps.

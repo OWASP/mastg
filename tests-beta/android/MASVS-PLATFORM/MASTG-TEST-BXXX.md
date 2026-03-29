@@ -3,11 +3,10 @@ title: Determining Whether Sensitive Stored Data Is Properly Protected in IPC Me
 platform: android
 id: MASTG-TEST-BXXX
 weakness: MASWE-0064
-type: [static, dynamic]
+type: [dynamic]
 best-practices: [MASTG-BEST-XXXX]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0x07]
-status: draft
+knowledge: [MASTG-KNOW-0020]
 ---
 
 ## Overview
@@ -16,14 +15,14 @@ If the app exports an Android content provider without enforcing access restrict
 
 ## Steps
 
-1. Run @MASTG-TECH-0007 to inspect the Android manifest and identify each `<provider>` declaration, its authority, its exported state, and any read, write, or path based permissions.
+1. Run @MASTG-TECH-AXXX on the app and look for <provider> declaration, its authority, its exported state, and any read, write, or path based permissions.
 2. Run @MASTG-TECH-0014 on the reversed code and confirm which provider classes expose database queries or file access and whether they enforce caller validation before returning data.
 3. Run @MASTG-TECH-0002 from an external test context to query each exported provider URI and record whether access is granted or denied.
 4. Record the authorities, the returned data, and any permission denial or `SecurityException` messages.
 
 ## Observation
 
-The output should contain the exported provider authorities, the access control configured for each provider, and the result of each external access attempt.
+The output should contain the each provider authorities, the access control configured for each provider, and the result of each external access attempt.
 
 ## Evaluation
 

@@ -2,7 +2,7 @@
 platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via Database Backed IPC Mechanisms
 id: MASTG-TEST-AXXX
-type: [static, dynamic]
+type: [dynamic]
 weakness: MASWE-0064
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-XXXX]
@@ -19,12 +19,12 @@ If the app exposes database backed content providers without proper access restr
 2. Use @MASTG-TECH-0117 to obtain the `AndroidManifest.xml` file and identify all `<provider>` components.
 3. For each provider, check if `android:exported` is set to `true` (or implicitly exported via `<intent-filter>`) and review applied permissions (`android:permission`, `android:readPermission`, `android:protectionLevel`).
 4. Use @MASTG-TECH-0014 to search for database access patterns such as `SQLiteDatabase`, `query`, and `android.database.sqlite` in the provider classes.
-5. Use @MASTG-TECH-XXXX to query the database backed content URIs from an external context (e.g., using @MASTG-TOOL-0015 or @MASTG-TOOL-0004) and verify if sensitive stored data is returned.
+5. Run @MASTG-TECH-XXXX on the app and look for exported providers exposing sensitive stored data.
 
 ## Observation
 
-The output should include a list of content provider authorities and one or more proof of access results indicating that an external caller can query database backed provider URIs, including any sensitive stored data returned, such as usernames, passwords, or other credential records.
+The output must contain a list of content provider authorities and results demonstrating that an external caller can query database-backed provider URIs, including any sensitive stored data retrieved, such as usernames, passwords, or other credential records.
 
 ## Evaluation
 
-The test case will fail if an external caller is able to access one or more database backed content providers and obtain sensitive stored data from internal databases without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
+The test case fails if an external caller is able to access one or more database backed content providers and obtain sensitive stored data from internal databases without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.

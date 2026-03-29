@@ -1,10 +1,9 @@
 ---
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
+title: Determining Whether Sensitive Stored Data Has Been Exposed via Database-Backed IPC Mechanisms
 id: MASTG-DEMO-AXXX
 code: [kotlin]
 tools: [MASTG-TOOL-0015]
-status: new
 kind: fail
 ---
 
@@ -16,9 +15,9 @@ The code snippet below shows sample code that insecurely exposes database record
 
 ## Steps
 
-1. Install the app on a device using @MASTG-TECH-0005.
-2. Access the ADB shell on the device using @MASTG-TECH-0001.
-3. Run `run.sh` to query the exported content provider from an external context.
+1. Install the app on a device.
+2. Make sure you have drozer agent running on the device.
+3. Run `run.sh` to spawn the app with drozer.
 
 {{ run.sh }}
 
@@ -30,4 +29,9 @@ The output should contain the database records returned through the exported con
 
 ## Evaluation
 
-The test fails because the application exposes sensitive stored data through an exported database backed content provider without enforcing appropriate access restrictions. External callers can query credential records via IPC, demonstrating that sensitive stored data is accessible outside the application sandbox.
+The test case fails because the application exposes sensitive stored data through an exported database-backed content provider without enforcing appropriate access restrictions.
+
+- The exported provider allows external callers to access the database-backed IPC entry point.
+- The returned credential records show that the provider exposes sensitive stored data from the app's internal database.
+- External callers can query usernames, passwords, and related notes through IPC.
+- This demonstrates that sensitive stored data is accessible outside the application sandbox.

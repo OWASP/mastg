@@ -3,7 +3,7 @@ title: Verifying Signature-Protected Content Providers and Canonical Path Valida
 platform: android
 ---
 
-This technique supports @MASTG-TEST-0007 by showing how to verify that exported content providers do not expose sensitive stored data to unauthorized callers. The workflow below is based on the secure `org.owasp.mastestapp` demo (`0x07IP_SECURE`), where exported providers are protected with a signature-level permission, enforce runtime same-signature validation, and block file traversal with canonical path checks.
+This technique focuses on ensuring that content providers are protected by signature-level permissions (restricting access to apps signed with the same certificate) and that they correctly validate canonical paths to prevent directory traversal attacks. The workflow below is based on the secure `org.owasp.mastestapp` demo (`0x07IP_SECURE`), where exported providers are protected with a signature-level permission, enforce runtime same-signature validation, and block file traversal with canonical path checks.
 
 ## Using the AndroidManifest
 

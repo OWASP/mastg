@@ -3,7 +3,7 @@ title: Retrieving Sensitive Stored Data from Exported Content Providers
 platform: android
 ---
 
-This technique supports @MASTG-TEST-0007 by showing how to confirm that exported Android content providers expose sensitive stored data to external callers. The workflow below is based on the vulnerable `org.owasp.mastestapp` demo (`0x07IP`), where one provider returns credential rows from an internal SQLite database and another provider exposes files from the app's private `filesDir`.
+This technique involves identifying and querying exported content providers that do not have proper access controls, allowing an attacker to retrieve sensitive information stored within the application's database or files. The workflow below is based on the vulnerable `org.owasp.mastestapp` demo (`0x07IP`), where one provider returns credential rows from an internal SQLite database and another provider exposes files from the app's private `filesDir`.
 
 ## Using the AndroidManifest
 

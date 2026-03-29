@@ -2,7 +2,7 @@
 platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via File-Based IPC Mechanisms
 id: MASTG-TEST-XXXX
-type: [static, dynamic]
+type: [dynamic]
 weakness: MASWE-0064
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-XXXX]
@@ -19,7 +19,7 @@ If the app exposes file system-based content providers without proper access res
 2. Use @MASTG-TECH-0117 to obtain the `AndroidManifest.xml` file and identify all `<provider>` components.
 3. For each provider, check if `android:exported` is set to `true` (or implicitly exported via `<intent-filter>`) and review applied permissions (`android:permission`, `android:readPermission`, `android:protectionLevel`).
 4. Use @MASTG-TECH-0014 to search for file access patterns such as `openFile`, `ParcelFileDescriptor`, and references to internal storage directories in the provider classes.
-5. Use @MASTG-TECH-XXXX to read data from the file-based content URIs from an external context (e.g., using @MASTG-TOOL-0015 or @MASTG-TOOL-0004) and verify if sensitive files are accessible.
+5. Run @MASTG-TECH-XXXX on the app and look for provider that read files from app storage.
 
 ## Observation
 
@@ -27,4 +27,4 @@ The output should include a list of content provider authorities and one or more
 
 ## Evaluation
 
-The test case will fail if an external caller is able to access one or more file-based content providers and obtain sensitive stored data from internal/private files without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
+he test case fails if an external caller is able to access one or more file-based content providers and obtain sensitive stored data from internal/private files without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
