@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Attacker Controlled Input in a WebView Leading to Unintended Navigation
+title: Attacker-Controlled Input in a WebView Leading to Unintended Navigation
 code: [swift]
 id: MASTG-DEMO-0095
 test: MASTG-TEST-0332
@@ -11,7 +11,7 @@ kind: fail
 
 This sample demonstrates how attacker controlled input inside a WebView can alter the rendered page and trigger unintended navigation. The app loads a trusted local HTML file, but the page reads the `username` parameter from the URL and injects it into the DOM using `innerHTML`.
 
-Although the app uses `webView.loadFileURL(urlWithUsername, allowingReadAccessTo: docDir)`, broad file read access is not the focus of this demo. The issue demonstrated here is that attacker controlled input is rendered as HTML, which allows the attacker to inject content that changes page behavior and causes unintended navigation.
+Although the app uses `webView.loadFileURL(urlWithUsername, allowingReadAccessTo: docDir)`, broad file read access is not the focus of this demo. See @MASTG-DEMO-0096 for a deeper analysis of the file access aspect of this vulnerability. The issue demonstrated here is that attacker controlled input is rendered as HTML, which allows the attacker to inject content that changes page behavior and causes unintended navigation.
 
 When selecting payloads, note that `<script>` payloads usually do not execute in this case because scripts inserted through `innerHTML` are generally inert. However, other injected elements can still have side effects. For example, `<img onerror>` and `<svg onload>` can execute JavaScript through event handlers, and `<meta http-equiv="refresh">` may also trigger navigation by instructing the page to refresh to a different URL.
 
@@ -50,9 +50,11 @@ The output shows all cross-references and disassembled snippets.
 
 ## Evaluation
 
-The test case fails because attacker-controllable input (in this case the `username` parameter) is used to construct the `URL` passed to `loadFileURL:allowingReadAccessToURL:`, and the resulting URL is not validated against an allowlist of expected schemes, hosts, or paths.
+The test case fails because the `username` parameter (attacker-controlled) is inserted into the WebView URL without validation, and the page then assigns it directly to `innerHTML`. Because the browser treats the value as HTML rather than plain text, an attacker can inject markup that triggers unintended navigation.
 
-This function is large and complex, so to simplify the analysis, we can use an LLM to assist with reverse engineering the application.
+The code also contains a separate issue where the WebView is granted read access to the entire `Documents` directory, which contains sensitive files. However, the focus of this demo is on the HTML injection and unintended navigation aspect of the vulnerability. See @MASTG-DEMO-0096 for a deeper analysis of the file access aspect.
+
+### AI-Decompiled Code Analysis
 
 !!! note "About `ai-decompiled.swift`"
     The `ai-decompiled.swift` file is an AI-assisted reconstruction derived from `showWebView.asm`, `docDir-init.asm`, and `fileURL-init.asm` and is provided only as a convenience for understanding the logic. It may be inaccurate or incomplete; the assembly and the original binary are the authoritative sources for analysis.
@@ -61,9 +63,9 @@ This function is large and complex, so to simplify the analysis, we can use an L
 2. On **line 29**, the concatenated string is passed to `URL(string:)` to create a `URL` object without validating the resulting scheme, host, path, or structure.
 3. On **line 35**, the constructed URL is passed to `WKWebView.loadFileURL`, allowing a user who can alter `username` to influence the URL that is ultimately loaded.
 
-**Disassembly analysis of the `username` completion closure at `0x100004d24` (used by `showHtmlRegistrationView`):**
+### Disassembly Analysis
 
-The `loadFileURL:allowingReadAccessToURL:` call is at `0x100004f20` (all addresses in Steps 1 and 2 are from `showWebView.asm`). The two arguments are built as follows.
+The `loadFileURL:allowingReadAccessToURL:` call is at `0x100004f20` in the `username` completion closure at `0x100004d24` (all addresses below are from `showWebView.asm`). The two arguments are built as follows.
 
 **Step 1 — Build the URL string with the attacker-controlled `username`:**
 
@@ -96,7 +98,7 @@ The concatenated string is then passed to `Foundation.URL.string(_:)` at `0x1000
 0x100004f20      bl sym.imp.objc_msgSend
 ```
 
-`x2` holds the constructed URL containing the unvalidated `username` value. `x3` holds the `docDir` lazy static, which resolves to the app's `Documents` directory (see DEMO-0096 for the analysis of that initializer).
+`x2` holds the constructed URL containing the unvalidated `username` value. `x3` holds the `docDir` lazy static, which resolves to the app's `Documents` directory (see @MASTG-DEMO-0096 for the analysis of that initializer).
 
 **Step 3 — `innerHTML` injection (HTML/JS side):**
 
@@ -108,3 +110,17 @@ document.getElementById('username').innerHTML = name;
 ```
 
 Because the `username` query parameter is read directly from `window.location.search` and assigned to `innerHTML` without escaping, any HTML or JavaScript event handler the attacker places in the `username` value is rendered as markup by the WebView.
+
+### How to Fix
+
+Replace `innerHTML` with `textContent` in the embedded HTML template so that the `username` value is always treated as plain text, not markup. This prevents the browser from parsing attacker-controlled input as HTML and eliminates the unintended navigation vector.
+
+{{ fix.diff }}
+
+To apply the fix to `MastgTest.swift`, run the following command from this demo directory:
+
+```sh
+patch MastgTest.swift -o MastgTest-fixed.swift < fix.diff
+```
+
+This code has other issues (e.g. the URL construction is still unsafe), but this change alone is sufficient to prevent the specific vulnerability shown in this demo.

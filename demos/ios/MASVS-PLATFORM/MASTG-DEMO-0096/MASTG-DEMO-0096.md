@@ -11,7 +11,7 @@ kind: fail
 
 This sample demonstrates how overly broad file read access in a WebView can increase the impact of a separate HTML injection flaw. The app loads a trusted local HTML file and grants the WebView read access to the entire `Documents` directory by calling [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)).
 
-By itself, that broad read access is not enough to expose files. The issue becomes exploitable because the page also reads the `username` parameter from the URL and inserts it into the DOM using `innerHTML`. Since attacker controlled input is treated as HTML, an attacker can inject markup that loads other local files from the same directory.
+By itself, that broad read access is not enough to expose files. The issue becomes exploitable because the page also reads the `username` parameter from the URL and inserts it into the DOM using `innerHTML`. Since attacker controlled input is treated as HTML, an attacker can inject markup that loads other local files from the same directory. See @MASTG-DEMO-0095 for more details on the HTML injection aspect of the vulnerability.
 
 Because the WebView can read the full `Documents` directory, injected elements such as an `<iframe>` can load sibling files like `secret.txt`. This shows how overly broad local file access can turn a separate WebView injection bug into a local file disclosure issue.
 
@@ -45,20 +45,30 @@ The vulnerable code path is the combination of untrusted input being inserted wi
 
 ## Observation
 
-The output shows that the app loads a local HTML file into a `WKWebView` using `loadFileURL(_:allowingReadAccessTo:)` and grants read access to the entire `Documents` directory.
-
-It also shows that attacker-controlled input is inserted into the page using `innerHTML`. Because the injected HTML runs in the context of a local page that has read access to the whole `Documents` directory, the attacker can inject markup that loads other local files, such as `secret.txt`.
+The output shows the `loadFileURL:allowingReadAccessToURL:` call site, the `docDir` and `fileURL` lazy initializers, and the `innerHTML` assignment in the embedded HTML template.
 
 {{ ../MASTG-DEMO-0095/showWebView.asm # output.txt }}
 
 {{ docDir-init.asm # fileURL-init.asm }}
 
-The `ai-decompiled.swift` file is an AI-assisted reconstruction derived from `showWebView.asm`, `docDir-init.asm`, and `fileURL-init.asm`. The decompiled code may contain inaccuracies, but it provides a more readable representation of the relevant logic.
+## Evaluation
 
-1. The app constructs `urlString` by concatenating `fileURL.absoluteString`, `"?username="`, and the attacker-controlled `username`. It then creates a `URL` object as `url` and invokes `webView.loadFileURL(url, allowingReadAccessTo: docDir)`.
-2. The `docDir` variable resolves to the application's `Documents` directory.
-3. The app inserts attacker-controlled input into the page using JavaScript and `innerHTML`.
-4. A payload such as `%3Ciframe%20src=%22./secret.txt%22%3E%3C/iframe%3E` causes the WebView to load and display the contents of `secret.txt`.
+The test fails because the app grants the WebView read access to the entire `Documents` directory using `loadFileURL(_:allowingReadAccessTo:)`. `docDir` points to the app's `Documents` directory, and it's passed directly as `allowingReadAccessTo` in `webView.loadFileURL(url, allowingReadAccessTo: docDir)`. This grants the WebView read access to the entire `Documents` directory, which also contains `secret.txt` (written in `createSecretFile`). An attacker can inject `<iframe src='./secret.txt'></iframe>` as their name to expose this file.
+
+The attack succeeds because of the combination of this overly broad read access and the fact that attacker controlled input is inserted into the page. The decompiled code and local HTML show that attacker-controlled input (the `username` value) is inserted into the page by assigning it directly to `innerHTML` via JavaScript. Because this value is not HTML-escaped, tags such as `<iframe>`, `<img>`, and `<script>` are interpreted as markup, allowing the attacker's payload to be rendered as HTML. See @MASTG-DEMO-0095 for more details on the HTML injection aspect of the vulnerability.
+
+The following analysis complements the one in @MASTG-DEMO-0095 by focusing on the overly broad file access aspect of the vulnerability.
+
+### AI-Decompiled Code Analysis
+
+!!! note "About `ai-decompiled.swift`"
+    The `ai-decompiled.swift` file is an AI-assisted reconstruction derived from `showWebView.asm`, `docDir-init.asm`, and `fileURL-init.asm` and is provided only as a convenience for understanding the logic. It may be inaccurate or incomplete; the assembly and the original binary are the authoritative sources for analysis.
+
+1. On **lines 10–12**, `docDir` is initialized to `FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!`, which resolves to the app's `Documents` directory — the same directory that contains `secret.txt`.
+2. On **lines 14–16**, `fileURL` is built by appending `"index.html"` directly to `docDir`, so the loaded HTML file and any sensitive sibling files share the same parent directory.
+3. On **line 35**, `webView.loadFileURL(url, allowingReadAccessTo: docDir)` passes `docDir` as the read-access root. Because `docDir` is the entire `Documents` directory, the WebView can reach any file inside it, including `secret.txt`.
+
+### Disassembly Analysis
 
 We can see the call to `loadFileURL:allowingReadAccessToURL:` at `0x100004f20` (in `showWebView.asm`). To determine which path is being granted read access, we need to trace both arguments.
 
@@ -136,16 +146,17 @@ typedef NS_OPTIONS(NSUInteger, NSSearchPathDomainMask) {
 0x10000415c      mov x3, 0x6c6d                            ; 'ml'
 ```
 
-The function then appends this name to `docDir` to build the final URL. Therefore, the app loads `index.html` from the `Documents` directory and grants the WebView read access to the **entire `Documents` directory**.
+The `ZTm_` materializer then loads the `docDir` lazy static and passes the encoded filename to `appendingPathComponent`:
 
-## Evaluation
+```text
+0x100004200      ldr x8, [x8, 0x1b0]   ; sym.MASTestApp.MastgTest.docDir._6E8AB2C58CE173A727EF27CB85DF8CD8_...z_
+...
+0x100004240      bl sym.imp.Foundation.URL.appendingPathComponent_...CSSF_
+```
 
-The test fails for two reasons:
+This confirms that `fileURL` is built by appending `"index.html"` to `docDir`. Therefore, the app loads `index.html` from the `Documents` directory and grants the WebView read access to the **entire `Documents` directory**.
 
-1. **HTML injection via `innerHTML`:** The decompiled code and local HTML show that attacker-controlled input (the `username` value) is inserted into the page by assigning it directly to `innerHTML` via JavaScript. Because this value is not HTML-escaped, tags such as `<iframe>`, `<img>`, and `<script>` are interpreted as markup, allowing the attacker's payload to be rendered as HTML.
-2. **Overly broad `allowingReadAccessTo`:** `docDir` points to the app's `Documents` directory, and it's passed directly as `allowingReadAccessTo` in `webView.loadFileURL(fileURL, allowingReadAccessTo: docDir)`. This grants the WebView read access to the entire `Documents` directory, which also contains `secret.txt` (written in `createSecretFile`). An attacker can inject `<iframe src='./secret.txt'></iframe>` as their name to expose this file.
-
-On their own, these issues have different security implications. Combined, they allow attacker-supplied markup to access local files that should not be exposed to WebView content. In this example, the attacker can read `Documents/secret.txt`.
+### How to Fix
 
 To prevent this:
 
