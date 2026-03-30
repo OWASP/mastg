@@ -22,8 +22,6 @@ The providers are protected with a signature-level permission and enforce runtim
 
 {{ AndroidManifest.xml }}
 
----
-
 ## Steps
 
 1. Install and launch the application on a device or emulator.
@@ -34,7 +32,7 @@ The providers are protected with a signature-level permission and enforce runtim
 
 ## Observation
 
-The external caller can enumerate the exported content providers, but attempts to query the database provider or read internal files fail due to enforced access restrictions. Provider metadata indicates a signature-level read/write permission, and runtime verification prevents callers that are not signed with the same certificate.
+The rule has identified some exported content providers their attributes indicates a signature-level read/write permission.
 
 {{ output.txt }}
 
