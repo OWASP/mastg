@@ -27,4 +27,4 @@ The output should include a list of content provider authorities and one or more
 
 ## Evaluation
 
-he test case fails if an external caller is able to access one or more file-based content providers and obtain sensitive stored data from internal/private files without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
+The test case fails if an external caller is able to access one or more file-based content providers and obtain sensitive stored data from internal/private files without appropriate access restrictions, for example by using an exported provider with no enforced read permissions.
