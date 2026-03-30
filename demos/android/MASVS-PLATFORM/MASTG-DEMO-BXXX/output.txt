@@ -1,44 +1,92 @@
                    
                    
 ┌─────────────────┐
-│ 5 Code Findings │
+│ 8 Code Findings │
 └─────────────────┘
-                           
-    MastgTest_reversed.java
-    rules.mastg-android-secure-ipc-pass-demo
-          [MASVS-PLATFORM] The secure demo reports signature-level permissions,     
-          provider-level permission enforcement, runtime signature verification, and
-          canonical-path validation.                                                
-                                                                                    
-           48┆ r.add(Status.PASS, "Initialized sample data. Exported           
-               ContentProviders are protected with signature-level permissions,
-               provider-level permission enforcement, runtime signature        
-               verification, and canonical-path validation.");                 
+                                
+    AndroidManifest_reversed.xml
+     rules.mastg-android-signature-protection-level
+          [MASVS-PLATFORM] A custom permission is declared with android:protectionLevel="signature",
+          restricting access to apps signed with the same certificate.                              
+                                                                                                    
+           13┆ <permission
+           14┆     android:name="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           15┆     android:protectionLevel="signature"/>
+            ⋮┆----------------------------------------
+           16┆ <permission
+           17┆     android:name="org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+           18┆     android:protectionLevel="signature"/>
    
-    rules.mastg-android-secure-ipc-signature-check
-          [MASVS-PLATFORM] The implementation validates that only callers signed with
-          the same certificate can access the provider.                              
-                                                                                     
-          136┆ String callerPkg = pm.checkSignatures(myPkg, strArr[i]) == 0 ? 1 :
-               null;                                                             
+     rules.mastg-android-provider-exported-true
+          [MASVS-PLATFORM] The ContentProvider is explicitly exported. Verify that exported access is intended
+          and protected with appropriate permissions.                                                         
+                                                                                                              
+           37┆ <provider
+           38┆     android:name="org.owasp.mastestapp.MastgTest.CredentialProvider"
+           39┆     android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           40┆     android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           41┆     android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           42┆     android:exported="true"
+           43┆     android:authorities="org.owasp.mastestapp.credentials"/>
    
-    rules.mastg-android-secure-ipc-security-exception
-          [MASVS-PLATFORM] The implementation throws a SecurityException when the
-          caller is not signed with the same certificate.                        
-                                                                                 
-          144┆ throw new SecurityException("Caller not signed with same
-               certificate");                                          
+     rules.mastg-android-provider-permission-protected
+          [MASVS-PLATFORM] The ContentProvider declares permission protection. Verify that the permission
+          strength matches the intended trust boundary.                                                  
+                                                                                                         
+           37┆ <provider
+           38┆     android:name="org.owasp.mastestapp.MastgTest.CredentialProvider"
+           39┆     android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           40┆     android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           41┆     android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           42┆     android:exported="true"
+           43┆     android:authorities="org.owasp.mastestapp.credentials"/>
    
-    rules.mastg-android-secure-ipc-signature-check
-          [MASVS-PLATFORM] The implementation validates that only callers signed with
-          the same certificate can access the provider.                              
-                                                                                     
-          246┆ String callerPkg = pm.checkSignatures(myPkg, strArr[i]) == 0 ? 1 :
-               null;                                                             
+     rules.mastg-android-provider-exported-true
+          [MASVS-PLATFORM] The ContentProvider is explicitly exported. Verify that exported access is intended
+          and protected with appropriate permissions.                                                         
+                                                                                                              
+           44┆ <provider
+           45┆     android:name="org.owasp.mastestapp.MastgTest.FileLeakProvider"
+           46┆     android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           47┆     android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           48┆     android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           49┆     android:exported="true"
+           50┆     android:authorities="org.owasp.mastestapp.files"
+           51┆     android:grantUriPermissions="true">
+           52┆     <grant-uri-permission android:path="secret.txt"/>
+           53┆ </provider>
    
-    rules.mastg-android-secure-ipc-security-exception
-          [MASVS-PLATFORM] The implementation throws a SecurityException when the
-          caller is not signed with the same certificate.                        
-                                                                                 
-          254┆ throw new SecurityException("Caller not signed with same
-               certificate");                                          
+     rules.mastg-android-provider-grant-uri-permissions
+          [MASVS-PLATFORM] The ContentProvider enables URI-based permission grants. Verify that granted paths
+          are intentionally limited.                                                                         
+                                                                                                             
+           44┆ <provider
+           45┆     android:name="org.owasp.mastestapp.MastgTest.FileLeakProvider"
+           46┆     android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           47┆     android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           48┆     android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           49┆     android:exported="true"
+           50┆     android:authorities="org.owasp.mastestapp.files"
+           51┆     android:grantUriPermissions="true">
+           52┆     <grant-uri-permission android:path="secret.txt"/>
+           53┆ </provider>
+   
+     rules.mastg-android-provider-permission-protected
+          [MASVS-PLATFORM] The ContentProvider declares permission protection. Verify that the permission
+          strength matches the intended trust boundary.                                                  
+                                                                                                         
+           44┆ <provider
+           45┆     android:name="org.owasp.mastestapp.MastgTest.FileLeakProvider"
+           46┆     android:permission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           47┆     android:readPermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           48┆     android:writePermission="org.owasp.mastestapp.permission.IPC_SIGNATURE"
+           49┆     android:exported="true"
+           50┆     android:authorities="org.owasp.mastestapp.files"
+           51┆     android:grantUriPermissions="true">
+           52┆     <grant-uri-permission android:path="secret.txt"/>
+           53┆ </provider>
+   
+     rules.mastg-android-provider-grant-uri-permission-tag
+          [MASVS-PLATFORM] The ContentProvider defines a scoped <grant-uri-permission> element.
+                                                                                               
+           52┆ <grant-uri-permission android:path="secret.txt"/>

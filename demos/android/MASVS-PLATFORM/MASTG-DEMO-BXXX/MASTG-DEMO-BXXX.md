@@ -3,8 +3,7 @@ platform: android
 title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
 id: MASTG-DEMO-BXXX
 code: [kotlin]
-tools: [drozer]
-status: new
+tools: [semgrep]
 kind: pass
 ---
 

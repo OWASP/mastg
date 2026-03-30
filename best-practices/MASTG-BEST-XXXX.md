@@ -1,11 +1,11 @@
 ---
 title: Restrict and Validate Access to Sensitive Exported Content Providers
 alias: restrict-and-validate-access-to-sensitive-exported-content-providers
-id: MASTG-BEST-0x33
+id: MASTG-BEST-XXXX
 platform: android
 ---
 
-Do not expose sensitive app data through an exported Android content provider unless cross-app access is strictly required. If the provider handles credential records or files from private storage, prefer `android:exported="false"`; if it must remain exported, protect it with explicit manifest permissions and enforce authorization again in provider code. This reduces the risk covered by @MASTG-TEST-0007, where another app can read database rows or private files over IPC.
+Do not expose sensitive app data through an exported Android content provider unless cross-app access is strictly required. If the provider handles credential records or files from private storage, prefer `android:exported="false"`; if it must remain exported, protect it with explicit manifest permissions and enforce authorization again in provider code.
 
 Manifest restrictions and runtime checks solve different parts of the problem. Android's [`<provider>`](https://developer.android.com/guide/topics/manifest/provider-element) and [`<permission>`](https://developer.android.com/guide/topics/manifest/permission-element) controls limit which apps can reach the component, while provider-side checks using [`Binder.getCallingUid`](https://developer.android.com/reference/android/os/Binder#getCallingUid()) and [`PackageManager.checkSignatures`](https://developer.android.com/reference/android/content/pm/PackageManager#checkSignatures(java.lang.String,%20java.lang.String)) protect the data path itself. For file-backed providers, validate canonical paths before opening files so attacker-controlled path segments cannot escape the intended directory.
 

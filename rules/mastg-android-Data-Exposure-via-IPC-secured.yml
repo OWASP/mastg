@@ -1,34 +1,71 @@
 rules:
-  - id: mastg-android-secure-ipc-signature-check
+  - id: mastg-android-provider-exported-true
+    languages: [xml]
     severity: INFO
-    languages: [java]
     metadata:
-      summary: Detects runtime same-signature validation in the secure IPC implementation.
+      summary: Detects an exported ContentProvider.
       masvs:
-        - "MASVS-PLATFORM"
-    message: |
-      [MASVS-PLATFORM] The implementation validates that only callers signed with the same certificate can access the provider.
-    pattern-regex: 'pm\.checkSignatures\(myPkg,\s*strArr\[i\]\)\s*==\s*0\s*\?\s*1\s*:\s*null'
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] The ContentProvider is explicitly exported. Verify that
+      exported access is intended and protected with appropriate permissions.
+    pattern: |
+      <provider ... android:exported="true" ... />
 
-  - id: mastg-android-secure-ipc-security-exception
+  - id: mastg-android-provider-permission-protected
+    languages: [xml]
     severity: INFO
-    languages: [java]
     metadata:
-      summary: Detects explicit rejection of unauthorized callers in the secure IPC implementation.
+      summary: Detects provider-level permission protection on a ContentProvider.
       masvs:
-        - "MASVS-PLATFORM"
-    message: |
-      [MASVS-PLATFORM] The implementation throws a SecurityException when the caller is not signed with the same certificate.
-    pattern-regex: 'throw new SecurityException\("Caller not signed with same certificate"\);'
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] The ContentProvider declares permission protection.
+      Verify that the permission strength matches the intended trust boundary.
+    pattern-either:
+      - pattern: |
+          <provider ... android:permission="$PERM" ... />
+      - pattern: |
+          <provider ... android:readPermission="$PERM" ... />
+      - pattern: |
+          <provider ... android:writePermission="$PERM" ... />
 
-  - id: mastg-android-secure-ipc-pass-demo
+  - id: mastg-android-signature-protection-level
+    languages: [xml]
     severity: INFO
-    languages: [java]
     metadata:
-      summary: Detects the secure demo status message describing permission enforcement and runtime validation.
+      summary: Detects a custom permission declared with signature protection level.
       masvs:
-        - "MASVS-PLATFORM"
-        - "MASVS-STORAGE"
-    message: |
-      [MASVS-PLATFORM] The secure demo reports signature-level permissions, provider-level permission enforcement, runtime signature verification, and canonical-path validation.
-    pattern-regex: 'r\.add\(Status\.PASS,\s*"Initialized sample data\. Exported ContentProviders are protected with signature-level permissions, provider-level permission enforcement, runtime signature verification, and canonical-path validation\."\);'
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] A custom permission is declared with
+      android:protectionLevel="signature", restricting access to apps signed with
+      the same certificate.
+    pattern: |
+      <permission ... android:protectionLevel="signature" ... />
+
+  - id: mastg-android-provider-grant-uri-permissions
+    languages: [xml]
+    severity: INFO
+    metadata:
+      summary: Detects grantUriPermissions enabled on a ContentProvider.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] The ContentProvider enables URI-based permission grants.
+      Verify that granted paths are intentionally limited.
+    pattern: |
+      <provider ... android:grantUriPermissions="true" ... />
+
+  - id: mastg-android-provider-grant-uri-permission-tag
+    languages: [xml]
+    severity: INFO
+    metadata:
+      summary: Detects path-scoped URI permission grants on a ContentProvider.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] The ContentProvider defines a scoped
+      <grant-uri-permission> element.
+    pattern: |
+      <grant-uri-permission ... />

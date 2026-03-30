@@ -1,38 +1,47 @@
 package org.owasp.mastestapp
 
-// SUMMARY: Demonstrates insecure exposure of sensitive stored data through an exported ContentProvider.
+// SUMMARY: Demonstrates secure protection of sensitive stored data through an exported ContentProvider.
 // FAIL: Exported providers allow external apps to query credential records from the app database.
-// PASS: Providers should restrict access using manifest permissions or explicit caller validation.
+// PASS: Providers enforce manifest permissions and explicit caller validation before returning sensitive data.
 
 import android.content.ContentProvider
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
 import android.content.UriMatcher
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.net.Uri
+import android.os.Binder
+import android.os.ParcelFileDescriptor
+import java.io.File
+import kotlin.io.path.writeText
 
-class MastgTest(private val context: android.content.Context) {
+class MastgTest(private val context: Context) {
 
     fun mastgTest(): String {
-        val r = DemoResults("0x07")
+        val r = DemoResults("0x07IP_SECURE")
 
-        return try {
+        try {
+            val secretFile = File(context.filesDir, "secret.txt")
+            secretFile.toPath().writeText("TOP_SECRET_TOKEN=tok_live_12345\nPIN=9876\n")
+
             context.openOrCreateDatabase(CredentialDbHelper.DB_NAME, 0, null).close()
+
             r.add(
-                Status.FAIL,
-                "Initialized sample data. The exported content provider allows external callers to read credential records via content://org.owasp.mastestapp.credentials/credentials"
+                Status.PASS,
+                "Initialized sample data. Exported ContentProviders are protected with signature-level permissions, provider-level permission enforcement, runtime signature verification, and canonical-path validation."
             )
-            r.toJson()
         } catch (e: Exception) {
             r.add(Status.ERROR, "Initialization error: ${e.javaClass.simpleName}: ${e.message}")
-            r.toJson()
         }
+
+        return r.toJson()
     }
 
-    class CredentialDbHelper(context: android.content.Context) :
-        SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+    class CredentialDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
         override fun onCreate(db: SQLiteDatabase) {
             db.execSQL(
@@ -80,6 +89,24 @@ class MastgTest(private val context: android.content.Context) {
             return true
         }
 
+        private fun enforceSameSignatureCaller() {
+            val ctx = requireNotNull(context)
+            val pm = ctx.packageManager
+            val myPkg = ctx.packageName
+            val callerUid = Binder.getCallingUid()
+
+            if (callerUid == android.os.Process.myUid()) return
+
+            val callerPkgs = pm.getPackagesForUid(callerUid) ?: emptyArray()
+            val match = callerPkgs.any { callerPkg ->
+                pm.checkSignatures(myPkg, callerPkg) == PackageManager.SIGNATURE_MATCH
+            }
+
+            if (!match) {
+                throw SecurityException("Caller not signed with same certificate")
+            }
+        }
+
         override fun query(
             uri: Uri,
             projection: Array<out String>?,
@@ -87,6 +114,8 @@ class MastgTest(private val context: android.content.Context) {
             selectionArgs: Array<out String>?,
             sortOrder: String?
         ): Cursor? {
+            enforceSameSignatureCaller()
+
             val readableDb = db.readableDatabase
             return when (MATCHER.match(uri)) {
                 MATCH_CREDENTIALS -> readableDb.query(
@@ -143,5 +172,72 @@ class MastgTest(private val context: android.content.Context) {
                 addURI(AUTH, "credentials/#", MATCH_CREDENTIAL_BY_ID)
             }
         }
+    }
+
+    class FileLeakProvider : ContentProvider() {
+
+        override fun onCreate(): Boolean = true
+
+        private fun enforceSameSignatureCaller() {
+            val ctx = requireNotNull(context)
+            val pm = ctx.packageManager
+            val myPkg = ctx.packageName
+            val callerUid = Binder.getCallingUid()
+
+            if (callerUid == android.os.Process.myUid()) return
+
+            val callerPkgs = pm.getPackagesForUid(callerUid) ?: emptyArray()
+            val match = callerPkgs.any { callerPkg ->
+                pm.checkSignatures(myPkg, callerPkg) == PackageManager.SIGNATURE_MATCH
+            }
+
+            if (!match) {
+                throw SecurityException("Caller not signed with same certificate")
+            }
+        }
+
+        override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor? {
+            enforceSameSignatureCaller()
+
+            val ctx = requireNotNull(context)
+            val base = ctx.filesDir.canonicalFile
+            val filename = uri.lastPathSegment ?: return null
+
+            if (filename != "secret.txt") {
+                throw SecurityException("Access denied")
+            }
+
+            if (filename.contains('/') || filename.contains('\\')) {
+                throw SecurityException("Invalid filename")
+            }
+
+            val target = File(base, filename).canonicalFile
+            if (!target.path.startsWith(base.path + File.separator)) {
+                throw SecurityException("Path traversal blocked")
+            }
+
+            return ParcelFileDescriptor.open(target, ParcelFileDescriptor.MODE_READ_ONLY)
+        }
+
+        override fun query(
+            uri: Uri,
+            projection: Array<out String>?,
+            selection: String?,
+            selectionArgs: Array<out String>?,
+            sortOrder: String?
+        ): Cursor? = null
+
+        override fun getType(uri: Uri): String? = "application/octet-stream"
+
+        override fun insert(uri: Uri, values: ContentValues?) = null
+
+        override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) = 0
+
+        override fun update(
+            uri: Uri,
+            values: ContentValues?,
+            selection: String?,
+            selectionArgs: Array<out String>?
+        ) = 0
     }
 }
