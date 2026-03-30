@@ -15,11 +15,9 @@ If the app exposes file system-based content providers without proper access res
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0117 to obtain the `AndroidManifest.xml` file and identify all `<provider>` components.
-3. For each provider, check if `android:exported` is set to `true` (or implicitly exported via `<intent-filter>`) and review applied permissions (`android:permission`, `android:readPermission`, `android:protectionLevel`).
-4. Use @MASTG-TECH-0014 to search for file access patterns such as `openFile`, `ParcelFileDescriptor`, and references to internal storage directories in the provider classes.
-5. Run @MASTG-TECH-XXXX on the app and look for provider that read files from app storage.
+1. Reverse engineer the app using @MASTG-TECH-0013 and extract the `AndroidManifest.xml` with @MASTG-TECH-0117 to identify all `<provider>` components.
+2. Review each provider to determine whether it is exported explicitly or implicitly, and verify any applied permissions such as `android:permission`, `android:readPermission`, and related protection levels.
+3. Use @MASTG-TECH-0014 and @MASTG-TECH-XXXX to inspect provider code for file-access behavior, including `openFile`, `ParcelFileDescriptor`, and reads from internal app storage.
 
 ## Observation
 

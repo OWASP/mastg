@@ -15,11 +15,9 @@ If the app exposes database backed content providers without proper access restr
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0117 to obtain the `AndroidManifest.xml` file and identify all `<provider>` components.
-3. For each provider, check if `android:exported` is set to `true` (or implicitly exported via `<intent-filter>`) and review applied permissions (`android:permission`, `android:readPermission`, `android:protectionLevel`).
-4. Use @MASTG-TECH-0014 to search for database access patterns such as `SQLiteDatabase`, `query`, and `android.database.sqlite` in the provider classes.
-5. Run @MASTG-TECH-XXXX on the app and look for exported providers exposing sensitive stored data.
+1. Reverse engineer the app using @MASTG-TECH-0013 and extract the `AndroidManifest.xml` with @MASTG-TECH-0117 to identify all `<provider>` components.
+2. Review each provider to determine whether it is exported explicitly or implicitly, and verify any applied permissions such as `android:permission`, `android:readPermission`, and related protection levels.
+3. Use @MASTG-TECH-0014 and @MASTG-TECH-XXXX to inspect provider code for database-access behavior, including `SQLiteDatabase`, `query`, `android.database.sqlite`, and any exported providers exposing sensitive stored data.
 
 ## Observation
 

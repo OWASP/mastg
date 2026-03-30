@@ -30,8 +30,3 @@ Drozer has identified that `org.owasp.mastestapp.files` is exported and that rea
 ## Evaluation
 
 The test fails because the application exposes sensitive stored data through an exported file based content provider without enforcing appropriate access restrictions. The returned TOP_SECRET_TOKEN and PIN values show that external callers can retrieve sensitive stored data from the app's private directory outside the application sandbox.
-
-```bash
-dz> run app.package.attacksurface org.owasp.mastestapp
-dz> run app.provider.info -a org.owasp.mastestapp
-dz> run app.provider.read content://org.owasp.mastestapp.files/files/secret.txt

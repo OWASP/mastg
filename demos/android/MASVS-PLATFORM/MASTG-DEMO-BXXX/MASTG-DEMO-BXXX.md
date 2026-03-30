@@ -16,7 +16,7 @@ The application defines two exported content providers:
 - `CredentialProvider`: accesses an internal SQLite database.
 - `FileLeakProvider`: serves files from the application private `filesDir`.
 
-The providers are protected with a signature-level permission and enforce runtime verification that the calling package is signed with the same certificate. The file provider additionally validates canonical paths to prevent traversal.
+The providers are protected with a signature level permission and enforce runtime verification that the calling package is signed with the same certificate. The file provider additionally validates canonical paths to prevent traversal.
 
 {{ MastgTest.kt }}
 
@@ -27,20 +27,20 @@ The providers are protected with a signature-level permission and enforce runtim
 1. Install and launch the application on a device or emulator.
 2. Initialize sample data so the database and internal file are created.
 3. Enumerate the application`s exported content providers.
-4. Attempt to query the database-backed provider from an external context.
-5. Attempt to read an internal file via the file-based provider from an external context.
+4. Attempt to query the database backed provider from an external context.
+5. Attempt to read an internal file via the file based provider from an external context.
 
 ## Observation
 
-The rule has identified some exported content providers their attributes indicates a signature-level read/write permission.
+The rule has identified some exported content providers their attributes indicates a signature level read/write permission.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case passes because the exported content providers enforce appropriate access restrictions, including signature-level permissions and runtime caller validation.
+The test case passes because the exported content providers enforce appropriate access restrictions, including signature level permissions and runtime caller validation.
 
 - The exported providers do not allow unauthorized external callers to access the IPC entry points.
-- Signature-level permission enforcement restricts access to apps signed with the same certificate.
+- Signature level permission enforcement restricts access to apps signed with the same certificate.
 - Runtime caller validation blocks requests from callers that are not signed with the same certificate.
 - Sensitive stored data such as credential records and internal file contents cannot be retrieved through IPC by unauthorized apps.
