@@ -17,7 +17,7 @@ If the app exports an Android content provider without enforcing access restrict
 
 1. Run @MASTG-TECH-AXXX on the app to identify each `<provider>`, including its authority, exported state, and any read, write, or path-based permissions.
 2. Use @MASTG-TECH-0014 to review the reversed code and confirm which provider classes expose database or file access, and whether they validate the caller before returning data.
-3. Use @MASTG-TECH-0002 from an external test context to query each exported provider URI, then record the authority, returned data, and any denial messages such as permission errors or `SecurityException`.
+3. Use @MASTG-TECH-AXXX from an external test context to query each exported provider URI, then record the authority, returned data, and any denial messages such as permission errors or `SecurityException`.
 
 ## Observation
 
