@@ -4,7 +4,7 @@ platform: generic
 source: https://github.com/jeremylong/DependencyCheck
 ---
 
-[Dependency-Check](https://github.com/jeremylong/DependencyCheck) is a Software Composition Analysis (SCA) tool that attempts to detect publicly disclosed vulnerabilities contained within a project's dependencies.
+Dependency-Check is a Software Composition Analysis (SCA) tool that attempts to detect publicly disclosed vulnerabilities contained within a project's dependencies.
 
 However, SCA tools like Dependency-Check have their limitations. For example, they usually fail to scan IPA or APK files. There are two main reasons for this:
 
