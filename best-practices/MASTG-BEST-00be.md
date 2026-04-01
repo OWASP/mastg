@@ -14,7 +14,7 @@ Always drive attestation from the server using the challenge-response flow descr
 
 Since attestation reflects the state of the device and application at the time of key generation rather than at the time of use, require fresh key generation:
 
-- At critical moments such as first app launch or account binding.
+- At critical moments such as the first app launch, account binding, or sensitive operation.
 - When the installed app version falls below the minimum acceptable threshold.
 
 Enforce short-lived keys or periodic re-attestation policies to reduce the window of exposure between a device's state changing and that change being detected.
@@ -49,7 +49,6 @@ Use the attestation extension data (@MASTG-KNOW-0044) to confirm that the attest
 
 - Restrict the key purpose to only the intended operations (e.g., signing, encryption).
 - Require user authentication before key use when applicable (e.g., biometric binding via [`setUserAuthenticationRequired`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setuserauthenticationrequired)).
-- Require that the key origin is `KeyOrigin.GENERATED` to ensure the private key has never existed outside the hardware.
 
 ## Handle Attestation Failures Securely
 
