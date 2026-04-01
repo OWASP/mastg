@@ -5,20 +5,20 @@ platform: android
 
 Dalvik and ART both support the Java Native Interface (JNI), which defines a way for Java code to interact with native code written in C/C++. As on other Linux-based operating systems, native code is packaged (compiled) into ELF dynamic libraries (\*.so), which the Android app loads at runtime via the `System.load` method. However, instead of relying on widely used C libraries (such as glibc), Android binaries are built against a custom libc named [Bionic](https://github.com/android/platform_bionic "Bionic libc"). Bionic adds support for important Android-specific services such as system properties and logging, and it is not fully POSIX-compatible.
 
-When reversing an Android application containing native code, we need to understand a couple of data structures related to the JNI bridge between Java and native code. From the reversing perspective, we need to be aware of two key data structures: `JavaVM` and `JNIEnv`. Both of them are pointers to pointers to function tables:
+When reversing an Android application containing native code, we need to understand a couple of data structures related to the JNI bridge between Java and native code. From the reverse perspective, we need to be aware of two key data structures: `JavaVM` and `JNIEnv`. Both of them are pointers to pointers to function tables:
 
 - `JavaVM` provides an interface to invoke functions for creating and destroying a JavaVM. Android allows only one `JavaVM` per process and is not really relevant for our reversing purposes.
-- `JNIEnv` provides access to most of the JNI functions which are accessible at a fixed offset through the `JNIEnv` pointer. This `JNIEnv` pointer is the first parameter passed to every JNI function. We will discuss this concept again with the help of an example later in this chapter.
+- `JNIEnv` provides access to most of the JNI functions, which are accessible at a fixed offset through the `JNIEnv` pointer. This `JNIEnv` pointer is the first parameter passed to every JNI function. We will discuss this concept again with the help of an example later in this chapter.
 
-It is worth highlighting that analyzing disassembled native code is much more challenging than disassembled Java code. When reversing the native code in an Android application we will need a disassembler.
+It is worth highlighting that analyzing disassembled native code is much more challenging than analyzing disassembled Java code. When reversing the native code in an Android application, we will need a disassembler.
 
-In the next example we'll reverse the HelloWorld-JNI.apk from the OWASP MASTG repository. Installing and running it in an emulator or Android device is optional.
+In the next example, we'll reverse the HelloWorld-JNI.apk from the OWASP MASTG repository. Installing and running it in an emulator or Android device is optional.
 
 ```bash
 wget https://github.com/OWASP/mastg/raw/master/Samples/Android/01_HelloWorld-JNI/HelloWord-JNI.apk
 ```
 
-> This app is not exactly spectacular, all it does is show a label with the text "Hello from C++". This is the app Android generates by default when you create a new project with C/C++ support, which is just enough to show the basic principles of JNI calls.
+> This app is not exactly spectacular. All it does is show a label with the text "Hello from C++". This is the app Android generates by default when you create a new project with C/C++ support, which is just enough to show the basic principles of JNI calls.
 
 <img src="Images/Chapters/0x05c/helloworld.png" width="200px" />
 
@@ -59,7 +59,7 @@ Note the declaration of `public native String stringFromJNI` at the bottom. The 
 JNIEXPORT jstring JNICALL Java_sg_vantagepoint_helloworld_MainActivity_stringFromJNI(JNIEnv *env, jobject)
 ```
 
-So where is the native implementation of this function? If you look into the "lib" directory of the unzipped APK archive, you'll see several subdirectories (one per supported processor architecture), each of them containing a version of the native library, in this case `libnative-lib.so`. When `System.loadLibrary` is called, the loader selects the correct version based on the device that the app is running on. Before moving ahead, pay attention to the first parameter passed to the current JNI function. It is the same `JNIEnv` data structure which was discussed earlier in this section.
+So, where is the native implementation of this function? If you look into the "lib" directory of the unzipped APK archive, you'll see several subdirectories (one per supported processor architecture), each of them containing a version of the native library, in this case `libnative-lib.so`. When `System.loadLibrary` is called, the loader selects the correct version based on the device that the app is running on. Before moving ahead, pay attention to the first parameter passed to the current JNI function. It is the same `JNIEnv` data structure that was discussed earlier in this section.
 
 <img src="Images/Chapters/0x05c/archs.jpg" width="300px" />
 
@@ -87,11 +87,11 @@ To support both older and newer ARM processors, Android apps ship with multiple 
 - armeabi-v7a: This ABI extends armeabi to include several CPU instruction set extensions.
 - arm64-v8a: ABI for ARMv8-based CPUs that support AArch64, the new 64-bit ARM architecture.
 
-Most disassemblers can handle any of those architectures. Below, we'll be viewing the armeabi-v7a version (located in `HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`) in radare2 and in IDA Pro. See @MASTG-TECH-0024 to learn on how to proceed when inspecting the disassembled native code.
+Most disassemblers can handle any of those architectures. Below, we'll be viewing the armeabi-v7a version (located in `HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`) in radare2 and in IDA Pro. See @MASTG-TECH-0024 to learn how to proceed when inspecting the disassembled native code.
 
 ## radare2
 
-To open the file in @MASTG-TOOL-0028 you only have to run `r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`. The chapter "[Android Basic Security Testing](../../Document/0x05b-Android-Security-Testing.md "Android Basic Security Testing")" already introduced radare2. Remember that you can use the flag `-A` to run the `aaa` command right after loading the binary in order to analyze all referenced code.
+To open the file in @MASTG-TOOL-0028, you only have to run `r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`. The chapter "[Android Basic Security Testing](../../Document/0x05b-Android-Security-Testing.md "Android Basic Security Testing")" already introduced radare2. Remember that you can use the flag `-A` to run the `aaa` command right after loading the binary in order to analyze all referenced code.
 
 ```bash
 $ r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so
@@ -112,7 +112,7 @@ $ r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so
 [0x00000e3c]>
 ```
 
-Note that for bigger binaries, starting directly with the flag `-A` might be very time consuming as well as unnecessary. Depending on your purpose, you may open the binary without this option and then apply a less complex analysis like `aa` or a more concrete type of analysis such as the ones offered in `aa` (basic analysis of all functions) or `aac` (analyze function calls). Remember to always type `?` to get the help or attach it to commands to see even more command or options. For example, if you enter `aa?` you'll get the full list of analysis commands.
+Note that for bigger binaries, starting directly with the flag `-A` might be very time-consuming as well as unnecessary. Depending on your purpose, you may open the binary without this option and then apply a less complex analysis like `aa` or a more concrete type of analysis, such as the ones offered in `aa` (basic analysis of all functions) or `aac` (analyze function calls). Remember to always type `?` to get help or attach it to commands to see even more commands or options. For example, if you enter `aa?`, you'll get the full list of analysis commands.
 
 ```bash
 [0x00001760]> aa?
@@ -141,13 +141,13 @@ Usage: aa[0*?]   # see also 'af' and 'afna'
 | aav [sat]           find values referencing a specific section or map
 ```
 
-There is a thing that is worth noticing about radare2 vs other disassemblers like e.g. IDA Pro. The following quote from this [article](https://radareorg.github.io/blog/posts/analysis-by-default/ "radare2 - Analysis By Default") of radare2's blog (<https://radareorg.github.io/blog/>) offers a good summary.
+There is a thing that is worth noticing about radare2 vs other disassemblers, like IDA Pro, for example. The following quote from this [article](https://radareorg.github.io/blog/posts/analysis-by-default/ "radare2 - Analysis By Default") of radare2's blog (<https://radareorg.github.io/blog/>) offers a good summary.
 
-> Code analysis is not a quick operation, and not even predictable or taking a linear time to be processed. This makes starting times pretty heavy, compared to just loading the headers and strings information like it's done by default.
+> Code analysis is not a quick operation, and it is not even predictable or take linear time to be processed. This makes starting times pretty heavy, compared to just loading the headers and strings information, like it's done by default.
 >
-> People that are used to IDA Pro or Hopper just load the binary, go out to make a coffee and then when the analysis is done, they start doing the manual analysis to understand what the program is doing. It's true that those tools perform the analysis in background, and the GUI is not blocked. But this takes a lot of CPU time, and r2 aims to run in many more platforms than just high-end desktop computers.
+> People who are used to IDA Pro or Hopper just load the binary, go out to make a coffee, and then, when the analysis is done, they start doing the manual analysis to understand what the program is doing. It's true that those tools perform the analysis in the background, and the GUI is not blocked. But this takes a lot of CPU time, and r2 aims to run on many more platforms than just high-end desktop computers.
 
-This said, please see @MASTG-TECH-0024 to learn more bout how radare2 can help us performing our reversing tasks much faster. For example, getting the disassembly of a specific function is a trivial task that can be performed in one command.
+This said, please see @MASTG-TECH-0024 to learn more bout how radare2 can help us perform our reversing tasks much faster. For example, getting the disassembly of a specific function is a trivial task that can be performed in one command.
 
 ## IDA Pro
 

@@ -1,0 +1,63 @@
+✅ Frida script loaded and cryptographic APIs hooked successfully!
+
+🔒 *** Cipher.init(Key) HOOKED ***
+  encryption/decryption with key: "OpenSSLRSAPublicKey{modulus=a41226cf3ca5b7ccaabb65777f0b01938ead4cc0c917a4da5f746edf0bd24c03cdc2c90518b518067298eb3c6f334f3801e2686f018b53f665eccf923d63508248643e3e645021114d4f3055118be2734ef28d980b2e73e96c0cf0fcfe9acd859308fc4748c3fc539259875f45312cd5c300e39b54d643dba7d7347d4aeb5f647aac09fcf189975bdc94e2bb9ad969399f7a2e8f081e8b1e8b3540796440a9bae5daa37acb506b9aa8cad3d9b94104de7cf8cdb604889b59635871bb4909e881be42d5e3e4d219e3d053e753b19fe861864aee6eaf38b5291f60190608db0025c603d3a302d10eccd6606bc7dade641ffec81185606e7b16ca3b88cfc1f048a1,publicExponent=10001}"
+  Stack Trace:
+    javax.crypto.Cipher.init(Native Method)
+    org.owasp.mastestapp.MastgTest.encrypt(MastgTest.kt:126)
+    org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:47)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:73)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:71)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke-k-4lQ0M(Clickable.kt:987)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke(Clickable.kt:981)
+    androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)
+    kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+    kotlinx.coroutines.DispatchedTaskKt.resume(DispatchedTask.kt:177)
+  --- End Stack Trace ---
+
+🔒 *** Cipher.init(Key) HOOKED ***
+  encryption/decryption with key: "android.security.keystore2.AndroidKeyStoreRSAPrivateKey@3818961"
+  Stack Trace:
+    javax.crypto.Cipher.init(Native Method)
+    org.owasp.mastestapp.MastgTest.decrypt(MastgTest.kt:145)
+    org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:55)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:73)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:71)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke-k-4lQ0M(Clickable.kt:987)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke(Clickable.kt:981)
+    androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)
+    kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+    kotlinx.coroutines.DispatchedTaskKt.resume(DispatchedTask.kt:177)
+  --- End Stack Trace ---
+
+✍️ *** Signature.initSign(PrivateKey) HOOKED ***
+  sign/verify with key: "android.security.keystore2.AndroidKeyStoreRSAPrivateKey@3818961"
+!!! WARNING: This key is used for multiple, conflicting purposes: encryption/decryption and sign/verify
+  Stack Trace:
+    java.security.Signature.initSign(Native Method)
+    org.owasp.mastestapp.MastgTest.sign(MastgTest.kt:163)
+    org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:60)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:73)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:71)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke-k-4lQ0M(Clickable.kt:987)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke(Clickable.kt:981)
+    androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)
+    kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+    kotlinx.coroutines.DispatchedTaskKt.resume(DispatchedTask.kt:177)
+  --- End Stack Trace ---
+
+✅ *** Signature.initVerify(PublicKey) HOOKED ***
+  sign/verify with key: "OpenSSLRSAPublicKey{modulus=a41226cf3ca5b7ccaabb65777f0b01938ead4cc0c917a4da5f746edf0bd24c03cdc2c90518b518067298eb3c6f334f3801e2686f018b53f665eccf923d63508248643e3e645021114d4f3055118be2734ef28d980b2e73e96c0cf0fcfe9acd859308fc4748c3fc539259875f45312cd5c300e39b54d643dba7d7347d4aeb5f647aac09fcf189975bdc94e2bb9ad969399f7a2e8f081e8b1e8b3540796440a9bae5daa37acb506b9aa8cad3d9b94104de7cf8cdb604889b59635871bb4909e881be42d5e3e4d219e3d053e753b19fe861864aee6eaf38b5291f60190608db0025c603d3a302d10eccd6606bc7dade641ffec81185606e7b16ca3b88cfc1f048a1,publicExponent=10001}"
+!!! WARNING: This key is used for multiple, conflicting purposes: encryption/decryption and sign/verify
+  Stack Trace:
+    java.security.Signature.initVerify(Native Method)
+    org.owasp.mastestapp.MastgTest.verify(MastgTest.kt:177)
+    org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:73)
+    org.owasp.mastestapp.MainActivityKt$MyScreenContent$1$1$1.invoke(MainActivity.kt:71)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke-k-4lQ0M(Clickable.kt:987)
+    androidx.compose.foundation.ClickablePointerInputNode$pointerInput$3.invoke(Clickable.kt:981)
+    androidx.compose.foundation.gestures.TapGestureDetectorKt$detectTapAndPress$2$1.invokeSuspend(TapGestureDetector.kt:255)
+    kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+    kotlinx.coroutines.DispatchedTaskKt.resume(DispatchedTask.kt:177)
+  --- End Stack Trace ---

@@ -56,7 +56,7 @@ libnative-lib.so:       file format elf32-littlearm
 SYMBOL TABLE:
 ```
 
-In this case, the output shows that there are no symbols available, indicating that the binary is stripped.
+In this case, the output indicates that no symbols are available, suggesting that the binary has been stripped.
 
 ```sh
 objdump --syms libunstripped.so
@@ -75,7 +75,7 @@ SYMBOL TABLE:
 
 ## nm
 
-With @MASTG-TOOL-0003 you can retrieve symbol tables from ELF files.
+With @MASTG-TOOL-0003, you can retrieve symbol tables from ELF files.
 
 ```bash
 nm libnative-lib.so 

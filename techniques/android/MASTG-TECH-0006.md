@@ -14,7 +14,7 @@ package:org.teamsik.apps.hackingchallenge.hard
 package:sg.vp.owasp_mobile.omtg_android
 ```
 
-You can include flags to show only third party apps (`-3`) and the location of their APK file (`-f`), which you can use afterwards to download it via `adb pull`:
+You can include flags to show only third-party apps (`-3`) and the location of their APK file (`-f`), which you can use afterwards to download it via `adb pull`:
 
 ```bash
 $ adb shell pm list packages -3 -f
@@ -44,4 +44,4 @@ $ frida-ps -Uai
     -  Uncrackable1                              sg.vantagepoint.uncrackable1
 ```
 
-Note that this also shows the PID of the apps that are running at the moment. Take a note of the "Identifier" and the PID if any as you'll need them afterwards.
+Note that this also shows the PID of the apps that are running at the moment. Take a note of the "Identifier" and the PID, if any, as you'll need them afterwards.

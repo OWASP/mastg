@@ -8,6 +8,9 @@ title: Testing Memory for Sensitive Data
 masvs_v1_levels:
 - L2
 profiles: [L2]
+status: deprecated
+covered_by: []
+deprecation_note: The associated weaknesses are best addressed during the development process. See @MASTG-KNOW-0103 for more details.
 ---
 
 ## Overview

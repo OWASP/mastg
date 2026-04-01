@@ -6,11 +6,12 @@ type: [static]
 weakness: MASWE-0053
 threat: [app]
 profiles: [L2]
+knowledge: [MASTG-KNOW-0083]
 ---
 
 ## Overview
 
-This test checks if the app restricts the contents of the general [pasteboard](../../../Document/0x06h-Testing-Platform-Interaction.md/#pasteboard) to the local device by using the `UIPasteboard.setItems(_:options:)` method with the `UIPasteboard.OptionsKey.localOnly` option. If sensitive data is placed in the general pasteboard without this restriction, it can be synced across devices via Universal Clipboard, leading to potential data leaks.
+This test checks if the app restricts the contents of the general @MASTG-KNOW-0083 to the local device by using the `UIPasteboard.setItems(_:options:)` method with the `UIPasteboard.OptionsKey.localOnly` option. If sensitive data is placed in the general pasteboard without this restriction, it can be synced across devices via Universal Clipboard, leading to potential data leaks.
 
 ## Steps
 

@@ -37,4 +37,5 @@ The output contains the captured network traffic.
 
 The test case fails if any clear text traffic originates from the target app.
 
-**Note**: This can be challenging to determine because traffic can potentially come from any app on the device. See the [Overview](#overview) section.
+!!! note
+    This can be challenging to determine because traffic can potentially come from any app on the device. See the [Overview](#overview) section.

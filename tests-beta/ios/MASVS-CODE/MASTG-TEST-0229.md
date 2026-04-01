@@ -5,11 +5,12 @@ id: MASTG-TEST-0229
 type: [static]
 weakness: MASWE-0116
 profiles: [L2]
+knowledge: [MASTG-KNOW-0061]
 ---
 
 ## Overview
 
-This test case checks if the main binary or any libraries of the app are compiled without stack canaries and therefore lack [stack smashing protection](../../../Document/0x06i-Testing-Code-Quality-and-Build-Settings.md/#binary-protection-mechanisms), a common mitigation technique against buffer overflow attacks.
+This test case checks if the native libraries of the app are compiled without common binary protection mechanisms (@MASTG-KNOW-0061) such as stack smashing protection, a mitigation technique against buffer overflow attacks.
 
 This test applies to all binaries and libraries:
 
