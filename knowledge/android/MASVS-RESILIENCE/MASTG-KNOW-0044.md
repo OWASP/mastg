@@ -80,5 +80,5 @@ Some of the key properties are described below:
 
 When reading the certificate chain, a verifier can establish that at the time the key was generated:
 
-- When the `rootOfTrust` object indicates that the bootloader is locked then this indicates a successful **device (integrity) attestation** (see @MASTG-KNOW-01kw).
+- When the `rootOfTrust` object indicates that `verifiedBootState` is `Verified` and `deviceLocked` is `true`, this indicates a successful **device integrity attestation** (see @MASTG-KNOW-01kw).
 - When the `attestationApplicationId` object indicates that the app has not been repackaged then this indicates a successful **application integrity attestation** (see @MASTG-KNOW-02kw).

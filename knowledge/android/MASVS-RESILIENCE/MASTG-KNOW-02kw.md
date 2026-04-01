@@ -13,7 +13,7 @@ The `attestationApplicationId` object contains the following fields:
 - **`packageInfos`**: A set of entries, each containing:
     - `packageName`: The application's package identifier (e.g., `com.example.app`).
     - `version`: The application's version code at the time of key generation.
-- **`signatureDigests`**: A set of SHA-256 digests of the DER-encoded X.509 signing certificates used to sign the application APK. These allow the server to verify the app's signing identity and detect repackaged or cloned variants.
+- **`signatureDigests`**: A set of SHA-256 digests of the DER-encoded X.509 signing certificates used to sign the application APK. These allow the server to verify the app's signing identity and detect repackaged or cloned variants. The server must pre-provision the expected digests from the legitimate app's signing certificate (e.g., obtained at app release time or from the Play Console) and compare them against this field during attestation verification.
 
 ## Low or No Application Integrity Signals
 
