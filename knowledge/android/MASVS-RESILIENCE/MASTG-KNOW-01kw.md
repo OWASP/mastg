@@ -4,37 +4,32 @@ platform: android
 title: Device Attestation via Hardware-Backed Key Attestation
 ---
 
-The attestation extension data embedded in the leaf certificate of a Key Attestation (@MASTG-KNOW-0044) certificate chain follows an [ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema) and contains detailed information about both the device's integrity state and the properties of the attested key pair. This data is what enables a remote server to make trust decisions about the client environment. Bellow is a summary of the most important fields and how to interpret them.
+Device attestation uses the `rootOfTrust` field in the `hardwareEnforced` `AuthorizationList` of a Key Attestation (@MASTG-KNOW-0044) certificate chain allows a verifier (usually a remote server) to verify the integrity of the device's software stack. For the full list of fields and their meanings, see @MASTG-KNOW-0044.
 
-## Attestation Security Level
+## Root of Trust Fields
 
-The [KeyDescription's](https://source.android.com/docs/security/features/keystore/attestation#keydescription-fields) `attestationSecurityLevel` field indicates the security environment that performed the attestation:
+The `rootOfTrust` object populated by the secure hardware (TEE or StrongBox) during key generation is placed in the `hardwareEnforced` `AuthorizationList`. Because it is hardware-enforced, these values cannot be tampered with by the Android OS. When the `attestationSecurityLevel` is `Software`, the `rootOfTrust` may instead appear in the `softwareEnforced` list, providing no hardware-backed guarantee.
 
-- **`Software`**: Attestation was performed in the Android system, with no hardware-backed guarantee. This is usually what emulators use.
-- **`TrustedEnvironment`**: Attestation was performed by the Trusted Execution Environment (TEE), providing software-level isolation.
-- **`StrongBox`**: Attestation was performed by a dedicated secure element (StrongBox), offering the highest level of hardware protection.
+The `rootOfTrust` object contains the following fields:
 
-Only `StrongBox` provide hardware-backed assurance.
+- **`verifiedBootState`**: Reflects the result of Android's [Verified Boot](https://source.android.com/docs/security/features/verifiedboot) process:
+    - **`Verified`**: The entire boot chain, from bootloader to system partition, was verified against known-good OEM keys. This is the expected state for an unmodified production device.
+    - **`SelfSigned`**: The device booted with a user-installed root of trust (e.g., a custom key). The bootloader is unlocked and a user-provided key was accepted.
+    - **`Unverified`**: No verification was performed. The bootloader is unlocked and no custom key was set.
+    - **`Failed`**: Verification was attempted but failed. The device should not have booted in this state under normal conditions.
+- **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified production devices, this matches the OEM's embedded root-of-trust key.
+- **`deviceLocked`**: `true` if the bootloader is locked, preventing unauthorized modifications to the system partition.
 
-## Software vs. Hardware Enforcement
+## Low or No Device Integrity Signals
 
-The [KeyDescription](https://source.android.com/docs/security/features/keystore/attestation#keydescription-fields) contains two authorization lists (`AuthorizationList`) that describe where key properties are enforced:
+The following conditions indicate low or no device integrity:
 
-- **`softwareEnforced`**: Properties enforced by the Android operating system. These can potentially be bypassed if the OS is compromised (e.g., on a rooted device).
-- **`hardwareEnforced`**: Properties enforced by the Trusted Execution Environment or StrongBox hardware. These cannot be modified by the OS, even if it is compromised.
+- **`attestationSecurityLevel` is `Software`**: The attestation was generated entirely in the Android OS with no hardware involvement. Any device or key properties claimed cannot be trusted, as they could be manipulated by a compromised OS.
+- **`verifiedBootState` is not `Verified`**: The boot chain was not fully verified against OEM keys. A `SelfSigned` state means the device is running a custom ROM with a user-installed key; `Unverified` means no verification was performed at all; `Failed` means verification was attempted and failed.
+- **`deviceLocked` is `false`**: The bootloader is unlocked, meaning the system partition can be modified without triggering a boot failure. This is a strong signal that the device may have been tampered with.
 
-## Device Integrity Signals
+## Limitations
 
-Each `AuthorizationList` has a `rootOfTrust` field and includes the following device integrity signals:
+Device attestation via Key Attestation reflects the state of the device **at the time the key was generated**, not at the time of any subsequent API call or use. A key generated on a clean device retains its attestation even if the device is later rooted or its bootloader is unlocked after a generation.
 
-- **`verifiedBootState`**: Indicates whether the device's boot chain has been verified as unmodified. A `Verified` state means the bootloader confirmed the integrity of all boot partitions.
-- **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified devices, this matches the OEM's embedded key.
-- **`deviceLocked`**: Whether the bootloader is locked. A locked bootloader prevents flashing unsigned images. An unlocked bootloader is a strong indicator that the device has been modified.
-
-## Server-Side Verification
-
-A server can verify the device integrity by validating the attestation certificate chain and inspecting these fields. This includes checking the certificate's validity (expiration, signature chain up to the [Google Hardware Attestation Root Certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate), and [revocation status](https://developer.android.com/training/articles/security-key-attestation#certificate_status)) as well as confirming that `attestationSecurityLevel` is `TrustedEnvironment` or `StrongBox`, `verifiedBootState` is `Verified`, and `deviceLocked` is `true`.
-
-Combined with application attestation (@MASTG-KNOW-02kw), which verifies the identity and integrity of the calling application, these checks allow a server to establish that a request originates from a legitimate application running on a device with a verified, unmodified software stack.
-
-For the full list of key pair properties attested in the authorization lists, see @MASTG-KNOW-0044.
+Device attestation can also not detect all forms of compromise. A device that was unlocked and re-locked, or that had its verified boot state manipulated at a hardware level (which is extremely difficult but theoretically possible), would still pass verification. It cannot replace a comprehensive device integrity strategy.
