@@ -6,7 +6,7 @@
                            
     MastgTest_reversed.java
     ❯❱rules.mastg-android-object-deserialization
-          [MASVS-CODE-4] The application makes use of Object deserialization in the code.
+          [MASVS-CODE-4] The application makes use of Object deserialization in the code using the ObjectInputStream.readObject() function call.
                                                                                          
           107┆ ObjectInputStream ois = new ObjectInputStream(new
                ByteArrayInputStream(serializedPayload));        

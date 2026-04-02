@@ -9,32 +9,34 @@ import java.io.Serializable
 import java.util.Base64
 
 
-class MastgTest(private val context: Context) {
+class MastgTest(@Suppress("unused") private val context: Context) {
 
     open class BaseUser(val username: String) : Serializable {
         companion object {
             // Different UID to distinguish from the Admin subclass
-            private const val serialVersionUID = 100L
+            @JvmStatic
+            val serialVersionUID = 100L
         }
     }
 
 
     class AdminUser(username: String) : BaseUser(username) {
-     
+
         var isAdmin: Boolean = false
 
         companion object {
-            private const val serialVersionUID = 200L
+            @JvmStatic
+            val serialVersionUID = 200L
         }
     }
 
-   
+
     object UserManager {
-       
+
         var currentUser: BaseUser = BaseUser("Standard User")
     }
 
-   
+
     fun mastgTest(): String {
         // SUMMARY: This sample demonstrates insecure object deserialization from an untrusted source (Intent extra).
         val user = UserManager.currentUser
@@ -48,7 +50,8 @@ class MastgTest(private val context: Context) {
                 "Status: $status\n\n" +
                 "Vulnerability: Unwanted Object Deserialization is active.\n" +
                 "The app will deserialize any 'BaseUser' subclass from the 'payload_b64' extra, " +
-                "overwriting the current user state."
+                "overwriting the current user state.\n\n" +
+                "ADB command to trigger:\nadb shell am start -n org.owasp.mastestapp/.MainActivity --es payload_b64 'rO0ABXNyAChvcmcub3dhc3AubWFzdGVzdGFwcC5NYXN0Z1Rlc3QkQWRtaW5Vc2VyAAAAAAAAAMgCAAFaAAdpc0FkbWlueHIAJ29yZy5vd2FzcC5tYXN0ZXN0YXBwLk1hc3RnVGVzdCRCYXNlVXNlcgAAAAAAAABkAgABTAAIdXNlcm5hbWV0ABJMamF2YS9sYW5nL1N0cmluZzt4cHQAD0V4cGxvaXRlZCBBZG1pbgE='"
 
         Log.d("MASTG-TEST", resultString)
         return resultString
@@ -62,7 +65,7 @@ class MastgTest(private val context: Context) {
 
             try {
                 val serializedPayload = Base64.getDecoder().decode(b64Payload)
-                // FAIL: [mastg-android-object-deserialization] The app deserializes objects from an untrusted Intent extra without any type filtering or validation.
+                // FAIL: [MASTG-TEST-0x34] The app deserializes objects from an untrusted source without any type filtering or validation.
                 val ois = ObjectInputStream(ByteArrayInputStream(serializedPayload))
 
                 val untrustedObject = ois.readObject()
