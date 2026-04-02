@@ -62,19 +62,19 @@ The extension content contains the `attestationSecurityLevel` and `keyMintSecuri
 Some of the key properties are described below:
 
 - The `attestationSecurityLevel` and `keyMintSecurityLevel` contain the **`SecurityLevel`** indicating how the key was generated. You can refer to its [schema](https://source.android.com/docs/security/features/keystore/attestation#securitylevel-values) and [Hardware versus software enforcement](https://source.android.com/docs/security/features/keystore/features#hardware_vs_software_enforcement) for more information.
-  - **`Software`**: Attestation was performed in the Android system, with no hardware-backed guarantee. This is usually what emulators use.
-  - **`TrustedEnvironment`**: Attestation was performed by the Trusted Execution Environment (TEE), providing hardware-enforced isolation via a dedicated CPU execution environment.
-  - **`StrongBox`**: Attestation was performed by a dedicated secure element (StrongBox), offering the highest level of hardware protection.
+    - **`Software`**: Attestation was performed in the Android system, with no hardware-backed guarantee. This is usually what emulators use.
+    - **`TrustedEnvironment`**: Attestation was performed by the Trusted Execution Environment (TEE), providing hardware-enforced isolation via a dedicated CPU execution environment.
+    - **`StrongBox`**: Attestation was performed by a dedicated secure element (StrongBox), offering the highest level of hardware protection.
 - **`attestationChallenge`**: The nonce provided by the server and passed to `setAttestationChallenge()` during key generation. The server checks this value to confirm the attestation was produced in response to its specific request, preventing replay attacks.
 - The **`softwareEnforced`** or **`hardwareEnforced`** `AuthorizationList` contains the following fields:
-  - **`rootOfTrust`**: Device integrity signals used for device attestation (see @MASTG-KNOW-01kw), including:
-    - **`verifiedBootState`**: Whether the device's boot chain was verified as unmodified (`Verified`, `SelfSigned`, `Unverified`, or `Failed`).
-    - **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified devices this matches the OEM's embedded key.
-    - **`deviceLocked`**: Whether the bootloader is locked. An unlocked bootloader indicates the device may have been modified.
-  - **`attestationApplicationId`**: Application identity fields used for application attestation (see @MASTG-KNOW-02kw), including:
-    - **`packageInfos`**: A set of entries each containing the app's `packageName` and `version` code.
-    - **`signatureDigests`**: SHA-256 digests of the app's signing certificates, allowing the server to verify the app has not been repackaged.
-  - **Authentication requirements**: Whether user authentication (e.g., biometric via [`setUserAuthenticationRequired`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setuserauthenticationrequired)) is required before key use, indicated by fields such as `noAuthRequired` and `userAuthType`.
+    - **`rootOfTrust`**: Device integrity signals used for device attestation (see @MASTG-KNOW-01kw), including:
+        - **`verifiedBootState`**: Whether the device's boot chain was verified as unmodified (`Verified`, `SelfSigned`, `Unverified`, or `Failed`).
+        - **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified devices this matches the OEM's embedded key.
+        - **`deviceLocked`**: Whether the bootloader is locked. An unlocked bootloader indicates the device may have been modified.
+    - **`attestationApplicationId`**: Application identity fields used for application attestation (see @MASTG-KNOW-02kw), including:
+        - **`packageInfos`**: A set of entries each containing the app's `packageName` and `version` code.
+        - **`signatureDigests`**: SHA-256 digests of the app's signing certificates, allowing the server to verify the app has not been repackaged.
+    - **Authentication requirements**: Whether user authentication (e.g., biometric via [`setUserAuthenticationRequired`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setuserauthenticationrequired)) is required before key use, indicated by fields such as `noAuthRequired` and `userAuthType`.
 
 ## Interpreting the Certificate Chain
 
