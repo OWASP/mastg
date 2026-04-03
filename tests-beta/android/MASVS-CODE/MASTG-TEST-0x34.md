@@ -10,7 +10,9 @@ knowledge: [MASTG-KNOW-0021]
 
 ## Overview
 
-If the app deserializes untrusted data without sufficient validation, it becomes vulnerable to malicious object injection. In Android, data can be passed between components via Intent objects. When an application receives a serialized object within an Intent and deserializes it using `ObjectInputStream.readObject()` without type filtering, a malicious application can send a specially crafted Intent containing a malicious serialized object. This can lead to arbitrary code execution, data tampering, privilege escalation, or denial of service depending on the available gadget chains in the application's classpath.
+Android apps can reconstruct objects from serialized data received through platform mechanisms such as `Intent` extras, `Bundle` values, IPC payloads, files, or network responses. If the app deserializes data from these sources without restricting the allowed classes or validating the input before use, the deserialization logic can introduce unintended application behavior or unsafe state changes.
+
+This test checks whether the app uses object deserialization on Android and whether the deserialized data originates from potentially untrusted sources without appropriate filtering or validation. For background on Android serialization and deserialization mechanisms, see @MASTG-KNOW-0021.
 
 ## Steps
 
