@@ -36,7 +36,6 @@ Inspect each reported call site using @MASTG-TECH-0076.
 - Inspect the `readAccessURL` argument and determine whether it grants broader access than necessary.
 - Verify that the allowed read scope is restricted to the minimum directory required for the intended content.
 
-
 **Pass:**
 
 The test case passes if every use of `loadFileURL(_:allowingReadAccessTo:)` restricts `readAccessURL` to the minimum necessary scope and does not allow attacker-influenced file loading to reach unintended files.
