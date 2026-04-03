@@ -10,9 +10,11 @@ tools: [MASTG-TOOL-0110]
 ## Sample
 
 The sample code demonstrates an insecure deserialization flaw in an Android app. The app reads a Base64 encoded serialized object from the `payload_b64` `Intent` extra, deserializes it with `ObjectInputStream.readObject()`, and uses the result to overwrite the current user state. In this demo, an attacker can exploit the flaw by launching the activity with a crafted serialized `AdminUser` object, for example with:
+
 ```bash
 adb shell am start -n org.owasp.mastestapp/.MainActivity --es payload_b64 'rO0ABXNyAChvcmcub3dhc3AubWFzdGVzdGFwcC5NYXN0Z1Rlc3QkQWRtaW5Vc2VyAAAAAAAAAMgCAAFaAAdpc0FkbWlueHIAJ29yZy5vd2FzcC5tYXN0ZXN0YXBwLk1hc3RnVGVzdCRCYXNlVXNlcgAAAAAAAABkAgABTAAIdXNlcm5hbWV0ABJMamF2YS9sYW5nL1N0cmluZzt4cHQAD0V4cGxvaXRlZCBBZG1pbgE='
 ```
+
 This payload causes the app to accept attacker controlled serialized data and replace `UserManager.currentUser` with an admin object, resulting in privilege escalation without authentication.
 **Behavior:** When the app is launched normally and the Start button is pressed, it calls `mastgTest()` and displays the default user state, showing a standard user and `(Not an Admin)`. However, the `MainActivity` also calls `MastgTest(this).processIntent(intent)` in `onCreate()`. This means that if the activity is started with a crafted `payload_b64` extra, the app processes and deserializes that attacker controlled object before the test result is shown. As a result, pressing Start after sending the `adb` command causes the app to display `PRIVILEGED ADMIN!` because the current user state has been overwritten with a malicious `AdminUser` object.
 
