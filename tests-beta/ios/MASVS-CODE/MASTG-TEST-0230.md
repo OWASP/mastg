@@ -22,7 +22,7 @@ When ARC is enabled, binaries will include symbols such as `objc_autorelease` or
 
 1. Extract the application and identify the main binary (@MASTG-TECH-0054).
 2. Identify all shared libraries (@MASTG-TECH-0082).
-3. Run @MASTG-TECH-0118 on the main binary and each shared library looking for ARC symbols like `objc_autorelease` or `objc_retainAutorelease`.
+3. Use @MASTG-TECH-0118 on the main binary and each shared library looking for ARC symbols like `objc_autorelease` or `objc_retainAutorelease`.
 
 ## Observation
 

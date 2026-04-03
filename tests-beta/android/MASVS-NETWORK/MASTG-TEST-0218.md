@@ -18,7 +18,7 @@ In cases where static analysis is either incomplete or infeasible, examining net
 ## Steps
 
 1. Set up @MASTG-TECH-0010 (for Android) or @MASTG-TECH-0062 (for iOS).
-2. View the TLS version e.g., using @MASTG-TOOL-0081.
+2. Inspect the captured traffic to identify the TLS version in use.
 
 ## Observation
 

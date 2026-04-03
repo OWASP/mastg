@@ -18,7 +18,7 @@ This test case checks if the native libraries of the app are compiled without co
 ## Steps
 
 1. Extract the app contents (@MASTG-TECH-0058).
-2. Run @MASTG-TECH-0115 on each shared library and grep for "canary" or the corresponding keyword used by the selected tool.
+2. Use @MASTG-TECH-0115 on each shared library and grep for "canary" or the corresponding keyword used by the selected tool.
 
 ## Observation
 

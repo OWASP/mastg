@@ -25,7 +25,7 @@ The test checks whether UI elements such as `UITextField`, `UITextView`, and `UI
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0065 to reverse-engineer the app.
 2. Use @MASTG-TECH-0072 to look for references to APIs that set the relevant input attributes.
 3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine the values assigned to these attributes.
 

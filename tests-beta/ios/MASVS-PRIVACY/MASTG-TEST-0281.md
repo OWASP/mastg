@@ -27,7 +27,7 @@ These references can be used to match hardcoded or dynamically accessed domains 
 3. Use @MASTG-TECH-0066 to:
     - Search for hardcoded references to known tracking domains.
     - Identify code references to well-known tracking libraries.
-4. Perform network analysis with @MASTG-TOOL-0097:
+4. Use @MASTG-TECH-0062 to:
     - Intercept and log all outbound network traffic.
     - Extract all domain names contacted during runtime.
 

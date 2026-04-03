@@ -20,7 +20,7 @@ Since Android 5.0 (API level 21), Android requires [all dynamically linked execu
 ## Steps
 
 1. Extract the app contents (@MASTG-TECH-0007).
-2. Run @MASTG-TECH-0115 on each shared library and grep for "pic" or the corresponding keyword used by the selected tool.
+2. Use @MASTG-TECH-0115 on each shared library and grep for "pic" or the corresponding keyword used by the selected tool.
 
 ## Observation
 

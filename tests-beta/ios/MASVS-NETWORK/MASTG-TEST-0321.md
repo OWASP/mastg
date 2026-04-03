@@ -13,7 +13,7 @@ An iOS app may have hardcoded HTTP URLs embedded in the app binary, library bina
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0065 to reverse-engineer the app.
 2. Use @MASTG-TECH-0071 to search for any `http://` URLs.
 
 ## Observation
