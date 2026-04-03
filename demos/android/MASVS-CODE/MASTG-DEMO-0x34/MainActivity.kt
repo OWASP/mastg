@@ -71,6 +71,7 @@ fun UpdateDisplayString(
                 }
             }
         } catch (e: Exception) {
+            // not a valid set of DemoResult, so print the result without any parsing
             append(result)
         }
     }
@@ -83,7 +84,10 @@ fun MainScreen() {
     val defaultMessage = "Click \"Start\" to run the test.\n\n"
     var displayString by remember { mutableStateOf(buildAnnotatedString { append(defaultMessage) }) }
     val context = LocalContext.current
-    
+    val mastgTestClass = MastgTest(context)
+    // By default run the test in a separate thread, this ensures that network tests such as those using SSLSocket work properly.
+    // However, some tests which interact with UI elements need to run on the main thread.
+    // You can set shouldRunInMainThread = true in MastgTest.kt for those tests.
     val runInMainThread = MastgTest::class.members
         .find { it.name == "shouldRunInMainThread" }
         ?.call(mastgTestClass) as? Boolean ?: false
