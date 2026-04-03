@@ -207,7 +207,7 @@ Example, to check app notifications:
 
 1. method trace for related APIs (dynamic)
 2. use the app (manual)
-3. reverse engineer code or use backtraces and hooks (static)
+3. reverse-engineer code or use backtraces and hooks (static)
 4. perform taint analysis with controlled values (dynamic)
 5. grep traces or integrate "grep" in a frida script (static/dynamic)
 
@@ -223,6 +223,8 @@ Notes:
 
 - Always link to existing MASTG-TECH by ID (for example, @MASTG-TECH-0014)
 - Don't reference MASTG tools directly (this may still be happening in some tests, and we must fix it.)
+- Always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action.
+- Use "reverse-engineer" (hyphenated) when referring to the process.
 - Be consistent by reusing the steps from existing tests. Do not create new phrasing or wording when it's not necessary.
 
 ### Observation
