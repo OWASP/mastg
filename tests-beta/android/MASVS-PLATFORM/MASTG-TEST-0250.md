@@ -82,7 +82,7 @@ You should use the list of content providers obtained in the observation step to
 
 **Pass:**
 
-The test passes if any of the following are true:
+The test case passes if any of the following are true:
 
 - `setJavaScriptEnabled` is explicitly set to `false` or _not used at all_ (inheriting the default value, `false`).
 - `setAllowContentAccess` method is explicitly set to `false`.

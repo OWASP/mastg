@@ -47,9 +47,13 @@ The output should include:
 
 ## Evaluation
 
+**Fail:**
+
 The test case fails if the app still has sensitive data on the `/data/data/<app_package>/app_webview/` directory after the app is closed. This could be due to the app not calling the relevant cleanup APIs after using the WebView.
 
-The test passes if all sensitive data used by the WebView is properly cleaned up using the relevant APIs, and no sensitive data remains in the `/data/data/<app_package>/app_webview/` directory after closing the app.
+**Pass:**
+
+The test case passes if all sensitive data used by the WebView is properly cleaned up using the relevant APIs, and no sensitive data remains in the `/data/data/<app_package>/app_webview/` directory after closing the app.
 
 !!! note
     It can be challenging to determine whether the right cleanup APIs were called for the enabled storage areas. @MASTG-KNOW-0018 describes the storage areas used by WebViews and the challenges of evaluating their cleanup.

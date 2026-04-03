@@ -39,7 +39,7 @@ The test case fails if all of the following are true:
 
 **Pass:**
 
-The test passes if any of the following are true:
+The test case passes if any of the following are true:
 
 - `AllowFileAccess` is `false`.
 - `AllowFileAccessFromFileURLs` is `false`.
