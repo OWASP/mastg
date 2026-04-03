@@ -24,7 +24,7 @@ Some of the relevant functions to intercept are:
 
 ## Steps
 
-1. Execute a method trace (@MASTG-TECH-0033) targeting all functions that use an asymmetric key to perform cryptographic operations.
+1. Use @MASTG-TECH-0033 to trace all functions that use an asymmetric key to perform cryptographic operations.
 
 ## Observation
 

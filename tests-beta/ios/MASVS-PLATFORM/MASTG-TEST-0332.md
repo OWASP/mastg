@@ -33,7 +33,7 @@ This test checks whether the app passes attacker-controlled input to `WKWebView`
 ## Steps
 
 1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, looking for calls to any `WKWebView` URL load APIs.
+2. Use @MASTG-TECH-0066 to look for calls to any `WKWebView` URL load APIs.
 
 ## Observation
 

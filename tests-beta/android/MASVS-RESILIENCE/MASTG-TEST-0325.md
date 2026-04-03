@@ -24,8 +24,8 @@ It is recommended to run this test using a rooted device or emulator to ensure t
 
 ## Steps
 
-1. Run @MASTG-TECH-0043, @MASTG-TECH-0033 or @MASTG-TECH-0032 to trace the relevant API calls.
-2. Optionally, run @MASTG-TECH-0144 to try to bypass root detection checks in the application and observe the results. For example, successful bypassing of certain checks or failed detections may indicate the presence of root detection mechanisms.
+1. Use @MASTG-TECH-0043, @MASTG-TECH-0033 or @MASTG-TECH-0032 to trace the relevant API calls.
+2. Optionally, use @MASTG-TECH-0144 to try to bypass root detection checks in the application and observe the results. For example, successful bypassing of certain checks or failed detections may indicate the presence of root detection mechanisms.
 
 ## Observation
 

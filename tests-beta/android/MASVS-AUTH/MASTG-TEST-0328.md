@@ -20,7 +20,7 @@ By default and when set to `true`, a key becomes permanently invalidated if a ne
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0014 to look for instances of the relevant APIs.
 
 ## Observation
 

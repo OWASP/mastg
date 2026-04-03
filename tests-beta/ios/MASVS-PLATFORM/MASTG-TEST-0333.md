@@ -18,7 +18,7 @@ This test checks whether the app uses `loadFileURL(_:allowingReadAccessTo:)` wit
 ## Steps
 
 1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, looking for calls to `WKWebView.loadFileURL(_:allowingReadAccessTo:)`.
+2. Use @MASTG-TECH-0066 to look for calls to `WKWebView.loadFileURL(_:allowingReadAccessTo:)`.
 
 ## Observation
 

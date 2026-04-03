@@ -21,7 +21,7 @@ This test identifies cases where an app explicitly specifies a security provider
 
 ## Steps
 
-1. Run @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 on the app binary to look for calls to `getInstance` that explicitly specify a security provider.
+1. Use @MASTG-TECH-0014 to look for calls to `getInstance` that explicitly specify a security provider.
 
 ## Observation
 

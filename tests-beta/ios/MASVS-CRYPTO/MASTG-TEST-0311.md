@@ -15,7 +15,7 @@ iOS apps sometimes use insecure pseudorandom number generators (PRNGs) instead o
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, or use runtime method hooking (see @MASTG-TECH-0095), and look for insecure random APIs.
+1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for insecure random APIs.
 
 ## Observation
 

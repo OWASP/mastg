@@ -22,7 +22,7 @@ Similarly, using [`setDeviceCredentialAllowed(true)`](https://developer.android.
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0014 to look for instances of the relevant APIs.
 
 ## Observation
 
