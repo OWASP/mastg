@@ -29,7 +29,7 @@ The output should contain a list of WebView instances and corresponding settings
 
 **Fail:**
 
-The test fails if all of the following are true:
+The test case fails if all of the following are true:
 
 - `AllowFileAccess` is `true`.
 - `AllowFileAccessFromFileURLs` is `true`.

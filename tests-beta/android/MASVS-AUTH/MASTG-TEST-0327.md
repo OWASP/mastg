@@ -28,7 +28,7 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails for each sensitive operation worth protecting if:
+The test case fails for each sensitive operation worth protecting if:
 
 - `BiometricPrompt.authenticate` is used [without a `CryptoObject`](https://developer.android.com/reference/android/hardware/biometrics/BiometricPrompt#authenticate(android.os.CancellationSignal,%20java.util.concurrent.Executor,%20android.hardware.biometrics.BiometricPrompt.AuthenticationCallback)).
 - There are no calls to key generation with `setUserAuthenticationRequired(true)` in conjunction with biometric authentication, as by default, the key is authorized to be used regardless of whether the user has been authenticated or not.

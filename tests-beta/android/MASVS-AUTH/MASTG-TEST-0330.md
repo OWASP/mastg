@@ -29,7 +29,7 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app configures keys used for sensitive operations with:
+The test case fails if the app configures keys used for sensitive operations with:
 
 - `setUserAuthenticationParameters(duration, type)` where duration > 0
 - `setUserAuthenticationValidityDurationSeconds(duration)` where duration > 0

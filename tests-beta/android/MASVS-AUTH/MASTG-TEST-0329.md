@@ -24,7 +24,7 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app sets `setConfirmationRequired()` to `false` for sensitive operations that require explicit user authorization.
+The test case fails if the app sets `setConfirmationRequired()` to `false` for sensitive operations that require explicit user authorization.
 
 The test passes if the app either:
 

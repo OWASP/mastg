@@ -28,4 +28,4 @@ The output should contain a list of pasteboard items that were written during th
 
 ## Evaluation
 
-The test fails if sensitive data is traced during a write operation to the general pasteboard specifically.
+The test case fails if sensitive data is traced during a write operation to the general pasteboard specifically.

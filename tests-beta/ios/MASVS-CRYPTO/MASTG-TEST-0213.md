@@ -25,7 +25,7 @@ The output should include any instances where the app uses cryptographic functio
 
 ## Evaluation
 
-The test fails if calls to cryptographic functions with hardcoded keys are found within binary.
+The test case fails if calls to cryptographic functions with hardcoded keys are found within binary.
 
 You may find the keys being directly passed as arguments to cryptographic functions (byte arrays or string literals) or stored in variables or constants within the code. Typical representations of hardcoded keys include:
 

@@ -70,7 +70,7 @@ The output should contain:
 
 **Fail:**
 
-The test fails if all of the following are true:
+The test case fails if all of the following are true:
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `setAllowContentAccess` is explicitly set to `true` or _not used at all_ (inheriting the default value, `true`).

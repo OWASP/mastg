@@ -32,4 +32,4 @@ The output should contain a list of files that are restored from the backup.
 
 ## Evaluation
 
-The test fails if any of the files are considered sensitive.
+The test case fails if any of the files are considered sensitive.

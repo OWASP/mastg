@@ -43,7 +43,7 @@ The output should explicitly show:
 
 ## Evaluation
 
-The test fails if the app allows sensitive data to be backed up. Specifically, if the following conditions are met:
+The test case fails if the app allows sensitive data to be backed up. Specifically, if the following conditions are met:
 
 - `android:allowBackup="true"` in the `AndroidManifest.xml`
 - `android:fullBackupContent="@xml/backup_rules"` isn't declared in the `AndroidManifest.xml` (for Android 11 or lower)
