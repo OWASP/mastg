@@ -36,7 +36,6 @@ The test case fails if the app configures keys used for sensitive operations wit
 - `setUserAuthenticationParameters(duration, type)` where duration > 0
 - `setUserAuthenticationValidityDurationSeconds(duration)` where duration > 0
 
-
 **Pass:**
 
 The test case passes if the app uses `setUserAuthenticationParameters(0, type)` to require authentication for every cryptographic operation when protecting sensitive data resources or sensitive functionality.
