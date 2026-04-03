@@ -4,7 +4,7 @@ platform: generic
 source: https://github.com/frida/frida
 ---
 
-[Frida](https://www.frida.re "Frida") is a free and open source dynamic code instrumentation toolkit written by Ole André Vadla Ravnås that works by injecting the [QuickJS](https://bellard.org/quickjs/) JavaScript engine (previously [Duktape](https://duktape.org/ "Duktape JavaScript Engine") and [V8](https://v8.dev/docs "V8 JavaScript Engine")) into the instrumented process. Frida lets you execute snippets of JavaScript into native apps on Android and iOS (as well as on [other platforms](https://www.frida.re/docs/home/ "So what is Frida, exactly?")).
+Frida is a free and open source dynamic code instrumentation toolkit written by Ole André Vadla Ravnås that works by injecting the [QuickJS](https://bellard.org/quickjs/) JavaScript engine (previously [Duktape](https://duktape.org/ "Duktape JavaScript Engine") and [V8](https://v8.dev/docs "V8 JavaScript Engine")) into the instrumented process. Frida lets you execute snippets of JavaScript into native apps on Android and iOS (as well as on [other platforms](https://www.frida.re/docs/home/ "So what is Frida, exactly?")).
 
 <img src="Images/Chapters/0x04/frida_logo.png" style="width: 80%; border-radius: 5px; margin: 2em" />
 
@@ -20,7 +20,7 @@ Or refer to the [installation page](https://www.frida.re/docs/installation/ "Fri
 
 ## Modes of Operation
 
-Code can be injected in several ways. For example, Xposed permanently modifies the Android app loader, providing hooks for running your own code every time a new process is started.
+Code can be injected in several ways. For example, @MASTG-TOOL-0149 permanently modifies the Android app loader, providing hooks for running your own code every time a new process is started.
 In contrast, Frida implements code injection by writing code directly into the process memory. When attached to a running app:
 
 - Frida uses ptrace to hijack a thread of a running process. This thread is used to allocate a chunk of memory and populate it with a mini-bootstrapper.
@@ -43,7 +43,7 @@ Frida offers three modes of operation:
 Independently of the chosen mode, you can make use of the [Frida JavaScript APIs](https://www.frida.re/docs/javascript-api/ "Frida JavaScript APIs") to interact with the running process and its memory. Some of the fundamental APIs are:
 
 - [Interceptor](https://www.frida.re/docs/javascript-api/#interceptor "Interceptor"): When using the Interceptor API, Frida injects a trampoline (aka in-line hooking) at the function prologue which provokes a redirection to our custom code, executes our code, and returns to the original function. Note that while very effective for our purpose, this introduces a considerable overhead (due to the trampoline related jumping and context switching) and cannot be considered transparent as it overwrites the original code and acts similar to a debugger (putting breakpoints) and therefore can be detected in a similar manner, e.g. by applications that periodically checksum their own code.
-- [Stalker](https://www.frida.re/docs/javascript-api/#stalker "Stalker"): If your tracing requirements include transparency, performance and high granularity, Stalker should be your API of choice. When tracing code with the Stalker API, Frida leverages just-in-time dynamic recompilation (by using [Capstone](http://www.capstone-engine.org/ "Capstone")): when a thread is about to execute its next instructions, Stalker allocates some memory, copies the original code over, and interlaces the copy with your custom code for instrumentation. Finally, it executes the copy (leaving the original code untouched, and therefore avoiding any anti-debugging checks). This approach increases instrumentation performance considerably and allows for very high granularity when tracing (e.g. by tracing exclusively CALL or RET instructions). You can learn more in-depth details in [the blog post "Anatomy of a code tracer" by Frida's creator Ole](https://medium.com/@oleavr/anatomy-of-a-code-tracer-b081aadb0df8 "Anatomy of a code tracer") [#vadla]. Some examples of use for Stalker are, for example [who-does-it-call](https://codeshare.frida.re/@oleavr/who-does-it-call/ "who-does-it-call") or [diff-calls](https://github.com/frida/frida-presentations/blob/master/R2Con2017/01-basics/02-diff-calls.js "diff-calls"). For practical tutorials and advanced usage patterns, see the [Stalker section in the Frida Handbook](https://learnfrida.info/advanced_usage/#stalker).
+- [Stalker](https://www.frida.re/docs/javascript-api/#stalker "Stalker"): If your tracing requirements include transparency, performance and high granularity, Stalker should be your API of choice. When tracing code with the Stalker API, Frida leverages just-in-time dynamic recompilation (by using [Capstone](https://www.capstone-engine.org/ "Capstone")): when a thread is about to execute its next instructions, Stalker allocates some memory, copies the original code over, and interlaces the copy with your custom code for instrumentation. Finally, it executes the copy (leaving the original code untouched, and therefore avoiding any anti-debugging checks). This approach increases instrumentation performance considerably and allows for very high granularity when tracing (e.g. by tracing exclusively CALL or RET instructions). You can learn more in-depth details in [the blog post "Anatomy of a code tracer" by Frida's creator Ole](https://medium.com/@oleavr/anatomy-of-a-code-tracer-b081aadb0df8 "Anatomy of a code tracer") [#vadla]. Some examples of use for Stalker are, for example [who-does-it-call](https://codeshare.frida.re/@oleavr/who-does-it-call/ "who-does-it-call") or [diff-calls](https://github.com/frida/frida-presentations/blob/master/R2Con2017/01-basics/02-diff-calls.js "diff-calls"). For practical tutorials and advanced usage patterns, see the [Stalker section in the Frida Handbook](https://learnfrida.info/advanced_usage/#stalker).
 - [Java](https://www.frida.re/docs/javascript-api/#java "Java"): When working on Android you can use this API to enumerate loaded classes, enumerate class loaders, create and use specific class instances, enumerate live instances of classes by scanning the heap, etc.
 - [ObjC](https://www.frida.re/docs/javascript-api/#objc "ObjC"): When working on iOS you can use this API to get a mapping of all registered classes, register or use specific class or protocol instances, enumerate live instances of classes by scanning the heap, etc.
 
@@ -53,7 +53,7 @@ Frida 17 introduces [breaking changes](https://frida.re/news/2025/05/17/frida-17
 
 **Bridges:**
 
-Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use the commands `frida` and `frida-trace`, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
+Frida 17 removes the bundled [runtime bridges](https://frida.re/docs/bridges/) (`frida-{objc,swift,java}-bridge`) within Frida's GumJS runtime. When you use CLI tools such as `frida`, `frida-trace` or @MASTG-TOOL-0145, this doesn't have any noticeable impact, as they come with the Java, Objective-C, and Swift bridges pre-bundled, so you can still use them as before.
 
 However, if you are writing your own custom Frida-based tooling or scripts that depend on these bridges, you will now need to install them separately via `frida-pm`, Frida's package manager. For example, to install the Java bridge, run:
 
@@ -76,7 +76,9 @@ npx frida-compile -o agent.js -o _agent.js
 
 **API Changes:**
 
-Frida has made changes to its native APIs. While these changes may break some of your existing scripts, they encourage you to write more readable and performant code. For instance, now, `Process.enumerateModules()` returns an array of `Module` objects, allowing you to work with them directly.
+Frida has made changes to its native APIs. While these changes may break some of your existing scripts, they encourage you to write more readable and performant code. See a full overview in the [MASTG Frida scripts writing guide](https://mas.owasp.org/contributing/writing-content/mastg-frida-scripts.instructions#use-and-validation-of-frida-apis).
+
+For instance, now, `Process.enumerateModules()` returns an array of `Module` objects, allowing you to work with them directly.
 
 ```js
 for (const module of Process.enumerateModules()) {
@@ -94,7 +96,11 @@ Process.getModuleByName('libc.so').getExportByName('open')
 Module.getGlobalExportByName('open');
 ```
 
-For more details, refer to the [Frida 17.0.0 Release Notes](https://frida.re/news/2025/05/17/frida-17-0-0-released/).
+For more details, see:
+
+- the [Frida 17.0.0 Release Notes](https://frida.re/news/2025/05/17/frida-17-0-0-released/)
+- the [updated Frida JavaScript API documentation](https://frida.re/docs/javascript-api/)
+- the [frida-gum typings](https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/refs/heads/master/types/frida-gum/index.d.ts)
 
 ## Tools
 

@@ -51,6 +51,12 @@ output.txt
 run.sh*
 ```
 
+## Creating Demo IDs
+
+When creating a new demo (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-DEMO-0x##` (for example, `MASTG-DEMO-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-DEMO-0x33`, `MASTG-DEMO-0x34`, `MASTG-DEMO-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-DEMO-0054`) before the content is published.
+
 ## Markdown: Metadata
 
 ### id
@@ -97,12 +103,12 @@ tools: [semgrep]
 
 ### code
 
-The language(s) in which the samples are written. Multiple values are supported.
+The language(s) in which the samples are written. This must not include the reverse-engineered files (e.g. `.java`, `.asm`, etc.)
 
 Example:
 
 ```md
-code: [java]
+code: [kotlin]
 ```
 
 Multi-language example:
@@ -146,6 +152,12 @@ Shortly describe the sample and specify the exact sample files using this notati
 
 ```md
 {{ MastgTest.kt # MastgTest_reversed.java }}
+```
+
+You can reuse any files from other demos to avoid duplication (this also applies to scripts, hooks, rules, etc):
+
+```md
+{{ ../MASTG-DEMO-0095/MastgTest.swift }}
 ```
 
 Example:
@@ -206,7 +218,7 @@ Review each of the reported instances.
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
 ```
 
-## Code Samples {#code-samples}
+## Code Samples
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
 
@@ -243,7 +255,7 @@ For example, if you generate a random number, you can return it; or if you write
 
 ### Fail/Pass
 
-Must contain comments indicating fail/pass and the test alias. This way, we can validate that the output is correct (e.g., the code contains three failures of `MASTG-TEST-0204`). We can easily parse and count the comments, and we can do the same in the output.
+Optionally, may contain comments indicating fail/pass and the test alias. This way, we can validate that the output is correct (e.g., the code contains three failures of `MASTG-TEST-0204`). We can easily parse and count the comments, and we can do the same in the output.
 
 Each FAIL/PASS comment must include the test ID and an explanation of why it fails/passes.
 
