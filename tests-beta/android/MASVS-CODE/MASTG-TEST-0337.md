@@ -1,7 +1,7 @@
 ---
 title: References to Object Deserialization of Untrusted Data
 platform: android
-id: MASTG-TEST-0x34
+id: MASTG-TEST-0337
 type: [static]
 weakness: MASWE-0088
 profiles: [L1, L2]

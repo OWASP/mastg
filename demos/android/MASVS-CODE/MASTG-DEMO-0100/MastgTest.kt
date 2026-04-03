@@ -65,7 +65,7 @@ class MastgTest(@Suppress("unused") private val context: Context) {
 
             try {
                 val serializedPayload = Base64.getDecoder().decode(b64Payload)
-                // FAIL: [MASTG-TEST-0x34] The app deserializes objects from an untrusted source without any type filtering or validation.
+                // FAIL: [MASTG-TEST-0337] The app deserializes objects from an untrusted source without any type filtering or validation.
                 val ois = ObjectInputStream(ByteArrayInputStream(serializedPayload))
 
                 val untrustedObject = ois.readObject()
