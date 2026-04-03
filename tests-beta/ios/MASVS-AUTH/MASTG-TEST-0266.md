@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0056]
 
 ## Overview
 
-This test checks if the app insecurely accesses sensitive resources that should be protected by user authentication (e.g., tokens, keys) relying solely** on the LocalAuthentication API for access control instead of using the Keychain API and requiring user presence.
+This test checks if the app insecurely accesses sensitive resources (e.g., tokens, keys) that should be protected by user authentication relying **solely** on the LocalAuthentication API for access control instead of using the Keychain API and requiring user presence.
 
 The **LocalAuthentication** API (e.g., `LAContext`) provides user authentication (Touch ID, Face ID, device passcode), returning only a success or failure result. However, it **does not** securely store secrets or enforce any security. This makes it susceptible to logic manipulation (e.g., bypassing an `if authenticated { ... }` check).
 

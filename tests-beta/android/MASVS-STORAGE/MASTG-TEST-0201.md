@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0042]
 
 ## Overview
 
-Android apps use a variety of [APIs to access the external storage](../../../0x05d-Testing-Data-Storage.md/#external-storage-apis). Collecting a comprehensive list of these APIs can be challenging, especially if an app uses a third-party framework, loads code at runtime, or includes native code. The most effective approach to testing applications that write to device storage is usually dynamic analysis, and specifically method tracing (@MASTG-TECH-0033).
+Android apps use a variety of APIs to access the external storage (@MASTG-KNOW-0042). Collecting a comprehensive list of these APIs can be challenging, especially if an app uses a third-party framework, loads code at runtime, or includes native code. The most effective approach to testing applications that write to device storage is usually dynamic analysis, and specifically method tracing (@MASTG-TECH-0033).
 
 ## Steps
 

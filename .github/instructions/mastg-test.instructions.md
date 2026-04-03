@@ -21,7 +21,7 @@ Example tests for reference:
 
 - [MASTG-TEST-0207](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0207/)
 - [MASTG-TEST-0216](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0216/)
-- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests/android/MASVS-STORAGE/MASTG-TEST-0263/)
+- [MASTG-TEST-0263](https://mas.owasp.org/MASTG/tests/android/MASVS-RESILIENCE/MASTG-TEST-0263/)
 
 Notes:
 
@@ -29,6 +29,12 @@ Notes:
 - Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach.
 
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
+
+## Creating Test IDs
+
+When creating a new test (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-TEST-0x##` (for example, `MASTG-TEST-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-TEST-0x33`, `MASTG-TEST-0x34`, `MASTG-TEST-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-TEST-0233`) before the content is published.
 
 ## Markdown: Metadata
 
@@ -127,7 +133,7 @@ prerequisites:
 ### profiles
 
 Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in [MAS Testing Profiles Guide](Document/0x03b-Testing-Profiles.md)
+The profiles are described in [MAS Testing Profiles Guide](../../Document/0x03b-Testing-Profiles.md)
 
 - L1 denotes Essential Security.
 - L2 denotes Advanced Security.
@@ -142,7 +148,7 @@ profiles: [L1, L2, P]
 
 ### knowledge
 
-Reference the related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
+Must always reference related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
 
 Example:
 
@@ -156,8 +162,8 @@ Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note
-- `available_since:` minimum platform/API level
-- `deprecated_since:` last applicable platform/API level
+- `available_since:` minimum platform/API level (e.g. 13 in Android or 2.0 in iOS)
+- `deprecated_since:` last applicable platform/API level (e.g. 24 in Android or 12.0 in iOS)
 - `apis:` list of relevant APIs
 
 Notes:
