@@ -1,11 +1,7 @@
-name: Markdown Linter
+name: Markdown Linter (Reusable)
 
 on:
-  workflow_dispatch:
-  pull_request:
-  push:
-    branches:
-      - master
+  workflow_call:
 
 jobs:
   markdown-lint-check:
@@ -15,10 +11,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
       - name: Install markdownlint-rule-search-replace plugin
-        run: npm install markdownlint-rule-search-replace --save-dev  
+        run: npm install markdownlint-rule-search-replace --save-dev
+
       - name: markdownlint-cli2
         uses: DavidAnson/markdownlint-cli2-action@v16.0.0
         with:
           config: ".markdownlint.jsonc"
-

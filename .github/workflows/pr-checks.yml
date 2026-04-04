@@ -1,0 +1,36 @@
+name: PR Checks
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  spell-check:
+    name: Spell Check (Changed Files)
+    uses: ./.github/workflows/reusable-spell-checker.yml
+    secrets: inherit
+    with:
+      check_modified_files_only: true
+      pr_number: ${{ github.event.pull_request.number }}
+
+  url-check:
+    name: URL Check (Changed Files)
+    uses: ./.github/workflows/reusable-url-checker.yml
+    secrets: inherit
+    with:
+      check_modified_files_only: true
+
+  markdown-lint:
+    name: Markdown Lint
+    uses: ./.github/workflows/reusable-markdown-linter.yml
+    secrets: inherit
+
+  website-build:
+    name: Website Build Check
+    uses: ./.github/workflows/reusable-website-build-checker.yml
+    secrets: inherit
+    with:
+      pr_number: ${{ github.event.pull_request.number }}

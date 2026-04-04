@@ -1,0 +1,16 @@
+name: Website Build Checker (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        description: 'Pull request number'
+        required: true
+        type: number
+
+jobs:
+  website-build-check:
+    uses: OWASP/mas-website/.github/workflows/build-website-reusable.yml@main
+    with:
+      deploy: false
+      sources_override_json: ${{ format('{{"OWASP/mastg":"refs/pull/{0}/head"}}', inputs.pr_number) }}

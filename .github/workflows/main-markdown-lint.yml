@@ -1,0 +1,17 @@
+name: Markdown Lint
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  markdown-lint:
+    name: Markdown Lint
+    uses: ./.github/workflows/reusable-markdown-linter.yml
+    secrets: inherit
