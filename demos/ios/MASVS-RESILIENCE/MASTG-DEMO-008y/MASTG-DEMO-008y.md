@@ -6,7 +6,7 @@ id: MASTG-DEMO-008y
 test: MASTG-TEST-03x2
 ---
 
-### Sample
+## Sample
 
 The sample code below demonstrates insecure verbose logging across multiple iOS logging APIs, including `NSLog`, `print`, `debugPrint`, `dump`, and Apple Unified Logging via `Logger`.
 
@@ -14,20 +14,20 @@ The sample intentionally logs sensitive and internal data during authentication,
 
 {{ ../MASTG-DEMO-008x/MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Install and launch the application on an iOS device or simulator.
 2. Start monitoring system logs as described in @MASTG-TECH-0060.
 3. Interact with the application and trigger the vulnerable logging flow from the UI.
 4. Capture the emitted runtime logs.
 
-### Observation
+## Observation
 
-Monitoring system logs during runtime reveals that the application emits verbose debug and error messages containing sensitive data and internal implementation details.
+Monitoring system logs during runtime reveals that the application emits verbose debug and error messages containing sensitive data and internal implementation details. The captured logs are stored in `system_log.txt`, while `output.txt` contains the PID used during the run.
 
-{{ output.txt }}
+{{ system_log.txt # output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because runtime log monitoring shows that the application emits sensitive information and internal implementation details through multiple logging APIs.
 

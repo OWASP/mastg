@@ -6,7 +6,7 @@ id: MASTG-DEMO-008x
 test: MASTG-TEST-03x1
 ---
 
-### Sample
+## Sample
 
 The sample code below demonstrates insecure verbose logging across multiple iOS logging APIs, including `NSLog`, `print`, `debugPrint`, `dump`, and Apple Unified Logging via `Logger`.
 
@@ -14,16 +14,16 @@ The sample intentionally invokes logging APIs during authentication, networking,
 
 {{ MastgTest.swift }}
 
-### Steps
+## Steps
 
-1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
+1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058).
 2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run the Radare2 script and identify cross references to logging related imports in the compiled binary.
 
 {{ verbose_logging.r2 }}
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output shows cross references to multiple logging APIs:
 
@@ -46,8 +46,8 @@ Note that the source count and xref count do not always match exactly. In this c
 
 You'll notice that even though we aren't calling the old C style `os_log(...)` API directly, since we are using `Logger`, and `Logger` is part of Apple's Unified Logging system we see references to `os_log`. Under the hood, Swift logging relies on the unified logging machinery, which is why lower level logging symbols appear in the compiled binary.
 
-### Evaluation
+## Evaluation
 
 The test fails because analysis showed that the application contains implemented logging paths that record verbose diagnostic and error related information, rather than merely linking against or referencing logging APIs.
 
-This was determined by reverse engineering the binary to inspect the data supplied to logging calls, and can be further validated by running the app and capturing runtime logs to confirm the specific content emitted during execution. Static analysis helps identify what may be logged across the binary, but can be difficult when code is optimized, stripped, or indirect (this demo). Dynamic analysis shows what is actually logged in tested scenarios, but may miss code paths that are not triggered (see @MASTG-DEMO-008y). Taken together, these approaches are sufficient to demonstrate that the app produces overly verbose production log output.
+This was determined by reverse engineering the binary to identify cross references to logging APIs and correlating them with the security-relevant code paths observed in the sample. The static analysis output shows that authentication, networking, storage, and error-handling code paths all lead to verbose logging calls, indicating that the compiled app will emit detailed diagnostic information in these contexts. You can further validate the specific log contents with dynamic analysis and runtime log capture (see @MASTG-DEMO-008y), but that is outside the scope of this static demo.

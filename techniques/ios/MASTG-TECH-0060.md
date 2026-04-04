@@ -21,7 +21,7 @@ Xcode is a convenient way to observe both app activity and log output during tes
 5. Reproduce the behavior you want to inspect.
 6. Open the device or simulator console to review emitted log entries.
 
-Apple documents the Devices and Simulators workflow in Xcode, and also notes that for Simulator you can open the simulated device's system log from Xcode. :contentReference[oaicite:1]{index=1}
+Apple documents the Devices and Simulators workflow in Xcode, and also notes that for Simulator you can open the simulated device's system log from Xcode.
 
 <img src="Images/Chapters/0x06b/open_device_console.png" width="100%" />
 
@@ -42,7 +42,7 @@ This method is useful for collecting device side logs outside Xcode, but it shou
 <img src="Images/Chapters/0x06b/idevicesyslog-screen.png" width="100%" />
 
 !!! note
-    `idevicesyslog` may not show all log levels or all output sources. In particular, debug and info level Unified Logging messages may be filtered, transient, or unavailable depending on configuration and collection method. Apple's logging documentation explains that Unified Logging uses different stores and retention behavior, and Apple Developer guidance notes that viewing debug and info messages may require enabling them explicitly in log viewers. :contentReference[oaicite:2]{index=2}
+    `idevicesyslog` may not show all log levels or all output sources. In particular, debug and info level Unified Logging messages may be filtered, transient, or unavailable depending on configuration and collection method. Apple's logging documentation explains that Unified Logging uses different stores and retention behavior, and Apple Developer guidance notes that viewing debug and info messages may require enabling them explicitly in log viewers.
 
 ## Using system log tooling on the Simulator
 

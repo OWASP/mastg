@@ -12,7 +12,7 @@ profiles: [R]
 
 This test checks for verbose error logging and debugging messages in iOS applications. While logging is useful during development, verbose logging in production builds can expose implementation details such as function names, code paths, internal state information, and error conditions that could be exploited by attackers performing reverse engineering.
 
-Common logging APIs on iOS include `NSLog`, `print`, `println`, `dump`, `debugPrint`, and `os_log`. Applications should ensure that debug-level logging is disabled in production builds and that any error messages logged are minimal and don't reveal sensitive implementation details.
+Common logging APIs on iOS include `NSLog`, `print`, `dump`, `debugPrint`, and `os_log`. If debug-level logging remains enabled in production builds or if logged error messages are overly detailed, they can reveal implementation details that increase the app's attack surface.
 
 This test focuses on verbose logging that exposes implementation details. For tests specifically targeting sensitive data in logs, see @MASTG-TEST-0296 and @MASTG-TEST-0297.
 

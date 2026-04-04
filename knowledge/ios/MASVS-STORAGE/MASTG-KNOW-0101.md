@@ -38,14 +38,6 @@ Typical insecure patterns include:
 - Logging complete `NSError` objects, including `domain`, `code`, and `userInfo`.
 - Logging stack traces or internal class and method names in production builds.
 
-To reduce risk, developers should:
-
-- Avoid logging secrets, credentials, tokens, cookies, or personal data.
-- Avoid logging complete request, response, error, or storage objects.
-- Use privacy-aware structured logging for non-sensitive operational events.
-- Restrict verbose and debug logging to non-production builds.
-- Review third party SDKs and internal wrappers to ensure they do not emit sensitive logs.
-
 Logging should be treated as a potential data exposure surface. Even when logs are intended only for debugging, they can reveal sensitive information that should not be accessible on a production device.
 
 ## Additional Logging Sources
