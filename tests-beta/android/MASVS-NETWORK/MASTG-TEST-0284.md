@@ -24,7 +24,7 @@ This effectively bypasses SSL certificate checks in the `WebView`, exposing the 
 
 ## Observation
 
-The output contains a list of locations where `onReceivedSslError(...)` that includes a `proceed()` is used without exception handling that properly handles SSL errors.
+The output should contain a list of locations where `onReceivedSslError(...)` that includes a `proceed()` is used without exception handling that properly handles SSL errors.
 
 ## Evaluation
 
