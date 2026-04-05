@@ -90,7 +90,7 @@ jobs:
         run: ./mas-app-ios/.github/scripts/build-unsigned.sh
 
       - name: Pseudo sign with entitlements.plist
-        run: ./mas-app-ios/.github/scripts/add-entitlements.sh
+        run: ./mas-app-ios/.github/scripts/add-entitlements.sh $([ -f "${{ matrix.demo }}/entitlements.plist" ] && echo "${{ matrix.demo }}/entitlements.plist")
 
       - name: Create IPA
         run: |
