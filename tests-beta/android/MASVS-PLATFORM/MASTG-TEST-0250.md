@@ -68,8 +68,6 @@ The output should contain:
 
 ## Evaluation
 
-**Fail:**
-
 The test case fails if all of the following are true:
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
@@ -78,12 +76,5 @@ The test case fails if all of the following are true:
 
 You should use the list of content providers obtained in the observation step to verify if they handle sensitive data.
 
-**Note:** The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack. Therefore, it is recommended to explicitly set it to `false` if the app does not need to access content providers.
-
-**Pass:**
-
-The test case passes if any of the following are true:
-
-- `setJavaScriptEnabled` is explicitly set to `false` or _not used at all_ (inheriting the default value, `false`).
-- `setAllowContentAccess` method is explicitly set to `false`.
-- `setAllowUniversalAccessFromFileURLs` method is explicitly set to `false`.
+!!! note
+ The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

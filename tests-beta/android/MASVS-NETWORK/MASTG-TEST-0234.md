@@ -30,4 +30,5 @@ The output contains a list of locations where `SSLSocket` and `HostnameVerifier`
 
 The test case fails if the app uses `SSLSocket` without a `HostnameVerifier`.
 
-**Note:** If a `HostnameVerifier` is present, ensure it's not implemented in an unsafe manner. See @MASTG-TEST-0283 for guidance.
+!!! note
+ If a `HostnameVerifier` is present, ensure it's not implemented in an unsafe manner. See @MASTG-TEST-0283 for guidance.

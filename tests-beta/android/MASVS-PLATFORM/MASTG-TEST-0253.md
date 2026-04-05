@@ -27,20 +27,11 @@ The output should contain a list of WebView instances and corresponding settings
 
 ## Evaluation
 
-**Fail:**
-
 The test case fails if all of the following are true:
 
 - `AllowFileAccess` is `true`.
 - `AllowFileAccessFromFileURLs` is `true`.
 - `AllowUniversalAccessFromFileURLs` is `true`.
 
-**Note:** `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack. Therefore, it is recommended to explicitly set it to `false` if the app does not need to access local files.
-
-**Pass:**
-
-The test case passes if any of the following are true:
-
-- `AllowFileAccess` is `false`.
-- `AllowFileAccessFromFileURLs` is `false`.
-- `AllowUniversalAccessFromFileURLs` is `false`.
+!!! note
+ `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.
