@@ -204,10 +204,14 @@ The rule has identified some instances in the code file where a non-random sourc
 
 A concise explanation of how you applied the test's "Evaluation" section to this demo. If lines are present in the observation, explain each relevant line.
 
+It MUST start with "The test case fails because ...".
+
 Example:
 
 ```md
 ## Evaluation
+
+The test case fails because the app generates random numbers using insecure APIs in security-relevant contexts.
 
 Review each of the reported instances.
 

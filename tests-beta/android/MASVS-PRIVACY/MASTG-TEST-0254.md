@@ -21,7 +21,7 @@ There are multiple tools that can help in finding permissions in use by an app. 
 
 ## Observation
 
-The output shows the list of permissions declared by the app.
+The output should contain the list of permissions declared by the app.
 
 ## Evaluation
 
