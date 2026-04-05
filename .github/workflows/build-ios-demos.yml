@@ -70,7 +70,6 @@ jobs:
         with:
           repository: cpholguera/mas-app-ios
           path: mas-app-ios
-          ref: add-debug-entitlements #TODO remove this when the PR is merged - only for testing purposes
 
       - name: Install dependencies
         uses: tecolicom/actions-use-homebrew-tools@v1
