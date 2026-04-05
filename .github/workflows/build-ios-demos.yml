@@ -53,6 +53,7 @@ jobs:
 
   build:
     needs: generate-matrix
+    if: ${{ needs.generate-matrix.outputs.matrix != '{"demo":[]}' }}
     runs-on: macos-latest
     timeout-minutes: 15
     strategy:
@@ -72,7 +73,16 @@ jobs:
           path: mas-app-ios
 
       - name: Install dependencies
-        run: ./mas-app-ios/.github/scripts/install-dependencies.sh
+        uses: tecolicom/actions-use-homebrew-tools@v1
+        with:
+          tools: ldid
+
+      - name: Set default scheme and iOS deployment target
+        run: |
+          cd mas-app-ios
+          default=$(xcodebuild -list -json | jq -r '.project.targets[0]')
+          echo "DEFAULT_SCHEME=$default" >> "$GITHUB_ENV"
+          echo "Using default scheme: $default"
 
       - name: Replace files with demo and prepare build
         run: |

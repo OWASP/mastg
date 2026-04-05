@@ -5,7 +5,7 @@ hide:
 
 # OWASP MASTG
 
-<img src="../assets/mastg_cover.png" align="right" style="border-radius: 3px; margin: 3em; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;" width="350px" />
+<img src="https://mas.owasp.org/assets/mastg_cover.png" align="right" style="border-radius: 3px; margin: 3em; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;" width="350px" />
 
 <a href="https://github.com/OWASP/mastg/">:material-github: GitHub Repo</a>
 
@@ -17,6 +17,7 @@ The **OWASP Mobile Application Security Testing Guide (MASTG)** is a comprehensi
 
 Start exploring the MASTG:
 
+<!-- markdown-link-check-disable -->
 <!-- markdownlint-disable search-replace -->
 <a href="knowledge/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-book-open-blank-variant-outline:  Knowledge</a>
 <a href="tests/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-codescan-checkmark-24:  Tests</a>
@@ -26,5 +27,6 @@ Start exploring the MASTG:
 <a href="apps/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-code-square-24:  Apps</a>
 <a href="best-practices/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-shield-check:  Best Practices</a>
 <!-- markdownlint-disable search-replace -->
+<!-- markdown-link-check-enable -->
 
 <br>

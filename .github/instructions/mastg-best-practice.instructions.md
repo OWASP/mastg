@@ -8,7 +8,11 @@ applyTo: 'best-practices/*.md'
 
 Best practices live under `best-practices/` and each file name must be the best-practice ID, for example `MASTG-BEST-0001.md`.
 
-Best practices must be linked from MASTG tests using the `best-practices:` key in the test's YAML front matter (use bare IDs, without the leading @).
+## Creating Best Practice IDs
+
+When creating a new best practice (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-BEST-0x##` (for example, `MASTG-BEST-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-BEST-0x33`, `MASTG-BEST-0x34`, `MASTG-BEST-0x35`) as you add new content.
+
+Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-BEST-0025`) before the content is published.
 
 They must include official references. You can cite the MASTG as a hub only when it points to official sources (for example, Google/Apple documentation, standards, or vendor advisories).
 
@@ -27,24 +31,24 @@ Relationship to Tests and Knowledge (nuance):
 
 Include a YAML front matter block with the following fields:
 
-- title: Concise, action-oriented recommendation.
-- id: Best-practice ID in the form `MASTG-BEST-\d{4}`.
-- platform: One of: android, ios.
+- `title`: Concise, action-oriented recommendation.
+- `id`: Best-practice ID in the form `MASTG-BEST-\d{4}`.
+- `platform`: One of: android, ios, generic.
 
 Optional metadata:
 
-- alias: URL-friendly slug (lowercase, hyphen-separated) used for navigation.
-- status: draft, placeholder, deprecated.
-- note: Short free-form note.
-- knowledge: One or more related Knowledge pages (`MASTG-KNOW-####`) for neutral background and API reference.
-- available_since: Minimum platform version/API level where this recommendation applies (Android: integer API level; iOS: release version, for example `13`).
-- deprecated_since: Last applicable platform/API level.
+- `alias`: URL-friendly slug (lowercase, hyphen-separated) used for navigation.
+- `status`: draft, placeholder, deprecated.
+- `note`: Short free-form note.
+- `knowledge`: One or more related Knowledge pages (`MASTG-KNOW-####`) for neutral background and API reference.
+- `available_since`: Minimum platform version/API level where this recommendation applies (Android: integer API level; iOS: release version, for example `13`).
+- `deprecated_since`: Last applicable platform/API level.
 
 Example:
 
 ```yaml
 ---
-name: Preventing Screenshots and Screen Recording
+title: Preventing Screenshots and Screen Recording
 alias: preventing-screenshots-and-screen-recording
 id: MASTG-BEST-0014
 platform: android
@@ -58,37 +62,32 @@ Notes:
 
 Best Practices should contain:
 
-- what's the recommendation
-- why is that good
+- what's the recommendation (stated clearly and concisely at the start)
+- why is that good (security value and context, woven into the explanation)
 - any caveats or considerations (for example, "it's good to have it, but remember it can be bypassed this way")
-- official references
+- official references (embedded inline as markdown links, not in a separate section)
 
-## Recommended Structure
+## Structure
 
-Use clear sections to improve readability and enable consistent rendering.
+Best practices are flexible in structure and adapt to the content. They typically:
 
-- Overview or Recommendation: State the practice and its scope in one or two short paragraphs. Link to relevant Knowledge pages for background when needed.
-- Rationale: Explain the security value and platform implications; keep conceptual detail brief and defer to Knowledge pages.
-- Caveats or Considerations: Note limits, bypasses, compatibility constraints, or trade-offs.
-- References: Bullet list of official, authoritative sources.
+- Start with 1-2 paragraphs explaining the recommendation and its security value
+- Use ## subheadings to organize content by platform, language, approach, or topic (e.g., "Java/Kotlin", "Swift / Objective-C", "Using ProGuard", "Common Misconceptions")
+- Embed official documentation links inline using markdown syntax
+- Reference related MASTG content with @ notation (e.g., @MASTG-TOOL-0022, @MASTG-KNOW-0018)
+- Keep explanations concise and focused on the practice itself
+- Include minimal code examples when helpful to illustrate the recommendation. Prefer to link to MASTG-DEMOs that have metadata `kind: pass`.
+- Use **Note** or **Warning** Admonitions for important caveats or clarifications
 
-Example References section:
+Examples of good structure:
 
-```markdown
-## References
+- Brief opening paragraph stating the practice → subsections for different languages/approaches → inline references
+- Opening explanation with security context → detailed guidance with code examples → caveats woven in
+- Direct recommendation → platform-specific implementation details → misconceptions or warnings
 
-- Android docs: https://developer.android.com/security/fraud-prevention/activities#flag_secure
-- Apple docs: https://developer.apple.com/documentation
-- Standard: https://www.rfc-editor.org
-```
+If additional resources need to be highlighted, list them informally at the end with natural phrasing (e.g., "See these resources for more details:") rather than a formal "References" section.
 
 ## Cross-linking
 
-- From tests: use `best-practices: [MASTG-BEST-0001, MASTG-BEST-0011]` in the test's YAML front matter. The site generator will automatically create Mitigations links.
-- In body text: reference tests, tools, or techniques with @ (for example, @MASTG-TEST-0252, @MASTG-TOOL-0031).
-
-## Style
-
-- Follow the global Markdown rules and writing style (second person, active voice, concise, American spelling).
-- Use Chicago title case for titles.
-- Keep content focused and avoid duplicating other guide sections. Link out where appropriate.
+- From MASTG-TEST: use `best-practices: [MASTG-BEST-0001, MASTG-BEST-0011]` in the test's YAML front matter.
+- Anywhere in markdown bodies: use @MASTG-BEST-0001 to link to a best practice.
