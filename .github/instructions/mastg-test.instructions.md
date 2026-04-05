@@ -253,9 +253,11 @@ Example:
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts.
 ```
 
-Always prioritize creating a test that fails. If that's not possible, then state why the test passes.
+An explanation of the conditions that make the test pass must not be added. It is always assumed that the test fails for certain conditions and passes otherwise, making the pass explanation redundant.
 
-In that case, it MUST start with "The test case passes if ...".
+A pass explanation can only be added for rare edge cases where it is unavoidable due to conditions particular to that case.
+
+In that case, it MUST start with "The test case passes if ..." and a fail explanation must not be added.
 
 Example:
 
@@ -263,38 +265,6 @@ Example:
 ## Evaluation
 
 The test passes if all security-sensitive inputs are protected against keyboard caching.
-```
-
-If you have included both a failing and a passing explanation, then the evaluation MUST be structured as follows:
-
-**Fail:**
-
-"The test case fails if ..."
-
-**Pass:**
-
-"The test case passes if ..."
-
-Example:
-
-```md
-## Evaluation
-
-**Fail:**
-
-The test case fails if all of the following are true:
-
-- `AllowFileAccess` is `true`.
-- `AllowFileAccessFromFileURLs` is `true`.
-- `AllowUniversalAccessFromFileURLs` is `true`.
-
-**Pass:**
-
-The test case passes if any of the following are true:
-
-- `AllowFileAccess` is `false`.
-- `AllowFileAccessFromFileURLs` is `false`.
-- `AllowUniversalAccessFromFileURLs` is `false`.
 ```
 
 IMPORTANT: Do not include remediation advice or best practices in the evaluation section. Remediation belongs in `best-practices/` and must be linked in the test metadata `best-practices`. If it does not exist yet, create it.
