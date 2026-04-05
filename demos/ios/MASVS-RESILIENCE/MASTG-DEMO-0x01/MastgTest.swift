@@ -16,6 +16,7 @@ class MastgTest {
     
     static func performLogin(username: String, password: String) -> String {
         // FAIL: [MASTG-TEST-0x01] Debug print exposes function execution flow and internal state
+        // FAIL: [MASTG-TEST-0297] Debug print exposes user name
         print("[DEBUG] performLogin() called with username: \(username)")
         
         // Simulate network request
@@ -23,6 +24,7 @@ class MastgTest {
         
         if success {
             // FAIL: [MASTG-TEST-0x01] Verbose success message exposes implementation details
+            // FAIL: [MASTG-TEST-0297] Verbose success message exposes authentication token
             debugPrint("✅ [DEBUG] Authentication successful - Session token generated: \(generateMockToken())")
             debugPrint("[DEBUG] User profile loaded from cache, bypassing network call")
             return "Login successful"
