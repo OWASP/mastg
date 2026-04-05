@@ -2,8 +2,8 @@
 platform: ios
 title: Verbose Error Logging Runtime Analysis
 code: [swift]
-id: MASTG-DEMO-008y
-test: MASTG-TEST-03x2
+id: MASTG-DEMO-0x02
+test: MASTG-TEST-0x02
 ---
 
 ## Sample
@@ -12,7 +12,7 @@ The sample code below demonstrates insecure verbose logging across multiple iOS 
 
 The sample intentionally logs sensitive and internal data during authentication, networking, storage access, and error handling. The emitted logs expose internal API endpoints, usernames and passwords, bearer tokens, refresh tokens, cookies, request and response metadata, cached profile data, error object contents, stack traces, internal module names, and network configuration details.
 
-{{ ../MASTG-DEMO-008x/MastgTest.swift }}
+{{ ../MASTG-DEMO-0x01/MastgTest.swift }}
 
 ## Steps
 

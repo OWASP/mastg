@@ -2,8 +2,8 @@
 platform: ios
 title: Verbose Error Logging Analysis
 code: [swift]
-id: MASTG-DEMO-008x
-test: MASTG-TEST-03x1
+id: MASTG-DEMO-0x1
+test: MASTG-TEST-0x01
 ---
 
 ## Sample
