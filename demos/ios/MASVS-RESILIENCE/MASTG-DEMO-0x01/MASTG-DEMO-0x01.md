@@ -37,10 +37,10 @@ Specifically:
 - **1 binary xref** to `dump.name.indent...` (the sample uses `dump(...)` 1 time).
 - **2 binary xrefs** to `Logger.subsystem.category...` (the sample uses `Logger(...)` 2 times).
 - `logger.debug`, `logger.error`, and `logger.fault` are used **4 times** in the sample and result in:
-  - **4 xrefs** to `Logger.logObject...`
-  - **4 xrefs** to `_os_log_impl`
-  - **4 xrefs** to `os_log_type_enabled`
-  - **4 log type xrefs**: **2 debug**, **1 error**, **1 fault**
+    - **4 xrefs** to `Logger.logObject...`
+    - **4 xrefs** to `_os_log_impl`
+    - **4 xrefs** to `os_log_type_enabled`
+    - **4 log type xrefs**: **2 debug**, **1 error**, **1 fault**
 
 Note that the number of logging calls in the source code and the number of binary xrefs do not always match exactly. In this case, `NSLog` and `print` each show one fewer xref than the number of source calls. That can happen because of compiler optimizations, inlining, or code generation details in Swift.
 
