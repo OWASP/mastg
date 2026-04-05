@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Verbose Error Logging and Debugging Messages
+title: Implementation Details Exposure Through Logging APIs
 id: MASTG-TEST-0x01
 type: [static]
 weakness: MASWE-0094
@@ -29,7 +29,7 @@ The output should contain a list of logging function calls found in the binary.
 
 ## Evaluation
 
-The test case fails if static analysis shows that the app contains implemented logging paths that produce verbose debug or error messages in production builds and expose internal implementation details.
+The test case fails if the app contains implemented logging paths that produce verbose debug or error messages in production builds and expose internal implementation details.
 
 This determination should be based on analyzing how logging APIs are used, not merely on the presence of logging functions in the binary. Reverse engineering should be used to inspect the arguments, message strings, and surrounding code paths in order to establish what information is logged and under which conditions.
 
@@ -43,3 +43,5 @@ Examples of failing cases include logs that reveal:
 - internal state, configuration, or feature behavior
 - library, framework, or component version details
 - developer oriented debugging messages not intended for production use
+
+It does not fail when logs include sensitive data such as API keys, passwords, user personal information, etc. These assets are treated separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.
