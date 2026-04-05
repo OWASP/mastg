@@ -18,8 +18,8 @@ This test is the dynamic counterpart to @MASTG-TEST-0297.
 In this test, we will monitor and capture the device logs and then analyze them for sensitive data.
 
 !!! warning Limitation
-    - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative you can use dynamic analysis with @MASTG-TOOL-0039.
-    - Dynamic analysis works best when you interact extensively with the app. But even then there could be corner cases which are difficult or impossible to execute on every device. The results from this test therefore are likely not exhaustive.
+    - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative, you can use dynamic analysis with @MASTG-TOOL-0039.
+    - Dynamic analysis works best when you interact extensively with the app. But even then, there could be corner cases that are difficult or impossible to execute on every device. The results from this test therefore are likely not exhaustive.
 
 ## Steps
 

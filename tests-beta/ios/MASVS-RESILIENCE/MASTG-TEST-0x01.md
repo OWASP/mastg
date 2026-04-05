@@ -12,7 +12,7 @@ profiles: [R]
 
 This test checks for verbose error logging and debugging messages in iOS applications. While logging is useful during development, verbose logging in production builds can expose implementation details such as function names, code paths, internal state information, and error conditions that could be exploited by attackers performing reverse engineering.
 
-Common logging APIs on iOS include `NSLog`, `print`, `dump`, `debugPrint`, and `os_log`. If debug-level logging remains enabled in production builds or if logged error messages are overly detailed, they can reveal implementation details that increase the app's attack surface.
+Common logging APIs on iOS include `NSLog`, `print`, `dump`, `debugPrint`, and `os_log`. If debug-level logging remains enabled in production builds, or if logged error messages are overly detailed, they can reveal implementation details that increase the app's attack surface.
 
 This test focuses on verbose logging that exposes implementation details. For tests specifically targeting sensitive data in logs, see @MASTG-TEST-0296 and @MASTG-TEST-0297.
 
@@ -25,11 +25,11 @@ This test focuses on verbose logging that exposes implementation details. For te
 
 ## Observation
 
-The output should contain a list of logging function calls found in the binary.
+The output should contain a list of logging function calls or other relevant logging references found in the binary.
 
 ## Evaluation
 
-The test case fails if the app contains implemented logging paths that produce verbose debug or error messages in production builds and expose internal implementation details.
+The test case fails if the app contains implemented logging paths that produce verbose debug or error messages in production builds and expose implementation details.
 
 This determination should be based on analyzing how logging APIs are used, not merely on the presence of logging functions in the binary. Reverse engineering should be used to inspect the arguments, message strings, and surrounding code paths in order to establish what information is logged and under which conditions.
 
@@ -38,10 +38,10 @@ Static analysis is well suited to identifying logging behavior across the codeba
 Examples of failing cases include logs that reveal:
 
 - internal function names or code paths
-- detailed error information, stack related details, or diagnostic context
+- detailed error information, stack-related details, or diagnostic context
 - API endpoints, backend routes, or internal URLs
 - internal state, configuration, or feature behavior
 - library, framework, or component version details
-- developer oriented debugging messages not intended for production use
+- developer-oriented debugging messages not intended for production use
 
-It does not fail when logs include sensitive data such as API keys, passwords, user personal information, etc. These assets are treated separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.
+It does not fail when logs include sensitive data such as API keys, passwords, or user personal information. These assets are treated separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.
