@@ -77,13 +77,6 @@ jobs:
         with:
           tools: ldid
 
-      - name: Set default scheme and iOS deployment target
-        run: |
-          cd mas-app-ios
-          default=$(xcodebuild -list -json | jq -r '.project.targets[0]')
-          echo "DEFAULT_SCHEME=$default" >> "$GITHUB_ENV"
-          echo "Using default scheme: $default"
-
       - name: Replace files with demo and prepare build
         run: |
           demo="${{ matrix.demo }}"
