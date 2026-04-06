@@ -14,7 +14,7 @@ The sample code demonstrates an insecure deserialization flaw in an Android app.
 adb shell am start -n org.owasp.mastestapp/.MainActivity --es payload_b64 'rO0ABXNyAChvcmcub3dhc3AubWFzdGVzdGFwcC5NYXN0Z1Rlc3QkQWRtaW5Vc2VyAAAAAAAAAMgCAAFaAAdpc0FkbWlueHIAJ29yZy5vd2FzcC5tYXN0ZXN0YXBwLk1hc3RnVGVzdCRCYXNlVXNlcgAAAAAAAABkAgABTAAIdXNlcm5hbWV0ABJMamF2YS9sYW5nL1N0cmluZzt4cHQAD0V4cGxvaXRlZCBBZG1pbgE='
 ```
 
-The payload was generated using `PayloadGenerator.java`. It instantiates a `MastgTest.AdminUser` object (with `username = "Exploited Admin"` and `isAdmin = true`), serializes it via `ObjectOutputStream` into a byte array, and Base64-encodes the result. The final `adb` command string (with the encoded payload) is printed to stdout and can be used directly to launch the attack. You can re-generate the payload with:
+The payload was generated using `PayloadGenerator.java`. It instantiates a `MastgTest.AdminUser` object (with `username = "Exploited Admin"` and `isAdmin = true`), serializes it via `ObjectOutputStream` into a byte array, and Base64-encodes the result. The final `adb` command string (with the encoded payload) is printed to stdout and can be used directly to launch the attack. You can regenerate the payload using the following command, which prints the complete payload as shown above.
 
 ```plaintext
 mkdir -p build/payloadgen
