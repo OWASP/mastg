@@ -61,7 +61,7 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 
 ## Code Integrity
 
-Unlike [Indirect Pointer-Flow Integrity](#indirect-pointer-flow-integrity), which detects pointer overwrites in indirection tables, the techniques in this category detect direct modifications to code or memory — either as arbitrary changes (checksums) or as specific known patterns (inline hook signatures).
+Unlike [Indirect Pointer-Flow Integrity](#indirect-pointer-flow-integrity), which detects pointer overwrites in indirection tables, the techniques in this category detect direct modifications to code or memory - either as arbitrary changes (checksums) or as specific known patterns (inline hook signatures).
 
 ### Memory Checksums
 
@@ -71,7 +71,7 @@ This technique can detect code patches, inline hooks (trampolines inserted at fu
 
 ### Inline Hook Detection
 
-Inline hook detection scans memory for known byte patterns that indicate unwanted modifications. Unlike checksums, which detect _any_ change, this approach looks for _specific_ patterns associated with hooking frameworks or tampering techniques — identifying the _type_ of modification rather than just detecting that a change occurred. However, attackers can evade detection by using alternative hooking methods or by obfuscating the hook signatures.
+Inline hook detection scans memory for known byte patterns that indicate unwanted modifications. Unlike checksums, which detect _any_ change, this approach looks for _specific_ patterns associated with hooking frameworks or tampering techniques - identifying the _type_ of modification rather than just detecting that a change occurred. However, attackers can evade detection by using alternative hooking methods or by obfuscating the hook signatures.
 
 _Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library. Common patterns to scan for include:
 
