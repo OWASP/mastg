@@ -43,7 +43,23 @@ Consider writing detection checks in native (C/C++) code rather than Java/Kotlin
 
 ### Obfuscate Detection Logic
 
-Apply code obfuscation (@MASTG-KNOW-0033) to all detection routines. Scatter checks throughout the app rather than centralizing them in a single function, and vary their timing (e.g., periodic, event-driven, or randomized) to prevent systematic bypassing.
+Apply code obfuscation (@MASTG-KNOW-0033) across all detection routines. Scatter checks throughout the application instead of centralizing them in a single function, and vary their timing - such as periodically, randomly, or based on events (see [Repeat Checks Before Sensitive Operations](#repeat-checks-before-sensitive-operations) - to prevent systematic bypassing.)
+
+### Inline Detection Logic
+
+Avoid placing detection code in dedicated, callable functions. A named function has a fixed entry point that hooking frameworks can intercept with a single hook. When detection logic is inlined directly into the surrounding application code, there is no entry point to target — the check becomes an inseparable part of the surrounding control flow.
+
+The most reliable approach is to copy the detection logic directly at each call site, leaving no function entry point to target. When compiler assistance is preferred, use `__attribute__((always_inline))` in native C/C++ or `private inline` in Kotlin for a compile-time inlining guarantee.
+
+### Randomize Check Placement Per Release
+
+Beyond scattering checks within a single build, vary which call sites are active and where they appear with each release. Because most app updates leave the overall logic largely unchanged, static analysis of one version can be reused to find and patch checks in the next. Randomizing check placement at build time forces attackers to do fresh analysis for every release, significantly increasing the cost of maintaining automated bypass tools.
+
+Use build-time code transformation (such as LLVM passes, custom Gradle tasks, or R8/ProGuard rules) to inject detection calls at different locations, move or remove existing call sites, and change the number of active checks between builds. Combine this with native code implementation and obfuscation for maximum impact.
+
+### Repeat Checks Before Sensitive Operations
+
+Perform checks multiple times from different locations, especially immediately before critical actions like starting a transfer, unlocking a premium feature, or submitting credentials. Spreading out checks to obscure their purpose can be helpful, but an attacker who patches one instance can still access the critical step. Making all redundant checks pass before a sensitive operation completes ensures that each bypassed instance becomes a potential failure point, significantly increasing the difficulty for an attacker to succeed.
 
 ## Responsive Controls
 
