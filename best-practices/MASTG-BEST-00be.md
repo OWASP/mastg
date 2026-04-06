@@ -36,7 +36,7 @@ Layer several techniques to maximize detection coverage:
 
 ### Implement Detection in Native Code
 
-Consider writing detection checks in native (C/C++) code rather than Java/Kotlin. Native code is significantly harder to hook and reverse engineer than Java bytecode, which can be easily intercepted via Frida's Java API or Xposed modules. 
+Consider writing detection checks in native (C/C++) code rather than Java/Kotlin. Native code is significantly harder to hook and reverse engineer than Java bytecode, which can be easily intercepted via Frida's Java API or Xposed modules.
 
 !!! note
   Remember, that if you use JNI to bridge results back to the application layer for any responsive controls, an attacker can tamper the results.
