@@ -14,7 +14,13 @@ The sample code demonstrates an insecure deserialization flaw in an Android app.
 adb shell am start -n org.owasp.mastestapp/.MainActivity --es payload_b64 'rO0ABXNyAChvcmcub3dhc3AubWFzdGVzdGFwcC5NYXN0Z1Rlc3QkQWRtaW5Vc2VyAAAAAAAAAMgCAAFaAAdpc0FkbWlueHIAJ29yZy5vd2FzcC5tYXN0ZXN0YXBwLk1hc3RnVGVzdCRCYXNlVXNlcgAAAAAAAABkAgABTAAIdXNlcm5hbWV0ABJMamF2YS9sYW5nL1N0cmluZzt4cHQAD0V4cGxvaXRlZCBBZG1pbgE='
 ```
 
-The payload was generated using `PayloadGenerator.java`. It instantiates a `MastgTest.AdminUser` object (with `username = "Exploited Admin"` and `isAdmin = true`), serializes it via `ObjectOutputStream` into a byte array, and Base64-encodes the result. The final `adb` command string (with the encoded payload) is printed to stdout and can be used directly to launch the attack.
+The payload was generated using `PayloadGenerator.java`. It instantiates a `MastgTest.AdminUser` object (with `username = "Exploited Admin"` and `isAdmin = true`), serializes it via `ObjectOutputStream` into a byte array, and Base64-encodes the result. The final `adb` command string (with the encoded payload) is printed to stdout and can be used directly to launch the attack. You can re-generate the payload with:
+
+```plaintext
+mkdir -p build/payloadgen
+javac -d build/payloadgen PayloadGenerator.java
+java -cp build/payloadgen org.owasp.mastestapp.PayloadGenerator
+```
 
 This payload causes the app to accept attacker controlled serialized data and replace `UserManager.currentUser` with an admin object, resulting in privilege escalation without authentication.
 **Behavior:** When the app is launched normally and the Start button is pressed, it calls `mastgTest()` and displays the default user state, showing a standard user and `(Not an Admin)`. However, the `MainActivity` also calls `MastgTest(this).processIntent(intent)` in `onCreate()`. This means that if the activity is started with a crafted `payload_b64` extra, the app processes and deserializes that attacker controlled object before the test result is shown. As a result, pressing Start after sending the `adb` command causes the app to display `PRIVILEGED ADMIN!` because the current user state has been overwritten with a malicious `AdminUser` object.
