@@ -66,7 +66,7 @@ Perform checks multiple times from different locations, especially immediately b
 Trigger the following response actions when hooks are detected:
 
 - Terminate the app session immediately.
-- Clear sensitive data from memory before exiting.
+- Clear sensitive data from memory and/or disk.
 - Alert the backend server to flag the compromised session.
 
 Do not allow the app to continue running in a compromised state. Protect the response mechanism itself against hooking by implementing it in native code and obfuscating its control flow.
