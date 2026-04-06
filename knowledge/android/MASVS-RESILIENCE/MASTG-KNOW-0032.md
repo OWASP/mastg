@@ -9,7 +9,7 @@ Techniques in this category verify the integrity of the app's memory to defend a
 Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning for tool-specific strings or checking for open ports), this document focuses on detecting the _modifications_ that instrumentation tools make to the app's code and memory.
 
 !!! note
-Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously—determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These techniques should be part of a defense-in-depth strategy, not a standalone solution.
+  Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously-determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These techniques should be part of a defense-in-depth strategy, not a standalone solution.
 
 ## Techniques
 
@@ -23,7 +23,7 @@ The following runtime integrity verification techniques are covered in this docu
 **[Runtime Hook Detection](#runtime-hook-detection) (what you're detecting):**
 
 1. [**Java Runtime tampering detection**](#java-runtime-tampering-detection): Detecting Android Runtime (ART) modifications made by hooking frameworks, including injected classes (Xposed) and altered method entry points (Frida).
-2. [**Native hook detection**](#native-hooks-detection): Verifying GOT entries point to legitimate libraries and inspecting function prologues/epilogues for trampolines or suspicious jump instructions.
+2. [**Native hook detection**](#native-hooks-detection): Checking kernel-reported memory permissions, verifying GOT and vtable entries point to legitimate code regions, and inspecting function prologues/epilogues for trampolines or suspicious jump instructions.
 
 ## Executable Code Integrity
 
@@ -43,7 +43,7 @@ On Android, a common signature to scan for is **suspicious branch targets**: bra
 
 ## Runtime Hook Detection
 
-Since Android apps consist of Java/Kotlin code running on the Android Runtime (ART) and optional native code compiled into ELF binaries, hook detection splits along those two layers. Most hook detection approaches are [signature-based](#signature-based-detection): they scan for known byte patterns or structural anomalies left by specific hooking frameworks rather than detecting arbitrary changes. [GOT hook detection](#got-hook-detection) is an exception — it verifies that function pointer entries resolve to legitimate memory regions, making it closer to integrity checking than pattern matching.
+Since Android apps consist of Java/Kotlin code running on the Android Runtime (ART) and optional native code compiled into ELF binaries, hook detection splits along those two layers. Most hook detection approaches are [signature-based](#signature-based-detection): they scan for known byte patterns or structural anomalies left by specific hooking frameworks rather than detecting arbitrary changes. [GOT hook detection](#got-hook-detection) is an exception - it verifies that function pointer entries resolve to legitimate memory regions, making it closer to integrity checking than pattern matching.
 
 ### Java Runtime Tampering Detection
 
@@ -111,7 +111,7 @@ Native function hooks can be installed in ELF binaries by overwriting function p
 
 #### Writable Code Section Detection
 
-Installing a native hook — whether by overwriting GOT entries or patching function code — requires the target memory region to be writable. The kernel records current memory permissions for each mapping in `/proc/self/maps`. Under normal conditions, code sections (marked `r-xp`) are never writable; a `rwxp` or `rw-p` permission on a library's code region is a strong indicator that someone changed the permissions at runtime to modify the code.
+Installing a native hook - whether by overwriting GOT entries or patching function code - requires the target memory region to be writable. The kernel records current memory permissions for each mapping in `/proc/self/maps`. Under normal conditions, code sections (marked `r-xp`) are never writable; a `rwxp` or `rw-p` permission on a library's code region is a strong indicator that someone changed the permissions at runtime to modify the code.
 
 The app can detect this by reading `/proc/self/maps` and checking that no loaded library has a writable code segment. This is a broad, kernel-level signal that precedes more specific detection: if no code section is writable, neither GOT patching nor inline hooking could have occurred via the standard `mprotect` path.
 
@@ -123,10 +123,16 @@ Unlike GNU `ld`, which resolves symbol addresses only when they are first used (
 
 For GOT hook detection, the app can parse its own ELF structure, locate the GOT entries, and verify each point to an address within the expected library's memory range (as reported by `/proc/self/maps`).
 
+#### Vtable Hook Detection
+
+C++ classes with virtual methods have a _vtable_ - an array of function pointers used for virtual dispatch. On Android, vtables are placed in the `.data.rel.ro` section of ELF binaries. The linker writes relocation-resolved addresses into this section and then marks it read-only before handing control to the app (similar to Full RELRO for the GOT). Overwriting a vtable entry to redirect virtual calls therefore requires an attacker to call `mprotect` to restore write permissions first - the same prerequisite as GOT and inline hooks.
+
+Detection mirrors GOT hook detection: parse the ELF to locate `.data.rel.ro`, identify vtable entries, and verify each pointer falls within a legitimate code region as reported by `/proc/self/maps`. Any entry pointing outside the expected library's executable range indicates a hook.
+
 #### Inline Hook Detection
 
 _Inline hooks_ overwrite a few instructions at the beginning or end of the function code. At runtime, this so-called trampoline redirects execution to the injected code. You can detect inline hooks by inspecting the prologues and epilogues of library functions for suspect instructions, such as far jumps to locations outside the library. Common patterns to scan for include:
 
-- **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls—when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes
+- **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls-when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes
   `50 00 00 58 00 02 1F D6` (hex encoding). Scanning for such patterns at function entry points can reveal hooks. The [O-MVLL anti-hooking pass](https://obfuscator.re/omvll/passes/anti-hook/) exploits the fact that Frida's Interceptor requires X16/X17 as scratch registers by injecting prologues that use these registers, preventing Frida from hooking. Note that a custom Frida modification that uses different registers or inserts opcodes into the sequence may break the detection script, thereby bypassing the defense. Also note that ARM32/Thumb code uses different trampoline patterns (e.g., `LDR PC, [PC, #-4]`) and should be checked separately if the app includes 32-bit libraries.
 - **Modified function prologues**: Comparing the first few bytes of critical functions against their expected values can detect patches. For example, if a function's original prologue is known, any deviation indicates modification.
