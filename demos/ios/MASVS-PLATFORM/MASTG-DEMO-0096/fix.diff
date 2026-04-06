@@ -1,0 +1,37 @@
+diff --git a/demos/ios/MASVS-PLATFORM/MASTG-DEMO-0095/MastgTest.swift b/demos/ios/MASVS-PLATFORM/MASTG-DEMO-0095/MastgTest.swift
+index a2ff74e9..6151e620 100644
+--- a/demos/ios/MASVS-PLATFORM/MASTG-DEMO-0095/MastgTest.swift
++++ b/demos/ios/MASVS-PLATFORM/MASTG-DEMO-0095/MastgTest.swift
+@@ -5,7 +5,9 @@ import WebKit
+ struct MastgTest {
+     
+     private static let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+-    private static let fileURL = docDir.appendingPathComponent("index.html")
++    // PASS: [MASTG-TEST-0333] webDir is a dedicated subdirectory; allowingReadAccessTo is scoped to it, keeping secret.txt out of reach.
++    private static let webDir = docDir.appendingPathComponent("webContent", isDirectory: true)
++    private static let fileURL = webDir.appendingPathComponent("index.html")
+     private static let secretURL = docDir.appendingPathComponent("secret.txt")
+     
+     public static func mastgTest(completion: @escaping (String) -> Void) {
+@@ -29,7 +31,8 @@ struct MastgTest {
+             return
+           }
+           let webView = WKWebView()
+-          webView.loadFileURL(urlWithUsername, allowingReadAccessTo: docDir)
++          // PASS: [MASTG-TEST-0333] allowingReadAccessTo is scoped to webDir, not the broader docDir.
++          webView.loadFileURL(urlWithUsername, allowingReadAccessTo: webDir)
+             
+             let vc = UIViewController()
+             vc.view = webView
+@@ -62,9 +65,10 @@ struct MastgTest {
+         </html>
+         <script>
+             const name = new URLSearchParams(window.location.search).get('username');
+-            document.getElementById('username').innerHTML = name;
++            document.getElementById('username').textContent = name;
+         </script>
+         """
++        try? FileManager.default.createDirectory(at: webDir, withIntermediateDirectories: true, attributes: nil)
+         try? htmlContent.write(to: fileURL, atomically: true, encoding: .utf8)
+     }
+     

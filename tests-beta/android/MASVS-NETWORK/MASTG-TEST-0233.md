@@ -22,7 +22,7 @@ An Android app may have hardcoded HTTP URLs embedded in the app binary, library 
 
 ## Observation
 
-The output contains a list of URLs and their locations within the app.
+The output should contain a list of URLs and their locations within the app.
 
 ## Evaluation
 

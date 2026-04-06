@@ -7,7 +7,7 @@ type: [static]
 weakness: MASWE-0044
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001, MASTG-KNOW-0043, MASTG-KNOW-0047, MASTG-KNOW-0012]
-best-practices: []
+best-practices: [MASTG-BEST-0036]
 ---
 
 ## Overview
