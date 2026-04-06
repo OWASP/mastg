@@ -15,15 +15,17 @@ Runtime integrity verification is inherently a cat-and-mouse game. Detection met
 
 The following runtime integrity verification techniques are covered in this document:
 
-**Foundational approaches (how you detect):**
+**[Executable Code Integrity](#executable-code-integrity) (how you detect):**
 
-1. **Memory checksums**: Comparing memory contents or checksums against known good values.
-2. **Signature-based detection**: Searching memory for known byte patterns (e.g., trampoline instructions) that indicate unwanted modifications.
+1. [**Memory checksums**](#memory-checksums): Comparing memory contents or checksums against known good values.
+2. [**Signature-based detection**](#signature-based-detection): Searching memory for known byte patterns (e.g., trampoline instructions) that indicate unwanted modifications.
 
-**Specific detection methods (what you're detecting):**
+**[Runtime Hook Detection](#runtime-hook-detection) (what you're detecting):**
 
-1. **Java Runtime tampering detection**: Detecting Android Runtime (ART) modifications made by hooking frameworks, including injected classes (Xposed) and altered method entry points (Frida).
-2. **Native hook detection**: Verifying GOT entries point to legitimate libraries and inspecting function prologues/epilogues for trampolines or suspicious jump instructions.
+1. [**Java Runtime tampering detection**](#java-runtime-tampering-detection): Detecting Android Runtime (ART) modifications made by hooking frameworks, including injected classes (Xposed) and altered method entry points (Frida).
+2. [**Native hook detection**](#native-hooks-detection): Verifying GOT entries point to legitimate libraries and inspecting function prologues/epilogues for trampolines or suspicious jump instructions.
+
+## Executable Code Integrity
 
 ### Memory Checksums
 
@@ -38,6 +40,10 @@ Signature-based detection actively involves scanning memory for known byte patte
 This technique complements checksums by identifying the specific type of modification rather than just detecting that a change occurred. However, attackers can evade detection by using alternative hooking methods or by obfuscating the hook signatures.
 
 On Android, a common signature to scan for is **suspicious branch targets**: branch instructions pointing outside the library's code section suggest redirection to injected code.
+
+## Runtime Hook Detection
+
+Since Android apps consist of Java/Kotlin code running on the Android Runtime (ART) and optional native code compiled into ELF binaries, hook detection splits along those two layers. Most hook detection approaches are [signature-based](#signature-based-detection): they scan for known byte patterns or structural anomalies left by specific hooking frameworks rather than detecting arbitrary changes. [GOT hook detection](#got-hook-detection) is an exception — it verifies that function pointer entries resolve to legitimate memory regions, making it closer to integrity checking than pattern matching.
 
 ### Java Runtime Tampering Detection
 
@@ -101,7 +107,13 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 
 ### Native Hooks Detection
 
-Native function hooks can be installed in ELF binaries by overwriting function pointers in memory (e.g., Global Offset Table or PLT hooking) or by patching parts of the function code itself (inline hooking). Checking the integrity of the corresponding memory regions is one way to detect this type of hook.
+Native function hooks can be installed in ELF binaries by overwriting function pointers in memory (e.g., Global Offset Table or PLT hooking) or by patching parts of the function code itself (inline hooking). Both approaches require making the target memory region writable at runtime. Detection can proceed from broad to specific: first checking kernel-reported memory permissions for writable code sections, then verifying GOT pointer integrity, then scanning function prologues for known hook patterns.
+
+#### Writable Code Section Detection
+
+Installing a native hook — whether by overwriting GOT entries or patching function code — requires the target memory region to be writable. The kernel records current memory permissions for each mapping in `/proc/self/maps`. Under normal conditions, code sections (marked `r-xp`) are never writable; a `rwxp` or `rw-p` permission on a library's code region is a strong indicator that someone changed the permissions at runtime to modify the code.
+
+The app can detect this by reading `/proc/self/maps` and checking that no loaded library has a writable code segment. This is a broad, kernel-level signal that precedes more specific detection: if no code section is writable, neither GOT patching nor inline hooking could have occurred via the standard `mprotect` path.
 
 #### GOT Hook Detection
 
