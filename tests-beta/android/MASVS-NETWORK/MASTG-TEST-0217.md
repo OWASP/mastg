@@ -32,7 +32,7 @@ The API call `okhttp3.ConnectionSpec.Builder.tlsVersions(...)` can also be used 
 
 ## Observation
 
-The output contains a list of all enabled TLS versions in the above mentioned API calls.
+The output should contain a list of all enabled TLS versions in the above mentioned API calls.
 
 ## Evaluation
 

@@ -148,7 +148,7 @@ profiles: [L1, L2, P]
 
 ### knowledge
 
-Reference the related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
+Must always reference related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
 
 Example:
 
@@ -162,8 +162,8 @@ Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note
-- `available_since:` minimum platform/API level
-- `deprecated_since:` last applicable platform/API level
+- `available_since:` minimum platform/API level (e.g. 13 in Android or 2.0 in iOS)
+- `deprecated_since:` last applicable platform/API level (e.g. 24 in Android or 12.0 in iOS)
 - `apis:` list of relevant APIs
 
 Notes:
