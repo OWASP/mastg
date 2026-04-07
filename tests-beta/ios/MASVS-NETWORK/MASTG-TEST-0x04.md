@@ -5,7 +5,7 @@ id: MASTG-TEST-0x04
 type: [network]
 weakness: MASWE-0047
 profiles: [L2]
-best-practices: [MASTG-BEST-0032]
+best-practices: [MASTG-BEST-0x01]
 knowledge: [MASTG-KNOW-0072]
 ---
 
