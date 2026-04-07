@@ -9,7 +9,7 @@ tools: [MASTG-TOOL-0073]
 
 ## Sample
 
-The code snippet below shows sample code that accesses protected resources requiring entitlements. The app's entitlements are embedded in the binary's code signature and declare multiple permissions that the app uses to request special access.
+The snippet below shows sample code that accesses protected resources requiring entitlements. The app's entitlements are embedded in the binary's code signature and declare multiple permissions that the app uses to request special access.
 
 {{ ../MASTG-DEMO-0x69/MastgTest.swift }}
 

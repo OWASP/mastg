@@ -25,7 +25,7 @@ The snippet below shows sample code below that requests access to protected reso
 
 ## Observation
 
-The output shows each intercepted permission API call with the permission name, authorization status (GRANTED or DENIED), and additional details such as the specific status value returned by the system.
+The output contains each intercepted permission API call with the permission name, authorization status (GRANTED or DENIED), and additional details such as the specific status value returned by the system.
 
 {{ output.txt }}
 
