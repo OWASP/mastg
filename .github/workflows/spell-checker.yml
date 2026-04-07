@@ -13,5 +13,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: codespell-project/actions-codespell@master
         with:
-          ignore_words_list: "aas,aaS,ba,bund,compliancy,firt,ist,keypair,ligh,Manuel,Manual,ro,ser,synopsys,theses,zuser,lief,EDE"
+          ignore_words_list: "aas,aaS,ba,bund,compliancy,firt,ist,keypair,ligh,Manuel,Manual,ois,ro,ser,synopsys,theses,zuser,lief,EDE"
           skip: "*.json,*.yml,*.apk,*.ipa,*.svg,*.txt,*.kt,*.swift,*.xml,*.java"
