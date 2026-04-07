@@ -148,5 +148,3 @@ public class EvilContentActivity extends Activity{
 ## Dynamic Analysis
 
 A convenient way to dynamically test for implicit intents, especially to identify potentially leaked sensitive data, is to use Frida or frida-trace and hook the `startActivityForResult` and `onActivityResult` methods and inspect the provided intents and the data they contain.
-
-

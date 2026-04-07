@@ -16,7 +16,7 @@ class MastgTest(private val context: Context) {
         const val REQUEST_FILE = 1001
     }
 
-    // Write dummy sensitive data to SharedPreferences so there's something to steal
+
     fun writeSensitiveData() {
         val prefs = context.getSharedPreferences("session", Context.MODE_PRIVATE)
         prefs.edit()
@@ -34,8 +34,7 @@ class MastgTest(private val context: Context) {
     fun mastgTest(): String {
         val r = DemoResults("0060")
 
-        // Vulnerable: Using implicit intent with custom action to request a file
-        // No target component specified — any app can handle this
+
         val intent = Intent().apply {
             action = "org.owasp.mastestapp.REQUEST_FILE"
         }
@@ -50,7 +49,6 @@ class MastgTest(private val context: Context) {
         return r.toJson()
     }
 
-    // Called from MainActivity.onActivityResult — copies returned URI to external cache
     fun handleResult(activity: Activity, uri: Uri): String {
         val r = DemoResults("0060")
         try {

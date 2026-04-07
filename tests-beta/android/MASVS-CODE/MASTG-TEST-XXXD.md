@@ -4,6 +4,8 @@ platform: android
 id: MASTG-TEST-XXXD
 type: [dynamic]
 weakness: MASWE-0083
+best-practices: [MASTG-BEST-0x14, MASTG-BEST-0x15]
+knowledge: [MASTG-KNOW-0025]
 profiles: [L1, L2]
 ---
 
@@ -13,8 +15,8 @@ If an app uses an implicit intent to request content from other apps without spe
 
 ## Steps
 
-1. Install the vulnerable app and an attacker app that declares a matching intent-filter for the same custom action on the device using @MASTG-TECH-0004.
-2. Launch the vulnerable app and trigger the implicit intent by interacting with the relevant UI element.
+1. Install the vulnerable app and an attacker app that declares a matching intent-filter for the same custom action on the device.
+2. Launch the vulnerable app and trigger the implicit intent by interacting with the Start button.
 3. When the system resolver dialog appears, select the attacker app.
 4. Monitor logcat output filtered by `MASTG-DEMO` and `ATTACKER` tags.
 5. Inspect the victim app's external cache directory for exfiltrated files.

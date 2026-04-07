@@ -10,10 +10,7 @@ import android.util.Log
 import java.io.File
 import java.io.FileNotFoundException
 
-// SUMMARY: Malicious ContentProvider that enables arbitrary file overwrite in the victim app.
-// query() returns a path-traversal filename (e.g., "../lib_config.json") which causes
-// the victim to write outside the expected directory. openFile() serves the malicious payload.
-// In a real attack, this would overwrite a native .so library loaded via System.load().
+
 
 class EvilContentProvider : ContentProvider() {
 

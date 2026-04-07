@@ -4,12 +4,11 @@ title: Dynamic Detection of Implicit Intent Hijacking
 id: MASTG-DEMO-XXXA
 code: [kotlin]
 test: MASTG-TEST-XXXA
-profiles: [L1, L2]
 ---
 
 ## Sample
 
-This demo consists of two applications. One which is vulnerable and one which hijacks @MASTG-KNOW-0025 and steals sensitive data from the vulnerable app.
+The demo includes a vulnerable application and a second application that demonstrates how the vulnerability can be exploited to access sensitive data.
 
 ## Vulnerable App
 
@@ -29,14 +28,18 @@ The attacker app has an exported activity that includes a corresponding `<intent
 
 ## Steps
 
-1. Install the vulnerable app and attacker app on the device using @MASTG-TECH-0004.
+1. Install the vulnerable app and attacker app on the device.
 2. On the vulnerable app, click on start to start the test.
 3. Android system will ask you which app should be used to handle the intent. Choose "IntentInterceptor" in app chooser.
 
 ## Observation
 
-The attacker app successfully intercepted the intent containing sensitive extras such as tokens, API keys, and credentials. This confirms that any app declaring a matching `<intent-filter>` can receive these values without restriction.
+The output contains evidence that the attacker app successfully intercepted the intent containing sensitive extras such as tokens, API keys, and credentials to display on the attacker app. This confirms that any app declaring a matching `<intent-filter>` can receive these values without restriction.
 
 ## Evaluation
 
-The test fails due to the use of an exported activity (VulnerableActivity) that includes an intent filter with a custom action. Combined with the implicit intent in `MastgTest.kt`, this creates a vulnerable pattern where sensitive data is transmitted to an untrusted receiver.
+The test fails because:
+
+- `VulnerableActivity` is declared with `android:exported="true"` and an `<intent-filter>` for the custom action `org.owasp.mastestapp.PROCESS_SENSITIVE_DATA`, making it reachable by any installed app.
+- `MastgTest.kt` sends an implicit intent carrying sensitive extras (`sensitive_token`, `user_credentials`, `api_key`) without restricting the target component.
+- The attacker app intercepted the intent and received all sensitive extras, confirming the component is exploitable by any app registering the same action.

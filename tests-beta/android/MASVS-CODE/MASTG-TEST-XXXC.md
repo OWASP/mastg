@@ -4,6 +4,8 @@ platform: android
 id: MASTG-TEST-0x02
 type: [dynamic]
 weakness: MASWE-0083
+best-practices: [MASTG-BEST-0x14, MASTG-BEST-0x15]
+knowledge: [MASTG-KNOW-0025]
 profiles: [L1, L2]
 ---
 
@@ -14,10 +16,10 @@ If an app uses an implicit intent to request a file or library and processes the
 ## Steps
 
 1. Install the vulnerable app and an attacker app that declares a matching intent-filter and an exported `ContentProvider` on the device using @MASTG-TECH-0004.
-2. Verify the legitimate internal file exists before the attack (e.g., `adb shell run-as <package> cat files/lib_config.json`).
-3. Launch the vulnerable app and trigger the implicit intent by interacting with the relevant UI element.
+2. Verify the legitimate internal file exists before the attack.
+3. Launch the vulnerable app and trigger the implicit intent by interacting with the Start button.
 4. When the system resolver dialog appears, select the attacker app.
-5. Monitor logcat output filtered by `MASTG-DEMO` and `ATTACKER` tags.
+5. Monitor logcat output filtered by `MASTG-DEMO` and `ATTACKER` tags and observe the output the screen.
 6. Verify the internal file was overwritten with attacker-controlled content.
 
 ## Observation

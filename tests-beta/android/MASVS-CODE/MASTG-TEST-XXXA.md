@@ -4,6 +4,8 @@ title: Implicit Intent to Intercept Internal App Components
 id: MASTG-TEST-XXXA
 type: [dynamic]
 weakness: MASWE-0066
+best-practices: [MASTG-BEST-0x14]
+knowledge: [MASTG-KNOW-0025]
 profiles: [L1, L2]
 ---
 
@@ -13,16 +15,13 @@ Android enables communication between its components through intents, which serv
 
 ## Steps
 
-1. Install the vulnerable app on the device.
-
-2. Install the attacker app on the device @MASTG-TECH-0004.
-
-3. Launch the vulnerable app to trigger the implicit intent from vulnerable app.
+1. Install the vulnerable app and attacker app on the device.
+2. Launch the vulnerable app to trigger the implicit intent from vulnerable app.
 
 ## Observation
 
-The attacker's application was able to successfully launch the VulnerableActivity using a crafted intent and receive sensitive information.
+The output should contain a attacker application be able to successfully launch the VulnerableActivity using a crafted intent and receive sensitive information.
 
 ## Evaluation
 
-The test fails due to the exported activity being accessible via an implicit intent.
+The test fails if exported activity being accessible via an implicit intent.

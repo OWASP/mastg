@@ -1,9 +1,11 @@
 ---
 platform: android
-title: Implicit Intent to Trigger Internal App Components
+title: Testing for Exported Activities With Custom Intent Filter Actions
 id: MASTG-TEST-XXXB
 type: [static]
 weakness: MASWE-0066
+best-practices: [MASTG-BEST-0x14]
+knowledge: [MASTG-KNOW-0025]
 profiles: [L1, L2]
 ---
 
@@ -13,15 +15,11 @@ Android enables communication between its components through intents, which serv
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0110 on the `AndroidManifest.xml` file.
+1. Run @MASTG-TECH-0014 on the `AndroidManifest.xml` file.
 
 ## Observation
 
-The Semgrep output shows:
-
-The `AndroidManifest.xml` file declares VulnerableActivity with `android:exported="true"` and an intent filter that matches the custom action `org.owasp.mastestapp.PROCESS_SENSITIVE_DATA`.
-
-This indicates that internal app functionality can be triggered externally, and potentially misused or intercepted by untrusted apps.
+The output should contain a activity with `android:exported="true"` and an intent filter that matches the custom action `org.owasp.mastestapp.PROCESS_SENSITIVE_DATA`.
 
 ## Evaluation
 
