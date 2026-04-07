@@ -9,7 +9,7 @@ tools: [MASTG-TOOL-0039]
 
 ## Sample
 
-The snippet below shows sample code below that requests access to protected resources requiring permissions.
+The snippet below shows sample code that requests access to protected resources requiring permissions.
 
 {{ ../MASTG-DEMO-0x69/MastgTest.swift }}
 

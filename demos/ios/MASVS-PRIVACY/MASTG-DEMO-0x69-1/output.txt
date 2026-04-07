@@ -94,7 +94,7 @@
 	<string>Demo MASTG</string>
 	<key>ProvisionedDevices</key>
 	<array>
-		<string>9dc4c306d1d206d175ed6fc9e61d3813b21e53ba</string>
+		<string>REDACTED</string>
 	</array>
 	<key>TeamIdentifier</key>
 	<array>
@@ -105,7 +105,7 @@
 	<key>TimeToLive</key>
 	<integer>365</integer>
 	<key>UUID</key>
-	<string>cda2e3b0-a97b-4c75-8062-5b599d003974</string>
+	<string>REDACTED</string>
 	<key>Version</key>
 	<integer>1</integer>
 </dict>

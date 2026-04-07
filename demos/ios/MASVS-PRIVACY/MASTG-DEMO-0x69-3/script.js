@@ -1,18 +1,8 @@
 'use strict';
 
-var Colors = {
-    RESET: "\x1b[0m",
-    GREEN: "\x1b[32m",
-    RED: "\x1b[31m",
-    YELLOW: "\x1b[33m",
-    CYAN: "\x1b[36m",
-    BOLD: "\x1b[1m"
-};
-
 function printStatus(permission, status, isGranted) {
-    var color = isGranted ? Colors.GREEN : Colors.RED;
     var icon = isGranted ? "GRANTED" : "DENIED ";
-    console.log(Colors.CYAN + permission.padEnd(20) + Colors.RESET + " | " + color + icon + Colors.RESET + " | " + status);
+    console.log(permission.padEnd(20) + " | " + icon + " | " + status);
 }
 
 // LOCATION
@@ -538,7 +528,7 @@ function tracePassLibraryPermission() {
 
 function installAllHooks() {
     console.log("");
-    console.log(Colors.BOLD + "  Permission            | Status  | Details" + Colors.RESET);
+    console.log("  Permission            | Status  | Details");
     console.log("  " + "-".repeat(46));
 
     traceLocationPermission();
@@ -557,12 +547,12 @@ function installAllHooks() {
     tracePassLibraryPermission();
 
     console.log("");
-    console.log(Colors.GREEN + "  Hooks installed. Tap 'Request All Permissions'..." + Colors.RESET);
-    console.log(Colors.CYAN + "=".repeat(50) + Colors.RESET + "\n");
+    console.log("  Hooks installed. Tap 'Request All Permissions'...");
+    console.log("=".repeat(50) + "\n");
 }
 
 if (ObjC.available) {
     installAllHooks();
 } else {
-    console.log(Colors.RED + "[ERROR] Objective-C runtime not available" + Colors.RESET);
+    console.log("[ERROR] Objective-C runtime not available");
 }

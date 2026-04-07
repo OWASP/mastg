@@ -1,14 +1,15 @@
-Permission            | Status  | Details
-----------------------------------------------
 
-Hooks installed. Tap 'Request All Permissions'...
+  Permission            | Status  | Details
+  ----------------------------------------------
+
+  Hooks installed. Tap 'Request All Permissions'...
 ==================================================
 
-Spawned `org.owasp.mastestapp.MASTestApp.demo`. Resuming main thread!   
-[iPhone::org.owasp.mastestapp.MASTestApp.demo ]-> Location             | DENIED  | Requesting...
+Location             | DENIED  | Requesting...
 Location             | DENIED  | NotDetermined
 Location             | GRANTED | AuthorizedWhenInUse
 Location             | DENIED  | Requesting Always...
+Location             | GRANTED | AuthorizedAlways
 Camera               | GRANTED | Authorized
 Microphone           | GRANTED | Granted
 Contacts             | GRANTED | Authorized
