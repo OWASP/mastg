@@ -9,7 +9,7 @@ tools: [MASTG-TOOL-0126]
 
 ## Sample
 
-The snippet below shows sample code that accesses protected resources requiring purpose strings. The app bundle contains an `Info.plist` file, and the rendered sample uses `Info_reversed.plist` so you can review the declared usage descriptions in XML form.
+The snippet below shows sample code that accesses protected resources requiring purpose strings. The `Info.plist` file declares multiple usage descriptions that the app uses to request permissions.
 
 {{ MastgTest.swift # Info_reversed.plist }}
 

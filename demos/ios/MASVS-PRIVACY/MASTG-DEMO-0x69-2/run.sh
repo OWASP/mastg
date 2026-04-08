@@ -1,2 +1,2 @@
 #!/bin/bash
-rabin2 -OC ./Payload/MASTestApp.app/MASTestApp > output.txt
+rabin2 -OC ../MASTG-DEMO-0x69/MASTestApp > output.txt
