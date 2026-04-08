@@ -3,18 +3,18 @@ platform: android
 title: Enforced Immediate Updates with Play Core API detected using semgrep
 id: MASTG-DEMO-0x36
 code: [kotlin]
-test: MASTG-TEST-0x36
+tools: [MASTG-TOOL-0110]
 ---
 
 ## Sample
 
-The following code implements immediate in-app updates using the Google Play Core API. It calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)` or value `1` and includes comprehensive update state handling and bypass prevention logic in `enforceUpdateOnResume`.
+The snippet below shows sample code implements immediate in-app updates using the Google Play Core API. It calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)` or value `1` and includes comprehensive update state handling and bypass prevention logic in `enforceUpdateOnResume`.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
 ## Steps
 
-Let's run @MASTG-TOOL-0110 rules against the sample code.
+Let's run @MASTG-TOOL-0110 rule against the sample code.
 
 {{ ../../../../rules/mastg-android-enforced-updating.yml }}
 
@@ -22,7 +22,7 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 ## Observation
 
-The output file shows usages of the Google Play Core API enforcing immediate update.
+The output file contains usages of the Google Play Core API enforcing immediate update.
 
 {{ output.txt }}
 

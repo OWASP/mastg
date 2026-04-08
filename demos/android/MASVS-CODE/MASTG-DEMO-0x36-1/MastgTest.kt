@@ -1,3 +1,5 @@
+// SUMMARY: This sample demonstrates a passing implementation of enforced mandatory in-app updates using FakeAppUpdateManager for testing, calling startUpdateFlowForResult with AppUpdateType.IMMEDIATE and implementing enforceUpdateOnResume() to prevent users from bypassing the update by dismissing the dialog or backgrounding the app.
+
 package org.owasp.mastestapp
 
 import android.content.Context
@@ -161,6 +163,7 @@ class MastgTest(context: Context) {
         appUpdateInfo: AppUpdateInfo,
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {
+        // PASS: [MASTG-TEST-0x36] The app enforces immediate updates using startUpdateFlowForResult with AppUpdateType.IMMEDIATE.
         val started = appUpdateManager.startUpdateFlowForResult(
             appUpdateInfo,
             appUpdateResultLauncher,
@@ -193,7 +196,8 @@ class MastgTest(context: Context) {
             onUpdateStateChanged?.invoke(UpdateState.UPDATE_FAILED)
         }
     }
-
+    
+    // PASS: [MASTG-TEST-0x36] The app prevents update bypass by re-enforcing mandatory updates in onResume via enforceUpdateOnResume().
     fun enforceUpdateOnResume(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {

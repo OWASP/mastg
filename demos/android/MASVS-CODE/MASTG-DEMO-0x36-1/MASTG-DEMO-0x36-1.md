@@ -4,11 +4,12 @@ title: Enforced Immediate Updates with FakeAppUpdateManager using semgrep
 id: MASTG-DEMO-0x36-1
 code: [kotlin]
 test: MASTG-TEST-0x36
+tools: [MASTG-TOOL-0110]
 ---
 
 ## Sample
 
-The following code demonstrates the immediate in-app update enforcement pattern using [`FakeAppUpdateManager`](https://developer.android.com/reference/com/google/android/play/core/appupdate/testing/FakeAppUpdateManager) from the Google Play Core testing library. It uses `setUpdateAvailable(2)` to simulate version `2` being available and calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)` or value `1` for immediate updates.
+The snippet below shows sample code demonstrates the immediate in-app update enforcement pattern using [`FakeAppUpdateManager`](https://developer.android.com/reference/com/google/android/play/core/appupdate/testing/FakeAppUpdateManager) from the Google Play Core testing library. It uses `setUpdateAvailable(2)` to simulate version `2` being available and calls `startUpdateFlowForResult` with `AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE)` or value `1` for immediate updates.
 
 The code monitors update progress via `InstallStateUpdatedListener`, re-enforces updates on cancel or failure, and uses `enforceUpdateOnResume()` to prevent bypass when the app resumes. For the production implementation using `AppUpdateManagerFactory.create()`, refer @MASTG-DEMO-0x36.
 
@@ -16,7 +17,7 @@ The code monitors update progress via `InstallStateUpdatedListener`, re-enforces
 
 ## Steps
 
-Let's run @MASTG-TOOL-0110 rules against the sample code.
+Let's run @MASTG-TOOL-0110 rule against the sample code.
 
 {{ ../../../../rules/mastg-android-enforced-updating.yml }}
 
@@ -24,7 +25,7 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 ## Observation
 
-The output file shows usages of the Google Play Core API enforcing immediate update.
+The output file contains usages of the Google Play Core API enforcing immediate update.
 
 {{ output.txt }}
 

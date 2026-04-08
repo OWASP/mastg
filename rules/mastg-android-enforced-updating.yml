@@ -5,7 +5,7 @@ rules:
       - java
     metadata:
       summary: This rule detects usage of Play Core's immediate in-app update enforcement
-    message: "[MASVS-CODE-1] immediate in-app update enforcement detected."
+    message: "[MASVS-CODE-1] Immediate in-app update enforcement detected"
     patterns:
       - pattern-either:
           - pattern: $OBJ.startUpdateFlowForResult($INFO, $LAUNCHER,
