@@ -1,39 +1,75 @@
-func completion(username: String, completionHandler: @escaping (Int, String) -> Void) {
-    // The code resolves a base file URL (likely from a singleton or static property)
-    guard let baseURL = MastgTest.fileURL else { return }
-    
-    // 1. Construct the URL with the username query parameter
-    var urlString = baseURL.absoluteString
-    urlString.append("?username=")
-    urlString.append(username)
-    
-    // 2. Attempt to create a new URL object from the combined string
-    if let finalURL = URL(string: urlString) {
-        
-        // 3. Initialize a WKWebView
-        let webView = WKWebView(frame: .zero)
-        
-        // 4. Resolve the directory for read access (likely Documents Dir)
-        let accessURL = MastgTest.docDir
-        
-        // 5. Load the local file into the web view
-        // Assembly: objc_msgSend(webView, "loadFileURL:allowingReadAccessToURL:", finalURL, accessURL)
-        webView.loadFileURL(finalURL, allowingReadAccessToURL: accessURL)
-        
-        // 6. Present the WebView in a new View Controller
+// AI-assisted reconstruction
+// Derived from showWebView.asm, docDir-init.asm and fileURL-init.asm. May be inaccurate; the assembly is the authoritative source.
+
+import Foundation
+import UIKit
+import WebKit
+
+struct MastgTest {
+
+    private static let docDir: URL = {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }()
+
+    private static let fileURL: URL = {
+        docDir.appendingPathComponent("index.html")
+    }()
+
+    private static let secretURL: URL = {
+        docDir.appendingPathComponent("secret.txt")
+    }()
+
+    public static func mastgTest(completion: @escaping (String) -> Void) {
+        showHtmlRegistrationView(username: "user", completion: completion)
+    }
+
+    public static func showHtmlRegistrationView(username: String, completion: @escaping (String) -> Void) {
+        let urlString = fileURL.absoluteString + "?username=" + username
+
+        guard let url = URL(string: urlString) else {
+            completion("Failed create URL object.")
+            return
+        }
+
+        let webView = WKWebView()
+        webView.loadFileURL(url, allowingReadAccessTo: docDir)
+
         let viewController = UIViewController()
         viewController.view = webView
-        
-        // Find the top-most view controller to present from
-        if let topVC = MastgTest.topViewController() {
-            topVC.present(viewController, animated: true, completion: nil)
-        } else {
-            // Error path: "Failed to present: no view controller."
-            completionHandler(13, "Failed to present: no view controller.")
+
+        guard let topViewController = topViewController(base: nil) else {
+            completion("Failed to present: no view controller.")
+            return
         }
-        
-    } else {
-        // Error path: "Failed create URL object."
-        completionHandler(25, "Failed create URL object.")
+
+        topViewController.present(viewController, animated: true, completion: nil)
+    }
+
+    private static func topViewController(base: UIViewController?) -> UIViewController? {
+        let baseVC: UIViewController?
+
+        if let base = base {
+            baseVC = base
+        } else {
+            baseVC = UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+                .first(where: { $0.isKeyWindow })?
+                .rootViewController
+        }
+
+        if let nav = baseVC as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+
+        if let tab = baseVC as? UITabBarController {
+            return topViewController(base: tab.selectedViewController)
+        }
+
+        if let presented = baseVC?.presentedViewController {
+            return topViewController(base: presented)
+        }
+
+        return baseVC
     }
 }
