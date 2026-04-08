@@ -20,14 +20,6 @@ The `rootOfTrust` object contains the following fields:
 - **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified production devices, this matches the OEM's embedded root-of-trust key.
 - **`deviceLocked`**: `true` if the bootloader is locked, preventing unauthorized modifications to the system partition.
 
-## Low or No Device Integrity Signals
-
-The following conditions indicate low or no device integrity:
-
-- **`verifiedBootState` is not `Verified`**: The boot chain was not fully verified against OEM keys. A `SelfSigned` state means the device is running a custom ROM with a user-installed key; `Unverified` means no verification was performed at all; `Failed` means verification was attempted and failed.
-- **`deviceLocked` is `false`**: The bootloader is unlocked, meaning the system partition can be modified without triggering a boot failure. This is a strong signal that the device may have been tampered with.
-- **`attestationSecurityLevel` is `Software`**: The attestation was generated entirely in the Android OS with no hardware involvement. It can be trusted as long as the device is running an operating system that complies with the [Android Platform Security Model](https://arxiv.org/pdf/1904.05572) (that is, the `deviceLocked` is `true` and the `verifiedBootState` is `Verified`).
-
 ## Limitations
 
 Device attestation via Key Attestation reflects the state of the device **at the time the key was generated**, not at the time of any subsequent API call or use. A key generated on a clean device retains its attestation even if the device is later rooted or its bootloader is unlocked after key generation.
