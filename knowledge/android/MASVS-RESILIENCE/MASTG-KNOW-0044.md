@@ -15,7 +15,7 @@ After key generation, the public key certificate (and its chain) can be requeste
 
 If the chain's root certificate is the [Google Hardware Attestation Root Certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate) and the hardware-backed storage checks are satisfied, this provides assurance that the device supports hardware-level key attestation and that the key is stored in a keystore that Google considers secure. If the certificate or the attestation chain has any other root certificate, Google does not make any claims about the security of the hardware. This does not mean the key or the device is compromised. It just indicates the key is not confirmed to be in secure hardware by Google.
 
-From API level 31, if an attestation challenge is set, [`setDevicePropertiesAttestationIncluded`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setdevicepropertiesattestationincluded) can also be enabled to include device properties (brand, device, manufacturer, model, product) in the attestation. 
+From API level 31, if an attestation challenge is set, [`setDevicePropertiesAttestationIncluded`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setdevicepropertiesattestationincluded) can also be enabled to include device properties (brand, device, manufacturer, model, product) in the attestation.
 
 The resulting certificate chain is then returned to the verifier for inspection:
 
@@ -65,7 +65,7 @@ Some of the key properties are described below:
     - **`Software`**: Attestation was performed in the Android system, with no hardware-backed guarantee. This is usually what emulators use.
     - **`TrustedEnvironment`**: Attestation was performed by the Trusted Execution Environment (TEE), providing hardware-enforced isolation via a dedicated CPU execution environment.
     - **`StrongBox`**: Attestation was performed by a dedicated secure element (StrongBox), offering the highest level of hardware protection.
-- **`attestationChallenge`**: The nonce provided by the server and passed to `setAttestationChallenge()` during key generation. The server checks this value to confirm the attestation was produced in response to its specific request, preventing replay attacks.
+- **`attestationChallenge`**: The nonce provided by the server and passed to `setAttestationChallenge()` during key generation. The server checks this value to confirm the attestation was produced in response to its specific request to prevent replay attacks.
 - The **`softwareEnforced`** or **`hardwareEnforced`** `AuthorizationList` contains the following fields:
     - **`rootOfTrust`**: Device integrity signals used for device attestation (see @MASTG-KNOW-01kw), including:
         - **`verifiedBootState`**: Whether the device's boot chain was verified as unmodified (`Verified`, `SelfSigned`, `Unverified`, or `Failed`).
