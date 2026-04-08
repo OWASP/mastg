@@ -2,7 +2,7 @@
 platform: ios
 title: Declaring Sensitive Permissions in Info.plist
 id: MASTG-DEMO-0x69
-code: [swift]
+code: [xml]
 test: MASTG-TEST-0x69
 tools: [MASTG-TOOL-0126]
 ---
@@ -11,7 +11,7 @@ tools: [MASTG-TOOL-0126]
 
 The snippet below shows sample code that accesses protected resources requiring purpose strings. The `Info.plist` file declares multiple usage descriptions that the app uses to request permissions.
 
-{{ MastgTest.swift # Info_reversed.plist }}
+{{ Info.plist # Info_reversed.plist # MastgTest.swift }}
 
 ## Steps
 
