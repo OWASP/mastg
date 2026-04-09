@@ -8,7 +8,7 @@ test: MASTG-TEST-0335
 
 ## Sample
 
-This sample demonstrates a WKWebView with the undocumented `allowFileAccessFromFileURLs` property enabled, allowing JavaScript to read other local `file://` URLs even when `loadFileURL:allowingReadAccessToURL:` is intentionally restricted.
+This sample demonstrates a WKWebView with the undocumented `allowFileAccessFromFileURLs` property enabled, allowing JavaScript to read other local `file://` URLs even when `loadFileURL:allowingReadAccessToURL:` is intentionally granting broad access to the `demoRoot` directory. This is required because in the end, the sandbox always applies and this API is the one controlling it.
 
 {{ MastgTest.swift }}
 
@@ -17,15 +17,22 @@ The sample sets up two sibling directories under `cachesDirectory/demoRoot/`:
 - `app/`: contains `index.html` (the loaded page) and `api-key.txt` (a sensitive secret).
 - `other/`: contains `other.html` (a page in a separate directory).
 
-Using KVC, `allowFileAccessFromFileURLs` is set to `true` and `allowUniversalAccessFromFileURLs` is left `false`. The WebView loads `index.html` with `loadFileURL(_:allowingReadAccessTo:)`, intentionally passing `indexURL` as both arguments so that native WebKit file access is restricted to just that single file.
+Using KVC, `allowFileAccessFromFileURLs` is set to `true` and `allowUniversalAccessFromFileURLs` is left `false`. The WebView loads `index.html` with `loadFileURL(_:allowingReadAccessTo:)`, intentionally passing `demoRoot` to the `allowingReadAccessTo` parameter. This means that JavaScript running in the WebView should be able to read any file in `demoRoot` (including `index.html` and `api-key.txt`).
 
-Despite this restriction, `index.html` contains JavaScript that demonstrates three access methods:
+`index.html` contains JavaScript that demonstrates three access methods:
 
 - `fetch("./api-key.txt")`: reads `api-key.txt` from the same `app/` directory.
 - `XMLHttpRequest` to `../other/other.html`: reads a file from the sibling `other/` directory.
 - `<iframe src="../other/other.html">`: embeds the sibling file directly.
 
-The `allowingReadAccessTo: indexURL` choice is intentional: it shows that even when native WebKit file loading is locked down to a single file, `allowFileAccessFromFileURLs = true` is enough for JavaScript to reach any local `file://` URL via `fetch` or XHR. The `allowingReadAccessTo` parameter is not the target of this demo; it's included to illustrate the scope of what this flag bypasses.
+The `allowingReadAccessTo: demoRoot` choice is intentional: it shows that simply setting `allowFileAccessFromFileURLs = true` is not enough for JavaScript to reach any local `file://` URL via `fetch` or XHR. The `allowingReadAccessTo` parameter is not the target of this demo but it's required to demonstrate the impact in terms of the sandbox boundary. If the WebView were loaded with `allowingReadAccessTo: indexURL` instead, then JavaScript would only be able to read `index.html` and not `api-key.txt`, even with `allowFileAccessFromFileURLs = true`.
+
+The app logs would show:
+
+```sh
+0x1110180c0 - [PID=709] WebProcessProxy::checkURLReceivedFromWebProcess: Received an unexpected URL from the web process
+0x103870c18 - [pageProxyID=6, webPageID=7, PID=709] WebPageProxy::Ignoring request to load this main resource because it is outside the sandbox
+```
 
 ## Steps
 
@@ -61,30 +68,46 @@ Immediately after, around `0x100004b9c`, the app sets `allowUniversalAccessFromF
 - At `0x100004bac`, `"allowUniversalAccessFromFileURLs"` is constructed as an `NSString`.
 - `setValue:forKey:` is called at `0x100004bd0`.
 
-The actual call to `loadFileURL:allowingReadAccessToURL:` is inside the `presenter.present` completion closure, compiled into `sym.func.1000050c0`. The key sequence immediately before the call at `0x10000520c` is:
+The actual call to `loadFileURL:allowingReadAccessToURL:` is inside the `presenter.present` completion closure, compiled into `sym.func.1000050c0`. Earlier in this function, around `0x100005130`, the `demoRoot` static property is resolved and stored in `x23`:
 
 ```text
-0x1000051ac      bl sym.func.100007be4               ; resolve the stored indexURL static
-0x1000051b0      mov x23, x0
-0x1000051b4      mov x0, x22
-0x1000051b8      mov x1, x23
-0x1000051bc      mov x2, x21
-0x1000051c0      blr x26                             ; initialize Swift URL in x22 from x23
-0x1000051c8      bl Foundation.URL._bridgeToObjectiveC.NSURL  ; bridge to NSURL
-0x1000051cc      mov x24, x0                         ; x24 = NSURL(indexURL)  [fileURL arg]
-...
-0x1000051dc      mov x0, x22
-0x1000051e0      mov x1, x23                         ; same URL data as before
-0x1000051e4      mov x2, x21
-0x1000051e8      blr x26                             ; re-initialize Swift URL in x22 from same x23
-0x1000051ec      bl Foundation.URL._bridgeToObjectiveC.NSURL  ; bridge again
-0x1000051f0      mov x20, x0                         ; x20 = NSURL(indexURL)  [readAccess arg]
-...
-0x100005204      mov x2, x24                         ; fileURL = NSURL(indexURL)
-0x100005208      mov x3, x20                         ; allowingReadAccessTo = NSURL(indexURL)
-0x10000520c      bl fcn.10000c680                    ; loadFileURL:allowingReadAccessToURL:
+0x100005130      adrp x1, segment.__DATA                   ; 0x100014000
+0x100005134      add x1, x1, 0x340                         ; demoRoot storage
+0x100005138      mov x0, x21
+0x10000513c      bl sym.func.100007be4                      ; resolve demoRoot static
+0x100005140      mov x23, x0                               ; x23 = demoRoot
 ```
 
-Both `x2` and `x3` are produced by calling `Foundation.URL._bridgeToObjectiveC` on the same Swift `URL` value: x22 is initialized with the same source (x23, the resolved `indexURL` static property) in both cases. This confirms that `loadFileURL` is called with `indexURL` as both the first argument (the file to load) and the second argument (the read-access boundary), as written in the Swift source.
+Then the key sequence leading to the `loadFileURL:allowingReadAccessToURL:` call at `0x10000520c` is:
 
-Although `allowingReadAccessTo: indexURL` restricts native WebKit file loading to just the `index.html` file, `allowFileAccessFromFileURLs = true` independently grants JavaScript the ability to issue `fetch()` and `XMLHttpRequest` calls to other `file://` URLs. This means JavaScript running in the WebView can read `api-key.txt` and `other.html` regardless of the `allowingReadAccessTo` restriction.
+```text
+0x1000051a4      adrp x1, segment.__DATA                   ; 0x100014000
+0x1000051a8      add x1, x1, 0x300                         ; indexURL storage
+0x1000051ac      mov x0, x21
+0x1000051b0      bl sym.func.100007be4                      ; resolve indexURL static
+0x1000051b4      mov x1, x0                               ; x1 = indexURL (passed directly)
+0x1000051b8      mov x0, x22
+0x1000051bc      mov x2, x21
+0x1000051c0      blr x27                                   ; initialize Swift URL in x22 from indexURL
+0x1000051c8      bl Foundation.URL._bridgeToObjectiveC.NSURL  ; bridge to NSURL
+0x1000051cc      mov x24, x0                               ; x24 = NSURL(indexURL) [fileURL arg]
+...
+0x1000051d8      blr x28                                   ; destroy URL buffer
+0x1000051dc      mov x0, x22
+0x1000051e0      mov x1, x23                               ; x1 = x23 = demoRoot (from earlier)
+0x1000051e4      mov x2, x21
+0x1000051e8      blr x27                                   ; initialize Swift URL in x22 from demoRoot
+0x1000051ec      bl Foundation.URL._bridgeToObjectiveC.NSURL  ; bridge to NSURL
+0x1000051f0      mov x20, x0                               ; x20 = NSURL(demoRoot) [readAccess arg]
+...
+0x100005204      mov x2, x24                               ; fileURL = NSURL(indexURL)
+0x100005208      mov x3, x20                               ; allowingReadAccessTo = NSURL(demoRoot)
+0x10000520c      bl fcn.10000c680                          ; loadFileURL:allowingReadAccessToURL:
+```
+
+`x2` and `x3` are produced from **two different** static properties. The first URL (`x24`) comes from the `indexURL` static (resolved at `0x1000051b0` from `[segment.__DATA + 0x300]`), while the second URL (`x20`) comes from the `demoRoot` static (resolved earlier at `0x10000513c` from `[segment.__DATA + 0x340]` and stored in `x23`). This confirms that `loadFileURL` is called with `indexURL` as the first argument (the file to load) and `demoRoot` as the second argument (the read-access boundary), as written in the Swift source.
+
+Because `allowingReadAccessTo: demoRoot` grants WebKit native file access to the entire `demoRoot` directory, and `allowFileAccessFromFileURLs = true` independently grants JavaScript the ability to issue `fetch()` and `XMLHttpRequest` calls to `file://` URLs within that boundary, JavaScript running in the WebView can read both `api-key.txt` and `other.html`.
+
+!!! warning "iOS Simulator vs. Physical Device"
+    The iOS Simulator is **more permissive** than a physical device when it comes to `file://` access in WebViews. On the Simulator, JavaScript can reach local files via `fetch` or XHR even when `allowingReadAccessTo` is restricted to a single file (e.g., `indexURL`). On a **physical device**, WebKit strictly enforces the sandbox boundary set by `allowingReadAccessTo`, so JavaScript can only access files within the directory (or file) specified by that parameter. Always validate WebView file-access behavior on a real device to get accurate results.

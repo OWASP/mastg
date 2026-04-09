@@ -31,7 +31,8 @@ struct MastgTest {
         preferences.allowsContentJavaScript = true
         configuration.defaultWebpagePreferences = preferences
 
-        // CONDITION 2: file:// URLs must have access to files. This demo sets it to true so the fetch succeeds; change to false to block the fetch.
+        // CONDITION 2: file:// URLs must have access to files.
+        // This demo sets it to true so the fetch succeeds; change to false to block the fetch.
         configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
         configuration.setValue(false, forKey: "allowUniversalAccessFromFileURLs")
 
@@ -48,11 +49,17 @@ struct MastgTest {
         presenter.present(vc, animated: true) {
             //completion("Opening WebView...")
             completion(fileTreeString(at: demoRoot))
-            // IRRELEVANT FOR THIS DEMO: Change allowingReadAccessTo to demo the effect:
-            // If indexURL or appDir: the content in the iframe will be blocked
-            webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL)
-            // If demoRoot: the content in the iframe will show
-            //webView.loadFileURL(indexURL, allowingReadAccessTo: demoRoot)
+            
+            // CONDITION 3: Overly broad file read access to demoRoot
+            // JavaScript will be able to access any file within demoRoot
+            // the content in the iframe will show
+            webView.loadFileURL(indexURL, allowingReadAccessTo: demoRoot)
+            
+            // FIX: restrict allowingReadAccessTo to indexURL or appDir:
+            // JavaScript will lose access to the files
+            // the content in the iframe will be blocked
+            // webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL)
+            
         }
     }
 
