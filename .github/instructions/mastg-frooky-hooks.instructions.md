@@ -47,12 +47,33 @@ Hook configurations are JSON files that declare which classes and methods to ins
 }
 ```
 
+```json
+{
+  "category": "RESILIENCE",
+  "hooks": [
+    {
+      "class": "java.io.File",
+      "method": "$init",
+      "overloads": [
+        {
+          "args": ["java.lang.String"]
+        }
+      ],
+      "filterEventsByStacktrace": ["org.owasp.mastestapp"]
+    }
+  ]
+}
+```
+
 Key fields:
 
-- `category`: A label for grouping hooks (for example, `STORAGE`, `CRYPTO`, `NETWORK`)
-- `hooks`: Array of hook definitions
-    - `class`: Fully qualified class name to hook
-    - `methods`: Array of method names to intercept
+- `category`: A label for grouping hooks (for example, `STORAGE`, `CRYPTO`, `NETWORK`).
+- `hooks`: Array of hook definitions.
+    - `class`: Fully qualified class name to hook.
+    - `methods`: Array of method names to intercept.
+    - `method`: One method name (alternative to `methods` array).
+        - `overloads`: Optional array of overload signatures to specify which method variants to hook.
+    - `filterEventsByStacktrace`: Optional array of strings; only events with stack traces containing these strings will be included in the output.
 
 See more in the [frooky Usage page](https://github.com/cpholguera/frooky/blob/main/docs/usage.md).
 

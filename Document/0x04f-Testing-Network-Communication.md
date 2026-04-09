@@ -1,6 +1,6 @@
 ---
 masvs_category: MASVS-NETWORK
-platform: all
+platform: generic
 ---
 
 # Mobile App Network Communication
