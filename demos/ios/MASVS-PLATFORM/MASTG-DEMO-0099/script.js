@@ -50,7 +50,7 @@ if (ObjC.available) {
                     console.log("[WKWebView] loadFileURL called");
                     // Use absoluteString safely
                     console.log("  fileURL: " + fileURL.absoluteString().toString());
-                    console.log("  readAccessURL: " + readAccess.absoluteString().toString());
+                    console.log("  allowingReadAccessTo: " + readAccess.absoluteString().toString());
                 } catch (e) {
                     console.log("[!] Error reading URLs: " + e);
                 }

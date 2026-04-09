@@ -41,7 +41,7 @@ The logs indicate that:
 - `allowFileAccessFromFileURLs` is set to `1`.
 - `allowUniversalAccessFromFileURLs` remains `0` (disabled).
 - The WebView loads a local file such as `.../Library/Caches/demoRoot/index.html`.
-- The `readAccessURL` is set to the `demoRoot` directory under the app's caches directory.
+- `allowingReadAccessTo` is set to the `demoRoot` directory under the app's caches directory `.../Library/Caches/demoRoot/`.
 
 ## Evaluation
 
@@ -50,7 +50,6 @@ The test **fails** because the application enables file access from `file://` UR
 Specifically:
 
 - `allowFileAccessFromFileURLs` is set to `true`, allowing JavaScript running in a `file://` page to access other local files within the granted read scope.
-- `allowUniversalAccessFromFileURLs` remains disabled in this sample, but the combination of enabled local file access and a WebView that loads local HTML content under `demoRoot` still exposes local files to any JavaScript executed in that context.
 - The WebView loads a local HTML file and grants read access to the `demoRoot` directory under the application's caches directory.
 
 These settings weaken the isolation normally applied to local content and increase the impact of WebView vulnerabilities. If attacker-controlled JavaScript executes in the local page context, it may access files within the granted read scope and potentially exfiltrate them to remote servers.
