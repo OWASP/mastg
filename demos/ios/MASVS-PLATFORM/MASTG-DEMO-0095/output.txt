@@ -4,3 +4,5 @@ Uses of loadRequest or loadFileURL:
 
 xrefs to 'loadFileURL' selector
 sym.MASTestApp.MastgTest.showHtmlRegistrationView._6E8AB2C58CE173A727EF27CB85DF8CD8.username.completion 0x100004f10 [DATA:r--] ldr x1, reloc.fixup.loadFileURL:allowingReadAccessT
+HTML template string (contains innerHTML injection):
+0x10000b261 hit4_0 "yId('username').innerHTML = name;</scrip"
