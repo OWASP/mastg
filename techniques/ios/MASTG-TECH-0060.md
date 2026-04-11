@@ -46,7 +46,7 @@ This method is useful for collecting device side logs outside Xcode, but it shou
 
 ## Using system log tooling on the Simulator
 
-For simulator based testing, Apple provides command line access to log collection through `simctl spawn booted log`. This is useful when you want to monitor the simulator's **system log** rather than rely on the Xcode UI.
+For simulator based testing, Apple provides command line access to log collection through `simctl spawn booted log`. This is useful when you want to monitor the simulator's **system log** rather than rely on the Xcode UI. See Apple's documentation on [Getting the Most Out of Simulator](https://developer.apple.com/videos/play/wwdc2019/418/) for more details.
 
 Example:
 
@@ -60,7 +60,7 @@ To retrieve historical log entries instead of streaming live output, use `log sh
 xcrun simctl spawn booted log show --style compact --last 5m --predicate 'process CONTAINS[c] "YOUR_APP_NAME"'
 ```
 
-Apple documents the Unified Logging tools for viewing log messages, and Xcode documentation also points to opening the simulator system log. ([Apple Developer][1])
+Apple documents the Unified Logging tools for viewing log messages, and Xcode documentation also points to opening the simulator system log. See [Generating Log Messages from Your Code](https://developer.apple.com/documentation/os/generating-log-messages-from-your-code).
 
 ## Capturing app console output on the Simulator
 
@@ -74,7 +74,7 @@ Example:
 xcrun simctl launch --console-pty booted YOUR_BUNDLE_ID
 ```
 
-This distinction matters during testing. Some messages visible in Xcode may come from the app's console output and not from the system log stream. As a result, `log stream` and Xcode Console output may differ even when observing the same app behavior. ([Apple Developer][2])
+This distinction matters during testing. Some messages visible in Xcode may come from the app's console output and not from the system log stream. As a result, `log stream` and Xcode Console output may differ even when observing the same app behavior.
 
 ## Practical guidance
 
@@ -87,6 +87,3 @@ When testing for verbose logging or sensitive log exposure on iOS:
 In other words, do not assume that one collection method captures every log source. If a message appears in Xcode but not in a `log stream` capture, it may be coming from the app's console output rather than the system log.
 
 This update makes the main missing point explicit, system logs and app console output are related but not identical, so different tools can legitimately show different subsets of messages.
-
-[1]: https://developer.apple.com/documentation/os/generating-log-messages-from-your-code "Generating Log Messages from Your Code"
-[2]: https://developer.apple.com/videos/play/wwdc2019/418/ "Getting the Most Out of Simulator - WWDC19 - Videos"
