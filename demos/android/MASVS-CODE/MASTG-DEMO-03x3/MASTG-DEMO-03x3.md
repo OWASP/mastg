@@ -42,6 +42,6 @@ The test **fails** because the implementation does not perform any URL validatio
 
 - URLs are logged but not validated against an allowlist of trusted domains.
 - All URLs are allowed to load (return value is `false` for `shouldOverrideUrlLoading`).
-- No checks for external domains or malicious content.
+- No checks for malicious content.
 
 This could allow navigation to untrusted content or potential open redirect vulnerabilities.
