@@ -1,0 +1,31 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                              
+    ../MASTG-DEMO-0090/MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-event-bound
+          [MASVS-AUTH-2] BiometricPrompt.authenticate called without a CryptoObject or key not requiring user
+          authentication. Use authenticate(PromptInfo, CryptoObject) with a keystore-backed key configured   
+          with setUserAuthenticationRequired(true) for sensitive operations.                                 
+                                                                                                             
+           52┆ keyGenerator.init(new KeyGenParameterSpec.Builder(this.KEY_NAME, 3).setBlockModes("GCM").se
+               tEncryptionPaddings("NoPadding").setUserAuthenticationRequired(false).setInvalidatedByBiome
+               tricEnrollment(false).setUserAuthenticationParameters(86400,                               
+               0).setUserAuthenticationValidityDurationSeconds(86400).build());                           
+            ⋮┆----------------------------------------
+          139┆ prompt1.authenticate(new CancellationSignal(), this$0.context.getMainExecutor(), new
+               BiometricPrompt.AuthenticationCallback() { // from class:                           
+               org.owasp.mastestapp.MastgTest$mastgTest$1$1                                        
+          140┆     @Override // android.hardware.biometrics.BiometricPrompt.AuthenticationCallback
+          141┆     public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+          142┆         String str;
+          143┆         Intrinsics.checkNotNullParameter(result, "result");
+          144┆         Log.d("MASTG-TEST", "Test 1: Auth succeeded (no CryptoObject)");
+          145┆         authResult1.element = "Authenticated without CryptoObject";
+          146┆         DemoResults demoResults = results;
+          147┆         Status status = Status.FAIL;
+          148┆         str = this$0.secretToken;
+             [hid 22 additional lines, adjust with --max-lines-per-finding] 
+

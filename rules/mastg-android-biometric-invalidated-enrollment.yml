@@ -1,0 +1,11 @@
+rules:
+  - id: mastg-android-biometric-invalidated-enrollment
+    languages:
+      - java
+      - kotlin
+    severity: WARNING
+    metadata:
+      summary: This rule detects KeyGenParameterSpec configurations that disable key invalidation on biometric enrollment changes.
+    message: "[MASVS-AUTH-2] Key configured with setInvalidatedByBiometricEnrollment(false). For sensitive operations, keys should be invalidated when biometric enrollment changes to prevent unauthorized access by newly enrolled biometrics."
+
+    pattern: $BUILDER.setInvalidatedByBiometricEnrollment(false)

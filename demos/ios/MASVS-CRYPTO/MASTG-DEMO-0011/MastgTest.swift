@@ -32,7 +32,6 @@ struct MastgTest {
         }
         
         // Encode the private key for display
-        //let privateKeyBase64 = privateKeyData.base64EncodedString()
         let privateKeyHex = privateKeyData.map { String(format: "%02hhx", $0) }.joined()
         
         // Convert the public key to data (DER format)
@@ -42,10 +41,8 @@ struct MastgTest {
         }
 
         // Encode the public key for display
-        // let publicKeyBase64 = publicKeyData.base64EncodedString()
         let publicKeyHex = publicKeyData.map { String(format: "%02hhx", $0) }.joined()
         
-        // Data to sign
         let dataToSign = "This is a sample text".data(using: .utf8)!
         
         // Step 2: Sign the data with the private key

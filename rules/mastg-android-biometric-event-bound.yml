@@ -1,0 +1,49 @@
+rules:
+  - id: mastg-android-biometric-event-bound
+    languages:
+      - java
+      - kotlin
+    severity: WARNING
+    metadata:
+      summary: This rule detects uses of BiometricPrompt.authenticate without a CryptoObject (event-bound biometric authentication) and insecure key configurations.
+    message: "[MASVS-AUTH-2] BiometricPrompt.authenticate called without a CryptoObject or key not requiring user authentication. Use authenticate(PromptInfo, CryptoObject) with a keystore-backed key configured with setUserAuthenticationRequired(true) for sensitive operations."
+
+    pattern-either:
+      # Pattern 1: BiometricPrompt.authenticate() without CryptoObject (event-bound authentication)
+      # Used in androidx Biometric library
+      - patterns:
+          - pattern: $INSTANCE.authenticate($PROMPT_INFO)
+          - pattern-not: $ANY.authenticate($PROMPT_INFO, $CRYPTO_OBJECT)
+          - pattern-inside: |
+              import androidx.biometric.BiometricPrompt;
+              ...
+
+      # Pattern 2: android.hardware.biometrics.BiometricPrompt.authenticate() without CryptoObject
+      # This is the older Android framework API (deprecated in favor of androidx.biometric)
+      # The insecure version has 3 parameters: authenticate(CancellationSignal, Executor, Callback)
+      # The secure version has 4 parameters: authenticate(CryptoObject, CancellationSignal, Executor, Callback)
+      - patterns:
+          - pattern: $INSTANCE.authenticate($CANCEL, $EXECUTOR, $CALLBACK)
+          - pattern-not: $ANY.authenticate($CRYPTO_OBJECT, $CANCEL, $EXECUTOR, $CALLBACK)
+          - pattern-inside: |
+              import android.hardware.biometrics.BiometricPrompt;
+              ...
+
+      # Pattern 3a: KeyGenParameterSpec.Builder without setUserAuthenticationRequired(true)
+      # Scoped to files using android.hardware.biometrics.BiometricPrompt to avoid false positives on non-biometric keys
+      - patterns:
+          - pattern: new KeyGenParameterSpec.Builder(...)
+          - pattern-not-inside: |
+              new KeyGenParameterSpec.Builder(...). ... .setUserAuthenticationRequired(true)
+          - pattern-inside: |
+              import android.hardware.biometrics.BiometricPrompt;
+              ...
+
+      # Pattern 3b: Same check but for androidx.biometric library
+      - patterns:
+          - pattern: new KeyGenParameterSpec.Builder(...)
+          - pattern-not-inside: |
+              new KeyGenParameterSpec.Builder(...). ... .setUserAuthenticationRequired(true)
+          - pattern-inside: |
+              import androidx.biometric.BiometricPrompt;
+              ...

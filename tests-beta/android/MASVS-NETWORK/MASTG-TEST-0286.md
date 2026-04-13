@@ -22,7 +22,7 @@ Such trust can expose the application to [MITM attacks](../../../Document/0x04f-
 
 ## Observation
 
-The output contains all the `<trust-anchors>` from the Network Security Configuration file along with any defined `<certificates>` entries, if present.
+The output should contain all the `<trust-anchors>` from the Network Security Configuration file along with any defined `<certificates>` entries, if present.
 
 ## Evaluation
 

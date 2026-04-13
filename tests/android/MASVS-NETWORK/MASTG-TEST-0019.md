@@ -33,7 +33,7 @@ Next, you should ensure that the app is not allowing cleartext HTTP traffic. Sin
 - Setting the [`android:usesCleartextTraffic`](https://developer.android.com/guide/topics/manifest/application-element#usesCleartextTraffic "Android documentation - usesCleartextTraffic flag") attribute of the `<application>` tag in the AndroidManifest.xml file. Note that this flag is ignored in case the Network Security Configuration is configured.
 - Configuring the Network Security Configuration to enable cleartext traffic by setting the `cleartextTrafficPermitted` attribute to true on `<domain-config>` elements.
 - Using low-level APIs (e.g. [`Socket`](https://developer.android.com/reference/java/net/Socket "Socket class")) to set up a custom HTTP connection.
-- Using a cross-platform framework (e.g. Flutter, Xamarin, ...), as these typically have their own implementations for HTTP libraries.
+- Using a cross-platform framework (e.g. Flutter), as these typically have their own implementations for HTTP libraries.
 
 All of the above cases must be carefully analyzed as a whole. For example, even if the app does not permit cleartext traffic in its Android Manifest or Network Security Configuration, it might actually still be sending HTTP traffic. That could be the case if it's using a low-level API (for which Network Security Configuration is ignored) or a badly configured cross-platform framework.
 

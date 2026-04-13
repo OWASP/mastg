@@ -3,7 +3,7 @@ title: Extracting Information from the Application Binary
 platform: ios
 ---
 
-You can use radare to get information about the binary, such as the architecture, the list of shared libraries, the list of classes and methods, strings and more.
+You can use @MASTG-TOOL-0073 to retrieve information about the binary, including the architecture, shared libraries, classes and methods, strings, and more.
 
 Let's use the [Damn Vulnerable iOS App DVIA v1](https://github.com/prateek147/DVIA/) as an example. Open its main binary with radare2:
 
@@ -13,7 +13,7 @@ r2 DamnVulnerableIOSApp
 
 ## Binary Information
 
-To get information about the binary, you can use the `i` command. This command will list information about the binary, such as the architecture, the list of shared libraries, the list of classes and methods, strings and more.
+To get information about the binary, you can use the `i` command. This command lists information about the binary, including the architecture, shared libraries, classes and methods, strings, and more.
 
 ```bash
 [0x1000180c8]> i
@@ -40,7 +40,7 @@ stripped true
 
 ## Classes and Methods
 
-And then we can proceed to extract information about the methods in the application's source code. To do this, we need to load the application binary into radare and then list the classes and methods in the binary.
+We can then extract information about the methods in the application's source code. To do this, we need to load the application binary into radare and then list its classes and methods.
 
 ```bash
 [0x1000180c8]> icc
@@ -61,12 +61,12 @@ And then we can proceed to extract information about the methods in the applicat
 @end
 ```
 
-Note the plus sign, which means that this is a class method that returns a BOOL type.
+Note the plus sign: this is a class method that returns a BOOL value.
 A minus sign would mean that this is an instance method. Refer to later sections to understand the practical difference between these.
 
 ## Linked Libraries
 
-The following command is listing shared libraries:
+The following command lists shared libraries:
 
 ```bash
 [0x1000180c8]> il
@@ -93,7 +93,7 @@ The following command is listing shared libraries:
 
 ## Strings
 
-Obtaining strings is very useful when reverse engineering an app because it can give you a lot of information about the app's functionality. For example, you can find URLs, API endpoints, encryption keys, and more. You can also find strings that will point you to interesting functions, such as the login function or a function that checks whether the device is jailbroken.
+Getting strings is invaluable when reverse-engineering an app because it can provide a lot of information about the app's functionality. For example, you can find URLs, API endpoints, encryption keys, and more. You can also find strings that will point you to interesting functions, such as the login function or a function that checks whether the device is jailbroken.
 
 ```bash
 [0x1000180c8]> izz~cstring | less

@@ -16,7 +16,7 @@ In production builds, debug information must be stripped to reduce binary size a
 
 Symbol visibility is often mishandled, leading to unintended external exposure of symbols and requiring manual inspection.
 
-### Symbol Tables and DWARF Sections
+## Symbol Tables and DWARF Sections
 
 The [ELF](https://refspecs.linuxfoundation.org/elf/elf.pdf) format defines which sections must be used to store symbol information:
 
@@ -51,7 +51,7 @@ For example, using radare2:
 
 **IMPORTANT**: The presence of these sections doesn't necessarily indicate that the binary hasn't been stripped. Some toolchains may retain these sections even in stripped binaries, but they are often empty or contain minimal information. Ultimately, what matters is **whether the symbols themselves are still present**. See @MASTG-TECH-0140 for more details on how to extract and analyze debugging symbols.
 
-### External Debug Symbol Files
+## External Debug Symbol Files
 
 The [Android Developers documentation](https://developer.android.com/build/include-native-symbols) explains that native libraries in release builds are stripped by default. To enable symbolicated native crash reports, you must generate a separate debug symbols file—typically located at `<variant>/native-debug-symbols.zip`—and upload it to the Google Play Console. This ZIP archive contains full **unstripped `.so` files** with embedded DWARF debug information. The DWARF data is not split into separate files (such as `.dwo`) but remains inside each `.so`.
 
