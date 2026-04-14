@@ -113,8 +113,8 @@ adb shell monkey -p org.owasp.mastestapp -c android.intent.category.LAUNCHER 1
 
 Click **Start** and you'll see:
 
-```java
-"✅ Secure check detected tampering."
+```txt
+✅ Secure check detected tampering.
 ```
 
 ### Final Note
