@@ -1,7 +1,7 @@
 ---
 title: Integrity and Authenticity Validation of Local Storage Data
 platform: android
-id: MASTG-TEST-XXXX
+id: MASTG-TEST-0338
 type: [static]
 weakness: MASWE-0082
 profiles: [L1, L2]
