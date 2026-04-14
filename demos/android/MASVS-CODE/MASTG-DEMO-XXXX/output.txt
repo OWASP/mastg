@@ -1,37 +1,29 @@
-                    
-┌──────────────────┐
-│ 10 Code Findings │
-└──────────────────┘
-                                                                    
+                   
+                   
+┌─────────────────┐
+│ 7 Code Findings │
+└─────────────────┘
+                           
     MastgTest_reversed.java
-     ❱ mastg-android-hmac-validation-present
-          [MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported
-          local storage read and whether the secret is attacker accessible.                                   
-                                                                                                              
-           44┆ if (Intrinsics.areEqual(insecureRole, "admin")) {
-            ⋮┆----------------------------------------
-           52┆ if (Intrinsics.areEqual(secureRole, "tampering_detected")) {
-            ⋮┆----------------------------------------
-           54┆ } else if (Intrinsics.areEqual(secureRole, "admin")) {
-   
     ❯❱ mastg-android-local-storage-input-validation
           [MASVS-CODE-4] SharedPreferences value loaded. Review whether integrity and authenticity are
           validated before the value is trusted.                                                      
                                                                                                       
-           84┆ String value = prefs.getString(key, null);
+          140┆ String string = prefs().getString(key, defaultValue);
             ⋮┆----------------------------------------
-           89┆ String storedHmac = prefs.getString(key + "_hmac", null);
+          146┆ String value = prefs().getString(key, null);
+            ⋮┆----------------------------------------
+          147┆ if (value == null || (storedHmac = prefs().getString(key + "_hmac", null)) == null) {
    
      ❱ mastg-android-hmac-validation-present
           [MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported
           local storage read and whether the secret is attacker accessible.                                   
                                                                                                               
-           95┆ if (Intrinsics.areEqual(storedHmac, calculatedHmac)) {
+          156┆ Mac mac = Mac.getInstance(HMAC_ALGORITHM);
             ⋮┆----------------------------------------
-          108┆ Mac mac = Mac.getInstance(HMAC_ALGORITHM);
+          159┆ SecretKeySpec key = new SecretKeySpec(bytes, HMAC_ALGORITHM);
             ⋮┆----------------------------------------
-          111┆ SecretKeySpec secretKeySpec = new SecretKeySpec(bytes, HMAC_ALGORITHM);
+          160┆ mac.init(key);
             ⋮┆----------------------------------------
-          112┆ mac.init(secretKeySpec);
-            ⋮┆----------------------------------------
-          115┆ byte[] hmacBytes = mac.doFinal(bytes2);
+          163┆ byte[] bArrDoFinal = mac.doFinal(bytes2);
+
