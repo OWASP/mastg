@@ -3,7 +3,7 @@
 │ 10 Code Findings │
 └──────────────────┘
                                                                     
-    /Users/carlos/git/mas-app-android/output/MastgTest_reversed.java
+    MastgTest_reversed.java
      ❱ mastg-android-hmac-validation-present
           [MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported
           local storage read and whether the secret is attacker accessible.                                   

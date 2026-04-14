@@ -5,6 +5,7 @@ id: MASTG-TEST-XXXX
 type: [static]
 weakness: MASWE-0082
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0036]
 ---
 
 ## Overview
@@ -24,7 +25,7 @@ When performing this test, look not only for storage read APIs, but also for nea
 
 ## Observation
 
-The output shows code locations where the app reads data from local storage. Depending on the storage API and the analysis rule, these code locations may include APIs such as `SharedPreferences.getString`, file reads, database queries, or nearby comparison and verification logic such as HMAC or MAC related operations.
+The output should contain code locations where the app reads data from local storage. Depending on the storage API and the analysis rule, these code locations may include APIs such as `SharedPreferences.getString`, file reads, database queries, or nearby comparison and verification logic such as HMAC or MAC related operations.
 
 ## Evaluation
 
