@@ -11,4 +11,7 @@ f~loadRequest,loadFileURL
 
 axt @ 0x100018118
 
-pdf @ 0x100004f10 > function.asm
+?e HTML template string (contains innerHTML injection):
+/ innerHTML
+
+pdf @ 0x100004f10 > showWebView.asm

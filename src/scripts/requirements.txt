@@ -5,7 +5,7 @@ requests==2.33.0
 lxml==5.4.0
 bs4==0.0.2
 openpyxl==3.1.5
-Pillow==12.1.1
+Pillow==12.2.0
 semgrep
 frida
 frida-tools
