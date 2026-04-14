@@ -1,6 +1,6 @@
 ---
 masvs_category: MASVS-AUTH
-platform: all
+platform: generic
 ---
 
 # Mobile App Authentication Architectures
