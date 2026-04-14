@@ -3,7 +3,7 @@
 # OWASP Mobile Application Security Testing Guide (MASTG)
 
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-48A646.svg)](https://owasp.org/projects/)
-[![Creative Commons License](https://img.shields.io/github/license/OWASP/mastg)](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0")
+[![Creative Commons License](https://img.shields.io/github/license/OWASP/mastg?color=48A646)](https://creativecommons.org/licenses/by-sa/4.0/ "CC BY-SA 4.0")
 
 [![Markdown Linter](https://github.com/OWASP/mastg/actions/workflows/markdown-linter.yml/badge.svg?branch=master)](https://github.com/OWASP/mastg/actions/workflows/markdown-linter.yml)
 [![URL Checker](https://github.com/OWASP/mastg/actions/workflows/url-checker.yml/badge.svg?branch=master)](https://github.com/OWASP/mastg/actions/workflows/url-checker.yml)

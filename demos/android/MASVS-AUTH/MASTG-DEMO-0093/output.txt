@@ -1,0 +1,22 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                              
+    ../MASTG-DEMO-0090/MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-validity-duration
+          [MASVS-AUTH-2] Key configured with authentication validity duration > 0. For sensitive operations,
+          use setUserAuthenticationParameters(0, type) to require authentication for every cryptographic    
+          operation.                                                                                        
+                                                                                                            
+           52┆ keyGenerator.init(new KeyGenParameterSpec.Builder(this.KEY_NAME, 3).setBlockModes("GCM").se
+               tEncryptionPaddings("NoPadding").setUserAuthenticationRequired(false).setInvalidatedByBiome
+               tricEnrollment(false).setUserAuthenticationParameters(86400,                               
+               0).setUserAuthenticationValidityDurationSeconds(86400).build());                           
+            ⋮┆----------------------------------------
+           52┆ keyGenerator.init(new KeyGenParameterSpec.Builder(this.KEY_NAME, 3).setBlockModes("GCM").se
+               tEncryptionPaddings("NoPadding").setUserAuthenticationRequired(false).setInvalidatedByBiome
+               tricEnrollment(false).setUserAuthenticationParameters(86400,                               
+               0).setUserAuthenticationValidityDurationSeconds(86400).build());                           
+
