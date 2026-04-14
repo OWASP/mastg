@@ -1,16 +1,37 @@
-                   
-                   
-┌─────────────────┐
-│ 2 Code Findings │
-└─────────────────┘
-                           
-    MastgTest_reversed.java
-    ❯❱ rules.mastg-android-local-storage-input-validation
-          [MASVS-CODE-4] The application reads data from SharedPreferences without an integrity check (like
-          HMAC). This data could be tampered with by an attacker on a rooted device, leading to privilege  
-          escalation or other vulnerabilities.                                                             
-                                                                                                           
-           23┆ SecureSharedPreferences insecurePrefs = new SecureSharedPreferences(this.context, false);
+                    
+┌──────────────────┐
+│ 10 Code Findings │
+└──────────────────┘
+                                                                    
+    /Users/carlos/git/mas-app-android/output/MastgTest_reversed.java
+     ❱ mastg-android-hmac-validation-present
+          [MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported
+          local storage read and whether the secret is attacker accessible.                                   
+                                                                                                              
+           44┆ if (Intrinsics.areEqual(insecureRole, "admin")) {
             ⋮┆----------------------------------------
-           35┆ SecureSharedPreferences insecurePrefs2 = new SecureSharedPreferences(this.context, false);
-
+           52┆ if (Intrinsics.areEqual(secureRole, "tampering_detected")) {
+            ⋮┆----------------------------------------
+           54┆ } else if (Intrinsics.areEqual(secureRole, "admin")) {
+   
+    ❯❱ mastg-android-local-storage-input-validation
+          [MASVS-CODE-4] SharedPreferences value loaded. Review whether integrity and authenticity are
+          validated before the value is trusted.                                                      
+                                                                                                      
+           84┆ String value = prefs.getString(key, null);
+            ⋮┆----------------------------------------
+           89┆ String storedHmac = prefs.getString(key + "_hmac", null);
+   
+     ❱ mastg-android-hmac-validation-present
+          [MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported
+          local storage read and whether the secret is attacker accessible.                                   
+                                                                                                              
+           95┆ if (Intrinsics.areEqual(storedHmac, calculatedHmac)) {
+            ⋮┆----------------------------------------
+          108┆ Mac mac = Mac.getInstance(HMAC_ALGORITHM);
+            ⋮┆----------------------------------------
+          111┆ SecretKeySpec secretKeySpec = new SecretKeySpec(bytes, HMAC_ALGORITHM);
+            ⋮┆----------------------------------------
+          112┆ mac.init(secretKeySpec);
+            ⋮┆----------------------------------------
+          115┆ byte[] hmacBytes = mac.doFinal(bytes2);

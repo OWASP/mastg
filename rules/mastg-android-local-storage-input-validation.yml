@@ -4,8 +4,33 @@ rules:
     languages:
       - java
     metadata:
-      summary: Detects SharedPreferences usage without an integrity check.
-    message: "[MASVS-CODE-4] The application reads data from SharedPreferences without an integrity check (like HMAC). This data could be tampered with by an attacker on a rooted device, leading to privilege escalation or other vulnerabilities."
-    patterns:
-      - pattern: new SecureSharedPreferences($CONTEXT, false)
+      summary: SharedPreferences read that requires manual review.
+    message: "[MASVS-CODE-4] SharedPreferences value loaded. Review whether integrity and authenticity are validated before the value is trusted."
+    pattern-either:
+      - pattern: $PREFS.getString(...)
+      - pattern: $PREFS.getStringSet(...)
+      - pattern: $PREFS.getInt(...)
+      - pattern: $PREFS.getLong(...)
+      - pattern: $PREFS.getFloat(...)
+      - pattern: $PREFS.getBoolean(...)
+      - pattern: $CTX.getSharedPreferences(...).getString(...)
+      - pattern: $CTX.getSharedPreferences(...).getStringSet(...)
+      - pattern: $CTX.getSharedPreferences(...).getInt(...)
+      - pattern: $CTX.getSharedPreferences(...).getLong(...)
+      - pattern: $CTX.getSharedPreferences(...).getFloat(...)
+      - pattern: $CTX.getSharedPreferences(...).getBoolean(...)
 
+  - id: mastg-android-hmac-validation-present
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: HMAC or MAC based integrity logic present near local storage handling.
+    message: "[MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported local storage read and whether the secret is attacker accessible."
+    pattern-either:
+      - pattern: Mac.getInstance(...)
+      - pattern: new SecretKeySpec(...)
+      - pattern: $MAC.init(...)
+      - pattern: $MAC.doFinal(...)
+      - pattern: $A.equals($B)
+      - pattern: Intrinsics.areEqual($A, $B)
