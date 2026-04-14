@@ -7,13 +7,13 @@ code: [kotlin]
 test: MASTG-TEST-XXXX
 ---
 
-### Sample
+## Sample
 
 The code snippet demonstrates the insecure use of `SharedPreferences`, as data is loaded without an integrity check.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -21,15 +21,15 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule identifies that data is being loaded without being validated.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
-The test fails because the application doesn't use an `HMAC` integrity check when loading sensitive data from `SharedPreferences`.
+The test fails because the application doesn't use an integrity check when loading sensitive data from `SharedPreferences`.
 
 - Line 23: The rule identifies an insecure initialization of the storage class where HMAC protection is explicitly disabled (`false`).
 - Line 35: Another instance of unvalidated data access is detected.
