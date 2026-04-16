@@ -22,7 +22,7 @@ In cases where static analysis is either incomplete or infeasible, examining net
 
 ## Observation
 
-The output shows the actually used TLS version.
+The output should contain the TLS version actually used during the connection.
 
 ## Evaluation
 
