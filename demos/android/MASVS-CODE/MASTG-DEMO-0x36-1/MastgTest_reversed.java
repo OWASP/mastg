@@ -1,6 +1,8 @@
 package org.owasp.mastestapp;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
@@ -22,20 +24,22 @@ import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 
 /* compiled from: MastgTest.kt */
-@Metadata(d1 = {"\u0000H\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u0002\n\u0002\b\t\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0005\b\u0007\u0018\u00002\u00020\u0001:\u0001\"B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0014\u0010\u0015\u001a\u00020\u00102\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bJ\u0006\u0010\u0017\u001a\u00020\u0010J\u001e\u0010\u0018\u001a\u00020\u00102\u0006\u0010\u0019\u001a\u00020\u001a2\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bH\u0002J\u0014\u0010\u001b\u001a\u00020\u00102\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bJ\u001e\u0010\u001c\u001a\u00020\u00102\u0006\u0010\u001d\u001a\u00020\u001e2\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bH\u0002J\u001e\u0010\u001f\u001a\u00020\u00102\u0006\u0010\u001d\u001a\u00020\u001e2\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bH\u0002J\u0014\u0010 \u001a\u00020\u00102\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bJ\u0016\u0010!\u001a\u00020\u00102\f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00020\f0\u000bH\u0007R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082\u0004¢\u0006\u0002\n\u0000R\u0010\u0010\b\u001a\u0004\u0018\u00010\tX\u0082\u000e¢\u0006\u0002\n\u0000R\u0016\u0010\n\u001a\n\u0012\u0004\u0012\u00020\f\u0018\u00010\u000bX\u0082\u000e¢\u0006\u0002\n\u0000R(\u0010\r\u001a\u0010\u0012\u0004\u0012\u00020\u000f\u0012\u0004\u0012\u00020\u0010\u0018\u00010\u000eX\u0086\u000e¢\u0006\u000e\n\u0000\u001a\u0004\b\u0011\u0010\u0012\"\u0004\b\u0013\u0010\u0014¨\u0006#"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "appUpdateManager", "Lcom/google/android/play/core/appupdate/testing/FakeAppUpdateManager;", "installStateListener", "Lcom/google/android/play/core/install/InstallStateUpdatedListener;", "pendingUpdateLauncher", "Landroidx/activity/result/ActivityResultLauncher;", "Landroidx/activity/result/IntentSenderRequest;", "onUpdateStateChanged", "Lkotlin/Function1;", "Lorg/owasp/mastestapp/MastgTest$UpdateState;", "", "getOnUpdateStateChanged", "()Lkotlin/jvm/functions/Function1;", "setOnUpdateStateChanged", "(Lkotlin/jvm/functions/Function1;)V", "registerInstallStateListener", "appUpdateResultLauncher", "unregisterInstallStateListener", "handleInstallState", "state", "Lcom/google/android/play/core/install/InstallState;", "checkForUpdate", "handleUpdateAvailability", "appUpdateInfo", "Lcom/google/android/play/core/appupdate/AppUpdateInfo;", "startUpdateFlow", "enforceUpdateOnResume", "resumeUpdateIfInProgress", "UpdateState", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
+@Metadata(d1 = {"\u0000V\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u0002\n\u0002\b\u0006\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0005\b\u0007\u0018\u00002\u00020\u0001:\u0001%B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0014\u0010\u0016\u001a\u00020\u00112\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018J\u0006\u0010\u001a\u001a\u00020\u0011J\u001e\u0010\u001b\u001a\u00020\u00112\u0006\u0010\u001c\u001a\u00020\u001d2\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018H\u0002J\u0014\u0010\u001e\u001a\u00020\u00112\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018J\u001e\u0010\u001f\u001a\u00020\u00112\u0006\u0010 \u001a\u00020!2\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018H\u0002J\u001e\u0010\"\u001a\u00020\u00112\u0006\u0010 \u001a\u00020!2\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018H\u0002J\u0014\u0010#\u001a\u00020\u00112\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018J\u0016\u0010$\u001a\u00020\u00112\f\u0010\u0017\u001a\b\u0012\u0004\u0012\u00020\u00190\u0018H\u0007R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082\u0004¢\u0006\u0002\n\u0000R\u0010\u0010\b\u001a\u0004\u0018\u00010\tX\u0082\u000e¢\u0006\u0002\n\u0000R\u000e\u0010\n\u001a\u00020\u000bX\u0082\u0004¢\u0006\u0002\n\u0000R\u0010\u0010\f\u001a\u0004\u0018\u00010\rX\u0082\u000e¢\u0006\u0002\n\u0000R(\u0010\u000e\u001a\u0010\u0012\u0004\u0012\u00020\u0010\u0012\u0004\u0012\u00020\u0011\u0018\u00010\u000fX\u0086\u000e¢\u0006\u000e\n\u0000\u001a\u0004\b\u0012\u0010\u0013\"\u0004\b\u0014\u0010\u0015¨\u0006&"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "appUpdateManager", "Lcom/google/android/play/core/appupdate/testing/FakeAppUpdateManager;", "installStateListener", "Lcom/google/android/play/core/install/InstallStateUpdatedListener;", "handler", "Landroid/os/Handler;", "updateDelayRunnable", "Ljava/lang/Runnable;", "onUpdateStateChanged", "Lkotlin/Function1;", "Lorg/owasp/mastestapp/MastgTest$UpdateState;", "", "getOnUpdateStateChanged", "()Lkotlin/jvm/functions/Function1;", "setOnUpdateStateChanged", "(Lkotlin/jvm/functions/Function1;)V", "registerInstallStateListener", "appUpdateResultLauncher", "Landroidx/activity/result/ActivityResultLauncher;", "Landroidx/activity/result/IntentSenderRequest;", "unregisterInstallStateListener", "handleInstallState", "state", "Lcom/google/android/play/core/install/InstallState;", "checkForUpdate", "handleUpdateAvailability", "appUpdateInfo", "Lcom/google/android/play/core/appupdate/AppUpdateInfo;", "startUpdateFlow", "enforceUpdateOnResume", "resumeUpdateIfInProgress", "UpdateState", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
 /* loaded from: classes3.dex */
 public final class MastgTest {
     public static final int $stable = 8;
     private final FakeAppUpdateManager appUpdateManager;
+    private final Handler handler;
     private InstallStateUpdatedListener installStateListener;
     private Function1<? super UpdateState, Unit> onUpdateStateChanged;
-    private ActivityResultLauncher<IntentSenderRequest> pendingUpdateLauncher;
+    private Runnable updateDelayRunnable;
 
     public MastgTest(Context context) {
         Intrinsics.checkNotNullParameter(context, "context");
         FakeAppUpdateManager $this$appUpdateManager_u24lambda_u240 = new FakeAppUpdateManager(context);
         $this$appUpdateManager_u24lambda_u240.setUpdateAvailable(2);
         this.appUpdateManager = $this$appUpdateManager_u24lambda_u240;
+        this.handler = new Handler(Looper.getMainLooper());
     }
 
     public final Function1<UpdateState, Unit> getOnUpdateStateChanged() {
@@ -66,8 +70,7 @@ public final class MastgTest {
 
     public final void registerInstallStateListener(final ActivityResultLauncher<IntentSenderRequest> appUpdateResultLauncher) {
         Intrinsics.checkNotNullParameter(appUpdateResultLauncher, "appUpdateResultLauncher");
-        this.pendingUpdateLauncher = appUpdateResultLauncher;
-        this.installStateListener = new InstallStateUpdatedListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda0
+        this.installStateListener = new InstallStateUpdatedListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda2
             @Override // com.google.android.play.core.listener.StateUpdatedListener
             public final void onStateUpdate(InstallState installState) {
                 MastgTest.registerInstallStateListener$lambda$1(this.f$0, appUpdateResultLauncher, installState);
@@ -95,7 +98,6 @@ public final class MastgTest {
             Log.d("MastgTest", "InstallStateUpdatedListener unregistered.");
         }
         this.installStateListener = null;
-        this.pendingUpdateLauncher = null;
     }
 
     private final void handleInstallState(InstallState state, ActivityResultLauncher<IntentSenderRequest> appUpdateResultLauncher) {
@@ -175,18 +177,18 @@ public final class MastgTest {
         }
         Task appUpdateInfoTask = this.appUpdateManager.getAppUpdateInfo();
         Intrinsics.checkNotNullExpressionValue(appUpdateInfoTask, "getAppUpdateInfo(...)");
-        final Function1 function12 = new Function1() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda1
+        final Function1 function12 = new Function1() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda3
             @Override // kotlin.jvm.functions.Function1
             public final Object invoke(Object obj) {
                 return MastgTest.checkForUpdate$lambda$3(this.f$0, appUpdateResultLauncher, (AppUpdateInfo) obj);
             }
         };
-        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda2
+        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda4
             @Override // com.google.android.gms.tasks.OnSuccessListener
             public final void onSuccess(Object obj) {
                 MastgTest.checkForUpdate$lambda$4(function12, obj);
             }
-        }).addOnFailureListener(new OnFailureListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda3
+        }).addOnFailureListener(new OnFailureListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda5
             @Override // com.google.android.gms.tasks.OnFailureListener
             public final void onFailure(Exception exc) {
                 MastgTest.checkForUpdate$lambda$5(this.f$0, exc);
@@ -273,18 +275,59 @@ public final class MastgTest {
     private final void startUpdateFlow(AppUpdateInfo appUpdateInfo, ActivityResultLauncher<IntentSenderRequest> appUpdateResultLauncher) {
         boolean started = this.appUpdateManager.startUpdateFlowForResult(appUpdateInfo, appUpdateResultLauncher, AppUpdateOptions.newBuilder(1).build());
         if (started) {
-            FakeAppUpdateManager $this$startUpdateFlow_u24lambda_u246 = this.appUpdateManager;
-            $this$startUpdateFlow_u24lambda_u246.userAcceptsUpdate();
-            $this$startUpdateFlow_u24lambda_u246.downloadStarts();
-            $this$startUpdateFlow_u24lambda_u246.downloadCompletes();
-            $this$startUpdateFlow_u24lambda_u246.completeUpdate();
-            $this$startUpdateFlow_u24lambda_u246.installCompletes();
+            Log.d("MastgTest", "Mandatory updates are required to install. Waiting 30 seconds...");
+            Function1<? super UpdateState, Unit> function1 = this.onUpdateStateChanged;
+            if (function1 != null) {
+                function1.invoke(UpdateState.UPDATE_REQUIRED);
+            }
+            this.updateDelayRunnable = new Runnable() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    MastgTest.startUpdateFlow$lambda$8(this.f$0);
+                }
+            };
+            Handler handler = this.handler;
+            Runnable runnable = this.updateDelayRunnable;
+            Intrinsics.checkNotNull(runnable);
+            handler.postDelayed(runnable, 30000L);
             return;
         }
         Log.e("MastgTest", "Failed to start update flow.");
-        Function1<? super UpdateState, Unit> function1 = this.onUpdateStateChanged;
+        Function1<? super UpdateState, Unit> function12 = this.onUpdateStateChanged;
+        if (function12 != null) {
+            function12.invoke(UpdateState.UPDATE_FAILED);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static final void startUpdateFlow$lambda$8(final MastgTest this$0) {
+        Intrinsics.checkNotNullParameter(this$0, "this$0");
+        Log.d("MastgTest", "Starting update installation...");
+        Function1<? super UpdateState, Unit> function1 = this$0.onUpdateStateChanged;
         if (function1 != null) {
-            function1.invoke(UpdateState.UPDATE_FAILED);
+            function1.invoke(UpdateState.UPDATE_IN_PROGRESS);
+        }
+        FakeAppUpdateManager $this$startUpdateFlow_u24lambda_u248_u24lambda_u246 = this$0.appUpdateManager;
+        $this$startUpdateFlow_u24lambda_u248_u24lambda_u246.userAcceptsUpdate();
+        $this$startUpdateFlow_u24lambda_u248_u24lambda_u246.downloadStarts();
+        $this$startUpdateFlow_u24lambda_u248_u24lambda_u246.downloadCompletes();
+        $this$startUpdateFlow_u24lambda_u248_u24lambda_u246.completeUpdate();
+        $this$startUpdateFlow_u24lambda_u248_u24lambda_u246.installCompletes();
+        this$0.handler.postDelayed(new Runnable() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                MastgTest.startUpdateFlow$lambda$8$lambda$7(this.f$0);
+            }
+        }, 1000L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static final void startUpdateFlow$lambda$8$lambda$7(MastgTest this$0) {
+        Intrinsics.checkNotNullParameter(this$0, "this$0");
+        Log.d("MastgTest", "App is running. No mandatory updates required.");
+        Function1<? super UpdateState, Unit> function1 = this$0.onUpdateStateChanged;
+        if (function1 != null) {
+            function1.invoke(UpdateState.NO_UPDATE_AVAILABLE);
         }
     }
 
@@ -292,33 +335,33 @@ public final class MastgTest {
         Intrinsics.checkNotNullParameter(appUpdateResultLauncher, "appUpdateResultLauncher");
         Log.d("MastgTest", "onResume: Checking for pending mandatory updates...");
         Task<AppUpdateInfo> appUpdateInfo = this.appUpdateManager.getAppUpdateInfo();
-        final Function1 function1 = new Function1() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda4
+        final Function1 function1 = new Function1() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda6
             @Override // kotlin.jvm.functions.Function1
             public final Object invoke(Object obj) {
-                return MastgTest.enforceUpdateOnResume$lambda$7(this.f$0, appUpdateResultLauncher, (AppUpdateInfo) obj);
+                return MastgTest.enforceUpdateOnResume$lambda$9(this.f$0, appUpdateResultLauncher, (AppUpdateInfo) obj);
             }
         };
-        appUpdateInfo.addOnSuccessListener(new OnSuccessListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda5
+        appUpdateInfo.addOnSuccessListener(new OnSuccessListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda7
             @Override // com.google.android.gms.tasks.OnSuccessListener
             public final void onSuccess(Object obj) {
-                MastgTest.enforceUpdateOnResume$lambda$8(function1, obj);
+                MastgTest.enforceUpdateOnResume$lambda$10(function1, obj);
             }
-        }).addOnFailureListener(new OnFailureListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda6
+        }).addOnFailureListener(new OnFailureListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda8
             @Override // com.google.android.gms.tasks.OnFailureListener
             public final void onFailure(Exception exc) {
-                MastgTest.enforceUpdateOnResume$lambda$9(exc);
+                MastgTest.enforceUpdateOnResume$lambda$11(exc);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static final void enforceUpdateOnResume$lambda$8(Function1 tmp0, Object p0) {
+    public static final void enforceUpdateOnResume$lambda$10(Function1 tmp0, Object p0) {
         Intrinsics.checkNotNullParameter(tmp0, "$tmp0");
         tmp0.invoke(p0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static final Unit enforceUpdateOnResume$lambda$7(MastgTest this$0, ActivityResultLauncher appUpdateResultLauncher, AppUpdateInfo appUpdateInfo) {
+    public static final Unit enforceUpdateOnResume$lambda$9(MastgTest this$0, ActivityResultLauncher appUpdateResultLauncher, AppUpdateInfo appUpdateInfo) {
         Intrinsics.checkNotNullParameter(this$0, "this$0");
         Intrinsics.checkNotNullParameter(appUpdateResultLauncher, "$appUpdateResultLauncher");
         int updateAvailability = appUpdateInfo.updateAvailability();
@@ -363,7 +406,7 @@ public final class MastgTest {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static final void enforceUpdateOnResume$lambda$9(Exception e) {
+    public static final void enforceUpdateOnResume$lambda$11(Exception e) {
         Intrinsics.checkNotNullParameter(e, "e");
         Log.e("MastgTest", "onResume: Failed to check update status.", e);
     }

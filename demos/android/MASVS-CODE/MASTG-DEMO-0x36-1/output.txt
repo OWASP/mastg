@@ -6,8 +6,8 @@
                            
     MastgTest_reversed.java
     ❯❱ rules.mastg-android-enforced-updating
-          [MASVS-CODE-2] Immediate in-app update flow usage detected
-                                                                      
-          274┆ boolean started = this.appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
+          [MASVS-CODE-2] immediate in-app update flow usage detected.
+                                                                     
+          276┆ boolean started = this.appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
                appUpdateResultLauncher, AppUpdateOptions.newBuilder(1).build());              
 
