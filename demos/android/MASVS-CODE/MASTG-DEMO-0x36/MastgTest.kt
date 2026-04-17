@@ -1,5 +1,4 @@
 // SUMMARY: This sample demonstrates a passing implementation of enforced mandatory in-app updates using the Google Play Core In-App Update API, calling startUpdateFlowForResult with AppUpdateType.IMMEDIATE and implementing enforceUpdateOnResume() to prevent users from bypassing the update by dismissing the dialog or backgrounding the app.
-
 package org.owasp.mastestapp
 
 import android.content.Context
@@ -20,7 +19,6 @@ class MastgTest(context: Context) {
 
     private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(context)
     private var installStateListener: InstallStateUpdatedListener? = null
-    private var pendingUpdateLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
 
     var onUpdateStateChanged: ((UpdateState) -> Unit)? = null
 
@@ -37,8 +35,6 @@ class MastgTest(context: Context) {
     fun registerInstallStateListener(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {
-        pendingUpdateLauncher = appUpdateResultLauncher
-
         installStateListener = InstallStateUpdatedListener { state ->
             handleInstallState(state, appUpdateResultLauncher)
         }
@@ -52,7 +48,6 @@ class MastgTest(context: Context) {
             Log.d("MastgTest", "InstallStateUpdatedListener unregistered.")
         }
         installStateListener = null
-        pendingUpdateLauncher = null
     }
 
     @Suppress("DEPRECATION")
@@ -171,6 +166,7 @@ class MastgTest(context: Context) {
             onUpdateStateChanged?.invoke(UpdateState.UPDATE_FAILED)
         }
     }
+
     // PASS: [MASTG-TEST-0x36] The app prevents update bypass by re-enforcing mandatory updates in onResume via enforceUpdateOnResume().
     fun enforceUpdateOnResume(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
@@ -209,7 +205,7 @@ class MastgTest(context: Context) {
             Log.e("MastgTest", "onResume: Failed to check update status.", e)
         }
     }
-    
+
     @Deprecated("Use enforceUpdateOnResume() for comprehensive bypass prevention",
         ReplaceWith("enforceUpdateOnResume(appUpdateResultLauncher)"))
     fun resumeUpdateIfInProgress(

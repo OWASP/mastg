@@ -1,5 +1,4 @@
 // SUMMARY: This sample demonstrates a passing implementation of enforced mandatory in-app updates using FakeAppUpdateManager for testing, calling startUpdateFlowForResult with AppUpdateType.IMMEDIATE and implementing enforceUpdateOnResume() to prevent users from bypassing the update by dismissing the dialog or backgrounding the app.
-
 package org.owasp.mastestapp
 
 import android.content.Context
@@ -23,7 +22,6 @@ class MastgTest(context: Context) {
         setUpdateAvailable(2)
     }
     private var installStateListener: InstallStateUpdatedListener? = null
-    private var pendingUpdateLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
     private val handler = Handler(Looper.getMainLooper())
     private var updateDelayRunnable: Runnable? = null
 
@@ -42,8 +40,6 @@ class MastgTest(context: Context) {
     fun registerInstallStateListener(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
     ) {
-        pendingUpdateLauncher = appUpdateResultLauncher
-
         installStateListener = InstallStateUpdatedListener { state ->
             handleInstallState(state, appUpdateResultLauncher)
         }
@@ -57,7 +53,6 @@ class MastgTest(context: Context) {
             Log.d("MastgTest", "InstallStateUpdatedListener unregistered.")
         }
         installStateListener = null
-        pendingUpdateLauncher = null
     }
 
     @Suppress("DEPRECATION")
@@ -170,7 +165,7 @@ class MastgTest(context: Context) {
             AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
         )
         if (started) {
-            Log.d("MastgTest", "Mandatory updates are required to install. Waiting 10 seconds...")
+            Log.d("MastgTest", "Mandatory updates are required to install. Waiting 30 seconds...")
             onUpdateStateChanged?.invoke(UpdateState.UPDATE_REQUIRED)
 
             updateDelayRunnable = Runnable {
@@ -196,7 +191,7 @@ class MastgTest(context: Context) {
             onUpdateStateChanged?.invoke(UpdateState.UPDATE_FAILED)
         }
     }
-    
+
     // PASS: [MASTG-TEST-0x36] The app prevents update bypass by re-enforcing mandatory updates in onResume via enforceUpdateOnResume().
     fun enforceUpdateOnResume(
         appUpdateResultLauncher: ActivityResultLauncher<IntentSenderRequest>
