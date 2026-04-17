@@ -13,9 +13,9 @@ import android.os.ParcelFileDescriptor
 import java.io.File
 
 // SUMMARY: Demonstrates insecure exposure of sensitive stored data through exported ContentProviders.
-// FAIL: [MASTG-TEST-0x07] Exported providers expose sensitive data over IPC without enforcing read permissions.
-// FAIL: [MASTG-TEST-0x07] FileLeakProvider returns files from the app's private directory to external callers.
-// PASS: [MASTG-TEST-0x07] The test would pass if the providers were not exported or required an app-defined read permission.
+// FAIL: [MASTG-TEST-0x07-3] Exported providers expose sensitive data over IPC without enforcing read permissions.
+// FAIL: [MASTG-TEST-0x07-3] FileLeakProvider returns files from the app's private directory to external callers.
+// PASS: [MASTG-TEST-0x07-3] The test would pass if the providers were not exported or required an app-defined read permission.
 
 class MastgTest(private val context: Context) {
 

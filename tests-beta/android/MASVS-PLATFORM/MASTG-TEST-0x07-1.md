@@ -1,11 +1,11 @@
 ---
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via Database Backed IPC Mechanisms
-id: MASTG-TEST-AXXX
+title: References to Unauthorized Database Access through Content Providers
+id: MASTG-TEST-0x07-1
 type: [dynamic]
 weakness: MASWE-0064
 profiles: [L1, L2]
-best-practices: [MASTG-BEST-XXXX]
+best-practices: [MASTG-BEST-0x07]
 knowledge: [MASTG-KNOW-0020]
 ---
 
@@ -17,11 +17,11 @@ If the app exposes database backed content providers without proper access restr
 
 1. Reverse engineer the app using @MASTG-TECH-0013 and extract the `AndroidManifest.xml` with @MASTG-TECH-0117 to identify all `<provider>` components.
 2. Review each provider to determine whether it is exported explicitly or implicitly, and verify any applied permissions such as `android:permission`, `android:readPermission`, and related protection levels.
-3. Use @MASTG-TECH-0014 and @MASTG-TECH-XXXX to inspect provider code for database-access behavior, including `SQLiteDatabase`, `query`, `android.database.sqlite`, and any exported providers exposing sensitive stored data.
+3. Use @MASTG-TECH-0014 and @MASTG-TECH-0x07-2 to enumerate and query exported content provider URIs from outside the app, and verify whether they expose database-backed sensitive stored data to an external caller.
 
 ## Observation
 
-The output must contain a list of content provider authorities and results demonstrating that an external caller can query database-backed provider URIs, including any sensitive stored data retrieved, such as usernames, passwords, or other credential records.
+The output should contain each provider authority, the access controls configured for each provider, and the result of each external access attempt.
 
 ## Evaluation
 

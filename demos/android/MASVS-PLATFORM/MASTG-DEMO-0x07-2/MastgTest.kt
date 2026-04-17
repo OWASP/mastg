@@ -1,8 +1,7 @@
 package org.owasp.mastestapp
 
-// SUMMARY: Demonstrates secure protection of sensitive stored data through an exported ContentProvider.
-// FAIL: Exported providers allow external apps to query credential records from the app database.
-// PASS: Providers enforce manifest permissions and explicit caller validation before returning sensitive data.
+// SUMMARY: Demonstrates secure protection of sensitive stored data through exported ContentProviders.
+// PASS: [MASTG-TEST-0x07-2] Exported providers enforce manifest permissions, explicit caller signature validation, and canonical-path checks before returning sensitive data.
 
 import android.content.ContentProvider
 import android.content.ContentUris

@@ -1,7 +1,7 @@
 ---
 title: Restrict and Validate Access to Sensitive Exported Content Providers
 alias: restrict-and-validate-access-to-sensitive-exported-content-providers
-id: MASTG-BEST-XXXX
+id: MASTG-BEST-0x07
 platform: android
 ---
 

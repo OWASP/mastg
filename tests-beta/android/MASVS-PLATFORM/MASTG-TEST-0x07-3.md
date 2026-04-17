@@ -1,11 +1,11 @@
 ---
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via File-Based IPC Mechanisms
-id: MASTG-TEST-XXXX
+title: References to SQL Injection in Content Providers
+id: MASTG-TEST-0x07-3
 type: [dynamic]
 weakness: MASWE-0064
 profiles: [L1, L2]
-best-practices: [MASTG-BEST-XXXX]
+best-practices: [MASTG-BEST-0x07]
 knowledge: [MASTG-KNOW-0020]
 ---
 
@@ -17,11 +17,11 @@ If the app exposes file system-based content providers without proper access res
 
 1. Reverse engineer the app using @MASTG-TECH-0013 and extract the `AndroidManifest.xml` with @MASTG-TECH-0117 to identify all `<provider>` components.
 2. Review each provider to determine whether it is exported explicitly or implicitly, and verify any applied permissions such as `android:permission`, `android:readPermission`, and related protection levels.
-3. Use @MASTG-TECH-0014 and @MASTG-TECH-XXXX to inspect provider code for file-access behavior, including `openFile`, `ParcelFileDescriptor`, and reads from internal app storage.
+3. Use @MASTG-TECH-0014 and @MASTG-TECH-0x07-2 to query the identified providers from outside the app and test file-based provider URIs to determine whether an external caller can access internal app files or other sensitive stored data.
 
 ## Observation
 
-The output should include a list of content provider authorities and one or more proof-of-access results indicating that an external caller can read file-based provider URIs, including any sensitive stored data returned, such as the contents of internal application files.
+The output should contain a list of content provider authorities and one or more proof-of-access results indicating that an external caller can read file-based provider URIs, including any sensitive stored data returned, such as the contents of internal application files.
 
 ## Evaluation
 

@@ -1,10 +1,11 @@
 ---
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via IPC Mechanisms
-id: MASTG-DEMO-BXXX
+title: Content Providers Protected Against Unauthorized File Access with semgrep
+id: MASTG-DEMO-0x07-2
 code: [kotlin]
 tools: [semgrep]
 kind: pass
+test: MASTG-TEST-0x07-2
 ---
 
 ## Sample
@@ -26,7 +27,7 @@ The providers are protected with a signature level permission and enforce runtim
 
 1. Install and launch the application on a device or emulator.
 2. Initialize sample data so the database and internal file are created.
-3. Enumerate the application`s exported content providers.
+3. Enumerate the application's exported content providers.
 4. Attempt to query the database backed provider from an external context.
 5. Attempt to read an internal file via the file based provider from an external context.
 

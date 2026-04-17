@@ -93,4 +93,4 @@ TOP_SECRET_TOKEN=tok_live_12345
 PIN=9876
 ```
 
-If an external caller can retrieve credential rows, tokens, PINs, or internal files through these provider URIs, the app demonstrates the vulnerable pattern covered by @MASTG-TEST-0007.
+If an external caller can retrieve credential rows, tokens, PINs, or internal files through these provider URIs, the app demonstrates the vulnerable pattern covered by @MASTG-TEST-0x07-3.

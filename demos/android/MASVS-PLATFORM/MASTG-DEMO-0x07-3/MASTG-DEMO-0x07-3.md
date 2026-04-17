@@ -1,10 +1,11 @@
 ---
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via File-Based IPC Mechanisms
-id: MASTG-DEMO-XXXX
+title: SQL Injection in Exported Content Provider with drozer
+id: MASTG-DEMO-0x07-3
 code: [kotlin, xml]
 tools: [MASTG-TOOL-0015]
 kind: fail
+test: MASTG-TEST-0x07-3
 ---
 
 ## Sample

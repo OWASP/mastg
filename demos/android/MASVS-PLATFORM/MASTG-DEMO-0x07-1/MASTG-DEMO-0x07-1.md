@@ -1,10 +1,11 @@
 ---
 platform: android
-title: Determining Whether Sensitive Stored Data Has Been Exposed via Database-Backed IPC Mechanisms
-id: MASTG-DEMO-AXXX
+title: Unauthorized Database Access through Exported Content Provider with drozer
+id: MASTG-DEMO-0x07-1
 code: [kotlin]
 tools: [MASTG-TOOL-0015]
 kind: fail
+test: MASTG-TEST-0x07-1
 ---
 
 ## Sample
