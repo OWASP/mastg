@@ -110,6 +110,51 @@
         },
         {
             "pattern": "^https://academy.realm.io/posts/russ-bishop-unsafe-swift/"
+        },
+        {
+            "pattern": "^https://cocoapods.org"
+        },
+        {
+            "pattern": "^https://www.hhs.gov/hipaa"
+        },
+        {
+            "pattern": "^https://www.cvedetails.com/cve/CVE"
+        },
+        {
+            "pattern": "https://tlsexpired.no"
+        },
+        {
+            "pattern": "https://mitm-software.badssl.com/"
+        },
+        {
+            "pattern": "https://www.npmjs.com/package/itms-services"
+        },
+        {
+            "pattern": "https://apkmirror.com"
+        },
+        {
+            "pattern": "^https://codeshare.frida.re/"
+        },
+        {
+            "pattern": "^https://developer.hashicorp.com/"
+        },
+        {
+            "pattern": "^https://framework7.io/"
+        },
+        {
+            "pattern": "^https://sourceforge.net/projects/machoview/"
+        },
+        {
+            "pattern": "^https://academy.semgrep.dev/courses/secure-guardrails"
+        },
+        {
+            "pattern": "^https://developer.apple.com/forums/thread/79662"
+        },
+        {
+            "pattern": "^https://code.tutsplus.com/tutorials/android-best-practices-strictmode--mobile-7581"
+        },
+        {
+            "patter": "^https://www.contributor-covenant.org/version/1/4/code-of-conduct.html"
         }
     ],
     "replacementPatterns": [

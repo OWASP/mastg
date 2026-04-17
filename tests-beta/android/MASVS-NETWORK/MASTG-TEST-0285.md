@@ -22,7 +22,7 @@ Those apps rely on the default Network Security Configuration that trusts both s
 
 ## Observation
 
-The output contains the value of `minSdkVersion`.
+The output should contain the value of `minSdkVersion`.
 
 ## Evaluation
 

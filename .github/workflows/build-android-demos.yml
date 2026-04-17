@@ -113,6 +113,7 @@ jobs:
    
   build:
     needs: [generate-matrix, build-base-app]
+    if: ${{ needs.generate-matrix.outputs.matrix != '{"demo":[]}' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30  # Increase this value as needed
     strategy:

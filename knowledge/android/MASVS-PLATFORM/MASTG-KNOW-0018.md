@@ -4,6 +4,8 @@ platform: android
 title: WebViews
 ---
 
+On Android versions prior to 4.4, WebViews used the WebKit rendering engine to display web pages. Since Android 4.4, [WebViews have been based on Chromium](https://developer.android.com/about/versions/lollipop#WebView), providing improved performance and compatibility. However, the pages are still stripped down to minimal functions; for example, pages don't have address bars.
+
 ## URL Loading in WebViews
 
 WebViews are Android's embedded components which allow your app to open web pages within your application. In addition to mobile apps related threats, WebViews may expose your app to common web threats (e.g. XSS, Open Redirect, etc.).
@@ -16,7 +18,7 @@ To provide a safer web browsing experience, Android 8.1 (API level 27) introduce
 
 By default, WebViews show a warning to users about the security risk with the option to load the URL or stop the page from loading. With the SafeBrowsing API you can customize your application's behavior by either reporting the threat to SafeBrowsing or performing a particular action such as returning back to safety each time it encounters a known threat. Please check the [Android Developers documentation](https://developer.android.com/about/versions/oreo/android-8.1#safebrowsing) for usage examples.
 
-You can use the SafeBrowsing API independently from WebViews using the [SafetyNet library](https://developer.android.com/training/safetynet/safebrowsing), which implements a client for Safe Browsing Network Protocol v4. SafetyNet allows you to analyze all the URLs that your app is supposed load. You can check URLs with different schemes (e.g. http, file) since SafeBrowsing is agnostic to URL schemes, and against `TYPE_POTENTIALLY_HARMFUL_APPLICATION` and `TYPE_SOCIAL_ENGINEERING` threat types.
+You can use the SafeBrowsing API independently from WebViews using the [SafetyNet library](https://developer.android.com/training/safetynet/safebrowsing), which implements a client for Safe Browsing Network Protocol v4. SafetyNet allows you to analyze all the URLs that your app is supposed to load. You can check URLs with different schemes (e.g. http, file) since SafeBrowsing is agnostic to URL schemes, and against `TYPE_POTENTIALLY_HARMFUL_APPLICATION` and `TYPE_SOCIAL_ENGINEERING` threat types.
 
 > When sending URLs or files to be checked for known threats make sure they don't contain sensitive data which could compromise a user's privacy, or expose sensitive content from your application.
 
@@ -26,17 +28,31 @@ Virus Total provides an API for analyzing URLs and local files for known threats
 
 ## JavaScript Execution in WebViews
 
-JavaScript can be injected into web applications via reflected, stored, or DOM-based Cross-Site Scripting (XSS). Mobile apps are executed in a sandboxed environment and don't have this vulnerability when implemented natively. Nevertheless, WebViews may be part of a native app to allow web page viewing. Every app has its own WebView cache, which isn't shared with the native Browser or other apps.
+JavaScript can be injected into web applications via reflected, stored, or DOM-based Cross-Site Scripting (XSS). Mobile apps are executed in a sandboxed environment and don't have this vulnerability when implemented natively. Nevertheless, WebViews may be part of a native app to allow web page viewing.
 
-On Android versions prior to 4.4, WebViews used the WebKit rendering engine to display web pages. Since Android 4.4, [WebViews have been based on Chromium](https://developer.android.com/about/versions/lollipop#WebView), providing improved performance and compatibility. However, the pages are still stripped down to minimal functions; for example, pages don't have address bars.
+Android WebViews can use [`setJavaScriptEnabled`](https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)) to enable JavaScript execution. This feature is disabled by default. When enabled, JavaScript code executes in the context of the loaded page, including any scripts provided by that content.
 
-Android WebViews can use [`setJavaScriptEnabled`](https://developer.android.com/reference/android/webkit/WebSettings#setJavaScriptEnabled(boolean)) to enable JavaScript execution. This feature is disabled by default, but if enabled, it can be used to execute JavaScript code in the context of the loaded page. This can be dangerous if the WebView is loading untrusted content, as it can lead to XSS attacks. If you need to enable JavaScript, make sure that the content is trusted and that you have implemented proper input validation and output encoding. Otherwise, you can explicitly disable JavaScript:
+## WebView-Native bridges
 
-```kotlin
-webView.settings.apply {
-    javaScriptEnabled = false
-}
-```
+Android provides multiple mechanisms for communication between web content in a `WebView` and native app code, which differ in their design, capabilities, and security properties. Some are based on asynchronous message passing, while others use a synchronous injected object model.
+
+For additional platform details, see Android's documentation on ["Access native APIs with JavaScript bridge"](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) and ["WebView – Native bridges"](https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges).
+
+### `addWebMessageListener`
+
+[`addWebMessageListener`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) is a message based bridge API provided through AndroidX WebKit. Android describes it as the most modern and recommended approach for communication between web content and native app code. The app registers a listener object name, such as `myObject`, together with a set of `allowedOriginRules`. Matching pages receive an injected JavaScript proxy object that can exchange messages with the app asynchronously. The callback also provides metadata such as the sender origin, whether the message came from the main frame, and a reply proxy for sending a response.
+
+Android documents this mechanism as allowlist-based. The injected object is exposed only to origins that match the configured origin rules, and the same mechanism can work across matching frames. The native side typically uses `WebViewCompat.addWebMessageListener(...)`, and the JavaScript side communicates through the injected proxy object's `postMessage` and `onmessage` APIs.
+
+### `postWebMessage`
+
+[`postWebMessage`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge) is an asynchronous messaging API that Android documents as an alternative similar to the web platform's `window.postMessage`. The app sends a payload to the web page's main frame with `WebViewCompat.postWebMessage(...)`. For bidirectional communication, the app can create a `WebMessageChannel` and transfer one of its ports to the page. Android characterizes this mechanism as origin aware and notes that it is limited to the main frame. The documentation also notes URI related constraints for content loaded with `data:`, `file:`, or `loadData()` unless `*` is used as the target origin.
+
+### `addJavascriptInterface`
+
+[`addJavascriptInterface`](https://developer.android.com/develop/ui/views/layout/webapps/native-api-access-jsbridge#addjavascriptinterface) is the oldest bridge mechanism. Android describes it as a synchronous legacy model. The app creates a Java or Kotlin object, annotates exposed methods with [`@JavascriptInterface`](https://developer.android.com/reference/kotlin/android/webkit/JavascriptInterface), and injects the object into the `WebView` with `addJavascriptInterface(Object, String)`. JavaScript can then call the exposed methods through the injected object name.
+
+Android also notes several implementation details that are specific to this mechanism. The injected object is available to every frame in the `WebView`, including iframes, and the mechanism does not provide origin based access control. The bridge documentation also states that methods such as `WebView.getUrl()` are not suitable for determining which frame invoked the interface. Android's security guidance also notes that before API level 21, JavaScript could use reflection to access the public fields of an injected object. This means that [reflection based RCE payloads](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution) such as `window.jsinterface.getClass().forName('java.lang.Runtime').getMethod('getRuntime',null).invoke(...).exec(...)` were possible on older Android versions.
 
 ## WebView Local File Access Settings
 
@@ -65,7 +81,7 @@ The WebView can access any file that the app has permission to access via `file:
 
 [`setAllowFileAccess`](https://developer.android.com/reference/android/webkit/WebSettings.html#setAllowFileAccess%28boolean%29 "Method setAllowFileAccess()") enables the WebView to load local files using the `file://` scheme. In this example, the WebView is configured to allow file access and then loads an HTML file from the external storage (sdcard).
 
-```java
+```kotlin
 webView.settings.apply {
     allowFileAccess = true
 }
@@ -176,7 +192,7 @@ The setting `setAllowContentAccess` controls whether the WebView can access cont
 webView.settings.apply {
     allowContentAccess = true
 }
-webView.loadUrl("content://com.example.myapp.provider/data");
+webView.loadUrl("content://com.example.myapp.provider/data")
 ```
 
 **Which files can be accessed by the WebView?:**
@@ -194,17 +210,9 @@ The WebView can access any data accessible via content providers (if the app has
 
 Data from other apps accessible via content providers (if the app has any and they are exported) can also be accessed.
 
-## Java Objects Exposed Through WebViews
-
-Android offers a way for JavaScript execution in a WebView to call and use native functions of an Android app (annotated with `@JavascriptInterface`) by using the [`addJavascriptInterface`](https://developer.android.com/reference/android/webkit/WebView.html#addJavascriptInterface%28java.lang.Object,%20java.lang.String%29 "Method addJavascriptInterface()") method. This is known as a _WebView JavaScript bridge_ or _native bridge_.
-
-Please note that **when you use `addJavascriptInterface`, you're explicitly granting access to the registered JavaScript Interface object to all pages loaded within that WebView**. This implies that, if the user navigates outside your app or domain, all other external pages will also have access to those JavaScript Interface objects, which might present a potential security risk if any sensitive data is being exposed through those interfaces.
-
-> Warning: Take extreme care with apps targeting Android versions below Android 4.2 (API level 17) as they are [vulnerable to a flaw](https://labs.withsecure.com/publications/webview-addjavascriptinterface-remote-code-execution "WebView addJavascriptInterface Remote Code Execution") in the implementation of `addJavascriptInterface`: an attack that is abusing reflection, which leads to remote code execution when malicious JavaScript is injected into a WebView. This was due to all Java Object methods being accessible by default (instead of only those annotated).
-
 ## WebView Storage
 
-Android WebView embeds a Chromium based browser engine. As a result, most web related data is stored inside the Chromium profile directory located at:
+Android WebView embeds a Chromium based browser engine. Every app has its own WebView cache, which isn't shared with the native Browser or other apps. Most web related data is stored inside the Chromium profile directory located at:
 
 `/data/data/<app_package>/app_webview/`
 
@@ -285,6 +293,10 @@ Testing WebView cleanup is a complex task that requires extensive information ga
 2. Secondly, for each WebView instance, the tester needs to identify how the storage areas are configured and how the data is actually being stored based on HTTP cache headers and web storage configuration.
 3. Thirdly, the tester must determine the lifecycle of every sensitive data item and its designated retention period.
 4. Finally, there is a lack of a guarantee that the clear methods will always be called, particularly if the app process is killed abruptly before those occur (e.g., due to a system process kill), and in sequence if mitigation measures exist for these scenarios.
+
+## Alternatives to WebView
+
+[Trusted Web Activities](https://developer.android.com/develop/ui/views/layout/webapps/trusted-web-activities) and [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/) let your app display web content in the user's browser. With these options, JavaScript runs in the browser environment, and behavior follows the browser's security model and update cycle. For details on capabilities, limitations, and integration guidance, refer to the official Android and Chrome documentation.
 
 ## Additional Resources
 

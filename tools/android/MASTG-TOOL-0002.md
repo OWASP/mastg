@@ -1,5 +1,5 @@
 ---
-title: MobSF for Android
+title: MobSF (Android)
 platform: android
 source: https://github.com/MobSF/Mobile-Security-Framework-MobSF
 ---

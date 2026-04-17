@@ -15,7 +15,7 @@ knowledge: [MASTG-KNOW-0083]
 
 This test is the dynamic counterpart to @MASTG-TEST-0276.
 
-In this case we'll monitor the [pasteboard](../../../Document/0x06h-Testing-Platform-Interaction.md/#pasteboard) for sensitive data being written to it at runtime. Note that this can be challenging to detect, as it requires the app to be running and the pasteboard to be modified while the test is being executed. You can trigger the pasteboard by manually entering sensitive data into the app, such as passwords or personal information, while the test is running. Or you can do it automatically by using a script that simulates user input or modifies the pasteboard directly.
+In this case we'll monitor the @MASTG-KNOW-0083 for sensitive data being written to it at runtime. Note that this can be challenging to detect, as it requires the app to be running and the pasteboard to be modified while the test is being executed. You can trigger the pasteboard by manually entering sensitive data into the app, such as passwords or personal information, while the test is running. Or you can do it automatically by using a script that simulates user input or modifies the pasteboard directly.
 
 ## Steps
 
