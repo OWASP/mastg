@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-APP_BUNDLE_ID="org.owasp.mastestapp.MASTestApp-iOS-2"
+APP_BUNDLE_ID="org.owasp.mastestapp.MASTestApp-iOS"
 APP_NAME="MASTestApp"
 
 xcrun simctl spawn booted log stream \
