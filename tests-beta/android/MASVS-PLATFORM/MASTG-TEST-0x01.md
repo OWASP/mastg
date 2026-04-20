@@ -1,7 +1,7 @@
 ---
 platform: android
 title: References to Overlay Attack Protections
-id: MASTG-TEST-0x35
+id: MASTG-TEST-0x01
 apis: [onFilterTouchEventForSecurity, setFilterTouchesWhenObscured, FLAG_WINDOW_IS_OBSCURED, FLAG_WINDOW_IS_PARTIALLY_OBSCURED]
 type: [static]
 weakness: MASWE-0053
