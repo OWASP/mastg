@@ -19,7 +19,11 @@ This test is the dynamic counterpart to @MASTG-TEST-0252.
 
 1. Run a dynamic analysis tool like @MASTG-TOOL-0001 and either:
     - enumerate instances of `WebView` in the app and list their configuration values
-    - or explicitly hook the setters of the `WebView` settings, including `setJavaScriptEnabled`, `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs`
+    - or explicitly hook the setters of the `WebView` settings, including:
+        - `setJavaScriptEnabled`
+        - `setAllowFileAccess`
+        - `setAllowFileAccessFromFileURLs`
+        - `setAllowUniversalAccessFromFileURLs`
 
 ## Observation
 
@@ -35,9 +39,8 @@ The test case fails if all of the following are true:
 - `AllowFileAccess` is `true`.
 - Either `AllowFileAccessFromFileURLs` or `AllowUniversalAccessFromFileURLs` is `true`.
 
-If both `AllowFileAccessFromFileURLs` and `AllowUniversalAccessFromFileURLs` are `true`, treat this as failing because `AllowUniversalAccessFromFileURLs=true` makes `AllowFileAccessFromFileURLs` irrelevant.
-
-**Note:** `AllowFileAccess` being `true` does not represent a vulnerability by itself, but it can increase impact when combined with insecure JavaScript and file URL settings.
+!!! note
+    `AllowFileAccess` being `true` does not represent a vulnerability by itself, but it can increase impact when combined with insecure JavaScript and file URL settings.
 
 **Pass:**
 
