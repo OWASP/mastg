@@ -5,7 +5,7 @@ id: MASTG-TEST-0x01
 apis: [onFilterTouchEventForSecurity, setFilterTouchesWhenObscured, FLAG_WINDOW_IS_OBSCURED, FLAG_WINDOW_IS_PARTIALLY_OBSCURED]
 type: [static]
 weakness: MASWE-0053
-best-practices: [MASTG-BEST-0x29]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L2]
 knowledge: [MASTG-KNOW-0022]
 ---
