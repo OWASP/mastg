@@ -48,3 +48,21 @@ rules:
       summary: Detects filterTouchesWhenObscured attribute in layout XML files
     message: "[MASVS-PLATFORM-3] android:filterTouchesWhenObscured attribute is used to protect against overlay attacks"
     pattern: android:filterTouchesWhenObscured="true"
+
+  - id: mastg-android-overlay-protection-sethideoverlaywindows
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects usage of setHideOverlayWindows to prevent overlay windows from appearing over the activity
+    message: "[MASVS-PLATFORM-3] setHideOverlayWindows is used to prevent overlay windows from appearing over this window"
+    pattern: $WINDOW.setHideOverlayWindows(...)
+
+  - id: mastg-android-overlay-protection-hide-overlay-windows-permission
+    severity: INFO
+    languages:
+      - xml
+    metadata:
+      summary: Detects HIDE_OVERLAY_WINDOWS permission in the manifest, required for setHideOverlayWindows
+    message: "[MASVS-PLATFORM-3] HIDE_OVERLAY_WINDOWS permission is declared, required to use setHideOverlayWindows"
+    pattern: android:name="android.permission.HIDE_OVERLAY_WINDOWS"
