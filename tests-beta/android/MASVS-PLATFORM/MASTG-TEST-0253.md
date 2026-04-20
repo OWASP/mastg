@@ -19,7 +19,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0252.
 
 1. Run a dynamic analysis tool like @MASTG-TOOL-0001 and either:
     - enumerate instances of `WebView` in the app and list their configuration values
-    - or explicitly hook the setters of the `WebView` settings
+    - or explicitly hook the setters of the `WebView` settings, including `setJavaScriptEnabled`, `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs`
 
 ## Observation
 
@@ -29,18 +29,20 @@ The output should contain a list of WebView instances and corresponding settings
 
 **Fail:**
 
-The test fails if all of the following are true:
+The test case fails if all of the following are true:
 
+- `JavaScriptEnabled` is `true`.
 - `AllowFileAccess` is `true`.
-- `AllowFileAccessFromFileURLs` is `true`.
-- `AllowUniversalAccessFromFileURLs` is `true`.
+- Either `AllowFileAccessFromFileURLs` or `AllowUniversalAccessFromFileURLs` is `true`.
 
-**Note:** `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack. Therefore, it is recommended to explicitly set it to `false` if the app does not need to access local files.
+If both `AllowFileAccessFromFileURLs` and `AllowUniversalAccessFromFileURLs` are `true`, treat this as failing because `AllowUniversalAccessFromFileURLs=true` makes `AllowFileAccessFromFileURLs` irrelevant.
+
+**Note:** `AllowFileAccess` being `true` does not represent a vulnerability by itself, but it can increase impact when combined with insecure JavaScript and file URL settings.
 
 **Pass:**
 
-The test passes if any of the following are true:
+The test case passes if any of the following are true:
 
+- `JavaScriptEnabled` is `false`.
 - `AllowFileAccess` is `false`.
-- `AllowFileAccessFromFileURLs` is `false`.
-- `AllowUniversalAccessFromFileURLs` is `false`.
+- Both `AllowFileAccessFromFileURLs` and `AllowUniversalAccessFromFileURLs` are `false`.
