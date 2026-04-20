@@ -18,15 +18,18 @@ Android provides several mechanisms to protect against overlay attacks through t
 
 This test checks whether the app implements overlay attack protections by looking for references to touch filtering APIs and attributes that prevent interaction when views are obscured.
 
+These include:
+
+- The `setFilterTouchesWhenObscured` method.
+- The `android:filterTouchesWhenObscured` attribute in layout files.
+- The `onFilterTouchEventForSecurity` method.
+- Checks for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` flags.
+- The [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) method and the required `HIDE_OVERLAY_WINDOWS` permission for API level 31 and above.
+
 ## Steps
 
-1. Use @MASTG-TECH-0014 to search for references to overlay protection mechanisms:
-   - The `setFilterTouchesWhenObscured` method
-   - The `android:filterTouchesWhenObscured` attribute in layout files
-   - The `onFilterTouchEventForSecurity` method
-   - Checks for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` flags
-   - The [`setHideOverlayWindows`](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean)) method
-2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `targetSdkVersion`.
+1. Use @MASTG-TECH-0014 to search for references to overlay protection mechanisms.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `targetSdkVersion` and any relevant permissions.
 
 ## Observation
 
@@ -34,20 +37,15 @@ The output should contain:
 
 - A list of locations where overlay protection mechanisms are used
 - The app's `targetSdkVersion`
+- Any relevant permissions, such as `HIDE_OVERLAY_WINDOWS`
 
 ## Evaluation
 
 The test fails if the app handles sensitive user interactions (such as login, payment confirmation, permission requests, or security settings) and does not implement any overlay attack protections on those sensitive UI elements.
 
-Consider the following when evaluating:
+For example:
 
-- Apps targeting older Android versions (API level 25 or lower) are more vulnerable to overlay attacks due to system-level vulnerabilities
-- Not all UI elements require overlay protection, only those handling sensitive user interactions
-- The absence of protections does not necessarily mean the app is vulnerable, but it increases the risk
-
-The test passes if:
-
-- The app implements `setFilterTouchesWhenObscured(true)` or `android:filterTouchesWhenObscured="true"` on sensitive UI elements
-- The app overrides `onFilterTouchEventForSecurity` to implement custom security policies
-- The app checks for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` in touch event handlers for sensitive interactions
-- The app targets a modern Android API level (26+) which provides system-level protections and does not handle particularly sensitive operations that would benefit from additional app-level protections
+- The app doesn't implement `setFilterTouchesWhenObscured(true)` or `android:filterTouchesWhenObscured="true"` on sensitive UI elements.
+- The app doesn't override `onFilterTouchEventForSecurity` to implement custom security policies.
+- The app doesn't check for `FLAG_WINDOW_IS_OBSCURED` or `FLAG_WINDOW_IS_PARTIALLY_OBSCURED` in touch event handlers for sensitive interactions.
+- The app targets API level 31 or higher but does not use `setHideOverlayWindows(true)` and declare the `HIDE_OVERLAY_WINDOWS` permission.
