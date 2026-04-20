@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0083]
 
 ## Overview
 
-This test checks if the app clears the contents of the general [pasteboard](../../../Document/0x06h-Testing-Platform-Interaction.md/#pasteboard) when it moves to the background or terminates. If sensitive data is left in the pasteboard, it can be accessed by other apps, leading to potential data leaks.
+This test checks if the app clears the contents of the general @MASTG-KNOW-0083 when it moves to the background or terminates. If sensitive data is left in the pasteboard, it can be accessed by other apps, leading to potential data leaks.
 
 Apps can clear the contents of the general pasteboard by setting `UIPasteboard.general.items = []` in the appropriate lifecycle methods, such as `applicationDidEnterBackground:` or `applicationWillTerminate:`.
 

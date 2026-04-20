@@ -47,6 +47,7 @@ Independently from the assigned Protection Level, it is important to consider th
 | **CRITICAL** | `android.permission.RECORD_SENSITIVE_CONTENT` | signature |
 | **CRITICAL** | `android.permission.RECEIVE_SENSITIVE_NOTIFICATIONS` | signature |
 | **CRITICAL** | `android.permission.DYNAMIC_INSTRUMENTATION` | signature |
+| **CRITICAL** | `android.permission.BIND_ACCESSIBILITY_SERVICE` | signature |
 | **HIGH** | `android.permission.INSTALL_GRANT_RUNTIME_PERMISSIONS` | signature |
 | **HIGH** | `android.permission.READ_SMS` | dangerous |
 | **HIGH** | `android.permission.WRITE_SMS` | normal |
@@ -58,7 +59,6 @@ Independently from the assigned Protection Level, it is important to consider th
 | **HIGH** | `android.permission.LOCATION_HARDWARE` | signature |
 | **HIGH** | `android.permission.ACCESS_FINE_LOCATION` | dangerous |
 | **HIGH** | `android.permission.ACCESS_BACKGROUND_LOCATION` | dangerous |
-| **HIGH** | `android.permission.BIND_ACCESSIBILITY_SERVICE` | signature |
 | **HIGH** | `android.permission.ACCESS_WIFI_STATE` | normal |
 | **HIGH** | `com.android.voicemail.permission.READ_VOICEMAIL` | signature |
 | **HIGH** | `android.permission.RECORD_AUDIO` | dangerous |
