@@ -6,13 +6,11 @@ platform: android
 knowledge: [MASTG-KNOW-0022]
 ---
 
-Apps should protect sensitive user interactions from overlay attacks by implementing appropriate defensive mechanisms. Overlay attacks (including tapjacking) occur when malicious apps place deceptive UI elements over legitimate app interfaces to trick users into unintended actions.
-
-## Recommendation
+Apps should protect sensitive user interactions from overlay attacks by implementing appropriate defensive mechanisms. Overlay attacks (including [tapjacking](https://developer.android.com/privacy-and-security/risks/tapjacking)) occur when malicious apps place deceptive UI elements over legitimate app interfaces to trick users into unintended actions.
 
 Implement appropriate mechanisms to protect against overlay attacks. The following approaches are listed from most robust to least robust:
 
-### Prevention Mechanisms
+## Prevention Mechanisms
 
 These mechanisms prevent overlays from appearing or block touch events when overlays are detected:
 
@@ -22,7 +20,7 @@ These mechanisms prevent overlays from appearing or block touch events when over
 
 3. **Override `onFilterTouchEventForSecurity`**: Override the [`onFilterTouchEventForSecurity`](https://developer.android.com/reference/android/view/View#onFilterTouchEventForSecurity(android.view.MotionEvent)) method for more granular control and to implement custom security policies based on your app's specific requirements.
 
-### Detection Mechanisms
+## Detection Mechanisms
 
 These mechanisms detect when overlays are present but do not automatically prevent them. They allow the app to respond accordingly:
 
@@ -36,17 +34,6 @@ Apply these protections selectively to security-sensitive UI elements where user
 - Sensitive data entry fields
 - Security settings changes
 
-## Rationale
-
-Without overlay protection, malicious apps can:
-
-- Capture user credentials by overlaying fake login screens
-- Trick users into granting dangerous permissions
-- Intercept sensitive data entry
-- Perform unauthorized actions by obscuring the true nature of UI elements
-
-Touch filtering mechanisms help ensure that user interactions occur with the intended UI elements and not with overlays placed by malicious apps.
-
 ## Caveats and Considerations
 
 - Touch filtering is not a complete solution on older Android versions that have system-level vulnerabilities. Apps should target modern API levels when possible.
@@ -54,14 +41,3 @@ Touch filtering mechanisms help ensure that user interactions occur with the int
 - Applying touch filtering too broadly may impact legitimate use cases where overlays are expected (for example, system dialogs, accessibility features).
 - Users can still be tricked through social engineering even with touch filtering enabled. Apps should combine these protections with user education and clear UI indicators.
 - For maximum protection, apps targeting older API levels should consider upgrading their `targetSdkVersion` to benefit from platform-level protections introduced in newer Android versions.
-
-## References
-
-- Android Developer Documentation: [Tapjacking](https://developer.android.com/privacy-and-security/risks/tapjacking)
-- Android Developer Documentation: [View Security](https://developer.android.com/reference/android/view/View#security)
-- Android Developer Documentation: [HIDE_OVERLAY_WINDOWS](https://developer.android.com/reference/android/Manifest.permission#HIDE_OVERLAY_WINDOWS)
-- Android Developer Documentation: [setHideOverlayWindows](https://developer.android.com/reference/android/view/Window#setHideOverlayWindows(boolean))
-- Android Developer Documentation: [setFilterTouchesWhenObscured](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean))
-- Android Developer Documentation: [onFilterTouchEventForSecurity](https://developer.android.com/reference/android/view/View#onFilterTouchEventForSecurity(android.view.MotionEvent))
-- Android Developer Documentation: [FLAG_WINDOW_IS_OBSCURED](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_OBSCURED)
-- Android Developer Documentation: [FLAG_WINDOW_IS_PARTIALLY_OBSCURED](https://developer.android.com/reference/android/view/MotionEvent#FLAG_WINDOW_IS_PARTIALLY_OBSCURED)
