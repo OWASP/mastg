@@ -4,7 +4,6 @@ title: SQL Injection via URI Path and Selection in Android Content Providers
 id: MASTG-DEMO-00XX
 code: [kotlin]
 test: MASTG-TEST-02XX
-status: new
 ---
 
 ## Sample
