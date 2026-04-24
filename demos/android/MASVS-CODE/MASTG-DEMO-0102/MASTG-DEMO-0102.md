@@ -1,9 +1,9 @@
 ---
 platform: android
 title: SQL Injection via URI Path and Selection in Android Content Providers
-id: MASTG-DEMO-00XX
+id: MASTG-DEMO-0102
 code: [kotlin]
-test: MASTG-TEST-02XX
+test: MASTG-TEST-0339
 ---
 
 ## Sample
@@ -60,7 +60,7 @@ These two code paths create separate SQL injection vectors.
 
 ### Exploitation
 
-You can use @MASTG-TECH-XXX1 to interact with the `ContentProvider` and confirm the injection vulnerabilities.
+You can use @MASTG-TECH-0148 to interact with the `ContentProvider` and confirm the injection vulnerabilities.
 
 **Selection-based SQL Injection:**
 

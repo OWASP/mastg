@@ -2,7 +2,7 @@
 masvs_category: MASVS-CODE
 platform: android
 title: Android ContentProvider
-best-practices: [MASTG-BEST-XXXX]
+best-practices: [MASTG-BEST-0039]
 ---
 
 A [`ContentProvider`](https://developer.android.com/reference/android/content/ContentProvider) is an Android component that exposes structured data to other apps and system services through a standardized URI-based interface. Providers support CRUD operations (`query`, `insert`, `update`, `delete`) and are typically backed by an SQLite database, though any data source may be used. Clients interact with a provider through [`ContentResolver`](https://developer.android.com/reference/android/content/ContentResolver) or, on a device shell, via the `content` command.

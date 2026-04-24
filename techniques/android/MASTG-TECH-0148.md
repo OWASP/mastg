@@ -3,7 +3,7 @@ title: Interacting with Android ContentProviders
 platform: android
 ---
 
-See @MASTG-KNOW-XXXX for an overview of Android `ContentProvider`s, including URI structure, access control, and query handling.
+See @MASTG-KNOW-0117 for an overview of Android `ContentProvider`s, including URI structure, access control, and query handling.
 
 ## Using @MASTG-TOOL-0004
 

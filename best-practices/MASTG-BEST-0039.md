@@ -1,9 +1,9 @@
 ---
 title: Prevent SQL Injection in ContentProviders
 alias: prevent-sqli-contentprovider
-id: MASTG-BEST-XXXX
+id: MASTG-BEST-0039
 platform: android
-knowledge: [MASTG-KNOW-XXXX]
+knowledge: [MASTG-KNOW-0117]
 ---
 
 The `ContentProvider` enables Android applications to share data with other applications and system components. If a `ContentProvider` constructs SQL queries using untrusted input from URIs, IPC calls, or Intents without validation or parameterization, it becomes vulnerable to SQL injection. Attackers can take advantage of this vulnerability to bypass access controls and extract sensitive data. Improper handling of URI path segments, query parameters, or `selection` arguments in `ContentProvider` queries can lead to arbitrary SQL execution.
