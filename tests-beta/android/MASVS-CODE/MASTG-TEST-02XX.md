@@ -6,6 +6,7 @@ type: [static]
 weakness: MASWE-0086
 best-practices: [MASTG-BEST-XXXX]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-XXXX]
 ---
 
 ## Overview
@@ -14,11 +15,12 @@ Android applications can share structured data via `ContentProvider` components.
 
 ## Steps
 
-1. Run @MASTG-TECH-XXX2 on the app to identify unsafe SQL construction in ContentProviders.
+1. Reverse engineer the app (@MASTG-TECH-0013).
+2. Run static analysis (@MASTG-TECH-0014) to search for unsafe SQL construction in ContentProviders.
 
 ## Observation
 
-The output should contain the location in the code where untrusted input from `Uri.getPathSegments()` is concatenated into a SQL query via `SQLiteQueryBuilder.appendWhere()`.
+The output should contain a list of locations where user-controlled input from URIs or selection arguments is concatenated into SQL queries, for example via `Uri.getPathSegments()` and `SQLiteQueryBuilder.appendWhere()`.
 
 ## Evaluation
 

@@ -1,37 +1,30 @@
 ---
-title: Interacting with Android ContentProviders via the ADB Shell Content Command
+title: Interacting with Android ContentProviders
 platform: android
 ---
 
-Android `ContentProvider`s make structured data available to other applications through `content://` URIs. They specify an authority (a unique identifier), one or more paths (tables/resources), and carry out CRUD operations (`query`, `insert`, `update`, `delete`). Users interact with them via `ContentResolver` or directly from the device shell. The provider's accessibility depends on its `exported` setting and any permissions declared in the application's manifest.
+See @MASTG-KNOW-XXXX for an overview of Android `ContentProvider`s, including URI structure, access control, and query handling.
 
-## How ContentProviders Work
+## Using @MASTG-TOOL-0004
 
-- Interface for cross-app data access and IPC on Android.
-- Identified by a URI: `content://<authority>/<path>` or `content://<authority>/<path>/<id>`.
-- Backed by storage such as SQLite; many apps use `SQLiteQueryBuilder` in `query`.
-- Access control via `android:exported` and read/write permissions; signature-level permissions can restrict access to trusted apps only.
+You can use @MASTG-TOOL-0004 to interact with `ContentProvider`s on a device or emulator via the `content` command.
 
-## Using Content query
-
-Use @MASTG-TOOL-0004 to interact with providers on a device or emulator via the `content` command:
-
-- Query rows
+### Query rows
 
 ```bash
 adb shell content query --uri content://org.owasp.mastestapp.provider/students
 adb shell content query --uri content://org.owasp.mastestapp.provider/students --where "name='Bob'"
 ```
 
-- Insert a row
+### Insert a row
 
 ```bash
 adb shell content insert \
     --uri content://org.owasp.mastestapp.provider/students \
-    --bind name:s:"Eve"
+    --bind name:s:Eve
 ```
 
-- Update rows
+### Update rows
 
 ```bash
 adb shell content update \
@@ -40,8 +33,16 @@ adb shell content update \
     --bind name:s:"Alice Jr"
 ```
 
-- Delete rows
+### Delete rows
 
 ```bash
-adb shell content delete --uri content://org.owasp.mastestapp.provider/students --where "id=3"
+adb shell content delete \
+    --uri content://org.owasp.mastestapp.provider/students \
+    --where "id=3"
 ```
+
+## Notes
+
+- The `--where` argument maps directly to the `selection` parameter in `ContentProvider.query()`.
+- The command executes in the context of the shell user, so access depends on whether the provider is exported and what permissions are enforced.
+- Quoting and escaping are important when passing strings or crafting test inputs, especially when using SQL operators.

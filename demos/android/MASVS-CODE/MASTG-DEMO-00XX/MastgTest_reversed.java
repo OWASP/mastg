@@ -28,8 +28,7 @@ public final class MastgTest {
     }
 
     public final String mastgTest() {
-        Log.d("MASTG-TEST", "Hello from the OWASP MASTG Test app.");
-        return "Hello from the OWASP MASTG Test app.";
+        return "This app's content provider is vulnerable to SQL injection.\n\nSelection based SQL injection:\n# adb shell 'content query --uri content://org.owasp.mastestapp.provider/students --where \"name='\\''Bob'\\'' OR '\\''1'\\''='\\''1'\\''\"'\n\nPath based SQL injection:\n# adb shell 'content query --uri \"content://org.owasp.mastestapp.provider/students/filter/id%3D2%20OR%201%3D1\"'";
     }
 
     /* compiled from: MastgTest.kt */
@@ -37,6 +36,7 @@ public final class MastgTest {
     public static final class StudentProvider extends ContentProvider {
         public static final String AUTHORITY = "org.owasp.mastestapp.provider";
         public static final int STUDENTS = 1;
+        public static final int STUDENT_FILTER = 3;
         public static final int STUDENT_ID = 2;
         private static final UriMatcher uriMatcher;
         private DatabaseHelper dbHelper;
@@ -46,7 +46,7 @@ public final class MastgTest {
         public static final int $stable = 8;
 
         /* compiled from: MastgTest.kt */
-        @Metadata(d1 = {"\u0000\"\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\b\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u0086\u0003\u0018\u00002\u00020\u0001B\t\b\u0002¢\u0006\u0004\b\u0002\u0010\u0003R\u000e\u0010\u0004\u001a\u00020\u0005X\u0086T¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0086T¢\u0006\u0002\n\u0000R\u000e\u0010\b\u001a\u00020\u0007X\u0086T¢\u0006\u0002\n\u0000R\u0011\u0010\t\u001a\u00020\n¢\u0006\b\n\u0000\u001a\u0004\b\u000b\u0010\f¨\u0006\r"}, d2 = {"Lorg/owasp/mastestapp/MastgTest$StudentProvider$Companion;", "", "<init>", "()V", "AUTHORITY", "", "STUDENTS", "", "STUDENT_ID", "uriMatcher", "Landroid/content/UriMatcher;", "getUriMatcher", "()Landroid/content/UriMatcher;", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
+        @Metadata(d1 = {"\u0000\"\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\b\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u0086\u0003\u0018\u00002\u00020\u0001B\t\b\u0002¢\u0006\u0004\b\u0002\u0010\u0003R\u000e\u0010\u0004\u001a\u00020\u0005X\u0086T¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0086T¢\u0006\u0002\n\u0000R\u000e\u0010\b\u001a\u00020\u0007X\u0086T¢\u0006\u0002\n\u0000R\u000e\u0010\t\u001a\u00020\u0007X\u0086T¢\u0006\u0002\n\u0000R\u0011\u0010\n\u001a\u00020\u000b¢\u0006\b\n\u0000\u001a\u0004\b\f\u0010\r¨\u0006\u000e"}, d2 = {"Lorg/owasp/mastestapp/MastgTest$StudentProvider$Companion;", "", "<init>", "()V", "AUTHORITY", "", "STUDENTS", "", "STUDENT_ID", "STUDENT_FILTER", "uriMatcher", "Landroid/content/UriMatcher;", "getUriMatcher", "()Landroid/content/UriMatcher;", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
         public static final class Companion {
             public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
                 this();
@@ -64,6 +64,7 @@ public final class MastgTest {
             UriMatcher $this$uriMatcher_u24lambda_u240 = new UriMatcher(-1);
             $this$uriMatcher_u24lambda_u240.addURI(AUTHORITY, "students", 1);
             $this$uriMatcher_u24lambda_u240.addURI(AUTHORITY, "students/#", 2);
+            $this$uriMatcher_u24lambda_u240.addURI(AUTHORITY, "students/filter/*", 3);
             uriMatcher = $this$uriMatcher_u24lambda_u240;
         }
 
@@ -92,7 +93,11 @@ public final class MastgTest {
                 case 2:
                     String id = uri.getPathSegments().get(1);
                     qb.appendWhere("id=" + id);
-                    Log.e("SQLI", "Injected ID segment: " + id);
+                    break;
+                case 3:
+                    String filter = uri.getPathSegments().get(2);
+                    qb.appendWhere(filter);
+                    Log.e("SQLI", "Injected filter segment: " + filter);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown URI: " + uri);

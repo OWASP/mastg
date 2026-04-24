@@ -10,22 +10,29 @@
     <uses-sdk
         android:minSdkVersion="29"
         android:targetSdkVersion="35"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <permission
         android:name="org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature"/>
     <uses-permission android:name="org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
     <application
         android:theme="@style/Theme.MASTestApp"
-        android:label="MASTG SQLi Test 2"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
         android:debuggable="true"
         android:testOnly="true"
         android:allowBackup="true"
         android:supportsRtl="true"
         android:extractNativeLibs="false"
-        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        android:fullBackupContent="@xml/backup_rules"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
+            android:theme="@style/Theme.MASTestApp"
             android:name="org.owasp.mastestapp.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -39,6 +46,7 @@
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true"/>
         <activity
+            android:theme="@android:style/Theme.Material.Light.NoActionBar"
             android:name="androidx.activity.ComponentActivity"
             android:exported="true"/>
         <provider
