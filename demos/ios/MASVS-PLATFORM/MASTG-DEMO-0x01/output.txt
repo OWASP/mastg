@@ -1,0 +1,16 @@
+List all uses of the 'addScriptMessageHandler:name:' selector:
+0x10001a8b0 8 reloc.fixup.addScriptMessageHandler:name:
+
+xrefs to 'addScriptMessageHandler:name:':
+sym.MASTestApp.MastgTest.showWebView_completion__1 0x1000049ac [DATA:r--] ldr x1, reloc.fixup.addScriptMessageHandler:name:
+
+Code snippet containing the bridge registration call:
+│           0x1000049a4      ldr x0, [x19, 0x50]                       ; WKUserContentController instance
+│           0x1000049a8      adrp x8, segment.__DATA_CONST              ; 0x10001a000
+│           0x1000049ac      ldr x1, [x8, 0x8b0]                       ; reloc.fixup.addScriptMessageHandler:name:
+│           0x1000049b0      mov x2, x20                                ; SecretBridgeHandler instance
+│           0x1000049b4      adrp x8, 0x10000e000                       ; string "bridge"
+│           0x1000049b8      add x8, x8, 0x4c0                         ; "bridge"
+│           0x1000049bc      ldr x3, [x8]                               ; handler name: "bridge"
+│           0x1000049c0      bl sym.imp.objc_msgSend                    ; [WKUserContentController addScriptMessageHandler:name:]
+│           0x1000049c4      ldr x0, [x19, 0x50]                       ; WKWebView configuration
