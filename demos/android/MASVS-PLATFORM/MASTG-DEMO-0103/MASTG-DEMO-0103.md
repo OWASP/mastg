@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Missing Overlay Protection on a Sensitive View
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0103
 code: [kotlin, java]
-test: MASTG-TEST-0x01
+test: MASTG-TEST-0340
 tools: [semgrep]
 ---
 
@@ -17,7 +17,7 @@ The sample demonstrates three buttons performing sensitive actions, each using a
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-To demonstrate this vulnerability in a live environment, you can use @MASTG-DEMO-0x02, which shows an attacker app that requests the `SYSTEM_ALERT_WINDOW` permission to draw overlays over other apps. Running the attacker app while the victim app is in the foreground lets you verify whether the unprotected button accepts touch events through an overlay.
+To demonstrate this vulnerability in a live environment, you can use @MASTG-DEMO-0104, which shows an attacker app that requests the `SYSTEM_ALERT_WINDOW` permission to draw overlays over other apps. Running the attacker app while the victim app is in the foreground lets you verify whether the unprotected button accepts touch events through an overlay.
 
 ## Steps
 

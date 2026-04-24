@@ -1,7 +1,7 @@
 ---
 title: Preventing Overlay Attacks
 alias: preventing-overlay-attacks
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0040
 platform: android
 knowledge: [MASTG-KNOW-0022]
 ---
