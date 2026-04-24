@@ -1,0 +1,11 @@
+List all references to 'initWithActivityItems:applicationActivities:':
+
+0x100010194 reloc.fixup.initWithActivityItems_applicationActivities_ 
+0x1000102a4 sym.MASTestApp.MastgTest.mastg.completion__1
+
+List all cross-references to 'initWithActivityItems:applicationActivities:':
+
+sym.MASTestApp.MastgTest.mastg.completion__1 0x100004abc [CALL] bl sym.imp.objc_msgSend
+
+List all references to 'excludedActivityTypes':
+
