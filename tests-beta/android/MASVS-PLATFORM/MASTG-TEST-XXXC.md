@@ -1,5 +1,5 @@
 ---
-title: Use of Unverified Custom URL Schemes
+title: Use of Custom URL Schemes
 platform: android
 id: MASTG-TEST-XXXC
 type: [static]
