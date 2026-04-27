@@ -1,112 +1,47 @@
 ---
 masvs_category: MASVS-PLATFORM
 platform: android
-title: Object Serialization
+title: Object Serialization and Deserialization
 ---
 
-There are several ways to serialize an object on Android:
+Object serialization converts an in-memory object graph into a sequence of bytes (or a structured representation such as JSON or XML) so it can be stored, transferred between components, or sent over a network. Deserialization is the reverse: a byte sequence or structured payload is read back and an object instance is reconstructed from it. On Android, both directions are used routinely for inter-component communication, persistence, and network I/O, and the platform provides multiple built-in mechanisms in addition to the Java standard library.
 
-## Java Serializable API
+The reconstruction step makes deserialization different from generic input parsing: the framework reads field values from the input and either populates a newly allocated instance or invokes type-specific reconstruction logic supplied by the class itself. Knowing which mechanism is in use determines which APIs participate in the reconstruction and what the entry point looks like.
 
-An object and its data can be represented as a sequence of bytes. This is done in Java via [object serialization](https://developer.android.com/reference/java/io/Serializable.html "Serializable"). Serialization is not inherently secure. It is just a binary format (or representation) for locally storing data in a .ser file. Encrypting and signing HMAC-serialized data is possible as long as the keys are stored safely. Deserializing an object requires a class of the same version as the class used to serialize the object. After classes have been changed, the `ObjectInputStream` can't create objects from older .ser files. The example below shows how to create a `Serializable` class by implementing the `Serializable` interface.
+## Java Object Deserialization
 
-```java
-import java.io.Serializable;
+The Java standard library exposes binary object serialization through [`java.io.Serializable`](https://developer.android.com/reference/java/io/Serializable) and [`java.io.Externalizable`](https://developer.android.com/reference/java/io/Externalizable). Classes opt into serialization by implementing one of these interfaces.
 
-public class Person implements Serializable {
-  private String firstName;
-  private String lastName;
+Reconstruction goes through [`java.io.ObjectInputStream`](https://developer.android.com/reference/java/io/ObjectInputStream). Relevant entry points include:
 
-  public Person(String firstName, String lastName) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    }
-  //..
-  //getters, setters, etc
-  //..
+- `ObjectInputStream.readObject` reads the next object from the stream. For `Serializable` classes, the runtime allocates an instance and populates fields directly. If the class declares a `private void readObject(ObjectInputStream in)` method, the runtime invokes it during reconstruction.
+- `ObjectInputStream.readUnshared` is the same as `readObject` but does not allow back-references to the returned instance.
+- `Externalizable.readExternal(ObjectInput in)` is invoked during reconstruction of `Externalizable` classes. Unlike `Serializable`, the class is responsible for reading and assigning every field through this method.
 
-}
-```
+Subclasses can override `ObjectInputStream.resolveClass` and `ObjectInputStream.resolveObject` to constrain or customize the types that are accepted during reconstruction.
 
-Now you can read/write the object with `ObjectInputStream`/`ObjectOutputStream` in another class.
+## Common Patterns on Android
 
-## JSON
+Android applications use several deserialization patterns. The choice of mechanism affects which APIs are involved and where the reconstruction logic lives.
 
-There are several ways to serialize the contents of an object to JSON. Android comes with the `JSONObject` and `JSONArray` classes. A wide variety of libraries, including [GSON](https://github.com/google/gson "Google Gson"), [Jackson](https://github.com/FasterXML/jackson-core "Jackson core"), [Moshi](https://github.com/square/moshi "Moshi"), can also be used. The main differences between the libraries are whether they use reflection to compose the object, whether they support annotations, whether the create immutable objects, and the amount of memory they use. Note that almost all the JSON representations are String-based and therefore immutable. This means that any secret stored in JSON will be harder to remove from memory.
-JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on Android"](../../../Document/0x05d-Testing-Data-Storage.md) for more details. A simple example (from the GSON User Guide) of writing and reading JSON with GSON follows. In this example, the contents of an instance of the `BagOfPrimitives` is serialized into JSON:
+- **Java object streams.** `ObjectInputStream` over a file, asset, or network stream, typically used for ad-hoc persistence or process boundaries that do not use Android's IPC primitives.
+- **Parcelable / Parcel.** [`Parcelable`](https://developer.android.com/reference/android/os/Parcelable) is the Android-native mechanism for high-performance object marshalling across IPC boundaries (Binder, Intents, Bundles). Each `Parcelable` class supplies a `static final Parcelable.Creator<T>` whose `createFromParcel(Parcel)` method reconstructs an instance by reading typed values from a [`Parcel`](https://developer.android.com/reference/android/os/Parcel).
+- **Bundle.** [`Bundle`](https://developer.android.com/reference/android/os/Bundle) is a typed key/value container backed by a `Parcel`. Its values can include primitives, `Parcelable`s, `Serializable`s, and nested `Bundle`s. Reconstruction is lazy: values are decoded the first time they are accessed.
+- **Intent extras.** [`Intent`](https://developer.android.com/reference/android/content/Intent) extras are stored in a `Bundle`. When a component receives an `Intent`, deserialization happens at the point each extra is read by the receiving code.
+- **Structured-data formats.** JSON, XML, and Protocol Buffers are mapped to objects by libraries such as `org.json.JSONObject`, GSON, Moshi, Jackson, `XmlPullParser`, SAX, and the protobuf runtime. Reconstruction here typically happens through reflection or generated code rather than through Java's `ObjectInputStream`.
 
-```java
-class BagOfPrimitives {
-  private int value1 = 1;
-  private String value2 = "abc";
-  private transient int value3 = 3;
-  BagOfPrimitives() {
-    // no-args constructor
-  }
-}
+## Android APIs and Entry Points
 
-// Serialization
-BagOfPrimitives obj = new BagOfPrimitives();
-Gson gson = new Gson();
-String json = gson.toJson(obj);
+The following APIs are common entry points for object reconstruction in Android apps. Knowing which API is used identifies where the deserialized data crosses into the application's object model.
 
-// ==> json is {"value1":1,"value2":"abc"}
+- `Intent.getSerializableExtra(String name)` returns a `Serializable` from the intent's extras. Deserialization happens on first access.
+- `Intent.getSerializableExtra(String name, Class<T> clazz)` is the typed overload added in API level 33; it returns the requested type or `null`.
+- `Bundle.getSerializable(String key)` and `Bundle.getSerializable(String key, Class<T> clazz)` (API 33+) read a `Serializable` from a bundle.
+- `Intent.getParcelableExtra(String name)` and `Intent.getParcelableExtra(String name, Class<T> clazz)` (API 33+) read a `Parcelable` from intent extras.
+- `Bundle.getParcelable(String key)` and `Bundle.getParcelable(String key, Class<T> clazz)` (API 33+) read a `Parcelable` from a bundle.
+- `Bundle.getParcelableArrayList`, `Bundle.getSparseParcelableArray`, and their typed overloads read `Parcelable` collections.
+- `Parcel.readParcelable`, `Parcel.readSerializable`, `Parcel.readValue`, and `Parcel.readBundle` are the lower-level primitives the higher-level APIs above are built on.
+- `Parcelable.Creator.createFromParcel(Parcel)` is the application-defined reconstruction point for any `Parcelable` class. The class controls what is read from the `Parcel` and how the instance is initialized.
+- `ObjectInputStream.readObject` and `ObjectInputStream.readUnshared` are the entry points for Java standard-library deserialization on Android.
 
-```
-
-## XML
-
-There are several ways to serialize the contents of an object to XML and back. Android comes with the `XmlPullParser` interface which allows for easily maintainable XML parsing. There are two implementations within Android: `KXmlParser` and `ExpatPullParser`. The [Android Developer Guide](https://developer.android.com/training/basics/network-ops/xml#java "Instantiate the parser") provides a great write-up on how to use them. Next, there are various alternatives, such as a `SAX` parser that comes with the Java runtime. For more information, see [a blogpost from ibm.com](https://www.ibm.com/developerworks/opensource/library/x-android/index.html "Working with XML on Android on IBM Developer").
-Similarly to JSON, XML has the issue of working mostly String based, which means that String-type secrets will be harder to remove from memory. XML data can be stored anywhere (database, files), but do need additional protection in case of secrets or information that should not be changed. See the chapter "[Data Storage on Android](../../../Document/0x05d-Testing-Data-Storage.md)" for more details. As stated earlier: the true danger in XML lies in the [XML eXternal Entity (XXE)](https://owasp.org/www-community/vulnerabilities/XML_External_Entity_%28XXE%29_Processing "XML eXternal Entity attack (XXE)") attack as it might allow for reading external data sources that are still accessible within the application.
-
-## ORM
-
-There are libraries that provide functionality for directly storing the contents of an object in a database and then instantiating the object with the database contents. This is called Object-Relational Mapping (ORM). Libraries that use the SQLite database include
-
-- [OrmLite](https://github.com/j256/ormlite-android "OrmLite"),
-- [SugarORM](https://github.com/chennaione/sugar "Sugar ORM"),
-- [GreenDAO](https://github.com/greenrobot/greenDAO "GreenDAO") and
-- [ActiveAndroid](https://github.com/pardom-zz/ActiveAndroid "ActiveAndroid").
-
-[Realm](https://www.mongodb.com/docs/realm/sdk/java/ "Realm Java"), on the other hand, uses its own database to store the contents of a class. The amount of protection that ORM can provide depends primarily on whether the database is encrypted. See the chapter ["Data Storage on Android"](../../../Document/0x05d-Testing-Data-Storage.md) for more details. The Realm website includes a nice [example of ORM Lite](https://github.com/j256/ormlite-examples/tree/master/android/HelloAndroid "OrmLite example").
-
-## Parcelable
-
-[`Parcelable`](https://developer.android.com/reference/android/os/Parcelable.html "Parcelable") is an interface for classes whose instances can be written to and restored from a [`Parcel`](https://developer.android.com/reference/android/os/Parcel.html "Parcel"). Parcels are often used to pack a class as part of a `Bundle` for an `Intent`. Here's an Android developer documentation example that implements `Parcelable`:
-
-```java
-public class MyParcelable implements Parcelable {
-     private int mData;
-
-     public int describeContents() {
-         return 0;
-     }
-
-     public void writeToParcel(Parcel out, int flags) {
-         out.writeInt(mData);
-     }
-
-     public static final Parcelable.Creator<MyParcelable> CREATOR
-             = new Parcelable.Creator<MyParcelable>() {
-         public MyParcelable createFromParcel(Parcel in) {
-             return new MyParcelable(in);
-         }
-
-         public MyParcelable[] newArray(int size) {
-             return new MyParcelable[size];
-         }
-     };
-
-     private MyParcelable(Parcel in) {
-         mData = in.readInt();
-     }
- }
-```
-
-Because this mechanism that involves Parcels and Intents may change over time, and the `Parcelable` may contain `IBinder` pointers, storing data to disk via `Parcelable` is not recommended.
-
-## Protocol Buffers
-
-[Protocol Buffers](https://developers.google.com/protocol-buffers/ "Google Documentation") by Google, are a platform- and language neutral mechanism for serializing structured data by means of the [Binary Data Format](https://developers.google.com/protocol-buffers/docs/encoding "Encoding").
-There have been a few vulnerabilities with Protocol Buffers, such as [CVE-2015-5237](https://www.cvedetails.com/cve/CVE-2015-5237/ "CVE-2015-5237").
-Note that Protocol Buffers do not provide any protection for confidentiality: there is no built in encryption.
+The typed overloads introduced in [API level 33 (Android 13)](https://developer.android.com/reference/android/os/Bundle#getParcelable(java.lang.String,%20java.lang.Class)) accept a `Class<T>` parameter so the caller declares the expected type at the call site. Earlier API levels rely on the value's recorded type alone.
