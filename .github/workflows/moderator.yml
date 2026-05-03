@@ -230,7 +230,7 @@ jobs:
         if: steps.allow.outputs.skip != 'true'
         shell: bash
         env:
-            RAW_MODEL_OUTPUT: ${{ steps.ai.outputs.response }}
+          RAW_MODEL_OUTPUT: ${{ steps.ai.outputs.response }}
         run: |
           {
             echo "### AI moderation report"
