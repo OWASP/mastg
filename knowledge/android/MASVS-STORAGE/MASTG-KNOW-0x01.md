@@ -19,7 +19,7 @@ Both DataStore variants write their data to the app's internal storage, under th
 - Preferences DataStore: `/data/data/<package-name>/files/datastore/<filename>.preferences_pb`
 - Proto DataStore: `/data/data/<package-name>/files/datastore/<filename>.pb`
 
-The data is stored in protobuf binary format, not in plain-text XML like `SharedPreferences`. However, the files aren't encrypted by default, so their contents can still be read on a rooted device.
+The data is stored in protobuf binary format, not in plain-text XML like `SharedPreferences`. The files are not encrypted by default.
 
 ## API Overview
 
@@ -63,7 +63,7 @@ Reads and writes follow the same coroutine-based `data` Flow and `updateData` AP
 
 ## Encryption
 
-Neither Preferences DataStore nor Proto DataStore encrypts data at rest by default. To protect sensitive data, you can wrap the `Serializer` with encryption logic using the [Android Keystore](https://developer.android.com/training/articles/keystore) or a library such as [Tink](https://developers.google.com/tink).
+Neither Preferences DataStore nor Proto DataStore encrypts data at rest by default. The `Serializer` can be wrapped with custom encryption logic using the [Android Keystore](https://developer.android.com/training/articles/keystore) or a library such as [Tink](https://developers.google.com/tink) to encrypt data at rest.
 
 ## Backup Behavior
 
