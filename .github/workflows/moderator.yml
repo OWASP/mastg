@@ -130,7 +130,7 @@ jobs:
           SUMMARY: ${{ steps.prmeta.outputs.summary }}
         run: |
           python - <<'PY'
-          import os, re, json, pathlib
+          import os, json, pathlib
           def sanitize(s, limit=4000):
               s = (s or "")[:limit]
               # neutralize fence markers and obvious injection scaffolding
