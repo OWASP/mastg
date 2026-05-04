@@ -1,11 +1,38 @@
 List all references to 'initWithActivityItems:applicationActivities:':
-
-0x100010194 reloc.fixup.initWithActivityItems_applicationActivities_ 
-0x1000102a4 sym.MASTestApp.MastgTest.mastg.completion__1
+0x00013932 45 str.initWithActivityItems:applicationActivities:
+0x0001c188 8 reloc.fixup.initWithActivityItems:applicati
 
 List all cross-references to 'initWithActivityItems:applicationActivities:':
+sym....sSo24UIActivityViewControllerC13activityItems21applicationActivitiesABSayypG_SaySo0A0CGSgtcfcTO 0x20f4 [DATA:r--] ldr x1, reloc.fixup.initWithActivityItems:applicati
 
-sym.MASTestApp.MastgTest.mastg.completion__1 0x100004abc [CALL] bl sym.imp.objc_msgSend
+Use of 'initWithActivityItems:applicationActivities:':
+│           0x000020f4      ldr x1, [x8, 0x188]                        ; [0x1c188:4]=0x13932 str.initWithActivityItems:applicationActivities: ; "29\x01" ; char *selector
+│           0x000020f8      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x000020fc      mov x1, x0
+│           0x00002100      ldr x0, [sp]
+│           0x00002104      str x1, [var_8h]
+│           0x00002108      adrp x8, segment.__DATA_CONST              ; 0x18000
+│           0x0000210c      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│                                                                      ; reloc.objc_release
+│           0x00002110      blr x8
+│           0x00002114      ldur x0, [x29, -8]
+│           0x00002118      adrp x8, segment.__DATA_CONST              ; 0x18000
 
 List all references to 'excludedActivityTypes':
 
+List all cross-references to 'setExcludedActivityTypes':
+sym.MASTestApp.MastgTest.mastg.completion 0x1618 [DATA:r--] ldr x1, reloc.fixup.presentViewController:animated:
+
+Use of 'setExcludedActivityTypes':
+│           0x000016e0      ldr x0, [x20, 0x18]                        ; void *arg0
+│           0x000016e4      bl sym.imp.swift_release                   ; void swift_release(void *arg0)
+│           0x000016e8      ldr x0, [var_8h]
+│           0x000016ec      mov w8, 0x20
+│           0x000016f0      mov x1, x8
+│           0x000016f4      mov w8, 7
+│           0x000016f8      mov x2, x8
+│           0x000016fc      bl sym.imp.swift_deallocObject
+│           0x00001700      ldp x29, x30, [var_10h]
+│           0x00001704      add sp, sp, 0x20                           ; 0x178000
+
+List all UIActivityType instances

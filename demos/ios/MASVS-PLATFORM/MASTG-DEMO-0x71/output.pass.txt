@@ -1,0 +1,49 @@
+List all references to 'initWithActivityItems:applicationActivities:':
+0x000142a2 45 str.initWithActivityItems:applicationActivities:
+0x0001c190 8 reloc.fixup.initWithActivityItems:applicati
+
+List all cross-references to 'initWithActivityItems:applicationActivities:':
+sym.MASTestApp.MastgTest.topViewController._6E8AB2C58CE173A727EF27CB85DF8CD8.base.UIView...G0CSgAI_tFZfA_AIycfU_SaySo8UIWindowCGSo0S5SceneCXEfU0_ 0x2148 [DATA:r--] ldr x1, reloc.fixup.windows
+
+Use of 'initWithActivityItems:applicationActivities:':
+│       ┌─< 0x000020f4      b 0x2114
+│       │   ; CODE XREF from func.00002090 @ 0x20e0(x)
+│       │   0x000020f8      ldr x0, [var_18h]
+│       │   0x000020fc      adrp x8, segment.__DATA_CONST              ; 0x18000
+│       │   0x00002100      ldr x8, [x8, 0x110]                        ; [0x18110:4]=32 ; " "
+│       │   0x00002104      blr x8
+│       │   0x00002108      ldr x8, [var_8h]
+│       │   0x0000210c      str xzr, [x8]
+│      ┌──< 0x00002110      b 0x2114
+│      ││   ; CODE XREFS from func.00002090 @ 0x20f4(x), 0x2110(x)
+│      └└─> 0x00002114      ldr x21, [var_10h]
+│           0x00002118      ldp x29, x30, [var_30h]
+
+List all references to 'excludedActivityTypes':
+0x00014353 26 str.setExcludedActivityTypes:
+0x0001c158 8 reloc.fixup.setExcludedActivityTypes:
+
+List all cross-references to 'setExcludedActivityTypes':
+sym.MASTestApp.MastgTest.mastg.completion 0x16e0 [DATA:r--] ldr x1, reloc.fixup.setExcludedActivityTypes:
+
+Use of 'setExcludedActivityTypes':
+│           0x000016e0      ldr x1, [x8, 0x158]                        ; [0x1c158:4]=0x14353 str.setExcludedActivityTypes: ; "SC\x01" ; char *selector
+│           0x000016e4      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x000016e8      ldur x0, [x29, -0xc8]
+│           0x000016ec      adrp x8, segment.__DATA_CONST              ; 0x18000
+│           0x000016f0      ldr x8, [x8, 0x110]                        ; [0x18110:4]=32 ; " "
+│           0x000016f4      blr x8
+│           0x000016f8      bl sym.MASTestApp.MastgTest.topViewController._6E8AB2C58CE173A727EF27CB85DF8CD8.base.UIView...G0CSgAI_tFZfA_ ; func.00001930
+│           0x000016fc      stur x0, [x29, -0xc0]
+│           0x00001700      bl sym.MASTestApp.MastgTest.topViewController._6E8AB2C58CE173A727EF27CB85DF8CD8.base.UIView...G0CSgAI_tFZ ; func.00001944
+│           0x00001704      mov x8, x0
+
+List all UIActivityType instances
+0x000185a8 8 reloc.UIActivityTypeAddToReadingList
+0x000185b0 8 reloc.UIActivityTypeAirDrop
+0x000185b8 8 reloc.UIActivityTypeMail
+0x000185c0 8 reloc.UIActivityTypeMessage
+0x000185c8 8 reloc.UIActivityTypePostToFacebook
+0x000185d0 8 reloc.UIActivityTypePostToTwitter
+0x000185d8 8 reloc.UIActivityTypePostToWeibo
+0x000185e0 8 reloc.UIActivityTypeSaveToCameraRoll
