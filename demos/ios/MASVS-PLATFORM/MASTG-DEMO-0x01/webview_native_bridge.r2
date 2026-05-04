@@ -14,4 +14,4 @@ axt @ reloc.fixup.addScriptMessageHandler:name:
 ?e
 
 ?e Code snippet containing the bridge registration call:
-pd 10 @ sym.MASTestApp.MastgTest.showWebView_completion__1
+pd 10 @ 0x1eac

@@ -1,16 +1,19 @@
 List all uses of the 'addScriptMessageHandler:name:' selector:
-0x10001a8b0 8 reloc.fixup.addScriptMessageHandler:name:
+0x0001342e 30 str.addScriptMessageHandler:name:
+0x0001c2e0 8 reloc.fixup.addScriptMessageHandler:name:
 
 xrefs to 'addScriptMessageHandler:name:':
-sym.MASTestApp.MastgTest.showWebView_completion__1 0x1000049ac [DATA:r--] ldr x1, reloc.fixup.addScriptMessageHandler:name:
+sym.MASTestApp.MastgTest.showWebView._6E8AB2C58CE173A727EF27CB85DF8CD8.completion_...FZ_ 0x1eac [DATA:r--] ldr x1, reloc.fixup.addScriptMessageHandler:name:
 
 Code snippet containing the bridge registration call:
-│           0x1000049a4      ldr x0, [x19, 0x50]                       ; WKUserContentController instance
-│           0x1000049a8      adrp x8, segment.__DATA_CONST              ; 0x10001a000
-│           0x1000049ac      ldr x1, [x8, 0x8b0]                       ; reloc.fixup.addScriptMessageHandler:name:
-│           0x1000049b0      mov x2, x20                                ; SecretBridgeHandler instance
-│           0x1000049b4      adrp x8, 0x10000e000                       ; string "bridge"
-│           0x1000049b8      add x8, x8, 0x4c0                         ; "bridge"
-│           0x1000049bc      ldr x3, [x8]                               ; handler name: "bridge"
-│           0x1000049c0      bl sym.imp.objc_msgSend                    ; [WKUserContentController addScriptMessageHandler:name:]
-│           0x1000049c4      ldr x0, [x19, 0x50]                       ; WKWebView configuration
+│           0x00001eac      ldr x1, [x8, 0x2e0]                        ; [0x1c2e0:4]=0x1342e str.addScriptMessageHandler:name: ; ".4\x01" ; char *selector
+│           0x00001eb0      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001eb4      ldur x0, [x29, -0xe8]
+│           0x00001eb8      adrp x8, segment.__DATA_CONST              ; 0x18000
+│           0x00001ebc      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│                                                                      ; reloc.objc_release
+│           0x00001ec0      blr x8
+│           0x00001ec4      ldur x0, [x29, -0xe0]
+│           0x00001ec8      bl sym.imp.swift_unknownObjectRelease
+│           0x00001ecc      ldur x0, [x29, -0xd8]
+│           0x00001ed0      adrp x8, segment.__DATA_CONST              ; 0x18000
