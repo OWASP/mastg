@@ -18,7 +18,18 @@ struct MastgTest {
                 activityItems: [sensitiveText, sensitiveURL],
                 applicationActivities: nil
             )
-            // excludedActivityTypes is not configured — all system activities are available.
+            // excludedActivityTypes is not configured — all system activities are available. Uncomment the following to apply the exclusion
+            
+//            activityVC.excludedActivityTypes = [
+//                .postToFacebook,
+//                .postToTwitter,
+//                .postToWeibo,
+//                .saveToCameraRoll,
+//                .addToReadingList,
+//                .airDrop,
+//                .mail,
+//                .message,
+//            ]
 
             if let presenter = topViewController() {
                 presenter.present(activityVC, animated: true, completion: nil)
