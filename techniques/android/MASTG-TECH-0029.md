@@ -1,7 +1,9 @@
 ---
-title: Get Loaded Native Libraries
+title: Getting Loaded Native Libraries Dynamically
 platform: android
 ---
+
+This technique describes how to enumerate the native libraries loaded into memory by a running Android app. Unlike @MASTG-TECH-0x02, which identifies bundled native libraries statically, this approach requires the app to be running on a device or emulator.
 
 ## Using Process Memory Maps
 
