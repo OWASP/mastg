@@ -17,7 +17,7 @@ Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning f
 |---|---|
 | **[Indirect Pointer-Flow Integrity](#indirect-pointer-flow-integrity)** | GOT hook detection, vtable hook detection, ART entry point verification |
 | **[Code Integrity](#code-integrity)** | Memory checksums, inline hook detection |
-| **[Class Injection](#class-injection)** | Xposed detection |
+| **[Code Injection](#code-injection)** | New dynamic library detection, Xposed detection |
 
 ## Indirect Pointer-Flow Integrity
 
@@ -78,7 +78,7 @@ _Inline hooks_ overwrite a few instructions at the beginning or end of the funct
 - **Inline hook trampolines**: A trampoline is a small piece of code that redirects execution from one location to another. Hooking frameworks insert trampolines at function entry points to intercept calls - when the original function is called, the trampoline jumps to the hook handler instead. On ARM64, a common trampoline pattern loads a 64-bit target address into a scratch register and branches to it: `LDR X16, .+8; BR X16` followed by the 8-byte absolute address. Scratch registers (X16 and X17 on ARM64) are temporary registers that the calling convention allows to be overwritten without saving, making them ideal for trampolines. Based on the [ARM A64 instruction set encoding](https://developer.arm.com/documentation/ddi0602/latest/), this sequence encodes to the bytes `50 00 00 58 00 02 1F D6` (hex encoding). Scanning for such patterns at function entry points can reveal hooks. The [O-MVLL anti-hooking pass](https://obfuscator.re/omvll/passes/anti-hook/) exploits the fact that Frida's Interceptor requires X16/X17 as scratch registers by injecting prologues that use these registers, preventing Frida from hooking. Note that a custom Frida modification that uses different registers or inserts opcodes into the sequence may break the detection script, thereby bypassing the defense. Also note that ARM32/Thumb code uses different trampoline patterns (e.g., `LDR PC, [PC, #-4]`) and should be checked separately if the app includes 32-bit libraries.
 - **Modified function prologues**: Comparing the first few bytes of critical functions against their expected values can detect patches. For example, if a function's original prologue is known, any deviation indicates modification.
 
-## Class Injection
+## Code Injection
 
 Unlike the previous categories, Xposed does not overwrite pointers or patch code directly. Instead, it injects the `XposedBridge` class into the app's classloader, making its presence detectable by inspecting loaded classes rather than memory regions or function prologues.
 
@@ -115,4 +115,3 @@ void doAntiXposed(C_JNIEnv *env, jobject object, intptr_t hash) {
         }
     }
 }
-```
