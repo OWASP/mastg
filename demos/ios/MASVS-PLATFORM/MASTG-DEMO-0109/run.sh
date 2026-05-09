@@ -9,4 +9,10 @@ if [ ! -f MastgTest_reversed.swift ]; then
     exit 1
 fi
 
-grep -nE "$PASTEBOARD_PATTERN|$SHARED_CONTAINER_PATTERN|$FILE_COORDINATION_PATTERN" MastgTest_reversed.swift > output.txt
+if ! grep -nE "$PASTEBOARD_PATTERN|$SHARED_CONTAINER_PATTERN|$FILE_COORDINATION_PATTERN" MastgTest_reversed.swift > output.txt; then
+    : > output.txt
+fi
+
+if [ -s output.txt ]; then
+    perl -0pi -e 's/\n\z//' output.txt
+fi
