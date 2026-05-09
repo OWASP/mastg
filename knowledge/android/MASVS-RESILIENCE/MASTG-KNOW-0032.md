@@ -17,7 +17,7 @@ Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning f
 |---|---|
 | **[Indirect Pointer-Flow Integrity](#indirect-pointer-flow-integrity)** | GOT hook detection, vtable hook detection, ART entry point verification |
 | **[Code Integrity](#code-integrity)** | Memory checksums, inline hook detection |
-| **[Code Injection](#code-injection)** | New dynamic library detection, Xposed detection |
+| **[Code Injection](#code-injection)** | Detection of dynamic library injection, Xposed detection |
 
 ## Indirect Pointer-Flow Integrity
 
@@ -80,7 +80,23 @@ _Inline hooks_ overwrite a few instructions at the beginning or end of the funct
 
 ## Code Injection
 
-Unlike the previous categories, Xposed does not overwrite pointers or patch code directly. Instead, it injects the `XposedBridge` class into the app's classloader, making its presence detectable by inspecting loaded classes rather than memory regions or function prologues.
+Code injection allows an attacker to introduce and execute foreign code within the application's process at runtime. Once injected, this malicious code can manipulate the application's behavior in two primary ways:
+
+- **Logic Manipulation**: The attacker can programmatically invoke existing internal methods at any time, often with unauthorized or malicious arguments, to bypass security checks or leak data.
+
+- **Control-Flow Hijacking**: By combining injection with the hooking techniques mentioned above, an attacker can redirect the application's execution path. Instead of running the original, legitimate code, the program is forced to jump to the newly injected malicious instructions.
+
+### Detection of Runtime Dynamic Library Injection
+
+Attackers inject malicious code by forcing the application to load unauthorized shared libraries (.so files). These files act as external "plug-ins" that can modify the app's behavior, automate hooking, or steal data. The primary way to detect these is by auditing the process memory layout via the `/proc/self/maps` file, which acts as a real-time directory of every file and memory block the app is currently using.
+
+**Detections:**
+
+- **Path Validation**: Scan `/proc/self/maps` for libraries loaded from "world-writable" locations like `/data/local/tmp` or the app’s internal cache. Legitimate app and system files should only reside in protected, read-only paths (e.g., `/system/lib`, `/apex`, or the official app installation folder).
+
+- **Whitelisting**: Compare the list of loaded .so files against a known list of authorized dependencies. Any unrecognized library that isn't part of the original app package or the Android OS is flagged as a potential threat.
+
+- **Signature Scanning**: Even if a library is renamed to look innocent, the detection logic can scan its memory for "fingerprints", such as specific code patterns, strings, or new exported symbols belonging to known hacking frameworks like Frida or Substrate.
 
 ### Xposed Detection
 
