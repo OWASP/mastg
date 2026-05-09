@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSExceptionDomains</key>
+			<dict>
+
+				<key>example.com</key>
+				<dict>
+					<key>NSExceptionMinimumTLSVersion</key>
+					<string>TLSv1.1</string>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+				</dict>
+
+				<key>legacy.example.com</key>
+				<dict>
+					<key>NSExceptionRequiresForwardSecrecy</key>
+					<false/>
+				</dict>
+
+			</dict>
+		</dict>
+	</dict>
+</plist>

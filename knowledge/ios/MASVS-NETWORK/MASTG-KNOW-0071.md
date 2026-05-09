@@ -138,3 +138,28 @@ In the following example, ATS is globally enabled (there's no global `NSAllowsAr
 ```
 
 For more information on ATS exceptions please consult section "Configure Exceptions Only When Needed; Prefer Server Fixes" from the article "Preventing Insecure Network Connections" in the [Apple Developer Documentation](https://developer.apple.com/documentation/security/preventing_insecure_network_connections#3138482) and the [blog post on ATS](https://www.nowsecure.com/blog/2017/08/31/security-analysts-guide-nsapptransportsecurity-nsallowsarbitraryloads-app-transport-security-ats-exceptions/ "A guide to ATS").
+
+## Runtime Validation of ATS TLS Settings
+
+Static analysis can identify configured exceptions in `Info.plist`, but it cannot confirm what TLS version is actually negotiated against real servers. To validate the effective TLS settings at runtime, connect the app to controlled test endpoints that support only specific TLS versions or cipher configurations.
+
+**Using nscurl for ATS diagnostics:**
+
+On macOS, the `nscurl` command-line tool tests ATS behavior against a specific endpoint:
+
+```bash
+nscurl --ats-diagnostics https://example.com
+```
+
+This runs a permutation of ATS settings against the endpoint and shows which configurations succeed or fail. If the default ATS secure connection test passes, ATS can be used in its default secure configuration. Apple recommends fixing server-side TLS issues rather than adding ATS exceptions. See [Identifying the Source of Blocked Connections](https://developer.apple.com/documentation/security/identifying-the-source-of-blocked-connections) for more details.
+
+**Testing with controlled endpoints:**
+
+Confirm the actual TLS behavior by connecting the app to test endpoints that expose only specific TLS versions:
+
+- A TLS 1.0-only endpoint: verifies whether the app accepts connections using TLS 1.0.
+- A TLS 1.1-only endpoint: verifies whether the app accepts connections using TLS 1.1.
+- A TLS 1.2 endpoint without forward secrecy: verifies whether the app requires PFS.
+- A TLS 1.3-only endpoint: confirms the app supports modern TLS.
+
+This approach is especially important for validating the scope of `NSExceptionMinimumTLSVersion` and `NSExceptionRequiresForwardSecrecy` exceptions, as static analysis only confirms what is configured, not what is actually negotiated.

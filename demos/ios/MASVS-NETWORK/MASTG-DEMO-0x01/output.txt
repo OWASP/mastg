@@ -1,0 +1,2 @@
+json.NSAppTransportSecurity.NSExceptionDomains["example.com"].NSExceptionMinimumTLSVersion = "TLSv1.1";
+json.NSAppTransportSecurity.NSExceptionDomains["legacy.example.com"].NSExceptionRequiresForwardSecrecy = false;
