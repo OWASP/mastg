@@ -1,14 +1,14 @@
 ---
 platform: ios
 title: Determining Whether Sensitive Data Is Exposed via IPC Mechanisms
-id: MASTG-TEST-0056
+id: MASTG-TEST-0x56
 type: [static]
 weakness: MASWE-0053
-best-practices: [MASTG-BEST-0042]
+best-practices: [MASTG-BEST-0x56]
 profiles: [L1, L2]
 prerequisites:
 - identify-sensitive-data
-knowledge: [MASTG-KNOW-0121]
+knowledge: [MASTG-KNOW-0x56]
 ---
 
 ## Overview

@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: References to iOS IPC APIs Carrying Sensitive Data
-id: MASTG-DEMO-0109
+id: MASTG-DEMO-0x56
 code: [swift]
-test: MASTG-TEST-0056
+test: MASTG-TEST-0x56
 kind: fail
 ---
 

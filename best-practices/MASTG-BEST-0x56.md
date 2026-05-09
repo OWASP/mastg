@@ -1,14 +1,14 @@
 ---
 title: Limit Sensitive Data Exposure Through iOS IPC Channels
 alias: limit-sensitive-data-exposure-through-ios-ipc-channels
-id: MASTG-BEST-0042
+id: MASTG-BEST-0x56
 platform: ios
-knowledge: [MASTG-KNOW-0121, MASTG-KNOW-0083]
+knowledge: [MASTG-KNOW-0x56, MASTG-KNOW-0083]
 ---
 
 When your app exchanges data across iOS IPC channels, share the minimum amount of data for the shortest time possible. Design these flows so that intercepted payloads are low value and short lived.
 
-For guidance on channel behavior, see @MASTG-KNOW-0121. You can validate these controls with @MASTG-TEST-0056.
+For guidance on channel behavior, see @MASTG-KNOW-0x56. You can validate these controls with @MASTG-TEST-0x56.
 
 ## Restrict Pasteboard Usage
 

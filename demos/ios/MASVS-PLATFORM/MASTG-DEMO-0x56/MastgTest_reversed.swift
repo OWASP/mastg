@@ -7,10 +7,10 @@ struct MastgTest {
     static func mastgTest() -> String {
         let accessToken = "tok_demo_sensitive_123456"
 
-        // FAIL: [MASTG-TEST-0056] Sensitive token is written to the general pasteboard.
+        // FAIL: [MASTG-TEST-0x56] Sensitive token is written to the general pasteboard.
         UIPasteboard.general.string = accessToken
 
-        // FAIL: [MASTG-TEST-0056] Sensitive token is added without localOnly/expiration restrictions.
+        // FAIL: [MASTG-TEST-0x56] Sensitive token is added without localOnly/expiration restrictions.
         UIPasteboard.general.setItems([["public.utf8-plain-text": accessToken]])
 
         if let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.owasp.mastg.demo") {
@@ -21,7 +21,7 @@ struct MastgTest {
                 try? accessToken.write(to: url, atomically: true, encoding: .utf8)
             }
 
-            // FAIL: [MASTG-TEST-0056] Sensitive token is persisted in an app group shared container.
+            // FAIL: [MASTG-TEST-0x56] Sensitive token is persisted in an app group shared container.
             return "Wrote token to pasteboard and shared container: \(sharedFile.path)"
         }
 
