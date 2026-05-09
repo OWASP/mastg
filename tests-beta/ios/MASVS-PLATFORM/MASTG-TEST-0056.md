@@ -4,7 +4,6 @@ title: Determining Whether Sensitive Data Is Exposed via IPC Mechanisms
 id: MASTG-TEST-0056
 type: [static]
 weakness: MASWE-0053
-threat: [app]
 best-practices: [MASTG-BEST-0042]
 profiles: [L1, L2]
 prerequisites:
