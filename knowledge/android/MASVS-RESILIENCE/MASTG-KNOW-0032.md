@@ -84,7 +84,7 @@ Unlike the previous categories, Xposed does not overwrite pointers or patch code
 
 ### Xposed Detection
 
-Xposed works by injecting the `XposedBridge` class into the app's classloader. The following code snippet from the [XPosedDetector](https://github.com/vvb2060/XposedDetector/) project demonstrates how to detect Xposed by looking for its injected classes.
+Xposed works by injecting the `XposedBridge` class into the app's class loader. Modern Xposed-compatible frameworks such as [LSPosed](https://github.com/LSPosed/LSPosed) continue to ship compatibility with the legacy `de.robv.android.xposed.*` API, so the classic class-based detection described below still applies. However, LSPosed is also developing its own [newer API (v101+)](https://github.com/libxposed/api/pull/51) that injects different classes; additional probes for these newer class names (see [examples](https://github.com/eltavine/Duck-Detector-Refactoring/blob/98e80ce900bfc278d32ed9be7f479e928ffebd00/app/src/main/java/com/eltavine/duckdetector/features/lsposed/data/probes/LSPosedClassProbe.kt#L136)) may be required for comprehensive detection as the LSPosed API matures.
 
 ```cpp
 static jclass findXposedBridge(C_JNIEnv *env, jobject classLoader) {
