@@ -1,6 +1,5 @@
 ---
 masvs_category: MASVS-RESILIENCE
-title: Device Attestation
-alias: TBD
+title: Key Attestation
 status: placeholder
 ---

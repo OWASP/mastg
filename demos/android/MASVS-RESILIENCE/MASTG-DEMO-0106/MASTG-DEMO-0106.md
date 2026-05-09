@@ -1,22 +1,22 @@
 ---
 platform: android
 title: Extracting Sensitive Data from Cipher.doFinal via Frida Hooking
-id: MASTG-DEMO-0de1
+id: MASTG-DEMO-0106
 code: [kotlin]
-test: MASTG-TEST-03te
+test: MASTG-TEST-0341
 kind: fail
 ---
 
 ## Sample
 
-This sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0de2 demonstrates a runtime hook detection mechanism.
+This sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0107 demonstrates a runtime hook detection mechanism.
 
 !!! note
     This is a series of correlated tests.
 
     - This test is a failed test (failed defence/successful attack) against a data exfiltration attack.
-    - @MASTG-DEMO-0de2 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0de1.
-    - @MASTG-DEMO-0de3 is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0de2 by using a more "complex" attack.
+    - @MASTG-DEMO-0107 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0106.
+    - @MASTG-DEMO-0108 is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0107 by using a more "complex" attack.
 
 {{ MastgTest.kt }}
 

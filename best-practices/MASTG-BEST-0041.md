@@ -1,14 +1,14 @@
 ---
 title: Hardening Against Runtime Hooking
 alias: hardening-against-runtime-hooking
-id: MASTG-BEST-00be
+id: MASTG-BEST-0041
 platform: android
-knowledge: [MASTG-KNOW-0027, MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-00kw, MASTG-KNOW-0033, MASTG-KNOW-0kw2, MASTG-KNOW-0kw3]
+knowledge: [MASTG-KNOW-0027, MASTG-KNOW-0030, MASTG-KNOW-0032, MASTG-KNOW-0118, MASTG-KNOW-0033, MASTG-KNOW-0119, MASTG-KNOW-0120]
 ---
 
 Defending against runtime hooking requires a layered approach that combines several types of security controls:
 
-- **Preventive controls**: Implement root detection (@MASTG-KNOW-0027) and device/app attestation (@MASTG-KNOW-0kw3, @MASTG-KNOW-0kw2) as the first line of defense, since most hooking frameworks (e.g., Frida server, Xposed) require rooted devices.
+- **Preventive controls**: Implement root detection (@MASTG-KNOW-0027) and device/app attestation (@MASTG-KNOW-0120, @MASTG-KNOW-0119) as the first line of defense, since most hooking frameworks (e.g., Frida server, Xposed) require rooted devices.
 - **Detective controls**: Scan for tool signatures using artifact-based detection (@MASTG-KNOW-0030) and verify the app's code and memory integrity at runtime (@MASTG-KNOW-0032) to detect hooking attempts.
 - **Deterrent controls**: Obfuscate detection logic, scatter checks throughout the app, and vary their timing to increase the cost and effort required to bypass protections.
 - **Responsive controls**: Terminate the session, clear sensitive data from memory, or even alert the backend server when a threat is detected.

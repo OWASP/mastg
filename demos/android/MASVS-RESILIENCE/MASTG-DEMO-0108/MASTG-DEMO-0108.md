@@ -1,26 +1,26 @@
 ---
 platform: android
 title: Bypassing Frida Detection in /proc/self/maps to Extract Sensitive Data
-id: MASTG-DEMO-0de3
+id: MASTG-DEMO-0108
 code: [kotlin]
-test: MASTG-TEST-03te
+test: MASTG-TEST-0341
 kind: fail
 ---
 
 ## Sample
 
-This sample uses the same code as @MASTG-DEMO-0de2, which encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The code includes a runtime hook detection mechanism that scans `/proc/self/maps` for Frida-related libraries and terminates the process via `Process.killProcess()` if any are found. This demo demonstrates bypassing the detection by hooking `BufferedReader.readLine()` to hide Frida entries from `/proc/self/maps`, causing `detectHooking()` to return `false` so the termination path is never reached.
+This sample uses the same code as @MASTG-DEMO-0107, which encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. The code includes a runtime hook detection mechanism that scans `/proc/self/maps` for Frida-related libraries and terminates the process via `Process.killProcess()` if any are found. This demo demonstrates bypassing the detection by hooking `BufferedReader.readLine()` to hide Frida entries from `/proc/self/maps`, causing `detectHooking()` to return `false` so the termination path is never reached.
 
 See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime detection mechanisms.
 
 !!! note
     This is a series of correlated tests.
 
-    - @MASTG-DEMO-0de1 is a failed test (failed defence/successful attack) against a data exfiltration attack.
-    - @MASTG-DEMO-0de2 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0de1.
-    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0de2 by using a more "complex" attack.
+    - @MASTG-DEMO-0106 is a failed test (failed defence/successful attack) against a data exfiltration attack.
+    - @MASTG-DEMO-0107 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0106.
+    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0107 by using a more "complex" attack.
 
-{{ ../MASTG-DEMO-0de2/MastgTest.kt }}
+{{ ../MASTG-DEMO-0107/MastgTest.kt }}
 
 ## Steps
 
