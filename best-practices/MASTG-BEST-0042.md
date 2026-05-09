@@ -20,7 +20,7 @@ For URL-based handoff ([custom URL schemes](https://developer.apple.com/document
 
 ## Constrain Shared Container Data
 
-When using [App Groups](https://developer.apple.com/documentation/xcode/configuring-app-groups), store only data that must be shared with extensions or companion apps. Protect files with the [Data Protection API](https://developer.apple.com/documentation/foundation/fileprotectiontype), and remove shared artifacts as soon as they are no longer needed.
+When using [App Groups](https://developer.apple.com/documentation/xcode/configuring-app-groups), store only data that must be shared with extensions or companion apps. Protect files with the [Data Protection API](https://developer.apple.com/documentation/foundation/fileprotectiontype), and remove shared artifacts as soon as they are no longer needed, for example right after the receiving process confirms consumption or after a short server-defined timeout.
 
 ## Coordinate and Audit Shared File Access
 
