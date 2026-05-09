@@ -16,7 +16,7 @@ Avoid placing sensitive values in `UIPasteboard.general` unless there is a stric
 
 ## Prefer Short-Lived Exchange Data
 
-For URL-based handoff ([custom URL schemes](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) and [Universal Links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app)), avoid embedding long-lived secrets in URLs. Use one-time or short-lived references that the receiving side redeems through an authenticated channel.
+For URL-based handoff ([custom URL schemes](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) and [Universal Links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app)), avoid embedding long-lived secrets in URLs. Use one-time or short-lived references. Have the receiving side redeem them through an authenticated channel.
 
 ## Constrain Shared Container Data
 
