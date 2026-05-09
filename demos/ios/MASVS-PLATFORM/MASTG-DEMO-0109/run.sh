@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PASTEBOARD_PATTERN="UIPasteboard\\.general|setItems\\("
+PASTEBOARD_PATTERN="UIPasteboard\\.general(\\.string|\\.setItems\\()"
 SHARED_CONTAINER_PATTERN="containerURL\\(forSecurityApplicationGroupIdentifier"
 FILE_COORDINATION_PATTERN="NSFileCoordinator|coordinate\\(writingItemAt"
 
