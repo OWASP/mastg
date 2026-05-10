@@ -141,6 +141,8 @@ Valid values:
 - `MAS-ASSET-UD-R` — User Data at Rest
 - `MAS-ASSET-UD-U` — User Data in Use
 - `MAS-ASSET-UD-T` — User Data in Transit
+- `MAS-ASSET-IP` — Intellectual Property Data in any state (use when the test applies to IP data regardless of whether it is at rest, in use, or in transit)
+- `MAS-ASSET-UD` — User Data in any state (use when the test applies to user data regardless of whether it is at rest, in use, or in transit)
 
 Example (single asset):
 
