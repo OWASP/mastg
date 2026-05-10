@@ -5,6 +5,7 @@ id: MASTG-TEST-0236
 type: [dynamic]
 weakness: MASWE-0050
 profiles: [L1, L2]
+assets: [MAS-ASSET-IP-T, MAS-ASSET-UD-T]
 ---
 
 ## Overview

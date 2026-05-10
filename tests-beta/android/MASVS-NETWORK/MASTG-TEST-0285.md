@@ -7,6 +7,7 @@ deprecated_since: 24
 weakness: MASWE-0052
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0014]
+assets: [MAS-ASSET-IP-T, MAS-ASSET-UD-T]
 ---
 
 ## Overview

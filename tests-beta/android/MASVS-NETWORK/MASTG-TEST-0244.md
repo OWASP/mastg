@@ -6,6 +6,7 @@ type: [network]
 weakness: MASWE-0047
 profiles: [L2]
 knowledge: [MASTG-KNOW-0015]
+assets: [MAS-ASSET-IP-T, MAS-ASSET-UD-T]
 ---
 
 ## Overview
