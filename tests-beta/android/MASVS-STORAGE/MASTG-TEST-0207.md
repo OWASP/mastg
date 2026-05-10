@@ -8,6 +8,7 @@ prerequisites:
 weakness: MASWE-0006
 profiles: [L2]
 knowledge: [MASTG-KNOW-0041]
+assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
 ---
 
 ## Overview
