@@ -8,7 +8,7 @@ hosts: [macOS, linux, windows]
 **xpcspy** is a Frida-based tool designed for **bidirectional XPC message interception** on iOS and macOS targets. It hooks into the XPC runtime to capture messages as they are sent and received, printing them to the console in a human-readable form. Unlike similar tools like XPoCe, xpcspy intercepts both incoming and outgoing messages and can parse XPC dictionary values that contain binary property list data, including `bplist00`, `bplist16`, and experimental support for `bplist15` and `bplist17`.
 
 !!! note "Jailbreak required"
-    xpcspy normally requires a jailbroken device with `frida-server` running when used against iOS system processes and daemons. Frida Gadget injection into a single app is not enough to inspect arbitrary system daemons or system-wide XPC traffic.
+    xpcspy normally requires a jailbroken device with `frida-server` running when used against iOS system processes and daemons. Injecting Frida Gadget into a single app is not enough to inspect arbitrary system daemons or system-wide XPC traffic. On macOS, SIP must be disabled first.
 
 ## Installation
 
