@@ -64,12 +64,12 @@ The level of scrutiny appropriate for each state may depend on the data's import
 
 The MAS-ASSET classification combines the two data categories (Intellectual Property and User Data) with the three data states (at rest, in use, in transit) to produce six asset types. Each MAS Test targets one or more of these asset types, making it clear exactly **what kind of data** and **in which state** a test is designed to protect.
 
-|                           | Data at rest    | Data in use    | Data in transit |
-|---------------------------|-----------------|----------------|-----------------|
-| **Intellectual Property** | MAS-ASSET-IP-R  | MAS-ASSET-IP-U | MAS-ASSET-IP-T  |
-| **User Data**             | MAS-ASSET-UD-R  | MAS-ASSET-UD-U | MAS-ASSET-UD-T  |
+|                           | Any state      | Data at rest    | Data in use    | Data in transit |
+|---------------------------|----------------|-----------------|----------------|-----------------|
+| **Intellectual Property** | MAS-ASSET-IP   | MAS-ASSET-IP-R  | MAS-ASSET-IP-U | MAS-ASSET-IP-T  |
+| **User Data**             | MAS-ASSET-UD   | MAS-ASSET-UD-R  | MAS-ASSET-UD-U | MAS-ASSET-UD-T  |
 
-When a test applies to a data category regardless of state, use the category-level shorthands **MAS-ASSET-IP** (Intellectual Property in any state) or **MAS-ASSET-UD** (User Data in any state) instead of listing all three state-specific variants individually.
+State-specific asset types (e.g., `MAS-ASSET-IP-R`) apply to tests that target data in a particular state. Category-level shorthands (`MAS-ASSET-IP`, `MAS-ASSET-UD`) apply to tests that cover a data category across all states — for example, platform-level or code-level security properties that affect data at rest, in use, and in transit alike.
 
 ## Relationship to MAS Testing Profiles
 
