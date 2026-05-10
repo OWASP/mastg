@@ -69,6 +69,6 @@ The MAS-ASSET classification combines the two data categories (Intellectual Prop
 | **Intellectual Property** | MAS-ASSET-IP-R  | MAS-ASSET-IP-U | MAS-ASSET-IP-T  |
 | **User Data**             | MAS-ASSET-UD-R  | MAS-ASSET-UD-U | MAS-ASSET-UD-T  |
 
-## Difference between MAS-ASSET Matrix and MAS Testing Profiles
+## Relationship to MAS Testing Profiles
 
 Close to data classification are MAS Testing Profiles, which outline MAS Tests that evaluate applications. MAS Testing Profiles are designed to identify the sequence of tests to assess an application's security. MAS Asset classification is used to identify which data a test assesses.
