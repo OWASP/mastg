@@ -22,7 +22,7 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 
 ## Observation
 
-The output contains a list of locations where `checkServerTrusted(...)` is used.
+The output should contain a list of locations where `checkServerTrusted(...)` is used.
 
 ## Evaluation
 

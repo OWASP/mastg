@@ -26,7 +26,7 @@ Since Android 9 (API level 28) cleartext HTTP traffic is blocked by default (tha
 
 ## Observation
 
-The output contains a list of configurations potentially allowing for cleartext traffic.
+The output should contain a list of configurations potentially allowing for cleartext traffic.
 
 ## Evaluation
 

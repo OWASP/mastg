@@ -19,7 +19,7 @@ The test evaluates whether an iOS application is configured to allow debugging. 
 
 ## Observation
 
-The output contains the value of the `get-task-allow` entitlement.
+The output should contain the value of the `get-task-allow` entitlement.
 
 ## Evaluation
 
