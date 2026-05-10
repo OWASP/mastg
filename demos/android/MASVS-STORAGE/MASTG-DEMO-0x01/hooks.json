@@ -1,0 +1,48 @@
+{
+  "category": "STORAGE",
+  "hooks": [
+    {
+      "class": "android.content.ContextWrapper",
+      "methods": [
+        "openFileOutput"
+      ]
+    },
+    {
+      "class": "java.io.FileOutputStream",
+      "methods": [
+        "write"
+      ],
+      "filterEventsByStacktrace": ["org.owasp.mastestapp"]
+    },
+    {
+      "class": "javax.crypto.Cipher",
+      "methods": [
+        "getInstance",
+        "doFinal",
+        "init",
+        "update"
+      ]
+    },
+    {
+      "class": "java.security.KeyStore",
+      "methods": [
+        "setEntry",
+        "getEntry"
+      ]
+    },
+    {
+      "class": "javax.crypto.KeyGenerator",
+      "methods": [
+        "getInstance",
+        "generateKey"
+      ]
+    },
+    {
+      "class": "android.util.Base64",
+      "methods": [
+        "encodeToString",
+        "decode"
+      ]
+    }
+  ]
+}
