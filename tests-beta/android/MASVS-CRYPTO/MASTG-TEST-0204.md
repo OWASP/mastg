@@ -10,6 +10,7 @@ prerequisites:
 weakness: MASWE-0027
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0013]
+assets: [MAS-ASSET-IP, MAS-ASSET-UD]
 ---
 
 ## Overview
