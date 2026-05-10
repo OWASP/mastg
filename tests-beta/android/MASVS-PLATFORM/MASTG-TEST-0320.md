@@ -9,7 +9,7 @@ best-practices: [MASTG-BEST-0028]
 knowledge: [MASTG-KNOW-0018]
 prerequisites:
 - identify-sensitive-data
-assets: [MAS-ASSET-4, MAS-ASSET-5]
+assets: [MAS-ASSET-UD-R, MAS-ASSET-UD-U]
 ---
 
 ## Overview

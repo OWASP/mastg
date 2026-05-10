@@ -8,7 +8,7 @@ To protect sensitive data effectively in mobile applications, an organization ne
 
 ### Data classification policy
 
-OWASP MAS does not address the value of data to an organization. Not all information requires the same level of protection. However, it's the organization's responsibility to determine which data is sensitive. A proper classification policy may define the value of sensitive data by type (next section).
+OWASP MAS does not address the value of data to an organization. Additionally, not all information requires the same level of protection. However, it's the organization's responsibility to determine which data is sensitive. A proper classification policy may define the value of sensitive data by type (next section).
 
 Additionally, classifications of sensitive information vary by industry, sector, and country. For example, two commonly used data classification policies are:
 
@@ -64,10 +64,11 @@ The level of scrutiny appropriate for each state may depend on the data's import
 
 The MAS-ASSET classification combines the two data categories (Intellectual Property and User Data) with the three data states (at rest, in use, in transit) to produce six asset types. Each MAS Test targets one or more of these asset types, making it clear exactly what kind of data and in which state a test is designed to protect.
 
-|                           | Data at rest | Data in use | Data in transit |
-|---------------------------|--------------|-------------|-----------------|
-| **Intellectual Property** | MAS-ASSET-1  | MAS-ASSET-2 | MAS-ASSET-3     |
-| **User Data**             | MAS-ASSET-4  | MAS-ASSET-5 | MAS-ASSET-6     |
+|                           | Data at rest    | Data in use    | Data in transit |
+|---------------------------|-----------------|----------------|-----------------|
+| **Intellectual Property** | MAS-ASSET-IP-R  | MAS-ASSET-IP-U | MAS-ASSET-IP-T  |
+| **User Data**             | MAS-ASSET-UD-R  | MAS-ASSET-UD-U | MAS-ASSET-UD-T  |
 
-> Note
-    Close to data classification are MAS Testing Profiles, which outline MAS Tests that evaluate applications. MAS Testing Profiles are designed to identify the sequence of tests to assess an application's security. MAS Asset classification is used to identify which data a test assesses.
+## Difference between MAS-ASSET Matrix and MAS Testing Profiles
+
+Close to data classification are MAS Testing Profiles, which outline MAS Tests that evaluate applications. MAS Testing Profiles are designed to identify the sequence of tests to assess an application's security. MAS Asset classification is used to identify which data a test assesses.

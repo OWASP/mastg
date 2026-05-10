@@ -1,9 +1,9 @@
 ---
-id: MAS-ASSET-1
+id: MAS-ASSET-IP-R
 title: Intellectual Property Data at Rest
 ---
 
-## MAS-ASSET-1: Intellectual Property Data at Rest
+## MAS-ASSET-IP-R: Intellectual Property Data at Rest
 
 This asset category covers intellectual property data that is stored persistently on a device. Intellectual property data at rest includes any technical or proprietary information the application stores in files, databases, or other data stores.
 
