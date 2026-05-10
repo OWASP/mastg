@@ -6,7 +6,7 @@ platform: android
 knowledge: [MASTG-KNOW-0041]
 ---
 
-Use [`EncryptedFile`](https://developer.android.com/reference/androidx/security/crypto/EncryptedFile) from the [Jetpack Security library](https://developer.android.com/topic/security/data) when writing sensitive data to internal storage. `EncryptedFile` transparently encrypts file contents using [AES-256-GCM-HKDF-4KB](https://developers.google.com/tink/streaming-aead/aes_gcm_hkdf_streaming) before writing them to disk, ensuring that the data is never stored in plaintext.
+Use [`EncryptedFile`](https://developer.android.com/reference/androidx/security/crypto/EncryptedFile) from the [Jetpack Security library](https://developer.android.com/topic/security/data) when writing sensitive data to internal storage. `EncryptedFile` transparently encrypts file contents using [AES-256-GCM-HKDF-4KB](https://developers.google.com/tink/streaming-aead/aes_gcm_hkdf_streaming) before writing them to disk, providing transparent protection at rest.
 
 ```kotlin
 val masterKey = MasterKey.Builder(context)

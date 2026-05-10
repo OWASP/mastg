@@ -63,7 +63,7 @@ public final class MastgTest {
         try {
             String result = "";
 
-            // FAIL: Unencrypted password stored using openFileOutput
+            // FAIL: [MASTG-TEST-0x01] The app stores the password unencrypted using openFileOutput, exposing it to attackers with device access.
             FileOutputStream fos1 = this.context.openFileOutput("secret_token.txt", Context.MODE_PRIVATE);
             FileOutputStream output1 = fos1;
             byte[] bytes1 = this.password.getBytes(Charsets.UTF_8);
@@ -73,7 +73,7 @@ public final class MastgTest {
             CloseableKt.closeFinally(fos1, null);
             result += "[FAIL]: Stored unencrypted password in secret_token.txt using openFileOutput.\n\n";
 
-            // FAIL: Unencrypted API key stored using FileOutputStream
+            // FAIL: [MASTG-TEST-0x01] The app stores the API key unencrypted using FileOutputStream, making it readable by attackers with sandbox access.
             File apiKeyFile = new File(this.context.getFilesDir(), "api_key.txt");
             FileOutputStream fos2 = new FileOutputStream(apiKeyFile);
             FileOutputStream output2 = fos2;
@@ -84,7 +84,7 @@ public final class MastgTest {
             CloseableKt.closeFinally(fos2, null);
             result += "[FAIL]: Stored unencrypted API key in api_key.txt using FileOutputStream.\n\n";
 
-            // OK: Encrypted API key stored using FileOutputStream + AES-GCM
+            // PASS: [MASTG-TEST-0x01] The app encrypts the API key with AES-GCM using a KeyStore-backed key before writing, preventing plaintext exposure.
             File encryptedApiKeyFile = new File(this.context.getFilesDir(), "encrypted_api_key.bin");
             FileOutputStream fos3 = new FileOutputStream(encryptedApiKeyFile);
             FileOutputStream output3 = fos3;

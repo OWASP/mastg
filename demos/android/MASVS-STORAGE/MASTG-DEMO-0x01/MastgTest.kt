@@ -57,14 +57,14 @@ class MastgTest(private val context: Context) {
         return try {
             var result = ""
 
-            // FAIL: [MASTG-TEST-0x01] Unencrypted password stored using openFileOutput
+            // FAIL: [MASTG-TEST-0x01] The app stores the password unencrypted using openFileOutput, exposing it to attackers with device access.
             context.openFileOutput("secret_token.txt", Context.MODE_PRIVATE).use { output ->
                 output.write(password.toByteArray())
                 Log.d("FileAPIs", "Written unencrypted password to secret_token.txt")
             }
             result += "[FAIL]: Stored unencrypted password in secret_token.txt using openFileOutput.\n\n"
 
-            // FAIL: [MASTG-TEST-0x01] Unencrypted API key stored using FileOutputStream
+            // FAIL: [MASTG-TEST-0x01] The app stores the API key unencrypted using FileOutputStream, making it readable by attackers with sandbox access.
             val apiKeyFile = File(context.filesDir, "api_key.txt")
             FileOutputStream(apiKeyFile).use { output ->
                 output.write(apiKey.toByteArray())
@@ -72,7 +72,7 @@ class MastgTest(private val context: Context) {
             }
             result += "[FAIL]: Stored unencrypted API key in api_key.txt using FileOutputStream.\n\n"
 
-            // OK: [MASTG-TEST-0x01] Encrypted API key stored using FileOutputStream + manual AES-GCM encryption
+            // PASS: [MASTG-TEST-0x01] The app encrypts the API key with AES-GCM using a KeyStore-backed key before writing, preventing plaintext exposure.
             val encryptedApiKeyFile = File(context.filesDir, "encrypted_api_key.bin")
             FileOutputStream(encryptedApiKeyFile).use { output ->
                 val encryptedApiKey = encrypt(apiKey)
