@@ -6,6 +6,7 @@ type: [static]
 weakness: MASWE-0104
 profiles: [R]
 knowledge: [MASTG-KNOW-0003]
+assets: [MAS-ASSET-IP-R]
 ---
 
 ## Overview

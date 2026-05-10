@@ -6,6 +6,7 @@ type: [static]
 weakness: MASWE-0094
 best-practices: []
 profiles: [R]
+assets: [MAS-ASSET-IP-U]
 ---
 
 ## Overview

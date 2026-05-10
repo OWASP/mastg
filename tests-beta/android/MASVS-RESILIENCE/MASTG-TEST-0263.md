@@ -6,6 +6,7 @@ apis: [StrictMode]
 type: [dynamic]
 weakness: MASWE-0094
 profiles: [R]
+assets: [MAS-ASSET-IP-U]
 ---
 
 ## Overview
