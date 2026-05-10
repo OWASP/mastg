@@ -17,16 +17,16 @@
           [MASVS-STORAGE] Verify that any sensitive data written via openFileOutput is encrypted before
           storage                                                                                      
                                                                                                        
-           32┆ FileOutputStream fos1 = this.context.openFileOutput("secret_token.txt",
-               Context.MODE_PRIVATE);                                                 
+           32┆ FileOutputStream tokenOutputStream = this.context.openFileOutput("secret_token.txt",
+               Context.MODE_PRIVATE);                                                              
    
     ❯❱ rules.mastg-android-unencrypted-internal-file-storage-fileoutputstream
           ❰❰ Blocking ❱❱
           [MASVS-STORAGE] Verify that any sensitive data written via FileOutputStream to internal storage is
           encrypted before storage                                                                          
                                                                                                             
-           41┆ FileOutputStream fos2 = new FileOutputStream(new File(this.context.getFilesDir(),
-               "api_key.txt"));                                                                 
+           41┆ FileOutputStream apiKeyOutputStream = new FileOutputStream(new
+               File(this.context.getFilesDir(), "api_key.txt"));             
 
                 
                 

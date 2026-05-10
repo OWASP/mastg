@@ -29,21 +29,21 @@ public final class MastgTest {
             String result = "";
 
             // FAIL: [MASTG-TEST-0x01] The app stores the password unencrypted using openFileOutput, exposing it to attackers with device access.
-            FileOutputStream fos1 = this.context.openFileOutput("secret_token.txt", Context.MODE_PRIVATE);
-            byte[] bytes1 = this.password.getBytes(Charsets.UTF_8);
-            Intrinsics.checkNotNullExpressionValue(bytes1, "this as java.lang.String).getBytes(charset)");
-            fos1.write(bytes1);
+            FileOutputStream tokenOutputStream = this.context.openFileOutput("secret_token.txt", Context.MODE_PRIVATE);
+            byte[] passwordBytes = this.password.getBytes(Charsets.UTF_8);
+            Intrinsics.checkNotNullExpressionValue(passwordBytes, "this as java.lang.String).getBytes(charset)");
+            tokenOutputStream.write(passwordBytes);
             Log.d("FileAPIs", "Written unencrypted password to secret_token.txt");
-            CloseableKt.closeFinally(fos1, null);
+            CloseableKt.closeFinally(tokenOutputStream, null);
             result += "[FAIL]: Stored unencrypted password in secret_token.txt using openFileOutput.\n\n";
 
             // FAIL: [MASTG-TEST-0x01] The app stores the API key unencrypted using FileOutputStream, making it readable by attackers with sandbox access.
-            FileOutputStream fos2 = new FileOutputStream(new File(this.context.getFilesDir(), "api_key.txt"));
-            byte[] bytes2 = this.apiKey.getBytes(Charsets.UTF_8);
-            Intrinsics.checkNotNullExpressionValue(bytes2, "this as java.lang.String).getBytes(charset)");
-            fos2.write(bytes2);
+            FileOutputStream apiKeyOutputStream = new FileOutputStream(new File(this.context.getFilesDir(), "api_key.txt"));
+            byte[] apiKeyBytes = this.apiKey.getBytes(Charsets.UTF_8);
+            Intrinsics.checkNotNullExpressionValue(apiKeyBytes, "this as java.lang.String).getBytes(charset)");
+            apiKeyOutputStream.write(apiKeyBytes);
             Log.d("FileAPIs", "Written unencrypted API key to api_key.txt");
-            CloseableKt.closeFinally(fos2, null);
+            CloseableKt.closeFinally(apiKeyOutputStream, null);
             result += "[FAIL]: Stored unencrypted API key in api_key.txt using FileOutputStream.\n\n";
 
             return result;
