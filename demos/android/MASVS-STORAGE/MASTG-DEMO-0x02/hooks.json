@@ -19,8 +19,7 @@
       "methods": [
         "getInstance",
         "doFinal",
-        "init",
-        "update"
+        "init"
       ]
     },
     {

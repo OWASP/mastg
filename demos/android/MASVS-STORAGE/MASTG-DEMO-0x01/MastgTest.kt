@@ -1,57 +1,17 @@
 package org.owasp.mastestapp
 
-// SUMMARY: This sample demonstrates storing sensitive data unencrypted and encrypted using the Java File APIs (openFileOutput and FileOutputStream).
+// SUMMARY: This sample demonstrates storing sensitive data unencrypted to the app's internal storage using the Java File APIs (openFileOutput and FileOutputStream).
 
 import android.content.Context
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
-import android.util.Base64
 import android.util.Log
-import androidx.security.crypto.EncryptedFile
-import androidx.security.crypto.MasterKey
 import java.io.File
 import java.io.FileOutputStream
-import java.security.KeyStore
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
+import java.io.IOException
 
 class MastgTest(private val context: Context) {
 
     private val password = "MyS3cr3tP4ssw0rd"
     private val apiKey = "AKIAABCDEFGHIJKLMNOP"
-    private val keyAlias = "mastgFileKey"
-
-    private fun getOrCreateSecretKey(): SecretKey {
-        val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-        return if (keyStore.containsAlias(keyAlias)) {
-            (keyStore.getEntry(keyAlias, null) as KeyStore.SecretKeyEntry).secretKey
-        } else {
-            KeyGenerator.getInstance(
-                KeyProperties.KEY_ALGORITHM_AES,
-                "AndroidKeyStore"
-            ).apply {
-                init(
-                    KeyGenParameterSpec.Builder(
-                        keyAlias,
-                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                    )
-                        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                        .build()
-                )
-            }.generateKey()
-        }
-    }
-
-    private fun encrypt(plainText: String): String {
-        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-        cipher.init(Cipher.ENCRYPT_MODE, getOrCreateSecretKey())
-        val iv = cipher.iv
-        val encryptedBytes = cipher.doFinal(plainText.toByteArray(Charsets.UTF_8))
-        val combined = iv + encryptedBytes
-        return Base64.encodeToString(combined, Base64.DEFAULT)
-    }
 
     fun mastgTest(): String {
         return try {
@@ -72,17 +32,8 @@ class MastgTest(private val context: Context) {
             }
             result += "[FAIL]: Stored unencrypted API key in api_key.txt using FileOutputStream.\n\n"
 
-            // PASS: [MASTG-TEST-0x01] The app encrypts the API key with AES-GCM using a KeyStore-backed key before writing, preventing plaintext exposure.
-            val encryptedApiKeyFile = File(context.filesDir, "encrypted_api_key.bin")
-            FileOutputStream(encryptedApiKeyFile).use { output ->
-                val encryptedApiKey = encrypt(apiKey)
-                output.write(encryptedApiKey.toByteArray())
-                Log.d("FileAPIs", "Written encrypted API key to encrypted_api_key.bin")
-            }
-            result += "[OK]: Stored encrypted API key in encrypted_api_key.bin using FileOutputStream with AES-GCM.\n\n"
-
             result
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             "Error during MastgTest: ${e.message ?: "Unknown error"}"
         }
     }

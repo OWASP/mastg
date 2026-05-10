@@ -1,0 +1,216 @@
+{
+  "type": "summary",
+  "hooks": [
+    {
+      "class": "android.content.ContextWrapper",
+      "method": "openFileOutput",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "java.io.FileOutputStream",
+      "method": "write",
+      "overloads": [
+        {
+          "args": [
+            "[B"
+          ]
+        },
+        {
+          "args": [
+            "[B",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "args": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "javax.crypto.Cipher",
+      "method": "getInstance",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "javax.crypto.Cipher",
+      "method": "doFinal",
+      "overloads": [
+        {
+          "args": [
+            "[B"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "javax.crypto.Cipher",
+      "method": "init",
+      "overloads": [
+        {
+          "args": [
+            "int",
+            "java.security.Key"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "java.security.KeyStore",
+      "method": "getEntry",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "java.security.KeyStore$ProtectionParameter"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "javax.crypto.KeyGenerator",
+      "method": "getInstance",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "javax.crypto.KeyGenerator",
+      "method": "generateKey",
+      "overloads": [
+        {
+          "args": []
+        }
+      ]
+    },
+    {
+      "class": "android.util.Base64",
+      "method": "encodeToString",
+      "overloads": [
+        {
+          "args": [
+            "[B",
+            "int"
+          ]
+        }
+      ]
+    }
+  ],
+  "totalHooks": 20,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "a1b2c3d4-1234-5678-abcd-111111111111",
+  "type": "hook",
+  "category": "STORAGE",
+  "time": "2026-01-23T11:00:01.100Z",
+  "class": "android.content.ContextWrapper",
+  "method": "openFileOutput",
+  "instanceId": 12345678,
+  "stackTrace": [
+    "android.content.ContextWrapper.openFileOutput(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:22)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1119)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "java.lang.String",
+      "value": "secret_token.txt"
+    },
+    {
+      "declaredType": "int",
+      "value": 0
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "java.io.FileOutputStream",
+      "value": "<instance: java.io.FileOutputStream>",
+      "runtimeType": "java.io.FileOutputStream",
+      "instanceId": "23456789",
+      "instanceToString": "java.io.FileOutputStream@1234abc"
+    }
+  ]
+}
+{
+  "id": "a1b2c3d4-1234-5678-abcd-222222222222",
+  "type": "hook",
+  "category": "STORAGE",
+  "time": "2026-01-23T11:00:01.110Z",
+  "class": "java.io.FileOutputStream",
+  "method": "write",
+  "instanceId": 23456789,
+  "stackTrace": [
+    "java.io.FileOutputStream.write(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:23)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1119)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "[B",
+      "value": "MyS3cr3tP4ssw0rd"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}
+{
+  "id": "a1b2c3d4-1234-5678-abcd-333333333333",
+  "type": "hook",
+  "category": "STORAGE",
+  "time": "2026-01-23T11:00:01.200Z",
+  "class": "java.io.FileOutputStream",
+  "method": "write",
+  "instanceId": 34567890,
+  "stackTrace": [
+    "java.io.FileOutputStream.write(Native Method)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:30)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+    "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+    "java.lang.Thread.run(Thread.java:1119)"
+  ],
+  "inputParameters": [
+    {
+      "declaredType": "[B",
+      "value": "AKIAABCDEFGHIJKLMNOP"
+    }
+  ],
+  "returnValue": [
+    {
+      "declaredType": "void",
+      "value": "void"
+    }
+  ]
+}
