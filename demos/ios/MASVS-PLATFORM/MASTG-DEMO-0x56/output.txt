@@ -1,5 +1,0 @@
-11:        UIPasteboard.general.string = accessToken
-14:        UIPasteboard.general.setItems([["public.utf8-plain-text": accessToken]])
-16:        if let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.org.owasp.mastg.demo") {
-18:            let coordinator = NSFileCoordinator()
-20:            coordinator.coordinate(writingItemAt: sharedFile, options: [], error: nil) { url in

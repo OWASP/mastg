@@ -10,8 +10,8 @@ masvs_v1_levels:
 - L2
 profiles: [L1, L2]
 status: deprecated
-covered_by: [MASTG-TEST-0x56]
-deprecation_note: New version available in MASTG V2
+covered_by: []
+deprecation_note: New version available in MASTG V2. See @MASTG-KNOW-0104 and related knowledge for more details on IPC mechanisms and related tests.
 ---
 
 ## Overview
