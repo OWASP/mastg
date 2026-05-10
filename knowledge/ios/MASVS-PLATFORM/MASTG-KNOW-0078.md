@@ -4,36 +4,38 @@ platform: ios
 title: Inter-Process Communication (IPC)
 ---
 
-iOS does not provide a general purpose mechanism for arbitrary third-party apps to communicate directly. Instead, apps exchange data through platform-mediated channels, user actions, shared entitlements, or network interfaces.
+iOS does not provide a general-purpose mechanism for arbitrary third-party apps to communicate directly. Instead, apps exchange data through platform-mediated channels, user actions, shared entitlements, or network interfaces.
 
-From a security perspective, each IPC mechanism should be assessed by asking who can send data, who can receive data, whether user interaction is required, how long the data remains available, and whether the channel is restricted by an entitlement or app group.
+Each [IPC mechanism](https://developer.apple.com/forums/tags/inter-process-communication) can be characterized by who can send data, who can receive data, whether user interaction is required, how long the data remains available, and whether the channel is restricted by an entitlement or app group.
 
 ## User-mediated Channels
 
-- @MASTG-KNOW-0083: for clipboard style data exchange between apps. Treat pasteboard data as exposed to other apps unless access is limited with suitable options, such as local only or expiration.
+- @MASTG-KNOW-0083: clipboard-style data exchange between apps.
 
-- @MASTG-KNOW-0079 and @MASTG-KNOW-0080, for launching an app and passing small amounts of routing data. Universal Links are generally safer for web to app routing because they are bound to an associated domain, while custom URL schemes can conflict between apps.
+- @MASTG-KNOW-0079 and @MASTG-KNOW-0080: for launching an app and passing small amounts of routing data. Universal Links are generally safer for web-to-app routing because they are bound to an associated domain, while custom URL schemes can conflict between apps.
 
-- @MASTG-KNOW-0081: Share sheets for explicit user-initiated sharing of text, files, URLs, and other content.
+- @MASTG-KNOW-0081: share sheets for explicit user-initiated sharing of text, files, URLs, and other content.
 
-Document picker, document interaction, and open in place, for exchanging files selected by the user.
+- @MASTG-KNOW-0x01: document picker, document interaction, and open in place, for exchanging files selected by the user.
 
-Handoff, App Intents, and Siri Shortcuts, for system-mediated continuation, automation, or intent-based data exchange.
+- @MASTG-KNOW-0x02, @MASTG-KNOW-0x03, and @MASTG-KNOW-0x08: Handoff, App Intents, and Siri Shortcuts, for system-mediated continuation, automation, or intent-based data exchange.
 
 ## Entitlement-scoped Channels
 
-App Groups, for sharing files, UserDefaults, databases, preferences, or other data between apps and extensions from the same developer team.
+- @MASTG-KNOW-0x04: App Groups, for sharing files, `UserDefaults`, databases, preferences, or other data between apps and extensions from the same developer team.
 
-Keychain access groups, for sharing keychain items between apps from the same developer team.
+- @MASTG-KNOW-0x05: Keychain access groups, for sharing keychain items between apps from the same developer team.
 
-- @MASTG-KNOW-0082: for controlled interaction between a host app, an extension, and the containing app. Shared storage is commonly implemented with App Groups.
+- @MASTG-KNOW-0082: app extensions, for controlled interaction between a host app and an extension. The extension and its containing app can share data through App Groups.
 
-File coordination APIs, for coordinating safe concurrent access to shared files, especially in App Group containers.
+- @MASTG-KNOW-0x06: file coordination APIs, for coordinating concurrent access to shared files, especially in App Group containers. File coordination supports shared file based IPC but is not a data exchange channel by itself.
 
 ## Network-based Channels
 
-Apps may also communicate through local or remote networking, such as sockets, HTTP, Bonjour, or backend services. These are not iOS specific IPC mechanisms and require normal transport security, authentication, authorization, and input validation.
+- @MASTG-KNOW-0x07: Bonjour, for zero-configuration local network service discovery. Actual communication occurs over the network connection established after discovery.
 
-## Limited or System-focused Mechanisms
+Apps may also communicate through sockets, HTTP, or backend services. These aren't iOS-specific IPC mechanisms and require normal transport security, authentication, authorization, and input validation.
 
-@MASTG-KNOW-0104 including XPC, Mach ports, and CFMessagePort are used by Apple frameworks and system services, and in some extension or framework-mediated designs. They are not general-purpose app-to-app IPC options for normal iOS App Store apps but can be useful for security testing in certain contexts, such as analyzing app extensions, frameworks, or custom IPC implementations.
+## Low-Level System IPC Mechanisms
+
+@MASTG-KNOW-0104 covers XPC Services, Mach ports, and CFMessagePort. These mechanisms are used internally by Apple frameworks, system daemons, and some extension-based architectures. They aren't designed for general app-to-app communication with unrelated third-party apps; the iOS sandbox prevents that. They're rarely used directly in typical App Store app development but are relevant for security testing when analyzing app extensions, system frameworks, or custom IPC implementations.
