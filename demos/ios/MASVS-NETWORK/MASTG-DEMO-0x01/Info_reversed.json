@@ -23,6 +23,10 @@
   ],
   "NSAppTransportSecurity": {
     "NSExceptionDomains": {
+      "static-rsa.badssl.com": {
+        "NSExceptionMinimumTLSVersion": "TLSv1.2",
+        "NSExceptionRequiresForwardSecrecy": false
+      },
       "tls-v1-0.badssl.com": {
         "NSExceptionMinimumTLSVersion": "TLSv1.0",
         "NSIncludesSubdomains": true

@@ -48,6 +48,13 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>static-rsa.badssl.com</key>
+			<dict>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
 			<key>tls-v1-0.badssl.com</key>
 			<dict>
 				<key>NSExceptionMinimumTLSVersion</key>

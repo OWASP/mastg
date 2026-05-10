@@ -7,18 +7,20 @@
 			<key>NSExceptionDomains</key>
 			<dict>
 
-				<key>example.com</key>
+				<key>static-rsa.badssl.com</key>
 				<dict>
 					<key>NSExceptionMinimumTLSVersion</key>
-					<string>TLSv1.1</string>
-					<key>NSIncludesSubdomains</key>
-					<true/>
-				</dict>
-
-				<key>legacy.example.com</key>
-				<dict>
+					<string>TLSv1.2</string>
 					<key>NSExceptionRequiresForwardSecrecy</key>
 					<false/>
+				</dict>
+
+				<key>tls-v1-0.badssl.com</key>
+				<dict>
+					<key>NSExceptionMinimumTLSVersion</key>
+					<string>TLSv1.0</string>
+					<key>NSIncludesSubdomains</key>
+					<true/>
 				</dict>
 
 			</dict>
