@@ -33,9 +33,7 @@ The output should contain any TLS policy exceptions configured under `NSAppTrans
 
 The test case fails if **any** of the following conditions are met:
 
-1. Any domain sets `NSExceptionMinimumTLSVersion` to `TLSv1.0` or `TLSv1.1`.
-2. Any domain sets `NSExceptionRequiresForwardSecrecy` to `false` (or `NO`).
+1. Any domain, IP address, or IP address range sets `NSExceptionMinimumTLSVersion` to `TLSv1.0` or `TLSv1.1`.
+2. Any domain, IP address, or IP address range sets `NSExceptionRequiresForwardSecrecy` to `false`, `NO`, or `0`.
 
-**Context Considerations:**
-
-Inspect the justification for each exception. An exception may be acceptable if the domain is a known third-party service that does not yet support TLS 1.2 or forward secrecy, and the exception is narrowly scoped to that specific domain. However, Apple [recommends preferring server-side fixes](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Configure-Exceptions-Only-When-Needed-Prefer-Server-Fixes) over ATS exceptions whenever possible.
+If the app owner provides [justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) evidence, include it in the report as contextual information. The finding remains valid unless the evidence demonstrates that the exception is narrowly scoped, technically necessary, does not affect sensitive traffic, and has a defined remediation path.
