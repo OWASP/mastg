@@ -11,11 +11,11 @@ knowledge: [MASTG-KNOW-0071, MASTG-KNOW-0073]
 
 ## Overview
 
-`URLSessionConfiguration` allows apps to customize TLS behavior for individual `URLSession` instances. The [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion) property (or the deprecated [`tlsMinimumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocol)) controls the minimum TLS version for a session. Setting it to `tls_protocol_version_TLSv10` or `tls_protocol_version_TLSv11` allows connections using deprecated TLS versions, even when ATS would otherwise enforce TLS 1.2 as the minimum.
+`URLSessionConfiguration` allows apps to customize TLS behavior for individual `URLSession` instances. The [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion) property (or the deprecated [`tlsMinimumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocol)) controls the minimum TLS version for a session.
 
-If an app overrides these settings with a weaker value, it lowers the effective TLS protection for all connections using that session configuration, regardless of the ATS policy configured in `Info.plist`.
+Setting this property to `tls_protocol_version_TLSv10` or `tls_protocol_version_TLSv11` is a bad practice and should be flagged, even though ATS still applies to the URL Loading System and may block the connection at runtime unless a matching `Info.plist` exception is also present. Unlike Network.framework, `URLSession` does not bypass ATS: the two layers are independent, and setting a weak TLS floor in code doesn't override ATS enforcement.
 
-Note that `tlsMinimumSupportedProtocol` is deprecated in favor of `tlsMinimumSupportedProtocolVersion`. Regardless, using either deprecated or newer API to set an insecure minimum TLS version weakens the connection security.
+Note that `tlsMinimumSupportedProtocol` is deprecated in favor of `tlsMinimumSupportedProtocolVersion`. Using either to set an insecure minimum TLS version weakens the intended TLS protection for that session.
 
 ## Steps
 

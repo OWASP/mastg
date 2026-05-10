@@ -29,4 +29,9 @@ The output should contain any calls to TLS protocol version configuration functi
 
 ## Evaluation
 
-The test case fails if the app calls `sec_protocol_options_set_min_tls_protocol_version` with a value of `tls_protocol_version_TLSv10` (`0x0301`) or `tls_protocol_version_TLSv11` (`0x0302`), allowing connections that use insecure TLS versions outside of ATS enforcement.
+The test case fails if the app calls:
+
+- `sec_protocol_options_set_min_tls_protocol_version` with a value of `tls_protocol_version_TLSv10` (`0x0301`) or `tls_protocol_version_TLSv11` (`0x0302`), or
+- `sec_protocol_options_set_max_tls_protocol_version` with a value of `tls_protocol_version_TLSv10` (`0x0301`) or `tls_protocol_version_TLSv11` (`0x0302`).
+
+Because Network.framework operates entirely outside of ATS, a connection configured this way will succeed against a server that supports the deprecated TLS version, with no ATS-level safety net.
