@@ -9,4 +9,5 @@ weakness: MASWE-0055
 knowledge: [MASTG-KNOW-0053]
 status: placeholder
 note: This test verifies whether an app prevents sensitive data from being captured in screenshots and screen recordings of Jetpack Compose dialogs.
+assets: [MAS-ASSET-UD-U]
 ---

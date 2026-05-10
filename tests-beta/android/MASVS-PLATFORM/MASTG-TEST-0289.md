@@ -9,6 +9,7 @@ weakness: MASWE-0055
 prerequisites:
 - identify-sensitive-screens
 knowledge: [MASTG-KNOW-0053]
+assets: [MAS-ASSET-UD-U]
 ---
 
 ## Overview
