@@ -5,6 +5,7 @@ id: MASTG-TEST-0318
 type: [static]
 weakness: MASWE-0112
 profiles: [P]
+assets: [MAS-ASSET-UD-U, MAS-ASSET-UD-T]
 ---
 
 ## Overview

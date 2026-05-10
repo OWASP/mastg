@@ -7,6 +7,7 @@ weakness: MASWE-0112
 prerequisites:
   - identify-sensitive-data
 profiles: [P]
+assets: [MAS-ASSET-UD-U, MAS-ASSET-UD-T]
 ---
 
 ## Overview
