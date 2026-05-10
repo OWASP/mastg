@@ -6,12 +6,10 @@ title: File Coordination APIs
 
 The File Coordination APIs provide a mechanism for coordinating safe, concurrent access to files and directories. They are particularly important when multiple processes or objects, such as an app and its extensions, read or write shared files in an App Group container (see @MASTG-KNOW-0x04).
 
-## Core Classes
+File coordination is implemented through two main classes:
 
 - **[`NSFileCoordinator`](https://developer.apple.com/documentation/foundation/nsfilecoordinator)**: Coordinates reads and writes to a file or directory among participating file presenters. Callers use it to declare their intent before accessing a file, allowing the system to serialize conflicting coordinated access.
 - **[`NSFilePresenter`](https://developer.apple.com/documentation/foundation/nsfilepresenter)**: A protocol adopted by objects that want to be notified when a file or directory they are interested in changes. Presenters are registered with the file coordination system and receive callbacks for changes made through coordinated access.
-
-## How Coordination Works
 
 Before reading or writing a shared file, a process wraps the access in a coordination block:
 
@@ -20,7 +18,7 @@ let coordinator = NSFileCoordinator(filePresenter: nil)
 coordinator.coordinate(readingItemAt: fileURL, options: [], error: nil) { url in
     // Read the file at `url`
 }
-````
+```
 
 For writing:
 
