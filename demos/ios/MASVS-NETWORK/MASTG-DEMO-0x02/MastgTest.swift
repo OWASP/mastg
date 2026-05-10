@@ -1,32 +1,45 @@
 import Foundation
+import Network
 
 struct MastgTest {
-    // SUMMARY: This sample demonstrates URLSessionConfiguration with an insecure minimum TLS version setting.
+    // SUMMARY: This sample demonstrates an attempt to use TLS 1.0 endpoints in iOS apps.
+    // However, the connection will fail because App Transport Security (ATS) requires TLS 1.2 or later by default.
+    // This test shows that URLSession's TLS settings do not override ATS requirements, and that explicit exceptions in Info.plist are needed to allow older TLS versions.
+
+    static let tls10Endpoint = "https://tls-v1-0.badssl.com:1010/"
 
     static func mastgTest(completion: @escaping (String) -> Void) {
-        var result = "Testing URLSession with insecure TLS configuration:\n\n"
+        var result = "Testing TLS 1.0 URL connections:\n\n"
 
-        let config = URLSessionConfiguration.default
-
-        // FAIL: [MASTG-TEST-0x02] Setting minimum TLS version to TLS 1.1 allows insecure connections
-        config.tlsMinimumSupportedProtocolVersion = tls_protocol_version_t(rawValue: 0x0302)! // TLS 1.1
-
-        let session = URLSession(configuration: config)
-
-        guard let url = URL(string: "https://httpbin.org/get") else {
-            completion("Invalid URL")
+        guard let url = URL(string: tls10Endpoint) else {
+            completion(result + "Invalid URL: \(tls10Endpoint)\n")
             return
         }
 
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.tlsMinimumSupportedProtocolVersion = .TLSv10
+
+        let session = URLSession(configuration: configuration)
+
         let task = session.dataTask(with: url) { _, response, error in
-            if let error = error {
-                result += "Request failed: \(error.localizedDescription)\n"
+            if let error = error as NSError? {
+                result += "HTTP request to \(tls10Endpoint) failed:\n"
+                result += "Domain: \(error.domain)\n"
+                result += "Code: \(error.code)\n"
+                result += "Description: \(error.localizedDescription)\n\n"
+                result += "This is expected if ATS is not relaxed in Info.plist.\n"
+                result += "URLSession TLS settings do not replace ATS exceptions.\n"
             } else if let httpResponse = response as? HTTPURLResponse {
-                result += "Request succeeded with status: \(httpResponse.statusCode)\n"
-                result += "Note: The session configuration allows connections with TLS 1.1 or higher.\n"
+                result += "HTTP request to \(tls10Endpoint) returned status: \(httpResponse.statusCode)\n"
+            } else {
+                result += "HTTP request to \(tls10Endpoint) completed without HTTP response.\n"
             }
-            completion(result)
+
+            DispatchQueue.main.async {
+                completion(result)
+            }
         }
+
         task.resume()
     }
 }
