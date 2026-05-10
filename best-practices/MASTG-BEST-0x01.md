@@ -33,5 +33,5 @@ When an ATS exception is unavoidable, apply it as narrowly as possible:
 
 - Target only the specific domain that requires the exception.
 - Avoid setting `NSIncludesSubdomains = true` unless all subdomains require the exception.
-- Do not disable ATS globally with `NSAllowsArbitraryLoads`.
+- Do not set `NSAllowsArbitraryLoads` to `true`. This disables ATS for all connections to domains not listed in `NSExceptionDomains`, removing TLS version enforcement, certificate validation, and forward secrecy requirements for those domains. Per-domain exceptions in `NSExceptionDomains` still apply to their listed domains, but all unlisted domains have no ATS protection.
 - Provide a justification in the app's App Store submission as [required by Apple](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions).

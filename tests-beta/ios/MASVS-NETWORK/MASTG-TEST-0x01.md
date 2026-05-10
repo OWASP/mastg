@@ -18,6 +18,8 @@ Apps can weaken ATS TLS enforcement through `NSAppTransportSecurity` exceptions 
 
 These exceptions are applied per domain under `NSExceptionDomains`. When broadly scoped (especially with `NSIncludesSubdomains = true`), they may affect many hosts and increase the attack surface for man-in-the-middle attacks. Apple requires a justification for these exceptions when submitting to the App Store. See @MASTG-KNOW-0071 for more details on ATS configuration and exceptions.
 
+Apps can also globally disable ATS by setting [`NSAllowsArbitraryLoads`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity/nsallowsarbitraryloads) to `true`. This completely removes all ATS protections — including TLS version requirements, certificate validation, and forward secrecy — for all connections made through the URL Loading System. However, even when `NSAllowsArbitraryLoads` is `true`, any per-domain exceptions would still apply. So, for example, if `NSAllowsArbitraryLoads` is `true` but a domain has `NSExceptionMinimumTLSVersion = "TLSv1.2"`, that domain would still require TLS 1.2 or higher, while all other domains would have no minimum TLS requirement.
+
 ## Steps
 
 1. Extract the app (@MASTG-TECH-0058).
@@ -33,7 +35,8 @@ The output should contain any TLS policy exceptions configured under `NSAppTrans
 
 The test case fails if **any** of the following conditions are met:
 
-1. Any domain, IP address, or IP address range sets `NSExceptionMinimumTLSVersion` to `TLSv1.0` or `TLSv1.1`.
-2. Any domain, IP address, or IP address range sets `NSExceptionRequiresForwardSecrecy` to `false`, `NO`, or `0`.
+1. `NSAllowsArbitraryLoads` is set to `true`. This disables ATS for all connections to domains not listed in `NSExceptionDomains`. Per-domain exceptions in `NSExceptionDomains` still apply to their respective domains, but all other domains have no ATS restrictions.
+2. Any domain, IP address, or IP address range sets `NSExceptionMinimumTLSVersion` to `TLSv1.0` or `TLSv1.1`.
+3. Any domain, IP address, or IP address range sets `NSExceptionRequiresForwardSecrecy` to `false`, `NO`, or `0`.
 
 If the app owner provides [justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) evidence, include it in the report as contextual information. The finding remains valid unless the evidence demonstrates that the exception is narrowly scoped, technically necessary, does not affect sensitive traffic, and has a defined remediation path.

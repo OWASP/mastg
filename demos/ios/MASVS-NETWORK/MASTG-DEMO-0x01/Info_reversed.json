@@ -22,6 +22,7 @@
     "UIInterfaceOrientationLandscapeRight"
   ],
   "NSAppTransportSecurity": {
+    "NSAllowsArbitraryLoads": false,
     "NSExceptionDomains": {
       "static-rsa.badssl.com": {
         "NSExceptionMinimumTLSVersion": "TLSv1.2",
