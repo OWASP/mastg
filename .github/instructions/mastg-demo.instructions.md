@@ -129,6 +129,31 @@ Example:
 kind: pass
 ```
 
+### assets
+
+The MAS-ASSET types that this demo targets. Use the MAS-ASSET taxonomy to classify the data category (Intellectual Property or User Data) and the state in which it is accessed (at rest, in use, in transit).
+
+Valid values:
+
+- `MAS-ASSET-IP-R` — Intellectual Property Data at Rest
+- `MAS-ASSET-IP-U` — Intellectual Property Data in Use
+- `MAS-ASSET-IP-T` — Intellectual Property Data in Transit
+- `MAS-ASSET-UD-R` — User Data at Rest
+- `MAS-ASSET-UD-U` — User Data in Use
+- `MAS-ASSET-UD-T` — User Data in Transit
+
+Example (single asset):
+
+```md
+assets: [MAS-ASSET-UD-U]
+```
+
+Example (multiple assets):
+
+```md
+assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
+```
+
 ### optional fields
 
 Include these if relevant:
