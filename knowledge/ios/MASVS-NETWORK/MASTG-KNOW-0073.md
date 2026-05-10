@@ -18,6 +18,15 @@ Common APIs in this layer include:
 
 `URLSession` supports a broad set of HTTP features (for example redirects, caching, cookies, and proxies) and integrates with the system trust store and server trust evaluation (@MASTG-KNOW-0072). See this example of use for ["Fetching website data into memory"](https://developer.apple.com/documentation/foundation/fetching-website-data-into-memory) from the official Apple documentation.
 
+`URLSessionConfiguration` exposes two TLS version properties for each session:
+
+- [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion) — sets the minimum TLS version the session accepts. Accepts `tls_protocol_version_t` values such as `tls_protocol_version_TLSv10`, `tls_protocol_version_TLSv11`, `tls_protocol_version_TLSv12`, and `tls_protocol_version_TLSv13`.
+- [`tlsMaximumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsmaximumsupportedprotocolversion) — sets the maximum TLS version the session uses.
+
+The deprecated predecessors [`tlsMinimumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocol) and [`tlsMaximumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsmaximumsupportedprotocol) accept `SSLProtocol` enum values (e.g. `kSSLProtocol3`, `kTLSProtocol1`) and should no longer be used.
+
+These properties are **independent from ATS**: ATS enforces its own TLS minimum requirements on top of whatever value is set here. Setting `tlsMinimumSupportedProtocolVersion` to TLS 1.0 in code does not bypass ATS — if no matching `Info.plist` exception is present, ATS will still block the connection. However, setting a weak value is a bad practice regardless, because it signals intent to weaken TLS and can silently become a real vulnerability if an ATS exception is added later. See @MASTG-KNOW-0071 for ATS behavior.
+
 ## Network Framework (Low-Level)
 
 The [Network](https://developer.apple.com/documentation/network) framework, introduced in iOS 12, provides direct access to protocols like TLS, TCP and UDP. It exposes connection and listener primitives and lets you configure transports and protocol stacks explicitly. See the WWDC2018 session ["Introducing Network.framework: A modern alternative to Sockets"](https://developer.apple.com/videos/play/wwdc2018/715/) for an overview.
@@ -30,6 +39,13 @@ Common APIs in this layer include:
 - [`NWProtocolTLS`](https://developer.apple.com/documentation/network/nwprotocoltls)
 
 See this example of use for ["Implementing netcat with Network Framework"](https://developer.apple.com/documentation/network/implementing-netcat-with-network-framework) from the official Apple documentation.
+
+TLS settings for a Network.framework connection are configured through `NWProtocolTLS.Options`, which exposes the underlying `sec_protocol_options_t`. These are the key functions for TLS version configuration:
+
+- [`sec_protocol_options_set_min_tls_protocol_version(_:_:)`](https://developer.apple.com/documentation/security/sec_protocol_options_set_min_tls_protocol_version(_:_:)): sets the minimum TLS version. Accepts `tls_protocol_version_t` values such as `tls_protocol_version_TLSv10`, `tls_protocol_version_TLSv12`, etc.
+- [`sec_protocol_options_set_max_tls_protocol_version(_:_:)`](https://developer.apple.com/documentation/security/sec_protocol_options_set_max_tls_protocol_version(_:_:)): sets the maximum TLS version.
+
+ATS does **not** apply to Network.framework connections. Any weak TLS configuration (e.g. setting the minimum to TLS 1.0) will take effect without any OS-level safety net.
 
 In iOS 26 the framework adds new Swift structured concurrency oriented APIs that provide a modern, declarative interface for connections, listeners, and endpoint discovery. See the WWDC2025 session ["Use structured concurrency with Network framework"](https://developer.apple.com/videos/play/wwdc2025/250/) for details. These APIs include:
 

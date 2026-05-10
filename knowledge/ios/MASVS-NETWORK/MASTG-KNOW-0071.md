@@ -101,6 +101,10 @@ The following table summarizes the per-domain ATS exceptions. For more informati
 
 You may encounter exception keys prefixed with `NSTemporaryException...` in old examples or documentation. These keys were originally introduced as temporary ATS exception helpers during the early iOS 9 era and while they still work, they are deprecated and undocumented by Apple. Developers should use the modern non-temporary `NSException...` equivalents instead.
 
+**TLS Configuration in Code:**
+
+Beyond `Info.plist` exceptions, apps can also configure TLS behavior in code via `URLSessionConfiguration` properties such as [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion). These properties are **independent from ATS**: ATS enforces its own minimum TLS requirements on top of whatever value is set in code. Setting a weak floor in code does not bypass ATS — if no matching `Info.plist` exception is present, ATS still blocks the connection. However, setting a weak value is a bad practice regardless, because it can silently become a real vulnerability if an ATS exception is added later. See @MASTG-KNOW-0073 for details on TLS configuration per API layer.
+
 **Justifying Exceptions:**
 
 Starting from January 1, 2017, Apple App Store review [requires justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) if one of the following ATS exceptions are defined.
