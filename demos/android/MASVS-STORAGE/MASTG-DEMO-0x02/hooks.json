@@ -19,31 +19,26 @@
     },
     {
       "class": "javax.crypto.Cipher",
+      "method": "init",
+      "overloads": [
+        {
+          "args": ["int", "java.security.Key"]
+        }
+      ]
+    },
+    {
+      "class": "javax.crypto.Cipher",
       "methods": [
-        "getInstance",
-        "doFinal",
-        "init"
+        "doFinal"
       ]
     },
     {
       "class": "java.security.KeyStore",
-      "methods": [
-        "setEntry",
-        "getEntry"
-      ]
-    },
-    {
-      "class": "javax.crypto.KeyGenerator",
-      "methods": [
-        "getInstance",
-        "generateKey"
-      ]
-    },
-    {
-      "class": "android.util.Base64",
-      "methods": [
-        "encodeToString",
-        "decode"
+      "method": "getKey",
+      "overloads": [
+        {
+          "args": ["java.lang.String", "[C"]
+        }
       ]
     }
   ]

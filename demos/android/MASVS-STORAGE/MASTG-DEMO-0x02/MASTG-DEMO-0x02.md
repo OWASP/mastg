@@ -26,12 +26,11 @@ These are the relevant methods we are hooking to detect the use of File APIs to 
 - [`Context.openFileOutput(String, int)`](https://developer.android.com/reference/android/content/Context#openFileOutput(java.lang.String,%20int))
 - [`FileOutputStream.write(byte[])`](https://developer.android.com/reference/java/io/FileOutputStream#write(byte[]))
 
-Our hooks also trace calls to cryptographic methods to help determine whether the written data is encrypted or not; whether the Android KeyStore is used; and whether Base64 encoding is used to convert binary data to strings:
+Our hooks also trace calls to cryptographic methods to help determine whether the written data is encrypted or not, and whether an AndroidKeyStore-backed key is used:
 
-- [`javax.crypto.Cipher.*(...)`](https://developer.android.com/reference/javax/crypto/Cipher)
-- [`java.security.KeyStore.*(...)`](https://developer.android.com/reference/java/security/KeyStore)
-- [`javax.crypto.KeyGenerator.*(...)`](https://developer.android.com/reference/javax/crypto/KeyGenerator)
-- [`android.util.Base64.*(...)`](https://developer.android.com/reference/android/util/Base64)
+- [`javax.crypto.Cipher.init(int, Key)`](https://developer.android.com/reference/javax/crypto/Cipher#init(int,java.security.Key))
+- [`javax.crypto.Cipher.doFinal(...)`](https://developer.android.com/reference/javax/crypto/Cipher#doFinal())
+- [`java.security.KeyStore.getKey(String, char[])`](https://developer.android.com/reference/java/security/KeyStore#getKey(java.lang.String,char[]))
 
 {{ hooks.json # run.sh }}
 
@@ -55,5 +54,6 @@ Here we can see that:
 
 - `openFileOutput` was called with `secret_token.txt` and the subsequent `FileOutputStream.write` call writes the plaintext value `MyS3cr3tP4ssw0rd` — no preceding `Cipher` calls, so this is unencrypted.
 - A second `FileOutputStream.write` call writes `AKIAABCDEFGHIJKLMNOP` — also no preceding `Cipher` calls, so this is unencrypted.
+- The remaining entries correspond to the PASS case: `KeyStore.getKey` retrieves the AndroidKeyStore-backed key, followed by `Cipher.init` and `Cipher.doFinal` (which shows `SensitiveDataToEncrypt` as input and returns ciphertext), and then two `FileOutputStream.write` calls — one for the IV and one for the ciphertext — writing to `encrypted_data.bin`. The data is encrypted before being stored.
 
 You can confirm the code locations responsible by reviewing the `stackTrace` of each hook entry and cross-referencing with the static counterpart @MASTG-DEMO-0x01.

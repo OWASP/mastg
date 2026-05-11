@@ -26,23 +26,12 @@
         },
         {
             "class": "javax.crypto.Cipher",
-            "method": "getInstance",
+            "method": "init",
             "overloads": [
                 {
                     "args": [
-                        "java.lang.String"
-                    ]
-                },
-                {
-                    "args": [
-                        "java.lang.String",
-                        "java.lang.String"
-                    ]
-                },
-                {
-                    "args": [
-                        "java.lang.String",
-                        "java.security.Provider"
+                        "int",
+                        "java.security.Key"
                     ]
                 }
             ]
@@ -98,186 +87,33 @@
             ]
         },
         {
-            "class": "javax.crypto.Cipher",
-            "method": "init",
-            "overloads": [
-                {
-                    "args": [
-                        "int",
-                        "java.security.Key"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.Key",
-                        "java.security.AlgorithmParameters"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.Key",
-                        "java.security.AlgorithmParameters",
-                        "java.security.SecureRandom"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.Key",
-                        "java.security.SecureRandom"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.Key",
-                        "java.security.spec.AlgorithmParameterSpec"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.Key",
-                        "java.security.spec.AlgorithmParameterSpec",
-                        "java.security.SecureRandom"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.cert.Certificate"
-                    ]
-                },
-                {
-                    "args": [
-                        "int",
-                        "java.security.cert.Certificate",
-                        "java.security.SecureRandom"
-                    ]
-                }
-            ]
-        },
-        {
             "class": "java.security.KeyStore",
-            "method": "setEntry",
+            "method": "getKey",
             "overloads": [
                 {
                     "args": [
                         "java.lang.String",
-                        "java.security.KeyStore$Entry",
-                        "java.security.KeyStore$ProtectionParameter"
-                    ]
-                }
-            ]
-        },
-        {
-            "class": "java.security.KeyStore",
-            "method": "getEntry",
-            "overloads": [
-                {
-                    "args": [
-                        "java.lang.String",
-                        "java.security.KeyStore$ProtectionParameter"
-                    ]
-                }
-            ]
-        },
-        {
-            "class": "javax.crypto.KeyGenerator",
-            "method": "getInstance",
-            "overloads": [
-                {
-                    "args": [
-                        "java.lang.String"
-                    ]
-                },
-                {
-                    "args": [
-                        "java.lang.String",
-                        "java.lang.String"
-                    ]
-                },
-                {
-                    "args": [
-                        "java.lang.String",
-                        "java.security.Provider"
-                    ]
-                }
-            ]
-        },
-        {
-            "class": "javax.crypto.KeyGenerator",
-            "method": "generateKey",
-            "overloads": [
-                {
-                    "args": []
-                }
-            ]
-        },
-        {
-            "class": "android.util.Base64",
-            "method": "encodeToString",
-            "overloads": [
-                {
-                    "args": [
-                        "[B",
-                        "int"
-                    ]
-                },
-                {
-                    "args": [
-                        "[B",
-                        "int",
-                        "int",
-                        "int"
-                    ]
-                }
-            ]
-        },
-        {
-            "class": "android.util.Base64",
-            "method": "decode",
-            "overloads": [
-                {
-                    "args": [
-                        "java.lang.String",
-                        "int"
-                    ]
-                },
-                {
-                    "args": [
-                        "[B",
-                        "int"
-                    ]
-                },
-                {
-                    "args": [
-                        "[B",
-                        "int",
-                        "int",
-                        "int"
+                        "[C"
                     ]
                 }
             ]
         }
     ],
-    "totalHooks": 31,
+    "totalHooks": 11,
     "errors": [],
     "totalErrors": 0
 }
 {
-    "id": "087df98c-1104-4cf5-a155-f69401c40039",
+    "id": "287ae9f9-4982-46c4-8ea3-5ac3a86f056b",
     "type": "hook",
     "category": "STORAGE",
-    "time": "2026-05-11T07:54:45.613Z",
+    "time": "2026-05-11T08:32:53.027Z",
     "class": "android.content.ContextWrapper",
     "method": "openFileOutput",
     "instanceId": 96242449,
     "stackTrace": [
         "android.content.ContextWrapper.openFileOutput(Native Method)",
-        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:21)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:47)",
         "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
         "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
         "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
@@ -303,16 +139,16 @@
     ]
 }
 {
-    "id": "c19f945a-091b-4d06-a730-58d1317ee078",
+    "id": "93ac0e5b-082f-48f7-ab00-39431f57f633",
     "type": "hook",
     "category": "STORAGE",
-    "time": "2026-05-11T07:54:45.617Z",
+    "time": "2026-05-11T08:32:53.031Z",
     "class": "java.io.FileOutputStream",
     "method": "write",
     "instanceId": 63738998,
     "stackTrace": [
         "java.io.FileOutputStream.write(Native Method)",
-        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:22)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:48)",
         "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
         "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
         "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
@@ -332,16 +168,16 @@
     ]
 }
 {
-    "id": "54260dcb-5b8c-45b1-978a-4e6663e6b491",
+    "id": "27c8643a-6a04-4cf4-9e4a-6165788cd07b",
     "type": "hook",
     "category": "STORAGE",
-    "time": "2026-05-11T07:54:45.620Z",
+    "time": "2026-05-11T08:32:53.038Z",
     "class": "java.io.FileOutputStream",
     "method": "write",
     "instanceId": 211507831,
     "stackTrace": [
         "java.io.FileOutputStream.write(Native Method)",
-        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:30)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:56)",
         "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
         "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
         "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
@@ -351,6 +187,164 @@
         {
             "declaredType": "[B",
             "value": "AKIAABCDEFGHIJKLMNOP"
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "void",
+            "value": "void"
+        }
+    ]
+}
+{
+    "id": "5cdfe13b-2bf4-42e2-8c4d-3f10763c9677",
+    "type": "hook",
+    "category": "STORAGE",
+    "time": "2026-05-11T08:32:53.048Z",
+    "class": "java.security.KeyStore",
+    "method": "getKey",
+    "instanceId": 46135012,
+    "stackTrace": [
+        "java.security.KeyStore.getKey(Native Method)",
+        "org.owasp.mastestapp.MastgTest.getOrCreateKey(MastgTest.kt:26)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:62)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1012)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "java.lang.String",
+            "value": "MastgTestKeyAlias"
+        },
+        {
+            "declaredType": "[C",
+            "value": "void"
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "java.security.Key",
+            "value": {},
+            "runtimeType": "android.security.keystore2.AndroidKeyStoreSecretKey",
+            "instanceToString": "[object Object]"
+        }
+    ]
+}
+{
+    "id": "39c83c97-3d4c-456e-affd-29a176775231",
+    "type": "hook",
+    "category": "STORAGE",
+    "time": "2026-05-11T08:32:53.058Z",
+    "class": "javax.crypto.Cipher",
+    "method": "init",
+    "instanceId": 56984066,
+    "stackTrace": [
+        "javax.crypto.Cipher.init(Native Method)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1012)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "int",
+            "value": 1
+        },
+        {
+            "declaredType": "java.security.Key",
+            "value": {},
+            "runtimeType": "android.security.keystore2.AndroidKeyStoreSecretKey",
+            "instanceToString": "[object Object]"
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "void",
+            "value": "void"
+        }
+    ]
+}
+{
+    "id": "154710f1-e8aa-45ad-b56c-c30290afb008",
+    "type": "hook",
+    "category": "STORAGE",
+    "time": "2026-05-11T08:32:53.069Z",
+    "class": "javax.crypto.Cipher",
+    "method": "doFinal",
+    "instanceId": 56984066,
+    "stackTrace": [
+        "javax.crypto.Cipher.doFinal(Native Method)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:67)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1012)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "[B",
+            "value": "SensitiveDataToEncrypt"
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "[B",
+            "value": "0x895d0a83b9e86cc87fe121ca00cabed8f4ff5fc17863a65f6d7a613f067b905e47473f6cb64f..."
+        }
+    ]
+}
+{
+    "id": "98626f38-39f8-489d-85d2-527ac2ab3f40",
+    "type": "hook",
+    "category": "STORAGE",
+    "time": "2026-05-11T08:32:53.074Z",
+    "class": "java.io.FileOutputStream",
+    "method": "write",
+    "instanceId": 33004880,
+    "stackTrace": [
+        "java.io.FileOutputStream.write(Native Method)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:71)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1012)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "[B",
+            "value": "0x20cf33025a0bf1ff80a01331..."
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "void",
+            "value": "void"
+        }
+    ]
+}
+{
+    "id": "1c56c642-33dd-491d-b26f-09d9ea071d50",
+    "type": "hook",
+    "category": "STORAGE",
+    "time": "2026-05-11T08:32:53.076Z",
+    "class": "java.io.FileOutputStream",
+    "method": "write",
+    "instanceId": 33004880,
+    "stackTrace": [
+        "java.io.FileOutputStream.write(Native Method)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:72)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1012)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "[B",
+            "value": "0x895d0a83b9e86cc87fe121ca00cabed8f4ff5fc17863a65f6d7a613f067b905e47473f6cb64f..."
         }
     ],
     "returnValue": [
