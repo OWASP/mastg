@@ -1,7 +1,7 @@
                    
                    
 ┌─────────────────┐
-│ 2 Code Findings │
+│ 3 Code Findings │
 └─────────────────┘
                            
     MastgTest_reversed.java
@@ -9,13 +9,16 @@
           [MASVS-STORAGE] Verify that any sensitive data written via openFileOutput is encrypted before
           storage                                                                                      
                                                                                                        
-           33┆ FileOutputStream fileOutputStreamOpenFileOutput =  
+           69┆ FileOutputStream fileOutputStreamOpenFileOutput =  
                this.context.openFileOutput("secret_token.txt", 0);
    
     ❯❱ rules.mastg-android-unencrypted-internal-file-storage-fileoutputstream
           [MASVS-STORAGE] Verify that any sensitive data written via FileOutputStream to internal storage is
           encrypted before storage                                                                          
                                                                                                             
-           42┆ File apiKeyFile = new File(this.context.getFilesDir(), "api_key.txt");
-           43┆ fileOutputStreamOpenFileOutput = new FileOutputStream(apiKeyFile);
+           78┆ File apiKeyFile = new File(this.context.getFilesDir(), "api_key.txt");
+           79┆ fileOutputStreamOpenFileOutput = new FileOutputStream(apiKeyFile);
+            ⋮┆----------------------------------------
+           95┆ File encryptedFile = new File(this.context.getFilesDir(), "encrypted_data.bin");
+           96┆ fileOutputStreamOpenFileOutput = new FileOutputStream(encryptedFile);
 
