@@ -13,7 +13,6 @@ data class UserEntity(
     // FAIL: [MASTG-TEST-0x01] PII (email) stored in plaintext within the Room database.
     // FAIL: [MASTG-TEST-0x01] Sensitive access token stored without any encryption.
     val email: String,
-    val email: String,
     val token: String
 )
 
