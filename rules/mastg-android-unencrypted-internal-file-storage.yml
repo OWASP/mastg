@@ -19,6 +19,22 @@ rules:
       - pattern: new FileOutputStream(new File($CTX.filesDir, ...))
       - pattern: new FileOutputStream(new File($CTX.getCacheDir(), ...))
       - pattern: new FileOutputStream(new File($CTX.getNoBackupFilesDir(), ...))
+      - pattern: |
+          $FILE = new File($CTX.getFilesDir(), ...);
+          ...
+          new FileOutputStream($FILE);
+      - pattern: |
+          $FILE = new File($CTX.filesDir, ...);
+          ...
+          new FileOutputStream($FILE);
+      - pattern: |
+          $FILE = new File($CTX.getCacheDir(), ...);
+          ...
+          new FileOutputStream($FILE);
+      - pattern: |
+          $FILE = new File($CTX.getNoBackupFilesDir(), ...);
+          ...
+          new FileOutputStream($FILE);
   - id: mastg-android-unencrypted-internal-file-storage-filewriter
     severity: WARNING
     languages:
@@ -30,3 +46,15 @@ rules:
       - pattern: new FileWriter(new File($CTX.getFilesDir(), ...))
       - pattern: new FileWriter(new File($CTX.filesDir, ...))
       - pattern: new FileWriter(new File($CTX.getCacheDir(), ...))
+      - pattern: |
+          $FILE = new File($CTX.getFilesDir(), ...);
+          ...
+          new FileWriter($FILE);
+      - pattern: |
+          $FILE = new File($CTX.filesDir, ...);
+          ...
+          new FileWriter($FILE);
+      - pattern: |
+          $FILE = new File($CTX.getCacheDir(), ...);
+          ...
+          new FileWriter($FILE);
