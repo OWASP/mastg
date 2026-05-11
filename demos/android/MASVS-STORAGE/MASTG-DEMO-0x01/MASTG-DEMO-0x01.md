@@ -36,7 +36,7 @@ The test fails because the app uses File APIs to write sensitive data to interna
 
 After reviewing the decompiled code at the locations specified in the output:
 
-- Line 32: `openFileOutput("secret_token.txt", ...)` is followed by writing `password` in plaintext — no preceding `Cipher` calls, so the data is stored unencrypted.
-- Line 41: `new FileOutputStream(new File(context.getFilesDir(), "api_key.txt"))` is followed by writing `apiKey` in plaintext — again, no preceding `Cipher` calls.
+- Line 33: `openFileOutput("secret_token.txt", ...)` is followed by writing `password` in plaintext and no preceding `Cipher` calls, so the data is stored unencrypted.
+- Lines 42-43: `new File(context.getFilesDir(), "api_key.txt")` is stored in `apiKeyFile` and passed to `new FileOutputStream(apiKeyFile)`, which is followed by writing `apiKey` in plaintext. Again, no preceding `Cipher` calls.
 
 You can confirm the dynamic counterpart in @MASTG-DEMO-0x02.

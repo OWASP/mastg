@@ -1,10 +1,3 @@
-               
-               
-┌─────────────┐
-│ Scan Status │
-└─────────────┘
-  Scanning 1 file with 3 Code rules:
-  Scanning 1 file with 3 java rules.
                    
                    
 ┌─────────────────┐
@@ -13,30 +6,16 @@
                            
     MastgTest_reversed.java
     ❯❱ rules.mastg-android-unencrypted-internal-file-storage-openfileoutput
-          ❰❰ Blocking ❱❱
           [MASVS-STORAGE] Verify that any sensitive data written via openFileOutput is encrypted before
           storage                                                                                      
                                                                                                        
-           32┆ FileOutputStream tokenOutputStream = this.context.openFileOutput("secret_token.txt",
-               Context.MODE_PRIVATE);                                                              
+           33┆ FileOutputStream fileOutputStreamOpenFileOutput =  
+               this.context.openFileOutput("secret_token.txt", 0);
    
     ❯❱ rules.mastg-android-unencrypted-internal-file-storage-fileoutputstream
-          ❰❰ Blocking ❱❱
           [MASVS-STORAGE] Verify that any sensitive data written via FileOutputStream to internal storage is
           encrypted before storage                                                                          
                                                                                                             
-           41┆ FileOutputStream apiKeyOutputStream = new FileOutputStream(new
-               File(this.context.getFilesDir(), "api_key.txt"));             
+           42┆ File apiKeyFile = new File(this.context.getFilesDir(), "api_key.txt");
+           43┆ fileOutputStreamOpenFileOutput = new FileOutputStream(apiKeyFile);
 
-                
-                
-┌──────────────┐
-│ Scan Summary │
-└──────────────┘
-✅ Scan completed successfully.
- • Findings: 2 (2 blocking)
- • Rules run: 3
- • Targets scanned: 1
- • Parsed lines: ~100.0%
- • No ignore information available
-Ran 3 rules on 1 file: 2 findings.
