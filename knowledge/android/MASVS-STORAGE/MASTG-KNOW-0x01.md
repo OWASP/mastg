@@ -95,3 +95,39 @@ Example:
 File(context.filesDir, "data.txt").writeText("content")
 File(context.filesDir, "more.txt").appendText("additional content")
 ```
+
+## Native (NDK/JNI) APIs
+
+Apps that include native code via the [Android NDK](https://developer.android.com/ndk/guides) can write files from C or C++ using standard POSIX and C library calls. The file path is typically obtained from the Java layer (for example, from `Context.getFilesDir()`) and passed down via JNI.
+
+Commonly used write APIs:
+
+- [`fopen(path, mode)` / `fwrite()` / `fclose()`](https://en.cppreference.com/w/c/io): standard C I/O; `mode` can be `"w"` (write), `"a"` (append), or `"wb"` / `"ab"` for binary variants.
+- [`open(path, flags, mode)` / `write()` / `close()`](https://man7.org/linux/man-pages/man2/open.2.html): POSIX system calls; `flags` such as `O_WRONLY | O_CREAT | O_TRUNC` control creation and truncation behavior.
+- [`pwrite(fd, buf, count, offset)`](https://man7.org/linux/man-pages/man2/pwrite.2.html): writes at a specific byte offset without changing the file position.
+- [`mmap()` with `MAP_SHARED`](https://man7.org/linux/man-pages/man2/mmap.2.html): maps a file into memory for direct read/write access; changes are written back to disk when the mapping is flushed with `msync()` or unmapped.
+
+Commonly used read APIs:
+
+- `fopen(path, "r")` / `fread()` / `fgets()` / `fclose()`: standard C I/O for reading.
+- `open(path, O_RDONLY)` / `read()` / `close()`: POSIX system calls for reading.
+- [`pread(fd, buf, count, offset)`](https://man7.org/linux/man-pages/man2/pread.2.html): reads from a specific byte offset.
+- `mmap()` with `MAP_PRIVATE` / `PROT_READ`: maps a file into read-only memory.
+
+The Android NDK also exposes [`AAssetManager`](https://developer.android.com/ndk/reference/group/asset) for reading bundled assets from the APK, though this is read-only.
+
+Example (writing via POSIX from C):
+
+```c
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
+void write_data(const char *path, const char *data) {
+    int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+    if (fd >= 0) {
+        write(fd, data, strlen(data));
+        close(fd);
+    }
+}
+```
