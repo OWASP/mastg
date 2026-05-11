@@ -34,5 +34,5 @@ The test case fails if the app sets:
 - `tlsMinimumSupportedProtocolVersion` to `tls_protocol_version_TLSv10` (value `0x0301`) or `tls_protocol_version_TLSv11` (value `0x0302`), or
 - `tlsMinimumSupportedProtocol` (deprecated) to a value corresponding to TLS 1.0 (`kTLSProtocol1`) or TLS 1.1 (`kTLSProtocol11`).
 
-!!! note Note on ATS Interaction
+!!! note "Note on ATS Interaction"
     ATS may still enforce minimum TLS version requirements for connections using the URL Loading System, depending on the ATS configuration in `Info.plist`. However, if the app has also configured broad ATS exceptions (see @MASTG-TEST-0x01), the effective TLS minimum may be lower than expected for those domains.

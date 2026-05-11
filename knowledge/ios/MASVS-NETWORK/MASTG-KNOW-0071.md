@@ -103,7 +103,7 @@ You may encounter exception keys prefixed with `NSTemporaryException...` in old 
 
 **TLS Configuration in Code:**
 
-Beyond `Info.plist` exceptions, apps can also configure TLS behavior in code via `URLSessionConfiguration` properties such as [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion). These properties are **independent from ATS**: ATS enforces its own minimum TLS requirements on top of whatever value is set in code. Setting a weak floor in code does not bypass ATS — if no matching `Info.plist` exception is present, ATS still blocks the connection. However, setting a weak value is a bad practice regardless, because it can silently become a real vulnerability if an ATS exception is added later. See @MASTG-KNOW-0073 for details on TLS configuration per API layer.
+Beyond `Info.plist` exceptions, apps can also configure TLS behavior in code via `URLSessionConfiguration` properties such as [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion). These properties are evaluated separately from ATS. ATS applies its own minimum TLS requirements in addition to values configured in code, so a lower value set in code does not by itself override ATS behavior. If no matching `Info.plist` exception is present, ATS can still block the connection. See @MASTG-KNOW-0073 for details on TLS configuration per API layer.
 
 **Justifying Exceptions:**
 
