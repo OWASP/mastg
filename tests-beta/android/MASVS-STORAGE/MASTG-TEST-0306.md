@@ -1,10 +1,10 @@
 ---
 platform: android
 title: Static Analysis for Unencrypted Sensitive Data in Android Room DB
-id: MASTG-TEST-0306
+id: MASTG-TEST-0x02
 type: [static]
 weakness: MASWE-0006
-best-practices: [MASTG-BEST-0025]
+best-practices: [MASTG-BEST-0x25]
 profiles: [L2]
 status: new
 ---

@@ -1,10 +1,10 @@
 ---
 platform: android
 title: Runtime Verification of Sensitive Data Stored Unencrypted in Android Room DB
-id: MASTG-TEST-0309
+id: MASTG-TEST-0x01
 type: [dynamic, filesystem]
 weakness: MASWE-0006
-best-practices: [MASTG-BEST-0025]
+best-practices: [MASTG-BEST-0x25]
 profiles: [L2]
 status: new
 ---
@@ -14,7 +14,6 @@ status: new
 This test checks at runtime whether sensitive data — tokens, secrets, or PII — is stored in Room databases without encryption. The goal is to ensure that sensitive information is not persisted in plaintext within the app's private storage.
 
 ## Steps
-
 
 1. Exercise all the functionalities of the app that process or store sensitive data.
 

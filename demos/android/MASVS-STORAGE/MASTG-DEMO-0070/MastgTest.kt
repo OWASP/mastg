@@ -1,3 +1,4 @@
+// SUMMARY: This sample demonstrates how the Room Persistence Library stores sensitive data in plaintext by default when no encryption (like SQLCipher) is configured.
 package org.owasp.mastestapp
 
 import android.content.Context
@@ -9,6 +10,9 @@ import java.io.File
 data class UserEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val username: String,
+    // FAIL: [MASTG-TEST-0x01] PII (email) stored in plaintext within the Room database.
+    // FAIL: [MASTG-TEST-0x01] Sensitive access token stored without any encryption.
+    val email: String,
     val email: String,
     val token: String
 )
@@ -34,7 +38,6 @@ abstract class AppDatabase : RoomDatabase() {
             val dbPath = ctx.getDatabasePath("PrivateUnencryptedRoomDB")
             Log.i("MASTG-ROOM", "Database absolute path: ${dbPath.absolutePath}")
 
-            // Wymuś utworzenie katalogu databases jeśli nie istnieje
             dbPath.parentFile?.let {
                 if (!it.exists()) {
                     Log.i("MASTG-ROOM", "Creating database directory: ${it.absolutePath}")
@@ -43,7 +46,8 @@ abstract class AppDatabase : RoomDatabase() {
                     Log.i("MASTG-ROOM", "Database directory exists: ${it.absolutePath}")
                 }
             }
-
+	// FAIL: [MASTG-TEST-0x01] Room database is built without a SupportSQLiteOpenHelper.Factory (like SQLCipher),
+        // which means the underlying SQLite file is not encrypted.
             return Room.databaseBuilder(
                 ctx,
                 AppDatabase::class.java,
