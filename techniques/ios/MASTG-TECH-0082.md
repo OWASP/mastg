@@ -3,44 +3,66 @@ title: Extracting Bundled Libraries
 platform: ios
 ---
 
-This technique describes how to identify the dynamic libraries bundled with an iOS app using static analysis (without running the app). Bundled libraries are included in the app's IPA and are typically found in the `Frameworks` directory (`YourApp.app/Frameworks`).
+This technique describes how to identify dynamic libraries and framework binaries bundled with an iOS app. The static analysis steps inspect the IPA without running the app. Runtime based approaches are included separately because they require executing or instrumenting the app.
 
-Note that this technique doesn't cover static libraries, which are linked directly into the app's main binary and don't appear as separate files.
+[Bundled libraries](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) are included in the app's IPA and are commonly found in `Payload/YourApp.app/Frameworks/`. They may also appear in other bundled executable components, such as app extensions.
+
+This technique does not fully cover statically linked code. Static libraries are usually linked into another Mach-O binary and do not appear as separate dynamic library dependencies. A `.framework` directory alone does not prove that the framework is dynamic, so inspect the contained Mach-O file when this distinction matters.
 
 ## Overview
 
-When analyzing an iOS app's libraries it is important to distinguish between two categories:
+When analyzing an iOS app's libraries, distinguish between the following categories:
 
-- **App-bundled libraries**: included in the app's IPA, typically under `Payload/YourApp.app/Frameworks/`. They are either first-party (custom code) or third-party dependencies that the developer explicitly shipped with the app. These are the primary target for security assessments.
-- **System libraries**: part of the iOS SDK, located in directories such as `/System/Library/Frameworks/` or `/usr/lib/`. They are provided by the OS and shared across all apps; they are generally not of interest unless there is a specific reason to examine them.
+- **App-bundled libraries and framework binaries**: executable code shipped inside the IPA. These are commonly located under `Payload/YourApp.app/Frameworks/`, and may include first-party frameworks, third-party frameworks, bundled `.dylib` files, and Swift runtime libraries.
+- **Other bundled executable components**: executable code shipped in other app bundle locations, such as app extensions under `Payload/YourApp.app/PlugIns/`, watch content under `Payload/YourApp.app/Watch/`, app clips, or other Mach-O files inside the app bundle.
+- **System libraries**: libraries provided by iOS, commonly referenced through paths such as `/System/Library/Frameworks/` or `/usr/lib/`. These are loaded from the operating system and are generally not part of the IPA.
+- **Statically linked code**: code from static libraries, static frameworks, or mergeable libraries that has been linked into another Mach-O binary. This code will not appear as a separate dependency in `otool -L` or radare2 `il`.
 
-The two approaches below — inspecting the `Frameworks` directory and reading the binary's load commands — provide complementary information:
+The approaches below provide complementary information:
 
-- **`Frameworks` directory**: shows what is physically bundled inside the IPA. This is the definitive list of libraries that the developer shipped.
-- **Load commands (`otool -L`, `radare2 il`)**: show all libraries that the binary is linked against, including system libraries not present in the IPA. This may include entries that are provided at runtime by the OS and are not bundled.
+- **Inspecting the IPA contents** shows what files the developer shipped. This is the best starting point for identifying bundled frameworks, dylibs, app extensions, and other executable components.
+- **Reading Mach-O load commands**, for example with `otool -L` or radare2 `il`, shows the dynamic libraries recorded as dependencies of a specific Mach-O binary. This includes system libraries and bundled libraries, but only for the binary being inspected.
+- **Runtime enumeration**, for example with Objection or Frida, shows modules loaded into the process at runtime. This can reveal libraries loaded by the dynamic linker or by runtime APIs such as `dlopen`, but it requires running the app and is not static analysis.
 
-When reviewing results from the load commands, filter out paths starting with `/System/Library/`, `/usr/lib/`, or `/usr/lib/swift/` to focus on app-bundled libraries. Note that some system libraries may also be bundled with the app to ensure compatibility with a specific iOS SDK version, so cross-referencing both approaches is useful.
+When reviewing load command output, filter out paths that clearly refer to system libraries, such as `/System/Library/` and `/usr/lib/`. Entries using `@rpath`, `@executable_path`, or `@loader_path` should be resolved against the binary's load commands and then cross checked against the IPA contents. In iOS apps, `@rpath` commonly resolves to the app's `Frameworks` directory, but this should not be assumed without verification.
+
+Some Apple supplied Swift runtime libraries, such as `libswiftCore.dylib`, may be bundled in the app's `Frameworks` directory depending on the deployment target and toolchain. These are physically shipped in the IPA, even though they are not third-party libraries.
 
 ## Inspecting the Application Bundle
 
-An IPA is a ZIP archive. Extract it and navigate to the `Frameworks` directory to list all bundled dynamic libraries. They are typically `.framework` bundles or `.dylib` files.
+An IPA is a ZIP archive. Extract it and inspect the app bundle. Bundled dynamic libraries are commonly `.framework` bundles or `.dylib` files under `Payload/YourApp.app/Frameworks/`.
 
 ```bash
 unzip -o MASTestApp.ipa -d MASTestApp
-ls -1 Frameworks/
+ls -1 MASTestApp/Payload/MASTestApp.app/Frameworks/
 App.framework
 Flutter.framework
 libswiftCore.dylib
 libswiftCoreAudio.dylib
 ...
+````
+
+To avoid missing bundled executable components, also inspect other common locations:
+
+```bash
+find MASTestApp/Payload -type d \( -name "*.framework" -o -name "*.appex" -o -name "*.app" \)
+find MASTestApp/Payload -type f \( -name "*.dylib" -o -perm -111 \)
+```
+
+Use `file` to identify Mach-O files:
+
+```bash
+file MASTestApp/Payload/MASTestApp.app/MASTestApp
+file MASTestApp/Payload/MASTestApp.app/Frameworks/App.framework/App
+file MASTestApp/Payload/MASTestApp.app/Frameworks/libswiftCore.dylib
 ```
 
 ## Using @MASTG-TOOL-0060
 
-Use the `otool -L` command on the app binary to list all dynamic libraries recorded in its Mach-O load commands.
+Use the `otool -L` command on a Mach-O binary to list the dynamic libraries recorded in its load commands.
 
 ```bash
-otool -L MASTestApp
+otool -L MASTestApp/Payload/MASTestApp.app/MASTestApp
 MASTestApp:
     /System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 2503.1.0)
     /usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
@@ -51,14 +73,31 @@ MASTestApp:
     ...
 ```
 
-Entries with `@rpath` refer to libraries resolved via the runtime search path, which typically points to the `Frameworks` directory — these are the app-bundled ones.
+Run `otool -L` on each relevant Mach-O file, not only on the main app executable. The main executable's load commands do not necessarily include dependencies that belong only to bundled frameworks, app extensions, or other Mach-O binaries.
+
+Examples:
+
+```bash
+otool -L MASTestApp/Payload/MASTestApp.app/MASTestApp
+otool -L MASTestApp/Payload/MASTestApp.app/Frameworks/App.framework/App
+otool -L MASTestApp/Payload/MASTestApp.app/Frameworks/Flutter.framework/Flutter
+otool -L MASTestApp/Payload/MASTestApp.app/Frameworks/libswiftCore.dylib
+```
+
+To inspect runtime search paths used to resolve `@rpath` entries, use:
+
+```bash
+otool -l MASTestApp/Payload/MASTestApp.app/MASTestApp | grep -A2 LC_RPATH
+```
+
+Entries with absolute paths such as `/System/Library/Frameworks/` or `/usr/lib/` usually refer to system libraries. Entries using `@rpath`, `@executable_path`, or `@loader_path` may refer to bundled libraries, but they should be resolved and cross checked against the IPA contents.
 
 ## Using @MASTG-TOOL-0073
 
-In radare2, the `il` command lists the same load command entries as `otool -L`.
+In radare2, the `il` command lists linked libraries for the currently opened binary.
 
 ```bash
-r2 MASTestApp
+r2 MASTestApp/Payload/MASTestApp.app/MASTestApp
 [0x100006e9c]> il
 [Linked libraries]
 /System/Library/Frameworks/Foundation.framework/Foundation
@@ -70,9 +109,11 @@ r2 MASTestApp
 ...
 ```
 
-## @MASTG-TOOL-0074
+As with `otool -L`, run radare2 against each Mach-O file you want to analyze. The output reflects the linked libraries for that specific binary.
 
-You can use Objection's command `list_frameworks` to list all the app's bundles that represent Frameworks.
+## Runtime Enumeration with @MASTG-TOOL-0074
+
+Objection's `ios bundles list_frameworks` command lists framework bundles visible in the running app process. This requires runtime instrumentation and is not a static analysis method.
 
 ```bash
 ...itudehacks.DVIAswiftv2.develop on (iPhone: 13.2.3) [usb] # ios bundles list_frameworks
@@ -84,7 +125,7 @@ RealmSwift      org.cocoapods.RealmSwift                   4.1.1      ...A-v2.ap
 ...
 ```
 
-The `list_bundles` command lists all the application's bundles **that are not related to frameworks**. The output includes the executable name, bundle ID, library version, and path to the library.
+The `ios bundles list_bundles` command lists loaded bundles that are not classified as frameworks. These may include the main app bundle, resource bundles, plugins, and system bundles, so the output should not be treated as a list of libraries.
 
 ```bash
 ...itudehacks.DVIAswiftv2.develop on (iPhone: 13.2.3) [usb] # ios bundles list_bundles
@@ -94,9 +135,9 @@ DVIA-v2       com.highaltitudehacks.DVIAswiftv2.develop          2  ...-1F0C-4DB
 CoreGlyphs    com.apple.CoreGlyphs                               1  ...m/Library/CoreServices/CoreGlyphs.bundle
 ```
 
-## @MASTG-TOOL-0039
+## Runtime Enumeration with @MASTG-TOOL-0039
 
-The `Process.enumerateModules()` function in Frida's REPL enumerates modules loaded into memory at runtime.
+The `Process.enumerateModules()` function in Frida's REPL enumerates modules loaded into memory at runtime. This can include system libraries, app-bundled frameworks, and libraries loaded after launch. It requires running or attaching to the app and is not static analysis.
 
 ```bash
 [iPhone::com.iOweApp]-> Process.enumerateModules()
@@ -119,6 +160,8 @@ The `Process.enumerateModules()` function in Frida's REPL enumerates modules loa
         "path": "/usr/lib/libobjc.A.dylib",
         "size": 200704
     },
-
     ...
+]
 ```
+
+Runtime enumeration is useful for confirming what is actually loaded, but it should not replace IPA inspection when the goal is to identify what was physically bundled with the app.
