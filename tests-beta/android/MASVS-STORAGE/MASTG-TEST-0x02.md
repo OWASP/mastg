@@ -6,14 +6,14 @@ type: [dynamic]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0041]
+knowledge: [MASTG-KNOW-0x01, MASTG-KNOW-0041]
 ---
 
 ## Overview
 
 This test is the dynamic counterpart to @MASTG-TEST-0x01.
 
-It uses runtime method hooking to identify whether sensitive data is written unencrypted to the app's internal storage by monitoring Java File API calls such as `Context.openFileOutput`, `FileOutputStream.write`, and `FileWriter.write`. Correlating these calls with any Cipher or KeyStore API calls lets you determine whether the data is encrypted before being written.
+It uses runtime method hooking to identify whether sensitive data is written unencrypted to the app's internal storage by monitoring Java File API calls (see @MASTG-KNOW-0x01) such as `Context.openFileOutput`, `FileOutputStream.write`, and `FileWriter.write`. Correlating these calls with any Cipher or KeyStore API calls lets you determine whether the data is encrypted before being written.
 
 ## Steps
 

@@ -6,12 +6,12 @@ type: [static]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0041]
+knowledge: [MASTG-KNOW-0x01, MASTG-KNOW-0041]
 ---
 
 ## Overview
 
-This test uses static analysis to look for uses of Java File APIs that write data to the app's internal storage (see @MASTG-KNOW-0041). These include [`Context.openFileOutput`](https://developer.android.com/reference/android/content/Context#openFileOutput(java.lang.String,%20int)), [`FileOutputStream`](https://developer.android.com/reference/java/io/FileOutputStream), and [`FileWriter`](https://developer.android.com/reference/java/io/FileWriter).
+This test uses static analysis to look for uses of Java File APIs (see @MASTG-KNOW-0x01) that write data to the app's internal storage (see @MASTG-KNOW-0041). These include [`Context.openFileOutput`](https://developer.android.com/reference/android/content/Context#openFileOutput(java.lang.String,%20int)), [`FileOutputStream`](https://developer.android.com/reference/java/io/FileOutputStream), and [`FileWriter`](https://developer.android.com/reference/java/io/FileWriter).
 
 Static analysis is great for identifying all code locations where the app is writing data to internal storage. However, it does not reveal the actual data being written at runtime. To confirm that sensitive data is written unencrypted, combine this test with the dynamic counterpart @MASTG-TEST-0x02.
 
