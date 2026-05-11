@@ -9,8 +9,11 @@
     },
     {
       "class": "java.io.FileOutputStream",
-      "methods": [
-        "write"
+      "method": "write",
+      "overloads": [
+        {
+          "args": ["[B"]
+        }
       ],
       "filterEventsByStacktrace": ["org.owasp.mastestapp"]
     },
