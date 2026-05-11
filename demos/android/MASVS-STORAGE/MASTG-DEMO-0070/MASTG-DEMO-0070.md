@@ -30,7 +30,7 @@ with its WAL/SHM files and queries the `users` table content:
 ## Observation
 
 The output contains the extracted content from the `users` table,
-showing the sensitive PII (email address) and  the access token stored in **plaintext**.
+showing the sensitive PII (email address) and the access token stored in **plaintext**.
 
 {{ output.txt }}
 
