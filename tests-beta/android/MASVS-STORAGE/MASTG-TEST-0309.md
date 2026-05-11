@@ -24,7 +24,7 @@ This test checks at runtime whether sensitive data â€” tokens, secrets, or PII â
 
 3. Extract the database files of the app to the host machine (@MASTG-TECH-0002).
 
-4. Inspect database contents using a SQLite client or dynamic analysis tool (@MASTG-TECH-0015) to confirm whether sensitive data is stored in plaintext.
+4. Inspect database contents using a SQLite client or dynamic analysis tool to confirm whether sensitive data is stored in plaintext.
 
 ## Observation
 
