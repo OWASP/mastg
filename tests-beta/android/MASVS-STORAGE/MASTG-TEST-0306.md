@@ -11,7 +11,7 @@ status: new
 
 ## Overview
 
-This test verifies whether the app's code uses the Android Room Persistence Library to store sensitive data — such as tokens, credentials, or PII — without encryption. By default, Room stores data in unencrypted SQLite databases.
+This test verifies whether the app's code uses the [Android Room Persistence Library](https://developer.android.com/training/data-storage/room) to store sensitive data — such as tokens, credentials, or PII — without encryption. By default, Room stores data in unencrypted SQLite databases.
 
 ## Steps
 
@@ -29,7 +29,7 @@ This test verifies whether the app's code uses the Android Room Persistence Libr
 ## Observation
 
 - Which Room database files are referenced in the code
-- Whether sensitive data is stored without encryption
+- Whether encryption is being applied in the code to the sensitive data before being stored
 
 ## Evaluation
 

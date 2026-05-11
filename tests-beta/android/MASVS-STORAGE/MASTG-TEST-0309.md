@@ -15,24 +15,22 @@ This test checks at runtime whether sensitive data â€” tokens, secrets, or PII â
 
 ## Steps
 
-1. Install and run the app on a rooted or emulated device (@MASTG-TECH-0005).
 
-2. Trigger app functionality that processes or stores sensitive data.
+1. Exercise all the functionalities of the app that process or store sensitive data.
 
-3. Access the app's private storage and locate Room database files:
+2. Access the app's private storage (@MASTG-TECH-0008) and locate Room database files:
    - `/data/data/<package_name>/databases/<database_name>`
    - `/data/data/<package_name>/databases/<database_name>-wal`
    - `/data/data/<package_name>/databases/<database_name>-shm`
-   (@MASTG-TECH-0008)
 
-4. Extract the database files to the host machine using @MASTG-TECH-0003.
+3. Extract the database files of the app to the host machine (@MASTG-TECH-0002).
 
-5. Inspect database contents using a SQLite client or dynamic analysis tool (@MASTG-TECH-0015) to confirm whether sensitive data is stored in plaintext.
+4. Inspect database contents using a SQLite client or dynamic analysis tool (@MASTG-TECH-0015) to confirm whether sensitive data is stored in plaintext.
 
 ## Observation
 
-- Which Room database files exist on the device
-- Whether sensitive data (tokens, secrets, PII) is stored in plaintext
+- The location of the Room database files inside the application's private storage.
+- Occurrences inside the Room database file where the sensitive data (tokens, secrets, PII) is stored in plaintext.
 
 ## Evaluation
 
