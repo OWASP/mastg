@@ -1,5 +1,5 @@
 ---
-title: Getting Bundled Native Libraries
+title: Extracting Bundled Native Libraries
 platform: android
 ---
 

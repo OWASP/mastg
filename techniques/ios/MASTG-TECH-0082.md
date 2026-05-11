@@ -1,5 +1,5 @@
 ---
-title: Getting Bundled Libraries
+title: Extracting Bundled Libraries
 platform: ios
 ---
 
