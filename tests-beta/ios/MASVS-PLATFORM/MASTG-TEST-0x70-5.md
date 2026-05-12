@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: References to openURL Selector in Binary
-id: MASTG-TEST-0070-5
+id: MASTG-TEST-0x70-5
 type: [static]
 weakness: MASWE-0083
 profiles: [L1, L2]

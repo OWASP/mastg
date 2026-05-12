@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: References to Missing URL Validation in the Data Handler
-id: MASTG-TEST-0070-4
+id: MASTG-TEST-0x70-4
 type: [static]
 weakness: MASWE-0083
 profiles: [L1, L2]

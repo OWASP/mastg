@@ -7,7 +7,7 @@ Universal Links allow iOS apps to handle HTTPS URLs and route them directly into
 
 ## Using @MASTG-TOOL-0126
 
-Extract the app's entitlements using @MASTG-TECH-0058 and use @MASTG-TOOL-0126 to parse the `entitlements.plist` file. Inspect the [`com.apple.developer.associated-domains`](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_associated-domains) key for overly permissive wildcards (e.g., `applinks:*`) or domains that do not belong to the application.
+Extract the app's entitlements using @MASTG-TECH-0111 and save the output to `entitlements.plist`. Then use @MASTG-TOOL-0126 to parse it and inspect the [`com.apple.developer.associated-domains`](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_associated-domains) key for overly permissive wildcards (e.g., `applinks:*`) or domains that do not belong to the application.
 
 ```bash
 plistutil -i entitlements.plist -f xml | grep -A 3 "com.apple.developer.associated-domains"

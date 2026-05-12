@@ -18,7 +18,7 @@ iOS [Universal Links](https://developer.apple.com/documentation/xcode/allowing-a
 
 3. **Validate all URL components in the receiver method**
 
-    an `NSUserActivity` whose `webpageURL` originates from an external source and must be treated as untrusted. Use [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) to strictly allow-list the scheme, host, path, and query parameters before processing. Drop the request if the URL does not match the expected structure.
+    An `NSUserActivity` whose `webpageURL` originates from an external source must be treated as untrusted. Use [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) to strictly allow-list the scheme, host, path, and query parameters before processing. Drop the request if the URL does not match the expected structure.
 
 4. **Validate the destination scheme before calling `UIApplication.open`**
 

@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Wildcard in the Associated Domains Entitlement
-id: MASTG-DEMO-0070-1
+id: MASTG-DEMO-0x70-1
 code: [xml]
-test: MASTG-TEST-0070-1
+test: MASTG-TEST-0x70-1
 tools: [MASTG-TOOL-0126]
 ---
 

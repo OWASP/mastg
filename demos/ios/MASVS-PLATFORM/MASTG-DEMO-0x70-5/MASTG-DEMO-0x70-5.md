@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Extracting the openURL Selector from the Binary
-id: MASTG-DEMO-0070-5
+id: MASTG-DEMO-0x70-5
 code: [swift]
-test: MASTG-TEST-0070-5
+test: MASTG-TEST-0x70-5
 tools: [MASTG-TOOL-0129]
 ---
 

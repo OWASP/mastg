@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: References to Wildcard in the Associated Domains Entitlement
-id: MASTG-TEST-0070-1
+id: MASTG-TEST-0x70-1
 type: [static]
 weakness: MASWE-0083
 profiles: [L1, L2]
@@ -15,13 +15,13 @@ If the app's [`com.apple.developer.associated-domains`](https://developer.apple.
 
 ## Steps
 
-1. Extract the app package contents using @MASTG-TECH-0058 and locate the `entitlements.plist` file at `Payload/<appname>.app/entitlements.plist`.
-2. Convert the `entitlements.plist` to a readable format using @MASTG-TECH-0x70-1.
-3. Search the extracted plist for the `com.apple.developer.associated-domains` key.
+1. Extract the app package contents using @MASTG-TECH-0058, identify the main app binary inside `Payload/<appname>.app/`, and extract its entitlements using @MASTG-TECH-0111.
+2. If needed, convert the extracted entitlements plist to a readable format using @MASTG-TECH-0x70-1.
+3. Search the extracted entitlements plist for the `com.apple.developer.associated-domains` key.
 
 ## Observation
 
-The output should contain the `associated-domains` array extracted from the entitlements file, listing all the domains the OS will trust for Universal Links.
+The output should contain the `associated-domains` array extracted from the app's entitlements, listing all the domains the OS will trust for Universal Links.
 
 ## Evaluation
 

@@ -1,8 +1,8 @@
 ---
 platform: ios
-title: Runtime Validation of the Apple App Site Association File
-id: MASTG-TEST-0070-7
-type: [dynamic]
+title: Network Validation of the Apple App Site Association File
+id: MASTG-TEST-0x70-7
+type: [network]
 weakness: MASWE-0083
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0x70-1]

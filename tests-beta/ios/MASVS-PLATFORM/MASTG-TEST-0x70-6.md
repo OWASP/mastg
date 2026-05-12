@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Runtime Injection of Universal Link Payloads
-id: MASTG-TEST-0070-6
+id: MASTG-TEST-0x70-6
 type: [dynamic]
 weakness: MASWE-0083
 profiles: [L1, L2]

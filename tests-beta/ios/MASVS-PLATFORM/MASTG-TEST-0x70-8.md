@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Runtime Tracing of the Universal Link Receiver Method
-id: MASTG-TEST-0070-8
+id: MASTG-TEST-0x70-8
 type: [dynamic]
 weakness: MASWE-0083
 profiles: [L1, L2]

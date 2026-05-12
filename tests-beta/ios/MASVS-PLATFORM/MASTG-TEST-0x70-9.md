@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Runtime Tracing of Outgoing External Links
-id: MASTG-TEST-0070-9
+id: MASTG-TEST-0x70-9
 type: [dynamic]
 weakness: MASWE-0083
 profiles: [L1, L2]

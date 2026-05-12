@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Tracing the Universal Link Receiver Method with Frida
-id: MASTG-DEMO-0070-8
+id: MASTG-DEMO-0x70-8
 code: [swift]
-test: MASTG-TEST-0070-8
+test: MASTG-TEST-0x70-8
 tools: [MASTG-TOOL-0039]
 ---
 

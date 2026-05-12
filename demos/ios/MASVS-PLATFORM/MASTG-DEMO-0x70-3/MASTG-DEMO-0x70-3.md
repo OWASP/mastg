@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Extracting the Universal Link Receiver Selector from the Binary
-id: MASTG-DEMO-0070-3
+id: MASTG-DEMO-0x70-3
 code: [swift]
-test: MASTG-TEST-0070-3
+test: MASTG-TEST-0x70-3
 tools: [MASTG-TOOL-0129]
 ---
 

@@ -1,8 +1,8 @@
 ---
 platform: ios
-title: References to Misconfigured Apple App Site Association File
-id: MASTG-TEST-0070-2
-type: [static, dynamic]
+title: Verification of Apple App Site Association File Configuration
+id: MASTG-TEST-0x70-2
+type: [static, manual, network]
 weakness: MASWE-0083
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0x70-1]
@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-If the [apple-app-site-association](https://developer.apple.com/documentation/xcode/supporting-associated-domains) (AASA) file is misconfigured through overly permissive `appIDs`, wildcard path entries, or being served over HTTP, an attacker can register an unauthorized app to claim Universal Links intended for the legitimate application. This can lead to link hijacking, unintended data exposure, or the interception of sensitive payloads passed via Universal Links. This test checks whether the AASA file is served securely and scoped to only the authorized app identifiers and paths.
+If the [apple-app-site-association](https://developer.apple.com/documentation/xcode/supporting-associated-domains) (AASA) file is misconfigured through overly permissive `appIDs`, wildcard path entries, or being served over HTTPS, an attacker can register an unauthorized app to claim Universal Links intended for the legitimate application. This can lead to link hijacking, unintended data exposure, or the interception of sensitive payloads passed via Universal Links. This test checks whether the AASA file is served securely and scoped to only the authorized app identifiers and paths.
 
 ## Steps
 
