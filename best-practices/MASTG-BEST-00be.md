@@ -3,7 +3,7 @@ title: Use Hardware-Backed Key Attestation for Device and App Integrity
 alias: android-hardware-backed-attestation
 id: MASTG-BEST-00be
 platform: android
-knowledge: [MASTG-KNOW-0044, MASTG-KNOW-0047, MASTG-KNOW-01kw, MASTG-KNOW-02kw]
+knowledge: [MASTG-KNOW-0044, MASTG-KNOW-0047, MASTG-KNOW-0119, MASTG-KNOW-0120]
 ---
 
 Applications that perform business-critical operations, such as financial transactions, multi-factor authentication, or sensitive data handling, should verify the integrity of the device environment before trusting it. Use Android's Key Attestation (@MASTG-KNOW-0044) to cryptographically verify that the client's keys reside in hardware-backed storage and that the device has not been compromised.
