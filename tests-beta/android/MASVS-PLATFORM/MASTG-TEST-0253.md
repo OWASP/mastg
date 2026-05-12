@@ -31,9 +31,7 @@ The output should contain a list of WebView instances and corresponding settings
 
 ## Evaluation
 
-**Fail:**
-
-The test case fails if all of the following are true:
+The test case fails if all of the following applies:
 
 - `JavaScriptEnabled` is `true`.
 - `AllowFileAccess` is `true`.
@@ -41,11 +39,3 @@ The test case fails if all of the following are true:
 
 !!! note
     `AllowFileAccess` being `true` does not represent a vulnerability by itself, but it can increase impact when combined with insecure JavaScript and file URL settings.
-
-**Pass:**
-
-The test case passes if any of the following are true:
-
-- `JavaScriptEnabled` is `false`.
-- `AllowFileAccess` is `false`.
-- Both `AllowFileAccessFromFileURLs` and `AllowUniversalAccessFromFileURLs` are `false`.
