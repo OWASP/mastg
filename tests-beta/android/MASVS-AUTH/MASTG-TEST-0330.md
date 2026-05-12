@@ -29,12 +29,10 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app configures keys used for sensitive operations with:
+The test case fails if the app configures keys used for sensitive operations with:
 
 - `setUserAuthenticationParameters(duration, type)` where duration > 0
 - `setUserAuthenticationValidityDurationSeconds(duration)` where duration > 0
-
-The test passes if the app uses `setUserAuthenticationParameters(0, type)` to require authentication for every cryptographic operation when protecting sensitive data resources or sensitive functionality.
 
 !!! note
     A non-zero authentication validity duration is not inherently a vulnerability. Short durations in the range of seconds may be acceptable for certain use cases where multiple related operations need to be performed in quick succession. However, for high-security applications and sensitive operations, requiring authentication per use (duration = 0) provides the strongest protection against unauthorized key usage and runtime attacks.

@@ -25,7 +25,7 @@ The output should contain the list of permissions declared by the app.
 
 ## Evaluation
 
-The test fails if there are any dangerous permissions in the app.
+The test case fails if there are any dangerous permissions in the app.
 
 Compare the list of declared permissions with the list of [dangerous permissions](https://android.googlesource.com/platform/frameworks/base/%2B/master/core/res/AndroidManifest.xml) defined by Android. You can find more details in the [Android documentation](https://developer.android.com/reference/android/Manifest.permission).
 

@@ -24,4 +24,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app uses the general pasteboard without setting an expiration date for its contents. Specifically, ensure that the `UIPasteboard.setItems(_:options:)` method is called with the `UIPasteboard.Options.expirationDate` option.
+The test case fails if the app uses the general pasteboard without setting an expiration date for its contents. Specifically, ensure that the `UIPasteboard.setItems(_:options:)` method is called with the `UIPasteboard.Options.expirationDate` option.

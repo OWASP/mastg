@@ -42,7 +42,7 @@ The output should contain:
 
 ## Evaluation
 
-The test fails if any of the following is missing in the privacy manifest files' `NSPrivacyTrackingDomains` key for the app or any of its components (Frameworks, Plugins, etc.):
+The test case fails if any of the following is missing in the privacy manifest files' `NSPrivacyTrackingDomains` key for the app or any of its components (Frameworks, Plugins, etc.):
 
 - Tracking domains contacted by the app at runtime.
 - Tracking domains found in the code.

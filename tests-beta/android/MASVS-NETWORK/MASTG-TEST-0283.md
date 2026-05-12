@@ -24,7 +24,7 @@ The output should contain a list of locations where `HostnameVerifier` is used.
 
 ## Evaluation
 
-The test fails if the app does **not** properly validate that the server's hostname matches the certificate.
+The test case fails if the app does **not** properly validate that the server's hostname matches the certificate.
 
 This includes cases such as:
 

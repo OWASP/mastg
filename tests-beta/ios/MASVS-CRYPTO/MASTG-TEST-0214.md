@@ -27,6 +27,6 @@ The output should include any instances where potential cryptographic keys are f
 
 ## Evaluation
 
-The test fails if hardcoded cryptographic keys are found within the source code or binary.
+The test case fails if hardcoded cryptographic keys are found within the source code or binary.
 
 Ensure that any identified keys are indeed cryptographic keys used for security-relevant purposes. Avoid false positives by verifying the key's usage context (e.g., configuration settings or non-security-related constants might be misidentified as cryptographic keys).

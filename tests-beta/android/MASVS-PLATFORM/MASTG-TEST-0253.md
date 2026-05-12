@@ -19,7 +19,11 @@ This test is the dynamic counterpart to @MASTG-TEST-0252.
 
 1. Use @MASTG-TECH-0015 to either:
     - enumerate instances of `WebView` in the app and list their configuration values
-    - or explicitly hook the setters of the `WebView` settings
+    - or explicitly hook the setters of the `WebView` settings, including:
+        - `setJavaScriptEnabled`
+        - `setAllowFileAccess`
+        - `setAllowFileAccessFromFileURLs`
+        - `setAllowUniversalAccessFromFileURLs`
 
 ## Observation
 
@@ -27,20 +31,11 @@ The output should contain a list of WebView instances and corresponding settings
 
 ## Evaluation
 
-**Fail:**
+The test case fails if all of the following applies (based on the [API behavior across different Android versions](../../../Document/0x05h-Testing-Platform-Interaction.md#webview-local-file-access-settings)):
 
-The test fails if all of the following are true:
+- `setJavaScriptEnabled` is explicitly set to `true`.
+- `setAllowFileAccess` is explicitly set to `true` (or not used at all when `minSdkVersion` < 30, inheriting the default value, `true`).
+- Either `setAllowFileAccessFromFileURLs` or `setAllowUniversalAccessFromFileURLs` is explicitly set to `true` (or not used at all when `minSdkVersion` < 16, inheriting the default value, `true`).
 
-- `AllowFileAccess` is `true`.
-- `AllowFileAccessFromFileURLs` is `true`.
-- `AllowUniversalAccessFromFileURLs` is `true`.
-
-**Note:** `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack. Therefore, it is recommended to explicitly set it to `false` if the app does not need to access local files.
-
-**Pass:**
-
-The test passes if any of the following are true:
-
-- `AllowFileAccess` is `false`.
-- `AllowFileAccessFromFileURLs` is `false`.
-- `AllowUniversalAccessFromFileURLs` is `false`.
+!!! note
+    `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

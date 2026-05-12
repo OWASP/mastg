@@ -28,4 +28,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if an app doesn't use any APIs to verify the presence of a secure screen lock.
+The test case fails if an app doesn't use any APIs to verify the presence of a secure screen lock.

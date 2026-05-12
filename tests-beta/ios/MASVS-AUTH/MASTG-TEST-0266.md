@@ -28,7 +28,7 @@ The output should contain the locations where the `LAContext.evaluatePolicy` and
 
 ## Evaluation
 
-The test fails if for each sensitive data resource worth protecting:
+The test case fails if for each sensitive data resource worth protecting:
 
 - `LAContext.evaluatePolicy` is used explicitly.
 - There are no calls to `SecAccessControlCreateWithFlags` requiring user presence with [any of the possible flags](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags).

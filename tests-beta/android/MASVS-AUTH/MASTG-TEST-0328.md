@@ -28,9 +28,4 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app uses `setInvalidatedByBiometricEnrollment(false)` for keys used to protect sensitive data resources.
-
-The test passes if the app either:
-
-- uses `setInvalidatedByBiometricEnrollment(true)` explicitly, or
-- relies on the default behavior, which invalidates keys on new biometric enrollment when `setUserAuthenticationRequired(true)` is set.
+The test case fails if the app uses `setInvalidatedByBiometricEnrollment(false)` for keys used to protect sensitive data resources.
