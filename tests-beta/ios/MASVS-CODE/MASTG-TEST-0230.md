@@ -34,5 +34,5 @@ The test case fails if any binary or library containing Objective-C or Swift cod
 
 !!! note
     Checking for these symbols only indicates that ARC is enabled somewhere in the app. While ARC is typically enabled or disabled for the entire binary, there can be corner cases where only parts of the application or libraries are protected. For example, if the app developer statically links a library that has ARC enabled, but disables it for the entire application.
-    
+
     If you want to be sure that specific security-critical methods are adequately protected, you need to reverse-engineer each of them and manually check for ARC, or request the source code from the developer.
