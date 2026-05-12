@@ -32,13 +32,14 @@ The output should contain a list of symbols of the main binary and each shared l
 
 ## Evaluation
 
-The test case fails any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
+The test case fails if any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
 
-**Note:** Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
+!!! note
+    Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
 
 If you want to be sure that specific security-critical methods are sufficiently protected, you need to reverse-engineer each of them and manually check for stack smashing protection.
 
-When evaluating this please note that there are potential **expected false positives** for which the test case should be considered as passed. To be certain for these cases, they require manual review of the original source code and the compilation flags used.
+When evaluating this, please note that there are potential **expected false positives** for which the test case should be considered as passed. To be certain for these cases, they require manual review of the original source code and the compilation flags used.
 
 The following examples cover some of the false positive cases that might be encountered:
 

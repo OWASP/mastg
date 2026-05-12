@@ -25,6 +25,4 @@ The output should include any instances of common jailbreak detection checks in 
 
 ## Evaluation
 
-The test passes if jailbreak detection is implemented.
-
-The test fails if jailbreak detection is not implemented. However, note that this test is not exhaustive and may not detect all jailbreak detection checks. Manual reverse engineering and deobfuscation may be required to identify more sophisticated jailbreak detection checks.
+The test case fails if jailbreak detection is not implemented. However, note that this test is not exhaustive and may not detect all jailbreak detection checks. Manual reverse engineering and deobfuscation may be required to identify more sophisticated jailbreak detection checks.

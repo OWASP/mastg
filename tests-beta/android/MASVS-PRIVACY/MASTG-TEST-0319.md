@@ -23,4 +23,4 @@ The output should list the locations where SDK methods are called, their stacktr
 
 ## Evaluation
 
-The test case fails if you can find sensitive user data being passed to these SDK methods in the app code, indicating that the app is sharing sensitive user data with the third-party SDK. If no such data sharing is found, the test case passes.
+The test case fails if you can find sensitive user data being passed to these SDK methods in the app code, indicating that the app is sharing sensitive user data with the third-party SDK.

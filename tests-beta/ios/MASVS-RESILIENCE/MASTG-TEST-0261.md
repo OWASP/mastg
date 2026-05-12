@@ -23,4 +23,4 @@ The output should contain the value of the `get-task-allow` entitlement.
 
 ## Evaluation
 
-The test fails if the `get-task-allow` entitlement is `true`.
+The test case fails if the `get-task-allow` entitlement is `true`.

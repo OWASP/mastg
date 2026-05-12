@@ -35,7 +35,8 @@ The test case fails if all of the following applies:
 
 - `JavaScriptEnabled` is `true`.
 - `AllowFileAccess` is `true`.
-- Either `AllowFileAccessFromFileURLs` or `AllowUniversalAccessFromFileURLs` is `true`.
+- `AllowFileAccessFromFileURLs` is `true`.
+- `AllowUniversalAccessFromFileURLs` is `true`.
 
 !!! note
-    `AllowFileAccess` being `true` does not represent a vulnerability by itself, but it can increase impact when combined with insecure JavaScript and file URL settings.
+    `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

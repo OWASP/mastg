@@ -33,9 +33,7 @@ The output should contain any instances of root detection checks, along with the
 
 ## Evaluation
 
-The test case fails if no instances of root detection checks are observed.
-
-The test passes if root detection checks are observed. However, results from this test should be interpreted as evidence of the presence of root detection logic, not as an assessment of its robustness or effectiveness. See @MASTG-BEST-0030.
+The test case fails if no instances of root detection checks are observed. However, results from this test should be interpreted as evidence of the presence of root detection logic, not as an assessment of its robustness or effectiveness. See @MASTG-BEST-0030.
 
 **Expected False Negatives:**
 
