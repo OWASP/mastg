@@ -39,7 +39,7 @@ Flutter.framework
 libswiftCore.dylib
 libswiftCoreAudio.dylib
 ...
-````
+```
 
 To avoid missing bundled executable components, also inspect other common locations:
 
