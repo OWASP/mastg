@@ -9,13 +9,13 @@ This technique describes how to identify and extract the native libraries loaded
 
 The file `/proc/<pid>/maps` contains the currently mapped memory regions and their access permissions. Using this file, we can get the list of the libraries loaded in the process.
 
-```bash
 ## Using Process Memory Maps
 
 The Linux kernel exposes the memory map of every process through the virtual file `/proc/<pid>/maps`. Each line describes one mapped region and contains: the virtual address range, memory permissions (`r`ead/`w`rite/e`x`ecute/`p`rivate or `s`hared), the offset within the backing file, the device, the inode, and the pathname.
 
 Use @MASTG-TOOL-0004 to read this file for the target process (root is required on production builds):
 
+```bash
 12c00000-52c00000 rw-p 00000000 00:04 14917                              /dev/ashmem/dalvik-main space (region space) (deleted)
 6f019000-6f2c0000 rw-p 00000000 fd:00 1146914                            /data/dalvik-cache/arm64/system@framework@boot.art
 ...
@@ -27,23 +27,25 @@ Use @MASTG-TOOL-0004 to read this file for the target process (root is required 
 
 ## Using Frida
 
-You can retrieve process-related information straight from the Frida CLI by using the `Process` command. Within the `Process` command, the function `enumerateModules` lists the libraries loaded into the process memory.
+You can retrieve process-related information straight from the Frida CLI by using the `Process.enumerateModules` lists the libraries loaded into the process memory.
 
 ```bash
-[Huawei Nexus 6P::sg.vantagepoint.helloworldjni]-> Process.enumerateModules()
+[Android Emulator 5554::MASTestApp ]-> Process.enumerateModules()
 [
-    {
-        "base": "0x558a442000",
-        "name": "app_process64",
-        "path": "/system/bin/app_process64",
-        "size": 32768
+   {
+        "base": "0x766af82000",
+        "name": "libcutils.so",
+        "path": "/apex/com.android.vndk.v34/lib64/libcutils.so",
+        "size": 204800,
+        "version": null
     },
     {
-        "base": "0x78bc984000",
-        "name": "libandroid_runtime.so",
-        "path": "/system/lib64/libandroid_runtime.so",
-        "size": 2011136
+        "base": "0x7668523000",
+        "name": "libc++.so",
+        "path": "/apex/com.android.vndk.v34/lib64/libc++.so",
+        "size": 827392,
+        "version": null
     },
 ...
-
+]
 ```
