@@ -17,6 +17,7 @@ iOS enforces [mandatory code signing](https://support.apple.com/guide/security/a
 
 The trust cache check is what prevents loading a library that is not in the app's bundle, even if it is validly signed with the developer's own Team ID. Such a library passes the Team ID check but its code directory hash is not in the trust cache because it was never installed through an Apple-controlled mechanism. Attempting to load it fails unconditionally:
 
+```txt
 dlopen failed: ... no suitable image found. Did find:
     ...: code signing blocked mmap() of '<path>'
 ```
