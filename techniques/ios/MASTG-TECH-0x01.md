@@ -107,6 +107,8 @@ CoreGlyphs    com.apple.CoreGlyphs                               1  ...m/Library
 
 ## Extracting Libraries
 
-Since all loaded libraries must come from the app's bundle and are not FairPlay-encrypted.
+When analyzing loaded libraries, distinguish iOS system libraries from app bundled libraries. System libraries are provided by the operating system and are commonly mapped from the dyld shared cache, see ["A Deep Dive into Dyld Cache"](https://www.nowsecure.com/blog/2024/09/11/reversing-ios-system-libraries-using-radare2-a-deep-dive-into-dyld-cache-part-1/) for more details. This section focuses on app bundled libraries, for example embedded frameworks under `Frameworks/`, app extensions under `PlugIns/`, and bundled `.dylib` files.
 
-App Store DRM only encrypts the `__TEXT` segment of the main app binary, not the embedded frameworks in `Frameworks/`, which can be verified by checking that their `cryptid` field is `0` with `otool -l`; the binary you find in the bundle on disk is identical to what is mapped in memory. There is no need for a memory dump to obtain the library binary; therefore, to extract any of these libraries, use the static techniques described in @MASTG-TECH-0082.
+App Store FairPlay encryption should be checked per Mach-O file. Do not assume that embedded frameworks are always unencrypted. For each bundled executable, inspect the `LC_ENCRYPTION_INFO` or `LC_ENCRYPTION_INFO_64` load command with `otool -l`. A `cryptid` value of `1` indicates that the file is encrypted on disk, while `0` indicates that it is not encrypted or has already been decrypted.
+
+If a bundled library has `cryptid 0`, it can be extracted directly from the app bundle and does not need to be dumped from memory. If it has `cryptid 1`, extract it from memory using the same FairPlay decryption workflow used for encrypted app binaries.

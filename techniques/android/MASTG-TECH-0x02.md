@@ -5,11 +5,9 @@ platform: android
 
 This technique describes how to identify native libraries (`.so` files) that are packaged inside an Android app's APK using static analysis (without running the app). Native libraries are stored in the `lib/` directory of the APK, organized by CPU architecture (ABI).
 
-## Inspecting the APK
+## Using `unzip`
 
 An APK is a ZIP archive. You can extract it with standard tools and list the native libraries in the `lib/` directory.
-
-### Using `unzip`
 
 ```bash
 unzip -o YourApp.apk "lib/*" -d YourApp
@@ -19,7 +17,7 @@ YourApp/lib/armeabi-v7a/libnative-lib.so
 ...
 ```
 
-### Using @MASTG-TOOL-0011
+## Using @MASTG-TOOL-0011
 
 @MASTG-TOOL-0011 unpacks the APK and preserves the directory structure, making it easy to inspect the `lib/` folder.
 
