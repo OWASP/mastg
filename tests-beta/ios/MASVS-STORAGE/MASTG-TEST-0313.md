@@ -45,4 +45,4 @@ The test case fails if any UI inputs that may handle sensitive values, for examp
 - `spellCheckingType` is set to `default` or `yes`.
 
 !!! note
- Depending on the app's threat model, some text fields may not require disabling spell checking. However, since enabling `isSecureTextEntry` implicitly disables both autocorrection and spell checking, and since explicit guarantees are otherwise limited, it is generally advisable to disable all three attributes for any text field that may handle sensitive information.
+    Depending on the app's threat model, some text fields may not require disabling spell checking. However, since enabling `isSecureTextEntry` implicitly disables both autocorrection and spell checking, and since explicit guarantees are otherwise limited, it is generally advisable to disable all three attributes for any text field that may handle sensitive information.

@@ -68,7 +68,7 @@ The output should contain:
 
 ## Evaluation
 
-The test case fails if all of the following are true:
+The test case fails if all of the following applies:
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `setAllowContentAccess` is explicitly set to `true` or _not used at all_ (inheriting the default value, `true`).
@@ -77,4 +77,4 @@ The test case fails if all of the following are true:
 You should use the list of content providers obtained in the observation step to verify if they handle sensitive data.
 
 !!! note
- The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.
+    The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

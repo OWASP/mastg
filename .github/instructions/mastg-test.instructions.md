@@ -257,14 +257,6 @@ An explanation of the conditions that make the test pass must not be added. It i
 
 A pass explanation can only be added for rare edge cases where it is unavoidable due to conditions particular to that case.
 
-In that case, it MUST start with "The test case passes if ..." and a fail explanation must not be added.
-
-Example:
-
-```md
-## Evaluation
-
-The test passes if all security-sensitive inputs are protected against keyboard caching.
-```
+In that case, it MUST start with "The test case passes if ..." and must be added after the fail explanation.
 
 IMPORTANT: Do not include remediation advice or best practices in the evaluation section. Remediation belongs in `best-practices/` and must be linked in the test metadata `best-practices`. If it does not exist yet, create it.

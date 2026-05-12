@@ -27,7 +27,7 @@ The output should contain a list of WebView instances and corresponding settings
 
 ## Evaluation
 
-The test case fails if all of the following are true:
+The test case fails if all of the following applies:
 
 - `JavaScriptEnabled` is `true`.
 - `AllowContentAccess` is `true`.
@@ -36,4 +36,4 @@ The test case fails if all of the following are true:
 You should use the list of content providers obtained in @MASTG-TEST-0250 to verify if they handle sensitive data.
 
 !!! note
- `AllowContentAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.
+    `AllowContentAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

@@ -27,11 +27,11 @@ The output should contain a list of WebView instances and corresponding settings
 
 ## Evaluation
 
-The test case fails if all of the following are true:
+The test case fails if all of the following applies:
 
 - `AllowFileAccess` is `true`.
 - `AllowFileAccessFromFileURLs` is `true`.
 - `AllowUniversalAccessFromFileURLs` is `true`.
 
 !!! note
- `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.
+    `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

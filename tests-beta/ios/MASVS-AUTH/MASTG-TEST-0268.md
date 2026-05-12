@@ -30,4 +30,4 @@ The output should contain a list of locations where relevant APIs are used.
 The test case fails if the app uses `SecAccessControlCreateWithFlags` with the `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` flags for any sensitive data resource that needs protection.
 
 !!! note
- Using `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` is not inherently a vulnerability, but in high-security applications (e.g., finance, government, health), their use can represent a weakness or misconfiguration that reduces the intended security posture. This issue is therefore better categorized as a security weakness or hardening issue, not a critical vulnerability.
+    Using `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` is not inherently a vulnerability, but in high-security applications (e.g., finance, government, health), their use can represent a weakness or misconfiguration that reduces the intended security posture. This issue is therefore better categorized as a security weakness or hardening issue, not a critical vulnerability.

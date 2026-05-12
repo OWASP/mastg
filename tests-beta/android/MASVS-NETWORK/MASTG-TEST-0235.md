@@ -43,4 +43,6 @@ The test case fails if cleartext traffic is permitted. This can happen if any of
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
 </network-security-config>
-```
+    The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
+    
+    
