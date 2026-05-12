@@ -24,7 +24,7 @@ In contrast, the **Keychain** API securely stores sensitive data, and can be con
 
 ## Observation
 
-The analysis should output the locations where the `LAContext.evaluatePolicy` and Keychain APIs are used in the codebase (or the lack of their use).
+The output should contain the locations where the `LAContext.evaluatePolicy` and Keychain APIs are used in the codebase (or the lack of their use).
 
 ## Evaluation
 

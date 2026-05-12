@@ -31,7 +31,7 @@ You can use one of the following approaches:
 
 ## Observation
 
-The output contains the captured network traffic.
+The output should contain the captured network traffic.
 
 ## Evaluation
 
