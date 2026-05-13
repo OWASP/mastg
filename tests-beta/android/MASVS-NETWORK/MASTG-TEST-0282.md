@@ -26,7 +26,7 @@ The output should contain a list of locations where `checkServerTrusted(...)` is
 
 ## Evaluation
 
-The test fails if `checkServerTrusted(...)` is implemented in a custom `X509TrustManager` and does **not** properly validate server certificates.
+The test case fails if `checkServerTrusted(...)` is implemented in a custom `X509TrustManager` and does **not** properly validate server certificates.
 
 This includes cases such as:
 

@@ -28,7 +28,7 @@ The output should contain a list of locations where `onReceivedSslError(...)` th
 
 ## Evaluation
 
-The test fails if `onReceivedSslError(...)` is overridden and certificate errors are ignored without proper validation or user involvement.
+The test case fails if `onReceivedSslError(...)` is overridden and certificate errors are ignored without proper validation or user involvement.
 
 This includes cases such as:
 

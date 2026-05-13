@@ -24,4 +24,4 @@ The output should contain a list of locations where logging APIs are used.
 
 ## Evaluation
 
-The test fails if an app logs sensitive information from any of the listed locations.
+The test case fails if an app logs sensitive information from any of the listed locations.
