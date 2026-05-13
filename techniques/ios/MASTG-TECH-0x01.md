@@ -46,7 +46,7 @@ This means the dynamic technique is complementary to the static one:
 ```javascript
 // Attach with: frida -U -n <AppName>
 Process.enumerateModules()
-  .filter(m => m.path.endsWith('.dylib') || m.path.endsWith('/<AppName>')
+  .filter(m => (m.path.endsWith('.dylib') || m.path.endsWith('/<AppName>'))
             && !m.path.startsWith('/System/')
             && !m.path.startsWith('/usr/'));
 ```
