@@ -10,6 +10,11 @@ on:
       - 'tools/**'
       - 'techniques/**'
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   check-duplicates:
     runs-on: ubuntu-latest

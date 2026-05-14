@@ -4,6 +4,9 @@ on:
     branches:
       - "*"
 
+permissions:
+  contents: read
+
 jobs:
   build:
     uses: OWASP/mas-website/.github/workflows/build-website-reusable.yml@main
