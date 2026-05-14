@@ -9,4 +9,4 @@ However, there are a few Android-specific challenges as well. For example, you'l
 
 You'll need at least a working knowledge of both the Java-based Android environment and the Linux OS and Kernel, on which Android is based. You'll also need the right toolset to work with both bytecode running on the Java virtual machine and native code.
 
-To reserve engineer Android apps, consider the following techniques: @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018.
+To reverse engineer Android apps, consider the following techniques: @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018.
