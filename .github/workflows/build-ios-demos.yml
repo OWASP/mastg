@@ -13,6 +13,9 @@ on:
     paths:
       - 'demos/**'
       - '.github/workflows/build-ios-demos.yml'
+permissions:
+  contents: read
+
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
