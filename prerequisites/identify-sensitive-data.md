@@ -62,7 +62,7 @@ The level of scrutiny appropriate for each state may depend on the data's import
 
 ### MAS-ASSET Matrix
 
-The MAS-ASSET classification combines the two data categories (Intellectual Property and User Data) with the three data states (at rest, in use, in transit) to produce six asset types. Each MAS Test targets one or more of these asset types, making it clear exactly **what kind of data** and **in which state** a test is designed to protect.
+The MAS-ASSET classification combines the two data categories (Intellectual Property and User Data) with the three data states (at rest, in use, in transit) to produce six asset types. Each MAS TEST targets one or more of these asset types, making it clear exactly **what kind of data** and **in which state** a test is designed to protect.
 
 |                           | Any state      | Data at rest    | Data in use    | Data in transit |
 |---------------------------|----------------|-----------------|----------------|-----------------|
