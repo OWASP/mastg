@@ -17,7 +17,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0250.
 
 ## Steps
 
-1. Use @MASTG-TECH-0015 to either:
+1. Use @MASTG-TECH-0043 to either:
     - enumerate instances of `WebView` in the app and list their configuration values
     - or explicitly hook the setters of the `WebView` settings
 
