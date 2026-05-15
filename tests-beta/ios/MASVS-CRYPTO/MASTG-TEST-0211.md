@@ -32,7 +32,7 @@ Note: the **Security** framework only supports asymmetric algorithms and is ther
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 or @MASTG-TECH-0067 to look for uses of the cryptographic functions that perform hashing operations.
+1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the cryptographic functions that perform hashing operations.
 
 ## Observation
 

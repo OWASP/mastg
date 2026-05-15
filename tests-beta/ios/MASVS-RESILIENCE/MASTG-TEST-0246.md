@@ -16,7 +16,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0248.
 
 ## Steps
 
-1. Use @MASTG-TECH-0067 to look for uses of [LAContext.canEvaluatePolicy(.deviceOwnerAuthentication)](https://developer.apple.com/documentation/localauthentication/lacontext/canevaluatepolicy(_:error:)) API or data stored with [kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessiblewhenpasscodesetthisdeviceonly) attribute.
+1. Use @MASTG-TECH-0095 to look for uses of [`LAContext.canEvaluatePolicy(.deviceOwnerAuthentication)`](https://developer.apple.com/documentation/localauthentication/lacontext/canevaluatepolicy(_:error:)) API or data stored with [`kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly`](https://developer.apple.com/documentation/security/ksecattraccessiblewhenpasscodesetthisdeviceonly) attribute.
 
 ## Observation
 
