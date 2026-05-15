@@ -223,7 +223,7 @@ Notes:
 
 - Always link to existing MASTG-TECH by ID (for example, @MASTG-TECH-0014)
 - Don't reference MASTG tools directly (this may still be happening in some tests, and we must fix it.)
-- Always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action. **Exception:** @MASTG-TECH-0066 (Static Analysis on iOS) operates on a binary, so use `Run @MASTG-TECH-0066 on the app binary and look for ...` instead.
+- Always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action.
 - Use "reverse engineer" (non-hyphenated) when referring to the process and "reverse-engineered" (hyphenated) when referring to the code.
 - Be consistent by reusing the steps from existing tests. Do not create new phrasing or wording when it's not necessary.
 
@@ -250,7 +250,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
-| Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Use `Run @MASTG-TECH-0066 on the app binary and look for ...` |
+| Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Default for static steps |
 | Method hooking (dynamic) | @MASTG-TECH-0095 | Method Hooking | Preferred over 0067 for hooking/instrumentation |
 | Network traffic monitoring | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | |
 | **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad — only use if no specific technique fits |
