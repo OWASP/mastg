@@ -8,6 +8,10 @@ title: Checking for Sensitive Data Disclosure Through the User Interface
 masvs_v1_levels:
 - L1
 - L2
+profiles: [L2]
+status: deprecated
+covered_by: [MASTG-TEST-0316]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview

@@ -7,6 +7,8 @@ apis: [WebView, WebSettings, getSettings, ContentProvider, setAllowContentAccess
 type: [static]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013]
+profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0018]
 ---
 
 ## Overview
@@ -18,7 +20,7 @@ The JavaScript code would have access to any content providers on the device suc
 - declared by the app, **even if they are not exported**.
 - declared by other apps, **only if they are exported** and if they are not following recommended [best practices](https://developer.android.com/privacy-and-security/security-tips#content-providers) to restrict access.
 
-Refer to [WebView Content Provider Access](../../../Document/0x05h-Testing-Platform-Interaction.md/#webview-content-provider-access) for more information on the `setAllowContentAccess` method, the specific files that can be accessed and the conditions under which they can be accessed.
+Refer to @MASTG-KNOW-0018 for more information on the `setAllowContentAccess` method, the specific files that can be accessed and the conditions under which they can be accessed.
 
 **Example Attack Scenario:**
 
@@ -66,9 +68,7 @@ The output should contain:
 
 ## Evaluation
 
-**Fail:**
-
-The test fails if all of the following are true:
+The test case fails if all of the following applies:
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `setAllowContentAccess` is explicitly set to `true` or _not used at all_ (inheriting the default value, `true`).
@@ -76,12 +76,5 @@ The test fails if all of the following are true:
 
 You should use the list of content providers obtained in the observation step to verify if they handle sensitive data.
 
-**Note:** The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack. Therefore, it is recommended to explicitly set it to `false` if the app does not need to access content providers.
-
-**Pass:**
-
-The test passes if any of the following are true:
-
-- `setJavaScriptEnabled` is explicitly set to `false` or _not used at all_ (inheriting the default value, `false`).
-- `setAllowContentAccess` method is explicitly set to `false`.
-- `setAllowUniversalAccessFromFileURLs` method is explicitly set to `false`.
+!!! note
+    The `setAllowContentAccess` method being set to `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

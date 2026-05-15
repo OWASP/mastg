@@ -8,6 +8,10 @@ title: Testing Endpoint Identify Verification
 masvs_v1_levels:
 - L1
 - L2
+profiles: [L1, L2]
+status: deprecated
+covered_by: [MASTG-TEST-0282, MASTG-TEST-0283, MASTG-TEST-0284, MASTG-TEST-0285, MASTG-TEST-0286]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview
@@ -23,7 +27,8 @@ Two key issues should be addressed:
 
 Make sure that the hostname and the certificate itself are verified correctly. Examples and common pitfalls are available in the [official Android documentation](https://developer.android.com/training/articles/security-ssl.html "Android Documentation - SSL"). Search the code for examples of `TrustManager` and `HostnameVerifier` usage. In the sections below, you can find examples of the kind of insecure usage that you should look for.
 
-> Note that from Android 8.0 (API level 26) onward, there is no support for SSLv3 and `HttpsURLConnection` will no longer perform a fallback to an insecure TLS/SSL protocol.
+!!! note
+    From Android 8.0 (API level 26) onward, there is no support for SSLv3, and `HttpsURLConnection` will no longer perform a fallback to an insecure TLS/SSL protocol.
 
 ### Verifying the Target SDK Version
 

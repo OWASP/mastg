@@ -1,5 +1,5 @@
 ---
-title: Frida for iOS
+title: Frida (iOS)
 platform: ios
 source: https://github.com/frida/frida
 ---
@@ -26,13 +26,47 @@ For a quick start you can go through the [iOS examples](https://www.frida.re/doc
 
 ## Installing Frida on iOS
 
-To connect Frida to an iOS app, you need a way to inject the Frida runtime into that app. This is easy to do on a jailbroken device: just install `frida-server` through Cydia. Once it has been installed, the Frida server will automatically run with root privileges, allowing you to easily inject code into any process.
+To connect Frida to an iOS app, you need a way to inject the Frida runtime into that app. This is easy to do on a jailbroken device since you can install `frida-server` through a third-party app store such as @MASTG-TOOL-0064. Open Sileo and add Frida's repository by navigating to **Manage** -> **Sources** -> **Edit** -> **Add** and entering <https://build.frida.re>. You should then be able to find and install the Frida package.
 
-Start Cydia and add Frida's repository by navigating to **Manage** -> **Sources** -> **Edit** -> **Add** and entering <https://build.frida.re>. You should then be able to find and install the Frida package.
+By default, `frida-server` only listens on the local interface, requiring you to connect the device over USB. If you want to expose `frida-server` on the public interface, modify `/var/jb/Library/LaunchDaemons/re.frida.server.plist` and two items to the `ProgramArguments` as shown below:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0"> <d>
+        <key>Label</key>
+        <string>re.frida.server</string>
+        <key>Program</key>
+        <string>/var/jb/usr/sbin/frida-server</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/var/jb/usr/sbin/frida-server</string>
+                <string>-l</string>
+                <string>0.0.0.0</string>
+        </array>
+        <key>UserName</key>
+        <string>root</string>
+        <key>POSIXSpawnType</key>
+        <string>Interactive</string>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>KeepAlive</key>
+        <true/>
+        <key>ThrottleInterval</key>
+        <integer>5</integer>
+        <key>ExecuteAllowed</key>
+        <true/>
+</dict>
+</plist>
+```
+
+Once it has been installed, the Frida server will automatically run with root privileges, allowing you to easily inject code into any process.
+
+!!! danger
+
+    Exposing frida-server on the public interface will let anyone connected on the same network to inject code into any process running on the device. You should only do this in a controlled lab environment.
 
 ## Using Frida on iOS
 
-Connect your device via USB and make sure that Frida works by running the `frida-ps` command and the flag '-U'. This should return the list of processes running on the device:
+Connect your device via USB and make sure that Frida works by running the `frida-ps` command and the flag `-U`. This should return the list of processes running on the device:
 
 ```bash
 $ frida-ps -U
@@ -130,3 +164,5 @@ public void android.view.View.setTooltipText(java.lang.CharSequence)
 ```
 
 In the end, it is up to you to decide where would you like to work with the data. Sometimes it will be more convenient to do it from JavaScript and in other cases Python will be the best choice. Of course you can also send messages from Python to JavaScript by using `script.post`. Refer to the Frida docs for more information about [sending](https://www.frida.re/docs/messages/#sending-messages-from-a-target-process "Sending messages from a target process") and [receiving](https://www.frida.re/docs/messages/#receiving-messages-in-a-target-process "Receiving messages in a target process") messages.
+
+For more practical examples, check out the [MacOS section in the Frida Handbook](https://learnfrida.info/macos/).

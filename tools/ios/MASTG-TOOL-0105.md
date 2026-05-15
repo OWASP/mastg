@@ -2,10 +2,7 @@
 title: ipsw
 platform: ios
 source: https://github.com/blacktop/ipsw
-host:
-- windows
-- linux
-- macOS
+hosts: [windows, linux, macOS]
 ---
 
 IPSW calls itself an "iOS/macOS Research Swiss Army Knife". In general, IPSW allows you to obtain iOS specific files (IPSW, OTA, ...) and also statically analyze them. For application analysis, the most interesting features are the Objective-C and Swift class-dumps. Other features are available (kernelcache parser, device-tree parser, disassembler, etc) but are only useful if you're analyzing the security of the OS itself.
@@ -296,82 +293,4 @@ class MASTestApp.ResourceBundleClass { // accessor 0x10000a2c4
         /* 0x10000b044 */ typealias Body = _$s7SwiftUI11WindowGroupVMn MASTestApp.ContentView
     }
 
-    ```
-
-## Converting plist Files
-
-IPSW can convert a binary plist or XML plist to JSON:
-
-```bash
-$ ipsw plist ./Info.plist
-{
-    "BuildMachineOSBuild": "23B74",
-    "CFBundleDevelopmentRegion": "en",
-    "CFBundleExecutable": "MASTestApp",
-    "CFBundleIdentifier": "org.owasp.mastestapp.MASTestApp",
-    "CFBundleInfoDictionaryVersion": "6.0",
-    "CFBundleName": "MASTestApp",
-    "CFBundlePackageType": "APPL",
-    "CFBundleShortVersionString": "1.0",
-    "CFBundleSupportedPlatforms": [
-        "iPhoneOS"
-    ],
-    ...
-```
-
-??? "Full command output"
-
-    ```bash
-    $ ipsw plist ./Info.plist
-
-    {
-    "BuildMachineOSBuild": "23B74",
-    "CFBundleDevelopmentRegion": "en",
-    "CFBundleExecutable": "MASTestApp",
-    "CFBundleIdentifier": "org.owasp.mastestapp.MASTestApp",
-    "CFBundleInfoDictionaryVersion": "6.0",
-    "CFBundleName": "MASTestApp",
-    "CFBundlePackageType": "APPL",
-    "CFBundleShortVersionString": "1.0",
-    "CFBundleSupportedPlatforms": [
-        "iPhoneOS"
-    ],
-    "CFBundleVersion": "1",
-    "DTCompiler": "com.apple.compilers.llvm.clang.1_0",
-    "DTPlatformBuild": "21A326",
-    "DTPlatformName": "iphoneos",
-    "DTPlatformVersion": "17.0",
-    "DTSDKBuild": "21A326",
-    "DTSDKName": "iphoneos17.0",
-    "DTXcode": "1501",
-    "DTXcodeBuild": "15A507",
-    "LSRequiresIPhoneOS": true,
-    "MinimumOSVersion": "17.2",
-    "UIApplicationSceneManifest": {
-        "UIApplicationSupportsMultipleScenes": true,
-        "UISceneConfigurations": {}
-    },
-    "UIApplicationSupportsIndirectInputEvents": true,
-    "UIDeviceFamily": [
-        1,
-        2
-    ],
-    "UILaunchScreen": {
-        "UILaunchScreen": {}
-    },
-    "UIRequiredDeviceCapabilities": [
-        "arm64"
-    ],
-    "UISupportedInterfaceOrientations~ipad": [
-        "UIInterfaceOrientationPortrait",
-        "UIInterfaceOrientationPortraitUpsideDown",
-        "UIInterfaceOrientationLandscapeLeft",
-        "UIInterfaceOrientationLandscapeRight"
-    ],
-    "UISupportedInterfaceOrientations~iphone": [
-        "UIInterfaceOrientationPortrait",
-        "UIInterfaceOrientationLandscapeLeft",
-        "UIInterfaceOrientationLandscapeRight"
-    ]
-    }
     ```

@@ -6,11 +6,13 @@ apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#prin
 type: [static]
 weakness: MASWE-0001
 best-practices: [MASTG-BEST-0002]
+profiles: [L1, L2, P]
+knowledge: [MASTG-KNOW-0049]
 ---
 
 ## Overview
 
-This test verifies if an app uses [logging APIs](../../../0x05d-Testing-Data-Storage.md/#logs) like `android.util.Log`, `Log`, `Logger`, `System.out.print`, `System.err.print`, and `java.lang.Throwable#printStackTrace`.
+This test verifies if an app uses logging APIs like `android.util.Log`, `Log`, `Logger`, `System.out.print`, `System.err.print`, and `java.lang.Throwable#printStackTrace`.
 
 ## Steps
 
@@ -22,4 +24,4 @@ The output should contain a list of locations where logging APIs are used.
 
 ## Evaluation
 
-The test fails if an app logs sensitive information from any of the listed locations.
+The test case fails if an app logs sensitive information from any of the listed locations.

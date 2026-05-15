@@ -1,9 +1,8 @@
             ;-- section.0.__TEXT.__text:
-            ; XREFS: 0x1000000d0  STRN 0x100004040  STRN 0x100004168  CALL 0x100004774  CALL 0x1000047d8  CALL 0x100005330  
+            ; XREFS: 0x1000000d0  ICOD 0x100004040  ICOD 0x100004168  CALL 0x100004774  CALL 0x1000047d8  CALL 0x100005330  
 ┌ 276: sym.func.100004000 (int64_t arg1, int64_t arg2, int64_t arg4, int64_t arg5, int64_t arg6, int64_t arg7, int64_t arg_80h);
 │           0x100004000      sub sp, sp, 0x80                          ; [00] -r-x section size 13240 named 0.__TEXT.__text
 │           0x100004004      str x28, [var_20h]
-│           ; CODE XREF from str.0123456789abcdef01234567 @ +0x14(x)
 │           0x100004008      stp x27, x26, [var_30h]
 │           0x10000400c      stp x25, x24, [var_40h]
 │           0x100004010      stp x23, x22, [var_50h]
@@ -19,17 +18,16 @@
 │           0x100004038      mov x23, x0                               ; arg1
 │           0x10000403c      mov x25, 0
 │           0x100004040      adrp x9, sym.func.100004000               ; 0x100004000
-│           0x100004044      add x9, x9, 0x114                         ; 0x100004114
-│                                                                      ; sym.func.100004114
+│           0x100004044      add x9, x9, 0x114
 │           ;-- switch:
 │           0x100004048      adr x10, switch.0x100004048               ; switch table (4 cases) at 0x100004114
-│           0x10000404c      ldrsw x11, [x9, x8, lsl 2]                ; 0x100004114
+│           0x10000404c      ldrsw x11, [x9, x8, lsl 2]                ; [0x100004114:4]=16
 │                                                                      ; sym.func.100004114
 │           0x100004050      add x10, x10, x11                         ; 0x100004058
 │                                                                      ; case.0x100004048.0
 │           0x100004054      br x10
 │           ;-- case 0:                                                ; from 0x100004048
-│           ; DATA XREFS from sym.func.100004000 @ 0x100004048(x), 0x100004050(w)
+│           ; DATA XREFS from sym.func.100004000 @ 0x100004048(x), 0x100004050(r)
 │           0x100004058      ubfx x25, x4, 0x30, 8                     ; arg5
 │       ┌─< 0x10000405c      b case.0x100004048.3
 │       │   ;-- case 1:                                                ; from 0x100004048
@@ -80,7 +78,7 @@
 │    │ │    0x1000040f8      ldp x25, x24, [var_40h]
 │    │ │    0x1000040fc      ldp x27, x26, [var_30h]
 │    │ │    0x100004100      ldr x28, [var_20h]
-│    │ │    0x100004104      add sp, sp, 0x80
+│    │ │    0x100004104      add sp, sp, 0x80                          ; 0x178000
 │    │ │    0x100004108      ret
 │    │ │    ; CODE XREF from sym.func.100004000 @ 0x100004068(x)
 │    │ └──> 0x10000410c      brk 1

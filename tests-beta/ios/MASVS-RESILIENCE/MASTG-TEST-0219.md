@@ -4,6 +4,8 @@ title: Testing for Debugging Symbols
 id: MASTG-TEST-0219
 type: [static]
 weakness: MASWE-0093
+profiles: [R]
+knowledge: [MASTG-KNOW-0063]
 ---
 
 ## Overview
@@ -32,7 +34,7 @@ The output should contain a list of symbols for each executable and library.
 
 ## Evaluation
 
-The test fails if there are symbols marked as debug symbols in the output.
+The test case fails if there are symbols marked as debug symbols in the output.
 
 Before releasing an iOS app, verify that the `"Build Settings" > "Apple Clang - Code Generation" > "Generate Debug Symbols"` setting is set to `"No"`. Additionally, utilize tools like the ones used in @MASTG-TECH-0113 to inspect the final binaries for any residual debugging symbols.
 

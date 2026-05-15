@@ -8,6 +8,7 @@ title: Testing Deep Links
 masvs_v1_levels:
 - L1
 - L2
+profiles: [L1, L2]
 ---
 
 ## Overview
@@ -111,7 +112,7 @@ Even if deep links contain the `android:autoVerify="true"` attribute, they must 
 
 #### Automatic Verification
 
-Use the [Android "App Link Verification" Tester](https://github.com/inesmartins/Android-App-Link-Verification-Tester) script to get the verification status for all app links (`verify-applinks`). See an example [here](https://github.com/inesmartins/Android-App-Link-Verification-Tester#use-an-apk-to-check-for-dals-for-all-app-links).
+Use the [Android "App Link Verification" Tester](https://github.com/inesmartins/Android-App-Link-Verification-Tester) script to get the verification status for all app links (`verify-applinks`). See an example [in the tool's README](https://github.com/inesmartins/Android-App-Link-Verification-Tester#use-an-apk-to-check-for-dals-for-all-app-links).
 
 **Only on Android 12 (API level 31) or higher:**
 
@@ -188,7 +189,7 @@ Even if the deep link is correctly verified, the logic of the handler method sho
 
 First, obtain the name of the Activity from the Android Manifest `<activity>` element which defines the target `<intent-filter>` and search for usage of [`getIntent`](https://developer.android.com/reference/android/content/Intent#getIntent(java.lang.String) "getIntent()") and [`getData`](https://developer.android.com/reference/android/content/Intent#getData%28%29 "getData()"). This general approach of locating these methods can be used across most applications when performing reverse engineering and is key when trying to understand how the application uses deep links and handles any externally provided input data and if it could be subject to any kind of abuse.
 
-The following example is a snippet from an exemplary Kotlin app decompiled with @MASTG-TECH-0017. From the [static analysis](#check-for-deep-link-usage) we know that it supports the deep link `deeplinkdemo://load.html/` as part of `com.mstg.deeplinkdemo.WebViewActivity`.
+The following example is a snippet from an example Kotlin app decompiled with @MASTG-TOOL-0018. From the [static analysis](#check-for-deep-link-usage) we know that it supports the deep link `deeplinkdemo://load.html/` as part of `com.mstg.deeplinkdemo.WebViewActivity`.
 
 ```java
 // snippet edited for simplicity

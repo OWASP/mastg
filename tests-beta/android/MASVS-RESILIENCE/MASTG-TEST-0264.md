@@ -5,6 +5,7 @@ id: MASTG-TEST-0264
 type: [dynamic]
 weakness: MASWE-0094
 best-practices: []
+profiles: [R]
 ---
 
 ## Overview
@@ -23,4 +24,4 @@ The output should show the runtime usage of `StrictMode` APIs.
 
 ## Evaluation
 
-The test fails if the Frida script output shows the runtime usage of `StrictMode` APIs.
+The test case fails if the Frida script output shows the runtime usage of `StrictMode` APIs.

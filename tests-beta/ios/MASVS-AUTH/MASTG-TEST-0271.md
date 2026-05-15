@@ -5,6 +5,8 @@ id: MASTG-TEST-0271
 apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
 type: [static]
 weakness: MASWE-0046
+profiles: [L2]
+knowledge: [MASTG-KNOW-0056]
 ---
 
 ## Overview
@@ -21,4 +23,4 @@ The output should contain a list of locations where the `SecAccessControlCreateW
 
 ## Evaluation
 
-The test fails if the app uses `SecAccessControlCreateWithFlags` with any flag except the `kSecAccessControlBiometryCurrentSet` flag for any sensitive data resource worth protecting.
+The test case fails if the app uses `SecAccessControlCreateWithFlags` with any flag except the `kSecAccessControlBiometryCurrentSet` flag for any sensitive data resource worth protecting.

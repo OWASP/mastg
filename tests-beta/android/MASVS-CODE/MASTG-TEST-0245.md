@@ -6,6 +6,7 @@ apis: [Build]
 type: [static]
 weakness: MASWE-0077
 best-practices: []
+profiles: [L2]
 ---
 
 ## Overview
@@ -26,4 +27,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app does not include any API calls to verify the operating system version.
+The test case fails if the app does not include any API calls to verify the operating system version.

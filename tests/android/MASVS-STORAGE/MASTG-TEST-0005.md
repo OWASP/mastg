@@ -8,6 +8,10 @@ title: Determining Whether Sensitive Data Is Shared with Third Parties via Notif
 masvs_v1_levels:
 - L1
 - L2
+profiles: [L1, L2]
+status: deprecated
+covered_by: [MASTG-TEST-0315]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview

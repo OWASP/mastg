@@ -1,27 +1,27 @@
 ---
 title: drozer
 platform: android
-source: https://github.com/WithSecureLabs/drozer
+source: https://github.com/ReversecLabs/drozer
 ---
 
-[drozer](https://github.com/WithSecureLabs/drozer "drozer on GitHub") is a security testing framework for Android that allows you to search for security vulnerabilities in apps and devices by assuming the role of an app interacting with the Android runtime, other apps' IPC endpoints, and the underlying OS.
+drozer is a security testing framework for Android that allows you to search for security vulnerabilities in apps and devices by assuming the role of an app interacting with the Android runtime, other apps' IPC endpoints, and the underlying OS.
 
 drozer can be used during Android security assessments to automate tasks. It allows testers and reverse engineers to:
 
 - Discover and interact with the attack surface exposed by Android apps.
-- Execute dynamic Java-code on a device, to avoid the need to compile and install small test scripts.
+- Execute dynamic Java code on a device to avoid the need to compile and install small test scripts.
 
-drozer runs both in Android emulators and on real devices. It does not require USB debugging or other development features to be enabled; so you can perform assessments on devices in their production state to simulate attacks.
+drozer runs both in Android emulators and on real devices. It does not require USB debugging or other development features to be enabled, so you can perform assessments on devices in their production state to simulate attacks.
 
-You can extend drozer with additional modules to find, test and exploit other weaknesses; this, combined with scripting possibilities, helps to automate regression testing for security issues.
+You can extend drozer with additional modules to find, test, and exploit other weaknesses; this, combined with scripting possibilities, helps to automate regression testing for security issues.
 
 ## Installing drozer and Setup
 
-Detailed instructions on how to install and set up the drozer console on your machine and the drozer agent on the Android phone can be found in the [drozer Github repo](https://github.com/WithSecureLabs/drozer "Installation instructions of drozer").
+Detailed instructions on how to install and set up the drozer console on your machine and the drozer agent on the Android phone can be found in the [drozer Github repo](https://github.com/ReversecLabs/drozer "Installation instructions of drozer").
 
 ### Example usage
 
-Once drozer is set up, you can use drozer to perform reconnaissance and exploitation of Android applications from the perspective of a malicious app on the device. [The drozer User Manual](https://labs.withsecure.com/tools/drozer#3 "drozer User Manual") introduces an intentionally vulnerable application - [sieve](https://github.com/WithSecureLabs/sieve "GitHub repo - sieve") - together with step-by-step exploitation instructions.
+Once drozer is set up, you can use drozer to perform reconnaissance and exploitation of Android applications from the perspective of a malicious app on the device. [The drozer User Manual](https://labs.reversec.com/tools/drozer "drozer User Manual") introduces an intentionally vulnerable application - [sieve](https://github.com/ReversecLabs/sieve "GitHub repo - sieve") - together with step-by-step exploitation instructions.
 
 Some common drozer commands include:
 
@@ -51,7 +51,7 @@ This lists the names of all exported Activities, together with the permissions r
 
 #### Starting an Activity
 
-In order to launch an exported activity, use the following command:
+To launch an exported activity, use the following command:
 
 ```sh
 run app.activity.start --component <package> <component name>
@@ -71,6 +71,6 @@ You can learn more about how intents are created by running `help intents`.
 
 Other resources where you might find useful information are:
 
-- [Official drozer User Manual](https://labs.withsecure.com/tools/drozer "drozer User Manual")
-- [drozer GitHub page](https://github.com/WithSecureLabs/drozer "GitHub repo - drozer")
-- [drozer Agent GitHub page](https://github.com/WithSecureLabs/drozer-agent "GitHub repo - drozer-agent")
+- [Official drozer User Manual](https://labs.reversec.com/tools/drozer "drozer User Manual")
+- [drozer GitHub page](https://github.com/ReversecLabs/drozer "GitHub repo - drozer")
+- [drozer Agent GitHub page](https://github.com/ReversecLabs/drozer-agent "GitHub repo - drozer-agent")

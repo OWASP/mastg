@@ -58,7 +58,7 @@ The tcpdump command above involves
 
 By using the pipe (`|`), we sent all output from tcpdump to netcat, which opens a listener on port 11111. You'll usually want to monitor the wlan0 interface. If you need another interface, list the available options with the command `$ ip addr`.
 
-To access port 11111, you need to forward the port to your host computer via adb.
+To access port 11111, you need to forward the port to your host computer via @MASTG-TOOL-0004.
 
 ```bash
 adb forward tcp:11111 tcp:11111
@@ -78,7 +78,7 @@ You can display the captured traffic in a human-readable format with Wireshark. 
 
 <img src="Images/Chapters/0x05b/tcpdump_and_wireshard_on_android.png" width="400px" />
 
-This neat little trick allows you now to identify what kind of protocols are used and to which endpoints the app is talking to. The questions is now, how can I test the endpoints if Burp is not capable of showing the traffic? There is no easy answer for this, but a few Burp plugins that can get you started.
+This neat little trick allows you to identify what kind of protocols are used and to which endpoints the app is talking. The question is now, how can I test the endpoints if Burp is not capable of showing the traffic? There is no easy answer for this, but a few Burp plugins can get you started.
 
 ## Firebase/Google Cloud Messaging (FCM/GCM)
 

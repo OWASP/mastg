@@ -4,6 +4,7 @@ platform: network
 id: MASTG-TEST-0218
 type: [network]
 weakness: MASWE-0050
+profiles: [L1, L2]
 ---
 
 ## Overview
@@ -21,8 +22,8 @@ In cases where static analysis is either incomplete or infeasible, examining net
 
 ## Observation
 
-The output shows the actually used TLS version.
+The output should contain the TLS version actually used during the connection.
 
 ## Evaluation
 
-The test case fails if any [insecure TLS version](https://mas.owasp.org/MASTG/0x04f-Testing-Network-Communication/#recommended-tls-settings) is used.
+The test case fails if any [insecure TLS version](../../../Document/0x04f-Testing-Network-Communication.md#recommended-tls-settings) is used.

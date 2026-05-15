@@ -4,11 +4,13 @@ platform: ios
 id: MASTG-TEST-0228
 type: [static]
 weakness: MASWE-0116
+profiles: [L2]
+knowledge: [MASTG-KNOW-0061]
 ---
 
 ## Overview
 
-[PIE (Position Independent Executables)](../../../Document/0x04h-Testing-Code-Quality.md/#position-independent-code) are designed to enhance security by allowing executables to be loaded at random memory addresses, mitigating certain types of attacks.
+[PIE (Position Independent Executables)](../../../Document/0x04h-Testing-Code-Quality.md#position-independent-code) are designed to enhance security by allowing executables to be loaded at random memory addresses, mitigating certain types of attacks.
 
 In the context Mach-O file format of iOS applications:
 

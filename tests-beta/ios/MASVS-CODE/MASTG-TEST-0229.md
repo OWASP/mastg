@@ -4,11 +4,13 @@ platform: ios
 id: MASTG-TEST-0229
 type: [static]
 weakness: MASWE-0116
+profiles: [L2]
+knowledge: [MASTG-KNOW-0061]
 ---
 
 ## Overview
 
-This test case checks if the main binary or any libraries of the app are compiled without stack canaries and therefore lack [stack smashing protection](../../../Document/0x06i-Testing-Code-Quality-and-Build-Settings.md/#binary-protection-mechanisms), a common mitigation technique against buffer overflow attacks.
+This test case checks if the native libraries of the app are compiled without common binary protection mechanisms (@MASTG-KNOW-0061) such as stack smashing protection, a mitigation technique against buffer overflow attacks.
 
 This test applies to all binaries and libraries:
 
@@ -30,13 +32,14 @@ The output should contain a list of symbols of the main binary and each shared l
 
 ## Evaluation
 
-The test case fails any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
+The test case fails if any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
 
-**Note:** Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
+!!! note
+    Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
 
 If you want to be sure that specific security-critical methods are sufficiently protected, you need to reverse-engineer each of them and manually check for stack smashing protection.
 
-When evaluating this please note that there are potential **expected false positives** for which the test case should be considered as passed. To be certain for these cases, they require manual review of the original source code and the compilation flags used.
+When evaluating this, please note that there are potential **expected false positives** for which the test case should be considered as passed. To be certain for these cases, they require manual review of the original source code and the compilation flags used.
 
 The following examples cover some of the false positive cases that might be encountered:
 

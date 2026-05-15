@@ -1,0 +1,25 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                                     
+    ComposableSingletons$MainActivityKt_reversed.java
+    ❯❱ rules.mastg-android-input-field-usage
+          [MASVS-PLATFORM] Detected TextFields and SecureTextField.
+                                                                   
+          142┆ TextFieldKt.TextField(TextFieldStateKt.m1440rememberTextFieldStateLepunE(null, 0L,        
+               $composer, 0, 3), PaddingKt.m830padding3ABfNKs(Modifier.Companion,                        
+               Dp.m8394constructorimpl(4)), false, false, null, null,                                    
+               ComposableSingletons$MainActivityKt.INSTANCE.m10512getLambda2$app_debug(), null, null,    
+               null, null, null, null, false, null, null, null, null, null, null, null, null, null, null,
+               null, $composer, 1572912, 0, 0, 33554364);                                                
+            ⋮┆----------------------------------------
+          143┆ SecureTextFieldKt.m3241SecureTextFieldXvU6IwQ(TextFieldStateKt.m1440rememberTextFieldStateL
+               epunE(null, 0L, $composer, 0, 3), PaddingKt.m830padding3ABfNKs(Modifier.Companion,         
+               Dp.m8394constructorimpl(4)), false, null, null,                                            
+               ComposableSingletons$MainActivityKt.INSTANCE.m10513getLambda3$app_debug(), null, null,     
+               null, null, null, null, false, null,                                                       
+               TextObfuscationMode.Companion.m1459getVisiblevTwcZD0(), (char) 0, null, null, null, null,  
+               null, null, null, $composer, 196656, 0, 0, 8372188);                                       
+

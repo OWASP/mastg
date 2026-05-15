@@ -1,0 +1,32 @@
+open(/var/mobile/Containers/Data/Application/976DB6BA-3AE8-483D-9CE7-0207049BB3B5/Documents/secret.json)
+Backtrace:
+0x19a8dfd68 Foundation!_NSOpenFileDescriptor_Protected
+0x19a8cb884 Foundation!_NSWriteDataToFileWithExtendedAttributes
+0x19a92336c Foundation!writeStringToURLOrPath
+0x19abeb294 Foundation!StringProtocol.write(to:atomically:encoding:)
+0x104ab0418 MASTestApp!specialized static MastgTest.mastgTest(completion:)
+0x104ab122c MASTestApp!closure #1 in closure #1 in closure #1 in ContentView.body.getter
+0x1a417e9e8 SwiftUI!0x7199e8 (0x18a8f29e8)
+0x1a417ece8 SwiftUI!0x719ce8 (0x18a8f2ce8)
+
+open(/var/mobile/Containers/Data/Application/976DB6BA-3AE8-483D-9CE7-0207049BB3B5/Library/secret.json)
+Backtrace:
+0x19a8dfd68 Foundation!_NSOpenFileDescriptor_Protected
+0x19a8cb884 Foundation!_NSWriteDataToFileWithExtendedAttributes
+0x19a92336c Foundation!writeStringToURLOrPath
+0x19abeb294 Foundation!StringProtocol.write(to:atomically:encoding:)
+0x104ab0418 MASTestApp!specialized static MastgTest.mastgTest(completion:)
+0x104ab122c MASTestApp!closure #1 in closure #1 in closure #1 in ContentView.body.getter
+0x1a417e9e8 SwiftUI!0x7199e8 (0x18a8f29e8)
+0x1a417ece8 SwiftUI!0x719ce8 (0x18a8f2ce8)
+
+open(/var/mobile/Containers/Data/Application/976DB6BA-3AE8-483D-9CE7-0207049BB3B5/Library/Application Support/secret.json)
+Backtrace:
+0x19a8dfd68 Foundation!_NSOpenFileDescriptor_Protected
+0x19a8cb884 Foundation!_NSWriteDataToFileWithExtendedAttributes
+0x19a92336c Foundation!writeStringToURLOrPath
+0x19abeb294 Foundation!StringProtocol.write(to:atomically:encoding:)
+0x104ab0418 MASTestApp!specialized static MastgTest.mastgTest(completion:)
+0x104ab122c MASTestApp!closure #1 in closure #1 in closure #1 in ContentView.body.getter
+0x1a417e9e8 SwiftUI!0x7199e8 (0x18a8f29e8)
+0x1a417ece8 SwiftUI!0x719ce8 (0x18a8f2ce8)

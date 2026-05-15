@@ -5,6 +5,7 @@ id: MASTG-TEST-0233
 type: [static]
 weakness: MASWE-0050
 related-tests: [MASTG-TEST-0235, MASTG-TEST-0236, MASTG-TEST-0238]
+profiles: [L1, L2]
 ---
 
 ## Overview
@@ -21,7 +22,7 @@ An Android app may have hardcoded HTTP URLs embedded in the app binary, library 
 
 ## Observation
 
-The output contains a list of URLs and their locations within the app.
+The output should contain a list of URLs and their locations within the app.
 
 ## Evaluation
 

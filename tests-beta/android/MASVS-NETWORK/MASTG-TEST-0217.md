@@ -4,6 +4,7 @@ platform: android
 id: MASTG-TEST-0217
 type: [static]
 weakness: MASWE-0050
+profiles: [L1, L2]
 ---
 
 ## Overview
@@ -31,8 +32,8 @@ The API call `okhttp3.ConnectionSpec.Builder.tlsVersions(...)` can also be used 
 
 ## Observation
 
-The output contains a list of all enabled TLS versions in the above mentioned API calls.
+The output should contain a list of all enabled TLS versions in the above mentioned API calls.
 
 ## Evaluation
 
-The test case fails if any [insecure TLS version](https://mas.owasp.org/MASTG/0x04f-Testing-Network-Communication/#recommended-tls-settings) is directly enabled, or if the app enabled any settings allowing the use of outdated TLS versions, such as `okhttp3.ConnectionSpec.COMPATIBLE_TLS`.
+The test case fails if any [insecure TLS version](../../../Document/0x04f-Testing-Network-Communication.md#recommended-tls-settings) is directly enabled, or if the app enabled any settings allowing the use of outdated TLS versions, such as `okhttp3.ConnectionSpec.COMPATIBLE_TLS`.

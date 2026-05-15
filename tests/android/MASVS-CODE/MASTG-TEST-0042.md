@@ -8,6 +8,7 @@ title: Checking for Weaknesses in Third Party Libraries
 masvs_v1_levels:
 - L1
 - L2
+profiles: [L1, L2]
 status: deprecated
 covered_by: [MASTG-TEST-0272, MASTG-TEST-0274]
 deprecation_note: New version available in MASTG V2
@@ -45,7 +46,7 @@ The report will be in `build/reports` unless otherwise configured. Use the repor
 
 Please be advised that the plugin requires to download a vulnerability feed. Consult the documentation in case issues arise with the plugin.
 
-Lastly, please note that for hybrid applications, one will have to check the JavaScript dependencies with RetireJS. Similarly for Xamarin, one will have to check the C# dependencies.
+Lastly, please note that for hybrid applications, you will have to check the JavaScript dependencies with RetireJS. Similarly for mobile cross platform frameworks, you will have to check their dependencies.
 
 When a library is found to contain vulnerabilities, then the following reasoning applies:
 
