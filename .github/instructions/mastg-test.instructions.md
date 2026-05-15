@@ -223,9 +223,37 @@ Notes:
 
 - Always link to existing MASTG-TECH by ID (for example, @MASTG-TECH-0014)
 - Don't reference MASTG tools directly (this may still be happening in some tests, and we must fix it.)
-- Always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action.
+- Always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action. **Exception:** @MASTG-TECH-0066 (Static Analysis on iOS) operates on a binary, so use `Run @MASTG-TECH-0066 on the app binary and look for ...` instead.
 - Use "reverse engineer" (non-hyphenated) when referring to the process and "reverse-engineered" (hyphenated) when referring to the code.
 - Be consistent by reusing the steps from existing tests. Do not create new phrasing or wording when it's not necessary.
+
+#### Preferred TECH IDs by Platform and Test Type
+
+Always use the **most specific** technique available. Avoid broad techniques unless no specific alternative exists.
+
+**Android:**
+
+| Purpose | Preferred TECH | Title | Notes |
+|---|---|---|---|
+| Static analysis | @MASTG-TECH-0014 | Static Analysis on Android | Default for static steps |
+| Decompiling Java/Kotlin | @MASTG-TECH-0017 | Decompiling Java Code | Use when specifically decompiling |
+| Disassembling to Smali | @MASTG-TECH-0016 | Disassembling Code to Smali | Use when Smali output is needed |
+| Disassembling native code | @MASTG-TECH-0018 | Disassembling Native Code | Use for native libraries |
+| Method tracing (dynamic) | @MASTG-TECH-0033 | Method Tracing | Preferred for logging/monitoring API calls |
+| Method hooking (dynamic) | @MASTG-TECH-0043 | Method Hooking | Preferred for instrumentation/interception |
+| Network traffic monitoring | @MASTG-TECH-0010 | Basic Network Monitoring/Sniffing | |
+| Extracting the AndroidManifest | @MASTG-TECH-0117 | Obtaining Information from the AndroidManifest | For extraction only |
+| Analyzing the AndroidManifest | @MASTG-TECH-0x01 | Analyzing the AndroidManifest | For searching/inspecting extracted content |
+| **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad — only use if no specific technique fits |
+
+**iOS:**
+
+| Purpose | Preferred TECH | Title | Notes |
+|---|---|---|---|
+| Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Use `Run @MASTG-TECH-0066 on the app binary and look for ...` |
+| Method hooking (dynamic) | @MASTG-TECH-0095 | Method Hooking | Preferred over 0067 for hooking/instrumentation |
+| Network traffic monitoring | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | |
+| **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad — only use if no specific technique fits |
 
 ### Observation
 
