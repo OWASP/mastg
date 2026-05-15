@@ -31,4 +31,4 @@ The output should contain a network traffic log that includes the decrypted HTTP
 
 The test case fails if you can find the PII you entered in the app that is not declared in the app's marketplace privacy declarations (e.g., Data Safety section in Google Play) and/or in its privacy policy.
 
-Note that this test does not provide any code locations where the sensitive data is being sent over the network. In order to identify the code locations, you can use static analysis tools like @MASTG-TOOL-0110 or dynamic analysis tools like @MASTG-TOOL-0031.
+Note that this test does not provide any code locations where the sensitive data is being sent over the network. In order to identify the code locations, you can use static analysis tools like @MASTG-TOOL-0110 or dynamic analysis tools like @MASTG-TOOL-0031. Consult @MASTG-TEST-0318 and @MASTG-TEST-0319, respectively, for more details.

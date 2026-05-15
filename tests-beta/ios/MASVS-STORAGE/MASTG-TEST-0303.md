@@ -6,11 +6,12 @@ type: [static]
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0024]
 weakness: MASWE-0007
+knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---
 
 ## Overview
 
-This test checks whether the app writes sensitive data unencrypted to storage locations in the app sandbox (@MASTG-KNOW-0108) that are configured for sharing by enabling file sharing in the app's Info.plist using the `UIFileSharingEnabled` ("Application supports iTunes file sharing") and `LSSupportsOpeningDocumentsInPlace` ("Supports opening documents in place") keys set to `YES` (see @MASTG-KNOW-0091).
+This test checks whether the app writes sensitive data unencrypted to storage locations in the app sandbox that are configured for sharing by enabling file sharing in the app's Info.plist using the `UIFileSharingEnabled` ("Application supports iTunes file sharing") and `LSSupportsOpeningDocumentsInPlace` ("Supports opening documents in place") keys set to `YES`.
 
 ## Steps
 
@@ -33,7 +34,7 @@ The output should contain:
 
 ## Evaluation
 
-The test fails if:
+The test case fails if:
 
 - The app writes unencrypted sensitive data to `documentDirectory` (or equivalent shared storage path), and
 - `Info.plist` enables user access to the Documents directory (`UIFileSharingEnabled` and/or `LSSupportsOpeningDocumentsInPlace`).

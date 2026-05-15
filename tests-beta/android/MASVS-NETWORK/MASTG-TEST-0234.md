@@ -24,10 +24,11 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 
 ## Observation
 
-The output contains a list of locations where `SSLSocket` and `HostnameVerifier` are used.
+The output should contain a list of locations where `SSLSocket` and `HostnameVerifier` are used.
 
 ## Evaluation
 
 The test case fails if the app uses `SSLSocket` without a `HostnameVerifier`.
 
-**Note:** If a `HostnameVerifier` is present, ensure it's not implemented in an unsafe manner. See @MASTG-TEST-0283 for guidance.
+!!! note
+    If a `HostnameVerifier` is present, ensure it's not implemented in an unsafe manner. See @MASTG-TEST-0283 for guidance.

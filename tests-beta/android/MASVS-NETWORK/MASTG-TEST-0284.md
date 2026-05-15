@@ -4,7 +4,9 @@ platform: android
 id: MASTG-TEST-0284
 type: [static]
 weakness: MASWE-0052
+best-practices: [MASTG-BEST-0021]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0010]
 ---
 
 ## Overview
@@ -22,11 +24,11 @@ This effectively bypasses SSL certificate checks in the `WebView`, exposing the 
 
 ## Observation
 
-The output contains a list of locations where `onReceivedSslError(...)` that includes a `proceed()` is used without exception handling that properly handles SSL errors.
+The output should contain a list of locations where `onReceivedSslError(...)` that includes a `proceed()` is used without exception handling that properly handles SSL errors.
 
 ## Evaluation
 
-The test fails if `onReceivedSslError(...)` is overridden and certificate errors are ignored without proper validation or user involvement.
+The test case fails if `onReceivedSslError(...)` is overridden and certificate errors are ignored without proper validation or user involvement.
 
 This includes cases such as:
 

@@ -5,6 +5,7 @@ id: MASTG-TEST-0308
 type: [dynamic]
 weakness: MASWE-0012
 profiles: [L2]
+knowledge: [MASTG-KNOW-0012]
 ---
 
 ## Overview

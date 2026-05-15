@@ -1,3 +1,7 @@
+---
+platform: generic
+---
+
 # Mobile Application Security Testing
 
 In the following sections we'll provide a brief overview of general security testing principles and key terminology. The concepts introduced are largely identical to those found in other types of penetration testing, so if you are an experienced tester you may be familiar with some of the content.
@@ -322,7 +326,7 @@ Infrastructure as Code also facilitates the construction of the environments req
 
 Infrastructure as Code is commonly used for projects that have Cloud-based resources because many vendors provide APIs that can be used for provisioning items (such as virtual machines, storage spaces, etc.) and working on configurations (e.g., modifying memory sizes or the number of CPUs used by virtual machines). These APIs provide alternatives to administrators' performing these activities from monitoring consoles.
 
-The main tools in this domain are [Puppet](https://puppet.com/ "Puppet"), [Terraform](https://www.terraform.io/ "Terraform"), [Packer](https://www.packer.io/ "Packer"), [Chef](https://www.chef.io/chef/ "Chef") and [Ansible](https://www.ansible.com/ "Ansible").
+The main tools in this domain are [Puppet](https://puppet.com/ "Puppet"), [Terraform](https://developer.hashicorp.com/terraform "Terraform"), [Packer](https://developer.hashicorp.com/packer "Packer"), [Chef](https://www.chef.io/chef/ "Chef") and [Ansible](https://www.ansible.com/ "Ansible").
 
 ##### Deployment
 

@@ -3,6 +3,7 @@ title: Debuggable Flag Disabled in the AndroidManifest
 alias: debuggable-flag-disabled
 id: MASTG-BEST-0007
 platform: android
+knowledge: [MASTG-KNOW-0007]
 ---
 
 Ensure the debuggable flag in the AndroidManifest.xml is set to `false` for all release builds.

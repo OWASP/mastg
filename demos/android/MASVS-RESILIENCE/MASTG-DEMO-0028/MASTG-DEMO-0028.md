@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0247
 ---
 
-### Sample
+## Sample
 
 This sample checks if the device has a secure lock screen via `KeyguardManager.isDeviceSecure` and if the device supports strong biometric authentication using `BiometricManager.canAuthenticate`.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,13 +20,13 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output shows all usages of APIs related to secure screen lock detection.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test passes because the output shows references to APIs that check for secure screen lock presence, specifically:
 

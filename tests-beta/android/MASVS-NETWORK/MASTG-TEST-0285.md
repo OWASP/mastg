@@ -6,6 +6,7 @@ type: [static]
 deprecated_since: 24
 weakness: MASWE-0052
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0014]
 ---
 
 ## Overview
@@ -21,7 +22,7 @@ Those apps rely on the default Network Security Configuration that trusts both s
 
 ## Observation
 
-The output contains the value of `minSdkVersion`.
+The output should contain the value of `minSdkVersion`.
 
 ## Evaluation
 

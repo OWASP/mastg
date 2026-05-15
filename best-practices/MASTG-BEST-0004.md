@@ -3,6 +3,7 @@ title: Exclude Sensitive Data from Backups
 alias: exclude-sensitive-data-from-backups
 id: MASTG-BEST-0004
 platform: android
+knowledge: [MASTG-KNOW-0050]
 ---
 
 For the sensitive files found, instruct the system to exclude them from the backup:

@@ -1,0 +1,11 @@
+rules:
+  - id: mastg-android-input-field-usage
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule looks for TextFields and SecureTextField.
+    message: "[MASVS-PLATFORM] Detected TextFields and SecureTextField."
+    pattern-either:
+      - pattern: androidx.compose.material3.TextFieldKt
+      - pattern-regex: SecureTextFieldKt.m\d+SecureTextField\w+\(.+TextObfuscationMode.Companion.m\d+getVisible\w+\(\).+\);
