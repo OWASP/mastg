@@ -13,7 +13,7 @@ knowledge: [MASTG-KNOW-0071, MASTG-KNOW-0073]
 
 `URLSessionConfiguration` allows apps to customize TLS behavior for individual `URLSession` instances. The [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion) property (or the deprecated [`tlsMinimumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocol)) controls the minimum TLS version for a session.
 
-Setting this property to `.TLSv10` or `.TLSv11` is a bad practice and should be flagged, even though ATS still applies to the URL Loading System and may block the connection at runtime unless a matching `Info.plist` exception is also present. Unlike `Network.framework`, `URLSession` does not bypass ATS. 
+Setting this property to `.TLSv10` or `.TLSv11` is a bad practice and should be flagged, even though ATS still applies to the URL Loading System and may block the connection at runtime unless a matching `Info.plist` exception is also present. Unlike `Network.framework`, `URLSession` does not bypass ATS.
 
 Note that `tlsMinimumSupportedProtocol` is deprecated in favor of `tlsMinimumSupportedProtocolVersion`. Using either to set an insecure minimum TLS version weakens the intended TLS protection for that session.
 
