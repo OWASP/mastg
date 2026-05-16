@@ -2,8 +2,8 @@
 platform: ios
 title: ATS TLS Policy Exceptions in Info.plist
 code: [xml, swift]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0109
+test: MASTG-TEST-0342
 kind: fail
 ---
 

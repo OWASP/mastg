@@ -1,14 +1,14 @@
 ---
 title: Enforce Strong TLS Settings When ATS Doesn't Apply
 alias: enforce-strong-tls-settings-when-ats-doesnt-apply
-id: MASTG-BEST-0x02
+id: MASTG-BEST-0043
 platform: ios
 knowledge: [MASTG-KNOW-0073]
 ---
 
 App Transport Security (ATS) only protects connections made through the URL Loading System (`URLSession` and related Foundation APIs). When your app uses Network.framework, CFNetwork, BSD sockets, or a bundled third-party TLS library, ATS doesn't apply and you're responsible for configuring strong TLS settings explicitly. Apple's documentation states that "ATS doesn't apply to calls your app makes to lower-level networking interfaces like the `Network` framework or `CFNetwork`. In these cases, you take responsibility for ensuring the security of the connection." See [Preventing Insecure Network Connections](https://developer.apple.com/documentation/security/preventing-insecure-network-connections).
 
-When possible, prefer `URLSession` and high-level Foundation APIs so that ATS protections apply automatically. See @MASTG-BEST-0x01.
+When possible, prefer `URLSession` and high-level Foundation APIs so that ATS protections apply automatically. See @MASTG-BEST-0042.
 
 ## Network.framework
 

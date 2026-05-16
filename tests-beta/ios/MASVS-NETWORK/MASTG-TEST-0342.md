@@ -1,11 +1,11 @@
 ---
 platform: ios
 title: References to Weak ATS TLS Policy Exceptions in Info.plist
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0342
 type: [static]
 weakness: MASWE-0050
 profiles: [L1, L2]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0042]
 knowledge: [MASTG-KNOW-0071]
 ---
 

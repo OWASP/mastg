@@ -2,8 +2,8 @@
 platform: ios
 title: Network.framework TLS Minimum Version Lowered via sec_protocol_options
 code: [swift]
-id: MASTG-DEMO-0x03
-test: MASTG-TEST-0x03
+id: MASTG-DEMO-0111
+test: MASTG-TEST-0344
 kind: fail
 ---
 

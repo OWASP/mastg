@@ -1,11 +1,11 @@
 ---
 platform: ios
 title: Embedded or Third-party TLS Stack Configuration
-id: MASTG-TEST-0x04
+id: MASTG-TEST-0345
 type: [manual]
 weakness: MASWE-0050
 profiles: [L1, L2]
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0043]
 knowledge: [MASTG-KNOW-0073]
 ---
 

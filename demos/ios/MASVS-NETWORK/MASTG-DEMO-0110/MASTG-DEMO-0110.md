@@ -2,8 +2,8 @@
 platform: ios
 title: URLSession Minimum TLS Version Lowered in Code
 code: [swift]
-id: MASTG-DEMO-0x02
-test: MASTG-TEST-0x02
+id: MASTG-DEMO-0110
+test: MASTG-TEST-0343
 kind: fail
 ---
 

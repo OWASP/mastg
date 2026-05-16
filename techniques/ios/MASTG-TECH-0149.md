@@ -73,7 +73,7 @@ Result : FAIL
 ---
 ```
 
-The error is `NSURLErrorDomain Code=-1200` with `_kCFStreamErrorCodeKey=-9836`, a fatal Secure Transport error — not an ATS policy rejection. Because even `Allow All Loads` (which disables ATS entirely) fails with the same error, the problem is below ATS: the Apple URL Loading System on macOS 26 refuses the TLS 1.0 handshake regardless of ATS settings. But, as seen in the demo @MASTG-DEMO-0x01, an app with `NSExceptionMinimumTLSVersion = "TLSv1.0"` would manage to connect properly (as of iOS 17).
+The error is `NSURLErrorDomain Code=-1200` with `_kCFStreamErrorCodeKey=-9836`, a fatal Secure Transport error — not an ATS policy rejection. Because even `Allow All Loads` (which disables ATS entirely) fails with the same error, the problem is below ATS: the Apple URL Loading System on macOS 26 refuses the TLS 1.0 handshake regardless of ATS settings. But, as seen in the demo @MASTG-DEMO-0109, an app with `NSExceptionMinimumTLSVersion = "TLSv1.0"` would manage to connect properly (as of iOS 17).
 
 ### Server Blocked Only by the PFS Requirement
 

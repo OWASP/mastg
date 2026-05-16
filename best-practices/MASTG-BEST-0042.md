@@ -1,7 +1,7 @@
 ---
 title: Use Strong TLS Settings in ATS Configuration
 alias: use-strong-tls-settings-in-ats-configuration
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0042
 platform: ios
 knowledge: [MASTG-KNOW-0071]
 ---
@@ -25,7 +25,7 @@ Do not set `NSExceptionRequiresForwardSecrecy` to `false`. ATS enforces [Perfect
 
 ## Prefer the URL Loading System for HTTPS Requests
 
-Always prefer [`URLSession`](https://developer.apple.com/documentation/foundation/urlsession) or other high-level Foundation APIs for HTTPS requests so that ATS protections apply automatically. Avoid using Network.framework, CFNetwork, or BSD sockets for application-level HTTPS unless you explicitly configure and enforce strong TLS settings in code, because ATS does not protect those connection paths. See @MASTG-BEST-0x02 for guidance on those APIs.
+Always prefer [`URLSession`](https://developer.apple.com/documentation/foundation/urlsession) or other high-level Foundation APIs for HTTPS requests so that ATS protections apply automatically. Avoid using Network.framework, CFNetwork, or BSD sockets for application-level HTTPS unless you explicitly configure and enforce strong TLS settings in code, because ATS does not protect those connection paths. See @MASTG-BEST-0043 for guidance on those APIs.
 
 ## Apply Narrow Exceptions When Required
 
