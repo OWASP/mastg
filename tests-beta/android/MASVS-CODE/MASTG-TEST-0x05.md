@@ -1,7 +1,7 @@
 ---
 title: Runtime Use of Implicit Intents for Arbitrary File Read
 platform: android
-id: MASTG-TEST-XXXD
+id: MASTG-TEST-0x05
 type: [dynamic]
 weakness: MASWE-0083
 best-practices: [MASTG-BEST-0x14, MASTG-BEST-0x15]

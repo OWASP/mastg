@@ -1,17 +1,17 @@
 ---
 platform: android
 title: Arbitrary File Read via Implicit Intent Hijacking
-id: MASTG-DEMO-XXXD
+id: MASTG-DEMO-0x05
 code: [kotlin]
 tools: [MASTG-TOOL-0004]
-test: MASTG-TEST-XXXD
+test: MASTG-TEST-0x05
 ---
 
 ## Sample
 
 The vulnerable app fires an implicit intent with a custom action `REQUEST_FILE` to request content from another app. Since no target component is specified, any app on the device can register a matching intent-filter and intercept this intent. The attacker app returns a `file://` URI pointing to the victim's internal SharedPreferences, which the victim copies to its world-readable external cache directory.
 
-{{ MastgTest.kt AndroidManifest.xml }}
+{{ MastgTest.kt # AndroidManifest.xml }}
 
 ## Attacker App
 
@@ -33,7 +33,7 @@ The output contains the internal SharedPreferences file containing sensitive tok
 
 ## Evaluation
 
-The test fails because:
+The test case fails because:
 
 - The vulnerable app sends an implicit intent with action `REQUEST_FILE` without specifying a target component, allowing the attacker app to intercept it by registering a matching `<intent-filter>`.
 - The attacker app returned a `file://` URI pointing to the victim's internal SharedPreferences (`session.xml`), which contained sensitive data including `auth_token`, `api_key`, and `session_id`.

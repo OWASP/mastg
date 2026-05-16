@@ -1,0 +1,19 @@
+
+
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+
+    AndroidManifest_reversed.xml
+    ❯❱ mastg-android-custom-intent-filter
+          [MASVS-CODE] Activity is registered for a custom implicit intent action. This may be used to
+          intercept sensitive intents from other apps.
+
+           41┆ <activity
+           42┆     android:name="org.owasp.mastestapp.InternalSettingsActivity"
+           43┆     android:exported="true">
+           44┆     <intent-filter>
+           45┆         <action android:name="org.owasp.mastestapp.OPEN_INTERNAL_SETTINGS"/>
+           46┆         <category android:name="android.intent.category.DEFAULT"/>
+           47┆     </intent-filter>
+           48┆ </activity>

@@ -1,7 +1,7 @@
 ---
 title: Runtime Use of Implicit Intents for Arbitrary Code Execution via Malicious ContentProvider
 platform: android
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0x04
 type: [dynamic]
 weakness: MASWE-0083
 best-practices: [MASTG-BEST-0x14, MASTG-BEST-0x15]
@@ -19,7 +19,7 @@ If an app uses an implicit intent to request a file or library and processes the
 2. Verify the legitimate internal file exists before the attack.
 3. Launch the vulnerable app and trigger the implicit intent by interacting with the Start button.
 4. When the system resolver dialog appears, select the attacker app.
-5. Monitor logcat output filtered by `MASTG-DEMO` and `ATTACKER` tags and observe the output the screen.
+5. Monitor logcat output filtered by `MASTG-DEMO` and `ATTACKER` tags and observe the output on the screen.
 6. Verify the internal file was overwritten with attacker-controlled content.
 
 ## Observation
