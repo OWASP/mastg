@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: ATS TLS Policy Exceptions in Info.plist
+title: References to Weak ATS TLS Policy Exceptions in Info.plist
 id: MASTG-TEST-0x01
 type: [static]
 weakness: MASWE-0050
@@ -13,19 +13,19 @@ knowledge: [MASTG-KNOW-0071]
 
 Apps can weaken ATS TLS enforcement through `NSAppTransportSecurity` exceptions in `Info.plist`. In particular:
 
-- [`NSExceptionMinimumTLSVersion`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity/nsexceptiondomains/nsexceptionminimumtlsversion) allows connections to servers with TLS versions below 1.2, including the deprecated TLS 1.0 and TLS 1.1.
-- [`NSExceptionRequiresForwardSecrecy`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity/nsexceptiondomains/nsexceptionrequiresforwardsecrecy) set to `false` disables the ATS requirement for [Perfect Forward Secrecy (PFS)](https://developer.apple.com/documentation/security/preventing-insecure-network-connections), weakening the confidentiality of the connection even when TLS itself is otherwise required.
+- [`NSExceptionMinimumTLSVersion`](https://developer.apple.com/documentation/bundleresources/information-property-list/nsexceptionminimumtlsversion) allows connections to servers with TLS versions below 1.2, including the deprecated TLS 1.0 and TLS 1.1.
+- [`NSExceptionRequiresForwardSecrecy`](https://developer.apple.com/documentation/bundleresources/information-property-list/nsexceptionrequiresforwardsecrecy) set to `false` disables the ATS requirement for [Perfect Forward Secrecy (PFS)](https://developer.apple.com/documentation/security/preventing-insecure-network-connections), weakening the confidentiality of the connection even when TLS itself is otherwise required.
 
-These exceptions are applied per domain under `NSExceptionDomains`. When broadly scoped (especially with `NSIncludesSubdomains = true`), they may affect many hosts and increase the attack surface for man-in-the-middle attacks. Apple requires a justification for these exceptions when submitting to the App Store. See @MASTG-KNOW-0071 for more details on ATS configuration and exceptions.
+These exceptions are applied per domain under `NSExceptionDomains`. When broadly scoped (especially with `NSIncludesSubdomains = true`), they may affect many hosts and increase the attack surface for [Machine-in-the-Middle (MITM)](../../../Document/0x04f-Testing-Network-Communication.md#intercepting-network-traffic-through-mitm) attacks. Apple requires a justification for these exceptions when submitting to the App Store. See @MASTG-KNOW-0071 for more details on ATS configuration and exceptions.
 
-Apps can also globally disable ATS by setting [`NSAllowsArbitraryLoads`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity/nsallowsarbitraryloads) to `true`. This disables ATS protections for connections made through the URL Loading System, including ATS requirements such as minimum TLS version and forward secrecy, and it may relax ATS-specific certificate requirements. However, it doesn't inherently disable baseline TLS/X.509 certificate chain validation or server trust evaluation performed by the URL Loading System. Even when `NSAllowsArbitraryLoads` is `true`, any per-domain exceptions would still apply. So, for example, if `NSAllowsArbitraryLoads` is `true` but a domain has `NSExceptionMinimumTLSVersion = "TLSv1.2"`, that domain would still require TLS 1.2 or higher, while all other domains would have no ATS minimum TLS requirement.
+Apps can also globally disable ATS by setting [`NSAllowsArbitraryLoads`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity/nsallowsarbitraryloads) to `true`. This disables ATS protections for connections made through the URL Loading System, including ATS requirements such as minimum TLS version and forward secrecy, and permits plaintext HTTP communication. It may also relax ATS-specific certificate requirements. Baseline TLS/X.509 certificate chain validation and server trust evaluation performed by the URL Loading System still apply. Per-domain entries under `NSExceptionDomains` override the global setting. For example, if `NSAllowsArbitraryLoads` is `true` but `tls-v1-2.example.com` has `NSExceptionMinimumTLSVersion = "TLSv1.2"`, that domain still requires TLS 1.2 or higher, while all other domains have ATS disabled. This includes the ability of all other domains to use plaintext HTTP.
 
 ## Steps
 
 1. Extract the app (@MASTG-TECH-0058).
 2. Locate the `Info.plist` in the app bundle.
 3. Use @MASTG-TECH-0138 to convert the `Info.plist` to a readable format if necessary.
-4. Examine the `NSAppTransportSecurity` dictionary for TLS policy exceptions, specifically `NSExceptionMinimumTLSVersion` and `NSExceptionRequiresForwardSecrecy`.
+4. Examine the `NSAppTransportSecurity` dictionary for TLS policy exceptions, specifically `NSExceptionMinimumTLSVersion`, `NSExceptionRequiresForwardSecrecy` and `NSAllowsArbitraryLoads`.
 
 ## Observation
 

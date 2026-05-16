@@ -20,8 +20,8 @@ Common APIs in this layer include:
 
 `URLSessionConfiguration` exposes two TLS version properties for each session:
 
-- [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion) — sets the minimum TLS version the session accepts. Accepts `tls_protocol_version_t` values such as `tls_protocol_version_TLSv10`, `tls_protocol_version_TLSv11`, `tls_protocol_version_TLSv12`, and `tls_protocol_version_TLSv13`.
-- [`tlsMaximumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsmaximumsupportedprotocolversion) — sets the maximum TLS version the session uses.
+- [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion): sets the minimum TLS version the session accepts. Accepts `tls_protocol_version_t` values such as `tls_protocol_version_TLSv10`, `tls_protocol_version_TLSv11`, `tls_protocol_version_TLSv12`, and `tls_protocol_version_TLSv13`.
+- [`tlsMaximumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsmaximumsupportedprotocolversion): sets the maximum TLS version the session uses.
 
 The predecessors [`tlsMinimumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocol) and [`tlsMaximumSupportedProtocol`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsmaximumsupportedprotocol) are deprecated. They accept `SSLProtocol` enum values, for example `kSSLProtocol3` and `kTLSProtocol1`.
 
@@ -45,7 +45,7 @@ TLS settings for a Network.framework connection are configured through `NWProtoc
 - [`sec_protocol_options_set_min_tls_protocol_version(_:_:)`](https://developer.apple.com/documentation/security/sec_protocol_options_set_min_tls_protocol_version(_:_:)): sets the minimum TLS version. Accepts `tls_protocol_version_t` values such as `tls_protocol_version_TLSv10`, `tls_protocol_version_TLSv12`, etc.
 - [`sec_protocol_options_set_max_tls_protocol_version(_:_:)`](https://developer.apple.com/documentation/security/sec_protocol_options_set_max_tls_protocol_version(_:_:)): sets the maximum TLS version.
 
-ATS does **not** apply to Network.framework connections. Any weak TLS configuration (e.g. setting the minimum to TLS 1.0) will take effect without any OS-level safety net.
+ATS is the safety net for `URLSession`. `Network.framework` bypasses that safety net because ATS doesn't apply to it. Any weak TLS configuration in code (e.g. setting the minimum to TLS 1.0) takes effect directly.
 
 In iOS 26 the framework adds new Swift structured concurrency oriented APIs that provide a modern, declarative interface for connections, listeners, and endpoint discovery. See the WWDC2025 session ["Use structured concurrency with Network framework"](https://developer.apple.com/videos/play/wwdc2025/250/) for details. These APIs include:
 

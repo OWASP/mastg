@@ -20,7 +20,7 @@ For more information on iOS network APIs and when ATS applies, see @MASTG-KNOW-0
 ## Steps
 
 1. Use @MASTG-TECH-0065 to reverse engineer the app.
-2. Use @MASTG-TECH-0072 to look for uses of `sec_protocol_options_set_min_tls_protocol_version` and `sec_protocol_options_set_max_tls_protocol_version` in the app binary.
+2. Use @MASTG-TECH-0066 to look for uses of `sec_protocol_options_set_min_tls_protocol_version` and `sec_protocol_options_set_max_tls_protocol_version` in the app binary.
 3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine the TLS version values passed to those functions.
 
 ## Observation
@@ -34,4 +34,4 @@ The test case fails if the app calls:
 - `sec_protocol_options_set_min_tls_protocol_version` with a value of `tls_protocol_version_TLSv10` (`0x0301`) or `tls_protocol_version_TLSv11` (`0x0302`), or
 - `sec_protocol_options_set_max_tls_protocol_version` with a value of `tls_protocol_version_TLSv10` (`0x0301`) or `tls_protocol_version_TLSv11` (`0x0302`).
 
-Because Network.framework operates entirely outside of ATS, a connection configured this way will succeed against a server that supports the deprecated TLS version, with no ATS-level safety net.
+Because Network.framework operates entirely outside of ATS, a connection configured this way will succeed against a server that supports the deprecated TLS version, bypassing ATS.
