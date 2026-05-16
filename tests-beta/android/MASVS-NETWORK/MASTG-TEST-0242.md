@@ -16,7 +16,7 @@ The goal of this test is to check if the app does not implement certificate pinn
 
 ## Steps
 
-1. Use @MASTG-TECH-0017 to reverse-engineer the app.
+1. Use @MASTG-TECH-0017 to reverse engineer the app.
 2. Obtain the AndroidManifest.xml (@MASTG-TECH-0117), and check if a `networkSecurityConfig` is set in the `<application>` tag.
 3. Inspect the referenced network security config file, and extract all domains from `<domain-config>` which have a pin set (`<pin-set>`).
 

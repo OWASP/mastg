@@ -20,7 +20,7 @@ The goal of this test is to check if any expiration date is in the past.
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse-engineer the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Inspect the AndroidManifest.xml, and check if a `networkSecurityConfig` is set in the `<application>` tag. If yes, inspect the referenced file, and extract the expiration dates for every domain.
 
 ## Observation

@@ -21,7 +21,7 @@ For this mechanism to work, JavaScript execution must be enabled on the WebView 
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse-engineer the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for references to the relevant WebView APIs.
 
 ## Observation

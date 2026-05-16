@@ -17,7 +17,7 @@ This static test is great for identifying all code locations where the app is wr
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse-engineer the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 on the reverse-engineered app to look for calls to any external storage APIs and Android manifest storage permissions.
 
 The static analysis tool should be able to identify all possible APIs and permissions used to write to shared storage, such as `getExternalStoragePublicDirectory`, `getExternalStorageDirectory`, `getExternalFilesDir`, `MediaStore`, `WRITE_EXTERNAL_STORAGE`, and `MANAGE_EXTERNAL_STORAGE`. See the [Android documentation](https://developer.android.com/training/data-storage/shared) for more information on these APIs and permissions.

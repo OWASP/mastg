@@ -24,7 +24,7 @@ Notification usage should not expose sensitive information that could be disclos
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse-engineer the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file.
 3. Use @MASTG-TECH-0014 to look for the declaration of the `POST_NOTIFICATIONS` permission and the `minSdkVersion` in the AndroidManifest.xml file.
 4. Use @MASTG-TECH-0014 to look for references to notification APIs such as `NotificationCompat.Builder`, `setContentTitle`, or `setContentText` in the app's source code.

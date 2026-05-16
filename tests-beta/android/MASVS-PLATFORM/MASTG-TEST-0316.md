@@ -37,7 +37,7 @@ SecureTextField(
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse-engineer the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for references to the text field classes and text obfuscation APIs.
 3. Manually evaluate and shortlist the fields for access or verification codes usage.
 

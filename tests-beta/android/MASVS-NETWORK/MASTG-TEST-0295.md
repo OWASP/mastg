@@ -15,7 +15,7 @@ This test checks whether the Android app ensures the Security Provider is [updat
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse-engineer the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use MASTG-TECH-0014 to look for usage of `ProviderInstaller.installIfNeeded` or `ProviderInstaller.installIfNeededAsync`.
 
 ## Observation

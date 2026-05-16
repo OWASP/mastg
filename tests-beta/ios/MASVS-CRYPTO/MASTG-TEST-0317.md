@@ -20,7 +20,7 @@ In [`CommonCrypto`](https://web.archive.org/web/20240606000307/https://opensourc
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse-engineer the app.
+1. Use @MASTG-TECH-0065 to reverse engineer the app.
 2. Use @MASTG-TECH-0072 to look for uses of symmetric encryption and its modes.
 3. Use @MASTG-TECH-0076 to analyze the relevant code paths and obtain the values for the encryption modes.
 
