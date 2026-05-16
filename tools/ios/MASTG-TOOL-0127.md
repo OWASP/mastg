@@ -1,8 +1,7 @@
 ---
 title: AppSync Unified
 platform: ios
-host:
-- ios
+hosts: [ios]
 source: https://github.com/akemin-dayo/AppSync
 ---
 

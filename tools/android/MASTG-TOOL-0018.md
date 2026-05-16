@@ -12,6 +12,6 @@ Jadx is an open-source Dex and Java decompiler available both in a CLI (`jadx`) 
 - Search features for classes, symbols, resources and code
 - An API for creating custom extensions
 - Support for debugging applications
-- Generation of @MASTG-TOOL-0031 and @MASTG-TOOL-0027 snippets
+- Generation of @MASTG-TOOL-0031 and @MASTG-TOOL-0149 snippets
 
 <img src="Images/Tools/TOOL-0018-jadx-gui.png" width="800px" />

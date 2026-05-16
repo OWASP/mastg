@@ -7,6 +7,7 @@ type: [static]
 weakness: MASWE-0008
 best-practices: []
 profiles: [L2]
+knowledge: [MASTG-KNOW-0001]
 ---
 
 ## Overview
@@ -27,4 +28,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if an app doesn't use any API to verify the secure screen lock presence.
+The test case fails if an app doesn't use any API to verify the secure screen lock presence.

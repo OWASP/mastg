@@ -8,6 +8,7 @@ Generated
 tmp_*
 build
 *-temp
+tmp/
 OWASP_MSTG-SNAPSHOT-*
 OWASP_MAS_Checklist.xlsx
 logs
@@ -16,14 +17,14 @@ logs
 *.epub
 docs/talks.md
 owasp-masvs
+weaknesses
 __pycache__
 venv/
 playground/
 __handlers__
 *.apk
 risks2/
-docs/MASVS/**/
-docs/MASVS/*-*.md
+docs/MASVS
 docs/MASTG
 docs/MASWE
 docs/assets/Images
@@ -35,3 +36,7 @@ Payload/
 .vscode/settings.json
 site/
 .cache/
+references.json
+.obsidian/
+package.json
+package-lock.json

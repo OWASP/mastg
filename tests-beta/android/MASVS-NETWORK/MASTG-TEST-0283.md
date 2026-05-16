@@ -20,11 +20,11 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 
 ## Observation
 
-The output contains a list of locations where `HostnameVerifier` is used.
+The output should contain a list of locations where `HostnameVerifier` is used.
 
 ## Evaluation
 
-The test fails if the app does **not** properly validate that the server's hostname matches the certificate.
+The test case fails if the app does **not** properly validate that the server's hostname matches the certificate.
 
 This includes cases such as:
 

@@ -11,13 +11,13 @@ Use `adb install` to install an APK on an emulator or connected device. The give
 adb install ./myApp.apk
 ```
 
-If multiple devices are connected, you can specify to install to a connected device (`-d`), emulator or TCP/IP device (`-e`) or specific serial number (`-s`).
+If multiple devices are connected, you can specify to install to a connected device (`-d`), emulator or TCP/IP device (`-e`), or specific serial number (`-s`).
 
 ```bash
-# Install to connected physical device
+# Install in a connected physical device
 adb -d install ./myApp.apk
 
-# Install to emulator
+# Install in an emulator
 adb -e install ./myApp.apk
 
 # List all devices
@@ -30,7 +30,7 @@ emulator-5554   device
 adb -s 37081JEHN05882 install ./myApp.apk
 ```
 
-When installing an app, it also possible to automatically grant all runtime permissions using `-g`:
+When installing an app, it is also possible to automatically grant all runtime permissions using `-g`:
 
 ```bash
 adb install -g ./myApp.apk
@@ -78,7 +78,7 @@ adb shell pm install --user 11 /data/local/tmp/myRepackagedApp.apk
 In case you need to install split APKs, you can use the `install-multiple` command. Make sure the different split APKs match your device configuration:
 
 ```bash
-# Youtube is a split APK
+# YouTube is a split APK
 adb shell pm path com.google.android.youtube
 package:/data/app/~~ZLX3UNTF7R2oebU_viP7mw==/com.google.android.youtube-Rhm4GURIQ4twNvR6wxqc6w==/base.apk
 package:/data/app/~~ZLX3UNTF7R2oebU_viP7mw==/com.google.android.youtube-Rhm4GURIQ4twNvR6wxqc6w==/split_config.arm64_v8a.apk
@@ -91,7 +91,7 @@ adb pull /data/app/~~ZLX3UNTF7R2oebU_viP7mw==/com.google.android.youtube-Rhm4GUR
 adb pull /data/app/~~ZLX3UNTF7R2oebU_viP7mw==/com.google.android.youtube-Rhm4GURIQ4twNvR6wxqc6w==/split_config.en.apk
 adb pull /data/app/~~ZLX3UNTF7R2oebU_viP7mw==/com.google.android.youtube-Rhm4GURIQ4twNvR6wxqc6w==/split_config.xxhdpi.apk
 
-# Uninstall Youtube as a test
+# Uninstall YouTube as a test
 adb uninstall com.google.android.youtube
 
 # Install the split APK files

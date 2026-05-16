@@ -4,7 +4,9 @@ platform: android
 id: MASTG-TEST-0282
 type: [static]
 weakness: MASWE-0052
+best-practices: [MASTG-BEST-0021]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0010]
 ---
 
 ## Overview
@@ -20,11 +22,11 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 
 ## Observation
 
-The output contains a list of locations where `checkServerTrusted(...)` is used.
+The output should contain a list of locations where `checkServerTrusted(...)` is used.
 
 ## Evaluation
 
-The test fails if `checkServerTrusted(...)` is implemented in a custom `X509TrustManager` and does **not** properly validate server certificates.
+The test case fails if `checkServerTrusted(...)` is implemented in a custom `X509TrustManager` and does **not** properly validate server certificates.
 
 This includes cases such as:
 

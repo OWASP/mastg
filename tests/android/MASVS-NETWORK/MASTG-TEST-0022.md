@@ -94,7 +94,9 @@ myWebView.setWebViewClient(new WebViewClient(){
 
 Alternatively, it is better to use an OkHttpClient with configured pins and let it act as a proxy overriding `shouldInterceptRequest` of the `WebViewClient`.
 
-### Xamarin Applications
+### Xamarin Applications (Legacy – End of Support)
+
+Xamarin has been [End of Support (EoS)](https://dotnet.microsoft.com/en-us/apps/xamarin) since May 1, 2024 and no longer receives security patches or updates. New projects should target [.NET MAUI](https://dotnet.microsoft.com/en-us/apps/maui), Microsoft's supported cross-platform successor.
 
 Applications developed in Xamarin will typically use `ServicePointManager` to implement pinning.
 
@@ -132,7 +134,7 @@ Normally a function is created to check the certificate(s) and return the boolea
 
 In this particular example we are pinning the intermediate CA of the certificate chain. The output of the HTTP response will be available in the system logs.
 
-Sample Xamarin app with the previous example can be obtained on the [MASTG repository](https://github.com/OWASP/owasp-mastg/raw/master/Samples/Android/02_CertificatePinning/certificatePinningXamarin.apk "Xamarin app with certificate pinning")
+Sample Xamarin app with the previous example can be obtained on the [MASTG repository](https://github.com/OWASP/mastg/raw/master/Samples/Android/02_CertificatePinning/certificatePinningXamarin.apk "Xamarin app with certificate pinning")
 
 After decompressing the APK file, use a .NET decompiler like dotPeak, ILSpy or dnSpy to decompile the app dlls stored inside the 'Assemblies' folder and confirm the usage of the ServicePointManager.
 

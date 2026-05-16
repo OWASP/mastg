@@ -1,0 +1,1 @@
+adb shell 'grep -nri -E "SECRET_TOKEN_123456|DL-987654321" /data/data/org.owasp.mastestapp/app_webview'
