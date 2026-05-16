@@ -26,4 +26,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app uses the general pasteboard and does not clear its contents when moving to the background or terminating. Specifically, it should be verified that there are calls to `UIPasteboard.setItems` with an empty array (`[]`) in the appropriate lifecycle methods.
+The test case fails if the app uses the general pasteboard and does not clear its contents when moving to the background or terminating. Specifically, it should be verified that there are calls to `UIPasteboard.setItems` with an empty array (`[]`) in the appropriate lifecycle methods.

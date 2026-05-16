@@ -22,4 +22,4 @@ The output should identify all instances of `StrictMode` usage in the app.
 
 ## Evaluation
 
-The test fails if the app uses `StrictMode` APIs.
+The test case fails if the app uses `StrictMode` APIs.

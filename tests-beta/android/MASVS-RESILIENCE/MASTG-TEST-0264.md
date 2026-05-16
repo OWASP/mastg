@@ -24,4 +24,4 @@ The output should show the runtime usage of `StrictMode` APIs.
 
 ## Evaluation
 
-The test fails if the Frida script output shows the runtime usage of `StrictMode` APIs.
+The test case fails if the Frida script output shows the runtime usage of `StrictMode` APIs.

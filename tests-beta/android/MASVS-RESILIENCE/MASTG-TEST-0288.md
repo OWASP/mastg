@@ -23,4 +23,4 @@ The output should identify all instances of debugging information in the native 
 
 ## Evaluation
 
-The test **fails** if debugging information is present in any native binary, including if actual debugging symbols were successfully extracted.
+The test case fails if debugging information is present in any native binary, including if actual debugging symbols were successfully extracted.

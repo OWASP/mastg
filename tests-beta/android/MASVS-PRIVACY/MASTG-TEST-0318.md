@@ -26,4 +26,4 @@ The output should list the locations where SDK methods are called.
 
 ## Evaluation
 
-The test case fails if you can find the use of these SDK methods in the app code, indicating that the app is sharing sensitive user data with the third-party SDK. If no such references are found, the test case passes.
+The test case fails if you can find the use of these SDK methods in the app code, indicating that the app is sharing sensitive user data with the third-party SDK.
