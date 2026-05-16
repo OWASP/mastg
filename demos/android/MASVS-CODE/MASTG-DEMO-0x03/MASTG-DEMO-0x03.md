@@ -13,10 +13,6 @@ The manifest below declares an internal activity (`InternalSettingsActivity`) wi
 
 {{ AndroidManifest.xml # AndroidManifest_reversed.xml }}
 
-The activity itself contains no logic that justifies it being exposed externally; it is a normal internal screen.
-
-{{ InternalSettingsActivity.kt }}
-
 ## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the manifest file.
