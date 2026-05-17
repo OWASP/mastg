@@ -30,6 +30,6 @@ The output should contain the disassembled code of the functions using `isExclud
 
 ## Evaluation
 
-The test fails if the `isExcludedFromBackup` API is used and any of the affected files are considered sensitive.
+The test case fails if the `isExcludedFromBackup` API is used and any of the affected files are considered sensitive.
 
 For any sensitive files found, in addition to using `isExcludedFromBackup`, make sure to encrypt them, as `isExcludedFromBackup` does not guarantee exclusion.

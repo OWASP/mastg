@@ -36,10 +36,11 @@ The test case fails if cleartext traffic is permitted. This can happen if any of
 2. The NSC sets `cleartextTrafficPermitted` to `true` in the `<base-config>`.
 3. The NSC sets `cleartextTrafficPermitted` to `true` in any `<domain-config>`.
 
-**Note:** The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
+!!! note
+    The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-</network-security-config>
-```
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <network-security-config>
+    </network-security-config>
+    ```

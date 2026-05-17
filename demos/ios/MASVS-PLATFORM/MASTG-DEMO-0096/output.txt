@@ -1,6 +1,20 @@
-Uses of loadRequest or loadFileURL:
-0x10000c0ff 37 str.loadFileURL:allowingReadAccessToURL:
-0x100018118 8 reloc.fixup.loadFileURL:allowingReadAccessT
+URLsForDirectory:inDomains: selector (API anchor for the allowingReadAccessTo initializer):
+0x10000c043 28 str.URLsForDirectory:inDomains:
+0x100018130 8 reloc.fixup.URLsForDirectory:inDomains:
 
-xrefs to 'loadFileURL' selector
-sym.MASTestApp.MastgTest.showHtmlRegistrationView._6E8AB2C58CE173A727EF27CB85DF8CD8.username.completion 0x100004f10 [DATA:r--] ldr x1, reloc.fixup.loadFileURL:allowingReadAccessT
+xrefs to URLsForDirectory:inDomains: (finds the allowingReadAccessTo lazy initializer):
+sym.MASTestApp.MastgTest.docDir._6E8AB2C58CE173A727EF27CB85DF8CD8_...Z_ 0x100004094 [DATA:r--] ldr x1, reloc.fixup.URLsForDirectory:inDomains:
+
+appendingPathComponent selector (API anchor for the fileURL initializer):
+0x10000a738 12 sym.imp.Foundation.URL.appendingPathComponent_...CSSF_
+0x1000146b8 8 reloc.Foundation.URL.appendingPathComponent_...CSSF_
+
+xrefs to appendingPathComponent import stub (finds the fileURL materializer ZTm_):
+sym.MASTestApp.MastgTest.fileURL._6E8AB2C58CE173A727EF27CB85DF8CD8_...ZTm_ 0x100004240 [CALL:--x] bl sym.imp.Foundation.URL.appendingPathComponent_...CSSF_
+
+xrefs to ZTm_ (finds the swift_once guard Z_ that encodes the filename as inline constants):
+sym.MASTestApp.MastgTest.fileURL._6E8AB2C58CE173A727EF27CB85DF8CD8_...Z_ 0x100004164 [CODE:--x] b sym.MASTestApp.MastgTest.fileURL._6E8AB2C58CE173A727EF27CB85DF8CD8_...ZTm_
+sym.MASTestApp.MastgTest.secretURL._6E8AB2C58CE173A727EF27CB85DF8CD8_...Z_ 0x100004188 [CODE:--x] b sym.MASTestApp.MastgTest.fileURL._6E8AB2C58CE173A727EF27CB85DF8CD8_...ZTm_
+
+HTML template string (contains innerHTML injection):
+0x10000b261 hit4_0 "yId('username').innerHTML = name;</scrip"

@@ -34,7 +34,7 @@ The output should contain:
 
 ## Evaluation
 
-The test fails if:
+The test case fails if:
 
 - The app writes unencrypted sensitive data to `documentDirectory` (or equivalent shared storage path), and
 - `Info.plist` enables user access to the Documents directory (`UIFileSharingEnabled` and/or `LSSupportsOpeningDocumentsInPlace`).
