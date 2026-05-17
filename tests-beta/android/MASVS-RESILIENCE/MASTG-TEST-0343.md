@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Testing Device Integrity
+title: Testing Device Integrity Verification
 id: MASTG-TEST-0343
 type: [static]
 weakness: MASWE-0100

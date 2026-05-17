@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Testing App Binary Integrity
+title: Testing App Binary Integrity Verification
 id: MASTG-TEST-0342
 type: [static]
 weakness: MASWE-0104
