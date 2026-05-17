@@ -3,13 +3,7 @@ title: Extracting Bundled Libraries
 platform: ios
 ---
 
-This technique describes how to identify dynamic libraries and framework binaries bundled with an iOS app. The static analysis steps inspect the IPA without running the app. Runtime-based approaches are covered in @MASTG-TECH-0x01 and require executing or instrumenting the app.
-
-[Bundled libraries](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) are included in the app's IPA and are commonly found in `Payload/YourApp.app/Frameworks/`. They may also appear in other bundled executable components, such as app extensions.
-
-This technique does not fully cover statically linked code. Static libraries are usually linked into another Mach-O binary and do not appear as separate dynamic library dependencies. A `.framework` directory alone does not prove that the framework is dynamic, so inspect the contained Mach-O file when this distinction matters.
-
-## Overview
+This technique describes how to identify dynamic libraries and [framework](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) binaries bundled with an iOS app. The static analysis steps inspect the IPA without running the app. Runtime-based approaches are covered in @MASTG-TECH-0x01 and require executing or instrumenting the app.
 
 When analyzing an iOS app's libraries, distinguish between the following categories:
 
@@ -21,13 +15,13 @@ When analyzing an iOS app's libraries, distinguish between the following categor
 The approaches below provide complementary information:
 
 - **Inspecting the IPA contents** shows what files the developer shipped. This is the best starting point for identifying bundled frameworks, dylibs, app extensions, and other executable components.
-- **Reading Mach-O load commands**, for example with `otool -L` or radare2 `il`, shows the dynamic libraries recorded as dependencies of a specific Mach-O binary. This includes system libraries and bundled libraries, but only for the binary being inspected.
+- **Reading the Mach-O load commands**, for example with `otool -L` or radare2 `il`, shows the dynamic libraries recorded as dependencies of a specific Mach-O binary. This includes system libraries and bundled libraries, but only for the binary being inspected.
 
-When reviewing load command output, filter out paths that clearly refer to system libraries, such as `/System/Library/` and `/usr/lib/`. Entries using `@rpath`, `@executable_path`, or `@loader_path` should be resolved against the binary's load commands and then cross-checked against the IPA contents. In iOS apps, `@rpath` commonly resolves to the app's `Frameworks` directory, but this should not be assumed without verification.
+When reviewing the load command output, filter out paths that clearly refer to system libraries, such as `/System/Library/` and `/usr/lib/`. Entries using `@rpath`, `@executable_path`, or `@loader_path` should be resolved against the binary's load commands and then cross-checked against the IPA contents. In iOS apps, `@rpath` commonly resolves to the app's `Frameworks` directory, but this should not be assumed without verification.
 
 Some Apple supplied Swift runtime libraries, such as `libswiftCore.dylib`, may be bundled in the app's `Frameworks` directory depending on the deployment target and toolchain. These are physically shipped in the IPA, even though they are not third-party libraries.
 
-## Inspecting the Application Bundle
+## Using `unzip`
 
 An IPA is a ZIP archive. Extract it and inspect the app bundle. Bundled dynamic libraries are commonly `.framework` bundles or `.dylib` files under `Payload/YourApp.app/Frameworks/`.
 
