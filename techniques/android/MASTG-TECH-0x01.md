@@ -36,7 +36,7 @@ aapt2 d badging app.apk | grep -i debuggable
 
 Example output when the flag is set:
 
-```
+```txt
 application-debuggable
 ```
 
