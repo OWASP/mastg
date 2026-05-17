@@ -1,7 +1,7 @@
 ---
 title: Insecure TLS Protocols in Network Traffic
 platform: network
-id: MASTG-TEST-0218
+id: MASTG-TEST-0x01
 type: [network]
 weakness: MASWE-0050
 profiles: [L1, L2]
@@ -17,7 +17,7 @@ In cases where static analysis is either incomplete or infeasible, examining net
 
 ## Steps
 
-1. Use @MASTG-TECH-0010 to capture the app traffic.  
+1. Use @MASTG-TECH-0062 to capture the app traffic.  
 
 ## Observation
 
