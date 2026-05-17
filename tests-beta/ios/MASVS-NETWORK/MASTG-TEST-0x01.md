@@ -17,7 +17,7 @@ In cases where static analysis is either incomplete or infeasible, examining net
 
 ## Steps
 
-1. Use @MASTG-TECH-0062 to capture the app traffic.  
+1. Use @MASTG-TECH-0062 to capture the app traffic.
 
 ## Observation
 
