@@ -1,0 +1,22 @@
+=== Checking for NSCoding conformances (insecure) ===
+
+NSCoding encode/decode methods:
+0x100004b40    1 148          sym.MastgTest.UserSession.encode.with.coder
+0x100004bd4    1 220          sym.MastgTest.UserSession.init.coder
+
+=== NSKeyedArchiver / NSKeyedUnarchiver usage ===
+
+NSKeyedArchiver and NSKeyedUnarchiver symbols:
+0x100006ae8    1 12           sym.imp.Foundation.NSKeyedArchiver.archivedData.withRootObject.requiringSecureCoding
+0x100006af4    1 12           sym.imp.Foundation.NSKeyedUnarchiver.init.forReadingFrom
+
+xrefs to NSKeyedArchiver.archivedData:
+sym.MastgTest.MastgTest.mastgTest 0x100004a90 [CALL:--x] bl sym.imp.Foundation.NSKeyedArchiver.archivedData.withRootObject.requiringSecureCoding
+
+xrefs to NSKeyedUnarchiver.init:
+sym.MastgTest.MastgTest.mastgTest 0x100004ae0 [CALL:--x] bl sym.imp.Foundation.NSKeyedUnarchiver.init.forReadingFrom
+
+=== Checking requiresSecureCoding usage ===
+
+Setting requiresSecureCoding to false (insecure):
+0x100004af8                 requiresSecureCoding (referenced in mastgTest)
