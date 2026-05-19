@@ -25,4 +25,5 @@ Use [`SecureField`](https://developer.apple.com/documentation/swiftui/securefiel
 SecureField("Password", text: $password)
 ```
 
-Do not use a plain `TextField` for sensitive input, even if you intend to style it to look like a masked field at the application layer, because this does not provide the same level of protection as the system-provided secure text entry mechanisms.
+!!! note
+    Do not use a plain `TextField` for sensitive input, even if you intend to style it to look like a masked field at the application layer, because this does not provide the same level of protection as the system-provided secure text entry mechanisms.

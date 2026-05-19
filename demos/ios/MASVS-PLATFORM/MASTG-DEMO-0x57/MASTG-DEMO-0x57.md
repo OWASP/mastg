@@ -1,28 +1,31 @@
 ---
 platform: ios
-title: Password Field Not Using Secure Text Entry
+title: Text Input Fields Not Hiding Sensitive Data
 id: MASTG-DEMO-0x57
 code: [swift]
 test: MASTG-TEST-0x57
 kind: fail
-status: draft
 ---
 
 ## Sample
 
-The following sample demonstrates a login form with three text input fields and one SwiftUI `SecureField`:
+The app exposes a login form with the following text input fields:
 
-- **Username** (`UITextField`, no explicit `isSecureTextEntry` — defaults to `false`, not sensitive).
-- **Password** (`UITextField`, `isSecureTextEntry = false` explicitly — **FAIL**).
-- **OTP 1** (`UITextField`, `isSecureTextEntry = true` — PASS).
-- **OTP 2** (`SecureField` in SwiftUI — PASS).
+- **Username:** Not considered sensitive data. Uses `UITextField` text field, no explicit `isSecureTextEntry` — defaults to `false`.
+- **Password:** Considered sensitive data. Uses `UITextField` text field, `isSecureTextEntry = false` explicitly.
+- **OTP 1:** Considered sensitive data. Uses `UITextField` text field, `isSecureTextEntry = true` explicitly.
+- **OTP 2:** Considered sensitive data. Uses `SecureField` text field.
 
 {{ MastgTest.swift }}
+
+The "Password" field is not masked, and is therefore visible to bystanders (shoulder surfing) or potentially captured in screenshots and screen recordings.
+
+The "OTP 1" and "OTP 2" fields use text input fields that are configured to mask the inputted data.
 
 ## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
-2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run the script.
+2. Execute `run.sh` to open the app with @MASTG-TOOL-0073.
 
 {{ textfield_masking.r2 # run.sh }}
 
@@ -30,19 +33,15 @@ The following sample demonstrates a login form with three text input fields and 
 
 The output reveals:
 
-- Multiple symbols referencing `UITextField` (closures, thunks, metadata) and `SecureField` (SwiftUI initializers, relocs, and metadata).
-- The `setSecureTextEntry:` selector string at `0x000177a5` and its fixup reloc at `0x000201c0`.
-- Two cross-references to `reloc.fixup.setSecureTextEntry:` (`0x000201c0`):
-    - `sym.MASTestApp.MastgTest.mastg.completion.UITextField...U0_` at `0x1a24` — the **password field** closure (FAIL).
-    - `sym.MASTestApp.MastgTest.mastg.completion.UITextField._` at `0x1b38` — the **OTP 1 field** closure (PASS).
-- One cross-reference to the `SecureField` initializer at `0x3c60` — the **OTP 2** SwiftUI view (PASS).
-- The disassembly confirms the argument value (`w2`) passed to `objc_msgSend` for each `setSecureTextEntry:` call.
+- 3 `UITextField` closures at addresses `0x00001828`, `0x000019a8`, and `0x00001ab8`.
+- 2 calls to `setSecureTextEntry:` at `0x00001a24` and `0x00001b38`.
+- 1 call to the `SecureField` initializer at `0x00003c60`.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case fails because the password field calls `setSecureTextEntry:` with argument `0` (`false`).
+The test case fails because the password field calls `setSecureTextEntry:` with argument `false`, leaving the sensitive input unmasked.
 
 **Interpreting the Disassembly:**
 
@@ -54,24 +53,20 @@ Although `MastgTest.swift` is written in Swift, it interacts with UIKit (an Obje
 
 **Password Field (FAIL):**
 
-At address `0x00001a24`, the binary loads the selector `setSecureTextEntry:` into `x1` (pointing to `reloc.fixup.setSecureTextEntry:` at `0x201c0`).
+The `setSecureTextEntry:` call at `0x00001a24` corresponds to the password field. The disassembly shows:
 
-At address `0x00001a28`, `mov w8, 0` sets the value to `0`.
-
-At address `0x00001a2c`, `and w2, w8, 1` prepares the boolean argument (masking to 1 bit), so `w2 = 0`.
+At `0x00001a28`, `mov w8, 0` sets the value to `0`. At `0x00001a2c`, `and w2, w8, 1` prepares the boolean argument, resulting in `w2 = 0` (`false`).
 
 This means [`isSecureTextEntry`](https://developer.apple.com/documentation/uikit/uitextinputtraits/issecuretextentry) is set to `false` for the password field, causing the password to be displayed in plain text instead of being masked with bullet characters.
 
 **OTP 1 Field (PASS):**
 
-At address `0x00001ae0`, `mov w8, 1` stores the value `1` (true) into `var_1ch` at `0x00001ae4`.
+The `setSecureTextEntry:` call at `0x00001b38` corresponds to the OTP 1 field. The disassembly shows:
 
-At address `0x00001b38`, the binary loads the selector `setSecureTextEntry:` into `x1`.
+At `0x00001ae0`, `mov w8, 1` stores the value `1` (`true`) into a local variable. At `0x00001b2c`, the stored value is reloaded. At `0x00001b3c`, `and w2, w8, 1` results in `w2 = 1` (`true`).
 
-At address `0x00001b2c`, `ldr w8, [var_1ch]` reloads that stored value (`1`).
+This means `isSecureTextEntry` is `true` for the OTP 1 field, so the input is correctly masked.
 
-At address `0x00001b3c`, `and w2, w8, 1` results in `w2 = 1`, so `isSecureTextEntry` is `true`. The OTP 1 field is correctly masked.
+**OTP 2 Field (PASS):**
 
-**OTP 2 Field (PASS — SwiftUI `SecureField`):**
-
-At address `0x00003c60`, the binary calls the `SecureField` initializer directly (`bl sym.SwiftUI.SecureField...`). SwiftUI's `SecureField` always masks input by design — there is no `isSecureTextEntry` setter involved.
+The call at `0x00003c60` invokes the `SecureField` initializer directly (`bl sym.SwiftUI.SecureField...`). SwiftUI's `SecureField` always masks input by design — there is no `isSecureTextEntry` setter involved.
