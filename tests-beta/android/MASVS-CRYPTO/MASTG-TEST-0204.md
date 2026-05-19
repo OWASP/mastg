@@ -2,7 +2,7 @@
 platform: android
 title: Insecure Random API Usage
 id: MASTG-TEST-0204
-type: [static, dynamic]
+type: [static]
 best-practices: [MASTG-BEST-0001]
 prerequisites:
 - identify-sensitive-data
@@ -20,8 +20,9 @@ In general, if a PRNG is not explicitly documented as being cryptographically se
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 or @MASTG-TECH-0043 to look for insecure random APIs.
-2. For each of the identified API uses, check if they are used in a security relevant context. You can reverse-engineer the app (@MASTG-TECH-0013) and inspect the code (@MASTG-TECH-0023) to confirm.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. For each of the identified API uses, check if they are used in a security relevant context. Use @MASTG-TECH-0023 to inspect the code and confirm.
 
 ## Observation
 

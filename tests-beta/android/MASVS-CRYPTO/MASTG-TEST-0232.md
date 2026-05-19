@@ -2,7 +2,7 @@
 title: Broken Symmetric Encryption Modes
 platform: android
 id: MASTG-TEST-0232
-type: [static, dynamic]
+type: [static]
 weakness: MASWE-0020
 best-practices: [MASTG-BEST-0005]
 profiles: [L1, L2]
@@ -37,7 +37,8 @@ In the transformation strings like `"RSA/ECB/OAEPPadding"` or `"RSA/ECB/PKCS1Pad
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 or @MASTG-TECH-0043 to look for uses of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

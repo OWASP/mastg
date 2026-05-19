@@ -255,6 +255,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
 | Install the app | @MASTG-TECH-0056 | Installing iOS Apps | Default for Installing the app |
+| Extracting the app (static) | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Default step 1 for static tests |
 | Reverse Engineer | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
 | Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Default for static steps |
 | Method hooking (dynamic) | @MASTG-TECH-0095 | Method Hooking | Preferred over 0067 for hooking/instrumentation |
@@ -269,28 +270,24 @@ Each `type` combination has a **required step pattern**. Use these as the base a
 **`type: [static]` — Android**
 
 ```md
-1. Use @MASTG-TECH-0014 to look for the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 ```
 
 **`type: [static]` — iOS**
 
 ```md
-1. Use @MASTG-TECH-0066 to look for the relevant APIs.
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 ```
 
 **`type: [static, dynamic]` — Android**
 
-```md
-1. Use @MASTG-TECH-0014 or @MASTG-TECH-0043 to look for the relevant APIs.
-```
+This is currently not allowed. Please use separate static and dynamic tests. If you think a combined test is necessary, please discuss it with the team.
 
 **`type: [static, dynamic]` — iOS**
 
-```md
-1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for the relevant APIs.
-```
-
-> Note: Use `or` (not `or use`) between techniques.
+This is currently not allowed. Please use separate static and dynamic tests. If you think a combined test is necessary, please discuss it with the team.
 
 **`type: [dynamic]` — Android (method hooking)**
 
@@ -367,13 +364,6 @@ When the test explicitly requires reverse engineering the binary before applying
 ```md
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
-```
-
-**`type: [static]` with explicit reverse engineering — iOS**
-
-```md
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 ```
 
 **`type: [dynamic]` — Android (system log monitoring)**
