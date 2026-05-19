@@ -24,12 +24,7 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app sets `setConfirmationRequired()` to `false` for sensitive operations that require explicit user authorization.
-
-The test passes if the app either:
-
-- Sets `setConfirmationRequired()` to `true` explicitly for sensitive operations, or
-- Relies on the default behavior, which requires confirmation.
+The test case fails if the app sets `setConfirmationRequired()` to `false` for sensitive operations that require explicit user authorization.
 
 !!! note
     Using [`setConfirmationRequired(false)`](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action) is not inherently a vulnerability. It may be appropriate for low-risk operations, but for sensitive operations like payments or data access, the app should use `setConfirmationRequired(true)` or rely on the default behavior to [ensure the user explicitly confirms the authentication](https://developer.android.com/identity/sign-in/biometric-auth#no-explicit-user-action).

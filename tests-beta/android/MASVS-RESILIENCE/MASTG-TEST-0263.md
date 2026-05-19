@@ -24,4 +24,4 @@ The output should contain a list of log statements related to `StrictMode`.
 
 ## Evaluation
 
-The test fails if an app logs any `StrictMode` policy violations.
+The test case fails if an app logs any `StrictMode` policy violations.

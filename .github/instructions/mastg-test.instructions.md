@@ -253,4 +253,10 @@ Example:
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts.
 ```
 
+An explanation of the conditions that make the test pass must not be added. It is always assumed that the test fails for certain conditions and passes otherwise, making the pass explanation redundant.
+
+A pass explanation can only be added for rare edge cases where it is unavoidable due to conditions particular to that case.
+
+In that case, it MUST start with "The test case passes if ..." and must be added after the fail explanation.
+
 IMPORTANT: Do not include remediation advice or best practices in the evaluation section. Remediation belongs in `best-practices/` and must be linked in the test metadata `best-practices`. If it does not exist yet, create it.
