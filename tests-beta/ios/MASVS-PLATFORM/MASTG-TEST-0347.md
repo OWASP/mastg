@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Runtime Monitoring of Text Input Fields Hiding Sensitive Data
+title: Runtime Use of APIs Hiding Sensitive Data in Text Input Fields
 id: MASTG-TEST-0347
 type: [dynamic]
 weakness: MASWE-0053
@@ -11,14 +11,16 @@ knowledge: [MASTG-KNOW-0121]
 
 ## Overview
 
-This test complements @MASTG-TEST-0347. It monitors text input fields in the app at runtime to check if the app masks the text entry when the user enters sensitive data.
+This test complements @MASTG-TEST-0346. It monitors text input fields in the app at runtime to check if the app masks the text entry when the user enters sensitive data.
 
 If the app does not mask text input fields that contain sensitive data, such data may be visible to bystanders (shoulder surfing) or captured in screenshots and screen recordings.
 
+Ensure you exercise the app thoroughly, entering realistic sensitive data (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) into each identified text input field.
+
 ## Steps
 
-1. Use @MASTG-TECH-0067 to look for text input fields used in the app and identify the visibility attributes of each text input field.
-2. Exercise the app thoroughly, entering realistic sensitive data (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) into each identified text input field.
+1. use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
 
 ## Observation
 

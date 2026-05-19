@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: References to APIs for Hiding Sensitive Data in Text Input Fields
+title: References to APIs Hiding Sensitive Data in Text Input Fields
 id: MASTG-TEST-0346
 type: [static, manual]
 weakness: MASWE-0053
@@ -32,9 +32,6 @@ Example for SwiftUI:
 ```swift
 SecureField("Password", text: $password)
 ```
-
-!!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `UITextField` or `SecureField` (for example in custom UI frameworks or game engines, or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at rest).
 
 ## Steps
 
