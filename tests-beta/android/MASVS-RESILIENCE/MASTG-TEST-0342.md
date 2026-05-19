@@ -12,11 +12,11 @@ status: placeholder
 
 ## Overview
 
-{{ placeholder }}
+This test verifies ...
 
 ## Steps
 
-{{ placeholder }}
+1. 
 
 ## Observation
 

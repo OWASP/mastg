@@ -5,7 +5,21 @@ title: Key Attestation
 available_since: 24
 ---
 
-Android provides the [Key Attestation](https://developer.android.com/training/articles/security-key-attestation) feature, which allows a verifier (usually a remote server) to cryptographically verify the security properties of asymmetric keys managed through the Android KeyStore (@MASTG-KNOW-0043). By inspecting and validating the signed certificate chain of the generated (public) key, a third party can establish trust in the integrity of both the device environment (see @MASTG-KNOW-01kw) and the identity of the calling application (see @MASTG-KNOW-02kw). Starting with Android 8.0 (API level 26), key attestation became mandatory for all new devices that require device certification for Google apps. These devices use attestation keys signed by the [Google Hardware Attestation Root Certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate).
+Android provides the [Key Attestation](https://developer.android.com/training/articles/security-key-attestation) feature, which allows a verifier (usually a remote server) to cryptographically verify the security properties of asymmetric keys managed through the Android KeyStore (@MASTG-KNOW-0043). By inspecting and validating the signed certificate chain of the generated (public) key, a third party can establish trust in the integrity of both the device environment (see @MASTG-KNOW-0120) and the identity of the calling application (see @MASTG-KNOW-0119). Starting with Android 8.0 (API level 26), key attestation became mandatory for all new devices that require device certification for Google apps. These devices use attestation keys signed by the [Google Hardware Attestation Root Certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate).
+
+@MASTG-KNOW-0035 is solving the same cryptographic goals.
+
+## Chain of Trust
+
+A chain of trust is only as strong as its weakest link, and key attestation plays a fundamental role in establishing it. For a remote server to trust a client, it must first trust the platform the client runs on, and then trust the application running on that platform.
+
+A typical chain of trust for a mobile application is built from the bottom up:
+
+- **Device integrity** is the foundation: if the device runs a modified OS, has an unlocked bootloader, or is rooted, an attacker controls the execution environment and can bypass, spoof, or intercept any application-level control.
+- **Application integrity** builds on top: even on a trusted device, a repackaged or patched APK may have had its security controls removed or its behavior altered.
+- **In-app security controls** are the final layer: only when both the device and the binary are trusted can controls (such as TLS certificate pinning) be meaningfully enforced.
+
+If any link in this chain is broken, the security guarantees of all higher layers are void. Tools like @MASTG-TOOL-0001 exploit exactly this - they are designed to operate on untrusted devices or tampered apps where these controls are absent.
 
 ## Attestation Certificate Chain
 
@@ -24,10 +38,10 @@ The resulting certificate chain is then returned to the verifier for inspection:
     - `attestationChallenge`: the challenge value matches the server-issued nonce.
     - `attestationSecurityLevel`: the Keymaster security level (`Software`, `TrustedEnvironment`, or `StrongBox`).
     - `softwareEnforced` / `hardwareEnforced`: the key pair attributes (see [Key Properties](#key-properties) below).
-    - `rootOfTrust`: device integrity signals including `verifiedBootState`, `verifiedBootKey`, and `deviceLocked` (see @MASTG-KNOW-01kw).
-    - `attestationApplicationId`: the application identity including package name and signing certificate digests (see @MASTG-KNOW-02kw).
+    - `rootOfTrust`: device integrity signals including `verifiedBootState`, `verifiedBootKey`, and `deviceLocked` (see @MASTG-KNOW-0120).
+    - `attestationApplicationId`: the application identity including package name and signing certificate digests (see @MASTG-KNOW-0119).
 
-The `attestationSecurityLevel` determines the overall trust of the attestation. The higher the security level, the more confident the verifier can be that the reported device and application properties reflect reality and cannot be falsified by the Android OS. For device integrity signals and how to interpret them (e.g., unlocked bootloader), see @MASTG-KNOW-01kw. For application identity signals and how to interpret them (e.g., repackaged or tampered app), see @MASTG-KNOW-02kw.
+The `attestationSecurityLevel` determines the overall trust of the attestation. The higher the security level, the more confident the verifier can be that the reported device and application properties reflect reality and cannot be falsified by the Android OS. For device integrity signals and how to interpret them (e.g., unlocked bootloader), see @MASTG-KNOW-0120. For application identity signals and how to interpret them (e.g., repackaged or tampered app), see @MASTG-KNOW-0119.
 
 **Example:**
 
@@ -67,11 +81,11 @@ Some of the key properties are described below:
     - **`StrongBox`**: Attestation was performed by a dedicated secure element (StrongBox), offering the highest level of hardware protection.
 - **`attestationChallenge`**: The nonce provided by the server and passed to `setAttestationChallenge()` during key generation. The server checks this value to confirm the attestation was produced in response to its specific request to prevent replay attacks.
 - The **`softwareEnforced`** or **`hardwareEnforced`** `AuthorizationList` contains the following fields:
-    - **`rootOfTrust`**: Device integrity signals used for device attestation (see @MASTG-KNOW-01kw), including:
+    - **`rootOfTrust`**: Device integrity signals used for device attestation (see @MASTG-KNOW-0120), including:
         - **`verifiedBootState`**: Whether the device's boot chain was verified as unmodified (`Verified`, `SelfSigned`, `Unverified`, or `Failed`).
         - **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified devices this matches the OEM's embedded key.
         - **`deviceLocked`**: Whether the bootloader is locked. An unlocked bootloader indicates the device may have been modified.
-    - **`attestationApplicationId`**: Application identity fields used for application attestation (see @MASTG-KNOW-02kw), including:
+    - **`attestationApplicationId`**: Application identity fields used for application attestation (see @MASTG-KNOW-0119), including:
         - **`packageInfos`**: A set of entries each containing the app's `packageName` and `version` code.
         - **`signatureDigests`**: SHA-256 digests of the app's signing certificates, allowing the server to verify the app has not been repackaged.
     - **Authentication requirements**: Whether user authentication (e.g., biometric via [`setUserAuthenticationRequired`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setuserauthenticationrequired)) is required before key use, indicated by fields such as `noAuthRequired` and `userAuthType`.
@@ -80,5 +94,5 @@ Some of the key properties are described below:
 
 When reading the certificate chain, a verifier can inspect:
 
-- The `rootOfTrust` object for device integrity signals — see @MASTG-KNOW-01kw for field meanings and how to interpret them.
-- The `attestationApplicationId` object for application identity signals — see @MASTG-KNOW-02kw for field meanings and how to interpret them.
+- The `rootOfTrust` object for device integrity signals — see @MASTG-KNOW-0120 for field meanings and how to interpret them.
+- The `attestationApplicationId` object for application identity signals — see @MASTG-KNOW-0119 for field meanings and how to interpret them.
