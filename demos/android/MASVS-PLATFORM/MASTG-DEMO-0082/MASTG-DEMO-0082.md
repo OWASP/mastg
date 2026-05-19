@@ -25,7 +25,7 @@ The sensitive data is stored using `localStorage.setItem` in the inline HTML loa
 4. Click the **Start** button in the app
 5. Wait for the Frida script to capture the WebView cleanup calls
 6. Stop the script by quitting the Frida CLI
-7. Use @MASTG-TECH-0002 to search the contents of the `/data/data/<app_package>/app_webview/` directory for the sensitive data used in the WebView.
+7. Use @MASTG-TECH-0142 to search the contents of the `/data/data/<app_package>/app_webview/` directory for the sensitive data used in the WebView.
 
 {{ script.js # run.sh }}
 
