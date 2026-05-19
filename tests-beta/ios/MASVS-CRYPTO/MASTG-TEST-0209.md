@@ -2,7 +2,7 @@
 platform: ios
 title: Insufficient Key Sizes
 id: MASTG-TEST-0209
-type: [static, dynamic]
+type: [static]
 weakness: MASWE-0009
 profiles: [L1, L2]
 ---
@@ -19,7 +19,7 @@ Since you don't usually generate keys directly in CryptoKit (the library does th
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the relevant APIs.
+1. Use @MASTG-TECH-0066 to look for uses of the relevant APIs.
 
 ## Observation
 

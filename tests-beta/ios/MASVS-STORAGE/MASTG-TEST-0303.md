@@ -21,7 +21,7 @@ Also review whether the app protects sensitive data before writing it to these l
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 3. Use @MASTG-TECH-0058 to check the app's `Info.plist` for the `UIFileSharingEnabled` and `LSSupportsOpeningDocumentsInPlace` flags.
 

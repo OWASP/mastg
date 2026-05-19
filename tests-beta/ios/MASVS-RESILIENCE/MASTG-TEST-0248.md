@@ -20,7 +20,7 @@ Apps leveraging the **Keychain Services API** can require passcode authenticatio
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation

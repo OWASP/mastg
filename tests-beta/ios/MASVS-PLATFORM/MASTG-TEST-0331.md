@@ -17,8 +17,8 @@ In this test, we look for references to `UIWebView` (@MASTG-KNOW-0076), a deprec
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Look for references to `UIWebView` in the app using @MASTG-TECH-0070 on all executables and libraries.
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

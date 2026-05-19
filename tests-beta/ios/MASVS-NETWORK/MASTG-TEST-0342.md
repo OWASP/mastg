@@ -22,7 +22,7 @@ Apps can also globally disable ATS by setting [`NSAllowsArbitraryLoads`](https:/
 
 ## Steps
 
-1. Extract the app (@MASTG-TECH-0058).
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Locate the `Info.plist` in the app bundle.
 3. Use @MASTG-TECH-0138 to convert the `Info.plist` to a readable format if necessary.
 4. Examine the `NSAppTransportSecurity` dictionary for TLS policy exceptions, specifically `NSExceptionMinimumTLSVersion`, `NSExceptionRequiresForwardSecrecy` and `NSAllowsArbitraryLoads`.

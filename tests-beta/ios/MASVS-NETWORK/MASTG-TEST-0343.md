@@ -19,7 +19,7 @@ Note that `tlsMinimumSupportedProtocol` is deprecated in favor of `tlsMinimumSup
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0066 to look for uses of `URLSessionConfiguration` properties that set TLS protocol versions (`tlsMinimumSupportedProtocol` and `tlsMinimumSupportedProtocolVersion`).
 3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine the TLS version values being set.
 

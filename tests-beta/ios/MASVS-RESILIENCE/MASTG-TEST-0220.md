@@ -16,7 +16,7 @@ Using an outdated code signature format may expose the app to security risks, as
 
 ## Steps
 
-1. Extract the package as described in @MASTG-TECH-0058.
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Obtain the version of the code signature format as described in @MASTG-TECH-0112.
 
 ## Observation

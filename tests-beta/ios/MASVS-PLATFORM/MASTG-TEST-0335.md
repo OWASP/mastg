@@ -21,8 +21,8 @@ This test is related to, but distinct from, @MASTG-TEST-0333, which focuses on t
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and search for references to the relevant configuration values.
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

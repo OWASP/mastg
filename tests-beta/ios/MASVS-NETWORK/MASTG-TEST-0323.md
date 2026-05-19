@@ -24,7 +24,7 @@ For more information on when ATS applies, see @MASTG-KNOW-0071.
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0072 to look for uses of low-level networking APIs in the app binary.
 3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine if they could establish cleartext connections. For example, if using `Network` framework, verify that TLS is properly configured using `.tls` parameter in `NWParameters`.
 

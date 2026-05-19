@@ -21,7 +21,7 @@ To differentiate between Objective-C and Swift binaries, you can inspect the imp
 
 ## Steps
 
-1. Extract the application and identify the main binary (@MASTG-TECH-0054).
+1. Use @MASTG-TECH-0054 to extract the app.
 2. Identify all shared libraries (@MASTG-TECH-0082).
 3. Use @MASTG-TECH-0118 on the main binary and each shared library.
 4. If the output contains the symbol `__stack_chk_fail` it indicates stack canaries are enabled.

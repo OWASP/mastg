@@ -2,7 +2,7 @@
 platform: ios
 title: Broken Symmetric Encryption Algorithms
 id: MASTG-TEST-0210
-type: [static, dynamic]
+type: [static]
 weakness: MASWE-0020
 profiles: [L1, L2]
 ---
@@ -27,7 +27,7 @@ Note: the **Security** framework only supports asymmetric algorithms and is ther
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the relevant APIs.
+1. Use @MASTG-TECH-0066 to look for uses of the relevant APIs.
 
 ## Observation
 

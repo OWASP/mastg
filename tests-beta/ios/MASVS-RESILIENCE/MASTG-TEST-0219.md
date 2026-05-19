@@ -25,7 +25,7 @@ Note that in compiled iOS applications, symbol names may undergo **name mangling
 
 ## Steps
 
-1. Apply @MASTG-TECH-0058 to extract the contents from the IPA file.
+1. Use @MASTG-TECH-0054 to extract the app.
 2. For all executables and libraries of the app, use @MASTG-TECH-0113 to verify there are no debugging symbols present.
 
 ## Observation
