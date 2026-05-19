@@ -19,8 +19,8 @@ Note that some of the target APIs route I/O through system daemons or otherwise 
 
 ## Steps
 
-1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of file system APIs that create or write files.
-2. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of Keychain APIs.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
 3. Exercise app features that could handle sensitive data (authentication flows, session establishment, offline caching, profile viewing/editing, cryptographic operations, secure messaging, payment, or token refresh logic).
 
 ## Observation

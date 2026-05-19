@@ -15,15 +15,20 @@ knowledge: [MASTG-KNOW-0018]
 
 This test is the dynamic counterpart to @MASTG-TEST-0252.
 
+In this case you can follow one of these approaches:
+
+- enumerate instances of `WebView` in the app and list their configuration values
+- or explicitly hook the setters of the `WebView` settings, including:
+    - `setJavaScriptEnabled`
+    - `setAllowFileAccess`
+    - `setAllowFileAccessFromFileURLs`
+    - `setAllowUniversalAccessFromFileURLs`
+
+
 ## Steps
 
-1. Use @MASTG-TECH-0015 to either:
-    - enumerate instances of `WebView` in the app and list their configuration values
-    - or explicitly hook the setters of the `WebView` settings, including:
-        - `setJavaScriptEnabled`
-        - `setAllowFileAccess`
-        - `setAllowFileAccessFromFileURLs`
-        - `setAllowUniversalAccessFromFileURLs`
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
 
 ## Observation
 

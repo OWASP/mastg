@@ -23,10 +23,10 @@ In this test, we will monitor and capture the device logs and then analyze them 
 
 ## Steps
 
-1. Install the app on a device (@MASTG-TECH-0056).
-2. Monitor the logs with @MASTG-TECH-0060.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0060 to monitor the device logs.
 3. Open the app.
-4. Navigate to the mobile app from which you wish to analyse the log output.
+4. Navigate to the screens you want to analyze the log output from.
 5. Close the app.
 
 ## Observation

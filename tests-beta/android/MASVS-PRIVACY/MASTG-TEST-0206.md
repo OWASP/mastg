@@ -19,7 +19,7 @@ The goal of this test is to verify that sensitive data, specifically PII, is not
 
 ## Steps
 
-1. Start the device.
+1. Use @MASTG-TECH-0005 to install the app.
 2. Use @MASTG-TECH-0100.
 3. Launch and use the app going through the various workflows while inputting sensitive data wherever you can. Especially, places where you know that will trigger network traffic.
 

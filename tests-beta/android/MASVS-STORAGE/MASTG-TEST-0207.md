@@ -16,7 +16,7 @@ The goal of this test is to retrieve the files written to the internal storage (
 
 ## Steps
 
-1. Start the device.
+1. Use @MASTG-TECH-0005 to install the app.
 2. Take a first copy of the app's private data directory by using @MASTG-TECH-0008 to have as a reference for offline analysis.
 3. Launch and use the app, going through the various workflows while inputting sensitive data wherever you can. Taking note of the data you input can help identify it later using tools to search for it.
 4. Take a second copy of the app's private data directory for offline analysis and make a diff using the first copy to identify all files created or modify during your testing session.

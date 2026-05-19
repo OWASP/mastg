@@ -15,11 +15,15 @@ knowledge: [MASTG-KNOW-0018]
 
 This test is the dynamic counterpart to @MASTG-TEST-0250.
 
+In this case you can take two approaches when hooking or tracing the relevant APIs:
+
+- enumerate instances of `WebView` in the app and list their configuration values.
+- or, explicitly hook the setters of the `WebView` settings.
+
 ## Steps
 
-1. Use @MASTG-TECH-0043 to either:
-    - enumerate instances of `WebView` in the app and list their configuration values
-    - or explicitly hook the setters of the `WebView` settings
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
 
 ## Observation
 

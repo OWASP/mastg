@@ -9,7 +9,7 @@ profiles: [L1, L2]
 
 ## Overview
 
-To test for the use of broken encryption algorithms in iOS apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform encryption and decryption operations.
+To test for the use of broken encryption algorithms in iOS apps, we need to focus on APIs from cryptographic frameworks and libraries that are used to perform encryption and decryption operations.
 
 - **CommonCrypto**: The [`CCCrypt`](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/CCCrypt.3cc.html) function is used for **symmetric algorithms** and specifies the algorithm in its second parameter `alg` which can be one of the following [`CCAlgorithm`](https://github.com/Apple-FOSS-Mirror/CommonCrypto/blob/v60026/CommonCrypto/CommonCryptor.h#L149-L158) constants:
     - `kCCAlgorithmAES128`
@@ -27,7 +27,7 @@ Note: the **Security** framework only supports asymmetric algorithms and is ther
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the cryptographic functions that perform encryption and decryption operations.
+1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the relevant APIs.
 
 ## Observation
 

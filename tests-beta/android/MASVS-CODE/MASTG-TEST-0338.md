@@ -20,8 +20,8 @@ When performing this test, look not only for storage read APIs, but also for nea
 
 ## Steps
 
-1. Reverse engineer the app with @MASTG-TECH-0017.
-2. Run a static analysis tool with @MASTG-TECH-0014 on the reverse-engineered app to identify APIs that read data from local storage and, where possible, related integrity and authenticity validation APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

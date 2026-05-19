@@ -29,7 +29,7 @@ This test verifies whether the app detects and responds to instrumentation and h
 ## Steps
 
 1. Use @MASTG-TECH-0005 to install the app.
-2. Use @MASTG-TECH-0033 to attempt to hook a security-relevant Java method (e.g., authentication, certificate validation) and/or a native function.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
 3. Capture the output, including any abrupt session termination events or errors.
 
 ## Observation

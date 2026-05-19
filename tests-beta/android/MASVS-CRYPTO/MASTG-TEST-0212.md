@@ -14,7 +14,8 @@ In this test case, we will look for the use of hardcoded keys in Android applica
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 or @MASTG-TECH-0033 to look for all the instances of symmetric key encryption in code and look for uses of the hardcoded cryptographic keys.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

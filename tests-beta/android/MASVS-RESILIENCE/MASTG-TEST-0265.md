@@ -14,7 +14,8 @@ This test checks whether the app uses `StrictMode`. While useful for developers 
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for all instances of `StrictMode` APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

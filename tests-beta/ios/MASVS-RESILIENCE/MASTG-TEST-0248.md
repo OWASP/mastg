@@ -20,7 +20,8 @@ Apps leveraging the **Keychain Services API** can require passcode authenticatio
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 to look for uses of [`LAContext.canEvaluatePolicy(.deviceOwnerAuthentication)`](https://developer.apple.com/documentation/localauthentication/lacontext/canevaluatepolicy(_:error:)) API, or data stored with [`kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly`](https://developer.apple.com/documentation/security/ksecattraccessiblewhenpasscodesetthisdeviceonly) attribute.
+1. Use @MASTG-TECH-0065 to reverse engineer the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

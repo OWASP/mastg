@@ -2,7 +2,7 @@
 platform: android
 title: Files Written to External Storage
 id: MASTG-TEST-0200
-type: [dynamic]
+type: [dynamic, filesystem]
 weakness: MASWE-0007
 profiles: [L1, L2]
 ---
@@ -13,10 +13,10 @@ The goal of this test is to retrieve the files written to the external storage (
 
 ## Steps
 
-1. Install the app (@MASTG-TECH-0005).
-2. Before running the app, get the current list of files (@MASTG-TECH-0002) in the external storage.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0002 to get the current list of files in the external storage.
 3. Exercise the app.
-4. After running the app, retrieve the list of files in the external storage again.
+4. Use @MASTG-TECH-0002 to retrieve the list of files in the external storage again.
 5. Calculate the difference between the two lists.
 
 ## Observation

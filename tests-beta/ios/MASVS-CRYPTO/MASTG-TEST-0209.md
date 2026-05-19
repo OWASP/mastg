@@ -9,7 +9,7 @@ profiles: [L1, L2]
 
 ## Overview
 
-In this test case, we will look for the use insufficient key sizes in iOS apps. To do this, we need to focus on the cryptographic frameworks and libraries that are available in iOS and the methods that are used to generate cryptographic keys.
+In this test case, we will look for the use insufficient key sizes in iOS apps. To do this, we need to focus on APIs from cryptographic frameworks and libraries that are available in iOS and the methods that are used to generate cryptographic keys.
 
 - **CommonCrypto**: The [`CCCrypt`](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/CCCrypt.3cc.html) function is used for symmetric encryption and decryption and specifies the key size or key length in its fifth parameter `keyLength`.
 - **Security**: The [`SecKeyCreateRandomKey`](https://developer.apple.com/documentation/security/1823694-seckeycreaterandomkey) function is used to generate a random key using certain attributes including [`kSecAttrKeyType`](https://developer.apple.com/documentation/security/ksecattrkeytype) and [`kSecAttrKeySizeInBits`](https://developer.apple.com/documentation/security/ksecattrkeysizeinbits). The [`SecKeyGeneratePair`](https://developer.apple.com/documentation/security/1395339-seckeygeneratepair) function is deprecated in iOS 16.
@@ -19,7 +19,7 @@ Since you don't usually generate keys directly in CryptoKit (the library does th
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the cryptographic functions that generate keys.
+1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for uses of the relevant APIs.
 
 ## Observation
 

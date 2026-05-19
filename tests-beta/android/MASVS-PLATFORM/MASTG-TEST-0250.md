@@ -48,13 +48,9 @@ While the `fetch` request to the external server would still work, retrieving th
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for references to:
-      - the `WebView` class.
-      - the `WebSettings` class.
-      - the `setJavaScriptEnabled` method.
-      - the `setAllowContentAccess` method from the `WebSettings` class.
-      - the `setAllowUniversalAccessFromFileURLs` method from the `WebSettings` class.
-2. Obtain all content providers declared in the app's AndroidManifest.xml file.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0117 to obtain all content providers declared in the app's AndroidManifest.xml file.
 
 ## Observation
 

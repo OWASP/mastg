@@ -18,7 +18,8 @@ Android applications sometimes use non-random sources to generate "random" value
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for uses of non-random sources.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

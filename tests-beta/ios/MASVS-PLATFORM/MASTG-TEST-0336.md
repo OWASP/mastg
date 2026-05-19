@@ -19,11 +19,10 @@ This test verifies at runtime whether the application enables either of these se
 
 ## Steps
 
-1. Deploy the app to a device or simulator as described in @MASTG-TECH-0056.
-2. Launch the app with a runtime instrumentation tool such as @MASTG-TOOL-0039.
-3. Hook the relevant WebKit APIs to observe whether the app enables relaxed file origin policies and loads local content into a `WKWebView`.
-4. Trigger the code paths that create and configure the `WKWebView`.
-5. Inspect the captured runtime arguments.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Trigger the code paths that create and configure the `WKWebView`.
+4. Inspect the captured runtime arguments.
 
 Typical APIs to monitor include:
 

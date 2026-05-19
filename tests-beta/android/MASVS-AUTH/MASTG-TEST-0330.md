@@ -21,7 +21,8 @@ On Android, developers can configure this behavior using [`setUserAuthentication
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

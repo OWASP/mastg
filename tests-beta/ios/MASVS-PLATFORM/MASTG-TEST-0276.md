@@ -24,8 +24,8 @@ The test statically analyzes the code for use of the general pasteboard ([`UIPas
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 to look for uses of general pasteboard.
-2. Use @MASTG-TECH-0066 to look for uses of pasteboard methods which may be handling sensitive data.
+1. Use @MASTG-TECH-0065 to reverse engineer the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

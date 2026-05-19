@@ -14,9 +14,12 @@ knowledge: [MASTG-KNOW-0001]
 
 This test is the dynamic counterpart to @MASTG-TEST-0247.
 
+In this case, we'll look for uses of `KeyguardManager.isDeviceSecure` and `BiometricManager.canAuthenticate` APIs.
+
 ## Steps
 
-1. Use @MASTG-TECH-0015 to look for uses of `KeyguardManager.isDeviceSecure` and `BiometricManager.canAuthenticate` APIs.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
 
 ## Observation
 

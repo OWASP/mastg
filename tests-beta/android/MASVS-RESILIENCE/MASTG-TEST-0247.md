@@ -20,7 +20,8 @@ If an app relies on biometrics for authentication, it should ensure that biometr
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for the API that checks whether a secure screen lock has been set.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

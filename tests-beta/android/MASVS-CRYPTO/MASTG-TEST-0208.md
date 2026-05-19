@@ -21,7 +21,8 @@ For more information you can consult the MASTG section about ["Key Generation"](
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for uses of the cryptographic functions that generate keys.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

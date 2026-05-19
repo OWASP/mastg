@@ -19,7 +19,8 @@ In this test, we will use static analysis to verify whether an app has any loggi
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 to look for uses of logging APIs.
+1. Use @MASTG-TECH-0065 to reverse engineer the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

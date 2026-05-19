@@ -13,9 +13,12 @@ profiles: [P]
 
 This test is the dynamic counterpart to @MASTG-TEST-0318.
 
+In this case we will hook any SDK methods known to handle sensitive user data.
+
 ## Steps
 
-1. Use @MASTG-TECH-0033 to hook SDK methods known to handle sensitive user data.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
 
 ## Observation
 

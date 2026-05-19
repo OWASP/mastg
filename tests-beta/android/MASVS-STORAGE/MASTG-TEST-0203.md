@@ -16,9 +16,9 @@ On Android platforms, logging APIs like `Log`, `Logger`, `System.out.print`, `Sy
 
 ## Steps
 
-1. Install and run the app.
-2. Navigate to the screen of the mobile app you want to analyse the log output from.
-3. Use @MASTG-TECH-0033 by attaching to the running app, targeting logging APIs and save the output.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Navigate to the screens you want to analyze the log output from.
 
 ## Observation
 

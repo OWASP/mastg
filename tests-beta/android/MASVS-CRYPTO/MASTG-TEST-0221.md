@@ -27,7 +27,7 @@ Android also provides additional guidance on [broken cryptographic algorithms](h
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 or use @MASTG-TECH-0033 to look for uses of the cryptographic functions that perform encryption and decryption operations.
+1. Use @MASTG-TECH-0014 or @MASTG-TECH-0043 to look for uses of the relevant APIs.
 
 ## Observation
 

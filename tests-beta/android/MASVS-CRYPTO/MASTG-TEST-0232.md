@@ -37,7 +37,7 @@ In the transformation strings like `"RSA/ECB/OAEPPadding"` or `"RSA/ECB/PKCS1Pad
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 or use @MASTG-TECH-0033 to look for cryptographic functions specifying the encryption mode to insecure modes.
+1. Use @MASTG-TECH-0014 or @MASTG-TECH-0043 to look for uses of the relevant APIs.
 
 ## Observation
 

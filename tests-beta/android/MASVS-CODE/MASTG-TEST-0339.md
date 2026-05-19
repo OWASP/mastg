@@ -15,8 +15,8 @@ Android applications can share structured data via `ContentProvider` components.
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0013).
-2. Run static analysis (@MASTG-TECH-0014) to search for unsafe SQL construction in ContentProviders.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

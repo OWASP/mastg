@@ -53,18 +53,20 @@ Error reading file: 0
 
 ## Steps
 
-1. Determine the `minSdkVersion` of the app.
-2. Use @MASTG-TECH-0014 to look for references to:
-      - the `WebView` class.
-      - the `WebSettings` class.
-      - the `setJavaScriptEnabled` method.
-      - the `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs` methods from the `WebSettings` class.
-
-Note that in this case, **the lack of references to the `setAllow*` methods is especially interesting** and must be captured, because it could mean that the app is using the default values, which in some scenarios are insecure. For this reason, it's highly recommended to try to identify every WebView instance in the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `minSdkVersion` of the app.
 
 ## Observation
 
-The output should include a list of WebView instances that use the abovementioned methods.
+The output should include a list of WebView instances that use the abovementioned methods, specifically:
+
+- the `WebView` class.
+- the `WebSettings` class.
+- the `setJavaScriptEnabled` method.
+- the `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs` methods from the `WebSettings` class.
+
+Note that in this case, **the lack of references to the `setAllow*` methods is especially interesting** and must be captured, because it could mean that the app is using the default values, which in some scenarios are insecure. For this reason, it's highly recommended to try to identify every WebView instance in the app.
 
 ## Evaluation
 

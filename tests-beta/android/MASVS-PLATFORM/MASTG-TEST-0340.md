@@ -28,8 +28,9 @@ These include:
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to search for references to overlay protection mechanisms.
-2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `targetSdkVersion` and any relevant permissions.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `targetSdkVersion` and any relevant permissions.
 
 ## Observation
 

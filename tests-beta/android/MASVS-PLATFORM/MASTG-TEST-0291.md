@@ -17,7 +17,8 @@ Developers typically apply the flag with [`addFlags()`](https://developer.androi
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

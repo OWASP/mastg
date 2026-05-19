@@ -235,25 +235,172 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
+| Install the app | @MASTG-TECH-0005 | Installing Android Apps | Default for Installing the app |
+| Reverse Engineer | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
 | Static analysis | @MASTG-TECH-0014 | Static Analysis on Android | Default for static steps |
 | Decompiling Java/Kotlin | @MASTG-TECH-0017 | Decompiling Java Code | Use when specifically decompiling |
-| Disassembling to Smali | @MASTG-TECH-0016 | Disassembling Code to Smali | Use when Smali output is needed |
+| **Avoid** | @MASTG-TECH-0016 | Disassembling Code to Smali | Use only when Smali output is explicitly needed |
 | Disassembling native code | @MASTG-TECH-0018 | Disassembling Native Code | Use for native libraries |
-| Method tracing (dynamic) | @MASTG-TECH-0033 | Method Tracing | Preferred for logging/monitoring API calls |
-| Method hooking (dynamic) | @MASTG-TECH-0043 | Method Hooking | Preferred for instrumentation/interception |
+| **Avoid** | @MASTG-TECH-0033 | Method Tracing | Prefer @MASTG-TECH-0043 unless explicit logging/monitoring of API calls is needed |
+| Method hooking (dynamic) | @MASTG-TECH-0043 | Method Hooking | Preferred for instrumentation/interception/tracing |
+| **Avoid** | @MASTG-TECH-0033 | Execution Tracing | Prefer @MASTG-TECH-0043 unless explicit logging/monitoring of low-level system API calls is needed |
 | Network traffic monitoring | @MASTG-TECH-0010 | Basic Network Monitoring/Sniffing | |
+| System log monitoring | @MASTG-TECH-0009 | Monitoring System Logs | For monitoring system/app log output |
 | Extracting the AndroidManifest | @MASTG-TECH-0117 | Obtaining Information from the AndroidManifest | For extraction only |
 | Analyzing the AndroidManifest | @MASTG-TECH-0x01 | Analyzing the AndroidManifest | For searching/inspecting extracted content |
-| **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad — only use if no specific technique fits |
+| **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad, don't use for tests |
 
 **iOS:**
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
+| Install the app | @MASTG-TECH-0056 | Installing iOS Apps | Default for Installing the app |
+| Reverse Engineer | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
 | Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Default for static steps |
 | Method hooking (dynamic) | @MASTG-TECH-0095 | Method Hooking | Preferred over 0067 for hooking/instrumentation |
 | Network traffic monitoring | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | |
-| **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad — only use if no specific technique fits |
+| Device log monitoring | @MASTG-TECH-0060 | Monitoring System Logs | For monitoring device log output |
+| **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad, don't use for tests |
+
+#### Canonical Step Templates by Test Type
+
+Each `type` combination has a **required step pattern**. Use these as the base and add further steps only when the test genuinely requires more detail (e.g., extra navigation steps, filtering instructions, or additional manual actions).
+
+**`type: [static]` — Android**
+
+```md
+1. Use @MASTG-TECH-0014 to look for the relevant APIs.
+```
+
+**`type: [static]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0066 to look for the relevant APIs.
+```
+
+**`type: [static, dynamic]` — Android**
+
+```md
+1. Use @MASTG-TECH-0014 or @MASTG-TECH-0043 to look for the relevant APIs.
+```
+
+**`type: [static, dynamic]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0066 or @MASTG-TECH-0095 to look for the relevant APIs.
+```
+
+> Note: Use `or` (not `or use`) between techniques.
+
+**`type: [dynamic]` — Android (method hooking)**
+
+Use when the test intercepts or modifies API call behavior at runtime.
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+```
+
+**`type: [dynamic]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+```
+
+**`type: [network]` — Android**
+
+```md
+1. Use @MASTG-TECH-0010 to capture the app traffic.
+```
+
+**`type: [network]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0062 to capture the app traffic.
+```
+
+**`type: [dynamic, filesystem]` — Android (filesystem snapshot/diff pattern)**
+
+Use when the test identifies files created or modified by the app by comparing the device storage before and after exercising the app.
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0002 to get a baseline list of files.
+3. Exercise the app.
+4. Use @MASTG-TECH-0002 to retrieve the list of files again.
+5. Calculate the difference between the two lists.
+```
+
+If only retrieval is needed (for example, to check the files in external storage), you can omit the baseline retrieval and the diff step.
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Exercise the app.
+3. Use @MASTG-TECH-0002 to retrieve the list of files in the external storage.
+```
+
+**`type: [dynamic, filesystem]` — iOS (filesystem snapshot/diff pattern)**
+
+Use when the test identifies files created or modified by the app by comparing the device storage before and after exercising the app.
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0059 to get a baseline list of files.
+3. Exercise the app.
+4. Use @MASTG-TECH-0059 to retrieve the list of files again.
+5. Calculate the difference between the two lists.
+```
+
+If only one retrieval is needed (for example, to check the data protection classes of files in private storage), you can omit the baseline retrieval and the diff step.
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Exercise the app.
+3. Use @MASTG-TECH-0059 to retrieve the list of files including their data protection classes.
+```
+
+**`type: [static]` with explicit reverse engineering — Android**
+
+When the test explicitly requires reverse engineering the binary before applying static analysis (for example, analyzing native code or specific binary artifacts), a reverse engineering step may precede the static analysis step:
+
+```md
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+```
+
+**`type: [static]` with explicit reverse engineering — iOS**
+
+```md
+1. Use @MASTG-TECH-0065 to reverse engineer the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+```
+
+**`type: [dynamic]` — Android (system log monitoring)**
+
+Use when the test observes system-level log entries produced by the app or the platform (for example, StrictMode output). Use @MASTG-TECH-0009 instead of @MASTG-TECH-0043.
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0009 to monitor the system logs.
+```
+
+**`type: [dynamic]` — iOS (device log monitoring)**
+
+Use when the test monitors device-level log output (for example, `os_log` entries). Use @MASTG-TECH-0060 instead of @MASTG-TECH-0095.
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0060 to monitor the device logs.
+```
+
+**Key rules:**
+
+- All `[dynamic]` tests **MUST** start with an install step:
+    - Android: `1. Use @MASTG-TECH-0005 to install the app.`
+    - iOS: `1. Use @MASTG-TECH-0056 to install the app.`
+- Use @MASTG-TECH-0043 (hooking) for intercepting/modifying API behavior; use @MASTG-TECH-0033 (tracing) only for passive observation and logging of API calls.
+- Step descriptions are intentionally vague e.g. `to look for uses of the relevant APIs`. This is to allow for ease reuse across tests and easy refactoring whenever needed in the future. The specific APIs to look for are determined by the test's metadata `apis` field (even if it's currently optional) and the test overview, and should be clear to the tester without needing to be explicitly stated in the step instructions.
 
 ### Observation
 

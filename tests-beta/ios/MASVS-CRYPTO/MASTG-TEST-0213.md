@@ -17,7 +17,8 @@ In this test case, we will examine iOS applications for the presence of hardcode
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 to look for cryptographic APIs as indicated above.
+1. Use @MASTG-TECH-0065 to reverse engineer the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 
