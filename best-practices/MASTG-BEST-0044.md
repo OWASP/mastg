@@ -1,7 +1,7 @@
 ---
 title: Mask Sensitive Data in Text Input Fields
 alias: mask-sensitive-data-in-text-input-fields-ios
-id: MASTG-BEST-0x41
+id: MASTG-BEST-0044
 platform: ios
 knowledge: [MASTG-KNOW-0098]
 ---

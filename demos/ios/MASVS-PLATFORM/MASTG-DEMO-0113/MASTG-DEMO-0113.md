@@ -1,17 +1,17 @@
 ---
 platform: ios
 title: Runtime Monitoring of Text Input Fields Not Hiding Sensitive Data
-id: MASTG-DEMO-0x58
+id: MASTG-DEMO-0113
 code: [swift]
-test: MASTG-TEST-0x58
+test: MASTG-TEST-0347
 kind: fail
 ---
 
 ## Sample
 
-This demo uses the same sample as @MASTG-DEMO-0x58.
+This demo uses the same sample as @MASTG-DEMO-0113.
 
-{{ ../MASTG-DEMO-0x58/MastgTest.swift }}
+{{ ../MASTG-DEMO-0113/MastgTest.swift }}
 
 ## Steps
 

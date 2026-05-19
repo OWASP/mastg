@@ -1,17 +1,17 @@
 ---
 platform: ios
 title: Runtime Monitoring of Text Input Fields Hiding Sensitive Data
-id: MASTG-TEST-0x58
+id: MASTG-TEST-0347
 type: [dynamic]
 weakness: MASWE-0053
 profiles: [L2]
-best-practices: [MASTG-BEST-0x41]
-knowledge: [MASTG-KNOW-0x57]
+best-practices: [MASTG-BEST-0044]
+knowledge: [MASTG-KNOW-0121]
 ---
 
 ## Overview
 
-This test complements @MASTG-TEST-0x58. It monitors text input fields in the app at runtime to check if the app masks the text entry when the user enters sensitive data.
+This test complements @MASTG-TEST-0347. It monitors text input fields in the app at runtime to check if the app masks the text entry when the user enters sensitive data.
 
 If the app does not mask text input fields that contain sensitive data, such data may be visible to bystanders (shoulder surfing) or captured in screenshots and screen recordings.
 

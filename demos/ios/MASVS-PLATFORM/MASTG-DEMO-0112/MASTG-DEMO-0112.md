@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Text Input Fields Not Hiding Sensitive Data
-id: MASTG-DEMO-0x57
+id: MASTG-DEMO-0112
 code: [swift]
-test: MASTG-TEST-0x57
+test: MASTG-TEST-0346
 kind: fail
 ---
 
