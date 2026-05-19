@@ -1,0 +1,11 @@
+rules:
+  - id: mastg-android-key-attestation-missing-challenge
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: Detects Key Attestation performed without a server-issued challenge, removing freshness guarantees.
+    message: "[MASVS-RESILIENCE-2] KeyGenParameterSpec built without setAttestationChallenge. The server cannot verify when this attestation was produced."
+    patterns:
+      - pattern: new KeyGenParameterSpec.Builder(...). ... .build()
+      - pattern-not: new KeyGenParameterSpec.Builder(...). ... .setAttestationChallenge(...). ... .build()

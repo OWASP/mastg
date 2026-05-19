@@ -1,0 +1,15 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-key-attestation-missing-challenge
+          [MASVS-RESILIENCE-2] KeyGenParameterSpec built without setAttestationChallenge. The server cannot
+          verify when this attestation was produced.                                                       
+                                                                                                           
+           42┆ KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder(this.keyAlias,
+               12).setDigests("SHA-256").setAlgorithmParameterSpec(new                  
+               ECGenParameterSpec("secp256r1")).build();                                
+
