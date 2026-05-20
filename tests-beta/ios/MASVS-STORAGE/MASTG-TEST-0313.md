@@ -21,8 +21,6 @@ The test checks whether UI elements such as `UITextField`, `UITextView`, and `UI
 
 **Note:** By default, text input is eligible for keyboard caching, and an app does not need to explicitly set `UITextAutocorrectionType` when creating a text field. Additionally, the UI may be configured in a Storyboard. As a result, this test may miss many true positives. For complete coverage, using @MASTG-TEST-0314 is recommended.
 
-**Note:** This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView`, for example in custom UI frameworks or game engines, or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at rest.
-
 ## Steps
 
 1. Use @MASTG-TECH-0054 to extract the app.
@@ -49,3 +47,7 @@ Inspect each reported code location using @MASTG-TECH-0076 to determine the valu
 
 !!! note
     Depending on the app's threat model, some text fields may not require disabling spell checking. However, since enabling `isSecureTextEntry` implicitly disables both autocorrection and spell checking, and since explicit guarantees are otherwise limited, it is generally advisable to disable all three attributes for any text field that may handle sensitive information.
+
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView`, for example in custom UI frameworks or game engines, or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at rest.

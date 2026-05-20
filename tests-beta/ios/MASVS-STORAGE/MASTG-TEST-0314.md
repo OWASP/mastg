@@ -37,5 +37,6 @@ The test case fails if any UI inputs that may handle sensitive values (for examp
 - `autocorrectionType` is set to `default` or `yes`, or
 - `spellCheckingType` is set to `default` or `yes`.
 
-!!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.

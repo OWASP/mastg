@@ -55,5 +55,6 @@ The test case fails if any text input field used for access or verification code
 
 Since determining which fields handle access or verification codes is context-dependent, inspect each reported code location using @MASTG-TECH-0023 to determine whether the field handles sensitive data and whether it is properly masked.
 
-!!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).

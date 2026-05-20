@@ -39,4 +39,4 @@ The test case fails if no instances of root detection checks are observed. Howev
 
 **Expected False Negatives:**
 
-This test relies on tracing and bypass tools to surface root detection logic. Detection mechanisms that are highly obfuscated, implemented entirely in native code, dynamically loaded at runtime, or protected by anti instrumentation techniques may not be observed. In such cases, the absence of findings does not guarantee the absence of root detection, and additional manual reverse engineering or custom instrumentation may be required.
+This test may produce false negatives if the app uses root detection techniques that are not covered by the hooks or traces used in this test, or if the root detection logic is implemented in a way that evades detection (for example, through obfuscation, dynamic code loading, or anti-instrumentation techniques). In such cases, the absence of findings does not guarantee the absence of root detection, and additional manual reverse engineering or custom instrumentation may be required to identify and analyze root detection mechanisms.

@@ -522,3 +522,30 @@ Inspect each screenshot visually, looking for sensitive information such as pass
 ```
 
 **Requirement:** Any test with a `**Further Validation Required:**` block MUST include `manual` in its `type` array, in addition to its other types (for example, `type: [static, manual]`).
+
+#### Expected False Negatives
+
+When a test has known technical limitations that may cause it to miss certain findings, add an `**Expected False Negatives:**` block at the very end of the Evaluation section, after any `**Further Validation Required:**` block and any admonition notes.
+
+Use this block to explain:
+
+- Which specific implementation patterns or technical conditions may prevent the test from detecting the issue (for example, custom UI frameworks, native code, obfuscation, or dynamic loading).
+- What additional steps a tester may take to compensate (for example, manual reverse engineering or custom instrumentation).
+
+Do NOT use this block for general test coverage limitations. Reserve it for specific, identifiable technical conditions that are known to cause false negatives for this particular test.
+
+Example:
+
+```md
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example, in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.
+```
+
+Example:
+
+```md
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses root detection techniques that are not covered by the hooks or traces used in this test, or if the root detection logic is implemented in a way that evades detection (for example, through obfuscation, dynamic code loading, or anti-instrumentation techniques). In such cases, the absence of findings does not guarantee the absence of root detection, and additional manual reverse engineering or custom instrumentation may be required to identify and analyze root detection mechanisms.
+```
