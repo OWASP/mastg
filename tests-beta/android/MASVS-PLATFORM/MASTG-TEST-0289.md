@@ -27,3 +27,7 @@ The output should include a collection of screenshots cached when the app entere
 ## Evaluation
 
 The test case fails if any screenshot displays sensitive data that should have been protected.
+
+**Further Validation Required:**
+
+Since determining what constitutes sensitive data is context-dependent, inspect each screenshot visually, looking for sensitive information such as passwords, tokens, personally identifiable information, or other sensitive content that should not be exposed when the app is in the background.

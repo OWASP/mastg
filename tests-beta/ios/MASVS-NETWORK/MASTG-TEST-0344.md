@@ -2,7 +2,7 @@
 platform: ios
 title: Network.framework TLS Protocol Configuration
 id: MASTG-TEST-0344
-type: [static]
+type: [static, manual]
 weakness: MASWE-0050
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0043]

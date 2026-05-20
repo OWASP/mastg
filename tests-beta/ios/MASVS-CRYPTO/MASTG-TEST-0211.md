@@ -2,7 +2,7 @@
 platform: ios
 title: Broken Hashing Algorithms
 id: MASTG-TEST-0211
-type: [static]
+type: [static, manual]
 weakness: MASWE-0021
 profiles: [L1, L2]
 ---
@@ -45,10 +45,10 @@ The test case fails if you can find the use of broken hashing algorithms within 
 - MD5
 - SHA-1
 
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether the algorithm is used in a security-relevant context to protect sensitive data:
+
+- Determine whether the hashing algorithm is used for cryptographic security purposes rather than for non-security tasks such as checksums. For example, using MD5 for hashing passwords is disallowed by NIST, but using MD5 for checksums where security is not a concern is generally acceptable.
+
 **Stay up-to-date**: This is a non-exhaustive list of broken algorithms. Make sure to check the latest standards and recommendations from organizations such as the National Institute of Standards and Technology (NIST), the German Federal Office for Information Security (BSI) or any other relevant authority in your region. This is important when building an app that uses data that will be stored for a long time. Make sure you follow the NIST recommendations from [NIST IR 8547 "Transition to Post-Quantum Cryptography Standards", 2024](https://csrc.nist.gov/pubs/ir/8547/ipd).
-
-**Context Considerations**:
-
-To reduce false positives, make sure you understand the context in which the algorithm is being used before reporting the associated code as insecure. Ensure that it is being used in a security-relevant context to protect sensitive data.
-
-For example, using the broken algorithm MD5 for hashing passwords is disallowed by NIST, as it is no longer considered secure for cryptographic purposes. However, using MD5 for checksums or other non-cryptographic tasks, where security is not a concern, is generally acceptable.

@@ -30,4 +30,4 @@ The output should contain a list of locations where a security provider is expli
 
 ## Evaluation
 
-The test case fails if any `getInstance` call explicitly specifies a security provider other than `AndroidKeyStore` for `KeyStore` operations. Review each occurrence to determine whether the provider is actually required and whether its use could introduce security or compatibility issues on modern Android versions.
+The test case fails if any `getInstance` call explicitly specifies a security provider other than `AndroidKeyStore` for `KeyStore` operations.

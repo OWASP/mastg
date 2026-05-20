@@ -2,7 +2,7 @@
 platform: android
 title: Insecure Random API Usage
 id: MASTG-TEST-0204
-type: [static]
+type: [static, manual]
 best-practices: [MASTG-BEST-0001]
 prerequisites:
 - identify-sensitive-data

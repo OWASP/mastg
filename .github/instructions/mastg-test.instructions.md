@@ -81,7 +81,7 @@ Supported:
 
 - `static`: analysis of the app binary, reverse-engineered source code, or developer artifacts that are available in the APK/IPA app package (e.g., Android manifest, Info.plist, entitlements, etc.). No execution of the app is required.
 - `dynamic`: analysis of the app while it is running and involves runtime analysis such as hooking or method tracing.
-- `manual`: manual steps that require human judgment, such as inspecting app behavior, UI, or configuration. This may include reverse engineering or runtime analysis that cannot be fully automated.
+- `manual`: manual steps that require human judgment, such as inspecting app behavior, UI, or configuration. This may include reverse engineering or runtime analysis that cannot be fully automated. Any test that includes a `**Further Validation Required:**` block MUST include `manual` in its `type` array (e.g., `[static, manual]`, `[dynamic, manual]`).
 - `network`: analysis of network traffic, while the app is running. Done externally, for example, using a proxy or network capture tool.
 - `filesystem`: analysis of the app's file system, including local storage or backups, which doesn't involve runtime analysis such as hooking or method tracing.
 - `source-code`: tests only the developer can perform because they require access to the source code, build process, or other internal resources.
@@ -462,3 +462,5 @@ Inspect each reported code location using @MASTG-TECH-XXXX, looking for cases su
 ```
 
 Use the first phrasing when confirming security-relevance (for example, "to determine whether the usage is security-relevant"); use the second when confirming an incorrect implementation (for example, "looking for cases such as: trust manager that does nothing").
+
+**Requirement:** Any test with a `**Further Validation Required:**` block MUST include `manual` in its `type` array, in addition to its other types (for example, `type: [static, manual]`).

@@ -2,7 +2,7 @@
 title: Runtime Verification of Sensitive Content Exposure in Screenshots During App Backgrounding
 platform: ios
 id: MASTG-TEST-0290
-type: [dynamic, manual]
+type: [dynamic]
 profiles: [L2]
 weakness: MASWE-0055
 prerequisites:
