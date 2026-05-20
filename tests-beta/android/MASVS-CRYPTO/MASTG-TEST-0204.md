@@ -22,7 +22,6 @@ In general, if a PRNG is not explicitly documented as being cryptographically se
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
-3. For each of the identified API uses, check if they are used in a security relevant context. Use @MASTG-TECH-0023 to inspect the code and confirm.
 
 ## Observation
 
@@ -31,3 +30,5 @@ The output should contain a list of locations where insecure random APIs are use
 ## Evaluation
 
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts, such as generating passwords or authentication tokens.
+
+For each of the identified API uses, verify the context by inspecting the code (for example, with @MASTG-TECH-0023) to determine whether the generated random values are used in security-relevant operations.
