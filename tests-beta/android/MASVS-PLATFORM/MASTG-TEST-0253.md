@@ -4,7 +4,7 @@ title: Runtime Use of Local File Access APIs in WebViews
 alias: references-to-local-file-access-in-webviews
 id: MASTG-TEST-0253
 apis: [WebView, WebSettings, getSettings, setAllowFileAccess, setAllowFileAccessFromFileURLs, setAllowUniversalAccessFromFileURLs]
-type: [dynamic]
+type: [dynamic, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 profiles: [L1, L2]
@@ -32,7 +32,7 @@ In this case you can follow one of these approaches:
 
 ## Observation
 
-The output should contain a list of WebView instances and corresponding settings.
+The output should contain a list of WebView setting calls, including the argument values and backtraces of each call.
 
 ## Evaluation
 
@@ -41,6 +41,16 @@ The test case fails if all of the following applies (based on the [API behavior 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `setAllowFileAccess` is explicitly set to `true` (or not used at all when `minSdkVersion` < 30, inheriting the default value, `true`).
 - Either `setAllowFileAccessFromFileURLs` or `setAllowUniversalAccessFromFileURLs` is explicitly set to `true` (or not used at all when `minSdkVersion` < 16, inheriting the default value, `true`).
+
+**Further Validation Required:**
+
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0023:
+
+- Determine whether the settings are explicitly used and configured to the identified values.
+- Determine which `WebView` instance receives the configuration and whether it handles sensitive information or functionality.
+- Determine whether that `WebView` loads local `file://` content, for example via `loadUrl("file://...")` or `loadDataWithBaseURL` with a `file://` base URL.
+
+For the identified WebViews, determine whether attacker-controlled JavaScript could execute in the local file context, for example through HTML injection, JavaScript injection, or other untrusted content. Also determine whether the attacker could exfiltrate local files or other sensitive data accessible via `file://` URLs.
 
 !!! note
     `AllowFileAccess` being `true` does not represent a security vulnerability by itself, but it can be used in combination with other vulnerabilities to escalate the impact of an attack.

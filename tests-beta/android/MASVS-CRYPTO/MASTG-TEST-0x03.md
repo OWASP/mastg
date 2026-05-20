@@ -19,7 +19,7 @@ If the app configures cryptographic operations with broken encryption modes at r
 
 ## Observation
 
-The output should contain runtime calls that configure encryption modes, including function names and call context, and should indicate whether broken modes such as ECB are used.
+The output should contain a list of calls to encryption configuration APIs, including the transformation string argument and backtraces of each call.
 
 ## Evaluation
 
@@ -27,4 +27,4 @@ The test case fails if broken encryption modes are used in security-relevant cry
 
 **Further Validation Required:**
 
-Inspect each reported call site using @MASTG-TECH-0023 to determine whether the encryption is applied to sensitive data.
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0023 to determine whether the encryption is applied to sensitive data.

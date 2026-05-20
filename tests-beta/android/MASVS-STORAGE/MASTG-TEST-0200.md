@@ -29,7 +29,7 @@ The test case fails if the files found above are not encrypted and leak sensitiv
 
 **Further Validation Required:**
 
-Inspect each reported code location using @MASTG-TECH-0023 to determine whether the data is sensitive:
+Inspect the content of each reported file to determine whether the data is sensitive:
 
-- Determine whether the data written to the files includes sensitive information (e.g., personal data, credentials, or tokens).
+- Determine whether the file contains sensitive information (e.g., personal data, credentials, or tokens).
 - Determine whether the data is stored without encryption.
