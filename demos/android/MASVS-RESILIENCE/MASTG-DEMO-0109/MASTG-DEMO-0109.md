@@ -8,9 +8,7 @@ test: MASTG-TEST-0342
 
 ## Sample
 
-This sample generates an EC key pair in the Android KeyStore (hardware-backed via the TEE) and retrieves the resulting certificate chain to send to a server for verification. However, no attestation challenge is set via [`setAttestationChallenge`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setattestationchallenge) during key generation, so the `attestationChallenge` field in the leaf certificate is null.
-
-Without a server-issued nonce embedded in the attestation, the server cannot determine when the attestation was produced. An attacker could replay a certificate chain that was generated on a clean device long before that device was compromised. See @MASTG-KNOW-0044 for details on how the challenge provides freshness.
+This sample generates an EC key pair in the Android KeyStore (hardware-backed via the TEE) and retrieves the resulting certificate chain to send to a server for verification. However, no attestation challenge is set via [`setAttestationChallenge`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setattestationchallenge) during key generation, so the server cannot determine when the attestation was produced.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
