@@ -11,7 +11,7 @@ For background on the `PendingIntent` API and its security model, see @MASTG-KNO
 
 ## Use FLAG_IMMUTABLE
 
-Always pass [`PendingIntent.FLAG_IMMUTABLE`](https://developer.android.com/reference/android/app/PendingIntent#FLAG_IMMUTABLE) when creating a `PendingIntent`. This prevents a receiving app from modifying the intent's unfilled fields, which could otherwise be used to redirect the intent to a malicious component.
+Always set [`PendingIntent.FLAG_IMMUTABLE`](https://developer.android.com/reference/android/app/PendingIntent#FLAG_IMMUTABLE) when creating a `PendingIntent`. This prevents a receiving app from modifying the intent's unfilled fields, which could otherwise be used to redirect the intent to a malicious component.
 
 ```kotlin
 val pendingIntent = PendingIntent.getActivity(
@@ -22,9 +22,9 @@ val pendingIntent = PendingIntent.getActivity(
 )
 ```
 
-`FLAG_IMMUTABLE` is the [default since Android 12 (API level 31)](https://developer.android.com/about/versions/12/behavior-changes-12#pending-intent-mutability), but apps targeting lower API levels must set it explicitly to avoid accidental mutability.
+`FLAG_IMMUTABLE` [must be always specified](https://developer.android.com/guide/components/intents-filters#DeclareMutabilityPendingIntent "must be always specified") on apps targeting Android 12 or higher for each `PendingIntent` object that the app creates.
 
-Only use `FLAG_MUTABLE` when the receiving component explicitly needs to fill in intent fields that cannot be known in advance (for example, [inline reply actions](https://developer.android.com/develop/ui/views/notifications/build-notification#reply-action) or [app widget](https://developer.android.com/develop/ui/views/appwidgets) PendingIntents that require a call back into the app). Even then, set only the fields you expect the receiver to modify.
+Only use `FLAG_MUTABLE` when the receiving component explicitly needs to fill in intent fields that cannot be known in advance (for example, [inline reply actions](https://developer.android.com/develop/ui/views/notifications/build-notification#reply-action) or [app widget](https://developer.android.com/develop/ui/views/appwidgets) [Pending Intents](../Document/0x05h-Testing-Platform-Interaction.md#pending-intents) that require a call back into the app). Even then, set only the fields you expect the receiver to modify.
 
 ## Use Explicit Intents
 
@@ -50,3 +50,4 @@ Avoid using an implicit intent (one that specifies only an action or category), 
 - Android Developer Docs: [Intents and Intent Filters — Pending Intents](https://developer.android.com/guide/components/intents-filters#PendingIntent)
 - Android Security Risk: [Pending intents](https://developer.android.com/topic/security/risks/pending-intent)
 - Android 12 behavior changes: [Pending intent mutability](https://developer.android.com/about/versions/12/behavior-changes-12#pending-intent-mutability)
+- Pending Intents mutability: [Specify mutability](https://developer.android.com/guide/components/intents-filters#DeclareMutabilityPendingIntent)
