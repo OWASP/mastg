@@ -26,7 +26,7 @@ The test checks whether UI elements such as `UITextField`, `UITextView`, and `UI
 ## Steps
 
 1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0072 to look for references to APIs that set the relevant input attributes.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

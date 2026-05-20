@@ -21,7 +21,7 @@ In [`CommonCrypto`](https://web.archive.org/web/20240606000307/https://opensourc
 ## Steps
 
 1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0072 to look for uses of symmetric encryption and its modes.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

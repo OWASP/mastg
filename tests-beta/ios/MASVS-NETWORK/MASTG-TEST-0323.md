@@ -25,7 +25,7 @@ For more information on when ATS applies, see @MASTG-KNOW-0071.
 ## Steps
 
 1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0072 to look for uses of low-level networking APIs in the app binary.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 
