@@ -27,4 +27,6 @@ The test case fails if broken encryption modes are used in security-relevant cry
 
 **Further Validation Required:**
 
-Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0023 to determine whether the encryption is applied to sensitive data.
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0023 to determine whether the encryption is applied to sensitive data:
+
+- Determine whether the data being encrypted or decrypted is sensitive (e.g., personal data, authentication tokens, cryptographic keys, or session identifiers).

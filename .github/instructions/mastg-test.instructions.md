@@ -439,7 +439,11 @@ When automated tools alone can't confirm whether the fail condition is met, add 
 
 Do NOT add this block when the fail condition is self-evident from the observation alone (for example, a known-dangerous flag is set, or a specific insecure API is called with a hardcoded bad argument).
 
-The block MUST appear immediately after the "The test case fails if ..." sentence (and its optional case list). Use one of these two phrasings depending on the situation:
+The block MUST appear immediately after the "The test case fails if ..." sentence (and its optional case list). Choose the phrasing based on the test type and what the observation provides:
+
+**`type: [static, manual]` — code location inspection:**
+
+When the observation contains code locations from static analysis tools:
 
 ```md
 The test case fails if [condition].
@@ -461,6 +465,60 @@ Inspect each reported code location using @MASTG-TECH-XXXX, looking for cases su
 - **Case name:** ...
 ```
 
-Use the first phrasing when confirming security-relevance (for example, "to determine whether the usage is security-relevant"); use the second when confirming an incorrect implementation (for example, "looking for cases such as: trust manager that does nothing").
+Use the first phrasing when confirming security-relevance; use the second when confirming an incorrect implementation (for example, "looking for cases such as: trust manager that does nothing").
+
+**`type: [dynamic, manual]` — hook output with backtraces (code inspection):**
+
+When the observation comes from runtime hooks (@MASTG-TECH-0043 or @MASTG-TECH-0095) and includes backtraces:
+
+```md
+The test case fails if [condition].
+
+**Further Validation Required:**
+
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-XXXX to determine whether [reason]:
+
+- Determine whether ...
+```
+
+Or, when listing multiple things to inspect without a single inline reason:
+
+```md
+The test case fails if [condition].
+
+**Further Validation Required:**
+
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-XXXX:
+
+- Determine whether ...
+- Determine whether ...
+```
+
+**`type: [dynamic, filesystem, manual]` — filesystem output (file content inspection):**
+
+When the observation is a list of files (from a filesystem snapshot diff or file hooks), not code locations:
+
+```md
+The test case fails if [condition].
+
+**Further Validation Required:**
+
+Inspect the content of each reported file to determine whether the data is sensitive:
+
+- Determine whether the file contains sensitive information (e.g., personal data, credentials, or tokens).
+- Determine whether the data is stored without encryption.
+```
+
+**`type: [dynamic, manual]` — visual output (screenshot inspection):**
+
+When the observation is a collection of screenshots:
+
+```md
+The test case fails if [condition].
+
+**Further Validation Required:**
+
+Inspect each screenshot visually, looking for sensitive information such as passwords, tokens, personally identifiable information, or other sensitive content that should not be exposed.
+```
 
 **Requirement:** Any test with a `**Further Validation Required:**` block MUST include `manual` in its `type` array, in addition to its other types (for example, `type: [static, manual]`).

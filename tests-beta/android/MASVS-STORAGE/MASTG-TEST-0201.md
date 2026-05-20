@@ -22,7 +22,7 @@ The most effective approach to testing applications that write to device storage
 
 ## Observation
 
-The output should contain a list of files that the app wrote to the external storage during execution and, if possible, the APIs used to write them.
+The output should contain a list of files that the app wrote to the external storage during execution and the APIs used to write them including function names and backtraces.
 
 ## Evaluation
 
@@ -35,4 +35,4 @@ Inspect the content of each reported file to determine whether the data is sensi
 - Determine whether the file contains sensitive information (e.g., personal data, credentials, or tokens).
 - Determine whether the data is stored without encryption.
 
-Use @MASTG-TECH-0023 to inspect the code locations if you want to determine the exact code paths that lead to the file creation and whether they are security-relevant.
+Use @MASTG-TECH-0023 to inspect the code locations from the backtraces if you want to determine the exact code paths that lead to the file creation and whether they are security-relevant.
