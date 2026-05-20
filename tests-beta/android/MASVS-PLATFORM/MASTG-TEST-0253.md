@@ -24,7 +24,6 @@ In this case you can follow one of these approaches:
     - `setAllowFileAccessFromFileURLs`
     - `setAllowUniversalAccessFromFileURLs`
 
-
 ## Steps
 
 1. Use @MASTG-TECH-0005 to install the app.
