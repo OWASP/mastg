@@ -21,7 +21,6 @@ Note that `tlsMinimumSupportedProtocol` is deprecated in favor of `tlsMinimumSup
 
 1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0066 to look for uses of `URLSessionConfiguration` properties that set TLS protocol versions (`tlsMinimumSupportedProtocol` and `tlsMinimumSupportedProtocolVersion`).
-3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine the TLS version values being set.
 
 ## Observation
 
@@ -33,6 +32,10 @@ The test case fails if the app sets:
 
 - `tlsMinimumSupportedProtocolVersion` to `tls_protocol_version_TLSv10` (value `0x0301`) or `tls_protocol_version_TLSv11` (value `0x0302`), or
 - `tlsMinimumSupportedProtocol` (deprecated) to a value corresponding to TLS 1.0 (`kTLSProtocol1`) or TLS 1.1 (`kTLSProtocol11`).
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine the TLS version values being set.
 
 !!! note "Note on ATS Interaction"
     ATS may still enforce minimum TLS version requirements for connections using the URL Loading System, depending on the ATS configuration in `Info.plist`. However, if the app has also configured broad ATS exceptions (see @MASTG-TEST-0342), the effective TLS minimum may be lower than expected for those domains.

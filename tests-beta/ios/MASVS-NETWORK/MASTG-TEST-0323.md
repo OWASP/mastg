@@ -26,7 +26,6 @@ For more information on when ATS applies, see @MASTG-KNOW-0071.
 
 1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0072 to look for uses of low-level networking APIs in the app binary.
-3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine if they could establish cleartext connections. For example, if using `Network` framework, verify that TLS is properly configured using `.tls` parameter in `NWParameters`.
 
 ## Observation
 
@@ -35,3 +34,10 @@ The output should contain a list of low-level networking API usages and their lo
 ## Evaluation
 
 The test case fails if the app uses low-level networking APIs to establish cleartext connections.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether cleartext connections are established:
+
+- Determine whether TLS is configured for `Network` framework connections, for example by checking whether `.tls` is included in `NWParameters`.
+- Determine whether `CFNetwork` or BSD socket connections use any TLS wrapping.

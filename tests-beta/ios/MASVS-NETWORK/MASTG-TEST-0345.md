@@ -21,11 +21,10 @@ Apple's documentation states that "ATS doesn't apply to calls your app makes to 
 
 1. Use @MASTG-TECH-0082 to list the frameworks and libraries bundled in the app (under `Frameworks/` or statically linked into the binary).
 2. Use @MASTG-TECH-0066 to identify embedded third-party TLS library symbols (for example, `SSL_CTX_set_min_proto_version` for OpenSSL/BoringSSL, `mbedtls_ssl_conf_min_version` for mbedTLS, or `curl_easy_setopt` for libcurl).
-3. Use @MASTG-TECH-0076 to analyze the code paths where TLS configuration is applied and determine the minimum TLS version, cipher suites, and certificate verification settings in use.
 
 ## Observation
 
-The output should contain a list of any identified third-party TLS library functions and their configuration call sites within the app binary.
+The output should contain a list of any identified third-party TLS library symbols and their locations in the app binary.
 
 ## Evaluation
 
@@ -34,3 +33,7 @@ The test case fails if any embedded TLS library is configured to:
 - Allow TLS versions below 1.2.
 - Use weak or deprecated cipher suites.
 - Disable certificate verification or use a custom trust store without proper validation.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine the TLS configuration settings in use.

@@ -27,7 +27,6 @@ The test checks whether UI elements such as `UITextField`, `UITextView`, and `UI
 
 1. Use @MASTG-TECH-0054 to extract the app.
 2. Use @MASTG-TECH-0072 to look for references to APIs that set the relevant input attributes.
-3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine the values assigned to these attributes.
 
 ## Observation
 
@@ -43,6 +42,10 @@ The test case fails if any UI inputs that may handle sensitive values, for examp
 - `isSecureTextEntry` is not enabled, or
 - `autocorrectionType` is set to `default` or `yes`, or
 - `spellCheckingType` is set to `default` or `yes`.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine the values assigned to the input attributes and whether the text field handles sensitive data.
 
 !!! note
     Depending on the app's threat model, some text fields may not require disabling spell checking. However, since enabling `isSecureTextEntry` implicitly disables both autocorrection and spell checking, and since explicit guarantees are otherwise limited, it is generally advisable to disable all three attributes for any text field that may handle sensitive information.

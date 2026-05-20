@@ -238,6 +238,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Install the app | @MASTG-TECH-0005 | Installing Android Apps | Default for Installing the app |
 | Reverse Engineer | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
 | Static analysis | @MASTG-TECH-0014 | Static Analysis on Android | Default for static steps |
+| Reviewing Decompiled Java Code | @MASTG-TECH-0023 | Reviewing Decompiled Java Code on Android | Default for "Further Validation Required", do not use for test steps. |
 | Decompiling Java/Kotlin | @MASTG-TECH-0017 | Decompiling Java Code | Use when specifically decompiling |
 | **Avoid** | @MASTG-TECH-0016 | Disassembling Code to Smali | Use only when Smali output is explicitly needed |
 | Disassembling native code | @MASTG-TECH-0018 | Disassembling Native Code | Use for native libraries |
@@ -258,6 +259,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Extracting the app (static) | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Default step 1 for static tests |
 | Reverse Engineer | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
 | Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Default for static steps |
+| Reviewing Disassembled Objective-C and Swift Code | @MASTG-TECH-0076 | Reviewing Disassembled Objective-C and Swift Code on iOS | Default for "Further Validation Required", do not use for test steps. |
 | Method hooking (dynamic) | @MASTG-TECH-0095 | Method Hooking | Preferred over 0067 for hooking/instrumentation |
 | Network traffic monitoring | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | |
 | Device log monitoring | @MASTG-TECH-0060 | Monitoring System Logs | For monitoring device log output |
