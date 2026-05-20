@@ -2,7 +2,7 @@
 platform: android
 title: Non-random Sources Usage
 id: MASTG-TEST-0205
-type: [static]
+type: [static, manual]
 best-practices: [MASTG-BEST-0001]
 prerequisites:
 - identify-sensitive-data
@@ -28,3 +28,9 @@ The output should contain a list of locations where non-random sources are used.
 ## Evaluation
 
 The test case fails if you can find security-relevant values, such as passwords or tokens, generated using non-random sources.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the usage is security-relevant:
+
+- Determine whether the generated values are used for security-relevant purposes, such as generating cryptographic keys, initialization vectors (IVs), nonces, authentication tokens, session identifiers, passwords, or PINs.

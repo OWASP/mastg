@@ -2,7 +2,7 @@
 title: Broken Symmetric Encryption Modes
 platform: android
 id: MASTG-TEST-0232
-type: [static]
+type: [static, manual]
 weakness: MASWE-0020
 best-practices: [MASTG-BEST-0005]
 profiles: [L1, L2]
@@ -47,3 +47,7 @@ The output should contain a list of locations where broken encryption modes are 
 ## Evaluation
 
 The test case fails if any broken modes are identified in the app.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether this is being used to perform encryption or decryption operations on sensitive data.

@@ -2,7 +2,7 @@
 title: Runtime Use of Broken Symmetric Encryption Modes
 platform: android
 id: MASTG-TEST-0x03
-type: [dynamic]
+type: [dynamic, manual]
 weakness: MASWE-0020
 best-practices: [MASTG-BEST-0005]
 profiles: [L1, L2]
@@ -23,4 +23,8 @@ The output should contain runtime calls that configure encryption modes, includi
 
 ## Evaluation
 
-The test case fails if you identify broken encryption modes in security-relevant cryptographic operations, such as ECB in Android Keystore configuration or cipher transformations.
+The test case fails if broken encryption modes are used in security-relevant cryptographic operations.
+
+**Further Validation Required:**
+
+Inspect each reported call site using @MASTG-TECH-0023 to determine whether the encryption is applied to sensitive data.

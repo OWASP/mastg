@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Use of Insecure Random APIs
 id: MASTG-TEST-0x02
-type: [dynamic]
+type: [dynamic, manual]
 weakness: MASWE-0027
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0025]
@@ -24,4 +24,10 @@ The output should contain runtime calls to insecure random APIs, including funct
 
 ## Evaluation
 
-The test case fails if random values produced by insecure APIs are used in security-relevant contexts, such as key generation, token or session identifier generation, nonce or IV generation, password or PIN generation, or equivalent operations that require unpredictability.
+The test case fails if random values produced by insecure APIs are used in security-relevant contexts.
+
+**Further Validation Required:**
+
+Inspect each reported call site using @MASTG-TECH-0076 to determine whether the usage is security-relevant:
+
+- Determine whether the generated random values are used for security-relevant purposes, such as generating cryptographic keys, initialization vectors (IVs), nonces, authentication tokens, session identifiers, passwords, or PINs.
