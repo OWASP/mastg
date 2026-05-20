@@ -33,7 +33,12 @@ The test case fails if:
 - the app has the proper permissions declared in the Android manifest (e.g. `WRITE_EXTERNAL_STORAGE`, `MANAGE_EXTERNAL_STORAGE`, etc.)
 - **and** the data being written to shared storage is sensitive and not encrypted.
 
-To determine the latter, you may need to carefully review the reversed code (@MASTG-TECH-0023) and/or combine this test with others that take a dynamic approach, as this will provide a more complete view of the data being written to shared storage.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the data is sensitive:
+
+- Determine whether the data written to shared storage includes sensitive information (e.g., personal data, credentials, or tokens).
+- Determine whether the data is stored without encryption.
 
 ## References
 

@@ -32,7 +32,9 @@ The output should identify locations in the binary where the app references or e
 
 The test case fails if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
-Inspect each reported call site using @MASTG-TECH-0076.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076:
 
 - Determine whether `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` is explicitly used and set to `true`, for example through `setValue:forKey:` or equivalent Swift calls.
 - Determine which `WKWebView` instance receives the configuration and whether it handles sensitive information or functionality.

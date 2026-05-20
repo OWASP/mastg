@@ -28,7 +28,9 @@ The output should contain a list of locations in the binary where `WKWebView.loa
 
 The test case fails if any call to `loadFileURL(_:allowingReadAccessTo:)` is found where the `readAccessURL` argument grants overly broad read access, for example to the entire `Documents` directory or the app container root.
 
-Inspect each reported call site using @MASTG-TECH-0076.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076:
 
 - Inspect the `fileURL` argument and determine whether it can be influenced by attacker-controlled input.
 - Inspect the `readAccessURL` argument and determine whether it grants broader access than necessary.

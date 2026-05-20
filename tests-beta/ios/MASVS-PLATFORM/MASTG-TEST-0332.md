@@ -43,7 +43,9 @@ The output should contain a list of locations in the binary where `WKWebView` UR
 
 The test case fails if any call to `WKWebView` URL load APIs is found where the URL is derived from attacker-controlled input without proper validation.
 
-Inspect each reported code location using @MASTG-TECH-0076.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076:
 
 - Trace where the URL originates.
 - Determine whether it is derived from attacker-controlled input, for example a custom URL scheme parameter, a deep link component, or unsanitized user input from the UI.

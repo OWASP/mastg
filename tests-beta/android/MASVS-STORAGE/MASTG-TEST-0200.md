@@ -27,4 +27,9 @@ The output should contain a list of files that were created on the external stor
 
 The test case fails if the files found above are not encrypted and leak sensitive data.
 
-To confirm this, you can reverse engineer the app (@MASTG-TECH-0017) and inspect the code (@MASTG-TECH-0023).
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the data is sensitive:
+
+- Determine whether the data written to the files includes sensitive information (e.g., personal data, credentials, or tokens).
+- Determine whether the data is stored without encryption.

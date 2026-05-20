@@ -427,3 +427,36 @@ A pass explanation can only be added for rare edge cases where it is unavoidable
 In that case, it MUST start with "The test case passes if ..." and must be added after the fail explanation.
 
 IMPORTANT: Do not include remediation advice or best practices in the evaluation section. Remediation belongs in `best-practices/` and must be linked in the test metadata `best-practices`. If it does not exist yet, create it.
+
+#### Further Validation Required
+
+When automated tools alone can't confirm whether the fail condition is met, add a `**Further Validation Required:**` block immediately after the fail condition sentence. Use it in exactly two situations:
+
+1. **Security-relevance is context-dependent**: the tool finds uses of an API but can't determine whether the usage is security-relevant (for example, insecure random APIs may be used for non-security purposes such as UI animations or game mechanics).
+2. **Implementation correctness requires code inspection**: the tool finds a code pattern (for example, a custom `TrustManager`) but can't confirm whether the implementation is actually incorrect — a human must read the code to determine which failure case applies.
+
+Do NOT add this block when the fail condition is self-evident from the observation alone (for example, a known-dangerous flag is set, or a specific insecure API is called with a hardcoded bad argument).
+
+The block MUST appear immediately after the "The test case fails if ..." sentence (and its optional case list). Use one of these two phrasings depending on the situation:
+
+```md
+The test case fails if [condition].
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-XXXX to determine whether [reason]:
+
+- Determine whether ...
+```
+
+```md
+The test case fails if [condition].
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-XXXX, looking for cases such as:
+
+- **Case name:** ...
+```
+
+Use the first phrasing when confirming security-relevance (for example, "to determine whether the usage is security-relevant"); use the second when confirming an incorrect implementation (for example, "looking for cases such as: trust manager that does nothing").

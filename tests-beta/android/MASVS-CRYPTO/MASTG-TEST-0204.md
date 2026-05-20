@@ -31,4 +31,8 @@ The output should contain a list of locations where insecure random APIs are use
 
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts, such as generating passwords or authentication tokens.
 
-For each of the identified API uses, verify the context by inspecting the code (for example, with @MASTG-TECH-0023) to determine whether the generated random values are used in security-relevant operations.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the usage is security-relevant:
+
+- Determine whether the generated random values are used for security-relevant purposes, such as generating cryptographic keys, initialization vectors (IVs), nonces, authentication tokens, session identifiers, passwords, or PINs.

@@ -25,11 +25,10 @@ The output should contain a list of locations where insecure random APIs are use
 
 The test case fails if random numbers generated using insecure APIs are used in security-relevant contexts.
 
-For each of the identified API uses, verify the context by decompiling or disassembling the code (see @MASTG-TECH-0076) to determine if the generated random values are used for security-relevant purposes, such as:
+**Further Validation Required:**
 
-- Generating cryptographic keys, initialization vectors (IVs), or nonces
-- Creating authentication tokens or session identifiers
-- Generating passwords or PINs
-- Any other security-relevant operations requiring unpredictability
+Since determining whether the usage is security-relevant is context-dependent, inspect each reported code location using @MASTG-TECH-0076:
+
+- Determine whether the generated random values are used for security-relevant purposes, such as generating cryptographic keys, initialization vectors (IVs), nonces, authentication tokens, session identifiers, passwords, or PINs.
 
 Other uses of insecure random APIs unrelated to security (e.g., generating random delays, non-security-related identifiers, game mechanics) do not cause the test case to fail.

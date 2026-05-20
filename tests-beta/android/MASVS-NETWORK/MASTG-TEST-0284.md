@@ -30,12 +30,12 @@ The output should contain a list of locations where `onReceivedSslError(...)` th
 
 The test case fails if `onReceivedSslError(...)` is overridden and certificate errors are ignored without proper validation or user involvement.
 
-This includes cases such as:
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023, looking for cases such as:
 
 - **Unconditionally accepting SSL errors:** calling `proceed()` without checking the nature of the error.
 - **Relying only on primary error code:** using [`getPrimaryError()`](https://developer.android.com/reference/android/net/http/SslError#getPrimaryError()) for decision-making, such as proceeding if the primary error is not `SSL_UNTRUSTED`, which may overlook additional errors in the chain.
 - **Suppressing exceptions silently:** catching exceptions in `onReceivedSslError(...)` without calling [`cancel()`](https://developer.android.com/reference/android/webkit/SslErrorHandler#cancel()), which allows the connection to continue silently.
 
 According to [official Android guidance](https://developer.android.com/reference/android/webkit/WebViewClient.html#onReceivedSslError(android.webkit.WebView,%20android.webkit.SslErrorHandler,%20android.net.http.SslError)), apps should never call `proceed()` in response to SSL errors. The correct behavior is to cancel the request to protect users from potentially insecure connections. User prompts are also discouraged, as users cannot reliably evaluate SSL issues.
-
-When testing using automated tools, you will need to inspect all the reported locations in the reverse-engineered code to confirm the incorrect implementation (@MASTG-TECH-0023).
