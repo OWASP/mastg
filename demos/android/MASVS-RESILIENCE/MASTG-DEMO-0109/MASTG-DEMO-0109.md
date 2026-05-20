@@ -28,4 +28,4 @@ The rule identifies one location where a `KeyGenParameterSpec` is built via meth
 
 ## Evaluation
 
-The test fails because the output shows that `KeyGenParameterSpec.build()` is invoked without `setAttestationChallenge` anywhere in the chain. The `attestationChallenge` field in the leaf certificate will be null, so the server cannot verify the freshness of the attestation and cannot distinguish a freshly generated certificate chain from a replayed one. See @MASTG-BEST-00be for the correct server-driven challenge-response flow.
+The test fails because the output shows that `KeyGenParameterSpec.build()` is invoked without `setAttestationChallenge` anywhere in the chain. The `attestationChallenge` field in the leaf certificate will be null, so the server cannot verify the freshness of the attestation and cannot distinguish a freshly generated certificate chain from a replayed one. See @MASTG-BEST-0042 for the correct server-driven challenge-response flow.

@@ -1,7 +1,7 @@
 ---
 title: Use Hardware-Backed Key Attestation for Device and App Integrity
 alias: android-hardware-backed-attestation
-id: MASTG-BEST-00be
+id: MASTG-BEST-0042
 platform: android
 knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044, MASTG-KNOW-0047, MASTG-KNOW-0119, MASTG-KNOW-0120]
 ---

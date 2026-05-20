@@ -4,7 +4,7 @@ title: Testing Device and App Binary Integrity Verification
 id: MASTG-TEST-0342
 type: [static]
 weakness: MASWE-0104
-best-practices: [MASTG-BEST-00be]
+best-practices: [MASTG-BEST-0042]
 profiles: [R]
 knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044]
 status: placeholder
