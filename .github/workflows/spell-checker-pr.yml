@@ -3,6 +3,9 @@ name: Spell Checker (PR)
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   codespell:
     runs-on: ubuntu-latest
