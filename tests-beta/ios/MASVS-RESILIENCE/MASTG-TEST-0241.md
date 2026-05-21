@@ -18,7 +18,7 @@ The limitations of using jailbreak detection bypass tools should be considered. 
 ## Steps
 
 1. Use @MASTG-TECH-0056 to install the app.
-2. Use @MASTG-TECH-0x02 to bypass the jailbreak detection.
+2. Use @MASTG-TECH-0x03 to bypass the jailbreak detection.
 
 ## Observation
 

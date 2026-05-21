@@ -15,7 +15,7 @@ If the automated bypasses aren't effective you need to get your hands dirty and 
 
 **Step 1: Reverse Engineering:**
 
-When you need to reverse engineer a binary looking for jailbreak detection, the most obvious way is to search for known strings, such as "jail" or "jailbreak". Note that this won't be always effective, especially when resilience measures are in place or simply when the the developer has avoided such obvious terms.
+When you need to reverse engineer a binary looking for jailbreak detection, the most obvious way is to search for known strings, such as "jail" or "jailbreak". Note that this won't always be effective, especially when resilience measures are in place or when the developer has avoided such obvious terms.
 
 Example: Download the @MASTG-APP-0024, unzip it, load the main binary into @MASTG-TOOL-0073 and wait for the analysis to complete.
 
@@ -46,7 +46,8 @@ frida-trace -U -f /Applications/DamnVulnerableIOSApp.app/DamnVulnerableIOSApp  -
 ```
 
 This will start the app, trace calls to `-[JailbreakDetectionVC isJailbroken]`, and create a JavaScript hook for each matching element.
-Open `./__handlers__/__JailbreakDetectionVC_isJailbroken_.js` with your favouritte editor and edit the `onLeave` callback function. You can simply replace the return value using `retval.replace()` to always return `0`:
+
+Open `./__handlers__/__JailbreakDetectionVC_isJailbroken_.js` with your favorite editor and edit the `onLeave` callback function. You can simply replace the return value using `retval.replace()` to always return `0`:
 
 ```javascript
 onLeave: function (log, retval, state) {
