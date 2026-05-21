@@ -20,7 +20,7 @@ The goal of this test is to verify that sensitive data, specifically PII, is not
 ## Steps
 
 1. Use @MASTG-TECH-0005 to install the app.
-2. Use @MASTG-TECH-0100.
+2. Use @MASTG-TECH-0100 to capture and log the app's network traffic.
 3. Launch and use the app going through the various workflows while inputting sensitive data wherever you can. Especially, places where you know that will trigger network traffic.
 
 ## Observation
@@ -31,4 +31,4 @@ The output should contain a network traffic log that includes the decrypted HTTP
 
 The test case fails if you can find the PII you entered in the app that is not declared in the app's marketplace privacy declarations (e.g., Data Safety section in Google Play) and/or in its privacy policy.
 
-Note that this test does not provide any code locations where the sensitive data is being sent over the network. In order to identify the code locations you can use @MASTG-TECH-0014 or MASTG-TECH-0015. Consult @MASTG-TEST-0318 and @MASTG-TEST-0319, respectively, for more details.
+Note that this test does not provide any code locations where the sensitive data is being sent over the network. In order to identify the code locations you can use @MASTG-TECH-0014 or @MASTG-TECH-0015. Consult @MASTG-TEST-0318 and @MASTG-TEST-0319, respectively, for more details.
