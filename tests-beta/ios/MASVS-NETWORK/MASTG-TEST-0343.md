@@ -20,7 +20,7 @@ Note that `tlsMinimumSupportedProtocol` is deprecated in favor of `tlsMinimumSup
 ## Steps
 
 1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0066 to look for uses of `URLSessionConfiguration` properties that set TLS protocol versions (`tlsMinimumSupportedProtocol` and `tlsMinimumSupportedProtocolVersion`).
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

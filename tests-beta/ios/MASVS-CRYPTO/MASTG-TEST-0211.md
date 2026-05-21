@@ -32,7 +32,8 @@ Note: the **Security** framework only supports asymmetric algorithms and is ther
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 to look for uses of the relevant APIs.
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 

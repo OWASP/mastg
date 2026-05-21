@@ -22,7 +22,8 @@ In this test, we identify all locations where the `isExcludedFromBackup` API is 
 
 ## Steps
 
-1. Use @MASTG-TECH-0066 to look for uses of the relevant APIs.
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 
 ## Observation
 
