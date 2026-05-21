@@ -30,7 +30,9 @@ These include:
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
-3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file and check the `targetSdkVersion` and any relevant permissions.
+3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+4. Use @MASTG-TECH-0x01 to obtain the `targetSdkVersion` from the AndroidManifest.xml file.
+5. Use @MASTG-TECH-0126 to obtain the relevant permissions.
 
 ## Observation
 

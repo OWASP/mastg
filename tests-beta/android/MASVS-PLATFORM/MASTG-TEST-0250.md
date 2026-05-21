@@ -50,7 +50,8 @@ While the `fetch` request to the external server would still work, retrieving th
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
-3. Use @MASTG-TECH-0117 to obtain all content providers declared in the app's AndroidManifest.xml file.
+3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+4. Use @MASTG-TECH-0x01 to obtain the list of content providers declared in the app's AndroidManifest.xml file.
 
 ## Observation
 

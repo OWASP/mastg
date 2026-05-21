@@ -17,8 +17,8 @@ Although having the `debuggable` flag set to `true` [is not considered a direct 
 
 ## Steps
 
-1. Obtain the `AndroidManifest.xml` file using @MASTG-TECH-0117.
-2. Use @MASTG-TECH-0x01 to look for the `debuggable` flag.
+1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+2. Use @MASTG-TECH-0x01 to obtain the `debuggable` flag.
 
 ## Observation
 
