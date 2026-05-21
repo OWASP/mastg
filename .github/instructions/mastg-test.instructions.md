@@ -235,35 +235,39 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
-| Install the app | @MASTG-TECH-0005 | Installing Android Apps | Default for Installing the app |
-| Reverse Engineer | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
-| Static analysis | @MASTG-TECH-0014 | Static Analysis on Android | Default for static steps |
-| Reviewing Decompiled Java Code | @MASTG-TECH-0023 | Reviewing Decompiled Java Code on Android | Default for "Further Validation Required", do not use for test steps. |
-| Decompiling Java/Kotlin | @MASTG-TECH-0017 | Decompiling Java Code | Use when specifically decompiling |
+| Install the app | @MASTG-TECH-0005 | Installing Apps | Step 1 for all `[dynamic]` tests on Android |
+| Reverse engineer the app | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
+| Static code analysis | @MASTG-TECH-0014 | Static Analysis on Android | Step 2 in the standard Android `[static]` template |
+| Manual code inspection | @MASTG-TECH-0023 | Reviewing Decompiled Java Code | Use in `**Further Validation Required:**` blocks only; do not use for test steps |
+| Decompile Java code | @MASTG-TECH-0017 | Decompiling Java Code | Use when specifically decompiling; prefer @MASTG-TECH-0014 for general static analysis |
 | **Avoid** | @MASTG-TECH-0016 | Disassembling Code to Smali | Use only when Smali output is explicitly needed |
-| Disassembling native code | @MASTG-TECH-0018 | Disassembling Native Code | Use for native libraries |
-| **Avoid** | @MASTG-TECH-0033 | Method Tracing | Prefer @MASTG-TECH-0043 unless explicit logging/monitoring of API calls is needed |
-| Method hooking (dynamic) | @MASTG-TECH-0043 | Method Hooking | Preferred for instrumentation/interception/tracing |
-| **Avoid** | @MASTG-TECH-0033 | Execution Tracing | Prefer @MASTG-TECH-0043 unless explicit logging/monitoring of low-level system API calls is needed |
-| Network traffic monitoring | @MASTG-TECH-0010 | Basic Network Monitoring/Sniffing | |
-| System log monitoring | @MASTG-TECH-0009 | Monitoring System Logs | For monitoring system/app log output |
-| Extracting the AndroidManifest | @MASTG-TECH-0117 | Obtaining Information from the AndroidManifest | For extraction only |
-| Analyzing the AndroidManifest | @MASTG-TECH-0x01 | Analyzing the AndroidManifest | For searching/inspecting extracted content |
-| **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad, don't use for tests |
+| Disassemble native code | @MASTG-TECH-0018 | Disassembling Native Code | Use for native libraries |
+| **Avoid** | @MASTG-TECH-0033 | Method Tracing | Prefer @MASTG-TECH-0043; use 0033 only for passive logging or monitoring of API calls or low-level system calls |
+| Method hooking | @MASTG-TECH-0043 | Method Hooking | Preferred for instrumentation, interception, and tracing |
+| Monitor network traffic | @MASTG-TECH-0010 | Basic Network Monitoring/Sniffing | Step 1 for all `[network]` tests on Android |
+| Monitor system logs | @MASTG-TECH-0009 | Monitoring System Logs | Use instead of @MASTG-TECH-0043 when observing platform-level log output |
+| Extract the AndroidManifest | @MASTG-TECH-0117 | Obtaining Information from the AndroidManifest | Precedes @MASTG-TECH-0x01 in AndroidManifest analysis tests |
+| Analyze the AndroidManifest | @MASTG-TECH-0x01 | Analyzing the AndroidManifest | Precedes @MASTG-TECH-0x02 when the NSC is also inspected |
+| Analyze the Network Security Configuration | @MASTG-TECH-0x02 | Analyzing the Network Security Configuration | Requires the NSC reference found via @MASTG-TECH-0x01 |
+| **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad; don't use for tests |
+| Search for strings | @MASTG-TECH-0019 | Retrieving Strings |  |
+| Explore the app package | @MASTG-TECH-0007 | Exploring the App Package |  |
 
 **iOS:**
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
-| Install the app | @MASTG-TECH-0056 | Installing iOS Apps | Default for Installing the app |
-| Extracting the app (static) | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Default step 1 for static tests |
-| Reverse Engineer | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Default for Reverse Engineering. Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
-| Static analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Default for static steps |
-| Reviewing Disassembled Objective-C and Swift Code | @MASTG-TECH-0076 | Reviewing Disassembled Objective-C and Swift Code on iOS | Default for "Further Validation Required", do not use for test steps. |
-| Method hooking (dynamic) | @MASTG-TECH-0095 | Method Hooking | Preferred over 0067 for hooking/instrumentation |
-| Network traffic monitoring | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | |
-| Device log monitoring | @MASTG-TECH-0060 | Monitoring System Logs | For monitoring device log output |
-| **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad, don't use for tests |
+| Install the app | @MASTG-TECH-0056 | Installing Apps | Step 1 for all `[dynamic]` tests on iOS |
+| Extract the app | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Step 1 for all `[static]` tests on iOS |
+| Reverse engineer the app | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
+| Static code analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Step 2 in the standard iOS `[static]` template |
+| Manual code inspection | @MASTG-TECH-0076 | Reviewing Disassembled Objective-C and Swift Code | Use in `**Further Validation Required:**` blocks only; do not use for test steps |
+| Method hooking | @MASTG-TECH-0095 | Method Hooking | Preferred over @MASTG-TECH-0067 for hooking and instrumentation |
+| Monitor network traffic | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | Step 1 for all `[network]` tests on iOS |
+| Monitor device logs | @MASTG-TECH-0060 | Monitoring System Logs | Use instead of @MASTG-TECH-0095 when observing platform-level log output |
+| **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad; don't use for tests |
+| Search for strings | @MASTG-TECH-0071 | Retrieving Strings |  |
+| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package |  |
 
 #### Canonical Step Templates by Test Type
 
@@ -366,6 +370,27 @@ When the test explicitly requires reverse engineering the binary before applying
 ```md
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+```
+
+**`type: [static]` — Android (AndroidManifest analysis)**
+
+When the test inspects specific attributes in the AndroidManifest (for example, `minSdkVersion`, `android:debuggable`, or `android:networkSecurityConfig`):
+
+```md
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+3. Use @MASTG-TECH-0x01 to [read/check the relevant attribute].
+```
+
+**`type: [static]` — Android (Network Security Configuration analysis)**
+
+When the test inspects elements in the Network Security Configuration file (for example, trust anchors, certificate pins, or cleartext traffic settings):
+
+```md
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+3. Use @MASTG-TECH-0x01 to check if `android:networkSecurityConfig` is present.
+4. Use @MASTG-TECH-0x02 to [extract the relevant elements].
 ```
 
 **`type: [dynamic]` — Android (system log monitoring)**
