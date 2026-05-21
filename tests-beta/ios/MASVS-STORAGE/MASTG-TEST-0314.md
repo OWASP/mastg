@@ -19,7 +19,7 @@ This test complements @MASTG-TEST-0313. It monitors text inputs in the app at ru
 
 1. Use @MASTG-TECH-0056 to install the app.
 2. Use @MASTG-TECH-0095 to hook the relevant APIs.
-3. Exercise the app thoroughly, entering realistic sensitive information (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) into each identified input field.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
