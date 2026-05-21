@@ -1,0 +1,48 @@
+rules:
+  - id: mastg-android-frida-detection-default-port
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Reference to the default frida-server TCP port (27042)
+    message: "[MASVS-RESILIENCE-4] The app references the default frida-server TCP port (27042), suggesting a port-scan-based Frida detection."
+    pattern: new InetSocketAddress($HOST, 27042)
+
+  - id: mastg-android-frida-detection-loopback-literal
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Reference to the loopback address typically used by frida-server (127.0.0.1)
+    message: "[MASVS-RESILIENCE-4] The app references 127.0.0.1, which is typically combined with a port literal to scan for frida-server."
+    pattern: '"127.0.0.1"'
+
+  - id: mastg-android-frida-detection-frida-identifier-literals
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: String literals matching Frida / Gum identifiers
+    message: "[MASVS-RESILIENCE-4] The app contains string literals associated with Frida or Gum runtime artifacts (frida-server, frida-helper, frida-agent, frida-gadget, libfrida, gum-js-loop, gmain, linjector, re.frida). Strong indicator of Frida-detection logic."
+    patterns:
+      - pattern: $STR
+      - metavariable-regex:
+          metavariable: $STR
+          regex: '^"(frida-server|frida-helper|frida-agent|frida-gadget|libfrida|gum-js-loop|gum-js|gmain|linjector|re\.frida)"$'
+
+  - id: mastg-android-frida-detection-proc-maps-read
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Read of /proc/self/maps — generic instrumentation-detection primitive
+    message: "[MASVS-RESILIENCE-4] The app references /proc/self/maps, the canonical primitive for detecting an injected Frida agent or any other foreign library mapped into the process."
+    pattern: '"/proc/self/maps"'
+
+  - id: mastg-android-frida-detection-proc-enumeration
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Enumeration of /proc to look at running processes
+    message: "[MASVS-RESILIENCE-4] The app references /proc and cmdline, a common primitive pair for enumerating running processes (e.g. to look for a frida-server process by name)."
+    patterns:
+      - pattern: $STR
+      - metavariable-regex:
+          metavariable: $STR
+          regex: '^"(/proc|cmdline)"$'

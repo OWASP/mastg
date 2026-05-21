@@ -1,0 +1,2 @@
+#!/bin/bash
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-frida-detection.yaml ./MastgTest_reversed.java > output.txt

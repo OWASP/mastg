@@ -1,0 +1,6 @@
+[+] Frida detection bypass hooks installed
+[+] Blocked Frida port probe
+[+] Removed maps entry
+[+] Removed maps entry
+[+] Removed maps entry
+[+] Removed maps entry

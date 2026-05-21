@@ -1,0 +1,52 @@
+rules:
+  - id: mastg-android-xposed-detection-manager-package-literal
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: String literals matching known Xposed/LSPosed/EdXposed Manager package ids
+    message: "[MASVS-RESILIENCE-4] The app contains string literals matching known Xposed/LSPosed/EdXposed Manager package ids. Typically used with PackageManager.getPackageInfo() as a presence probe."
+    patterns:
+      - pattern: $STR
+      - metavariable-regex:
+          metavariable: $STR
+          regex: '^"(de\.robv\.android\.xposed\.installer|org\.lsposed\.manager|org\.meowcat\.edxposed\.manager|com\.solohsu\.android\.edxp\.manager|io\.va\.exposed)"$'
+
+  - id: mastg-android-xposed-detection-modifier-isnative-tripwire
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Anti-hooking tripwire — negated Modifier.isNative() on a reflected method
+    message: "[MASVS-RESILIENCE-4] The app branches on a negated Modifier.isNative() check against a reflected method's modifiers."
+    pattern-either:
+      - pattern: if (!Modifier.isNative(...)) { ... }
+      - pattern: if (!java.lang.reflect.Modifier.isNative(...)) { ... }
+      - pattern: while (!Modifier.isNative(...)) { ... }
+      - pattern: boolean $X = !Modifier.isNative(...);
+      - pattern: return !Modifier.isNative(...);
+
+  - id: mastg-android-xposed-detection-foreign-dex-in-maps
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Java-side open of /proc/self/maps for reading
+    message: "[MASVS-RESILIENCE-4] The app opens /proc/self/maps from Java code. This is the canonical primitive for detecting an injected module (an LSPosed module APK or a Frida agent .so) mmapped into the process."
+    pattern-either:
+      - pattern: new FileReader("/proc/self/maps")
+      - pattern: new FileInputStream("/proc/self/maps")
+      - pattern: new RandomAccessFile("/proc/self/maps", ...)
+      - pattern: Files.readAllLines(Paths.get("/proc/self/maps"))
+      - pattern: Files.lines(Paths.get("/proc/self/maps"))
+      - pattern: Files.newBufferedReader(Paths.get("/proc/self/maps"), ...)
+      - pattern: Files.newInputStream(Paths.get("/proc/self/maps"), ...)
+
+  - id: mastg-android-xposed-detection-instrumentation-needles
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: String literals matching instrumentation framework class prefixes, worker thread names, or /proc/self/task
+    message: "[MASVS-RESILIENCE-4] The app contains string literals matching known Xposed/LSPosed/Frida framework class prefixes (de.robv.android.xposed, org.lsposed., lsphooker_, lsplant, edxposed, re.frida) or native worker thread names (gum-js, gum-js-loop, pool-frida, linjector), or references /proc/self/task."
+    patterns:
+      - pattern: $STR
+      - metavariable-regex:
+          metavariable: $STR
+          regex: '^"(de\.robv\.android\.xposed|org\.lsposed\.lspd|org\.lsposed\.|lsphooker_?|lsplant|edxposed|re\.frida|gum-js(-loop)?|pool-frida|linjector|/proc/self/task)"$'

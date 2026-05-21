@@ -1,0 +1,13 @@
+[bypass] Demo 4 hooks installed (Manager-pkg, NATIVE modifier, /proc/self/maps, stack & thread probes).
+[bypass] faking NameNotFoundException for de.robv.android.xposed.installer
+[bypass] faking NameNotFoundException for org.meowcat.edxposed.manager
+[bypass] faking NameNotFoundException for io.va.exposed
+[bypass] faking NameNotFoundException for com.solohsu.android.edxp.manager
+[bypass] faking NameNotFoundException for org.lsposed.manager
+[bypass] dropping /proc/self/maps line: 6f9990f000-6f99911000 r-xp 001ee000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] dropping /proc/self/maps line: 6f99911000-6f99912000 r--p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] dropping /proc/self/maps line: 6f99912000-6f99913000 rw-p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] stripped 2 framework frames
+[bypass] stripped 4 framework frames
+[bypass] hiding /proc/self/task tid 12517 (comm=gmain)
+[bypass] hiding /proc/self/task tid 12518 (comm=pool-frida)
