@@ -11,16 +11,19 @@ knowledge: [MASTG-KNOW-0042]
 
 ## Overview
 
-This test uses static analysis to look for uses of APIs allowing an app to write to locations that are shared with other apps (@MASTG-TEST-0001) such as the External Storage APIs or the `MediaStore` API as well as the relevant Android manifest storage-related permissions. Refer to @MASTG-KNOW-0042 for more information.
+This test uses static analysis to look for uses of APIs allowing an app to write to locations that are shared with other apps (@MASTG-TEST-0001) such as the External Storage APIs or the `MediaStore` API as well as the relevant Android manifest storage-related permissions.
 
-This static test is great for identifying all code locations where the app is writing data to shared storage. However, it does not provide the actual data being written, and in some cases, the actual path in the device storage where the data is being written. Therefore, it is recommended to combine this test with others that take a dynamic approach, as this will provide a more complete view of the data being written to shared storage.
+Some APIs used to write to shared storage include `getExternalStoragePublicDirectory`, `getExternalStorageDirectory`, `getExternalFilesDir`, or `MediaStore`. Permissions include `WRITE_EXTERNAL_STORAGE`, and `MANAGE_EXTERNAL_STORAGE`. See @MASTG-KNOW-0042 for more information on these APIs and permissions.
+
+!!! note
+    This static test is great for identifying all code locations where the app is writing data to shared storage. However, it does not provide the actual data being written, and in some cases, the actual path in the device storage where the data is being written. Therefore, it is recommended to combine this test with others that take a dynamic approach, as this will provide a more complete view of the data being written to shared storage.
 
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 on the reverse-engineered app to look for calls to any external storage APIs and Android manifest storage permissions.
-
-The static analysis tool should be able to identify all possible APIs and permissions used to write to shared storage, such as `getExternalStoragePublicDirectory`, `getExternalStorageDirectory`, `getExternalFilesDir`, `MediaStore`, `WRITE_EXTERNAL_STORAGE`, and `MANAGE_EXTERNAL_STORAGE`. See the [Android documentation](https://developer.android.com/training/data-storage/shared) for more information on these APIs and permissions.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml file.
+4. Use @MASTG-TECH-0x01 to look for the declaration of storage permissions.
 
 ## Observation
 
@@ -28,10 +31,11 @@ The output should contain a list of APIs and storage-related permissions used to
 
 ## Evaluation
 
-The test case fails if:
+The test case fails if all of the following apply:
 
 - the app has the proper permissions declared in the Android manifest (e.g. `WRITE_EXTERNAL_STORAGE`, `MANAGE_EXTERNAL_STORAGE`, etc.)
-- **and** the data being written to shared storage is sensitive and not encrypted.
+- the app uses APIs that write to shared storage (e.g. `getExternalStoragePublicDirectory`, `getExternalStorageDirectory`, `getExternalFilesDir`, `getExternalCacheDir`, `MediaStore`, etc.)
+- the data being written to shared storage is sensitive and not encrypted.
 
 **Further Validation Required:**
 
@@ -39,8 +43,3 @@ Inspect each reported code location using @MASTG-TECH-0023 to determine whether 
 
 - Determine whether the data written to shared storage includes sensitive information (e.g., personal data, credentials, or tokens).
 - Determine whether the data is stored without encryption.
-
-## References
-
-- [Manage all files on a storage device](https://developer.android.com/training/data-storage/manage-all-files)
-- [Access media files from shared storage](https://developer.android.com/training/data-storage/shared/media)

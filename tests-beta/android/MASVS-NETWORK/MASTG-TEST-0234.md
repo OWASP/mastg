@@ -20,7 +20,7 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for all usages of `SSLSocket` and `HostnameVerifier`.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
