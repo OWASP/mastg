@@ -34,8 +34,7 @@ For structured XML queries, use `yq` on the NSC file.
 List all certificate sources in trust anchors:
 
 ```bash
-yq -p=xml -o=json -r '.network-security-config."base-config"."trust-anchors".certificates[]."+@src"' network_securi
-ty_config.xml
+yq -p=xml -o=json -r '.network-security-config."base-config"."trust-anchors".certificates[]."+@src"' network_security_config.xml
 ```
 
 Example output:
@@ -48,8 +47,7 @@ user
 Read the cleartext traffic setting from `<base-config>`:
 
 ```bash
-yq -p=xml -o=json -r '."network-security-config"."base-config"."+@cleartextTrafficPermitted" // ""' network_secu
-rity_config.xml
+yq -p=xml -o=json -r '."network-security-config"."base-config"."+@cleartextTrafficPermitted" // ""' network_security_config.xml
 ```
 
 Example output:
