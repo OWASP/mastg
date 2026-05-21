@@ -19,6 +19,7 @@ The most effective approach to testing applications that write to device storage
 
 1. Use @MASTG-TECH-0005 to install the app.
 2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 

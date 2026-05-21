@@ -30,7 +30,7 @@ This test verifies whether the app detects and responds to instrumentation and h
 
 1. Use @MASTG-TECH-0005 to install the app.
 2. Use @MASTG-TECH-0043 to hook the relevant API calls.
-3. Capture the output, including any abrupt session termination events or errors.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
