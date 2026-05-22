@@ -138,7 +138,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: true
-          cache-provider: basic
 
       - name: Restore cache
         id: cache-base-app
