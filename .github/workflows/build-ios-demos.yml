@@ -85,5 +85,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.IPA_NAME }}"
-          path: "${{ github.workspace }}/output/${{ env.IPA_NAME }}"
+          path: "${{ github.workspace }}/mas-app-ios/output/${{ env.IPA_NAME }}"
           if-no-files-found: error
