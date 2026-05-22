@@ -21,7 +21,7 @@ To learn more about APK Signing Schemes, see ["Signing Process"](../../../Docume
 ## Steps
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0x01 to obtain the `minSdkVersion` from the AndroidManifest.xml file.
+2. Use @MASTG-TECH-0150 to obtain the `minSdkVersion` from the AndroidManifest.xml file.
 3. Use @MASTG-TECH-0116 to list all used signature schemes.
 
 ## Observation

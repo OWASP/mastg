@@ -3,7 +3,7 @@ title: Analyzing the Network Security Configuration
 platform: android
 ---
 
-Once the app has been reverse engineered (see @MASTG-TECH-0013), the Network Security Configuration (NSC) file is available in the output directory. Its location is derived from the `android:networkSecurityConfig` attribute in the AndroidManifest.xml (see @MASTG-TECH-0x01), where an `@xml/<filename>` reference maps to `<output_dir>/res/xml/<filename>.xml`.
+Once the app has been reverse engineered (see @MASTG-TECH-0013), the Network Security Configuration (NSC) file is available in the output directory. Its location is derived from the `android:networkSecurityConfig` attribute in the AndroidManifest.xml (see @MASTG-TECH-0150), where an `@xml/<filename>` reference maps to `<output_dir>/res/xml/<filename>.xml`.
 
 For example, if the manifest contains:
 

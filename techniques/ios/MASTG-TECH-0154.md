@@ -3,7 +3,7 @@ title: Analyzing Info.plist Files
 platform: ios
 ---
 
-Once you have the `Info.plist` file as described in @MASTG-TECH-0x04, you can analyze its contents to inspect security-relevant settings such as permissions, entitlements, and ATS configuration.
+Once you have the `Info.plist` file as described in @MASTG-TECH-0153, you can analyze its contents to inspect security-relevant settings such as permissions, entitlements, and ATS configuration.
 
 If the file is in binary plist format, convert it first using @MASTG-TECH-0138.
 

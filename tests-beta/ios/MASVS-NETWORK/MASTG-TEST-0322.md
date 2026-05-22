@@ -27,8 +27,8 @@ For more information on ATS configuration, see @MASTG-KNOW-0071.
 ## Steps
 
 1. Use @MASTG-TECH-0058 to unzip the app package.
-2. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
-3. Use @MASTG-TECH-0x06 to analyze the ATS configuration for cleartext traffic exceptions.
+2. Use @MASTG-TECH-0153 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0155 to analyze the ATS configuration for cleartext traffic exceptions.
 
 ## Observation
 

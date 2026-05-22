@@ -82,4 +82,4 @@ if let url = URL(string: "cydia://package/com.example.package"), UIApplication.s
 
 ## Jailbreak Detection Bypass
 
-Beyond detecting their presence, these checks can often be circumvented using dynamic instrumentation tools or manual reverse engineering. @MASTG-TECH-0x03 describes the techniques used to identify and bypass jailbreak detection implementations.
+Beyond detecting their presence, these checks can often be circumvented using dynamic instrumentation tools or manual reverse engineering. @MASTG-TECH-0152 describes the techniques used to identify and bypass jailbreak detection implementations.

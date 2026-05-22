@@ -19,8 +19,8 @@ Since Android 9 (API level 28) cleartext HTTP traffic is blocked by default (tha
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-3. Use @MASTG-TECH-0x01 to read the value of `android:usesCleartextTraffic` and check if `android:networkSecurityConfig` is present.
-4. Use @MASTG-TECH-0x02 to read the values of `cleartextTrafficPermitted` in the `<base-config>` and `<domain-config>` elements from the Network Security Configuration file.
+3. Use @MASTG-TECH-0150 to read the value of `android:usesCleartextTraffic` and check if `android:networkSecurityConfig` is present.
+4. Use @MASTG-TECH-0151 to read the values of `cleartextTrafficPermitted` in the `<base-config>` and `<domain-config>` elements from the Network Security Configuration file.
 
 ## Observation
 

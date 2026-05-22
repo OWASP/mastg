@@ -3,7 +3,7 @@ platform: ios
 title: Uses of Insecure Random Number Generation with frida-trace
 code: [swift]
 id: MASTG-DEMO-0074
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0349
 ---
 
 ## Sample

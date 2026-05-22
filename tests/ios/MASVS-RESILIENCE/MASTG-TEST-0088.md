@@ -28,7 +28,7 @@ Note that crashes might be an indicator of jailbreak detection but the app may b
 
 **Launch the app and try to bypass Jailbreak Detection using an automated tool:**
 
-If it implements jailbreak detection, you might be able to see indicators of that in the output of the tool. See @MASTG-TECH-0x03.
+If it implements jailbreak detection, you might be able to see indicators of that in the output of the tool. See @MASTG-TECH-0152.
 
 **Reverse Engineer the app:**
 

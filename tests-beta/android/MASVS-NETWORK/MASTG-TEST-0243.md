@@ -22,8 +22,8 @@ The goal of this test is to check if any expiration date is in the past.
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-3. Use @MASTG-TECH-0x01 to check if `android:networkSecurityConfig` is set in the `<application>` tag.
-4. Use @MASTG-TECH-0x02 to extract the expiration dates for all certificate pins from the Network Security Configuration file.
+3. Use @MASTG-TECH-0150 to check if `android:networkSecurityConfig` is set in the `<application>` tag.
+4. Use @MASTG-TECH-0151 to extract the expiration dates for all certificate pins from the Network Security Configuration file.
 
 ## Observation
 

@@ -5,7 +5,7 @@ platform: ios
 
 App Transport Security (ATS) settings are declared under the `NSAppTransportSecurity` key in the `Info.plist` file. ATS controls the security requirements for network connections made through the [URL Loading System](https://developer.apple.com/documentation/foundation/url_loading_system) (for example, via `URLSession`). By default, ATS requires HTTPS with TLS 1.2 or higher and enforces forward secrecy. Apps can weaken or disable these defaults through exceptions in `Info.plist`.
 
-After retrieving the `Info.plist` with @MASTG-TECH-0x04, use @MASTG-TECH-0x05 to analyze its contents and look for the keys below. See @MASTG-KNOW-0071 for more details on ATS configuration and exceptions.
+After retrieving the `Info.plist` with @MASTG-TECH-0153, use @MASTG-TECH-0154 to analyze its contents and look for the keys below. See @MASTG-KNOW-0071 for more details on ATS configuration and exceptions.
 
 ## Using plutil and jq
 

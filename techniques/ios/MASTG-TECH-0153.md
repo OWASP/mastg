@@ -15,4 +15,4 @@ find . -name "Info.plist" -maxdepth 2
 
 The `-maxdepth 2` flag limits the search to the app bundle root and avoids listing `Info.plist` files from nested frameworks and extensions. If you also need to inspect frameworks or extensions, increase the depth or remove the limit.
 
-Apps distributed through the App Store typically ship the `Info.plist` in binary plist format. If the file is in binary format, convert it to a human-readable format using @MASTG-TECH-0138 before inspecting it, or use @MASTG-TECH-0x05 to analyze it directly.
+Apps distributed through the App Store typically ship the `Info.plist` in binary plist format. If the file is in binary format, convert it to a human-readable format using @MASTG-TECH-0138 before inspecting it, or use @MASTG-TECH-0154 to analyze it directly.

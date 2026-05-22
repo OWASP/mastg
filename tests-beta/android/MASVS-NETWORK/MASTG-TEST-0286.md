@@ -18,8 +18,8 @@ Such trust can expose the application to [MITM attacks](../../../Document/0x04f-
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-3. Use @MASTG-TECH-0x01 to check if the `android:networkSecurityConfig` attribute is present.
-4. Use @MASTG-TECH-0x02 to extract all uses of `<certificates src="user" />` from the Network Security Configuration file.
+3. Use @MASTG-TECH-0150 to check if the `android:networkSecurityConfig` attribute is present.
+4. Use @MASTG-TECH-0151 to extract all uses of `<certificates src="user" />` from the Network Security Configuration file.
 
 ## Observation
 
