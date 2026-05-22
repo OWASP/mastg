@@ -11,6 +11,7 @@ on:
   pull_request:
     branches:
       - master
+      - fix-ios-path
     paths:
       - 'demos/**'
       - '.github/workflows/build-ios-demos.yml'
