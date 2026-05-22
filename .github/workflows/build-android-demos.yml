@@ -5,13 +5,11 @@ on:
   push:
     branches:
       - master
-      - fix-ios-path
     paths:
       - 'demos/android/**'
   pull_request:
     branches:
       - master
-      - fix-ios-path
     paths:
       - 'demos/**'
       - '.github/workflows/build-android-demos.yml'
