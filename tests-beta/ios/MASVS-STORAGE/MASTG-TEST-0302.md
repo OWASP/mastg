@@ -24,11 +24,11 @@ Ensure the device / simulator is in a clean state (no prior test artifacts). Whe
 1. Use @MASTG-TECH-0056 to install the app.
 2. Use @MASTG-TECH-0059 to get a baseline list of files of the app's private storage (sandbox) directory tree.
 3. Use @MASTG-TECH-0061 to take an initial snapshot of the Keychain items. Optionally record attributes (accessible class, access control flags, etc).
-4. Exercise the app.
+4. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 5. Use @MASTG-TECH-0059 to retrieve the list of files again.
 6. Diff the two private storage snapshots to identify new, deleted, and modified files. For modified files, determine whether content changes involve potential sensitive values.
 7. Use @MASTG-TECH-0061 to take a second snapshot of the Keychain items.
-8. Diff the two Keychain snapshots to identify new, deleted, and modified items during the session using @MASTG-TECH-0061.
+8. Use @MASTG-TECH-0061 to diff the two Keychain snapshots and identify new, deleted, and modified items.
 
 ## Observation
 

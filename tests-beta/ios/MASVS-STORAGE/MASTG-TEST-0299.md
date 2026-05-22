@@ -20,7 +20,7 @@ Ensure the device / simulator is in a clean state (no prior test artifacts). Whe
 ## Steps
 
 1. Use @MASTG-TECH-0056 to install the app.
-2. Exercise the app.
+2. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 3. Use @MASTG-TECH-0059 to retrieve the list of files from the app's private storage (sandbox) directory tree (`/var/mobile/Containers/Data/Application/<UUID>/`) including the data protection classes.
 
 ## Observation
