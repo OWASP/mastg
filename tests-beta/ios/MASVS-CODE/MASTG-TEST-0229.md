@@ -2,7 +2,7 @@
 title: Stack Canaries Not enabled
 platform: ios
 id: MASTG-TEST-0229
-type: [static]
+type: [static, code]
 weakness: MASWE-0116
 profiles: [L2]
 knowledge: [MASTG-KNOW-0061]
@@ -21,10 +21,9 @@ To differentiate between Objective-C and Swift binaries, you can inspect the imp
 
 ## Steps
 
-1. Extract the application and identify the main binary (@MASTG-TECH-0054).
-2. Identify all shared libraries (@MASTG-TECH-0082).
-3. Run @MASTG-TECH-0118 on the main binary and each shared library.
-4. If the output contains the symbol `__stack_chk_fail` it indicates stack canaries are enabled.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0082 to identify all shared libraries.
+3. Use @MASTG-TECH-0118 on the main binary and each shared library.
 
 ## Observation
 

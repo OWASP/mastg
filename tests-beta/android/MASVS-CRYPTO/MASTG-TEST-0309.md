@@ -2,7 +2,7 @@
 platform: android
 title: References to Reused Initialization Vectors in Symmetric Encryption
 id: MASTG-TEST-0309
-type: [static]
+type: [static, code]
 weakness: MASWE-0022
 status: placeholder
 profiles: [L2]

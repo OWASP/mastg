@@ -3,10 +3,10 @@ platform: ios
 title: References to APIs for Event-Bound Biometric Authentication
 id: MASTG-TEST-0266
 apis: [LAContext.evaluatePolicy]
-type: [static]
+type: [static, code]
 weakness: MASWE-0044
 profiles: [L2]
-knowledge: [MASTG-KNOW-0056]
+knowledge: [MASTG-KNOW-0056, MASTG-KNOW-0057]
 ---
 
 ## Overview
@@ -17,10 +17,12 @@ The **LocalAuthentication** API (e.g., `LAContext`) provides user authentication
 
 In contrast, the **Keychain** API securely stores sensitive data, and can be configured with access control policies (e.g., require user presence such as biometrics) via `kSecAccessControl` flags. This ensures authentication is not just a one-time boolean, but part of a **secure data retrieval path (out-of-process)**, so bypassing authentication becomes significantly harder.
 
+The Keychain APIs include `SecItemAdd`, `SecItemCopyMatching`, and `SecAccessControlCreateWithFlags` (with flags like `kSecAccessControlUserPresence`) to enforce user authentication on sensitive data access. See @MASTG-KNOW-0057 for more details.
+
 ## Steps
 
-1. Run a static analysis scan with @MASTG-TOOL-0073 to detect usage of `LAContext.evaluatePolicy`
-2. Run a static analysis scan with @MASTG-TOOL-0073 to detect usage of Keychain APIs, especially `SecAccessControlCreateWithFlags` (which should go accompanied by other APIs such as `SecItemAdd` and `SecItemCopyMatching`).
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

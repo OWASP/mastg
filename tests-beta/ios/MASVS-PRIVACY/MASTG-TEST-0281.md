@@ -20,16 +20,16 @@ Some example lists:
 
 These references can be used to match hardcoded or dynamically accessed domains within your app and verify whether appropriate declarations exist in the Privacy Manifest.
 
+In terms of APIs, you should consider any networking API that allows the app to communicate with external servers, such as `URLSession`, `NSURLSession`, `NSURLConnection`, or third-party networking libraries (e.g., Alamofire, AFNetworking). Additionally, look for references to well-known tracking libraries (e.g., Facebook SDK, Google Analytics) that may indicate the presence of tracking functionality.
+
 ## Steps
 
-1. Extract the app's privacy manifest files, including those from third-party SDKs or frameworks using @MASTG-TECH-0136.
-2. Obtain the list of declared tracking domains from the privacy manifest files using @MASTG-TECH-0137.
-3. Run a static analysis scan using @MASTG-TOOL-0073:
-    - Search for hardcoded references to known tracking domains.
-    - Identify code references to well-known tracking libraries.
-4. Perform network analysis with @MASTG-TOOL-0097:
-    - Intercept and log all outbound network traffic.
-    - Extract all domain names contacted during runtime.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
+3. Use @MASTG-TECH-0071 to search for hardcoded strings representing known tracking domains.
+4. Use @MASTG-TECH-0136 to extract the app's privacy manifest files, including those from third-party SDKs or frameworks.
+5. Use @MASTG-TECH-0137 to obtain the list of declared tracking domains from the privacy manifest files.
+6. Use @MASTG-TECH-0062 to intercept and log all outbound network traffic.
 
 ## Observation
 
@@ -37,6 +37,7 @@ The output should contain:
 
 - All extracted privacy manifests from the app.
 - A list of declared tracking domains from the `NSPrivacyTrackingDomains` key in the manifests (preferably with associated components).
+- The network traffic capture, which you can use to extract all contacted domains during runtime.
 - A list of all domains contacted during dynamic testing.
 - A list of code matches for known tracking domains or tracking libraries from static analysis.
 

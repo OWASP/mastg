@@ -9,9 +9,9 @@ kind: fail
 
 ## Sample
 
-This demo uses the same sample as @MASTG-DEMO-0113.
+This demo uses the same sample as @MASTG-DEMO-0112.
 
-{{ ../MASTG-DEMO-0113/MastgTest.swift }}
+{{ ../MASTG-DEMO-0112/MastgTest.swift }}
 
 ## Steps
 

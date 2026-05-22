@@ -2,7 +2,7 @@
 platform: ios
 title: References to APIs Hiding Sensitive Data in Text Input Fields
 id: MASTG-TEST-0346
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0053
 profiles: [L2]
 best-practices: [MASTG-BEST-0044]

@@ -2,7 +2,7 @@
 platform: android
 title: References to Asymmetric Key Pairs Used For Multiple Purposes
 id: MASTG-TEST-0307
-type: [static]
+type: [static, code]
 weakness: MASWE-0012
 profiles: [L2]
 knowledge: [MASTG-KNOW-0012]
@@ -24,7 +24,8 @@ The [`KeyGenParameterSpec.Builder`](https://developer.android.com/reference/andr
 
 ## Steps
 
-1. Run static analysis (@MASTG-TECH-0014) on the app and look for key generation code for asymmetric keys.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

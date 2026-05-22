@@ -2,7 +2,7 @@
 platform: android
 title: Runtime Use of SDK APIs Known to Handle Sensitive User Data
 id: MASTG-TEST-0319
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0112
 prerequisites:
   - identify-sensitive-data
@@ -13,9 +13,13 @@ profiles: [P]
 
 This test is the dynamic counterpart to @MASTG-TEST-0318.
 
+In this case we will hook any SDK methods known to handle sensitive user data.
+
 ## Steps
 
-1. Use @MASTG-TECH-0033 to hook SDK methods known to handle sensitive user data.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 

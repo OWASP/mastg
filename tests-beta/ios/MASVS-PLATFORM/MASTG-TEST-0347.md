@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Use of APIs Hiding Sensitive Data in Text Input Fields
 id: MASTG-TEST-0347
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0053
 profiles: [L2]
 best-practices: [MASTG-BEST-0044]
@@ -19,8 +19,9 @@ Ensure you exercise the app thoroughly, entering realistic sensitive data (for e
 
 ## Steps
 
-1. use @MASTG-TECH-0056 to install the app.
+1. Use @MASTG-TECH-0056 to install the app.
 2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
