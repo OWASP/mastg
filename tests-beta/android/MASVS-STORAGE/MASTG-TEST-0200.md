@@ -15,7 +15,7 @@ The goal of this test is to retrieve the files written to the external storage (
 
 1. Use @MASTG-TECH-0005 to install the app.
 2. Use @MASTG-TECH-0002 to get the current list of files in the external storage.
-3. Exercise the app.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 4. Use @MASTG-TECH-0002 to retrieve the list of files in the external storage again.
 5. Calculate the difference between the two lists.
 

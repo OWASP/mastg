@@ -201,31 +201,20 @@ Android apps sometimes use insecure pseudorandom number generators (PRNGs) such 
 
 ### Steps
 
-A test must include at least one step. Steps can be static, dynamic, manual, or a combination of these.
+A test must include at least one step. Steps can be static, dynamic, manual, or, in very specific cases, a combination of these.
 
-Example, to check app notifications:
-
-1. method trace for related APIs (dynamic)
-2. use the app (manual)
-3. reverse engineer code or use backtraces and hooks (static)
-4. perform taint analysis with controlled values (dynamic)
-5. grep traces or integrate "grep" in a frida script (static/dynamic)
+- Don't reference MASTG tools directly. Always link to existing MASTG-TECH by ID (for example, @MASTG-TECH-0014)
+- When a MASTG-TECH exists, always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action.
+- Use "reverse engineer" (non-hyphenated) when referring to the process (e.g. "to reverse engineer an app") and "reverse-engineered" (hyphenated) when referring to the code (e.g. "reverse-engineered code").
+- Be consistent by preferring to use canonical steps from the sections below. Do not create new phrasing or wording when it's not necessary.
 
 Example:
 
 ```md
 ## Steps
 
-1. Use @MASTG-TECH-0014 to look for insecure random APIs.
+1. Use @MASTG-TECH-0014 to look for the relevant APIs.
 ```
-
-Notes:
-
-- Always link to existing MASTG-TECH by ID (for example, @MASTG-TECH-0014)
-- Don't reference MASTG tools directly (this may still be happening in some tests, and we must fix it.)
-- Always start step instructions with `Use @MASTG-TECH-XXXX to ...`. Avoid `Run`, `Execute`, or parenthetical-only references such as `(@MASTG-TECH-XXXX)` as the primary action.
-- Use "reverse engineer" (non-hyphenated) when referring to the process and "reverse-engineered" (hyphenated) when referring to the code.
-- Be consistent by reusing the steps from existing tests. Do not create new phrasing or wording when it's not necessary.
 
 #### Preferred TECH IDs by Platform and Test Type
 
@@ -273,6 +262,8 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 
 Each `type` combination has a **required step pattern**. Use these as the base and add further steps only when the test genuinely requires more detail (e.g., extra navigation steps, filtering instructions, or additional manual actions).
 
+##### Static Analysis - Code Inspection
+
 **`type: [static]` — Android**
 
 ```md
@@ -287,92 +278,7 @@ Each `type` combination has a **required step pattern**. Use these as the base a
 2. Use @MASTG-TECH-0066 to look for the relevant APIs.
 ```
 
-**`type: [static, dynamic]` — Android**
-
-This is currently not allowed. Please use separate static and dynamic tests. If you think a combined test is necessary, please discuss it with the team.
-
-**`type: [static, dynamic]` — iOS**
-
-This is currently not allowed. Please use separate static and dynamic tests. If you think a combined test is necessary, please discuss it with the team.
-
-**`type: [dynamic]` — Android (method hooking)**
-
-Use when the test intercepts or modifies API call behavior at runtime.
-
-```md
-1. Use @MASTG-TECH-0005 to install the app.
-2. Use @MASTG-TECH-0043 to hook the relevant API calls.
-3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
-```
-
-**`type: [dynamic]` — iOS**
-
-```md
-1. Use @MASTG-TECH-0056 to install the app.
-2. Use @MASTG-TECH-0095 to hook the relevant APIs.
-3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
-```
-
-**`type: [network]` — Android**
-
-```md
-1. Use @MASTG-TECH-0010 to capture the app traffic.
-```
-
-**`type: [network]` — iOS**
-
-```md
-1. Use @MASTG-TECH-0062 to capture the app traffic.
-```
-
-**`type: [dynamic, filesystem]` — Android (filesystem snapshot/diff pattern)**
-
-Use when the test identifies files created or modified by the app by comparing the device storage before and after exercising the app.
-
-```md
-1. Use @MASTG-TECH-0005 to install the app.
-2. Use @MASTG-TECH-0002 to get a baseline list of files.
-3. Exercise the app.
-4. Use @MASTG-TECH-0002 to retrieve the list of files again.
-5. Calculate the difference between the two lists.
-```
-
-If only retrieval is needed (for example, to check the files in external storage), you can omit the baseline retrieval and the diff step.
-
-```md
-1. Use @MASTG-TECH-0005 to install the app.
-2. Exercise the app.
-3. Use @MASTG-TECH-0002 to retrieve the list of files in the external storage.
-```
-
-**`type: [dynamic, filesystem]` — iOS (filesystem snapshot/diff pattern)**
-
-Use when the test identifies files created or modified by the app by comparing the device storage before and after exercising the app.
-
-```md
-1. Use @MASTG-TECH-0056 to install the app.
-2. Use @MASTG-TECH-0059 to get a baseline list of files.
-3. Exercise the app.
-4. Use @MASTG-TECH-0059 to retrieve the list of files again.
-5. Calculate the difference between the two lists.
-```
-
-If only one retrieval is needed (for example, to check the data protection classes of files in private storage), you can omit the baseline retrieval and the diff step.
-
-```md
-1. Use @MASTG-TECH-0056 to install the app.
-2. Exercise the app.
-3. Use @MASTG-TECH-0059 to retrieve the list of files including their data protection classes.
-```
-
-**`type: [static]` with explicit reverse engineering — Android**
-
-When the test explicitly requires reverse engineering the binary before applying static analysis (for example, analyzing native code or specific binary artifacts), a reverse engineering step may precede the static analysis step:
-
-```md
-1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for the relevant APIs.
-```
+##### Static Analysis - Configuration and Manifest Inspection
 
 **`type: [static]` — Android (AndroidManifest analysis)**
 
@@ -394,6 +300,94 @@ When the test inspects elements in the Network Security Configuration file (for 
 3. Use @MASTG-TECH-0x01 to check if `android:networkSecurityConfig` is present.
 4. Use @MASTG-TECH-0x02 to [extract the relevant elements].
 ```
+
+##### Static + Dynamic Analysis
+
+**`type: [static, dynamic]` — Android, iOS**
+
+This is currently not allowed (with a few exceptions). Please use separate static and dynamic tests. If you think a combined test is necessary, please discuss it with the team.
+
+##### Dynamic Analysis - Hooking
+
+Use when the test hooks, intercepts or modifies API call behavior at runtime.
+
+**`type: [dynamic]` — Android**
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+```
+
+**`type: [dynamic]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+```
+
+##### Dynamic Analysis - Network Monitoring
+
+**`type: [network]` — Android**
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0010 to capture the app traffic.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+```
+
+**`type: [network]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0062 to capture the app traffic.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+```
+
+##### Dynamic Analysis - Filesystem
+
+**`type: [dynamic, filesystem]` — Android (filesystem snapshot/diff pattern)**
+
+Use when the test identifies files created or modified by the app by comparing the device storage before and after exercising the app.
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0002 to get a baseline list of files.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+4. Use @MASTG-TECH-0002 to retrieve the list of files again.
+5. Calculate the difference between the two lists.
+```
+
+If only retrieval is needed (for example, to check the files in external storage), you can omit the baseline retrieval and the diff step.
+
+```md
+1. Use @MASTG-TECH-0005 to install the app.
+2. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+3. Use @MASTG-TECH-0002 to retrieve the list of files in the external storage.
+```
+
+**`type: [dynamic, filesystem]` — iOS (filesystem snapshot/diff pattern)**
+
+Use when the test identifies files created or modified by the app by comparing the device storage before and after exercising the app.
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0059 to get a baseline list of files.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+4. Use @MASTG-TECH-0059 to retrieve the list of files again.
+5. Calculate the difference between the two lists.
+```
+
+If only one retrieval is needed (for example, to check the data protection classes of files in private storage), you can omit the baseline retrieval and the diff step.
+
+```md
+1. Use @MASTG-TECH-0056 to install the app.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+3. Use @MASTG-TECH-0059 to retrieve the list of files including their data protection classes.
+```
+
+##### Dynamic Analysis - Log Monitoring
 
 **`type: [dynamic]` — Android (system log monitoring)**
 

@@ -1,6 +1,6 @@
 ---
 title: Insecure TLS Protocols in Network Traffic
-platform: network
+platform: ios
 id: MASTG-TEST-0x01
 type: [network]
 weakness: MASWE-0050
@@ -17,7 +17,9 @@ In cases where static analysis is either incomplete or infeasible, examining net
 
 ## Steps
 
-1. Use @MASTG-TECH-0062 to capture the app traffic.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0062 to capture the app traffic.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
