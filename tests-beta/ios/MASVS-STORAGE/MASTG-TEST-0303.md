@@ -21,8 +21,8 @@ Also review whether the app protects sensitive data before writing it to these l
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 3. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
 4. Use @MASTG-TECH-0x05 to check for the `UIFileSharingEnabled` and `LSSupportsOpeningDocumentsInPlace` flags.
 

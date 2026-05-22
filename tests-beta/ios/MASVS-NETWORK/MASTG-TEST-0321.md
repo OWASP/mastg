@@ -13,7 +13,7 @@ An iOS app may have hardcoded HTTP URLs embedded in the app binary, library bina
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
 2. Use @MASTG-TECH-0071 to search for any `http://` URLs.
 
 ## Observation

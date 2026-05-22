@@ -24,8 +24,8 @@ In terms of APIs, you should consider any networking API that allows the app to 
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 3. Use @MASTG-TECH-0071 to search for hardcoded strings representing known tracking domains.
 4. Use @MASTG-TECH-0136 to extract the app's privacy manifest files, including those from third-party SDKs or frameworks.
 5. Use @MASTG-TECH-0137 to obtain the list of declared tracking domains from the privacy manifest files.

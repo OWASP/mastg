@@ -25,8 +25,8 @@ Note that in compiled iOS applications, symbol names may undergo **name mangling
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
-2. For all executables and libraries of the app, use @MASTG-TECH-0113 to verify there are no debugging symbols present.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0113 to verify there are no debugging symbols present in the app's binaries.
 
 ## Observation
 

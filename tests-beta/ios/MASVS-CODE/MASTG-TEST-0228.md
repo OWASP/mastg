@@ -21,7 +21,7 @@ This test case checks if the main executable is compiled with PIE.
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
 2. Use @MASTG-TECH-0118 on the main binary and grep for "pic" or the corresponding keyword used by the selected tool.
 
 ## Observation

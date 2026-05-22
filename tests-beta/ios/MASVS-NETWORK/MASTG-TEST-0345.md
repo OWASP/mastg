@@ -20,7 +20,7 @@ Apple's documentation states that "ATS doesn't apply to calls your app makes to 
 ## Steps
 
 1. Use @MASTG-TECH-0082 to list the frameworks and libraries bundled in the app (under `Frameworks/` or statically linked into the binary).
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

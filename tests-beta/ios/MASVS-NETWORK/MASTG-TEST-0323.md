@@ -24,8 +24,8 @@ For more information on when ATS applies, see @MASTG-KNOW-0071.
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

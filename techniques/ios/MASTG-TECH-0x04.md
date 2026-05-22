@@ -5,7 +5,7 @@ platform: ios
 
 The `Info.plist` file is the primary property list configuration file included in every iOS app bundle. It contains key-value pairs that describe the app's configuration, including permissions, capabilities, and security settings such as the App Transport Security (ATS) policy.
 
-After extracting an app with @MASTG-TECH-0054, you can locate the `Info.plist` file at the root of the `.app` bundle. For example, assuming you have extracted an iOS app named `MyApp.ipa` using @MASTG-TECH-0054, you can run the following command from the `Payload/` folder:
+After extracting an app with @MASTG-TECH-0058, you can locate the `Info.plist` file at the root of the `.app` bundle. For example, assuming you have extracted an iOS app named `MyApp.ipa` using @MASTG-TECH-0058, you can run the following command from the `Payload/` folder:
 
 ```sh
 find . -name "Info.plist" -maxdepth 2

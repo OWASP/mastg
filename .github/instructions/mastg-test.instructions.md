@@ -247,7 +247,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
 | Install the app | @MASTG-TECH-0056 | Installing Apps | Step 1 for all `[dynamic]` tests on iOS |
-| Extract the app | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Step 1 for all `[static]` tests on iOS |
+| Extract the app | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Too broad; don't use for tests |
 | Reverse engineer the app | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
 | Static code analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Step 2 in the standard iOS `[static]` template |
 | Manual code inspection | @MASTG-TECH-0076 | Reviewing Disassembled Objective-C and Swift Code | Use in `**Further Validation Required:**` blocks only; do not use for test steps |
@@ -256,7 +256,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Monitor device logs | @MASTG-TECH-0060 | Monitoring System Logs | Use instead of @MASTG-TECH-0095 when observing platform-level log output |
 | **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad; don't use for tests |
 | Search for strings | @MASTG-TECH-0071 | Retrieving Strings |  |
-| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Use to extract specific files from the app package |
+| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Step 1 for all `[static]` tests on iOS and used to extract specific files from the app package |
 | Retrieve the Info.plist | @MASTG-TECH-0x04 | Retrieving Info.plist Files | Precedes @MASTG-TECH-0x05 and @MASTG-TECH-0x06 in Info.plist analysis tests |
 | Analyze Info.plist settings | @MASTG-TECH-0x05 | Analyzing Info.plist Files | Use after @MASTG-TECH-0x04 for general plist key inspection |
 | Analyze the ATS configuration | @MASTG-TECH-0x06 | Analyzing the ATS Configuration | Use after @MASTG-TECH-0x04 for ATS-specific analysis |
@@ -277,8 +277,8 @@ Each `type` combination has a **required step pattern**. Use these as the base a
 **`type: [static]` — iOS**
 
 ```md
-1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 ```
 
 ##### Static Analysis - Configuration and Manifest Inspection
@@ -309,7 +309,7 @@ When the test inspects elements in the Network Security Configuration file (for 
 When the test inspects security-relevant settings in the `Info.plist` file (for example, permissions, entitlements, or general configuration keys):
 
 ```md
-1. Use @MASTG-TECH-0054 to extract the app.
+1. Use @MASTG-TECH-0058 to unzip the app package.
 2. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
 3. Use @MASTG-TECH-0x05 to inspect the relevant settings.
 ```
@@ -319,7 +319,7 @@ When the test inspects security-relevant settings in the `Info.plist` file (for 
 When the test inspects App Transport Security (ATS) settings under `NSAppTransportSecurity` in the `Info.plist` file:
 
 ```md
-1. Use @MASTG-TECH-0054 to extract the app.
+1. Use @MASTG-TECH-0058 to unzip the app package.
 2. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
 3. Use @MASTG-TECH-0x06 to analyze the ATS configuration.
 ```

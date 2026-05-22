@@ -17,8 +17,8 @@ In this test case, we will examine iOS applications for the presence of hardcode
 
 ## Steps
 
-1. Use @MASTG-TECH-0054 to extract the app.
-2. Use @MASTG-TECH-0066 to look for the relevant APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
