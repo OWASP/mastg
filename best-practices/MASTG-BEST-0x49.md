@@ -35,5 +35,4 @@ Java-side checks are trivial and catch lazy attacker setups. They are not enough
 
 When any check fires, the app **must** show the user a warning and require them to accept the risk before continuing (see the dialog in @MASTG-DEMO-0x4A).
 
-
 For runtime checks, see the passing demo @MASTG-DEMO-0x4A and the bypass demo @MASTG-DEMO-0x4B.

@@ -48,4 +48,3 @@ The test passes because the app statically implements four independent Xposed/LS
 !!! note
 
    This is a "kind: pass" demo for static presence only: the sample contains the detection mechanisms expected by the test. The dynamic counterpart @MASTG-DEMO-0x4B covers a Frida-based runtime bypass that defeats all four of these checks.
-

@@ -26,9 +26,7 @@ See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime 
 
 1. Install the app from @MASTG-DEMO-0x4A on a device where the Xposed/LSPosed framework is active and at least one module is scoped to `org.owasp.mastestapp` (@MASTG-TECH-0005).
 2. Spawn the app with the Frida bypass attached:
-
 {{ run.sh }}
-
 3. Tap **Start** in the app and compare the result with @MASTG-DEMO-0x4A on the same device.
 
 ## Observation

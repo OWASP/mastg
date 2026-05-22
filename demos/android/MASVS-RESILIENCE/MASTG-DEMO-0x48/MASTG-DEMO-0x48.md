@@ -45,4 +45,3 @@ The test passes because the app statically implements three independent Frida de
 !!! note
 
    This is a "kind: pass" demo for static presence only: the sample contains the detection mechanisms expected by the test. The dynamic counterpart @MASTG-DEMO-0x49 covers a runtime bypass that defeats all three of these checks.
-
