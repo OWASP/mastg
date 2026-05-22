@@ -5,12 +5,12 @@ on:
   push:
     branches:
       - master
-      - Diolor:fix-ios-path
     paths:
       - 'demos/android/**'
   pull_request:
     branches:
       - master
+      - Diolor:fix-ios-path
     paths:
       - 'demos/**'
       - '.github/workflows/build-android-demos.yml'
