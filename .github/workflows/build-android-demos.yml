@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - fix-ios-path
     paths:
       - 'demos/android/**'
   pull_request:
