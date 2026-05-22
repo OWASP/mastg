@@ -2,7 +2,7 @@
 platform: android
 title: Non-random Sources Usage
 id: MASTG-TEST-0205
-type: [static, manual]
+type: [static, code, manual]
 best-practices: [MASTG-BEST-0001]
 prerequisites:
 - identify-sensitive-data

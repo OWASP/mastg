@@ -3,7 +3,7 @@ platform: android
 title: Runtime Use of Logging APIs
 id: MASTG-TEST-0203
 apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#printStackTrace]
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0001
 best-practices: [MASTG-BEST-0002]
 profiles: [L1, L2, P]

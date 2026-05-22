@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Use Of APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0271
 apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0046
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]

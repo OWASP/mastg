@@ -2,7 +2,7 @@
 title: References to Screen Capturing Prevention APIs
 platform: android
 id: MASTG-TEST-0291
-type: [static]
+type: [static, code]
 profiles: [L2]
 best-practices: [MASTG-BEST-0014]
 weakness: MASWE-0055

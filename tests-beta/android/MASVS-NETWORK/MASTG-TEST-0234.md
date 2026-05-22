@@ -2,7 +2,7 @@
 title: Missing Implementation of Server Hostname Verification with SSLSockets
 platform: android
 id: MASTG-TEST-0234
-type: [static]
+type: [static, code]
 weakness: MASWE-0052
 profiles: [L1, L2]
 ---

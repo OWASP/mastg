@@ -2,7 +2,7 @@
 platform: ios
 title: Use of Deprecated WebView APIs
 id: MASTG-TEST-0331
-type: [static]
+type: [static, code]
 available_since: 2.0
 deprecated_since: 12.0
 weakness: MASWE-0072

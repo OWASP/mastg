@@ -2,7 +2,7 @@
 platform: ios
 title: Hardcoded HTTP URLs
 id: MASTG-TEST-0321
-type: [static]
+type: [static, code]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---

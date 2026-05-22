@@ -3,7 +3,7 @@ platform: android
 title: Logging of StrictMode Violations
 id: MASTG-TEST-0263
 apis: [StrictMode]
-type: [dynamic]
+type: [dynamic, logs]
 weakness: MASWE-0094
 profiles: [R]
 ---

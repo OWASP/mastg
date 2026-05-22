@@ -2,7 +2,7 @@
 platform: ios
 title: Testing for Debugging Symbols
 id: MASTG-TEST-0219
-type: [static]
+type: [static, code]
 weakness: MASWE-0093
 profiles: [R]
 knowledge: [MASTG-KNOW-0063]

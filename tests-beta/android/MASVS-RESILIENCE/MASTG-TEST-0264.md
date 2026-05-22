@@ -2,7 +2,7 @@
 platform: android
 title: Runtime Use of StrictMode APIs
 id: MASTG-TEST-0264
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0094
 best-practices: []
 profiles: [R]

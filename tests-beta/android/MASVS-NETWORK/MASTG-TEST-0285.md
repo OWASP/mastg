@@ -2,7 +2,7 @@
 title: Outdated Android Version Allowing Trust in User-Provided CAs
 platform: android
 id: MASTG-TEST-0285
-type: [static]
+type: [static, code]
 deprecated_since: 24
 weakness: MASWE-0052
 profiles: [L1, L2]

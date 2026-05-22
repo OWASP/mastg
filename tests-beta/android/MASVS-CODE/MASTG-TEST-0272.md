@@ -2,7 +2,7 @@
 platform: android
 title: Identify Dependencies with Known Vulnerabilities in the Android Project
 id: MASTG-TEST-0272
-type: [static]
+type: [static, code]
 weakness: MASWE-0076
 profiles: [L1, L2]
 ---

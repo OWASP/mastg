@@ -2,7 +2,7 @@
 platform: android
 title: Runtime Use of SDK APIs Known to Handle Sensitive User Data
 id: MASTG-TEST-0319
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0112
 prerequisites:
   - identify-sensitive-data

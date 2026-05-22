@@ -2,7 +2,7 @@
 platform: android
 title: Native Code Exposed Through WebViews
 id: MASTG-TEST-0334
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0035]
 profiles: [L1, L2]

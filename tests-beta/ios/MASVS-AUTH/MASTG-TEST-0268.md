@@ -3,7 +3,7 @@ platform: ios
 title: References to APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0268
 apis: [kSecAccessControlUserPresence, kSecAccessControlDevicePasscode, SecAccessControlCreateWithFlags]
-type: [static]
+type: [static, code]
 weakness: MASWE-0045
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]

@@ -3,7 +3,7 @@ platform: android
 title: Debugging Symbols in Native Binaries
 alias: debugging-symbols-in-native-binaries
 id: MASTG-TEST-0288
-type: [static]
+type: [static, code]
 weakness: MASWE-0093
 best-practices: []
 profiles: [R]

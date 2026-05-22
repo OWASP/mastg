@@ -4,7 +4,7 @@ title: Runtime Use of Local File Access APIs in WebViews
 alias: references-to-local-file-access-in-webviews
 id: MASTG-TEST-0253
 apis: [WebView, WebSettings, getSettings, setAllowFileAccess, setAllowFileAccessFromFileURLs, setAllowUniversalAccessFromFileURLs]
-type: [dynamic, manual]
+type: [dynamic, hooks, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 profiles: [L1, L2]

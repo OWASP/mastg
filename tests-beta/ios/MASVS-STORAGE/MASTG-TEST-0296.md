@@ -2,7 +2,7 @@
 platform: ios
 title: Sensitive Data Exposure Through Insecure Logging
 id: MASTG-TEST-0296
-type: [dynamic]
+type: [dynamic, logs]
 weakness: MASWE-0001
 prerequisites:
 - identify-sensitive-data

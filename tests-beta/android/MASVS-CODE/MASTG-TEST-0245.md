@@ -3,7 +3,7 @@ platform: android
 title: References to Platform Version APIs
 id: MASTG-TEST-0245
 apis: [Build]
-type: [static]
+type: [static, code]
 weakness: MASWE-0077
 best-practices: []
 profiles: [L2]

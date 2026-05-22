@@ -2,7 +2,7 @@
 title: Unsafe Custom Trust Evaluation
 platform: android
 id: MASTG-TEST-0282
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0052
 best-practices: [MASTG-BEST-0021]
 profiles: [L1, L2]

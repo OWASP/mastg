@@ -2,7 +2,7 @@
 title: Runtime Use of Broken Symmetric Encryption Modes
 platform: android
 id: MASTG-TEST-0x03
-type: [dynamic, manual]
+type: [dynamic, hooks, manual]
 weakness: MASWE-0020
 best-practices: [MASTG-BEST-0005]
 profiles: [L1, L2]

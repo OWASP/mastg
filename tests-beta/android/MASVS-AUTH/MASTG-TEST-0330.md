@@ -3,7 +3,7 @@ platform: android
 title: References to APIs for Keys used in Biometric Authentication with Extended Validity Duration
 id: MASTG-TEST-0330
 apis: [KeyGenParameterSpec.Builder, setUserAuthenticationParameters, setUserAuthenticationValidityDurationSeconds]
-type: [static]
+type: [static, code]
 weakness: MASWE-0044
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001, MASTG-KNOW-0043, MASTG-KNOW-0047, MASTG-KNOW-0012]

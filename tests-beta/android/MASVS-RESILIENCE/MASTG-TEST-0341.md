@@ -2,7 +2,7 @@
 platform: android
 title: Testing Runtime Hook Detection
 id: MASTG-TEST-0341
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0107
 best-practices: [MASTG-BEST-0041]
 profiles: [R]

@@ -2,7 +2,7 @@
 platform: ios
 title: Uses of Low-Level Networking APIs for Cleartext Traffic
 id: MASTG-TEST-0323
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0050
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0073]

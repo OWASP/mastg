@@ -4,7 +4,7 @@ title: Runtime Use of Content Provider Access APIs in WebViews
 alias: references-to-content-provider-access-in-webviews
 id: MASTG-TEST-0251
 apis: [WebView, WebSettings, getSettings, ContentProvider, setAllowContentAccess, setAllowUniversalAccessFromFileURLs, setJavaScriptEnabled]
-type: [dynamic, manual]
+type: [dynamic, hooks, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013]
 profiles: [L1, L2]

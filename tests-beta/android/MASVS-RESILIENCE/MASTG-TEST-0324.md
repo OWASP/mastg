@@ -2,7 +2,7 @@
 platform: android
 title: References to Root Detection Mechanisms
 id: MASTG-TEST-0324
-type: [static]
+type: [static, code]
 weakness: MASWE-0097
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0030]
 profiles: [R]

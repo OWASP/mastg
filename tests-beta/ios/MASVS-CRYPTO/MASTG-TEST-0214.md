@@ -2,7 +2,7 @@
 title: Hardcoded Cryptographic Keys in Files
 platform: ios
 id: MASTG-TEST-0214
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0014
 profiles: [L1, L2]
 ---

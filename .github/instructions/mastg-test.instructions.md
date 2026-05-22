@@ -61,7 +61,7 @@ The mobile platform. One of the following:
 
 - `android`
 - `ios`
-- `network`: for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with `type: [network]`).
+- `network`: for platform-agnostic traffic analysis tests where the checks are performed purely on captured/observed traffic (often paired with `type: [dynamic, network]`).
 
 ### id
 
@@ -79,23 +79,28 @@ One or more test types.
 
 Supported:
 
-- `static`: analysis of the app binary, reverse-engineered source code, or developer artifacts that are available in the APK/IPA app package (e.g., Android manifest, Info.plist, entitlements, etc.). No execution of the app is required.
-- `dynamic`: analysis of the app while it is running and involves runtime analysis such as hooking or method tracing.
+- `static`: base type for analysis that does not require app execution. Always combined with `code`, `config`, or `package` to indicate the specific kind of static analysis performed.
+- `code`: code-level analysis via decompilation or disassembly of the app binary, reverse-engineered source code, or developer artifacts. Always combined with `static` (e.g., `type: [static, code]`).
+- `config`: static analysis of configuration files within the app package (e.g., AndroidManifest, Network Security Configuration, Info.plist, App Transport Security settings). Always combined with `static` (e.g., `type: [static, config]`).
+- `package`: static inspection of specific binary files or resources within the app package (e.g., native libraries, XML resource files). Always combined with `static` (e.g., `type: [static, package]`).
+- `dynamic`: base type for analysis that requires the app to be running. Always combined with `hooks`, `logs`, `filesystem`, or `network` to indicate the specific kind of runtime analysis performed.
+- `hooks`: runtime method interception or instrumentation at the API level (for example, via Frida). Always combined with `dynamic` (e.g., `type: [dynamic, hooks]`).
+- `logs`: observation of platform-level log output produced by the app or the system (for example, via adb logcat or `os_log`). Always combined with `dynamic` (e.g., `type: [dynamic, logs]`).
 - `manual`: manual steps that require human judgment, such as inspecting app behavior, UI, or configuration. This may include reverse engineering or runtime analysis that cannot be fully automated. Any test that includes a `**Further Validation Required:**` block MUST include `manual` in its `type` array (e.g., `[static, manual]`, `[dynamic, manual]`).
-- `network`: analysis of network traffic, while the app is running. Done externally, for example, using a proxy or network capture tool.
-- `filesystem`: analysis of the app's file system, including local storage or backups, which doesn't involve runtime analysis such as hooking or method tracing.
-- `source-code`: tests only the developer can perform because they require access to the source code, build process, or other internal resources.
+- `network`: analysis of network traffic captured from the running app, for example via a proxy or network capture tool. Always combined with `dynamic` (e.g., `type: [dynamic, network]`).
+- `filesystem`: analysis of the app's file system, including local storage or backups. Always combined with `dynamic` (e.g., `type: [dynamic, filesystem]`).
+- `developer`: tests only the developer can perform because they require access to the source code, build process, or other internal resources.
 
 Example:
 
 ```md
-type: [static]
+type: [static, code]
 ```
 
 Examples with multiple types:
 
 ```md
-type: [dynamic, manual]
+type: [dynamic, hooks, manual]
 ```
 
 ### best-practices
@@ -224,16 +229,16 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
-| Install the app | @MASTG-TECH-0005 | Installing Apps | Step 1 for all `[dynamic]` tests on Android |
+| Install the app | @MASTG-TECH-0005 | Installing Apps | Step 1 for all tests with `dynamic` in their type on Android |
 | Reverse engineer the app | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
-| Static code analysis | @MASTG-TECH-0014 | Static Analysis on Android | Step 2 in the standard Android `[static]` template |
+| Static code analysis | @MASTG-TECH-0014 | Static Analysis on Android | Step 2 in the standard Android `[static, code]` template |
 | Manual code inspection | @MASTG-TECH-0023 | Reviewing Decompiled Java Code | Use in `**Further Validation Required:**` blocks only; do not use for test steps |
 | Decompile Java code | @MASTG-TECH-0017 | Decompiling Java Code | Use when specifically decompiling; prefer @MASTG-TECH-0014 for general static analysis |
 | **Avoid** | @MASTG-TECH-0016 | Disassembling Code to Smali | Use only when Smali output is explicitly needed |
 | Disassemble native code | @MASTG-TECH-0018 | Disassembling Native Code | Use for native libraries |
 | **Avoid** | @MASTG-TECH-0033 | Method Tracing | Prefer @MASTG-TECH-0043; use 0033 only for passive logging or monitoring of API calls or low-level system calls |
 | Method hooking | @MASTG-TECH-0043 | Method Hooking | Preferred for instrumentation, interception, and tracing |
-| Monitor network traffic | @MASTG-TECH-0010 | Basic Network Monitoring/Sniffing | Step 1 for all `[network]` tests on Android |
+| Monitor network traffic | @MASTG-TECH-0010 | Basic Network Monitoring/Sniffing | Step 1 for all `[dynamic, network]` tests on Android |
 | Monitor system logs | @MASTG-TECH-0009 | Monitoring System Logs | Use instead of @MASTG-TECH-0043 when observing platform-level log output |
 | Extract the AndroidManifest | @MASTG-TECH-0117 | Obtaining Information from the AndroidManifest | Precedes @MASTG-TECH-0x01 in AndroidManifest analysis tests |
 | Analyze the AndroidManifest | @MASTG-TECH-0x01 | Analyzing the AndroidManifest | Precedes @MASTG-TECH-0x02 when the NSC is also inspected |
@@ -246,35 +251,50 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 
 | Purpose | Preferred TECH | Title | Notes |
 |---|---|---|---|
-| Install the app | @MASTG-TECH-0056 | Installing Apps | Step 1 for all `[dynamic]` tests on iOS |
+| Install the app | @MASTG-TECH-0056 | Installing Apps | Step 1 for all tests with `dynamic` in their type on iOS |
 | Extract the app | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Too broad; don't use for tests |
 | Reverse engineer the app | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
-| Static code analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Step 2 in the standard iOS `[static]` template |
+| Static code analysis | @MASTG-TECH-0066 | Static Analysis on iOS | Step 2 in the standard iOS `[static, code]` template |
 | Manual code inspection | @MASTG-TECH-0076 | Reviewing Disassembled Objective-C and Swift Code | Use in `**Further Validation Required:**` blocks only; do not use for test steps |
 | Method hooking | @MASTG-TECH-0095 | Method Hooking | Preferred over @MASTG-TECH-0067 for hooking and instrumentation |
-| Monitor network traffic | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | Step 1 for all `[network]` tests on iOS |
+| Monitor network traffic | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | Step 1 for all `[dynamic, network]` tests on iOS |
 | Monitor device logs | @MASTG-TECH-0060 | Monitoring System Logs | Use instead of @MASTG-TECH-0095 when observing platform-level log output |
 | **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad; don't use for tests |
 | Search for strings | @MASTG-TECH-0071 | Retrieving Strings |  |
-| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Step 1 for all `[static]` tests on iOS and used to extract specific files from the app package |
+| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Step 1 for all `[static, ...]` tests on iOS and used to extract specific files from the app package |
 | Retrieve the Info.plist | @MASTG-TECH-0x04 | Retrieving Info.plist Files | Precedes @MASTG-TECH-0x05 and @MASTG-TECH-0x06 in Info.plist analysis tests |
 | Analyze Info.plist settings | @MASTG-TECH-0x05 | Analyzing Info.plist Files | Use after @MASTG-TECH-0x04 for general plist key inspection |
 | Analyze the ATS configuration | @MASTG-TECH-0x06 | Analyzing the ATS Configuration | Use after @MASTG-TECH-0x04 for ATS-specific analysis |
 
 #### Canonical Step Templates by Test Type
 
-Each `type` combination has a **required step pattern**. Use these as the base and add further steps only when the test genuinely requires more detail (e.g., extra navigation steps, filtering instructions, or additional manual actions).
+The combination of `type` and `platform` uniquely identifies the canonical template a test must follow:
+
+| type | platform | canonical template |
+|---|---|---|
+| `[static, code]` | android, ios | Static Analysis - Code Inspection |
+| `[static, config]` | android, ios | Static Analysis - Configuration and Manifest Inspection |
+| `[static, package]` | android, ios | Static Analysis - App Package Content Inspection |
+| `[static, developer]` | android, ios | Static Analysis - Developer Artifacts |
+| `[dynamic, hooks]` | android, ios | Dynamic Analysis - Hooking |
+| `[dynamic, logs]` | android, ios | Dynamic Analysis - Log Monitoring |
+| `[dynamic, filesystem]` | android, ios | Dynamic Analysis - Filesystem |
+| `[dynamic, network]` | android, ios | Dynamic Analysis - Network Monitoring |
+
+Each combination has a **required step pattern**. Use these as the base and add further steps only when the test genuinely requires more detail (e.g., extra navigation steps, filtering instructions, or additional manual actions).
 
 ##### Static Analysis - Code Inspection
 
-**`type: [static]` — Android**
+Use when the test analyzes the app's code via decompilation or disassembly to detect insecure API usage or implementation issues.
+
+**`type: [static, code]` — Android**
 
 ```md
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 ```
 
-**`type: [static]` — iOS**
+**`type: [static, code]` — iOS**
 
 ```md
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
@@ -283,7 +303,9 @@ Each `type` combination has a **required step pattern**. Use these as the base a
 
 ##### Static Analysis - Configuration and Manifest Inspection
 
-**`type: [static]` — Android (AndroidManifest analysis)**
+Use when the test inspects configuration files or manifest declarations in the app package (for example, the AndroidManifest, Network Security Configuration, or Info.plist).
+
+**`type: [static, config]` — Android (AndroidManifest analysis)**
 
 When the test inspects specific attributes in the AndroidManifest (for example, `minSdkVersion`, `android:debuggable`, or `android:networkSecurityConfig`):
 
@@ -293,7 +315,7 @@ When the test inspects specific attributes in the AndroidManifest (for example, 
 3. Use @MASTG-TECH-0x01 to [read/check the relevant attribute].
 ```
 
-**`type: [static]` — Android (Network Security Configuration analysis)**
+**`type: [static, config]` — Android (Network Security Configuration analysis)**
 
 When the test inspects elements in the Network Security Configuration file (for example, trust anchors, certificate pins, or cleartext traffic settings):
 
@@ -304,7 +326,7 @@ When the test inspects elements in the Network Security Configuration file (for 
 4. Use @MASTG-TECH-0x02 to [extract the relevant elements].
 ```
 
-**`type: [static]` — iOS (Info.plist analysis)**
+**`type: [static, config]` — iOS (Info.plist analysis)**
 
 When the test inspects security-relevant settings in the `Info.plist` file (for example, permissions, entitlements, or general configuration keys):
 
@@ -314,7 +336,7 @@ When the test inspects security-relevant settings in the `Info.plist` file (for 
 3. Use @MASTG-TECH-0x05 to inspect the relevant settings.
 ```
 
-**`type: [static]` — iOS (ATS configuration analysis)**
+**`type: [static, config]` — iOS (ATS configuration analysis)**
 
 When the test inspects App Transport Security (ATS) settings under `NSAppTransportSecurity` in the `Info.plist` file:
 
@@ -328,16 +350,32 @@ When the test inspects App Transport Security (ATS) settings under `NSAppTranspo
 
 Use when the test inspects specific files within the app package (for example, native libraries, XML resource files, or other non-code assets) without requiring full code analysis.
 
-**`type: [static]` — Android**
+**`type: [static, package]` — Android**
 
 ```md
 1. Use @MASTG-TECH-0007 to extract [the relevant files] from the app package.
 ```
 
-**`type: [static]` — iOS**
+**`type: [static, package]` — iOS**
 
 ```md
 1. Use @MASTG-TECH-0058 to extract [the relevant files] from the app package.
+```
+
+##### Static Analysis - Developer Artifacts
+
+Use when the test requires access to the source code, build system, or other developer resources not available in the distributed app package (for example, generating an SBOM from the build).
+
+**`type: [static, developer]` — Android**
+
+```md
+1. Use @MASTG-TECH-0130 to generate a SBOM, or request one in CycloneDX format from the development team.
+```
+
+**`type: [static, developer]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0132 to generate a SBOM, or request one in CycloneDX format from the development team.
 ```
 
 ##### Static + Dynamic Analysis
@@ -350,7 +388,7 @@ This is currently not allowed (with a few exceptions). Please use separate stati
 
 Use when the test hooks, intercepts or modifies API call behavior at runtime.
 
-**`type: [dynamic]` — Android**
+**`type: [dynamic, hooks]` — Android**
 
 ```md
 1. Use @MASTG-TECH-0005 to install the app.
@@ -358,7 +396,7 @@ Use when the test hooks, intercepts or modifies API call behavior at runtime.
 3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 ```
 
-**`type: [dynamic]` — iOS**
+**`type: [dynamic, hooks]` — iOS**
 
 ```md
 1. Use @MASTG-TECH-0056 to install the app.
@@ -368,7 +406,9 @@ Use when the test hooks, intercepts or modifies API call behavior at runtime.
 
 ##### Dynamic Analysis - Network Monitoring
 
-**`type: [network]` — Android**
+Use when the test captures and inspects network traffic generated by the running app to detect insecure communication patterns.
+
+**`type: [dynamic, network]` — Android**
 
 ```md
 1. Use @MASTG-TECH-0005 to install the app.
@@ -376,7 +416,7 @@ Use when the test hooks, intercepts or modifies API call behavior at runtime.
 3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 ```
 
-**`type: [network]` — iOS**
+**`type: [dynamic, network]` — iOS**
 
 ```md
 1. Use @MASTG-TECH-0056 to install the app.
@@ -385,6 +425,8 @@ Use when the test hooks, intercepts or modifies API call behavior at runtime.
 ```
 
 ##### Dynamic Analysis - Filesystem
+
+Use when the test inspects files created, modified, or stored by the running app on the device file system.
 
 **`type: [dynamic, filesystem]` — Android (filesystem snapshot/diff pattern)**
 
@@ -428,18 +470,20 @@ If only one retrieval is needed (for example, to check the data protection class
 
 ##### Dynamic Analysis - Log Monitoring
 
-**`type: [dynamic]` — Android (system log monitoring)**
+Use when the test monitors log output generated by the running app or the platform to detect sensitive data leakage or unexpected behavior.
 
-Use when the test observes system-level log entries produced by the app or the platform (for example, StrictMode output). Use @MASTG-TECH-0009 instead of @MASTG-TECH-0043.
+**`type: [dynamic, logs]` — Android**
+
+Use when the test observes system-level log entries produced by the app or the platform (for example, StrictMode output).
 
 ```md
 1. Use @MASTG-TECH-0005 to install the app.
 2. Use @MASTG-TECH-0009 to monitor the system logs.
 ```
 
-**`type: [dynamic]` — iOS (device log monitoring)**
+**`type: [dynamic, logs]` — iOS**
 
-Use when the test monitors device-level log output (for example, `os_log` entries). Use @MASTG-TECH-0060 instead of @MASTG-TECH-0095.
+Use when the test monitors device-level log output (for example, `os_log` entries).
 
 ```md
 1. Use @MASTG-TECH-0056 to install the app.
@@ -448,10 +492,10 @@ Use when the test monitors device-level log output (for example, `os_log` entrie
 
 **Key rules:**
 
-- All `[dynamic]` tests **MUST** start with an install step:
+- All tests with `dynamic` in their `type` array **MUST** start with an install step:
     - Android: `1. Use @MASTG-TECH-0005 to install the app.`
     - iOS: `1. Use @MASTG-TECH-0056 to install the app.`
-- Use @MASTG-TECH-0043 (hooking) for intercepting/modifying API behavior; use @MASTG-TECH-0033 (tracing) only for passive observation and logging of API calls.
+- For `[dynamic, hooks]` tests, use @MASTG-TECH-0043/@MASTG-TECH-0095 for intercepting or modifying API behavior; use @MASTG-TECH-0033 only for passive observation and logging of API calls.
 - Step descriptions are intentionally vague e.g. `to look for uses of the relevant APIs`. This is to allow for ease reuse across tests and easy refactoring whenever needed in the future. The specific APIs to look for are determined by the test's metadata `apis` field (even if it's currently optional) and the test overview, and should be clear to the tester without needing to be explicitly stated in the step instructions.
 
 ### Observation

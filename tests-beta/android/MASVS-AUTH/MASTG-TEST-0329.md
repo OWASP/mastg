@@ -3,7 +3,7 @@ platform: android
 title: References to APIs Enforcing Authentication without Explicit User Action
 id: MASTG-TEST-0329
 apis: [BiometricPrompt.PromptInfo.Builder, setConfirmationRequired]
-type: [static]
+type: [static, code]
 weakness: MASWE-0044
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]

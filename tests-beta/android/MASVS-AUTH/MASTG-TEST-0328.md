@@ -3,7 +3,7 @@ platform: android
 title: References to APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0328
 apis: [KeyGenParameterSpec.Builder, setInvalidatedByBiometricEnrollment]
-type: [static]
+type: [static, code]
 weakness: MASWE-0046
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]

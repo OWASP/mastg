@@ -3,7 +3,7 @@ platform: android
 title: References to Logging APIs
 id: MASTG-TEST-0231
 apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#printStackTrace, android.util.Log]
-type: [static]
+type: [static, code]
 weakness: MASWE-0001
 best-practices: [MASTG-BEST-0002]
 profiles: [L1, L2, P]

@@ -2,7 +2,7 @@
 platform: ios
 title: Broken Hashing Algorithms
 id: MASTG-TEST-0211
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0021
 profiles: [L1, L2]
 ---

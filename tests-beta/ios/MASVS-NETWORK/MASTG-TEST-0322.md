@@ -2,7 +2,7 @@
 platform: ios
 title: App Transport Security Configurations Allowing Cleartext Traffic
 id: MASTG-TEST-0322
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0050
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0071]

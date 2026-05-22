@@ -2,7 +2,7 @@
 platform: ios
 title: Usage of Outdated Code Signature Format
 id: MASTG-TEST-0220
-type: [static]
+type: [static, code]
 weakness: MASWE-0104
 profiles: [R]
 knowledge: [MASTG-KNOW-0058]

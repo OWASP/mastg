@@ -3,7 +3,7 @@ platform: ios
 title: References to APIs for Event-Bound Biometric Authentication
 id: MASTG-TEST-0266
 apis: [LAContext.evaluatePolicy]
-type: [static]
+type: [static, code]
 weakness: MASWE-0044
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056, MASTG-KNOW-0057]

@@ -2,7 +2,7 @@
 title: Insecure TLS Protocols in Network Traffic
 platform: ios
 id: MASTG-TEST-0x01
-type: [network]
+type: [dynamic, network]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---

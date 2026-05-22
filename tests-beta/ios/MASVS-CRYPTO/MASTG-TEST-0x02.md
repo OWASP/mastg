@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Use of Insecure Random APIs
 id: MASTG-TEST-0x02
-type: [dynamic, manual]
+type: [dynamic, hooks, manual]
 weakness: MASWE-0027
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0025]

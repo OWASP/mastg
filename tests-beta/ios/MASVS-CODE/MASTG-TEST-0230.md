@@ -2,7 +2,7 @@
 title: Automatic Reference Counting (ARC) not enabled
 platform: ios
 id: MASTG-TEST-0230
-type: [static]
+type: [static, code]
 weakness: MASWE-0116
 profiles: [L2]
 knowledge: [MASTG-KNOW-0061]
