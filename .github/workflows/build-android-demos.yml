@@ -10,6 +10,7 @@ on:
   pull_request:
     branches:
       - master
+      - fix-ios-path
     paths:
       - 'demos/**'
       - '.github/workflows/build-android-demos.yml'
@@ -29,27 +30,27 @@ jobs:
       - name: Generate matrix
         id: set-matrix
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            # Get list of changed files in demos/android/ directory
-            changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD -- 'demos/android/*')
-
-            echo "Changed files:"
-            echo "$changed_files"
-
-            # Extract unique demo directories
-            matrix=$(echo "$changed_files" | grep -oE 'demos/android/[^/]*/MASTG-DEMO-[^/]+' | sort -u | head -c -1 | tr '\n' ' ' | sed 's/ /","/g')
-
-            # If no changes, set empty matrix
-            if [ -z "$matrix" ]; then
-              echo "matrix={\"demo\":[]}" >> $GITHUB_OUTPUT
-            else
-              echo "matrix={\"demo\":[\"$matrix\"]}" >> $GITHUB_OUTPUT
-            fi
-          else
-            # Default behavior: include all demos for master branch
-            matrix=$(echo demos/android/*/MASTG-DEMO-* | sed 's/ /","/g')
-            echo "matrix={\"demo\":[\"$matrix\"]}" >> $GITHUB_OUTPUT
-          fi
+          matrix=$(echo demos/android/*/MASTG-DEMO-* | sed 's/ /","/g')
+          echo "matrix={\"demo\":[\"$matrix\"]}" >> $GITHUB_OUTPUT
+          #          if [ "${{ github.event_name }}" = "pull_request" ]; then
+          #            # Get list of changed files in demos/android/ directory
+          #            changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD -- 'demos/android/*')
+          #
+          #            echo "Changed files:"
+          #            echo "$changed_files"
+          #
+          #            # Extract unique demo directories
+          #            matrix=$(echo "$changed_files" | grep -oE 'demos/android/[^/]*/MASTG-DEMO-[^/]+' | sort -u | head -c -1 | tr '\n' ' ' | sed 's/ /","/g')
+          #
+          #            # If no changes, set empty matrix
+          #            if [ -z "$matrix" ]; then
+          #              echo "matrix={\"demo\":[]}" >> $GITHUB_OUTPUT
+          #            else
+          #              echo "matrix={\"demo\":[\"$matrix\"]}" >> $GITHUB_OUTPUT
+          #            fi
+          #          else
+          #            # Default behavior: include all demos for master branch
+          #          fi
           echo "Print matrix: $matrix"
       - name: Print matrix
         run: echo "${{ steps.set-matrix.outputs.matrix }}"
@@ -84,7 +85,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: false
-          cache-provider: basic
 
       - name: Clone mas-app-android repository
         if: steps.cache-check.outputs.cache-hit != 'true'
