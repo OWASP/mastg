@@ -30,7 +30,7 @@ Regardless of which approach the app used, Android provides a way to start the b
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
 2. Use @MASTG-TECH-0x01 to obtain the relevant flag and attributes from the AndroidManifest.xml.
-3. Use @MASTG-TECH-0007 to retrieve the `backup_rules.xml` or `data_extraction_rules.xml` file.
+3. Use @MASTG-TECH-0007 to extract the `backup_rules.xml` or `data_extraction_rules.xml` file from the app package.
 
 ## Observation
 

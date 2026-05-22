@@ -27,7 +27,7 @@ See section "Non-Caching Input Types" in @MASTG-KNOW-0055 for more details on th
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for the relevant APIs.
-3. Use @MASTG-TECH-0007 to search for XML attributes in the layout files within the `res/layout` directory.
+3. Use @MASTG-TECH-0007 to extract the layout files from the app package.
 
 ## Observation
 

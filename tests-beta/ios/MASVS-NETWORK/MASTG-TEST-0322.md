@@ -27,9 +27,8 @@ For more information on ATS configuration, see @MASTG-KNOW-0071.
 ## Steps
 
 1. Use @MASTG-TECH-0054 to extract the app.
-2. Obtain the `Info.plist` file from the app bundle.
-3. Use @MASTG-TECH-0138 to convert the `Info.plist` to a readable format (if necessary).
-4. Examine the `NSAppTransportSecurity` dictionary for cleartext traffic exceptions.
+2. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0x06 to analyze the ATS configuration for cleartext traffic exceptions.
 
 ## Observation
 

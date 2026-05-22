@@ -240,7 +240,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Analyze the Network Security Configuration | @MASTG-TECH-0x02 | Analyzing the Network Security Configuration | Requires the NSC reference found via @MASTG-TECH-0x01 |
 | **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad; don't use for tests |
 | Search for strings | @MASTG-TECH-0019 | Retrieving Strings |  |
-| Explore the app package | @MASTG-TECH-0007 | Exploring the App Package |  |
+| Explore the app package | @MASTG-TECH-0007 | Exploring the App Package | Use to extract specific files from the APK (e.g., native libraries, XML resource files) |
 
 **iOS:**
 
@@ -256,7 +256,10 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Monitor device logs | @MASTG-TECH-0060 | Monitoring System Logs | Use instead of @MASTG-TECH-0095 when observing platform-level log output |
 | **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad; don't use for tests |
 | Search for strings | @MASTG-TECH-0071 | Retrieving Strings |  |
-| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package |  |
+| Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Use to extract specific files from the app package |
+| Retrieve the Info.plist | @MASTG-TECH-0x04 | Retrieving Info.plist Files | Precedes @MASTG-TECH-0x05 and @MASTG-TECH-0x06 in Info.plist analysis tests |
+| Analyze Info.plist settings | @MASTG-TECH-0x05 | Analyzing Info.plist Files | Use after @MASTG-TECH-0x04 for general plist key inspection |
+| Analyze the ATS configuration | @MASTG-TECH-0x06 | Analyzing the ATS Configuration | Use after @MASTG-TECH-0x04 for ATS-specific analysis |
 
 #### Canonical Step Templates by Test Type
 
@@ -299,6 +302,42 @@ When the test inspects elements in the Network Security Configuration file (for 
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
 3. Use @MASTG-TECH-0x01 to check if `android:networkSecurityConfig` is present.
 4. Use @MASTG-TECH-0x02 to [extract the relevant elements].
+```
+
+**`type: [static]` — iOS (Info.plist analysis)**
+
+When the test inspects security-relevant settings in the `Info.plist` file (for example, permissions, entitlements, or general configuration keys):
+
+```md
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0x05 to inspect the relevant settings.
+```
+
+**`type: [static]` — iOS (ATS configuration analysis)**
+
+When the test inspects App Transport Security (ATS) settings under `NSAppTransportSecurity` in the `Info.plist` file:
+
+```md
+1. Use @MASTG-TECH-0054 to extract the app.
+2. Use @MASTG-TECH-0x04 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0x06 to analyze the ATS configuration.
+```
+
+##### Static Analysis - App Package Content Inspection
+
+Use when the test inspects specific files within the app package (for example, native libraries, XML resource files, or other non-code assets) without requiring full code analysis.
+
+**`type: [static]` — Android**
+
+```md
+1. Use @MASTG-TECH-0007 to extract [the relevant files] from the app package.
+```
+
+**`type: [static]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0058 to extract [the relevant files] from the app package.
 ```
 
 ##### Static + Dynamic Analysis
