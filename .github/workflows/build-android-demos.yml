@@ -234,3 +234,4 @@ jobs:
         with:
           name: ${{ env.APK_NAME }}
           path: "${{ env.APK_NAME }}"
+          if-no-files-found: error
