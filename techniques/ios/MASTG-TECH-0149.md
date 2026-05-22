@@ -32,7 +32,7 @@ This is especially important when validating the scope of `NSExceptionRequiresFo
 ### TLS 1.0 Server: ATS Exception Applied, but Secure Transport on macOS Rejects the Handshake
 
 !!! note
-    Since [macOS Tahoe 26](https://developer.apple.com/documentation/macos-release-notes/macos-26-release-notes#Security) `nscurl` is not able to establish such a connection, as the default minimum TLS version of `URLSession` and Network frameworks has changed from 1.0 to 1.2. To evaluate this exception, use a physical iOS device not the iOS Simulator and test the connection to the same endpoint from the app itself.
+    Since [macOS Tahoe 26](https://developer.apple.com/documentation/macos-release-notes/macos-26-release-notes#Security) `nscurl` can no longer establish connections using TLS 1.0 or 1.1, as URLSession and the Network framework now enforce a minimum TLS version of 1.2. The same applies to iOS 26, where ATS exceptions configured to allow TLS 1.0 or 1.1 are no longer accepted by the operating system.
 
 Running `nscurl --ats-diagnostics --verbose` on macOS 26 against a TLS 1.0-only endpoint (`tls-v1-0.badssl.com:1010`) shows that `nscurl` _does_ apply the ATS exception correctly:
 
