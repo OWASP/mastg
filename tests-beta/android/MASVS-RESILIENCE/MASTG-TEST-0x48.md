@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0030]
 
 ## Overview
 
-If an application relies exclusively on standard, local environment signatures to detect instrumentation frameworks, an attacker with full control over the host device can easily bypass these checks. 
+If an application relies exclusively on standard, local environment signatures to detect instrumentation frameworks, an attacker with full control over the host device can easily bypass these checks.
 
 Commonly implemented detection patterns—such as attempting connections to the default Frida-server TCP port (`127.0.0.1:27042`), searching `/proc/<pid>/cmdline` for strings like `frida-server` or `frida-helper`, and scanning `/proc/self/maps` for artifacts like `frida-agent.so`, `libfrida`, or `gum-js-loop`—provide insufficient resilience. Because these checks reside entirely within the user space controlled by the analyst, they represent superficial barriers. This test verifies whether the application's runtime protection can be trivially neutralized by hooking the underlying Java or system APIs to spoof expected clean-device responses.
 

@@ -12,7 +12,7 @@ knowledge: [MASTG-KNOW-0030]
 
 ## Overview
 
-Well-known Xposed/LSPosed detection patterns a `PackageManager.getPackageInfo` lookup for known Manager package ids, a reflection-based `Modifier.isNative` tripwire on guaranteed-native methods, a `/proc/self/maps` scan for foreign DEX/APK mappings, and a stack-trace / `/proc/self/task` probe for framework frames and native worker threads provide little resilience against an attacker that controls the device. Each of these signals can be neutralized with a few lines of Frida JavaScript that hooks the underlying Java APIs and returns the values the detection logic expects on a clean device. 
+Well-known Xposed/LSPosed detection patterns a `PackageManager.getPackageInfo` lookup for known Manager package ids, a reflection-based `Modifier.isNative` tripwire on guaranteed-native methods, a `/proc/self/maps` scan for foreign DEX/APK mappings, and a stack-trace / `/proc/self/task` probe for framework frames and native worker threads provide little resilience against an attacker that controls the device. Each of these signals can be neutralized with a few lines of Frida JavaScript that hooks the underlying Java APIs and returns the values the detection logic expects on a clean device.
 
 This test checks whether an app's Xposed/LSPosed detection routines actually resist a runtime API-hooking bypass.
 
