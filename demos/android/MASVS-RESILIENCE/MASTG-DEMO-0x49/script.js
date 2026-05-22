@@ -38,69 +38,63 @@ socketConnect.implementation = function (endpoint, timeout) {
     return socketConnect.call(this, endpoint, timeout);
 };
 
-    const listFiles = File.listFiles.overload();
+    let procListFilesLogged = false;
 
-    listFiles.implementation = function () {
-
-        const files = listFiles.call(this);
-
-        if (files === null) {
-            return files;
-        }
-
-        if (this.getAbsolutePath() !== "/proc") {
-            return files;
-        }
-
+    function filterProcEntries(files) {
         let filtered = [];
-
         for (let i = 0; i < files.length; i++) {
-
             try {
-
-                const cmdline =
-                    File.$new(files[i], "cmdline");
-
+                const cmdline = File.$new(files[i], "cmdline");
                 const fis = FileInputStream.$new(cmdline);
-
-                const buffer =
-                    Java.array("byte", new Array(256).fill(0));
-
+                const buffer = Java.array("byte", new Array(256).fill(0));
                 const size = fis.read(buffer);
-
                 fis.close();
-
                 if (size > 0) {
-
                     let processName = "";
-
                     for (let j = 0; j < size; j++) {
-                        processName +=
-                            String.fromCharCode(buffer[j] & 0xff);
+                        processName += String.fromCharCode(buffer[j] & 0xff);
                     }
-
                     let hide = false;
-
                     for (let k = 0; k < PROC_KEYWORDS.length; k++) {
-
                         if (processName.indexOf(PROC_KEYWORDS[k]) !== -1) {
                             hide = true;
                             break;
                         }
                     }
-
                     if (hide) {
                         console.log("[+] Hiding process: " + processName);
                         continue;
                     }
                 }
-
             } catch (e) {}
-
             filtered.push(files[i]);
         }
-
         return Java.array("java.io.File", filtered);
+    }
+
+    function noteProcIntercepted() {
+        if (!procListFilesLogged) {
+            procListFilesLogged = true;
+            console.log("[+] File.listFiles(/proc) intercepted (process-enumeration bypass active)");
+        }
+    }
+
+    const listFilesNoArg = File.listFiles.overload();
+    listFilesNoArg.implementation = function () {
+        const files = listFilesNoArg.call(this);
+        if (files === null) return files;
+        if (this.getAbsolutePath() !== "/proc") return files;
+        noteProcIntercepted();
+        return filterProcEntries(files);
+    };
+
+    const listFilesFilter = File.listFiles.overload("java.io.FileFilter");
+    listFilesFilter.implementation = function (filter) {
+        const files = listFilesFilter.call(this, filter);
+        if (files === null) return files;
+        if (this.getAbsolutePath() !== "/proc") return files;
+        noteProcIntercepted();
+        return filterProcEntries(files);
     };
 
 
@@ -131,7 +125,7 @@ socketConnect.implementation = function (endpoint, timeout) {
                 return line;
             }
 
-            console.log("[+] Removed maps entry");
+            console.log("[+] Removed maps entry: " + line);
         }
     };
 

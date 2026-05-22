@@ -63,13 +63,20 @@ Java.perform(function () {
     var NATIVE_BIT = Modifier.NATIVE.value;
     var Method = Java.use("java.lang.reflect.Method");
 
+    var getModifiersLogged = false;
     Method.getModifiers.implementation = function () {
         var orig = this.getModifiers();
         try {
             var key = this.getDeclaringClass().getName() + "." + this.getName();
-            if (SUSPICIOUS_NATIVE_METHODS[key] && (orig & NATIVE_BIT) === 0) {
-                console.log("[bypass] restoring Modifier.NATIVE on " + key);
-                return orig | NATIVE_BIT;
+            if (SUSPICIOUS_NATIVE_METHODS[key]) {
+                if (!getModifiersLogged) {
+                    getModifiersLogged = true;
+                    console.log("[bypass] Method.getModifiers intercepted (Modifier.NATIVE tripwire bypass active)");
+                }
+                if ((orig & NATIVE_BIT) === 0) {
+                    console.log("[bypass] restoring Modifier.NATIVE on " + key);
+                    return orig | NATIVE_BIT;
+                }
             }
         } catch (e) { /* fall through */ }
         return orig;
@@ -174,5 +181,5 @@ Java.perform(function () {
         return true;
     });
 
-    console.log("[bypass] Demo 4 hooks installed (Manager-pkg, NATIVE modifier, /proc/self/maps, stack & thread probes).");
+    console.log("[bypass] hooks installed (Manager-pkg, NATIVE modifier, /proc/self/maps, stack & thread probes).");
 });

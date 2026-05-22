@@ -1,6 +1,7 @@
 [+] Frida detection bypass hooks installed
 [+] Blocked Frida port probe
-[+] Removed maps entry
-[+] Removed maps entry
-[+] Removed maps entry
-[+] Removed maps entry
+[+] File.listFiles(/proc) intercepted (process-enumeration bypass active)
+[+] Removed maps entry: 7c5700a000-7c57951000 r--p 00000000 00:05 287218                         /memfd:frida-agent-64.so (deleted)
+[+] Removed maps entry: 7c57952000-7c58694000 r-xp 00947000 00:05 287218                         /memfd:frida-agent-64.so (deleted)
+[+] Removed maps entry: 7c58694000-7c58765000 r--p 01688000 00:05 287218                         /memfd:frida-agent-64.so (deleted)
+[+] Removed maps entry: 7c58766000-7c58781000 rw-p 01759000 00:05 287218                         /memfd:frida-agent-64.so (deleted)
