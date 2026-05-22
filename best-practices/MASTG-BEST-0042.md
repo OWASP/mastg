@@ -10,14 +10,14 @@ App Transport Security (ATS) enforces strong TLS defaults for `URLSession` conne
 
 ## Avoid Lowering the Minimum TLS Version
 
+!!! note
+    Since [iOS 26](https://developer.apple.com/documentation/macos-release-notes/macos-26-release-notes#Security), `URLSession` and the Network framework now enforce a minimum TLS version of 1.2. ATS exceptions configured to allow TLS 1.0 or 1.1 are no longer accepted by the operating system.
+
 Do not set `NSExceptionMinimumTLSVersion` to `TLSv1.0` or `TLSv1.1` for any domain. TLS 1.0 and TLS 1.1 are deprecated and have known weaknesses. Apple requires a justification for this exception when submitting to the App Store and recommends fixing the server rather than weakening the client configuration.
 
 If a third-party service requires TLS 1.0 or 1.1, [contact the service provider](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Configure-Exceptions-Only-When-Needed-and-Prefer-Server-Fixes) to request an upgrade. Treat any such exception as temporary and remove it once the server is updated.
 
 When configuring `URLSessionConfiguration` in code, do not set `tlsMinimumSupportedProtocolVersion` or the deprecated `tlsMinimumSupportedProtocol` to values corresponding to TLS 1.0 or 1.1. Prefer leaving the default, which inherits ATS minimum requirements.
-
-!!! note "ATS still applies to URLSession"
-    Even if no matching `Info.plist` exception is present and ATS would block a TLS 1.0 or 1.1 connection at runtime, setting a weak TLS floor in code is still a bad practice. It signals intent to weaken TLS, may mislead auditors, and can become a real vulnerability if an ATS exception is added later or if ATS is disabled.
 
 ## Avoid Disabling Forward Secrecy
 

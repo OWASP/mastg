@@ -12,6 +12,9 @@ When possible, prefer `URLSession` and high-level Foundation APIs so that ATS pr
 
 ## Network.framework
 
+!!! note
+    Since [iOS 26](https://developer.apple.com/documentation/macos-release-notes/macos-26-release-notes#Security), `URLSession` and the Network framework now enforce a minimum TLS version of 1.2.
+
 When using [`NWConnection`](https://developer.apple.com/documentation/network/nwconnection) with TLS, configure `NWProtocolTLS.Options` and set the minimum TLS version to at least TLS 1.2 using [`sec_protocol_options_set_min_tls_protocol_version`](https://developer.apple.com/documentation/security/sec_protocol_options_set_min_tls_protocol_version(_:_:)):
 
 ```swift
@@ -21,8 +24,6 @@ sec_protocol_options_set_min_tls_protocol_version(
     .TLSv12
 )
 ```
-
-Don't set the minimum or maximum TLS version to `tls_protocol_version_TLSv10` or `tls_protocol_version_TLSv11`. Unlike `URLSession`, there is no ATS enforcement to catch weak configurations at runtime.
 
 ## Embedded Third-Party TLS Libraries
 
