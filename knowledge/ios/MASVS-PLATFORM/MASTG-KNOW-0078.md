@@ -34,6 +34,10 @@ Each IPC mechanism can be characterized by who can send data, who can receive da
 
 - @MASTG-KNOW-0x07: Bonjour, for zero-configuration local network service discovery. Actual communication occurs over the network connection established after discovery.
 
+- @MASTG-KNOW-0x09: Core Bluetooth, for BLE-based communication with peripherals and other BLE-capable devices.
+
+- @MASTG-KNOW-0x0a: Core NFC, for reading and writing NFC tags.
+
 Apps may also communicate through sockets, HTTP, or backend services. These aren't iOS-specific IPC mechanisms and require normal transport security, authentication, authorization, and input validation.
 
 ## Low-Level System IPC Mechanisms
