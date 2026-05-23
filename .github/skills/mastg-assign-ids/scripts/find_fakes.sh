@@ -10,9 +10,13 @@ set -euo pipefail
 
 CHANGED=$(git diff --name-only origin/master...HEAD | grep -v "^\.github/")
 
+# Matches both standard fake IDs (MASTG-TYPE-0x##) and non-standard ones
+# where the suffix contains lowercase hex chars (e.g. MASTG-BEST-00ea).
+FAKE_PATTERN="MASTG-[A-Z]+-0x|MASTG-[A-Z]+-[0-9]*[a-f][0-9a-f]*"
+
 echo "=== Fake IDs in file/dir names ==="
-echo "$CHANGED" | grep -E "MASTG-[A-Z]+-0x" || echo "(none)"
+echo "$CHANGED" | grep -E "$FAKE_PATTERN" || echo "(none)"
 
 echo ""
 echo "=== Fake IDs in file contents ==="
-echo "$CHANGED" | xargs grep -l "MASTG-[A-Z]*-0x" 2>/dev/null || echo "(none)"
+echo "$CHANGED" | xargs grep -lE "$FAKE_PATTERN" 2>/dev/null || echo "(none)"

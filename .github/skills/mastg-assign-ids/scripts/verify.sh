@@ -7,7 +7,11 @@ set -euo pipefail
 
 CHANGED=$(git diff --name-only origin/master...HEAD | grep -v "^\.github/")
 
-HITS=$(echo "$CHANGED" | xargs grep -l "MASTG-[A-Z]*-0x" 2>/dev/null || true)
+# Matches both standard fake IDs (MASTG-TYPE-0x##) and non-standard ones
+# where the suffix contains lowercase hex chars (e.g. MASTG-BEST-00ea).
+FAKE_PATTERN="MASTG-[A-Z]+-0x|MASTG-[A-Z]+-[0-9]*[a-f][0-9a-f]*"
+
+HITS=$(echo "$CHANGED" | xargs grep -lE "$FAKE_PATTERN" 2>/dev/null || true)
 
 if [ -z "$HITS" ]; then
     echo "OK: no fake IDs remaining in branch-changed files."

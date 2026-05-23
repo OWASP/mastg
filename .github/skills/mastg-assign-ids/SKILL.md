@@ -17,6 +17,8 @@ Replace all fake/placeholder component IDs (e.g. `MASTG-KNOW-0x01`, `MASTG-BEST-
 New draft items use the pattern `MASTG-TYPE-0x##` (hex suffix, e.g. `0x01`, `0x0a`).
 Real IDs use zero-padded 4-digit decimal: `MASTG-TYPE-NNNN` (e.g. `MASTG-KNOW-0122`).
 
+**Non-standard fake IDs**: Some draft items may use a different convention that is NOT caught by the `0x##` pattern — for example `MASTG-BEST-00ea` (lowercase hex digits without the `0x` prefix). These are still fake IDs and must be replaced. After running `find_fakes.sh`, manually scan the `git diff --name-only origin/master...HEAD` output for any ID-like suffix that contains lowercase letters (`a`–`f`) or is not exactly 4 decimal digits.
+
 ## Step-by-step workflow
 
 All scripts are in `scripts/` relative to this skill. Run from the repository root.
