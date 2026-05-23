@@ -2,7 +2,7 @@
 title: Stack Canaries Not Enabled
 platform: android
 id: MASTG-TEST-0223
-type: [static]
+type: [static, code]
 weakness: MASWE-0116
 profiles: [L2]
 knowledge: [MASTG-KNOW-0006]
@@ -13,12 +13,12 @@ knowledge: [MASTG-KNOW-0006]
 This test case checks if the native libraries of the app are compiled without common binary protection mechanisms (@MASTG-KNOW-0006) such as stack smashing protection, a mitigation technique against buffer overflow attacks.
 
 - NDK libraries should have stack canaries enabled since [the compiler does it by default](https://android.googlesource.com/platform/ndk/%2B/master/docs/BuildSystemMaintainers.md#additional-required-arguments).
-- Other custom C/C++ libraries might not have stack canaries enabled because they lack the necessary compiler flags (`-fstack-protector-strong`, or `-fstack-protector-all`) or the canaries were optimized out by the compiler. See the [Evaluation](#evaluation) section for more details.
+- Other custom C/C++ libraries might not have stack canaries enabled because they lack the necessary compiler flags (`-fstack-protector-strong`, or `-fstack-protector-all`) or the canaries were optimized out by the compiler.
 
 ## Steps
 
-1. Extract the app contents (@MASTG-TECH-0058).
-2. Run @MASTG-TECH-0115 on each shared library and grep for "canary" or the corresponding keyword used by the selected tool.
+1. Use @MASTG-TECH-0007 to extract the native libraries from the app package.
+2. Use @MASTG-TECH-0115 on each shared library and grep for "canary" or the corresponding keyword used by the selected tool.
 
 ## Observation
 

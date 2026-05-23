@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Monitoring of Text Fields Eligible for Keyboard Caching
 id: MASTG-TEST-0314
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0053
 profiles: [L2]
 prerequisites:
@@ -18,8 +18,8 @@ This test complements @MASTG-TEST-0313. It monitors text inputs in the app at ru
 ## Steps
 
 1. Use @MASTG-TECH-0056 to install the app.
-2. Use @MASTG-TECH-0067 to look for text input fields in the app's UI and identify those that use the relevant attributes.
-3. Exercise the app thoroughly, entering realistic sensitive information (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) into each identified input field.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
@@ -31,12 +31,12 @@ The output should allow the tester to associate each text entry with the corresp
 
 ## Evaluation
 
-The test fails if any UI inputs that may handle sensitive values (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) are eligible for keyboard caching. This occurs when:
+The test case fails if any UI inputs that may handle sensitive values (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) are eligible for keyboard caching. This occurs when:
 
 - `isSecureTextEntry` is not enabled, or
 - `autocorrectionType` is set to `default` or `yes`, or
 - `spellCheckingType` is set to `default` or `yes`.
 
-The test passes if all security-sensitive inputs are protected against keyboard caching.
+**Expected False Negatives:**
 
-**Note:** This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.

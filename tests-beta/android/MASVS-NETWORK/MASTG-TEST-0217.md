@@ -2,7 +2,7 @@
 title: Insecure TLS Protocols Explicitly Allowed in Code
 platform: android
 id: MASTG-TEST-0217
-type: [static]
+type: [static, code]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---
@@ -27,8 +27,8 @@ The API call `okhttp3.ConnectionSpec.Builder.tlsVersions(...)` can also be used 
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Run a static analysis (@MASTG-TECH-0014) tool on the reverse engineered app targeting calls to APIs setting the TLS protocol.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

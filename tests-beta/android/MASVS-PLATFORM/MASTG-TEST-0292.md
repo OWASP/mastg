@@ -2,7 +2,7 @@
 title: "`setRecentsScreenshotEnabled` Not Used to Prevent Screenshots When Backgrounded"
 platform: android
 id: MASTG-TEST-0292
-type: [static]
+type: [static, code]
 profiles: [L2]
 best-practices: [MASTG-BEST-0014, MASTG-BEST-0015]
 weakness: MASWE-0055

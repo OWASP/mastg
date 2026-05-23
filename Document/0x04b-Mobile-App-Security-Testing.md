@@ -1,3 +1,7 @@
+---
+platform: generic
+---
+
 # Mobile Application Security Testing
 
 In the following sections we'll provide a brief overview of general security testing principles and key terminology. The concepts introduced are largely identical to those found in other types of penetration testing, so if you are an experienced tester you may be familiar with some of the content.

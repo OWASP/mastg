@@ -1,0 +1,4 @@
+json.NSAppTransportSecurity.NSAllowsArbitraryLoads = false;
+json.NSAppTransportSecurity.NSExceptionDomains["static-rsa.badssl.com"].NSExceptionMinimumTLSVersion = "TLSv1.2";
+json.NSAppTransportSecurity.NSExceptionDomains["static-rsa.badssl.com"].NSExceptionRequiresForwardSecrecy = false;
+json.NSAppTransportSecurity.NSExceptionDomains["tls-v1-0.badssl.com"].NSExceptionMinimumTLSVersion = "TLSv1.0";
