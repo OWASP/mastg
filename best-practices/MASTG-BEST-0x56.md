@@ -6,7 +6,7 @@ platform: ios
 knowledge: [MASTG-KNOW-0083, MASTG-KNOW-0079, MASTG-KNOW-0080, MASTG-KNOW-0081, MASTG-KNOW-0082, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0x04, MASTG-KNOW-0x05, MASTG-KNOW-0x06, MASTG-KNOW-0x07, MASTG-KNOW-0x08, MASTG-KNOW-0104]
 ---
 
-When your app exchanges data across iOS IPC channels, share the minimum amount of data for the shortest time possible. Design these flows so that intercepted payloads are low value and short lived.
+When your app exchanges data across iOS IPC channels, share the minimum amount of data for the shortest time possible. Design these flows so that intercepted payloads are low value and short lived. Follow the principle of least privilege: grant each IPC channel and shared container only the minimum permissions required for its intended purpose, and validate all inbound data as untrusted input.
 
 For guidance on channel behavior, see @MASTG-KNOW-0078.
 
@@ -38,6 +38,8 @@ When using [Keychain access groups](https://developer.apple.com/documentation/se
 
 Review all apps and extensions that declare the same access group, because each one becomes part of the trust boundary for the shared keychain items.
 
+Avoid storing overly sensitive data such as hashed passwords in the keychain, even in non-shared access groups. On jailbroken devices, the keychain of any process can be read directly, so items stored there are not protected in that threat model.
+
 ## Coordinate and Audit Shared File Access
 
 When multiple processes access shared files, use @MASTG-KNOW-0x06 to keep access patterns explicit and predictable. This is especially important for App Group containers, external documents, open in place flows, and files that may be modified by another app, extension, or File Provider.
@@ -64,6 +66,6 @@ Bonjour provides service discovery, not transport security. The connection estab
 
 ## Avoid Unsupported Low-Level IPC
 
-Do not use low-level mechanisms such as XPC, Mach ports, or CFMessagePort as general-purpose app-to-app IPC channels for unrelated third-party iOS apps. Prefer Apple-supported system-mediated APIs, App Groups, Keychain access groups, document exchange, App Intents, Siri Shortcuts, Handoff, or network protocols where appropriate.
+XPC, Mach ports, and CFMessagePort are not designed for general-purpose communication between unrelated third-party iOS apps. The iOS sandbox prevents direct use of these mechanisms between apps from different developers. Prefer Apple-supported system-mediated APIs, App Groups, Keychain access groups, document exchange, App Intents, Siri Shortcuts, Handoff, or network protocols where appropriate.
 
 If low-level IPC appears in app extensions, platform-specific extension mechanisms, enterprise builds, or security research contexts, review the exposed interface, accepted messages, entitlements, sandbox profile, input validation, and authorization checks.
