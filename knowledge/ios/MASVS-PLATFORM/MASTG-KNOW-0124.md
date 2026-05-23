@@ -7,7 +7,7 @@ available_since: 10
 
 SiriKit and Siri Shortcuts let apps expose selected functionality to Siri, the Shortcuts app, Spotlight, and Siri Suggestions. These mechanisms allow users to invoke app actions outside the normal app UI, either through voice, suggestions, or user configured shortcuts.
 
-For the modern Swift framework used to expose app actions to Siri, Shortcuts, Spotlight, widgets, controls, and Apple Intelligence, see @MASTG-KNOW-0xXX.
+For the modern Swift framework used to expose app actions to Siri, Shortcuts, Spotlight, widgets, controls, and Apple Intelligence, see @MASTG-KNOW-0129.
 
 ## SiriKit
 

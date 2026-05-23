@@ -7,7 +7,7 @@ available_since: 16
 
 The [`App Intents`](https://developer.apple.com/documentation/appintents) framework lets apps expose actions and content to system surfaces such as Siri, the Shortcuts app, Spotlight, widgets, Live Activities, controls, and the Action button on supported devices. Apple also uses App Intents to integrate app capabilities with [Siri and Apple Intelligence](https://developer.apple.com/documentation/appintents/integrating-actions-with-siri-and-apple-intelligence).
 
-For legacy SiriKit intents, `NSUserActivity` shortcuts, and `INInteraction` donations, see @MASTG-KNOW-0x03.
+For legacy SiriKit intents, `NSUserActivity` shortcuts, and `INInteraction` donations, see @MASTG-KNOW-0124.
 
 ## How App Intents Work
 

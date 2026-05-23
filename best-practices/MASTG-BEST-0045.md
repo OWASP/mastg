@@ -1,9 +1,9 @@
 ---
 title: Limit Sensitive Data Exposure Through iOS IPC Channels
 alias: limit-sensitive-data-exposure-through-ios-ipc-channels
-id: MASTG-BEST-0x56
+id: MASTG-BEST-0045
 platform: ios
-knowledge: [MASTG-KNOW-0083, MASTG-KNOW-0079, MASTG-KNOW-0080, MASTG-KNOW-0081, MASTG-KNOW-0082, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0x04, MASTG-KNOW-0x05, MASTG-KNOW-0x06, MASTG-KNOW-0x07, MASTG-KNOW-0x08, MASTG-KNOW-0x09, MASTG-KNOW-0x0a, MASTG-KNOW-0104]
+knowledge: [MASTG-KNOW-0083, MASTG-KNOW-0079, MASTG-KNOW-0080, MASTG-KNOW-0081, MASTG-KNOW-0082, MASTG-KNOW-0122, MASTG-KNOW-0123, MASTG-KNOW-0124, MASTG-KNOW-0125, MASTG-KNOW-0126, MASTG-KNOW-0127, MASTG-KNOW-0128, MASTG-KNOW-0129, MASTG-KNOW-0130, MASTG-KNOW-0131, MASTG-KNOW-0104]
 ---
 
 When your app exchanges data across iOS IPC channels, share the minimum amount of data for the shortest time possible. Design these flows so that intercepted payloads are low value and short lived. Follow the principle of least privilege: grant each IPC channel and shared container only the minimum permissions required for its intended purpose, and validate all inbound data as untrusted input.
@@ -42,7 +42,7 @@ Avoid storing overly sensitive data such as hashed passwords in the keychain, ev
 
 ## Coordinate and Audit Shared File Access
 
-When multiple processes access shared files, use @MASTG-KNOW-0x06 to keep access patterns explicit and predictable. This is especially important for App Group containers, external documents, open in place flows, and files that may be modified by another app, extension, or File Provider.
+When multiple processes access shared files, use @MASTG-KNOW-0127 to keep access patterns explicit and predictable. This is especially important for App Group containers, external documents, open in place flows, and files that may be modified by another app, extension, or File Provider.
 
 Review shared file locations during code review and testing. Check file permissions, Data Protection classes, cleanup behavior, locking, and whether stale files can expose sensitive data after the intended exchange is complete.
 

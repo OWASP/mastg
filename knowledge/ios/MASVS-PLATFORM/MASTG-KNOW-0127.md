@@ -4,7 +4,7 @@ platform: ios
 title: File Coordination APIs
 ---
 
-The File Coordination APIs provide a mechanism for coordinating safe, concurrent access to files and directories. They are particularly important when multiple processes or objects, such as an app and its extensions, read or write shared files in an App Group container (see @MASTG-KNOW-0x04).
+The File Coordination APIs provide a mechanism for coordinating safe, concurrent access to files and directories. They are particularly important when multiple processes or objects, such as an app and its extensions, read or write shared files in an App Group container (see @MASTG-KNOW-0125).
 
 File coordination is implemented through two main classes:
 

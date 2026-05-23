@@ -16,7 +16,7 @@ Key behaviors:
 
 - Open and move operations provide security-scoped URLs for external documents. Apps should call `startAccessingSecurityScopedResource()` before accessing them, unless access is managed by `UIDocument`.
 - Import and export operations copy files into or out of the app's sandbox.
-- Access to files outside the app's sandbox is mediated by the system. Access to external documents should be coordinated using @MASTG-KNOW-0x06, especially if the file may be modified by multiple apps or processes.
+- Access to files outside the app's sandbox is mediated by the system. Access to external documents should be coordinated using @MASTG-KNOW-0127, especially if the file may be modified by multiple apps or processes.
 
 ## Document Interaction
 
@@ -37,5 +37,5 @@ Key behaviors:
 
 - Access is still user initiated and mediated through system document UI, such as the document picker, document browser, or Files app.
 - The receiving app may access the original file through a security scoped URL, depending on the operation and file location.
-- Access to external documents should be coordinated using @MASTG-KNOW-0x06, especially if the file may be modified by multiple apps or processes.
+- Access to external documents should be coordinated using @MASTG-KNOW-0127, especially if the file may be modified by multiple apps or processes.
 - The receiving app must declare support for the relevant document types, using Uniform Type Identifiers.

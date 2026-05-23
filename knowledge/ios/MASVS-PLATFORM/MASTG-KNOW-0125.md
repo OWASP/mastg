@@ -37,4 +37,4 @@ Apps typically use this location to store:
 
 ## Relationship to Other Mechanisms
 
-App extensions (see @MASTG-KNOW-0082) commonly use App Groups as their primary data-sharing channel with the containing app. File coordination (see @MASTG-KNOW-0x06) is recommended when multiple processes read and write the same file in the shared container concurrently.
+App extensions (see @MASTG-KNOW-0082) commonly use App Groups as their primary data-sharing channel with the containing app. File coordination (see @MASTG-KNOW-0127) is recommended when multiple processes read and write the same file in the shared container concurrently.
