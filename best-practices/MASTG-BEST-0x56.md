@@ -6,7 +6,7 @@ platform: ios
 knowledge: [MASTG-KNOW-0083, MASTG-KNOW-0079, MASTG-KNOW-0080, MASTG-KNOW-0081, MASTG-KNOW-0082, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0x04, MASTG-KNOW-0x05, MASTG-KNOW-0x06, MASTG-KNOW-0x07, MASTG-KNOW-0x08, MASTG-KNOW-0104]
 ---
 
-When your app exchanges data across iOS IPC channels, share the minimum amount of data for the shortest time possible. Design these flows so that intercepted, persisted, logged, indexed, donated, or forwarded payloads are low value and short lived.
+When your app exchanges data across iOS IPC channels, share the minimum amount of data for the shortest time possible. Design these flows so that intercepted payloads are low value and short lived.
 
 For guidance on channel behavior, see @MASTG-KNOW-0078.
 
@@ -16,11 +16,11 @@ Avoid placing sensitive values in `UIPasteboard.general` unless there is a stric
 
 ## Prefer Short-Lived Exchange Data
 
-For URL-based handoff, such as [custom URL schemes](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) and [Universal Links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app), avoid embedding long-lived secrets, tokens, credentials, or personal data in URLs. Use one-time or short-lived references and have the receiving side redeem them through an authenticated channel.
+For URL-based interfaces, such as [custom URL schemes](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app) and [Universal Links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app), avoid embedding long-lived secrets, tokens, credentials, or personal data in URLs. Use one-time or short-lived references and have the receiving side redeem them through an authenticated channel.
 
 Apply the same pattern to Handoff, Siri Shortcuts, App Intents, shared files, and document exchange flows. Pass references, identifiers, or scoped URLs instead of full sensitive payloads whenever possible.
 
-## Validate All Incoming IPC Data
+## Validate All IPC Input
 
 Treat data received through IPC channels as untrusted input, even when it comes from a system-mediated flow. Validate URLs, pasteboard contents, shared files, document imports, App Intent parameters, Siri Shortcut parameters, `NSUserActivity.userInfo`, and files read from App Group containers before use.
 

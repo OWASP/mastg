@@ -4,7 +4,7 @@ platform: ios
 title: Inter-Process Communication (IPC)
 ---
 
-iOS does not provide a general-purpose mechanism for arbitrary third-party apps to communicate directly. Instead, apps exchange data through platform-mediated channels, user actions, shared entitlements, or network interfaces.
+iOS does not provide a general-purpose mechanism for third-party apps to communicate directly. Instead, apps exchange data through platform-mediated interfaces of varying levels of abstraction.
 
 Each [IPC mechanism](https://developer.apple.com/forums/tags/inter-process-communication) can be characterized by who can send data, who can receive data, whether user interaction is required, how long the data remains available, and whether the channel is restricted by an entitlement or app group.
 
