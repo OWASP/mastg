@@ -37,7 +37,7 @@ python3 .github/skills/mastg-assign-ids/scripts/next_id.py
 
 Prints one line per component type, e.g.:
 
-```
+```txt
 MASTG-APP-0034
 MASTG-BEST-0046
 MASTG-DEMO-0542
@@ -56,7 +56,7 @@ See [scripts/next_id.py](scripts/next_id.py).
 
 Map each fake ID to the real ID you just allocated. Record the mapping explicitly before proceeding, e.g.:
 
-```
+```txt
 MASTG-KNOW-0x01 → MASTG-KNOW-0122
 MASTG-KNOW-0x02 → MASTG-KNOW-0123
 MASTG-BEST-0x56 → MASTG-BEST-0045
