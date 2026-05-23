@@ -21,7 +21,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           sparse-checkout: demos/android
           fetch-depth: 2 # Required for git diff in PRs
@@ -66,7 +66,7 @@ jobs:
 
       - name: Check if already cached
         id: cache-check
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           lookup-only: true
           path: mas-app-android/ # we're forced to write a path even if we don't need it
@@ -74,20 +74,20 @@ jobs:
 
       - name: Set up JDK 17
         if: steps.cache-check.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Gradle
         if: steps.cache-check.outputs.cache-hit != 'true'
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: false
 
       - name: Clone mas-app-android repository
         if: steps.cache-check.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: cpholguera/mas-app-android
           path: mas-app-android
@@ -106,7 +106,7 @@ jobs:
 
       - name: Saving cache
         if: steps.cache-check.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: mas-app-android/
           key: ${{ steps.cache-check.outputs.cache-primary-key }}
@@ -122,24 +122,24 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           sparse-checkout: demos/android
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-read-only: true
 
       - name: Restore cache
         id: cache-base-app
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: mas-app-android/
           key: base-app-${{ env.MASTESTAPP_HASH }}
@@ -230,7 +230,8 @@ jobs:
           echo "APK_NAME=$apk_filename" >> $GITHUB_ENV
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.APK_NAME }}
           path: "${{ env.APK_NAME }}"
+          if-no-files-found: error

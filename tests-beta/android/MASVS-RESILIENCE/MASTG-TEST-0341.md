@@ -2,7 +2,7 @@
 platform: android
 title: Testing Runtime Hook Detection
 id: MASTG-TEST-0341
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0107
 best-practices: [MASTG-BEST-0041]
 profiles: [R]
@@ -29,8 +29,8 @@ This test verifies whether the app detects and responds to instrumentation and h
 ## Steps
 
 1. Use @MASTG-TECH-0005 to install the app.
-2. Use @MASTG-TECH-0033 to attempt to hook a security-relevant Java method (e.g., authentication, certificate validation) and/or a native function.
-3. Capture the output, including any abrupt session termination events or errors.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 

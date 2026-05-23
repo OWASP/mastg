@@ -2,7 +2,7 @@
 title: Stack Canaries Not enabled
 platform: ios
 id: MASTG-TEST-0229
-type: [static]
+type: [static, code]
 weakness: MASWE-0116
 profiles: [L2]
 knowledge: [MASTG-KNOW-0061]
@@ -21,10 +21,9 @@ To differentiate between Objective-C and Swift binaries, you can inspect the imp
 
 ## Steps
 
-1. Extract the application and identify the main binary (@MASTG-TECH-0054).
-2. Identify all shared libraries (@MASTG-TECH-0082).
-3. Run @MASTG-TECH-0118 on the main binary and each shared library.
-4. If the output contains the symbol `__stack_chk_fail` it indicates stack canaries are enabled.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0082 to identify all shared libraries.
+3. Use @MASTG-TECH-0118 on the main binary and each shared library.
 
 ## Observation
 
@@ -32,13 +31,14 @@ The output should contain a list of symbols of the main binary and each shared l
 
 ## Evaluation
 
-The test case fails any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
+The test case fails if any binary or library is not purely Swift but does not contain methods indicating stack canaries like `objc_autorelease` or `objc_retainAutorelease`.
 
-**Note:** Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
+!!! note
+    Checking for the `__stack_chk_fail` symbol only indicates that stack smashing protection is enabled somewhere in the app. While stack canaries are typically enabled or disabled for the entire binary, there may be corner cases where only parts of the application are protected. For example, if the app developer statically links a library with stack smashing protection enabled, but disables it for the entire application.
 
 If you want to be sure that specific security-critical methods are sufficiently protected, you need to reverse-engineer each of them and manually check for stack smashing protection.
 
-When evaluating this please note that there are potential **expected false positives** for which the test case should be considered as passed. To be certain for these cases, they require manual review of the original source code and the compilation flags used.
+When evaluating this, please note that there are potential **expected false positives** for which the test case should be considered as passed. To be certain for these cases, they require manual review of the original source code and the compilation flags used.
 
 The following examples cover some of the false positive cases that might be encountered:
 

@@ -2,7 +2,7 @@
 title: "`SecureOn` Not Used to Prevent Screenshots in Compose Dialogs"
 platform: android
 id: MASTG-TEST-0294
-type: [static]
+type: [static, code]
 profiles: [L2]
 best-practices: [MASTG-BEST-0014, MASTG-BEST-0018]
 weakness: MASWE-0055
