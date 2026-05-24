@@ -9,6 +9,9 @@ title: Testing File Integrity Checks
 masvs_v1_levels:
 - R
 profiles: [R]
+status: deprecated
+covered_by: [MASTG-TEST-0x01, MASTG-TEST-0x02]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview
