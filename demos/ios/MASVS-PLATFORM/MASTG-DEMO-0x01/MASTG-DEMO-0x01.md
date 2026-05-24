@@ -2,8 +2,8 @@
 platform: ios
 title: Use of Deprecated Custom URL Scheme Handler Methods
 code: [swift]
-id: MASTG-DEMO-0x75-1
-test: MASTG-TEST-0x75-1
+id: MASTG-DEMO-0x01
+test: MASTG-TEST-0x01
 kind: fail
 status: draft
 ---

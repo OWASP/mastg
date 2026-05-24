@@ -17,7 +17,7 @@ struct MastgTest {
     }
 }
 
-// FAIL: [MASTG-TEST-0x75-2] URL scheme handler does not validate URL parameters or source application.
+// FAIL: [MASTG-TEST-0x02] URL scheme handler does not validate URL parameters or source application.
 // The handler accepts any value for the 'amount' parameter and does not check
 // UIApplicationOpenURLOptionsSourceApplicationKey before performing a sensitive operation.
 @objc class AppDelegate: UIResponder, UIApplicationDelegate {

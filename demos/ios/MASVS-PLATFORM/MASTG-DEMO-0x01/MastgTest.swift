@@ -17,7 +17,7 @@ struct MastgTest {
     }
 }
 
-// FAIL: [MASTG-TEST-0x75-1] Deprecated URL scheme handler method used.
+// FAIL: [MASTG-TEST-0x01] Deprecated URL scheme handler method used.
 // The app implements application:handleOpenURL: (deprecated since iOS 9.0) instead
 // of application:openURL:options:. The deprecated method lacks the options dictionary,
 // which means the source application (UIApplicationOpenURLOptionsSourceApplicationKey)

@@ -2,8 +2,8 @@
 platform: ios
 title: Custom URL Scheme Handler Without Input Validation
 code: [swift]
-id: MASTG-DEMO-0x75-2
-test: MASTG-TEST-0x75-2
+id: MASTG-DEMO-0x02
+test: MASTG-TEST-0x02
 kind: fail
 status: draft
 ---

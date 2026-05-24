@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: References to Deprecated Custom URL Scheme Handler Methods
-id: MASTG-TEST-0x75-1
+id: MASTG-TEST-0x01
 type: [static, code]
 weakness: MASWE-0058
 profiles: [L1, L2]

@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: References to Custom URL Scheme Handler Methods
-id: MASTG-TEST-0x75-2
+id: MASTG-TEST-0x02
 type: [static, code, manual]
 weakness: MASWE-0058
 profiles: [L1, L2]
