@@ -19,58 +19,68 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           sparse-checkout: demos/android
-          fetch-depth: 2 # Required for git diff in PRs
+          fetch-depth: 0
 
       - name: Generate matrix
         id: set-matrix
+        shell: bash
         run: |
+          set -euo pipefail
+
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            # Get list of changed files in demos/android/ directory
-            changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD -- 'demos/android/*')
+            changed_files="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" HEAD -- 'demos/android/**')"
 
             echo "Changed files:"
             echo "$changed_files"
 
-            # Extract unique demo directories
-            matrix=$(echo "$changed_files" | grep -oE 'demos/android/[^/]*/MASTG-DEMO-[^/]+' | sort -u | head -c -1 | tr '\n' ' ' | sed 's/ /","/g')
-
-            # If no changes, set empty matrix
-            if [ -z "$matrix" ]; then
-              echo "matrix={\"demo\":[]}" >> $GITHUB_OUTPUT
-            else
-              echo "matrix={\"demo\":[\"$matrix\"]}" >> $GITHUB_OUTPUT
-            fi
+            demos="$(echo "$changed_files" \
+              | grep -oE '^demos/android/[^/]+/MASTG-DEMO-[^/]+' \
+              | sort -u || true)"
           else
-            # Default behavior: include all demos for master branch
-            matrix=$(echo demos/android/*/MASTG-DEMO-* | sed 's/ /","/g')
-            echo "matrix={\"demo\":[\"$matrix\"]}" >> $GITHUB_OUTPUT
+            demos="$(find demos/android -mindepth 2 -maxdepth 2 -type d -name 'MASTG-DEMO-*' | sort)"
           fi
+
+          matrix="$(printf '%s\n' "$demos" \
+            | jq -R 'select(length > 0)' \
+            | jq -sc '{demo: .}')"
+
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
           echo "Print matrix: $matrix"
+
       - name: Print matrix
-        run: echo "${{ steps.set-matrix.outputs.matrix }}"
+        run: echo '${{ steps.set-matrix.outputs.matrix }}'
 
   build-base-app:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      mastestapp_hash: ${{ steps.get-mastestapp-hash.outputs.mastestapp_hash }}
+
     steps:
       - name: Get last commit hash of mas-app-android
         id: get-mastestapp-hash
+        shell: bash
         run: |
-          echo "MASTESTAPP_HASH=$(git ls-remote https://github.com/cpholguera/mas-app-android.git HEAD | awk '{print $1}')" >> $GITHUB_ENV 
-          echo "MASTESTAPP_HASH=$MASTESTAPP_HASH" >> $GITHUB_OUTPUT
+          set -euo pipefail
+
+          hash="$(git ls-remote https://github.com/cpholguera/mas-app-android.git HEAD | awk '{print $1}')"
+
+          echo "mastestapp_hash=$hash" >> "$GITHUB_OUTPUT"
+          echo "MASTESTAPP_HASH=$hash" >> "$GITHUB_ENV"
 
       - name: Check if already cached
         id: cache-check
         uses: actions/cache/restore@v5
         with:
           lookup-only: true
-          path: mas-app-android/ # we're forced to write a path even if we don't need it
-          key: base-app-${{ env.MASTESTAPP_HASH }}
+          path: mas-app-android/
+          key: base-app-${{ steps.get-mastestapp-hash.outputs.mastestapp_hash }}
 
       - name: Set up JDK 17
         if: steps.cache-check.outputs.cache-hit != 'true'
@@ -85,23 +95,31 @@ jobs:
         with:
           cache-read-only: false
 
+      - name: Accept Android SDK licenses
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+
       - name: Clone mas-app-android repository
         if: steps.cache-check.outputs.cache-hit != 'true'
         uses: actions/checkout@v6
         with:
           repository: cpholguera/mas-app-android
           path: mas-app-android
-          ref: ${{ env.MASTESTAPP_HASH }}
+          ref: ${{ steps.get-mastestapp-hash.outputs.mastestapp_hash }}
 
       - name: Build base app
         if: steps.cache-check.outputs.cache-hit != 'true'
+        shell: bash
         run: |
+          set -euo pipefail
+
           cd mas-app-android
-          grep -q 'org.gradle.caching=true' gradle.properties || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
-          ./gradlew assembleDebug --stacktrace || (
-            echo "Build failed"
-            exit 1
-          )
+
+          grep -q 'org.gradle.caching=true' gradle.properties \
+            || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
+
+          ./gradlew assembleDebug --stacktrace
+
           echo "Build succeeded"
 
       - name: Saving cache
@@ -109,17 +127,20 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: mas-app-android/
-          key: ${{ steps.cache-check.outputs.cache-primary-key }}
-   
+          key: base-app-${{ steps.get-mastestapp-hash.outputs.mastestapp_hash }}
+
   build:
-    needs: [generate-matrix, build-base-app]
+    needs:
+      - generate-matrix
+      - build-base-app
     if: ${{ needs.generate-matrix.outputs.matrix != '{"demo":[]}' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # Increase this value as needed
+    timeout-minutes: 30
+
     strategy:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-      max-parallel: 3  # Limit the number of parallel jobs
-    
+      max-parallel: 3
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -137,101 +158,126 @@ jobs:
         with:
           cache-read-only: true
 
-      - name: Restore cache
+      - name: Accept Android SDK licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+
+      - name: Restore base app cache
         id: cache-base-app
         uses: actions/cache/restore@v5
         with:
           path: mas-app-android/
-          key: base-app-${{ env.MASTESTAPP_HASH }}
+          key: base-app-${{ needs.build-base-app.outputs.mastestapp_hash }}
+          fail-on-cache-miss: true
 
       - name: Replace files and build APK
+        shell: bash
         run: |
+          set -euo pipefail
+
           demo="${{ matrix.demo }}"
-          [ -d "$demo" ] || (
+
+          [ -d "$demo" ] || {
             echo "Demo directory not found: $demo"
             exit 1
-          )
+          }
 
           echo "Processing $demo"
-          cp -f "$demo/MastgTest.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt 2>/dev/null \
-            && echo "Copied MastgTest.kt for $demo" \
-            || echo "No MastgTest.kt found for $demo"
-          cp -f "$demo/MainActivity.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MainActivity.kt 2>/dev/null \
-            && echo "Copied MainActivity.kt for $demo" \
-            || echo "No MainActivity.kt found for $demo"
-          cp -f "$demo/MastgTestWebView.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt 2>/dev/null \
-            && echo "Copied MastgTestWebView.kt for $demo" \
-            || echo "No MastgTestWebView.kt found for $demo"
-          cp -f "$demo/AndroidManifest.xml" mas-app-android/app/src/main/AndroidManifest.xml 2>/dev/null \
-            && echo "Copied AndroidManifest.xml for $demo" \
-            || echo "No AndroidManifest.xml found for $demo"
-          cp -f "$demo/filepaths.xml" mas-app-android/app/src/main/res/xml/filepaths.xml 2>/dev/null \
-            && echo "Copied filepaths.xml for $demo" \
-            || echo "No filepaths.xml found for $demo"
-          cp -f "$demo/network_security_config.xml" mas-app-android/app/src/main/res/xml/network_security_config.xml 2>/dev/null \
-            && echo "Copied network_security_config.xml for $demo" \
-            || echo "No network_security_config.xml found for $demo"
-          cp -f "$demo/backup_rules.xml" mas-app-android/app/src/main/res/xml/backup_rules.xml 2>/dev/null \
-            && echo "Copied backup_rules.xml for $demo" \
-            || echo "No backup_rules.xml found for $demo"
-          cp -f "$demo/data_extraction_rules.xml" mas-app-android/app/src/main/res/xml/data_extraction_rules.xml 2>/dev/null \
-            && echo "Copied data_extraction_rules.xml for $demo" \
-            || echo "No data_extraction_rules.xml found for $demo"
 
-          # Copy .proto files if any exist
+          copy_if_exists() {
+            local source_file="$1"
+            local target_file="$2"
+            local label="$3"
+
+            if [ -f "$source_file" ]; then
+              cp -f "$source_file" "$target_file"
+              echo "Copied $label for $demo"
+            else
+              echo "No $label found for $demo"
+            fi
+          }
+
+          copy_if_exists "$demo/MastgTest.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt MastgTest.kt
+          copy_if_exists "$demo/MainActivity.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MainActivity.kt MainActivity.kt
+          copy_if_exists "$demo/MastgTestWebView.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt MastgTestWebView.kt
+          copy_if_exists "$demo/AndroidManifest.xml" mas-app-android/app/src/main/AndroidManifest.xml AndroidManifest.xml
+          copy_if_exists "$demo/filepaths.xml" mas-app-android/app/src/main/res/xml/filepaths.xml filepaths.xml
+          copy_if_exists "$demo/network_security_config.xml" mas-app-android/app/src/main/res/xml/network_security_config.xml network_security_config.xml
+          copy_if_exists "$demo/backup_rules.xml" mas-app-android/app/src/main/res/xml/backup_rules.xml backup_rules.xml
+          copy_if_exists "$demo/data_extraction_rules.xml" mas-app-android/app/src/main/res/xml/data_extraction_rules.xml data_extraction_rules.xml
+
           if find "$demo" -maxdepth 1 -name "*.proto" -print -quit 2>/dev/null | grep -q .; then
             mkdir -p mas-app-android/app/src/main/proto
-            find "$demo" -maxdepth 1 -name "*.proto" -print0 2>/dev/null | while IFS= read -r -d '' proto_file; do
-              cp -f "$proto_file" mas-app-android/app/src/main/proto/ \
-                && echo "Copied $(basename "$proto_file") for $demo"
-            done
+
+            find "$demo" -maxdepth 1 -name "*.proto" -print0 2>/dev/null \
+              | while IFS= read -r -d '' proto_file; do
+                  cp -f "$proto_file" mas-app-android/app/src/main/proto/
+                  echo "Copied $(basename "$proto_file") for $demo"
+                done
           else
             echo "No .proto files found for $demo"
           fi
 
+          if [ -f "$demo/CMakeLists.txt" ]; then
+            mkdir -p mas-app-android/app/src/main/cpp
+
+            cp -f "$demo/CMakeLists.txt" mas-app-android/app/src/main/cpp/CMakeLists.txt
+            echo "Copied CMakeLists.txt for $demo"
+
+            find "$demo" -maxdepth 1 -name "*.cpp" -print0 2>/dev/null \
+              | while IFS= read -r -d '' cpp_file; do
+                  cp -f "$cpp_file" mas-app-android/app/src/main/cpp/
+                  echo "Copied $(basename "$cpp_file") for $demo"
+                done
+          else
+            echo "No CMakeLists.txt found for $demo"
+          fi
+
           insert_block() {
-            local kind="$1"          # plugins / sections / libs
-            local upper="${kind^^}"  # PLUGINS / SECTIONS / LIBS  (bash-specific)
+            local kind="$1"
+            local upper="${kind^^}"
             local file="$demo/build.gradle.kts.$kind"
             local target="mas-app-android/app/build.gradle.kts"
-          
+
             if [ -f "$file" ]; then
               sed -i '/\/\/ ADD_'"$upper"'_HERE/{
                 r '"$file"'
                 d
               }' "$target"
-          
+
               echo "Replaced $kind in build.gradle.kts for $demo"
             else
               echo "No build.gradle.kts.$kind found for $demo, skipping $kind replacement"
             fi
           }
-          
+
           insert_block plugins
           insert_block sections
+          insert_block android
           insert_block libs
 
           echo "Building APK for $demo"
+
           cd mas-app-android
-          grep -q 'org.gradle.caching=true' gradle.properties || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
-          ./gradlew assembleDebug --stacktrace || (
-            echo "Build failed for $demo"
-            exit 1
-          )
+
+          grep -q 'org.gradle.caching=true' gradle.properties \
+            || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
+
+          ./gradlew assembleDebug --stacktrace
+
           cd ..
-          echo "Build succeeded for $demo"          
+
+          echo "Build succeeded for $demo"
 
           apk_filename="$(basename "$demo").apk"
-          mv mas-app-android/app/build/outputs/apk/debug/app-debug.apk "$apk_filename" || (
-            echo "APK not found for $demo"
-            exit 1
-          )
+
+          mv mas-app-android/app/build/outputs/apk/debug/app-debug.apk "$apk_filename"
+
           echo "APK for $demo moved to $apk_filename"
-          echo "APK_NAME=$apk_filename" >> $GITHUB_ENV
+          echo "APK_NAME=$apk_filename" >> "$GITHUB_ENV"
 
       - name: Upload APK
         uses: actions/upload-artifact@v6
         with:
           name: ${{ env.APK_NAME }}
-          path: "${{ env.APK_NAME }}"
+          path: ${{ env.APK_NAME }}
           if-no-files-found: error
