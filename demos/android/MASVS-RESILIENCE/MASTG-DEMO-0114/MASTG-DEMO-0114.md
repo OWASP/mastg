@@ -19,7 +19,7 @@ Notes about the checks performed:
 - The sample avoids Play Integrity checks (@MASTG-KNOW-0035) because they require Play Console configuration and server-side verification, which breaks the self-contained requirement for MASTG demos.
 - The manifest declares `READ_PHONE_STATE` and `READ_PHONE_NUMBERS` so the runtime permission prompts can be shown before querying telephony values, and it includes `<queries>` entries for package visibility checks.
 
-{{ MastgTest.kt # MastgTest_reversed.java }}
+{{ MastgTest.kt # AndroidManifest.xml }}
 
 ## Steps
 
