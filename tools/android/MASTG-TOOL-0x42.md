@@ -5,63 +5,39 @@ source: https://lldb.llvm.org/
 hosts: [windows, linux, macOS]
 ---
 
-## Overview
+[lldb](https://lldb.llvm.org/) is the LLVM debugger. On Android, it can be used to debug native code in apps, including JNI libraries, native crashes, memory, registers, system calls, and compiled control flow.
 
-lldb is the LLVM debugger. On Android, you can use it to debug native code in apps and attach to processes for native-layer analysis.
+Use lldb to attach to a running process or launch an app under the debugger. Command line workflows typically use the lldb client from Android Studio or the Android NDK (@MASTG-TOOL-0005), together with a matching `lldb-server` binary running on the device.
 
-## Capabilities and Use Cases
+## Requirements and Usage Notes
 
-- Debug native libraries (JNI) and system calls.
-- Attach to running processes to inspect memory and registers.
-- Set breakpoints and step through native code paths.
+- Requires a debuggable app, a suitable test build, or sufficient device privileges such as root.
+- Apps may detect debugger attachment, root, ptrace usage, timing changes, or hooking frameworks.
+- Blocking a process on spawn until a native debugger is attached usually requires combining lldb with Java or JDWP based launch control.
+- Use a device-side `lldb-server` version that matches the host-side lldb client when possible.
 
-## Installation
-
-Use the lldb version bundled with Android Studio or the Android NDK (@MASTG-TOOL-0005). Refer to the official Android Studio and NDK debugging documentation for setup and host-specific steps.
-
-The lldb server binary for the device is located under `$LLDB_ROOT/toolchains/llvm/prebuilt/$HOST_ARCH/lib/clang/$CLANG_VERSION/lib/linux/$ANDROID_ARCH/lldb-server`. You can upload it to `/data/local/tmp` and mark it executable.
-
-## Usage
-
-Use lldb to attach to a running process or launch the app under the debugger. Refer to the official Android debugging guides for more information on the required device-side components and commands.
-
-### Debugging Example: Non-Debuggable App
-
-Below are example steps to attach lldb to a running, non-debuggable app. Since we are targeting an application built without `android:debuggable="true"`, we will need root access to successfully attach a debugger to its process:
-
-1. Spawn a root ADB shell using commands `adb shell` and `su`.
-2. Run lldb with `lldb-server p --server --listen 0.0.0.0:1234`. This will start the lldb server, listening for connections from all addresses on port `1234`. Using any other accessible port is also correct.
-3. Use ADB to forward connections to the `1234` port by running `adb forward tcp:1234 tcp:1234`.
-4. From the host, connect to the lldb server by starting lldb and running the following commands inside, where `$TARGET_PID` is the pid of the process to debug:
+The device-side `lldb-server` binary is usually located under a path similar to:
 
 ```bash
-(lldb) platform select remote-android
-(lldb) platform connect connect://localhost:1234
-(lldb) process attach -p $TARGET_PID
-```
+$LLDB_ROOT/toolchains/llvm/prebuilt/$HOST_ARCH/lib/clang/$CLANG_VERSION/lib/linux/$ANDROID_ARCH/lldb-server
+````
 
-### Debugging Example: Debuggable App
-
-If the target app is debuggable, you can also run `lldb-server` in the app context with `run-as` and debug without root.
-
-Set the target package name first:
-
-1. Copy `lldb-server` into the app data directory: `adb shell run-as "$PACKAGE_NAME" cp /data/local/tmp/lldb-server "/data/data/$PACKAGE_NAME/"`
-2. Make it executable: `adb shell run-as "$PACKAGE_NAME" chmod 700 "/data/data/$PACKAGE_NAME/lldb-server"`
-3. Start `lldb-server` from the app context: `adb shell run-as "$PACKAGE_NAME" "/data/user/0/$PACKAGE_NAME/lldb-server" platform --server --listen "*:1234"`
-4. Forward the port from device to host: `adb forward tcp:1234 tcp:1234`
-5. Spawn the target application.
-6. From the host, connect and attach from lldb:
+This path can vary between Android Studio, NDK, host platform, and LLVM versions. To locate it, search inside the Android SDK or NDK directory:
 
 ```bash
-(lldb) platform select remote-android
-(lldb) platform connect connect://localhost:1234
-(lldb) process attach -p $TARGET_PID
+find "$ANDROID_HOME" "$ANDROID_NDK_HOME" -name lldb-server 2>/dev/null
 ```
 
-### Android 14+ note for LLDB clients
+After locating the matching binary, upload it to the device and mark it executable, for example:
 
-As discussed [here](https://community.hex-rays.com/t/android-server-is-bad-since-android-14/474), some users report crashes when debugging Android 14+ processes with certain lldb clients. A workaround is to disable the JIT loader plugin and pass SIGSEGV/SIGBUS to the app while keeping the debugger attached. You can do this in LLDB before attaching:
+```bash
+adb push lldb-server /data/local/tmp/
+adb shell chmod +x /data/local/tmp/lldb-server
+```
+
+## Android 14 (API level 34) Compatibility Note
+
+Some users report crashes when debugging Android 14 (API level 34) and later processes with certain lldb clients. A reported workaround is to disable the JIT loader plugin and pass `SIGSEGV` and `SIGBUS` to the app while keeping the debugger attached:
 
 ```bash
 (lldb) settings set plugin.jit-loader.gdb.enable off
@@ -69,13 +45,4 @@ As discussed [here](https://community.hex-rays.com/t/android-server-is-bad-since
 (lldb) process handle SIGBUS -s false -p true -n false
 ```
 
-## Caveats and Limitations
-
-- Requires having either a debuggable application or a rooted device.
-- Apps can detect debugging or root and change behavior.
-- Blocking the process on spawn until a debugger is attached is not possible without also debugging through JDWP.
-
-## References
-
-- [lldb](https://lldb.llvm.org/)
-- [Android Debugging Docs](https://developer.android.com/studio/debug)
+For setup and usage instructions, refer to the official Android documentation for [debugging apps](https://developer.android.com/studio/debug), [NDK debugging](https://developer.android.com/ndk/guides/ndk-gdb), and [Android Studio run/debug configurations](https://developer.android.com/studio/run/rundebugconfig). For step-by-step examples of attaching lldb to debuggable and non-debuggable apps, see @MASTG-TECH-0031.

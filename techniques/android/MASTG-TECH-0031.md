@@ -15,14 +15,14 @@ A JDWP debugger allows you to step through Java code, set breakpoints on Java me
 
 If the app is not marked as debuggable, you can patch the manifest as shown in "Patching Example: Making an App Debuggable" in @MASTG-TECH-0038. However, re-signing is invasive and can cause instability or trigger app integrity checks. You can also enable debugging without re-signing:
 
-- Hook Android framework checks so the app appears debuggable. A framework such as @MASTG-TOOL-0027 can hook checks of the `FLAG_DEBUGGABLE` flag in `ApplicationInfo`. You can use a module such as @MASTG-TOOL-0x41 to toggle the debuggable state so JDWP can attach. This approach requires root and a hooking framework, and apps may detect it.
+- Hook Android framework checks so the app appears debuggable. A framework such as @MASTG-TOOL-0149 can hook checks of the `FLAG_DEBUGGABLE` flag in `ApplicationInfo`. You can use a module such as @MASTG-TOOL-0x41 to toggle the debuggable state so JDWP can attach. This approach requires root and a hooking framework, and apps may detect it.
 - Enable system-wide app debugging by changing system properties. On a rooted device in a privileged ADB shell, run `resetprop ro.debuggable 1`. If this causes instability, you can temporarily set SELinux to permissive with `setenforce 0`. This approach is noisy and easy for apps to detect.
 
 In the following section, we'll show how to solve the @MASTG-APP-0003 with @MASTG-TOOL-0019 alone. Note that this is not an _efficient_ way to solve this crackme. You can do it faster with @MASTG-TOOL-0001 and other methods, which we'll introduce later in the guide. This, however, serves as an introduction to the capabilities of the Java debugger.
 
 ## Debugging with @MASTG-TOOL-0019
 
-The @MASTG-TOOL-0004 command line tool was introduced in the "[Android Basic Security Testing](../../Document/0x05b-Android-Security-Testing.md "Android Basic Security Testing")" chapter. You can use its `adb jdwp` command to list the process IDs of all debuggable processes running on the connected device (i.e., processes hosting a JDWP transport). With the `adb forward` command, you can open a listening socket on your host computer and forward this socket's incoming TCP connections to the JDWP transport of a chosen process.
+You can use the @MASTG-TOOL-0004 command `adb jdwp` to list the process IDs of all debuggable processes running on the connected device (i.e., processes hosting a JDWP transport). With the `adb forward` command, you can open a listening socket on your host computer and forward this socket's incoming TCP connections to the JDWP transport of a chosen process.
 
 ```bash
 adb jdwp
@@ -299,4 +299,40 @@ lldb
 (lldb) platform select remote-android
 (lldb) platform connect connect://localhost:1234
 (lldb) process attach -p 12690
+```
+
+## Using @MASTG-TOOL-0x42
+
+### Attaching to a Non-Debuggable App
+
+Below are example steps to attach @MASTG-TOOL-0x42 to a running, non-debuggable app. Since we are targeting an application built without `android:debuggable="true"`, we will need root access to successfully attach a debugger to its process:
+
+1. Spawn a root ADB shell using `adb shell` and `su`.
+2. Run `lldb-server p --server --listen 0.0.0.0:1234`. This will start the lldb server, listening for connections from all addresses on port `1234`. Using any other accessible port is also correct.
+3. Use @MASTG-TOOL-0004 to forward connections to the `1234` port by running `adb forward tcp:1234 tcp:1234`.
+4. From the host, connect to the lldb server by starting lldb and running the following commands inside, where `$TARGET_PID` is the pid of the process to debug:
+
+```bash
+(lldb) platform select remote-android
+(lldb) platform connect connect://localhost:1234
+(lldb) process attach -p $TARGET_PID
+```
+
+### Attaching to a Debuggable App
+
+If the target app is debuggable, you can also run `lldb-server` in the app context with `run-as` and debug without root.
+
+Set the target package name first:
+
+1. Copy `lldb-server` into the app data directory: `adb shell run-as "$PACKAGE_NAME" cp /data/local/tmp/lldb-server "/data/data/$PACKAGE_NAME/"`
+2. Make it executable: `adb shell run-as "$PACKAGE_NAME" chmod 700 "/data/data/$PACKAGE_NAME/lldb-server"`
+3. Start `lldb-server` from the app context: `adb shell run-as "$PACKAGE_NAME" "/data/user/0/$PACKAGE_NAME/lldb-server" platform --server --listen "*:1234"`
+4. Forward the port from device to host: `adb forward tcp:1234 tcp:1234`
+5. Spawn the target application.
+6. From the host, connect and attach from lldb:
+
+```bash
+(lldb) platform select remote-android
+(lldb) platform connect connect://localhost:1234
+(lldb) process attach -p $TARGET_PID
 ```
