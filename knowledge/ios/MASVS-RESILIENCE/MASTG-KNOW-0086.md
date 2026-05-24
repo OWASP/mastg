@@ -2,15 +2,20 @@
 masvs_category: MASVS-RESILIENCE
 platform: ios
 title: File Integrity Checks
+best-practices: [MASTG-BEST-0x01]
 ---
 
-There are two common approaches to check file integrity: using application source code integrity checks and using file storage integrity checks.
+iOS apps can implement two complementary approaches to verify integrity at runtime: checking the application source code itself, and checking the integrity of data stored on the device.
 
 ## Application Source Code Integrity Checks
 
-In "Debugging" (@MASTG-TECH-0084), we discuss the iOS IPA application signature check. We also learn that determined reverse engineers can bypass this check by re-packaging and re-signing an app using a developer or enterprise certificate. One way to make this harder is to add a custom check that determines whether the signatures still match at runtime.
+iOS uses code signing to verify app authenticity before launch (see @MASTG-TECH-0084). Apps can also implement additional runtime checks that inspect the Mach-O binary structure to verify the integrity of the executable code. A common approach is to:
 
-Apple takes care of integrity checks with DRM. However, additional controls (such as in the example below) are possible. The `mach_header` is parsed to calculate the start of the instruction data, which is used to generate the signature. Next, the signature is compared to the given signature. Make sure that the generated signature is stored or coded somewhere else.
+1. Use `dladdr` to resolve the base address of the loaded binary.
+2. Parse the Mach-O `mach_header` and iterate through load commands to locate the `__TEXT/__text` section.
+3. Compute a cryptographic hash over the `__text` section bytes and compare it against a stored reference value.
+
+The following C example illustrates this pattern using `CC_SHA256` from [CommonCrypto](https://developer.apple.com/documentation/cryptokit):
 
 ```c
 int xyz(char *dst) {
@@ -48,12 +53,10 @@ int xyz(char *dst) {
                     uint32_t textSectionSize = section->size;
                     uint32_t * vmaddr = segment->vmaddr;
                     char * textSectionPtr = (char *)((int)header + (int)textSectionAddr - (int)vmaddr);
-                    // Calculate the signature of the data,
-                    // store the result in a string
-                    // and compare to the original one
-                    unsigned char digest[CC_MD5_DIGEST_LENGTH];
-                    CC_MD5(textSectionPtr, textSectionSize, digest);     // calculate the signature
-                    for (int i = 0; i < sizeof(digest); i++)             // fill signature
+                    // Calculate the SHA-256 hash of the __text section
+                    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
+                    CC_SHA256(textSectionPtr, textSectionSize, digest);
+                    for (int i = 0; i < sizeof(digest); i++)
                         sprintf(dst + (2 * i), "%02x", digest[i]);
 
                     // return strcmp(originalSignature, signature) == 0;    // verify signatures match
@@ -68,53 +71,36 @@ int xyz(char *dst) {
 }
 ```
 
-**Bypass:**
-
-1. Patch the anti-debugging functionality and disable the unwanted behavior by overwriting the associated code with NOP instructions.
-2. Patch any stored hash that's used to evaluate the integrity of the code.
-3. Use Frida to hook file system APIs and return a handle to the original file instead of the modified file.
+These checks can be bypassed on jailbroken devices, for example by patching the stored reference hash or hooking the comparison logic at runtime.
 
 ## File Storage Integrity Checks
 
-Apps might choose to ensure the integrity of the application storage itself, by creating an HMAC or signature over either a given key-value pair or a file stored on the device, e.g. in the Keychain, `UserDefaults`/`NSUserDefaults`, or any database.
+Apps can protect data stored on the device (for example in the Keychain, `UserDefaults`/`NSUserDefaults`, or a database) by computing an HMAC or cryptographic signature over it and verifying that value before each use.
 
-For example, an app might contain the following code to generate an HMAC with `CommonCrypto`:
-
-```objectivec
-    // Allocate a buffer to hold the digest and perform the digest.
-    NSMutableData* actualData = [getData];
-    //get the key from the keychain
-    NSData* key = [getKey];
-    NSMutableData* digestBuffer = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
-    CCHmac(kCCHmacAlgSHA256, [actualData bytes], (CC_LONG)[key length], [actualData bytes], (CC_LONG)[actualData length], [digestBuffer mutableBytes]);
-    [actualData appendData: digestBuffer];
-```
-
-This script performs the following steps:
-
-1. Get the data as `NSMutableData`.
-2. Get the data key (typically from the Keychain).
-3. Calculate the hash value.
-4. Append the hash value to the actual data.
-5. Store the results of step 4.
-
-After that, it might be verifying the HMACs by doing the following:
+A common approach uses `CCHmac` from [CommonCrypto](https://developer.apple.com/documentation/cryptokit) with a key held in the Keychain:
 
 ```objectivec
-  NSData* hmac = [data subdataWithRange:NSMakeRange(data.length - CC_SHA256_DIGEST_LENGTH, CC_SHA256_DIGEST_LENGTH)];
-  NSData* actualData = [data subdataWithRange:NSMakeRange(0, (data.length - hmac.length))];
-  NSMutableData* digestBuffer = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
-  CCHmac(kCCHmacAlgSHA256, [actualData bytes], (CC_LONG)[key length], [actualData bytes], (CC_LONG)[actualData length], [digestBuffer mutableBytes]);
-  return [hmac isEqual: digestBuffer];
+// Generate HMAC
+NSMutableData* actualData = [getData];
+NSData* key = [getKey];  // key retrieved from the Keychain
+NSMutableData* digestBuffer = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
+CCHmac(kCCHmacAlgSHA256, [key bytes], (CC_LONG)[key length], [actualData bytes], (CC_LONG)[actualData length], [digestBuffer mutableBytes]);
+[actualData appendData: digestBuffer];
 ```
 
-1. Extracts the message and the hmacbytes as separate `NSData`.
-2. Repeats steps 1-3 of the procedure for generating an HMAC on the `NSData`.
-3. Compares the extracted HMAC bytes to the result of step 1.
+Verification recomputes the HMAC and compares it to the stored value:
 
-Note: if the app also encrypts files, make sure that it encrypts and then calculates the HMAC as described in [Authenticated Encryption](https://web.archive.org/web/20210804035343/https://cseweb.ucsd.edu/~mihir/papers/oem.html "Authenticated Encryption: Relations among notions and analysis of the generic composition paradigm").
+```objectivec
+// Verify HMAC
+NSData* hmac = [data subdataWithRange:NSMakeRange(data.length - CC_SHA256_DIGEST_LENGTH, CC_SHA256_DIGEST_LENGTH)];
+NSData* actualData = [data subdataWithRange:NSMakeRange(0, (data.length - hmac.length))];
+NSMutableData* digestBuffer = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
+CCHmac(kCCHmacAlgSHA256, [key bytes], (CC_LONG)[key length], [actualData bytes], (CC_LONG)[actualData length], [digestBuffer mutableBytes]);
+return [hmac isEqual: digestBuffer];
+```
 
-**Bypass:**
+Alternatively, the [Security framework](https://developer.apple.com/documentation/security) provides `SecKeyCreateSignature` and `SecKeyVerifySignature` for asymmetric signing of stored data.
 
-1. Retrieve the data from the device, as described in @MASTG-KNOW-0090.
-2. Alter the retrieved data and return it to storage.
+When data is both encrypted and MACed, the [Encrypt-then-MAC](https://web.archive.org/web/20210804035343/https://cseweb.ucsd.edu/~mihir/papers/oem.html "Authenticated Encryption: Relations among notions and analysis of the generic composition paradigm") ordering provides stronger integrity guarantees: the HMAC is computed over the ciphertext rather than the plaintext.
+
+These checks can be circumvented on jailbroken devices by extracting the HMAC key from the Keychain or by intercepting the verification function at runtime.
