@@ -1,13 +1,13 @@
 ---
 platform: ios
 title: References to Source Code Integrity Check APIs
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0354
 type: [static, code]
 weakness: MASWE-0104
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0086]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0048]
 ---
 
 ## Overview
