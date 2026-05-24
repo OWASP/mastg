@@ -15,7 +15,7 @@ A JDWP debugger allows you to step through Java code, set breakpoints on Java me
 
 If the app is not marked as debuggable, you can patch the manifest as shown in "Patching Example: Making an App Debuggable" in @MASTG-TECH-0038. However, re-signing is invasive and can cause instability or trigger app integrity checks. You can also enable debugging without re-signing:
 
-- Hook Android framework checks so the app appears debuggable. A framework such as @MASTG-TOOL-0149 can hook checks of the `FLAG_DEBUGGABLE` flag in `ApplicationInfo`. You can use a module such as @MASTG-TOOL-0x41 to toggle the debuggable state so JDWP can attach. This approach requires root and a hooking framework, and apps may detect it.
+- Hook Android framework checks so the app appears debuggable. A framework such as @MASTG-TOOL-0149 can hook checks of the `FLAG_DEBUGGABLE` flag in `ApplicationInfo`. You can use a module such as @MASTG-TOOL-0151 to toggle the debuggable state so JDWP can attach. This approach requires root and a hooking framework, and apps may detect it.
 - Enable system-wide app debugging by changing system properties. On a rooted device in a privileged ADB shell, run `resetprop ro.debuggable 1`. If this causes instability, you can temporarily set SELinux to permissive with `setenforce 0`. This approach is noisy and easy for apps to detect.
 
 In the following section, we'll show how to solve the @MASTG-APP-0003 with @MASTG-TOOL-0019 alone. Note that this is not an _efficient_ way to solve this crackme. You can do it faster with @MASTG-TOOL-0001 and other methods, which we'll introduce later in the guide. This, however, serves as an introduction to the capabilities of the Java debugger.
@@ -209,7 +209,7 @@ Native code on Android is packed into ELF shared libraries and runs just like an
 
 !!! warning
 
-    As stated in the official [Android docs](https://source.android.com/docs/core/tests/debug/gdb), GDB support is deprecated in favor of lldb (@MASTG-TOOL-0x42).
+    As stated in the official [Android docs](https://source.android.com/docs/core/tests/debug/gdb), GDB support is deprecated in favor of lldb (@MASTG-TOOL-0152).
 
 You'll now set up your JNI demo app, HelloWorld-JNI.apk, for debugging. It's the same APK you downloaded in "Statically Analyzing Native Code". Use `adb install` to install it on your device or on an emulator.
 
@@ -301,11 +301,11 @@ lldb
 (lldb) process attach -p 12690
 ```
 
-## Using @MASTG-TOOL-0x42
+## Using @MASTG-TOOL-0152
 
 ### Attaching to a Non-Debuggable App
 
-Below are example steps to attach @MASTG-TOOL-0x42 to a running, non-debuggable app. Since we are targeting an application built without `android:debuggable="true"`, we will need root access to successfully attach a debugger to its process:
+Below are example steps to attach @MASTG-TOOL-0152 to a running, non-debuggable app. Since we are targeting an application built without `android:debuggable="true"`, we will need root access to successfully attach a debugger to its process:
 
 1. Spawn a root ADB shell using `adb shell` and `su`.
 2. Run `lldb-server p --server --listen 0.0.0.0:1234`. This will start the lldb server, listening for connections from all addresses on port `1234`. Using any other accessible port is also correct.

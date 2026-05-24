@@ -1,7 +1,7 @@
 ---
 title: Continuous Anti-Debugging Checks
 alias: continuous-anti-debugging-checks
-id: MASTG-BEST-0x32
+id: MASTG-BEST-0047
 platform: android
 knowledge: [MASTG-KNOW-0028]
 ---

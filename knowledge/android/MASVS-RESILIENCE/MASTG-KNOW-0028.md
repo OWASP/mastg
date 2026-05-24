@@ -184,9 +184,9 @@ When you debug an app and set a breakpoint on native code, Android Studio will c
 
 > Remember that **this only applies to native code**. If you're debugging a Java/Kotlin-only app the value of the "TracerPid" field should be 0.
 
-This technique is usually applied within the JNI native libraries in C, as shown in @MASTG-DEMO-0x41. However, if you prefer to include this check as part of your Java/Kotlin code you can refer to this Java implementation of the `hasTracerPid` method from [Tim Strazzere's Anti-Emulator project](https://github.com/strazzere/anti-emulator/ "anti-emulator").
+This technique is usually applied within the JNI native libraries in C, as shown in @MASTG-DEMO-0116. However, if you prefer to include this check as part of your Java/Kotlin code you can refer to this Java implementation of the `hasTracerPid` method from [Tim Strazzere's Anti-Emulator project](https://github.com/strazzere/anti-emulator/ "anti-emulator").
 
-When trying to implement such a method yourself, you can manually check the value of TracerPid with @MASTG-TOOL-0004. The following listing uses Google's NDK sample app [hello-jni (com.example.hellojni)](https://github.com/android/ndk-samples/tree/android-mk/hello-jni "hello-jni sample") to perform the check after attaching lldb (@MASTG-TOOL-0x42):
+When trying to implement such a method yourself, you can manually check the value of TracerPid with @MASTG-TOOL-0004. The following listing uses Google's NDK sample app [hello-jni (com.example.hellojni)](https://github.com/android/ndk-samples/tree/android-mk/hello-jni "hello-jni sample") to perform the check after attaching lldb (@MASTG-TOOL-0152):
 
 ```bash
 $ adb shell ps -A | grep com.example.hellojni

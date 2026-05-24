@@ -1,10 +1,10 @@
 ---
 platform: android
 title: References to Debugging Detection APIs
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0352
 type: [static, code, manual]
 weakness: MASWE-0101
-best-practices: [MASTG-BEST-0007, MASTG-BEST-0029, MASTG-BEST-0x32]
+best-practices: [MASTG-BEST-0007, MASTG-BEST-0029, MASTG-BEST-0047]
 profiles: [R]
 knowledge: [MASTG-KNOW-0007, MASTG-KNOW-0028]
 ---
@@ -17,10 +17,10 @@ See @MASTG-KNOW-0028 for more information on debugging detection techniques and 
 
 This test checks whether the app references JDWP and/or native debugging detection mechanisms in its code.
 
-This test is best combined with @MASTG-TEST-0x02, which performs dynamic testing to confirm whether the identified debugging detection mechanisms are active at runtime. Use the findings from this test to focus dynamic analysis in @MASTG-TEST-0x02 on specific checks.
+This test is best combined with @MASTG-TEST-0353, which performs dynamic testing to confirm whether the identified debugging detection mechanisms are active at runtime. Use the findings from this test to focus dynamic analysis in @MASTG-TEST-0353 on specific checks.
 
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of debugging detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0x32 for best practices on implementing debugging detection effectively.
+    This test does not cover robustness or effectiveness of debugging detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0047 for best practices on implementing debugging detection effectively.
 
 ## Steps
 
@@ -37,7 +37,7 @@ The output should contain a list of locations in the Java/Kotlin code and/or nat
 
 The test case fails if the app contains no debugging detection patterns in either its Java/Kotlin code or its native libraries. However, note that static analysis may not detect all debugging detection mechanisms, especially if they are obfuscated or implemented in native code using patterns not covered by the analysis.
 
-If debugging detection patterns are found, this is a positive sign, but you should still evaluate their effectiveness using @MASTG-TEST-0x02.
+If debugging detection patterns are found, this is a positive sign, but you should still evaluate their effectiveness using @MASTG-TEST-0353.
 
 **Further Validation Required:**
 

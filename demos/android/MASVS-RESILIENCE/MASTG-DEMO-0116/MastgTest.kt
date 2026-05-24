@@ -27,13 +27,13 @@ class MastgTest (private val context: Context){
             val tracerPidKotlin = getTracerPidFromProcStatus()
 
             if (tracerPidKotlin > 0) {
-                // FAIL: [MASTG-TEST-0x01] TracerPid is non-zero, indicating ptrace-based native debugging.
+                // FAIL: [MASTG-TEST-0352] TracerPid is non-zero, indicating ptrace-based native debugging.
                 r.add(
                     Status.FAIL,
                     "Kotlin check: native debugger detected via TracerPid=$tracerPidKotlin in /proc/self/status."
                 )
             } else {
-                // PASS: [MASTG-TEST-0x01] TracerPid is zero, indicating no ptrace-based native debugger is attached.
+                // PASS: [MASTG-TEST-0352] TracerPid is zero, indicating no ptrace-based native debugger is attached.
                 r.add(
                     Status.PASS,
                     "Kotlin check: no native debugger detected via TracerPid=$tracerPidKotlin in /proc/self/status."
@@ -58,13 +58,13 @@ class MastgTest (private val context: Context){
             if (tracerPidNative < 0) {
                 r.add(Status.ERROR, "Native check failed: could not read or parse TracerPid from /proc/self/status.")
             } else if (tracerPidNative > 0) {
-                // FAIL: [MASTG-TEST-0x01] Native TracerPid check detected ptrace-based debugging.
+                // FAIL: [MASTG-TEST-0352] Native TracerPid check detected ptrace-based debugging.
                 r.add(
                     Status.FAIL,
                     "Native check: native debugger detected via TracerPid=$tracerPidNative in /proc/self/status."
                 )
             } else {
-                // PASS: [MASTG-TEST-0x01] Native TracerPid check did not detect ptrace-based debugging.
+                // PASS: [MASTG-TEST-0352] Native TracerPid check did not detect ptrace-based debugging.
                 r.add(
                     Status.PASS,
                     "Native check: no native debugger detected via TracerPid=$tracerPidNative in /proc/self/status."
@@ -84,13 +84,13 @@ class MastgTest (private val context: Context){
             } else if (tracerPidInline < 0) {
                 r.add(Status.ERROR, "Inline-syscall native check failed: could not read or parse TracerPid.")
             } else if (tracerPidInline > 0) {
-                // FAIL: [MASTG-TEST-0x01] Inline-syscall native TracerPid check detected ptrace-based debugging.
+                // FAIL: [MASTG-TEST-0352] Inline-syscall native TracerPid check detected ptrace-based debugging.
                 r.add(
                     Status.FAIL,
                     "Inline-syscall native check: native debugger detected via TracerPid=$tracerPidInline in /proc/self/status."
                 )
             } else {
-                // PASS: [MASTG-TEST-0x01] Inline-syscall native TracerPid check did not detect ptrace-based debugging.
+                // PASS: [MASTG-TEST-0352] Inline-syscall native TracerPid check did not detect ptrace-based debugging.
                 r.add(
                     Status.PASS,
                     "Inline-syscall native check: no native debugger detected via TracerPid=$tracerPidInline in /proc/self/status."
@@ -103,13 +103,13 @@ class MastgTest (private val context: Context){
         try {
             val ptraceSelf = ptraceSelfDetectNative()
             if (ptraceSelf > 0) {
-                // FAIL: [MASTG-TEST-0x01] Native ptrace self-check indicates a ptrace-based debugger is attached.
+                // FAIL: [MASTG-TEST-0352] Native ptrace self-check indicates a ptrace-based debugger is attached.
                 r.add(
                     Status.FAIL,
                     "Native ptrace self-check: debugger likely detected (child could not PTRACE_SEIZE parent: EPERM)."
                 )
             } else if (ptraceSelf == 0) {
-                // PASS: [MASTG-TEST-0x01] Native ptrace self-check did not detect a ptrace-based debugger.
+                // PASS: [MASTG-TEST-0352] Native ptrace self-check did not detect a ptrace-based debugger.
                 r.add(
                     Status.PASS,
                     "Native ptrace self-check: no ptrace-based debugger detected (child seized parent)."
