@@ -16,7 +16,7 @@ This sample detects an attached JDWP debugger at runtime by calling `Debug.isDeb
 
 ## Steps
 
-Run the static analysis rule against the decompiled code.
+Let's run @MASTG-TOOL-0110 with the following rule:
 
 {{ ../../../../rules/mastg-android-debugger-checks.yml }}
 

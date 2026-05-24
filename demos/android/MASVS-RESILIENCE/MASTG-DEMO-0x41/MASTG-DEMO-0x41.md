@@ -4,7 +4,7 @@ title: Native Anti-Debugging Checks with TracerPid and ptrace
 id: MASTG-DEMO-0x41
 code: [kotlin, cpp]
 test: MASTG-TEST-0x01
-tools: [MASTG-TOOL-0110, MASTG-TOOL-0073, MASTG-TOOL-0x42]
+tools: [MASTG-TOOL-0110, MASTG-TOOL-0073]
 kind: pass
 ---
 
@@ -18,7 +18,7 @@ This sample demonstrates native anti-debugging checks that inspect `TracerPid` i
 
 ## Steps
 
-Run the native anti-debugging Semgrep rule against the decompiled Java file, then run the r2 script against the compiled native library (`libtracerpidcheck.so`).
+Let's run @MASTG-TOOL-0110 against the decompiled code and @MASTG-TOOL-0073 against the compiled native library:
 
 {{ ../../../../rules/mastg-android-native-debugger-checks.yml }}
 {{ native_debugger_checks.r2 }}
@@ -26,10 +26,12 @@ Run the native anti-debugging Semgrep rule against the decompiled Java file, the
 
 ## Observation
 
-The output should contain detections for native anti-debugging indicators such as testing for `TracerPid` in `/proc/self/status`, and testing for usage of `ptrace(PTRACE_SEIZE)`. This demo does not use the alternative `PTRACE_ATTACH`, but it should also be taken into account when looking for indicators of anti-debugging checks.
+The output contains detections for native anti-debugging indicators, including `TracerPid` checks in `/proc/self/status` and `ptrace(PTRACE_SEIZE)` usage.
 
 {{ output.txt }}
 
 ## Evaluation
 
 The test passes because the app implements native debugger detection checks, for example `getTracerPidFromProcStatus()` at `MastgTest_reversed.java` line 56, native `TracerPid` JNI checks invoked at lines 79 and 91, and `/proc/self/status` parsing at lines 126 and 133. The output also reports native `ptrace` anti-debugging logic in the compiled library: `mov w0, 0x4206` loads the `PTRACE_SEIZE` request before calling `sym.imp.ptrace`.
+
+Note that this demo uses `ptrace(PTRACE_SEIZE)` for its self-check, but you should also check for `ptrace(PTRACE_ATTACH)`, which is an alternative approach used in real-world apps.
