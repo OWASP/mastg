@@ -1,7 +1,7 @@
 ---
 title: Implementing File Integrity Checks on iOS
 alias: implementing-file-integrity-checks-ios
-id: MASTG-BEST-0048
+id: MASTG-BEST-0x01
 platform: ios
 knowledge: [MASTG-KNOW-0086]
 ---

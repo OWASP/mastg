@@ -1,13 +1,13 @@
 ---
 platform: ios
 title: References to File Storage Integrity Check APIs
-id: MASTG-TEST-0355
+id: MASTG-TEST-0x02
 type: [static, code]
 weakness: MASWE-0105
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0086]
-best-practices: [MASTG-BEST-0048]
+best-practices: [MASTG-BEST-0x01]
 ---
 
 ## Overview
