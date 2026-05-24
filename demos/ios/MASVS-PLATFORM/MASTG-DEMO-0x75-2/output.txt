@@ -1,0 +1,5 @@
+List all references to URL scheme handler 'application:openURL:options:':
+0x100010ab0 8 reloc.fixup.application:openURL:options:
+
+List all xrefs to 'application:openURL:options:':
+sym.MASTestApp.AppDelegate.application_open_options__1 0x100005210 [CODE:--x] bl sym.imp.objc_msgSend
