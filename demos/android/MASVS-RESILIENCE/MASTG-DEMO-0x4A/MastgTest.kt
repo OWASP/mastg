@@ -1,14 +1,13 @@
 package org.owasp.mastestapp
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Looper
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
-import java.lang.reflect.Modifier
 
 class MastgTest(private val context: Context) {
 
@@ -16,42 +15,13 @@ class MastgTest(private val context: Context) {
         val r = DemoResults("0x4A")
         var anyFail = false
 
-        try {
-            val managers = checkKnownXposedManagerPackages()
-            if (managers.isNotEmpty()) {
-                // FAIL: [MASTG-TEST-0x49] A known Xposed Manager package is installed.
-                r.add(Status.FAIL, "Xposed Manager package(s) installed: ${managers.joinToString(", ")}")
-                anyFail = true
-            } else {
-                // PASS: [MASTG-TEST-0x49] No known Xposed Manager package is installed.
-                r.add(Status.PASS, "No known Xposed Manager package found via PackageManager.")
-            }
-        } catch (e: Exception) {
-            r.add(Status.ERROR, "Manager lookup failed: $e")
-        }
-
-        try {
-            val tampered = checkHookedMethodSignatures()
-            if (tampered.isNotEmpty()) {
-                // FAIL: [MASTG-TEST-0x49] A guaranteed-native method has had its NATIVE bit cleared.
-                r.add(Status.FAIL, "Methods appear to be hooked: ${tampered.joinToString(", ")}")
-                anyFail = true
-            } else {
-                // PASS: [MASTG-TEST-0x49] Sensitive methods retain their original modifiers.
-                r.add(Status.PASS, "Audited native methods retain their NATIVE modifier.")
-            }
-        } catch (e: Exception) {
-            r.add(Status.ERROR, "Method-descriptor check failed: $e")
-        }
-
+  
         try {
             val foreignDexes = checkForeignDexesInMaps()
             if (foreignDexes.isNotEmpty()) {
-                // FAIL: [MASTG-TEST-0x49] A foreign APK/DEX is mapped into our process.
                 r.add(Status.FAIL, "Foreign DEX/APK mapped into process: ${foreignDexes.joinToString(", ")}")
                 anyFail = true
             } else {
-                // PASS: [MASTG-TEST-0x49] No foreign DEX/APK is mapped.
                 r.add(Status.PASS, "No foreign DEX/APK mapped into process.")
             }
         } catch (e: Exception) {
@@ -61,11 +31,9 @@ class MastgTest(private val context: Context) {
         try {
             val frames = checkInstrumentationFramesInStacks()
             if (frames.isNotEmpty()) {
-                // FAIL: [MASTG-TEST-0x49] An instrumentation framework frame was found on a stack.
                 r.add(Status.FAIL, "Instrumentation frames on stack: ${frames.joinToString(", ")}")
                 anyFail = true
             } else {
-                // PASS: [MASTG-TEST-0x49] No instrumentation frames observed in any stack.
                 r.add(Status.PASS, "No Xposed/LSPosed/Frida frames found in any thread's stack.")
             }
         } catch (e: Exception) {
@@ -73,7 +41,7 @@ class MastgTest(private val context: Context) {
         }
 
         if (anyFail) promptUserForLiability(
-            "Reverse-engineering or instrumentation tooling (Xposed/LSPosed/Frida) was " +
+            "Reverse-engineering or instrumentation tooling (Xposed/LSPosed) was " +
             "detected on this device. Continued use may compromise app security and data " +
             "integrity. Tap \"Accept Liability\" to acknowledge the risk and continue, or " +
             "\"Exit\" to close the app."
@@ -95,40 +63,6 @@ class MastgTest(private val context: Context) {
                 .show()
         }
     }
-    private fun checkKnownXposedManagerPackages(): List<String> {
-        val knownManagers = listOf(
-            "de.robv.android.xposed.installer",  // classic Xposed
-            "org.meowcat.edxposed.manager",      // EdXposed
-            "io.va.exposed",                     // VirtualXposed
-            "com.solohsu.android.edxp.manager",  // EdXposed (alt)
-            "org.lsposed.manager"                // modern LSPosed
-        )
-        val pm = context.packageManager
-        return knownManagers.filter { pkg ->
-            try { pm.getPackageInfo(pkg, 0); true } catch (_: PackageManager.NameNotFoundException) { false }
-        }
-    }
-
-    private fun checkHookedMethodSignatures(): List<String> {
-        val tampered = mutableListOf<String>()
-        val targets = mapOf(
-            "java.lang.System" to listOf("currentTimeMillis", "nanoTime"),
-            "java.lang.Object" to listOf("notify", "notifyAll"),
-            "java.lang.Thread" to listOf("currentThread")
-        )
-        for ((cls, methods) in targets) {
-            try {
-                val c = Class.forName(cls)
-                for (mName in methods) {
-                    val m = c.getDeclaredMethod(mName)
-                    if (!Modifier.isNative(m.modifiers)) {
-                        tampered.add("$cls.$mName (native bit cleared, modifiers=0x${Integer.toHexString(m.modifiers)})")
-                    }
-                }
-            } catch (_: Exception) { /* ignore */ }
-        }
-        return tampered
-    }
 
     private fun checkForeignDexesInMaps(): List<String> {
         val ownPkg = context.packageName
@@ -147,7 +81,6 @@ class MastgTest(private val context: Context) {
         return hits.toList()
     }
 
-
     private fun checkInstrumentationFramesInStacks(): List<String> {
         val needles = listOf(
             "de.robv.android.xposed",
@@ -156,8 +89,7 @@ class MastgTest(private val context: Context) {
             "lsphooker_",
             "lsplant",
             "edxposed",
-            "re.frida",
-            "gum-js"
+            "re.frida"
         )
         val hits = LinkedHashSet<String>()
 
@@ -173,17 +105,20 @@ class MastgTest(private val context: Context) {
             }
         }
 
+
         try {
             context.packageManager.getPackageInfo("___xposed_probe_${System.nanoTime()}", 0)
         } catch (e: Throwable) {
             scan("getPackageInfo", e.stackTrace)
         }
 
+
         try {
             Runtime.getRuntime().exec(arrayOf("/__xposed_probe_${System.nanoTime()}"))
         } catch (e: Throwable) {
             scan("Runtime.exec", e.stackTrace)
         }
+
 
         try {
             File("/__xposed_probe_${System.nanoTime()}").exists()
@@ -193,6 +128,7 @@ class MastgTest(private val context: Context) {
             scan("File.exists", e.stackTrace)
         }
 
+
         try {
             val all = Thread.getAllStackTraces()
             for ((thread, frames) in all) {
@@ -200,23 +136,7 @@ class MastgTest(private val context: Context) {
             }
         } catch (_: Throwable) { /* SecurityManager could block — ignore */ }
 
-        val nativeThreadNeedles = listOf("gum-js", "gmain", "pool-frida", "frida", "linjector", "lspd", "xposed", "lsphooker")
-        try {
-            val tasks = File("/proc/self/task").listFiles() ?: emptyArray()
-            for (task in tasks) {
-                val commFile = File(task, "comm")
-                if (!commFile.canRead()) continue
-                val name = try { commFile.readText().trim() } catch (_: Throwable) { continue }
-                val low = name.lowercase()
-                for (n in nativeThreadNeedles) {
-                    if (low.contains(n)) {
-                        hits.add("native-thread: $name")
-                        break
-                    }
-                }
-            }
-        } catch (_: Throwable) {}
-
         return hits.toList()
     }
+
 }
