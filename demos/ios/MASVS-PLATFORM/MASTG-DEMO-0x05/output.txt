@@ -1,0 +1,21 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                   
+    MastgTest.swift
+    ❯❱ rules.mastg-ios-evaluate-javascript-dom-write
+          [MASWE-0069] evaluateJavaScript writes data into a DOM element (innerHTML, textContent, or value).
+          Any JavaScript running on the page can read data written into DOM elements. Display sensitive     
+          information using a native UIKit or SwiftUI view overlay instead.                                 
+                                                                                                            
+           41┆ webView.evaluateJavaScript(
+           42┆     "document.getElementById('otp-display').textContent = '482910'",
+           43┆     completionHandler: nil
+           44┆ )
+            ⋮┆----------------------------------------
+           48┆ webView.evaluateJavaScript(
+           49┆     "document.getElementById('balance-display').textContent = '$4,200.00'",
+           50┆     completionHandler: nil
+           51┆ )

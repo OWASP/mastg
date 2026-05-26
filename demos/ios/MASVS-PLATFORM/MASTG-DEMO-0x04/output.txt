@@ -1,0 +1,30 @@
+                   
+                   
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+                   
+    MastgTest.swift
+    ❯❱ rules.mastg-ios-evaluate-javascript-without-content-world
+          [MASWE-0069] evaluateJavaScript called without a content world. Use evaluateJavaScript with a custom
+          WKContentWorld to isolate the script from page JavaScript.                                          
+                                                                                                              
+           45┆ webView.evaluateJavaScript("document.querySelector('#account-number').textContent",
+           46┆                            completionHandler: { value, _ in
+           47┆     let account = value as? String ?? "unknown"
+           48┆     completion("Account: \(account)")
+           49┆ })
+            ⋮┆----------------------------------------
+           52┆ webView.evaluateJavaScript("document.querySelector('#balance').textContent",
+           53┆                            completionHandler: { value, _ in
+           54┆     let balance = value as? String ?? "unknown"
+           55┆     completion("Balance: \(balance)")
+           56┆ })
+            ⋮┆----------------------------------------
+           59┆ webView.evaluateJavaScript(
+           60┆     "document.querySelector('input[name=recipient]').value",
+           61┆     completionHandler: { value, _ in
+           62┆         let recipient = value as? String ?? "unknown"
+           63┆         completion("Recipient: \(recipient)")
+           64┆     }
+           65┆ )

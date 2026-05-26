@@ -1,0 +1,11 @@
+rules:
+  - id: mastg-ios-evaluate-javascript-without-content-world
+    languages:
+      - swift
+    severity: WARNING
+    metadata:
+      summary: evaluateJavaScript called without a content world runs in the page world.
+    message: >
+      [MASWE-0069] evaluateJavaScript called without a content world.
+      Use evaluateJavaScript with a custom WKContentWorld to isolate the script from page JavaScript.
+    pattern: "$WEBVIEW.evaluateJavaScript($SCRIPT, completionHandler: $HANDLER)"
