@@ -1,0 +1,5 @@
+Search for 'password' in the binary string table:
+0x00013a10 528 <!DOCTYPE html>\n<html>\n...<input type="password" id="password" placeholder="Password" />...
+
+xrefs to the string containing the password field:
+sym.MASTestApp.MastgTest.showWebView._6E8AB2C58CE173A727EF27CB85DF8CD8.completion_...FZ_ 0x1d3c [DATA:r--] adrp x8, str.type__password

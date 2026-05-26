@@ -6,7 +6,7 @@ type: [static]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x05]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0076]
+knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
 ---
 
 ## Overview
@@ -22,7 +22,7 @@ window.receiveSecret = function(secret) {
 };
 ```
 
-The secure alternative is [`WKScriptMessageHandlerWithReply`](https://developer.apple.com/documentation/webkit/wkscriptmessagehandlerwithreply), which returns the reply directly to the calling content world via a Promise without writing anything into the page context.
+The secure alternative is [`WKScriptMessageHandlerWithReply`](https://developer.apple.com/documentation/webkit/wkscriptmessagehandlerwithreply), which returns the reply directly to the calling content world without writing anything into the page context.
 
 This test checks whether the app uses `evaluateJavaScript:completionHandler:` within `WKScriptMessageHandler` implementations to return data to page JavaScript.
 
@@ -37,4 +37,4 @@ The output should contain a list of locations where `evaluateJavaScript:completi
 
 ## Evaluation
 
-The test fails if `evaluateJavaScript:completionHandler:` is called and the injected JavaScript string contains or derives from sensitive data. Refer to @MASTG-BEST-0x05 for the recommended alternative.
+The test case fails if `evaluateJavaScript:completionHandler:` is called and the injected JavaScript string contains or derives from sensitive data.

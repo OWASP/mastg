@@ -62,14 +62,14 @@ Because the `UITextField` is a native view outside the `WKWebView`'s rendering c
 
 ## Send the Value Natively
 
-Once the user confirms the input (for example, on return key or a native button), send the value directly from Swift — to your own API, Keychain, or another native layer — without writing it back into the DOM:
+Once the user confirms the input (for example, on return key or a native button), send the value directly from Swift (to your own API, Keychain, or another native layer) without writing it back into the DOM:
 
 ```swift
 secureField.addTarget(self, action: #selector(submitSecureValue(_:)), for: .editingDidEndOnExit)
 
 @objc func submitSecureValue(_ field: UITextField) {
     guard let value = field.text else { return }
-    // Submit natively — never assign to a DOM element
+    // Submit natively, never assign to a DOM element
     authManager.submitPasscode(value)
     field.removeFromSuperview()
 }
@@ -79,4 +79,4 @@ If the downstream flow requires the page to proceed (for example, to submit a fo
 
 ## Do Not Write the Value Back into the DOM
 
-Setting a password input's `.value` from Swift — even from an isolated world — makes the value readable by page JavaScript. If the submission flow requires the page's form, consider bypassing the HTML form entirely and submitting the credential directly from native code.
+Setting a password input's `.value` from Swift (even from an isolated world) makes the value readable by page JavaScript. If the submission flow requires the page's form, consider bypassing the HTML form entirely and submitting the credential directly from native code.

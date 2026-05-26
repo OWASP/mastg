@@ -26,4 +26,4 @@ The output should contain a list of locations in the binary where password field
 
 ## Evaluation
 
-The test fails if the binary contains `type="password"` references and the app does not implement a native input overlay as described in @MASTG-BEST-0x03.
+The test case fails if the binary contains `type="password"` references and the app does not implement a native input overlay.

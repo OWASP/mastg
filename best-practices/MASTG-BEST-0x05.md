@@ -40,6 +40,6 @@ func userContentController(_ ucc: WKUserContentController,
 On the JavaScript side, the call becomes a simple `await`:
 
 ```javascript
-// No global callback needed — the reply arrives as a resolved Promise value
+// No global callback needed, the reply arrives as a resolved Promise value
 const secret = await window.webkit.messageHandlers.bridge.postMessage({action: "getSecret"});
 ```

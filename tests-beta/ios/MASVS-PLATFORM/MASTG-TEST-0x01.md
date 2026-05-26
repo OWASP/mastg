@@ -21,8 +21,8 @@ This test checks whether the app registers native bridge handlers that expose se
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, looking for calls to `WKUserContentController.add(_:name:)`.
+1. Use @MASTG-TECH-0058 to extract the app.
+2. Use @MASTG-TOOL-0073 on the app binary, looking for calls to `WKUserContentController.add(_:name:)`.
 
 ## Observation
 

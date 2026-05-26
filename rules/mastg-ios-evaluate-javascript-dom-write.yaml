@@ -6,7 +6,7 @@ rules:
     metadata:
       summary: evaluateJavaScript assigns data into a DOM element, exposing it to page JavaScript.
     message: >
-      [MASWE-0069] evaluateJavaScript writes data into a DOM element (innerHTML, textContent, or value).
+      [MASVS-PLATFORM-2] evaluateJavaScript writes data into a DOM element (innerHTML, textContent, or value).
       Any JavaScript running on the page can read data written into DOM elements.
       Display sensitive information using a native UIKit or SwiftUI view overlay instead.
     patterns:

@@ -28,4 +28,4 @@ The output should contain a list of locations where `evaluateJavaScript:completi
 
 ## Evaluation
 
-The test fails if `evaluateJavaScript:completionHandler:` is used to read DOM content in a security-relevant context. Refer to @MASTG-BEST-0x04 for the recommended alternative.
+The test case fails if `evaluateJavaScript:completionHandler:` is used to read DOM content in a security-relevant context.

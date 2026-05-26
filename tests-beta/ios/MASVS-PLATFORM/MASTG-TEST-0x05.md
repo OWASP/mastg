@@ -6,7 +6,7 @@ type: [static]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x02]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0076]
+knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
 ---
 
 ## Overview
@@ -36,4 +36,4 @@ The output should contain a list of locations where `evaluateJavaScript:completi
 
 ## Evaluation
 
-The test fails if `evaluateJavaScript:completionHandler:` is used to assign sensitive data to a DOM element property. Refer to @MASTG-BEST-0x02 for the recommended alternative.
+The test case fails if `evaluateJavaScript:completionHandler:` is used to assign sensitive data to a DOM element property.
