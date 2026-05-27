@@ -2,12 +2,21 @@ e asm.bytes=false
 e scr.color=false
 e asm.var=false
 
-?e List all references to URL scheme handler 'application:openURL:options:':
+?e === Registered URL schemes (strings containing "://") ===
+izz~://
 
+?e
+?e === URL handler method references ===
 f~openURL:options
 
 ?e
-
-?e List all xrefs to 'application:openURL:options:':
-
+?e === Cross-references to application:openURL:options: implementation ===
 axt @ reloc.fixup.application:openURL:options:
+
+?e
+?e === References to UIApplicationOpenURLOptionsSourceApplicationKey ===
+f~UIApplicationOpenURLOptionsSourceApplicationKey
+
+?e
+?e === Disassembly of URL handler function ===
+pdf @ sym.MASTestApp.AppDelegate.application_open_options__1

@@ -1,8 +1,0 @@
-List all references to deprecated URL scheme handler 'handleOpenURL:':
-0x100010a20 8 reloc.fixup.application:handleOpenURL:
-
-List all references to deprecated URL scheme handler 'openURL:sourceApplication:annotation:':
-(none)
-
-List all references to deprecated UIApplication 'openURL:':
-(none)

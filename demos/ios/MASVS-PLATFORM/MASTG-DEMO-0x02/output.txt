@@ -1,5 +1,87 @@
-List all references to URL scheme handler 'application:openURL:options:':
+=== Registered URL schemes (strings containing "://") ===
+36 0x000ee508 0x000ee508  14  15 (4.__TEXT.__cstring) ascii mastgtest-safe
+37 0x000ee518 0x000ee518  10  11 (4.__TEXT.__cstring) ascii mastgtest
+38 0x000ee524 0x000ee524  10  11 (4.__TEXT.__cstring) ascii mastgtest
+39 0x000ee530 0x000ee530  14  15 (4.__TEXT.__cstring) ascii mastgtest-safe
+
+=== URL handler method references ===
 0x100010ab0 8 reloc.fixup.application:openURL:options:
 
-List all xrefs to 'application:openURL:options:':
+=== Cross-references to application:openURL:options: implementation ===
 sym.MASTestApp.AppDelegate.application_open_options__1 0x100005210 [CODE:--x] bl sym.imp.objc_msgSend
+
+=== References to UIApplicationOpenURLOptionsSourceApplicationKey ===
+0x100010bc8 8 reloc.fixup.UIApplication.OpenURLOptionsKey.sourceApplication.fget
+
+=== Disassembly of URL handler function ===
+            ; METHOD sym.MASTestApp.AppDelegate.application_open_options__1
+            ; sym.MASTestApp.AppDelegate.application_open_options__1 ()
+            ; CALL XREF from sym.MASTestApp.AppDelegate.application_open_options__1 @ 0x100005210
+┌ 372: sym.MASTestApp.AppDelegate.application_open_options__1 ();
+│           0x100005034      sub sp, sp, 0x90
+│           0x100005038      stp x22, x21, [sp, 0x70]
+│           0x10000503c      stp x20, x19, [sp, 0x60]
+│           0x100005040      stp x29, x30, [sp, 0x80]
+│           0x100005044      add x29, sp, 0x80
+│           0x100005048      mov x19, x3                               ; url: URL
+│           0x10000504c      mov x20, x4                               ; options dictionary
+│           ; --- check url.scheme == "mastgtest" ---
+│           0x100005050      ldr x8, [x8, 0x68]                        ; reloc.fixup.scheme getter
+│           0x100005054      mov x0, x19
+│           0x100005058      bl sym.imp.objc_msgSend                   ; url.scheme
+│           0x10000505c      mov x21, x0                               ; x21 = url.scheme (Optional<String>)
+│           0x100005060      adrp x1, segment.__TEXT
+│           0x100005064      add x1, x1, 0xee518                      ; "mastgtest"
+│           0x100005068      mov x2, 9
+│           0x10000506c      bl sym.imp.swift_stdlib_String_init_unsafe_from_utf8
+│           0x100005070      bl sym.imp.swift_stdlib_String_=__1       ; compare scheme == "mastgtest"
+│           ; branch if not equal
+│           0x100005074      b.ne 0x1000051c0
+│           ; --- "mastgtest" branch (FAIL: no source validation) ---
+│           0x100005078      ldr x8, [x8, 0x88]                        ; URLComponents(url:resolvingAgainstBaseURL:)
+│           0x10000507c      mov x0, x19
+│           0x100005080      bl sym.imp.objc_msgSend
+│           0x100005084      mov x22, x0
+│           ; get url.host
+│           0x100005088      ldr x8, [x8, 0x90]                        ; reloc.fixup.host getter
+│           0x10000508c      mov x0, x19
+│           0x100005090      bl sym.imp.objc_msgSend
+│           ; compare host == "transfer"
+│           0x100005094      adrp x1, segment.__TEXT
+│           0x100005098      add x1, x1, 0xee524                       ; "transfer"
+│           0x10000509c      bl sym.imp.swift_stdlib_String_=__1
+│           0x1000050a0      b.ne 0x1000051b4                          ; return false if not "transfer"
+│           ; get queryItems and find "amount"
+│           0x1000050a4      ldr x8, [x8, 0xa0]                        ; queryItems getter
+│           0x1000050a8      mov x0, x22
+│           0x1000050ac      bl sym.imp.objc_msgSend
+│           ; NOTE: UIApplicationOpenURLOptionsSourceApplicationKey is NOT read here
+│           ; The options dictionary (x20) is never accessed in this branch
+│           0x1000050b0      ; ... (find amount, build string, return true)
+│           0x1000051bc      mov w0, 1
+│           0x1000051c0      b 0x100005280
+│           ; --- "mastgtest-safe" branch ---
+│           0x1000051c4      adrp x1, segment.__TEXT
+│           0x1000051c8      add x1, x1, 0xee508                       ; "mastgtest-safe"
+│           0x1000051cc      bl sym.imp.swift_stdlib_String_=__1       ; compare scheme == "mastgtest-safe"
+│           0x1000051d0      b.ne 0x100005280
+│           ; --- read UIApplicationOpenURLOptionsSourceApplicationKey ---
+│           0x1000051d4      ldr x8, [x8, 0xbc8]                       ; reloc.fixup.UIApplication.OpenURLOptionsKey.sourceApplication.fget
+│           0x1000051d8      bl sym.imp.objc_msgSend                   ; sourceApplication key
+│           0x1000051dc      mov x0, x20                               ; pass options dict
+│           0x1000051e0      bl sym.imp.swift_stdlib_Dictionary_subscript_getter
+│           ; x0 = options[.sourceApplication] (Optional<String>)
+│           0x1000051e4      mov x22, x0
+│           ; compare source against allowedSources set
+│           0x1000051e8      ldr x8, [x8, 0xb0]                        ; allowedSources property
+│           0x1000051ec      mov x0, x19                               ; self (AppDelegate)
+│           0x1000051f0      bl sym.imp.objc_msgSend
+│           0x1000051f4      mov x21, x0                               ; x21 = allowedSources
+│           0x1000051f8      bl sym.imp.swift_stdlib_Set_contains__1   ; allowedSources.contains(source)
+│           0x1000051fc      b.eq 0x100005280                          ; return false if not in allowlist
+│           ; ... (validate amount, perform safe transfer, return true)
+└           0x100005280      ldp x29, x30, [sp, 0x80]
+            0x100005284      ldp x20, x19, [sp, 0x60]
+            0x100005288      ldp x22, x21, [sp, 0x70]
+            0x10000528c      add sp, sp, 0x90
+            0x100005290      ret
