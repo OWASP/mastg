@@ -56,7 +56,7 @@ This is the current method for handling incoming URLs. The `options` dictionary 
 | `UIApplication.OpenURLOptionsKey.annotation` | Property-list value supplied by the originating app (optional). |
 | `UIApplication.OpenURLOptionsKey.openInPlace` | Boolean indicating whether the URL refers to a file that should be opened in place. |
 
-The `sourceApplication` key provides the caller's bundle identifier. Its availability depends on whether the calling app is part of the same App Group or whether the system makes this information available; it may be `nil` in some circumstances.
+The `sourceApplication` key provides the caller's bundle identifier. It is populated by UIKit when the caller used `openURL:options:completionHandler:`. It may be `nil` when the URL is opened by the system (for example, from a web browser or a universal link redirect) or when the originating app did not supply an identifier. See [application(_:open:options:)](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application) in the Apple developer documentation.
 
 ### Deprecated Delegate Methods
 

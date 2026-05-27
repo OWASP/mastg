@@ -42,7 +42,7 @@ The app will initiate a transfer of 9999 units without checking which app opened
 
 The script:
 
-- Searches for registered scheme strings in the binary (`izz~://`).
+- Searches for `mastgtest` scheme strings in the binary (`izz~mastgtest`).
 - Lists flags for `openURL:options` reloc entries (`f~openURL:options`).
 - Resolves cross-references to the `application:openURL:options:` implementation (`axt`).
 - Checks whether `UIApplicationOpenURLOptionsSourceApplicationKey` appears as a flag (`f~UIApplicationOpenURLOptionsSourceApplicationKey`).
@@ -80,6 +80,11 @@ In the disassembly, after the scheme comparison at `0x100005068–0x100005074`, 
 
 **`mastgtest-safe://` branch — source validation present (PASS):**
 
-After the `mastgtest-safe` scheme comparison (`0x1000051c4–0x1000051d0`), the code immediately loads `reloc.fixup.UIApplication.OpenURLOptionsKey.sourceApplication.fget` at `0x1000051d4` and calls the dictionary subscript getter to retrieve the source application string from `x20` (the `options` dictionary). The result is then checked against the `allowedSources` set via `swift_stdlib_Set_contains__1` at `0x1000051f8`. If the source is not in the allowlist, the function branches to `0x100005280` and returns `false`. The `amount` parameter is further validated in the subsequent code before the transfer is performed.
+After the `mastgtest-safe` scheme comparison (`0x1000051c4–0x1000051d0`), the disassembly shows:
+
+- `0x1000051d4` — loads `reloc.fixup.UIApplication.OpenURLOptionsKey.sourceApplication.fget` and calls the dictionary subscript getter to read the source application from `x20` (the `options` dictionary).
+- `0x1000051f8` — calls `swift_stdlib_Set_contains__1` to check the result against the `allowedSources` set.
+- `0x100005280` — returns `false` if the source is not in the allowlist, aborting the operation before any transfer takes place.
+- Subsequent code validates the `amount` parameter bounds before performing the transfer.
 
 The contrast between the two branches is visible at the assembly level: only the `mastgtest-safe://` branch references `UIApplicationOpenURLOptionsSourceApplicationKey` (`0x100010bc8` in the flag table), confirming that the insecure `mastgtest://` handler does not perform source verification.

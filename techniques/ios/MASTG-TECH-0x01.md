@@ -7,26 +7,10 @@ iOS apps declare custom URL schemes in the `Info.plist` file and handle incoming
 
 ## Checking Info.plist for Registered URL Schemes
 
-The app bundle's `Info.plist` file lists every custom URL scheme the app registers under `CFBundleURLTypes`. After extracting the IPA using @MASTG-TECH-0054 and @MASTG-TECH-0058, inspect the plist with one of the following tools.
-
-### Using grep
+The app bundle's `Info.plist` file lists every custom URL scheme the app registers under `CFBundleURLTypes`. After extracting the IPA using @MASTG-TECH-0054 and @MASTG-TECH-0058, inspect the plist directly with `grep`:
 
 ```bash
-grep -A 5 CFBundleURLSchemes Info.plist
-```
-
-### Using @MASTG-TOOL-0073
-
-Radare2 can search for the scheme name string directly in the binary:
-
-```bash
-r2 -qc "izz~CFBundleURLSchemes" MASTestApp
-```
-
-To search for all registered scheme strings, look for the scheme name followed by `://`:
-
-```bash
-r2 -qc "izz~://" MASTestApp
+grep -A 5 CFBundleURLSchemes ./Payload/MASTestApp.app/Info.plist
 ```
 
 ### Checking for Queried URL Schemes

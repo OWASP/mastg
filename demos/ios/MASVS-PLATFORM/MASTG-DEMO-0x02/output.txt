@@ -1,4 +1,4 @@
-=== Registered URL schemes (strings containing "://") ===
+=== Registered URL scheme strings (mastgtest, mastgtest-safe) ===
 36 0x000ee508 0x000ee508  14  15 (4.__TEXT.__cstring) ascii mastgtest-safe
 37 0x000ee518 0x000ee518  10  11 (4.__TEXT.__cstring) ascii mastgtest
 38 0x000ee524 0x000ee524  10  11 (4.__TEXT.__cstring) ascii mastgtest

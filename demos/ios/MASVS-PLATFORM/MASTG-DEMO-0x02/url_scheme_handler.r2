@@ -2,8 +2,8 @@ e asm.bytes=false
 e scr.color=false
 e asm.var=false
 
-?e === Registered URL schemes (strings containing "://") ===
-izz~://
+?e === Registered URL scheme strings (mastgtest, mastgtest-safe) ===
+izz~mastgtest
 
 ?e
 ?e === URL handler method references ===

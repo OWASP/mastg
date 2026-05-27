@@ -19,18 +19,15 @@ This test checks whether the app registers a custom URL scheme and, if so, wheth
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the app bundle.
-2. Use @MASTG-TECH-0x01 to inspect the app's `Info.plist` for registered URL schemes (`CFBundleURLSchemes`) and identify any custom URL scheme handlers.
-3. Use @MASTG-TECH-0x01 to locate the `application:openURL:options:` implementation in the binary.
-4. Use @MASTG-TECH-0066 to disassemble the handler and check whether `UIApplicationOpenURLOptionsSourceApplicationKey` is read from the `options` dictionary and whether the URL scheme, host, path, and parameters are validated before use.
+2. Use @MASTG-TECH-0x01 to inspect the app's `Info.plist` for registered URL schemes (`CFBundleURLSchemes`).
+3. Use @MASTG-TECH-0066 to locate and disassemble the `application:openURL:options:` implementation in the binary.
 
 ## Observation
 
-The output should identify:
+The output should contain:
 
 - Any custom URL schemes declared in `Info.plist` under `CFBundleURLSchemes`.
-- The address and disassembly of any `application:openURL:options:` implementation.
-- Whether the handler reads `UIApplicationOpenURLOptionsSourceApplicationKey` from the `options` dictionary.
-- Whether the URL components (scheme, host, path, query parameters) are validated before being used.
+- The disassembly of any `application:openURL:options:` implementation found in the binary.
 
 ## Evaluation
 
