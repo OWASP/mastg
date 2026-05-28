@@ -1,30 +1,24 @@
-                   
-                   
-┌─────────────────┐
-│ 3 Code Findings │
-└─────────────────┘
-                   
-    MastgTest.swift
-    ❯❱ rules.mastg-ios-evaluate-javascript-without-content-world
-          [MASWE-0069] evaluateJavaScript called without a content world. Use evaluateJavaScript with a custom
-          WKContentWorld to isolate the script from page JavaScript.                                          
-                                                                                                              
-           45┆ webView.evaluateJavaScript("document.querySelector('#account-number').textContent",
-           46┆                            completionHandler: { value, _ in
-           47┆     let account = value as? String ?? "unknown"
-           48┆     completion("Account: \(account)")
-           49┆ })
-            ⋮┆----------------------------------------
-           52┆ webView.evaluateJavaScript("document.querySelector('#balance').textContent",
-           53┆                            completionHandler: { value, _ in
-           54┆     let balance = value as? String ?? "unknown"
-           55┆     completion("Balance: \(balance)")
-           56┆ })
-            ⋮┆----------------------------------------
-           59┆ webView.evaluateJavaScript(
-           60┆     "document.querySelector('input[name=recipient]').value",
-           61┆     completionHandler: { value, _ in
-           62┆         let recipient = value as? String ?? "unknown"
-           63┆         completion("Recipient: \(recipient)")
-           64┆     }
-           65┆ )
+List all uses of the 'evaluateJavaScript:completionHandler:' selector:
+0x10000ad00 38 str.evaluateJavaScript:completionHandler:
+0x1000144a8 8 reloc.fixup.evaluateJavaScript:completionHa
+
+xrefs to 'evaluateJavaScript:completionHandler:':
+sym.MASTestApp.MastgTest.webView.allocator.didFinish...ySo05WKWebF0C_So12WKNavigationCSgtFTf4ndn_n 0x100004804 [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+sym.MASTestApp.MastgTest.webView.allocator.didFinish...ySo05WKWebF0C_So12WKNavigationCSgtFTf4ndn_n 0x1000048b0 [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+
+Code snippet at call site:
+│           0x1000048a0      bl sym.imp._Block_copy
+│           0x1000048a4      mov x20, x0
+│           0x1000048a8      ldr x0, [var_20h_2]                       ; void *arg0
+│           0x1000048ac      bl sym.imp.swift_release                  ; void swift_release(void *arg0)
+│           0x1000048b0      ldr x1, [x23, 0x4a8]                      ; [0x10000ad00:4]=0x6c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
+│           0x1000048b4      mov x0, x19                               ; void *instance
+│           0x1000048b8      mov x2, x21
+│           0x1000048bc      mov x3, x20
+│           0x1000048c0      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+│           0x1000048c4      mov x0, x20
+│           0x1000048c8      bl sym.imp._Block_release
+│           0x1000048cc      mov x0, x21                               ; void *instance
+│           0x1000048d0      bl sym.imp.objc_release                   ; void objc_release(void *instance)
+│           0x1000048d4      ldp x29, x30, [var_60h]
+│           0x1000048d8      ldp x20, x19, [var_50h]

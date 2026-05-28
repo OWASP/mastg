@@ -24,22 +24,21 @@ After this override, the `evaluateJavaScript` call returns the attacker value in
 
 ## Steps
 
-Let's run the semgrep rule against the sample code.
+1. Use @MASTG-TECH-0058 to extract the app. The main binary is `./Payload/MASTestApp.app/MASTestApp`.
+2. Use @MASTG-TOOL-0073 with the `-i` option to run this script.
 
-{{ ../../../../rules/mastg-ios-evaluate-javascript-without-content-world.yaml }}
+{{ evaluate_js_no_world.r2 }}
 
 {{ run.sh }}
 
 ## Observation
 
-The rule identified one instance in the code where `evaluateJavaScript` is called with `completionHandler:` but without a content world parameter.
+The script identifies the call sites where `evaluateJavaScript:completionHandler:` is used. In the disassembly we can see the call to `objc_msgSend` with the `evaluateJavaScript:completionHandler:` selector.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case fails because the app calls `evaluateJavaScript(_:completionHandler:)` to read security relevant DOM content in the page world.
-
-1. Line 55: reads the recipient account number from `#recipient_account_number` in the page world.
+The test case fails because the app calls `evaluateJavaScript:completionHandler:` to read security relevant DOM content in the page world. Address `0x1000048b0`: reads the recipient account number from `#recipient_account_number` in the page world.
 
 The call site is inside `MastgTest.webView(_:didFinish:)`, which is called after the `WKWebView` finishes loading the HTML. Because this call runs in the `.page` world, any page script executed before it can override `document.querySelector` or other prototype methods to return attacker controlled values.
