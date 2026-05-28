@@ -6,33 +6,37 @@ platform: android
 knowledge: [MASTG-KNOW-0030]
 ---
 
-LSPosed is built to defeat classic Java-only Xposed detection checks. Its Manager app can hide behind a random package name, `XposedBridge` lives in a classloader your app can't reach, the "Xposed API call protection" toggle blocks `Class.forName` lookups, and its hooking engine (LSPlant) leaves no fields on `java.lang.reflect.Method` to find. Any single Java-side check is easy to silence. Use multiple layers, and let the layer the attacker can't reach be the one that decides access to sensitive flows.
+Employ various techniques to detect the presence of the Xposed Framework or its modern derivatives like LSPosed and EdXposed. These frameworks modify the Android Runtime (ART) to allow hooking of Java methods, which can be used to bypass security controls or steal sensitive data.
 
-## Play Integrity
+## Xposed Detection Techniques
 
-A rooted device can lie to the app about its own state. The only check the attacker can't fake is one signed by the device's secure hardware (TEE / StrongBox) and verified by your server.
+### Stack Trace Analysis
+Xposed leaves artifacts in the call stack when a hooked method is executed. Throwing a `Throwable` and inspecting the stack trace can reveal framework-related classes:
+- `de.robv.android.xposed.XposedBridge`
+- `org.lsposed.lspd`
+- `lsphooker_`
+- `lsplant`
 
-- Require a **[Play Integrity API](https://developer.android.com/google/play/integrity) verdict** from your server before unlocking sensitive flows. A compromised kernel cannot forge the device-key-signed attestation — the signing happens inside the TEE / StrongBox.
-- Store secrets in the [Android Keystore](https://developer.android.com/privacy-and-security/keystore) with `setIsStrongBoxBacked(true)`. The key cannot be pulled off a rooted device even if user-space is fully compromised.
-- Treat the client-side checks below as inputs to the server's decision, not as a gate on their own.
+### Memory Mapping Scan
+Scan `/proc/self/maps` for foreign APK or DEX files mapped into the process's address space. Xposed and LSPosed modules often inject their own code, which can be identified by looking for entries containing:
+- Paths to the Xposed/LSPosed manager app.
+- Package names of known modules (e.g., checking for `/data/app/` paths of module APKs).
 
-## Native Probes
+### Checking for Known Files and Packages
+Check for the presence of the Xposed installer app or framework files:
+- Package names: `de.robv.android.xposed.installer`, `org.lsposed.manager`.
+- System files: `/system/bin/app_process` (if it has been modified to support Xposed).
 
-Java-side checks run in memory the attacker controls. Put the important detection in JNI, so a bypass has to hook the linker itself, not just a Java method.
+## Countermeasures and Limitations
 
-- Use [`dl_iterate_phdr`](https://man7.org/linux/man-pages/man3/dl_iterate_phdr.3.html) from a small `.so` to walk every shared object loaded into the process. Flag anything outside `/data/app/<your-pkg>/`, `/system/`, `/apex/`, or `/vendor/`. This catches `liblspd.so` and any LSPosed module SO loaded via memfd — neither shows up as a `/data/app/.../base.apk` in `/proc/self/maps`.
-- Send the native verdict to your server with the attestation token. Don't let JNI return a plain boolean that Java code reads and acts on — that boolean is itself something Frida can hook.
+Modern instrumentation frameworks like LSPosed and EdXposed are highly effective at bypassing detection checks by default. Because they operate within the Android Runtime (ART), they can intercept and modify any Java API the application uses for its own defense.
 
-## Memory and Process Inspection
+- **Selective Hooking (Scoping)**: Modern frameworks allow users to enable hooks only for specific applications. This prevents "global" artifacts (like modified system files or globally visible processes) from being easily detected by apps not currently being targeted.
+- **API Spoofing**: The framework can hook the very APIs used to detect it. For example, it can intercept `PackageManager.getPackageInfo` to hide its own manager app, or `BufferedReader.readLine` to filter out its own entries from `/proc/self/maps`.
+- **Stack Trace Cleaning**: Frameworks often automatically strip their own class names (`de.robv.android.xposed.*`) from `Throwable.getStackTrace` and `Thread.getStackTrace` results, making the stack trace appear legitimate even when running within a hooked environment.
 
-These checks are trivial and catch lazy attacker setups. They are not enough on their own — any single one can be defeated — but together they raise the cost of a generic bypass.
-
-- **Look up known Manager packages** with `PackageManager.getPackageInfo` against a fixed list (`de.robv.android.xposed.installer`, `org.lsposed.manager`, `org.meowcat.edxposed.manager`, `io.va.exposed`, `com.solohsu.android.edxp.manager`) declared in `<queries>`. Misses installs with "Hide LSPosed Manager" enabled — the checks below cover that case.
-- **Scan `/proc/self/maps`** for any `/data/app/<pkg>/base.apk` that is not yours. LSPosed `mmap`s every active module's APK into the host process, so a foreign `base.apk` means an active module.
-- **Probe stack traces and thread names**: force exceptions through methods an attacker is likely to hook (`PackageManager.getPackageInfo`, `Runtime.exec`, `File.exists`) and scan `Throwable.getStackTrace()` for `de.robv.android.xposed.*`, `org.lsposed.lspd.*`, `LSPHooker_<id>`, `re.frida.*` frames. Walk `Thread.getAllStackTraces()` and `/proc/self/task/<tid>/comm` for native worker threads (`gum-js-loop`, `gmain`, `pool-frida`).
-
-## Code Integrity
-
-LSPlant clears `kAccNative` when it hooks a native method. Auditing that bit on methods that should always be native catches the in-process hook.
-
-- Audit a small set of guaranteed-native methods (`System.currentTimeMillis` / `nanoTime`, `Object.notify` / `notifyAll`, `Thread.currentThread`) with `java.lang.reflect.Method.getModifiers()` and require `Modifier.NATIVE` to still be set. LSPlant (and Frida's Java bridge) clear that bit when they hook a native method.
+To enhance detection:
+- **Native Probes**: Implement detection logic in native code (C/C++) using the NDK. Native code is harder (though not impossible) to hook than Java methods and can use direct system calls to bypass Java-level spoofing.
+- **Method Integrity Checks**: Use the NDK to inspect the `ArtMethod` structure of critical Java methods. Xposed often modifies these structures (e.g., changing the entry point to a native trampoline) to facilitate hooking.
+- **Anti-Hooking**: Implement checks to detect if critical methods have been hooked (e.g., by checking for known trampolines in the native implementation of Java methods or verifying the method's access flags).
+- **Silent Detection**: Instead of crashing immediately upon detection, change the app's behavior subtly or report the detection to a backend server to avoid tipping off the attacker.
