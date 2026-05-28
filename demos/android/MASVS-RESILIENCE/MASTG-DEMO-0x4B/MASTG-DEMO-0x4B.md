@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Bypass of Xposed/LSPosed Detection via PackageManager, Method-Modifier, Maps and Stack-Trace Hooks
+title: Bypassing Xposed/LSPosed Detection via API Hooking
 id: MASTG-DEMO-0x4B
 code: [kotlin]
 test: MASTG-TEST-0x49
@@ -10,20 +10,28 @@ kind: fail
 
 ## Sample
 
-This demo defeats four Xposed/LSPosed detection checks with a Frida script that hooks the Java APIs each routine depends on (`getPackageInfo`, `Method.getModifiers`, `BufferedReader.readLine`, `Throwable.getStackTrace`, `File.listFiles`).
+This demo defeats both Xposed/LSPosed detection checks from @MASTG-DEMO-0x4A with a Frida script that hooks the Java APIs each routine depends on (`BufferedReader.readLine`, `Throwable.getStackTrace`).
 
-{{ ../MASTG-DEMO-0x4A/MastgTest.kt # script.js }}
+!!! note
+    This is a series of correlated tests.
+    - @MASTG-DEMO-0x4A is a successful test (successful defense/failed attack) against an Xposed/LSPosed instrumentation attack.
+    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0x4A by using a more "complex" attack.
+
+{{ ../MASTG-DEMO-0x4A/MastgTest.kt }}
 
 ## Steps
 
-1. Install the app on a device where the Xposed/LSPosed framework is active and at least one module is scoped to `org.owasp.mastestapp`.
-2. Spawn the app with the Frida bypass attached.
+1. Install the app on a device (@MASTG-TECH-0005) where the Xposed/LSPosed framework is active and at least one module is scoped to `org.owasp.mastestapp`.
+2. Make sure you have @MASTG-TOOL-0031 installed on your machine and the frida-server running on the device.
+3. Run `run.sh` to spawn the app with the bypass script.
+4. Click the **Start** button.
+5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI.
 
-{{ run.sh }}
+{{ script.js # run.sh }}
 
 ## Observation
 
-The Frida console shows every hook firing while the app reports **PASS** for all four detection checks.
+The output contains the trace lines emitted by each hook as it intercepts a detection probe,  while the app reports **PASS** for  detection checks.
 
 {{ output.txt }}
 
@@ -31,7 +39,5 @@ The Frida console shows every hook firing while the app reports **PASS** for all
 
 The test case fails because every detection routine has been bypassed at runtime:
 
-- The `getPackageInfo` hook throws `NameNotFoundException` for every known Xposed/LSPosed Manager id.
-- The `Method.getModifiers` hook re-sets `Modifier.NATIVE` on audited methods.
-- The `BufferedReader.readLine` hook drops lines mentioning Xposed-related package ids.
-- The `Throwable.getStackTrace` hook strips framework frames, and the `File.listFiles` hook hides instrumentation tids from `/proc/self/task`.
+- The `BufferedReader.readLine` hook drops `/proc/self/maps` lines whose mapped path contains an Xposed-related package id, so the foreign-DEX scan returns empty.
+- The `Throwable.getStackTrace` hook strips frames whose class name matches a framework needle (`de.robv.android.xposed`, `org.lsposed.lspd`, `lsphooker_`, …), so the stack-trace probe finds no Xposed/LSPosed frames.

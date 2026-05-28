@@ -1,14 +1,6 @@
-[bypass] hooks installed (Manager-pkg, NATIVE modifier, /proc/self/maps, stack & thread probes).
-[bypass] faking NameNotFoundException for de.robv.android.xposed.installer
-[bypass] faking NameNotFoundException for org.meowcat.edxposed.manager
-[bypass] faking NameNotFoundException for io.va.exposed
-[bypass] faking NameNotFoundException for com.solohsu.android.edxp.manager
-[bypass] faking NameNotFoundException for org.lsposed.manager
-[bypass] Method.getModifiers intercepted (Modifier.NATIVE tripwire bypass active)
-[bypass] dropping /proc/self/maps line: 7c4c894000-7c4c896000 r-xp 001ee000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
-[bypass] dropping /proc/self/maps line: 7c4c896000-7c4c897000 r--p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
-[bypass] dropping /proc/self/maps line: 7c4c897000-7c4c898000 rw-p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] Demo 4 hooks installed (/proc/self/maps + stack-trace probes).
+[bypass] dropping /proc/self/maps line: 780346a000-780346c000 r-xp 001ee000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] dropping /proc/self/maps line: 780346c000-780346d000 r--p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] dropping /proc/self/maps line: 780346d000-780346e000 rw-p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
 [bypass] stripped 2 framework frames
 [bypass] stripped 4 framework frames
-[bypass] hiding /proc/self/task tid 14110 (comm=gmain)
-[bypass] hiding /proc/self/task tid 14111 (comm=pool-frida)

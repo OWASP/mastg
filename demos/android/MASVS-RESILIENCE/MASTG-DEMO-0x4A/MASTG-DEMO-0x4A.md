@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Uses of Xposed/LSPosed Detection Techniques
+title: Static Detection of Xposed/LSPosed Hooks using semgrep
 id: MASTG-DEMO-0x4A
 code: [kotlin]
 test: MASTG-TEST-0x49
@@ -12,19 +12,19 @@ kind: pass
 
 The snippet below shows sample code that performs two Xposed/LSPosed detection techniques used by Android apps as anti-instrumentation checks. The checks combine a `/proc/self/maps` scan for foreign DEX/APK mappings injected into the process and a stack-trace probe that surfaces framework frames left by hooked methods and parked framework workers.
 
-{{ MastgTest.kt # MastgTest_reversed.java # AndroidManifest.xml }}
+{{ MastgTest.kt # MastgTest_reversed.java }}
 
 ## Steps
 
-Let's run our semgrep rule against the sample code.
+Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
-{{ ../../../../rules/mastg-android-xposed-detection.yaml }}
+{{ ../../../../rules/mastg-android-xposed-detection.yml }}
 
 {{ run.sh }}
 
 ## Observation
 
-The rule has identified some instances in the code file where detection checks are placed.
+The output contains the locations of all Xposed/LSPosed detection checks in the code.
 
 {{ output.txt }}
 

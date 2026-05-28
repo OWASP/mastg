@@ -1,8 +1,8 @@
 ---
 platform: android
-title: Testing Runtime Use of Frida
+title: Runtime Use of Frida Detection Techniques
 id: MASTG-TEST-0x48
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0098
 best-practices: [MASTG-BEST-0x48]
 profiles: [R]
@@ -11,9 +11,7 @@ knowledge: [MASTG-KNOW-0030]
 
 ## Overview
 
-If an application relies exclusively on standard, local environment signatures to detect instrumentation frameworks, an attacker with full control over the host device can easily bypass these checks.
-
-Commonly implemented detection patterns—such as attempting connections to the default Frida-server TCP port (`127.0.0.1:27042`), searching `/proc/<pid>/cmdline` for strings like `frida-server` or `frida-helper`, and scanning `/proc/self/maps` for artifacts like `frida-agent.so`, `libfrida`, or `gum-js-loop`—provide insufficient resilience. Because these checks reside entirely within the user space controlled by the analyst, they represent superficial barriers. This test verifies whether the application's runtime protection can be trivially neutralized by hooking the underlying Java or system APIs to spoof expected clean-device responses.
+The test verifies whether the app's Frida detection logic can be trivially neutralized by hooking the Java or system APIs it relies on. If the app implements only standard local-environment signature checks — such as connecting to the default `frida-server` TCP port (`127.0.0.1:27042`), walking `/proc/self/task/<tid>/comm` for Frida worker thread names like `gum-js-loop`, `gmain`, or `pool-frida`, and scanning `/proc/self/maps` for artifacts like `frida-agent.so` or `libfrida`, an attacker with full control over the host device can spoof clean responses from each underlying API and disable the protection at runtime. This can lead to instrumentation going undetected, allowing the attacker to inspect or modify sensitive runtime behavior despite the apparent presence of an anti-Frida defense.
 
 ## Steps
 
@@ -27,4 +25,4 @@ The output should contain a list of detection routines that the app executed, th
 
 ## Evaluation
 
-The test case fails if the app fails to detect Frida when `frida-server` is attached to the process.
+The test case fails if the app continues to operate normally after each detection routine receives spoofed clean values from the hooked APIs, indicating that the Frida detection logic can be neutralized at the API level.

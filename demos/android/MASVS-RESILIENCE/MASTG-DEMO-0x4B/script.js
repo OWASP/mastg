@@ -18,69 +18,8 @@ Java.perform(function () {
         "lsphooker_",
         "lsplant",
         "edxposed",
-        "re.frida",
-        "gum-js"
+        "re.frida"
     ];
-
-    var THREAD_NAME_NEEDLES = [
-        "gum-js", "gmain", "pool-frida", "frida", "linjector",
-        "lspd", "xposed", "lsphooker"
-    ];
-
-    var KNOWN_MANAGER_PACKAGES = [
-        "de.robv.android.xposed.installer",
-        "org.meowcat.edxposed.manager",
-        "io.va.exposed",
-        "com.solohsu.android.edxp.manager",
-        "org.lsposed.manager"
-    ];
-
-
-    var SUSPICIOUS_NATIVE_METHODS = {
-        "java.lang.System.currentTimeMillis": true,
-        "java.lang.System.nanoTime": true,
-        "java.lang.Object.notify": true,
-        "java.lang.Object.notifyAll": true,
-        "java.lang.Thread.currentThread": true
-    };
-
-
-    var APM = Java.use("android.app.ApplicationPackageManager");
-    var NameNotFoundException = Java.use("android.content.pm.PackageManager$NameNotFoundException");
-
-    APM.getPackageInfo.overload("java.lang.String", "int").implementation = function (name, flags) {
-        for (var i = 0; i < KNOWN_MANAGER_PACKAGES.length; i++) {
-            if (name === KNOWN_MANAGER_PACKAGES[i]) {
-                console.log("[bypass] faking NameNotFoundException for " + name);
-                throw NameNotFoundException.$new(name);
-            }
-        }
-        return this.getPackageInfo(name, flags);
-    };
-
-
-    var Modifier = Java.use("java.lang.reflect.Modifier");
-    var NATIVE_BIT = Modifier.NATIVE.value;
-    var Method = Java.use("java.lang.reflect.Method");
-
-    var getModifiersLogged = false;
-    Method.getModifiers.implementation = function () {
-        var orig = this.getModifiers();
-        try {
-            var key = this.getDeclaringClass().getName() + "." + this.getName();
-            if (SUSPICIOUS_NATIVE_METHODS[key]) {
-                if (!getModifiersLogged) {
-                    getModifiersLogged = true;
-                    console.log("[bypass] Method.getModifiers intercepted (Modifier.NATIVE tripwire bypass active)");
-                }
-                if ((orig & NATIVE_BIT) === 0) {
-                    console.log("[bypass] restoring Modifier.NATIVE on " + key);
-                    return orig | NATIVE_BIT;
-                }
-            }
-        } catch (e) { /* fall through */ }
-        return orig;
-    };
 
 
     var BufferedReader = Java.use("java.io.BufferedReader");
@@ -124,7 +63,7 @@ Java.perform(function () {
     };
 
     ThreadCls.getAllStackTraces.implementation = function () {
- 
+
         var raw = this.getAllStackTraces();
         var HashMap = Java.use("java.util.HashMap");
         var clean = HashMap.$new();
@@ -138,48 +77,10 @@ Java.perform(function () {
         return clean;
     };
 
-    var FileCls = Java.use("java.io.File");
-    var FIS = Java.use("java.io.FileInputStream");
-
-    function readComm(tidDir) {
-        try {
-            var fis = FIS.$new(tidDir.getAbsolutePath() + "/comm");
-            var buf = Java.array("byte", new Array(64).fill(0));
-            var n = fis.read(buf);
-            fis.close();
-            if (n <= 0) return "";
-            var s = "";
-            for (var i = 0; i < n; i++) s += String.fromCharCode(buf[i] & 0xff);
-            return s.trim();
-        } catch (e) { return ""; }
-    }
-
-    FileCls.listFiles.overload().implementation = function () {
-        var files = this.listFiles();
-        if (files === null) return files;
-        var path = this.getAbsolutePath();
-        if (path !== "/proc/self/task") return files;
-        var keep = [];
-        for (var i = 0; i < files.length; i++) {
-            var comm = readComm(files[i]).toLowerCase();
-            var dirty = false;
-            for (var k = 0; k < THREAD_NAME_NEEDLES.length; k++) {
-                if (comm.indexOf(THREAD_NAME_NEEDLES[k]) !== -1) { dirty = true; break; }
-            }
-            if (dirty) {
-                console.log("[bypass] hiding /proc/self/task tid " + files[i].getName() + " (comm=" + comm + ")");
-                continue;
-            }
-            keep.push(files[i]);
-        }
-        return Java.array("java.io.File", keep);
-    };
-
-
     Process.setExceptionHandler(function (details) {
         console.log("[bypass] swallowed native exception: " + JSON.stringify(details));
         return true;
     });
 
-    console.log("[bypass] hooks installed (Manager-pkg, NATIVE modifier, /proc/self/maps, stack & thread probes).");
+    console.log("[bypass] Demo 4 hooks installed (/proc/self/maps + stack-trace probes).");
 });

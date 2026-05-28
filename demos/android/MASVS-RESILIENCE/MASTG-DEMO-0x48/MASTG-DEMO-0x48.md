@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Uses of Frida Detection Techniques (Default Port, Process Enumeration and /proc/maps)
+title: Uses of Xposed/LSPosed Detection Techniques with Semgrep
 id: MASTG-DEMO-0x48
 code: [kotlin]
 test: MASTG-TEST-0x48
@@ -16,21 +16,21 @@ The snippet below shows sample code that performs three common Frida detection t
 
 ## Steps
 
-Let's run our semgrep rule against the sample code.
+Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
-{{ ../../../../rules/mastg-android-frida-detection.yaml }}
+{{ ../../../../rules/mastg-android-frida-detection.yml }}
 
 {{ run.sh }}
 
 ## Observation
 
-The output shows the semgrep rule matching the detection checks.
+The output contains the locations of all Frida detection checks in the code.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case passes because the app statically implements three independent Frida detection mechanisms, all flagged by semgrep. Review each of the reported instances in `MastgTest_reversed.java`:
+The test case passes because the app statically implements three independent Frida detection mechanisms. Review each of the reported instances:
 
 - Line 130 opens a TCP socket to `127.0.0.1:27042` — the default `frida-server` port-scan probe.
 - Line 153 declares the process-name needle list (`frida-server`, `frida-helper`, `frida-agent`, `gum-js-loop`, `gmain`) consumed by the `/proc` enumeration.
