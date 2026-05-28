@@ -5,7 +5,6 @@ code: [swift]
 id: MASTG-DEMO-0x03
 test: MASTG-TEST-0x03
 kind: fail
-status: placeholder
 note: This demo requires a MASTestApp binary compiled from the accompanying MastgTest.swift. Run the MASTestApp iOS project with this MastgTest.swift to obtain the binary, then run run.sh.
 ---
 

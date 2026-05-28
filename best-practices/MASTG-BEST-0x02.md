@@ -12,6 +12,6 @@ The safer approach is to display sensitive information as a native element over 
 
 ## Overlaying Native Views on DOM Elements
 
-We can get the coordinates of a specific HTML element and display a native view directly over this element specifically. This allows the app to maintain the look and feel of the web page while keeping the actual data secure in the native layer.
+The app can retrieve the coordinates of a specific HTML element and display a native view directly over this element specifically. This allows the app to maintain the look and feel of the web page while keeping the actual data secure in the native layer.
 
-To get the coordinates safely, we can use an isolated [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld). Registering the script that reads DOM geometry in a custom world, separate from the page world, ensures that page JavaScript cannot override or intercept the script. Each world maintains its own JavaScript global scope and prototype chain.
+To retrieve the coordinates safely, an isolated [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld) can be used. Registering the script that reads DOM geometry in a custom world, separate from the page world, ensures that page JavaScript cannot override or intercept the script. For more details on using worlds for script isolation, see @MASTG-BEST-0x04.
