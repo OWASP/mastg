@@ -11,19 +11,25 @@ Employ various techniques to detect the presence of the Xposed Framework or its 
 ## Xposed Detection Techniques
 
 ### Stack Trace Analysis
+
 Xposed leaves artifacts in the call stack when a hooked method is executed. Throwing a `Throwable` and inspecting the stack trace can reveal framework-related classes:
+
 - `de.robv.android.xposed.XposedBridge`
 - `org.lsposed.lspd`
 - `lsphooker_`
 - `lsplant`
 
 ### Memory Mapping Scan
+
 Scan `/proc/self/maps` for foreign APK or DEX files mapped into the process's address space. Xposed and LSPosed modules often inject their own code, which can be identified by looking for entries containing:
+
 - Paths to the Xposed/LSPosed manager app.
 - Package names of known modules (e.g., checking for `/data/app/` paths of module APKs).
 
 ### Checking for Known Files and Packages
+
 Check for the presence of the Xposed installer app or framework files:
+
 - Package names: `de.robv.android.xposed.installer`, `org.lsposed.manager`.
 - System files: `/system/bin/app_process` (if it has been modified to support Xposed).
 
@@ -36,6 +42,7 @@ Modern instrumentation frameworks like LSPosed and EdXposed are highly effective
 - **Stack Trace Cleaning**: Frameworks often automatically strip their own class names (`de.robv.android.xposed.*`) from `Throwable.getStackTrace` and `Thread.getStackTrace` results, making the stack trace appear legitimate even when running within a hooked environment.
 
 To enhance detection:
+
 - **Native Probes**: Implement detection logic in native code (C/C++) using the NDK. Native code is harder (though not impossible) to hook than Java methods and can use direct system calls to bypass Java-level spoofing.
 - **Method Integrity Checks**: Use the NDK to inspect the `ArtMethod` structure of critical Java methods. Xposed often modifies these structures (e.g., changing the entry point to a native trampoline) to facilitate hooking.
 - **Anti-Hooking**: Implement checks to detect if critical methods have been hooked (e.g., by checking for known trampolines in the native implementation of Java methods or verifying the method's access flags).

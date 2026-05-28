@@ -30,7 +30,7 @@ The output contains the locations of all Xposed/LSPosed detection checks in the 
 
 ## Evaluation
 
-TThe test case passes because the app statically implements two independent Xposed/LSPosed detection mechanisms:
+The test case passes because the app statically implements two independent Xposed/LSPosed detection mechanisms:
 
 - Line 114 opens `/proc/self/maps` to scan for foreign DEX/APK mappings injected into the process address space.
 - Line 153 declares the framework needle string literals (`de.robv.android.xposed`, `org.lsposed.lspd`, `lsphooker_`, `lsplant`, `edxposed`, `re.frida`) used to inspect stack traces via `Throwable.getStackTrace` and `Thread.getAllStackTraces` for Xposed/LSPosed bridge frames.
