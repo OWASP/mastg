@@ -24,7 +24,7 @@ This sample loads an HTML login form containing `<input type="password">` direct
 
 ## Observation
 
-The output shows the `type="password"` string in the binary's string table and its location in the function that constructs the HTML passed to `loadHTMLString:baseURL:`.
+The output shows the `input type="password"` string in the binary's string table and its location in the function that constructs the HTML passed to `loadHTMLString:baseURL:`.
 
 {{ output.txt }}
 
