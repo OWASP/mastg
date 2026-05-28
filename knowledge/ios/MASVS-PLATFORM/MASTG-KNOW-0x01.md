@@ -44,8 +44,4 @@ The following APIs were updated in iOS 14 to accept a [`WKContentWorld`](https:/
 | [`WKWebView.evaluateJavaScript(_:in:in:completionHandler:)`](https://developer.apple.com/documentation/webkit/wkwebview/evaluatejavascript(_:in:in:completionhandler:)) | Evaluates a JavaScript string in the specified world |
 | [`WKWebView.callAsyncJavaScript(_:arguments:in:in:completionHandler:)`](https://developer.apple.com/documentation/webkit/wkwebview/callasyncjavascript(_:arguments:in:in:completionhandler:)) | Evaluates an async JavaScript function in the specified world and awaits a result |
 
-The legacy variants of these APIs — `add(_:name:)`, `evaluateJavaScript(_:completionHandler:)`, and `WKUserScript(source:injectionTime:forMainFrameOnly:)` — always operate in the `.page` world.
-
-## Content Worlds in Safari Web Extensions
-
-`WKContentWorld` mirrors the [content script isolation model](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#content_script_environment) used by browser extensions. Safari uses content worlds to prevent extension scripts from conflicting with or being interfered with by page scripts, following the same principle of separate JavaScript namespaces over a shared DOM.
+The common variants of these APIs — `add(_:name:)`, `evaluateJavaScript(_:completionHandler:)`, and `WKUserScript(source:injectionTime:forMainFrameOnly:)` — always operate in the `.page` world.

@@ -22,8 +22,8 @@ window.webkit.messageHandlers.bridge.postMessage({action: 'getCredentials'})
 
 ## Steps
 
-1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
-2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
+1. Use @MASTG-TECH-0058 to extract the app. The main binary is `./Payload/MASTestApp.app/MASTestApp`.
+2. Use @MASTG-TOOL-0073 with the `-i` option to run this script.
 
 {{ webview_native_bridge.r2 # run.sh }}
 
