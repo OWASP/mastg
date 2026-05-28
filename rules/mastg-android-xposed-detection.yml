@@ -21,14 +21,3 @@ rules:
       - pattern: $T.getAllStackTraces()
       - pattern: $F.getClassName()
 
-  - id: mastg-android-xposed-detection-proc-task-comm-enumeration
-    severity: WARNING
-    languages: [java]
-    metadata:
-      summary: Enumeration of /proc/self/task/<tid>/comm for instrumentation worker thread names
-    message: "[MASVS-RESILIENCE-4] The app references /proc/self/task or known native instrumentation worker thread names (gum-js-loop, gmain, pool-frida) used to detect Frida/LSPosed workers that have no Java Thread representation."
-    patterns:
-      - pattern: $STR
-      - metavariable-regex:
-          metavariable: $STR
-          regex: '^"(/proc/self/task|gum-js-loop|gum-js|gmain|pool-frida)"$'

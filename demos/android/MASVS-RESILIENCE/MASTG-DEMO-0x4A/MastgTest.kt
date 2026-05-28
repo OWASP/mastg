@@ -1,5 +1,8 @@
 package org.owasp.mastestapp
 
+// SUMMARY: This sample demonstrates two production-grade Xposed/LSPosed detection
+// techniques that actually fire against modern LSPosed.
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context

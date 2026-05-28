@@ -5,7 +5,7 @@
 └─────────────────┘
                            
     MastgTest_reversed.java
-     ❱ [1mrules.mastg-android-xposed-detection-foreign-dex-in-maps[0m
+    ❯❱ [rules.mastg-android-xposed-detection-foreign-dex-in-maps[
           [MASVS-RESILIENCE-4] The app references /proc/self/maps and /data/app/ — the canonical primitive
           pair for detecting a foreign module APK (LSPosed module) mmapped into the process.              
                                                                                                           
@@ -18,7 +18,7 @@
                ubstringAfter$default(path, "/data/app/", (String) null, 2, (Object) null), '/', (String)  
                null, 2, (Object) null), '-', (String) null, 2, (Object) null);                            
    
-     ❱ [1mrules.mastg-android-xposed-detection-stack-trace-probe[0m
+    ❯❱ [rules.mastg-android-xposed-detection-stack-trace-probe[
           [MASVS-RESILIENCE-4] The app inspects stack traces (Thread.getAllStackTraces /                      
           Throwable.getStackTrace / StackTraceElement.getClassName) for instrumentation-framework class names.
           Common anti-hooking primitive.                                                                      

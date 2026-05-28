@@ -1,5 +1,11 @@
 package org.owasp.mastestapp
 
+// SUMMARY: This sample demonstrates three common Frida detection techniques used by Android
+// apps as anti-instrumentation checks: scanning the default Frida TCP port (27042),
+// enumerating running processes for `frida-server`/`frida-helper`, and reading
+// `/proc/self/maps` for injected libraries such as `frida-agent.so`, `libfrida` or `gum`.
+// All three checks are well-known and trivially bypassable (see MASTG-DEMO-0x49).
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
