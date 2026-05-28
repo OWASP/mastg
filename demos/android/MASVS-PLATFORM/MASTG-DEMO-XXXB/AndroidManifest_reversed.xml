@@ -24,17 +24,22 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         android:extractNativeLibs="false"
-        android:usesCleartextTraffic="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:theme="@style/Theme.MASTestApp"
             android:name="org.owasp.mastestapp.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="deeplink.example.com"/>
                 <data
                     android:scheme="https"
                     android:host="deeplink.example.com"/>
@@ -48,6 +53,7 @@
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true"/>
         <activity
+            android:theme="@android:style/Theme.Material.Light.NoActionBar"
             android:name="androidx.activity.ComponentActivity"
             android:exported="true"/>
         <provider

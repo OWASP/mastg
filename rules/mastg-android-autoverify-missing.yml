@@ -11,14 +11,32 @@ rules:
         <activity ...>
           ...
         </activity>
-    - pattern: |
-        <intent-filter>
-          <action android:name="android.intent.action.VIEW" />
-          <category android:name="android.intent.category.DEFAULT" />
-          <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="https" />
-        </intent-filter>
+    - pattern-either:
+        - pattern: |
+            <intent-filter ...>
+              ...
+              <action android:name="android.intent.action.VIEW" />
+              ...
+              <category android:name="android.intent.category.DEFAULT" />
+              ...
+              <category android:name="android.intent.category.BROWSABLE" />
+              ...
+              <data ... android:scheme="https" ... />
+              ...
+            </intent-filter>
+        - pattern: |
+            <intent-filter ...>
+              ...
+              <action android:name="android.intent.action.VIEW" />
+              ...
+              <category android:name="android.intent.category.DEFAULT" />
+              ...
+              <category android:name="android.intent.category.BROWSABLE" />
+              ...
+              <data ... android:scheme="http" ... />
+              ...
+            </intent-filter>
     - pattern-not: |
-        <intent-filter android:autoVerify="true">
+        <intent-filter ... android:autoVerify="true" ...>
           ...
         </intent-filter>

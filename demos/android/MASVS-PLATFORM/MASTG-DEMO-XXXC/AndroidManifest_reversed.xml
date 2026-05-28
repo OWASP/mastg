@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MASTestApp"
         tools:targetApi="31">
-        <!-- Vulnerable deep link Activity: exported with no validation -->
         <activity
             android:name=".DeepLinkActivity"
             android:exported="true"

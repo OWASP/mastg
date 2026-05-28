@@ -3,18 +3,14 @@
 ┌────────────────┐
 │ 1 Code Finding │
 └────────────────┘
-                                               
+                                
     AndroidManifest_reversed.xml
-    ❯❱ android-custom-deeplink-intent-filter
+    ❯❱ rules.mastg-android-custom-deeplink-scheme
           [MASVS-PLATFORM] Custom deeplink scheme detected in an intent-filter (potentially exposed deeplink)
                                                                                                              
-           35┆     <intent-filter>
-           36┆         <action android:name="android.intent.action.VIEW"/>
-           37┆         <category android:name="android.intent.category.DEFAULT"/>
-           38┆         <category android:name="android.intent.category.BROWSABLE"/>
-           39┆         <data
-           40┆             android:scheme="mastestapp"
-           41┆             android:host="toggle"/>
-           42┆     </intent-filter>
-           43┆ </activity>
-
+           22┆ <intent-filter>
+           23┆     <action android:name="android.intent.action.VIEW" />
+           24┆     <category android:name="android.intent.category.DEFAULT" />
+           25┆     <category android:name="android.intent.category.BROWSABLE" />
+           26┆     <data android:scheme="mastestapp" android:host="toggle" />
+           27┆ </intent-filter>

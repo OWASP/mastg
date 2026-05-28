@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="deeplink.example.com"
+                    android:scheme="http" />
+                <data
+                    android:host="deeplink.example.com"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter>
