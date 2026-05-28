@@ -31,7 +31,7 @@ This demo defeats both Xposed/LSPosed detection checks from @MASTG-DEMO-0x4A wit
 
 ## Observation
 
-The output contains the trace lines emitted by each hook as it intercepts a detection probe,  while the app reports **PASS** for  detection checks.
+The output contains the trace lines emitted by each hook as it intercepts a detection probe, while the app reports **PASS** for detection checks.
 
 {{ output.txt }}
 
