@@ -10,8 +10,7 @@ import java.io.File
 data class UserEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val username: String,
-    // FAIL: [MASTG-TEST-0x01] PII (email) stored in plaintext within the Room database.
-    // FAIL: [MASTG-TEST-0x01] Sensitive access token stored without any encryption.
+    // FAIL: [MASTG-TEST-0x01] Sensitive data, like PII (email) and secrets (access token) stored in plaintext within the Room database of the app.
     val email: String,
     val token: String
 )
@@ -45,7 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
                     Log.i("MASTG-ROOM", "Database directory exists: ${it.absolutePath}")
                 }
             }
-	// FAIL: [MASTG-TEST-0x01] Room database is built without a SupportSQLiteOpenHelper.Factory (like SQLCipher),
+	// Room database is built without a SupportSQLiteOpenHelper.Factory (like SQLCipher),
         // which means the underlying SQLite file is not encrypted.
             return Room.databaseBuilder(
                 ctx,
