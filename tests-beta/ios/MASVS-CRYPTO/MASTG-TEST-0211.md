@@ -2,14 +2,14 @@
 platform: ios
 title: Broken Hashing Algorithms
 id: MASTG-TEST-0211
-type: [static, dynamic]
+type: [static, code, manual]
 weakness: MASWE-0021
 profiles: [L1, L2]
 ---
 
 ## Overview
 
-To test for the use of broken hashing algorithms in iOS apps, we need to focus on methods from cryptographic frameworks and libraries that are used to perform hashing operations.
+To test for the use of broken hashing algorithms in iOS apps, we need to focus on APIs from cryptographic frameworks and libraries that are used to perform hashing operations.
 
 - **CommonCrypto**: [CommonDigest.h](https://web.archive.org/web/20240606000312/https://opensource.apple.com/source/CommonCrypto/CommonCrypto-36064/CommonCrypto/CommonDigest.h) defines the following **hashing algorithms**:
     - `CC_MD2`
@@ -32,7 +32,8 @@ Note: the **Security** framework only supports asymmetric algorithms and is ther
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, or use a dynamic analysis tool like @MASTG-TOOL-0039, and look for uses of the cryptographic functions that perform hashing operations.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -45,10 +46,10 @@ The test case fails if you can find the use of broken hashing algorithms within 
 - MD5
 - SHA-1
 
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether the algorithm is used in a security-relevant context to protect sensitive data:
+
+- Determine whether the hashing algorithm is used for cryptographic security purposes rather than for non-security tasks such as checksums. For example, using MD5 for hashing passwords is disallowed by NIST, but using MD5 for checksums where security is not a concern is generally acceptable.
+
 **Stay up-to-date**: This is a non-exhaustive list of broken algorithms. Make sure to check the latest standards and recommendations from organizations such as the National Institute of Standards and Technology (NIST), the German Federal Office for Information Security (BSI) or any other relevant authority in your region. This is important when building an app that uses data that will be stored for a long time. Make sure you follow the NIST recommendations from [NIST IR 8547 "Transition to Post-Quantum Cryptography Standards", 2024](https://csrc.nist.gov/pubs/ir/8547/ipd).
-
-**Context Considerations**:
-
-To reduce false positives, make sure you understand the context in which the algorithm is being used before reporting the associated code as insecure. Ensure that it is being used in a security-relevant context to protect sensitive data.
-
-For example, using the broken algorithm MD5 for hashing passwords is disallowed by NIST, as it is no longer considered secure for cryptographic purposes. However, using MD5 for checksums or other non-cryptographic tasks, where security is not a concern, is generally acceptable.

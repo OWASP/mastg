@@ -2,7 +2,7 @@
 title: Dangerous App Permissions
 platform: android
 id: MASTG-TEST-0254
-type: [static]
+type: [static, code]
 weakness: MASWE-0117
 profiles: [P]
 knowledge: [MASTG-KNOW-0017]
@@ -16,8 +16,8 @@ In Android apps, permissions are acquired through different methods to access in
 
 There are multiple tools that can help in finding permissions in use by an app. Refer @MASTG-TECH-0118 to and use any of the mentioned tools.
 
-1. Extract the `AndroidManifest.xml` file from the APK (see @MASTG-TECH-0117).
-2. Obtain the list of declared permissions (see @MASTG-TECH-0126).
+1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+2. Use @MASTG-TECH-0126 to obtain the list of declared permissions.
 
 ## Observation
 
@@ -25,7 +25,7 @@ The output should contain the list of permissions declared by the app.
 
 ## Evaluation
 
-The test fails if there are any dangerous permissions in the app.
+The test case fails if there are any dangerous permissions in the app.
 
 Compare the list of declared permissions with the list of [dangerous permissions](https://android.googlesource.com/platform/frameworks/base/%2B/master/core/res/AndroidManifest.xml) defined by Android. You can find more details in the [Android documentation](https://developer.android.com/reference/android/Manifest.permission).
 

@@ -1,8 +1,8 @@
 ---
-title: Sensitive Data Stored Unencrypted via SQLite 
+title: References to Sensitive Data Unencrypted via Android Room Database 
 platform: android
 id: MASTG-TEST-0304
-type: [static, dynamic]
+type: [static, code]
 weakness: MASWE-0006
 best-practices: []
 profiles: [L1, L2]

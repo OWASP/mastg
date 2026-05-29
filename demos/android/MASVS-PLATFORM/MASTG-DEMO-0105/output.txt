@@ -1,0 +1,20 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+     ❱ rules.mastg-android-overlay-protection-hide-overlay-windows-permission
+          [MASVS-PLATFORM-3] HIDE_OVERLAY_WINDOWS permission is declared, required to use
+          setHideOverlayWindows                                                          
+                                                                                         
+           14┆ <uses-permission android:name="android.permission.HIDE_OVERLAY_WINDOWS"/>
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-overlay-protection-sethideoverlaywindows
+          [MASVS-PLATFORM-3] setHideOverlayWindows is used to prevent overlay windows from appearing over this
+          window                                                                                              
+                                                                                                              
+           55┆ activity.getWindow().setHideOverlayWindows(true);
+
