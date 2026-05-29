@@ -83,24 +83,6 @@ title: Common Uses of Insecure Random APIs
 
 The mobile platform. One of: `ios`, `android`.
 
-### tools
-
-Tools used in the demo.
-
-When available, prefer referencing official tool IDs from <https://mas.owasp.org/MASTG/tools/> (for example, `MASTG-TOOL-0031`). If an official ID is not available, you may use a well-known tool name (for example, `semgrep`).
-
-Example:
-
-```md
-tools: [MASTG-TOOL-0031]
-```
-
-Example without an official ID:
-
-```md
-tools: [semgrep]
-```
-
 ### code
 
 The language(s) in which the samples are written. This must not include the reverse-engineered files (e.g. `.java`, `.asm`, etc.)
@@ -172,18 +154,34 @@ The snippet below shows sample code that sends sensitive data over the network u
 
 ### Steps
 
-A concise write-up following all steps from the linked test, including placeholders for testing code and scripts (for example, SAST rules, `run.sh`).
+A concise write-up of every action needed to reproduce the test result. Always include placeholders for any testing code and scripts involved (for example, SAST rules, `run.sh`, `hooks.json`).
 
-Example:
+Always reference official tool IDs (for example, `@MASTG-TOOL-0110`) and technique IDs (for example, `@MASTG-TECH-0005`). Only fall back to a well-known tool name when no official ID exists.
+
+Use **prose** for single-command static analysis (for example, a semgrep rule run):
 
 ```md
 ## Steps
 
-Let's run our semgrep rule against the sample code.
+Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
-{{ ../../../../rules/mastg-android-non-random-use.yaml }}
+{{ ../../../../rules/mastg-android-random-apis-insufficient-entropy.yml }}
 
 {{ run.sh }}
+```
+
+Use a **numbered list** for multi-step or interactive workflows (for example, dynamic analysis with Frida):
+
+```md
+## Steps
+
+1. Install the app on a device (@MASTG-TECH-0005).
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device.
+3. Run `run.sh` to spawn the app with Frida.
+4. Tap the **Start** button.
+5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI.
+
+{{ hooks.json # run.sh }}
 ```
 
 ### Observation

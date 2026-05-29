@@ -1,0 +1,40 @@
+
+[+] Frida script loaded for emulator detection API tracing.
+
+[PackageManager.hasSystemFeature] android.hardware.type.watch (0) -> false
+[PackageManager.hasSystemFeature] android.hardware.type.watch -> false
+[Build] Build.BOARD=goldfish_arm64
+[Build] Build.BRAND=Android
+[Build] Build.DEVICE=emu64a
+[Build] Build.FINGERPRINT=Android/lineage_sdk_phone_arm64/emu64a:16/BP2A.250805.005/eng.jcasad:userdebug/test-keys
+[Build] Build.MODEL=LineageOS Android SDK built for arm64
+[Build] Build.MANUFACTURER=unknown
+[Build] Build.PRODUCT=lineage_sdk_phone_arm64
+[Build] Build.HARDWARE=ranchu
+[Build] Build.ID=BP2A.250805.005
+[Build.getRadioVersion] -> 1.0.0.0
+[Build] Build.RADIO=1.0.0.0
+[Build] Build.SERIAL=unknown
+[Build] Build.TAGS=test-keys
+[Build] Build.USER=jcasado
+[PackageManager.hasSystemFeature] android.hardware.telephony (0) -> true
+[PackageManager.hasSystemFeature] android.hardware.telephony -> true
+[TelephonyManager.getLine1Number] -> +15551234567
+[TelephonyManager.getNetworkCountryIso] -> us
+[TelephonyManager.getNetworkType] -> 20
+[TelephonyManager.getNetworkOperator] -> 310260
+[TelephonyManager.getNetworkOperatorName] -> T-Mobile
+[PackageManager.hasSystemFeature] android.hardware.telephony.calling (0) -> true
+[PackageManager.hasSystemFeature] android.hardware.telephony.calling -> true
+[TelephonyManager.getPhoneType] -> 1
+[TelephonyManager.getSimCountryIso] -> us
+[TelephonyManager.getVoiceMailNumber] -> +15557654321
+[PackageManager.queryIntentActivities] count=19
+[PackageManager.getPackageInfo] com.google.android.launcher.layouts.genymotion -> not found
+[PackageManager.getPackageInfo] com.nox.mopen.app -> not found
+[PackageManager.getPackageInfo] com.bignox.app -> not found
+[PackageManager.getPackageInfo] com.microvirt -> not found
+[ActivityManager.getRunningServices] count=0
+[GLES20.glGetString] GL_RENDERER -> Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0))
+[GLES20.glGetString] GL_VENDOR -> Google (Google Inc. (Google))
+[GLES20.glGetString] GL_VERSION -> OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.1 git hash: fbf66f49c7cc))

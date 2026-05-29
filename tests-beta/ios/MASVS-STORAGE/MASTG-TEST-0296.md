@@ -2,7 +2,7 @@
 platform: ios
 title: Sensitive Data Exposure Through Insecure Logging
 id: MASTG-TEST-0296
-type: [dynamic]
+type: [dynamic, logs]
 weakness: MASWE-0001
 prerequisites:
 - identify-sensitive-data
@@ -18,15 +18,15 @@ This test is the dynamic counterpart to @MASTG-TEST-0297.
 In this test, we will monitor and capture the device logs and then analyze them for sensitive data.
 
 !!! warning Limitation
-    - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative you can use dynamic analysis with @MASTG-TOOL-0039.
+    - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative you can use @MASTG-TECH-0095.
     - Dynamic analysis works best when you interact extensively with the app. But even then there could be corner cases which are difficult or impossible to execute on every device. The results from this test therefore are likely not exhaustive.
 
 ## Steps
 
-1. Install the app on a device (@MASTG-TECH-0056).
-2. Monitor the logs with @MASTG-TECH-0060.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0060 to monitor the device logs.
 3. Open the app.
-4. Navigate to the mobile app from which you wish to analyse the log output.
+4. Navigate to the screens you want to analyze the log output from.
 5. Close the app.
 
 ## Observation

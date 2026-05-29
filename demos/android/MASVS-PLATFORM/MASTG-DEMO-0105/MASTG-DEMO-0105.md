@@ -3,8 +3,7 @@ platform: android
 title: Activity-Level Overlay Protection Using setHideOverlayWindows
 id: MASTG-DEMO-0105
 code: [kotlin, java, xml]
-test: MASTG-TEST-0340
-tools: [semgrep]
+test: MASTG-TEST-0340semgrep]
 kind: pass
 ---
 
