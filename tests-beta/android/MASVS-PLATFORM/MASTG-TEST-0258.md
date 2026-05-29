@@ -2,7 +2,7 @@
 platform: android
 title: References to Keyboard Caching Attributes in UI Elements
 id: MASTG-TEST-0258
-type: [static]
+type: [static, code]
 weakness: MASWE-0053
 best-practices: [MASTG-BEST-0019]
 profiles: [L2]
@@ -13,14 +13,21 @@ knowledge: [MASTG-KNOW-0055]
 
 This test verifies that the app appropriately configures text input fields to prevent the keyboard from caching sensitive information, such as passwords or personal data.
 
-Android apps can configure the behavior of text input fields using XML attributes in the layout files or programmatically in the code. If the app doesn't use non-caching input types for sensitive data, the keyboard may cache sensitive information.
+Android apps can configure the behavior of text input fields using:
+
+- From layout files within the `res/layout` directory:
+    - Using the `android:inputType` XML attributes.
+- Programmatically in the code:
+    - By calling the `setInputType` method on input fields and passing appropriate input type values.
+    - In Jetpack Compose, by using the [`KeyboardOptions` constructors](https://developer.android.com/reference/kotlin/androidx/compose/foundation/text/KeyboardOptions#public-constructors_1) and setting the `keyboardType` and `autoCorrect` parameters.
+
+See section "Non-Caching Input Types" in @MASTG-KNOW-0055 for more details on the input types that prevent keyboard caching of sensitive information.
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Search for XML attributes in the layout files within the `res/layout` directory.
-3. Search for calls to the `setInputType` method and the input type values passed to it (@MASTG-TECH-0014).
-4. In case the app uses Jetpack Compose, search for calls to [`KeyboardOptions` constructors](https://developer.android.com/reference/kotlin/androidx/compose/foundation/text/KeyboardOptions#public-constructors_1) and their parameters in the reversed code (@MASTG-TECH-0014). Especially `keyboardType` and `autoCorrect`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0007 to extract the layout files from the app package.
 
 ## Observation
 
@@ -31,4 +38,4 @@ The output should include:
 
 ## Evaluation
 
-The test case fails if there are any fields handling sensitive data for which the app does not use non-caching input types (see section "Non-Caching Input Types" in @MASTG-KNOW-0055).
+The test case fails if there are any fields handling sensitive data for which the app does not use non-caching input types.
