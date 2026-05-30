@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Testing Runtime Hook Detection
-id: MASTG-TEST-0350
+id: MASTG-TEST-0354
 type: [dynamic, hooks]
 weakness: MASWE-0107
 profiles: [R]

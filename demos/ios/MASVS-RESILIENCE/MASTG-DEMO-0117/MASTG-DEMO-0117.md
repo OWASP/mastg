@@ -2,14 +2,14 @@
 platform: ios
 title: Extracting Sensitive Data from CCCrypt via Frida Hooking
 code: [swift]
-id: MASTG-DEMO-0114
-test: MASTG-TEST-0350
+id: MASTG-DEMO-0117
+test: MASTG-TEST-0354
 kind: fail
 ---
 
 ## Sample
 
-This sample encrypts and decrypts a sensitive API key using CommonCrypto's `CCCrypt`. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0115 demonstrates a runtime hook detection mechanism.
+This sample encrypts and decrypts a sensitive API key using CommonCrypto's `CCCrypt`. The app does not implement any runtime hook detection mechanisms. On the contrary, @MASTG-DEMO-0118 demonstrates a runtime hook detection mechanism.
 
 !!! note "Environment"
     This demo was built using Xcode 26.2.9 and tested on an iPhone running iOS 16.7.10 (jailbroken with Dopamine 2.4.9).
@@ -18,8 +18,8 @@ This sample encrypts and decrypts a sensitive API key using CommonCrypto's `CCCr
     This is a series of correlated tests.
 
     - This demo is a failed test (failed defense/successful attack) against a data exfiltration attack.
-    - @MASTG-DEMO-0115 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0114.
-    - @MASTG-DEMO-0116 is a failed test (failed defense/successful attack) against the defenses of @MASTG-DEMO-0115 by using a more complex attack.
+    - @MASTG-DEMO-0118 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0117.
+    - @MASTG-DEMO-0119 is a failed test (failed defense/successful attack) against the defenses of @MASTG-DEMO-0118 by using a more complex attack.
 
 {{ MastgTest.swift }}
 

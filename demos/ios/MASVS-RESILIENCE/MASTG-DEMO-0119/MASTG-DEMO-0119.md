@@ -2,14 +2,14 @@
 platform: ios
 title: Bypassing Frida D-Bus Port Detection to Extract Sensitive Data
 code: [swift]
-id: MASTG-DEMO-0116
-test: MASTG-TEST-0350
+id: MASTG-DEMO-0119
+test: MASTG-TEST-0354
 kind: fail
 ---
 
 ## Sample
 
-This sample uses the same code as @MASTG-DEMO-0115, which encrypts and decrypts a sensitive API key using CommonCrypto's `CCCrypt`. The code includes a runtime hook detection mechanism that probes `127.0.0.1:27042` with a D-Bus `AUTH` message and terminates via `exit(0)` if a D-Bus endpoint responds. This demo demonstrates bypassing the detection by hooking `connect()` to block connections to Frida's default port, causing `detectHooking()` to return `false` so the termination path is never reached.
+This sample uses the same code as @MASTG-DEMO-0118, which encrypts and decrypts a sensitive API key using CommonCrypto's `CCCrypt`. The code includes a runtime hook detection mechanism that probes `127.0.0.1:27042` with a D-Bus `AUTH` message and terminates via `exit(0)` if a D-Bus endpoint responds. This demo demonstrates bypassing the detection by hooking `connect()` to block connections to Frida's default port, causing `detectHooking()` to return `false` so the termination path is never reached.
 
 See @MASTG-KNOW-0087 for more context on bypassing runtime detection mechanisms.
 
@@ -19,11 +19,11 @@ See @MASTG-KNOW-0087 for more context on bypassing runtime detection mechanisms.
 !!! note
     This is a series of correlated tests.
 
-    - @MASTG-DEMO-0114 is a failed test (failed defense/successful attack) against a data exfiltration attack.
-    - @MASTG-DEMO-0115 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0114.
-    - This demo is a failed test (failed defense/successful attack) against the defenses of @MASTG-DEMO-0115 by using a more complex attack.
+    - @MASTG-DEMO-0117 is a failed test (failed defense/successful attack) against a data exfiltration attack.
+    - @MASTG-DEMO-0118 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0117.
+    - This demo is a failed test (failed defense/successful attack) against the defenses of @MASTG-DEMO-0118 by using a more complex attack.
 
-{{ ../MASTG-DEMO-0115/MastgTest.swift }}
+{{ ../MASTG-DEMO-0118/MastgTest.swift }}
 
 ## Steps
 
