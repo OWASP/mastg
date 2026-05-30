@@ -28,7 +28,7 @@ class MastgTest {
             exit(0)
         }
 
-        // PASS: [MASTG-TEST-0350] The app checks for runtime hooks before calling CCCrypt with sensitive data.
+        // PASS: [MASTG-TEST-0354] The app checks for runtime hooks before calling CCCrypt with sensitive data.
         guard let encryptedData = crypt(
             operation: CCOperation(kCCEncrypt),
             data: plaintext,
@@ -42,7 +42,7 @@ class MastgTest {
             exit(0)
         }
 
-        // PASS: [MASTG-TEST-0350] The app checks for runtime hooks before decrypting sensitive data.
+        // PASS: [MASTG-TEST-0354] The app checks for runtime hooks before decrypting sensitive data.
         guard let decryptedData = crypt(
             operation: CCOperation(kCCDecrypt),
             data: encryptedData,

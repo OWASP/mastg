@@ -19,7 +19,7 @@ class MastgTest {
             return "Error: Could not generate IV."
         }
 
-        // FAIL: [MASTG-TEST-0350] The app calls CCCrypt with sensitive data without detecting runtime hooks.
+        // FAIL: [MASTG-TEST-0354] The app calls CCCrypt with sensitive data without detecting runtime hooks.
         guard let encryptedData = crypt(
             operation: CCOperation(kCCEncrypt),
             data: plaintext,
@@ -29,7 +29,7 @@ class MastgTest {
             return "Error: Encryption failed."
         }
 
-        // FAIL: [MASTG-TEST-0350] The app decrypts sensitive data without detecting runtime hooks.
+        // FAIL: [MASTG-TEST-0354] The app decrypts sensitive data without detecting runtime hooks.
         guard let decryptedData = crypt(
             operation: CCOperation(kCCDecrypt),
             data: encryptedData,
