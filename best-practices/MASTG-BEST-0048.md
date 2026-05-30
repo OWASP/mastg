@@ -1,14 +1,14 @@
 ---
 title: Hardening Against Reverse Engineering Tools on iOS
 alias: hardening-against-reverse-engineering-tools-ios
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0048
 platform: ios
 knowledge: [MASTG-KNOW-0087]
 ---
 
 Defending against reverse engineering tools on iOS requires a layered approach that combines several types of security controls:
 
-- **Detective controls**: Scan for known reverse engineering tool artifacts (@MASTG-KNOW-0087), such as checking loaded dynamic libraries via `_dyld_image_count`/`_dyld_get_image_name` for names containing "frida", "gadget", "cynject", or other tool-specific strings. Additionally, probe TCP port 27042 for a D-Bus authentication response to reveal a running frida-server.
+- **Detective controls**: Scan for known reverse engineering tool artifacts (@MASTG-KNOW-0087), such as checking loaded dynamic libraries via `_dyld_image_count`/`_dyld_get_image_name` for names containing "frida", "gadget", "cynject", or other tool-specific strings. This technique is effective against Frida Gadget (embedded mode) and tools loaded through dyld, but on official builds frida-server injects its agent using a [custom Mach-O loader](https://github.com/frida/frida-gum/blob/main/gum/backend-darwin/gumdarwinmapper.c) that bypasses dyld, so it does not detect frida-server in injected mode. Additionally, probe TCP port 27042 for a D-Bus authentication response to reveal a running frida-server.
 - **Deterrent controls**: Obfuscate detection logic (@MASTG-KNOW-0089), scatter checks throughout the app, and vary their timing to increase the cost and effort required to bypass these checks. Avoid centralizing detection in a single function, as a fixed entry point can be patched or hooked.
 - **Responsive controls**: Terminate the app immediately, clear sensitive data from memory, or alert the backend server when a tool is detected.
 
@@ -18,13 +18,13 @@ Defending against reverse engineering tools on iOS requires a layered approach t
 
 Use [`_dyld_image_count()`](https://developer.apple.com/documentation/kernel/1582893-_dyld_image_count) and [`_dyld_get_image_name()`](https://developer.apple.com/documentation/kernel/1582851-_dyld_get_image_name) to iterate over all loaded dynamic libraries and check for names associated with reverse engineering tools.
 
-Known artifact names to look for include `FridaGadget`, `frida-agent`, `cynject`, and similar strings. Note that an attacker can trivially bypass a name-based check by renaming the library, so combine this with other detection methods for better coverage.
+Known artifact names to look for include `FridaGadget`, `frida-agent`, `cynject`, and similar strings. `_dyld_image_count` only returns images [tracked by dyld](https://github.com/apple-oss-distributions/dyld/blob/main/dyld/DyldAPIs.cpp), so this technique is effective against Frida Gadget (embedded mode) and tools loaded through dyld such as via `DYLD_INSERT_LIBRARIES`. However, on official builds frida-server injects its agent using a [custom Mach-O loader](https://github.com/frida/frida-gum/blob/main/gum/backend-darwin/gumdarwinmapper.c) that bypasses dyld, and its [injector prioritizes the mapper over dyld](https://github.com/frida/frida-core/blob/main/src/darwin/fruitjector.vala), rendering this technique ineffective for the most common jailbroken scenario. An attacker can also bypass a name-based check by renaming the library, so combine this with the D-Bus port detection technique discussed below for better coverage.
 
 ### Apply Multiple Detection Techniques
 
 Layer several techniques to maximize detection coverage:
 
-- **Library name scanning**: Iterate loaded dylibs using `_dyld_image_count`/`_dyld_get_image_name` for known artifact names.
+- **Library name scanning**: Iterate loaded dylibs using `_dyld_image_count`/`_dyld_get_image_name` for known artifact names. Effective against Frida Gadget and dyld-loaded tools, but not against frida-server injected mode, which uses a [custom Mach-O loader](https://github.com/frida/frida-gum/blob/main/gum/backend-darwin/gumdarwinmapper.c) that bypasses dyld.
 - **TCP port probing**: Check whether port 27042 is open and responds to a D-Bus AUTH message, which reveals a default frida-server configuration.
 - **Named pipe detection**: Scan for named pipes used by frida-server for inter-process communication.
 
