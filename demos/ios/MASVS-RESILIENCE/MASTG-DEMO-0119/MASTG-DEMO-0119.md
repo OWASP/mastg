@@ -43,4 +43,4 @@ The output shows that the `connect()` call to a Frida port was blocked, followed
 
 ## Evaluation
 
-The test fails because the `connect()` hook successfully prevented the D-Bus port detection from reaching Frida's endpoint, causing `detectHooking()` to return `false`. With detection bypassed, the app proceeded with its cryptographic operations, which were intercepted by the `CCCrypt` hooks to extract the sensitive API key `sk-OWASP-MAS-SuperSecretKey-1234567890` in plaintext.
+The test case fails because the `connect()` hook successfully prevented the D-Bus port detection from reaching Frida's endpoint, causing `detectHooking()` to return `false`. With detection bypassed, the app proceeded with its cryptographic operations, which were intercepted by the `CCCrypt` hooks to extract the sensitive API key `sk-OWASP-MAS-SuperSecretKey-1234567890` in plaintext.

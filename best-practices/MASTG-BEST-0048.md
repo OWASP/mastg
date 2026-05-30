@@ -24,7 +24,7 @@ Known artifact names to look for include `FridaGadget`, `frida-agent`, `cynject`
 
 Layer several techniques to maximize detection coverage:
 
-- **Library name scanning**: Iterate loaded dylibs using `_dyld_image_count`/`_dyld_get_image_name` for known artifact names. Effective against Frida Gadget and dyld-loaded tools, but not against frida-server injected mode, which uses a [custom Mach-O loader](https://github.com/frida/frida-gum/blob/main/gum/backend-darwin/gumdarwinmapper.c) that bypasses dyld.
+- **Library name scanning**: Iterate loaded dylibs using `_dyld_image_count`/`_dyld_get_image_name` for known artifact names (see [Inspect Loaded Dynamic Libraries](#inspect-loaded-dynamic-libraries) above for its coverage and limitations).
 - **TCP port probing**: Check whether port 27042 is open and responds to a D-Bus AUTH message, which reveals a default frida-server configuration.
 - **Named pipe detection**: Scan for named pipes used by frida-server for inter-process communication.
 
