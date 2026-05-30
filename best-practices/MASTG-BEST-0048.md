@@ -1,6 +1,6 @@
 ---
-title: Hardening Against Reverse Engineering Tools on iOS
-alias: hardening-against-reverse-engineering-tools-ios
+title: Hardening Against Reverse Engineering Tools
+alias: hardening-against-reverse-engineering-tools
 id: MASTG-BEST-0048
 platform: ios
 knowledge: [MASTG-KNOW-0087]
