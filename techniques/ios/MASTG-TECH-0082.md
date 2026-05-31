@@ -3,7 +3,7 @@ title: Extracting Bundled Libraries
 platform: ios
 ---
 
-This technique describes how to identify dynamic libraries and [framework](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) binaries bundled with an iOS app. The static analysis steps inspect the IPA without running the app. Runtime-based approaches are covered in @MASTG-TECH-0x01 and require executing or instrumenting the app.
+This technique describes how to identify dynamic libraries, [framework](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) binaries, and indicators of statically linked libraries in an iOS app. The static analysis steps inspect the IPA without running the app. Runtime-based approaches are covered in @MASTG-TECH-0x01 and require executing or instrumenting the app.
 
 When analyzing an iOS app's libraries, distinguish between the following categories:
 
@@ -16,6 +16,7 @@ The approaches below provide complementary information:
 
 - **Inspecting the IPA contents** shows what files the developer shipped. This is the best starting point for identifying bundled frameworks, dylibs, app extensions, and other executable components.
 - **Reading the Mach-O load commands**, for example with `otool -L` or radare2 `il`, shows the dynamic libraries recorded as dependencies of a specific Mach-O binary. This includes system libraries and bundled libraries, but only for the binary being inspected.
+- **Inspecting symbols, strings, and metadata** can help infer statically linked libraries, because they are merged into another Mach-O binary and are not listed as separate dependencies.
 
 When reviewing the load command output, filter out paths that clearly refer to system libraries, such as `/System/Library/` and `/usr/lib/`. Entries using `@rpath`, `@executable_path`, or `@loader_path` should be resolved against the binary's load commands and then cross-checked against the IPA contents. In iOS apps, `@rpath` commonly resolves to the app's `Frameworks` directory, but this should not be assumed without verification.
 
@@ -84,6 +85,41 @@ otool -l MASTestApp/Payload/MASTestApp.app/MASTestApp | grep -A2 LC_RPATH
 ```
 
 Entries with absolute paths such as `/System/Library/Frameworks/` or `/usr/lib/` usually refer to system libraries. Entries using `@rpath`, `@executable_path`, or `@loader_path` may refer to bundled libraries, but they should be resolved and cross-checked against the IPA contents.
+
+## Identifying Statically Linked Libraries
+
+Static libraries, static frameworks, and mergeable libraries are linked into another Mach-O binary at build time. After linking, they do not appear as separate files in the app bundle and are not listed as dynamic dependencies by `otool -L` or radare2 `il`.
+
+This means statically linked libraries usually have to be inferred from code artifacts left in the final binary, such as symbols, strings, Objective-C class names, Swift type names, file paths, or recognizable third-party SDK identifiers.
+
+Use `nm` to inspect symbols when the binary is not fully stripped:
+
+```bash
+nm -m MASTestApp/Payload/MASTestApp.app/MASTestApp | grep -i "AFNetworking\|Alamofire\|Firebase"
+```
+
+Use `strings` to search for library names, SDK identifiers, package names, Objective-C class prefixes, Swift module names, or known log messages:
+
+```bash
+strings MASTestApp/Payload/MASTestApp.app/MASTestApp | grep -i "AFNetworking\|Alamofire\|Firebase"
+```
+
+For Swift code, module and type names may still appear in Swift metadata even when symbols are stripped:
+
+```bash
+strings MASTestApp/Payload/MASTestApp.app/MASTestApp | grep -i "Alamofire"
+```
+
+In radare2, inspect symbols, imports, Objective-C metadata, Swift metadata, and strings to look for library fingerprints:
+
+```bash
+r2 MASTestApp/Payload/MASTestApp.app/MASTestApp
+[0x100006e9c]> is~Firebase
+[0x100006e9c]> izz~Firebase
+[0x100006e9c]> ic~Firebase
+```
+
+Treat these results as indicators, not definitive proof. A library may be stripped, obfuscated, renamed, optimized away, or partially included by the linker. Conversely, a string or class name may remain even if only a small part of the library is present. When possible, confirm findings through multiple indicators, for example matching symbols, strings, class names, SDK behavior, and known code patterns.
 
 ## Using @MASTG-TOOL-0073
 
