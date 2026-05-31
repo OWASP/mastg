@@ -5,15 +5,13 @@ platform: ios
 
 This technique describes how to enumerate the dynamic libraries loaded into memory by a running iOS app. Unlike @MASTG-TECH-0082, which identifies bundled libraries statically from the IPA, this approach requires the app to be running on a device.
 
-Due to iOS code signing and trust cache enforcement (see @MASTG-KNOW-0058), the set of libraries visible at runtime is always a **subset** of what is in the bundle, and never a superset. What changes dynamically is **which bundled libraries have been loaded** at any given moment.
+Due to iOS code signing requirements (see @MASTG-KNOW-0058), third-party native code loaded by an App Store app must be signed and installed as part of the app bundle. In practice, the app-bundled libraries visible at runtime are normally a **subset** of the native libraries available in the installed bundle. What changes dynamically is **which bundled libraries have been loaded** at any given moment.
 
-Not all bundled libraries are necessarily linked in the binary's Mach-O load commands (`LC_LOAD_DYLIB`). Some are loaded lazily via `dlopen()` only when a specific code path is triggered. These do **not** appear in the output of `otool -L` or `radare2 il` (see @MASTG-TECH-0082) but will appear in `Process.enumerateModules()` once they have been activated.
-
-A real example is WhatsApp's `PsiphonTunnel.framework` library: it is present in the app's `Frameworks/` directory and signed with Meta's Team ID, but it is loaded via `dlopen()` only when the app detects network restrictions in certain regions. At the start of a normal session it is absent from the list of loaded modules; once the circumvention feature activates, it appears.
+Not all bundled libraries are necessarily linked in the binary's Mach-O load commands (`LC_LOAD_DYLIB`). Some are loaded lazily via `dlopen()` only when a specific code path is triggered. These do **not** appear in the output of `otool -L` or `radare2 il` (see @MASTG-TECH-0082) but will appear in `Process.enumerateModules()` once they have been loaded.
 
 This means the dynamic technique is complementary to the static one:
 
-- @MASTG-TECH-0082 gives the **complete list** of libraries that could ever be loaded (everything in the bundle).
+- @MASTG-TECH-0082 gives the list of app-bundled native libraries that are visible statically in the IPA.
 - This technique gives the **active list** at a specific runtime moment, which is useful to confirm which libraries are actually in use during a given app state.
 
 ## Enumerating Loaded Libraries at Runtime
@@ -49,7 +47,7 @@ Example output:
 ]
 ```
 
-To observe libraries as they get loaded (useful to catch conditionally-loaded ones), use `Process.attachModuleObserver()`:
+To observe libraries as they get loaded, which is useful to catch conditionally loaded ones, use `Process.attachModuleObserver()`:
 
 ```javascript
 Process.attachModuleObserver({
@@ -86,8 +84,8 @@ CoreGlyphs    com.apple.CoreGlyphs                               1  ...m/Library
 
 ## Extracting Libraries
 
-When analyzing loaded libraries, distinguish iOS system libraries from app bundled libraries. System libraries are provided by the operating system and are commonly mapped from the dyld shared cache, see ["A Deep Dive into Dyld Cache"](https://www.nowsecure.com/blog/2024/09/11/reversing-ios-system-libraries-using-radare2-a-deep-dive-into-dyld-cache-part-1/) for more details. This section focuses on app bundled libraries, for example embedded frameworks under `Frameworks/`, app extensions under `PlugIns/`, and bundled `.dylib` files.
+When analyzing loaded libraries, distinguish iOS system libraries from app-bundled libraries. System libraries are provided by the operating system and are commonly mapped from the dyld shared cache, see ["A Deep Dive into Dyld Cache"](https://www.nowsecure.com/blog/2024/09/11/reversing-ios-system-libraries-using-radare2-a-deep-dive-into-dyld-cache-part-1/) for more details. This section focuses on app-bundled libraries, for example embedded frameworks under `Frameworks/`, app extensions under `PlugIns/`, and bundled `.dylib` files.
 
-App Store FairPlay encryption should be checked per Mach-O file. Do not assume that embedded frameworks are always unencrypted. For each bundled executable, inspect the `LC_ENCRYPTION_INFO` or `LC_ENCRYPTION_INFO_64` load command with `otool -l`. A `cryptid` value of `1` indicates that the file is encrypted on disk, while `0` indicates that it is not encrypted or has already been decrypted.
+App Store FairPlay encryption should be checked per bundled Mach-O executable. Do not assume that embedded frameworks are always unencrypted. For each bundled executable, inspect the `LC_ENCRYPTION_INFO` or `LC_ENCRYPTION_INFO_64` load command with `otool -l`. A `cryptid` value of `1` indicates that the file is encrypted on disk, while `0` indicates that it is not encrypted or has already been decrypted.
 
 If a bundled library has `cryptid 0`, it can be extracted directly from the app bundle and does not need to be dumped from memory. If it has `cryptid 1`, extract it from memory using the same FairPlay decryption workflow used for encrypted app binaries.
