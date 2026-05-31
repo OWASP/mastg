@@ -369,7 +369,7 @@ Use when the test requires analysis of native libraries included in the app pack
 **`type: [static, package]` — Android**
 
 ```md
-1. Use @MASTG-TECH-0x02 to extract the native libraries from the app package.
+1. Use @MASTG-TECH-0157 to extract the native libraries from the app package.
 2. Use @MASTG-TECH-0115 on each native library to obtain the compiler-provided security features.
 ```
 

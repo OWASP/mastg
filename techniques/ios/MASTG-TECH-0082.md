@@ -3,7 +3,7 @@ title: Extracting Bundled Libraries
 platform: ios
 ---
 
-This technique describes how to identify dynamic libraries, [framework](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) binaries, and indicators of statically linked libraries in an iOS app. The static analysis steps inspect the IPA without running the app. Runtime-based approaches are covered in @MASTG-TECH-0x01 and require executing or instrumenting the app.
+This technique describes how to identify dynamic libraries, [framework](https://developer.apple.com/library/archive/technotes/tn2435/_index.html) binaries, and indicators of statically linked libraries in an iOS app. The static analysis steps inspect the IPA without running the app. Runtime-based approaches are covered in @MASTG-TECH-0158 and require executing or instrumenting the app.
 
 When analyzing an iOS app's libraries, distinguish between the following categories:
 

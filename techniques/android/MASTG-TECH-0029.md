@@ -3,7 +3,7 @@ title: Listing Loaded Native Libraries
 platform: android
 ---
 
-This technique describes how to identify and extract the native libraries loaded into memory by a running Android app. Unlike @MASTG-TECH-0x02, which identifies bundled native libraries statically from the APK, this approach requires the app to be running on a device.
+This technique describes how to identify and extract the native libraries loaded into memory by a running Android app. Unlike @MASTG-TECH-0157, which identifies bundled native libraries statically from the APK, this approach requires the app to be running on a device.
 
 ## Using @MASTG-TOOL-0004
 
