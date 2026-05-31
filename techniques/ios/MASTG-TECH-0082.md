@@ -7,8 +7,8 @@ This technique describes how to identify dynamic libraries and [framework](https
 
 When analyzing an iOS app's libraries, distinguish between the following categories:
 
-- **App-bundled libraries and framework binaries**: executable code shipped inside the IPA. These are commonly located under `Payload/YourApp.app/Frameworks/`, and may include first-party frameworks, third-party frameworks, bundled `.dylib` files, and Swift runtime libraries.
-- **Other bundled executable components**: executable code shipped in other app bundle locations, such as app extensions under `Payload/YourApp.app/PlugIns/`, watch content under `Payload/YourApp.app/Watch/`, app clips, or other Mach-O files inside the app bundle.
+- **App-bundled libraries and framework binaries**: executable code shipped inside the IPA. These are commonly located under `Payload/YourApp.app/Frameworks/`, and may include first-party frameworks, third-party frameworks, and Swift runtime libraries. Standalone `.dylib` files are uncommon in App Store apps, except for the Swift runtime libraries provided by Xcode.
+- **Other bundled executable components**: executable code shipped in other app bundle locations, such as app extensions under `Payload/YourApp.app/PlugIns/`, Watch apps under `Payload/YourApp.app/Watch/`, App Clips, or other Mach-O files inside the app bundle.
 - **System libraries**: libraries provided by iOS, commonly referenced through paths such as `/System/Library/Frameworks/` or `/usr/lib/`. These are loaded from the operating system and are generally not part of the IPA.
 - **Statically linked code**: code from static libraries, static frameworks, or mergeable libraries that has been linked into another Mach-O binary. This code will not appear as a separate dependency in `otool -L` or radare2 `il`.
 
@@ -19,11 +19,11 @@ The approaches below provide complementary information:
 
 When reviewing the load command output, filter out paths that clearly refer to system libraries, such as `/System/Library/` and `/usr/lib/`. Entries using `@rpath`, `@executable_path`, or `@loader_path` should be resolved against the binary's load commands and then cross-checked against the IPA contents. In iOS apps, `@rpath` commonly resolves to the app's `Frameworks` directory, but this should not be assumed without verification.
 
-Some Apple supplied Swift runtime libraries, such as `libswiftCore.dylib`, may be bundled in the app's `Frameworks` directory depending on the deployment target and toolchain. These are physically shipped in the IPA, even though they are not third-party libraries.
+Some Apple-supplied Swift runtime libraries, such as `libswiftCore.dylib`, may be bundled in the app's `Frameworks` directory depending on the deployment target and toolchain. These are physically shipped in the IPA, even though they are not third-party libraries.
 
 ## Using `unzip`
 
-An IPA is a ZIP archive. Extract it and inspect the app bundle. Bundled dynamic libraries are commonly `.framework` bundles or `.dylib` files under `Payload/YourApp.app/Frameworks/`.
+An IPA is a ZIP archive. Extract it and inspect the app bundle. Bundled dynamic libraries are commonly `.framework` bundles under `Payload/YourApp.app/Frameworks/`. Swift runtime libraries may also appear there as `.dylib` files.
 
 ```bash
 unzip -o MASTestApp.ipa -d MASTestApp
@@ -83,7 +83,7 @@ To inspect runtime search paths used to resolve `@rpath` entries, use:
 otool -l MASTestApp/Payload/MASTestApp.app/MASTestApp | grep -A2 LC_RPATH
 ```
 
-Entries with absolute paths such as `/System/Library/Frameworks/` or `/usr/lib/` usually refer to system libraries. Entries using `@rpath`, `@executable_path`, or `@loader_path` may refer to bundled libraries, but they should be resolved and cross checked against the IPA contents.
+Entries with absolute paths such as `/System/Library/Frameworks/` or `/usr/lib/` usually refer to system libraries. Entries using `@rpath`, `@executable_path`, or `@loader_path` may refer to bundled libraries, but they should be resolved and cross-checked against the IPA contents.
 
 ## Using @MASTG-TOOL-0073
 
