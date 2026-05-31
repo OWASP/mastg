@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Use Of APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0271
 apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
-type: [static]
+type: [dynamic, hooks]
 weakness: MASWE-0046
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
@@ -13,9 +13,13 @@ knowledge: [MASTG-KNOW-0056]
 
 This test is the dynamic counterpart to @MASTG-TEST-0270.
 
+In this case we'll hook [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)) and its specific flags.
+
 ## Steps
 
-1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)) and specific flags.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 

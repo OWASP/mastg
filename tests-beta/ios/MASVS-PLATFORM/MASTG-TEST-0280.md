@@ -2,7 +2,7 @@
 platform: ios
 title: Pasteboard Contents Not Restricted to Local Device
 id: MASTG-TEST-0280
-type: [static]
+type: [static, code]
 weakness: MASWE-0053
 threat: [app]
 profiles: [L2]
@@ -11,12 +11,12 @@ knowledge: [MASTG-KNOW-0083]
 
 ## Overview
 
-This test checks if the app restricts the contents of the general @MASTG-KNOW-0083 to the local device by using the `UIPasteboard.setItems(_:options:)` method with the `UIPasteboard.OptionsKey.localOnly` option. If sensitive data is placed in the general pasteboard without this restriction, it can be synced across devices via Universal Clipboard, leading to potential data leaks.
+This test checks if the app restricts the contents of the general pasteboard ([`UIPasteboard.general`](https://developer.apple.com/documentation/uikit/uipasteboard/general "UIPasteboard generalPasteboard")) to the local device by using the [`UIPasteboard.setItems(_:options:)`](https://developer.apple.com/documentation/uikit/uipasteboard/setitems(_:options:) "UIPasteboard setItems(_:options:)") method with the `UIPasteboard.OptionsKey.localOnly` option. If sensitive data is placed in the general pasteboard without this restriction, it can be synced across devices via Universal Clipboard, leading to potential data leaks. See @MASTG-KNOW-0083 for more details on the general pasteboard.
 
 ## Steps
 
-1. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the [`UIPasteboard.general`](https://developer.apple.com/documentation/uikit/uipasteboard/1622106-generalpasteboard "UIPasteboard generalPasteboard") property.
-2. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the `UIPasteboard.setItems(_:options:)` method.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

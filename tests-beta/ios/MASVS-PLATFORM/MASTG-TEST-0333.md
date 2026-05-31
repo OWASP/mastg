@@ -2,7 +2,7 @@
 platform: ios
 title: Overly Broad File Read Access in WebViews
 id: MASTG-TEST-0333
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0033]
 knowledge: [MASTG-KNOW-0076]
@@ -17,8 +17,8 @@ This test checks whether the app uses `loadFileURL(_:allowingReadAccessTo:)` wit
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, looking for calls to `WKWebView.loadFileURL(_:allowingReadAccessTo:)`.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -28,7 +28,9 @@ The output should contain a list of locations in the binary where `WKWebView.loa
 
 The test case fails if any call to `loadFileURL(_:allowingReadAccessTo:)` is found where the `readAccessURL` argument grants overly broad read access, for example to the entire `Documents` directory or the app container root.
 
-Inspect each reported call site using @MASTG-TECH-0076.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076:
 
 - Inspect the `fileURL` argument and determine whether it can be influenced by attacker-controlled input.
 - Inspect the `readAccessURL` argument and determine whether it grants broader access than necessary.

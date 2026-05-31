@@ -20,7 +20,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           sparse-checkout: demos/ios
           fetch-depth: 2 # Required for git diff in PRs
@@ -62,12 +62,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           sparse-checkout: ${{ matrix.demo }}
 
       - name: Clone mas-app-ios repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: cpholguera/mas-app-ios
           path: mas-app-ios
@@ -93,13 +93,14 @@ jobs:
           IPA_NAME="$(basename "$demo").ipa"
           EXTRA_ENTITLEMENTS=""
 
-          [ -f "$demo/entitlements.plist" ] && EXTRA_ENTITLEMENTS="$demo/entitlements.plist"
+          [ -f "$demo/entitlements.plist" ] && EXTRA_ENTITLEMENTS="$GITHUB_WORKSPACE/$demo/entitlements.plist"
           
           ./mas-app-ios/.github/scripts/build-and-package.sh "$IPA_NAME" "$EXTRA_ENTITLEMENTS"
           echo "IPA_NAME=$IPA_NAME" >> $GITHUB_ENV
 
       - name: Upload IPA
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "${{ env.IPA_NAME }}"
-          path: "output/${{ env.IPA_NAME }}"
+          path: "${{ github.workspace }}/mas-app-ios/output/${{ env.IPA_NAME }}"
+          if-no-files-found: error

@@ -2,7 +2,7 @@
 platform: ios
 title: Sensitive Data Not Marked For Backup Exclusion
 id: MASTG-TEST-0215
-type: [static]
+type: [static, code]
 weakness: MASWE-0004
 best-practices: [MASTG-BEST-0023]
 profiles: [L1, L2, P]
@@ -22,7 +22,8 @@ In this test, we identify all locations where the `isExcludedFromBackup` API is 
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, or use a dynamic analysis tool like @MASTG-TOOL-0039, and look for uses of the `isExcludedFromBackup` API.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

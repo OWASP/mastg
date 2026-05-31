@@ -3,7 +3,7 @@ platform: android
 title: References to APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0326
 apis: [BiometricPrompt, BiometricManager.Authenticators, setAllowedAuthenticators]
-type: [static]
+type: [static, code]
 weakness: MASWE-0045
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
@@ -22,7 +22,8 @@ Similarly, using [`setDeviceCredentialAllowed(true)`](https://developer.android.
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

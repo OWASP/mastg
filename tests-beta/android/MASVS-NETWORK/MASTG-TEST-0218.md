@@ -1,8 +1,8 @@
 ---
 title: Insecure TLS Protocols in Network Traffic
-platform: network
+platform: android
 id: MASTG-TEST-0218
-type: [network]
+type: [dynamic, network]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---
@@ -17,12 +17,13 @@ In cases where static analysis is either incomplete or infeasible, examining net
 
 ## Steps
 
-1. Set up @MASTG-TECH-0010 (for Android) or @MASTG-TECH-0062 (for iOS).
-2. View the TLS version e.g., using @MASTG-TOOL-0081.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0010 to capture the app traffic.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
-The output should contain the TLS version actually used during the connection.
+The output should contain the app traffic.
 
 ## Evaluation
 

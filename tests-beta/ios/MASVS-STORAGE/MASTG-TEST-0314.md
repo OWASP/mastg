@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Monitoring of Text Fields Eligible for Keyboard Caching
 id: MASTG-TEST-0314
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0053
 profiles: [L2]
 prerequisites:
@@ -18,8 +18,8 @@ This test complements @MASTG-TEST-0313. It monitors text inputs in the app at ru
 ## Steps
 
 1. Use @MASTG-TECH-0056 to install the app.
-2. Use @MASTG-TECH-0067 to look for text input fields in the app's UI and identify those that use the relevant attributes.
-3. Exercise the app thoroughly, entering realistic sensitive information (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) into each identified input field.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
@@ -37,5 +37,6 @@ The test case fails if any UI inputs that may handle sensitive values (for examp
 - `autocorrectionType` is set to `default` or `yes`, or
 - `spellCheckingType` is set to `default` or `yes`.
 
-!!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard UIKit classes such as `UITextField` or `UITextView` (for example in custom UI frameworks or game engines), or if text entry is handled through nonstandard abstractions that prevent reliable observation of input traits at runtime.

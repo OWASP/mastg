@@ -3,7 +3,7 @@ platform: android
 title: References to APIs Enforcing Authentication without Explicit User Action
 id: MASTG-TEST-0329
 apis: [BiometricPrompt.PromptInfo.Builder, setConfirmationRequired]
-type: [static]
+type: [static, code]
 weakness: MASWE-0044
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
@@ -16,7 +16,8 @@ This test checks if the app enforces biometric authentication (@MASTG-KNOW-0001)
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

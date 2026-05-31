@@ -2,7 +2,7 @@
 title: Unsafe Custom Trust Evaluation
 platform: android
 id: MASTG-TEST-0282
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0052
 best-practices: [MASTG-BEST-0021]
 profiles: [L1, L2]
@@ -17,8 +17,8 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Run a static analysis (@MASTG-TECH-0014) tool for the app and look for all usages of `checkServerTrusted(...)`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -28,7 +28,9 @@ The output should contain a list of locations where `checkServerTrusted(...)` is
 
 The test case fails if `checkServerTrusted(...)` is implemented in a custom `X509TrustManager` and does **not** properly validate server certificates.
 
-This includes cases such as:
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023, looking for cases such as:
 
 - **Using `checkServerTrusted(...)` which is error prone, when NSC would be enough.
 - **Trust manager that does nothing:** overriding `checkServerTrusted(...)` to accept all certificates without any validation, for example by returning immediately without verifying the certificate chain or by always returning `true`.
@@ -36,5 +38,3 @@ This includes cases such as:
 - **Using [`checkValidity()`](https://developer.android.com/reference/java/security/cert/X509Certificate#checkValidity()) instead of full validation:** relying only on `checkValidity()` checks whether the certificate is expired or not yet valid, but does **not** verify trust or hostname matching.
 - **Explicitly loosening trust:** disabling trust checks to accept self-signed or untrusted certificates for convenience during development or testing.
 - **Misusing [`getAcceptedIssuers()`](https://developer.android.com/reference/javax/net/ssl/X509TrustManager#getAcceptedIssuers())**: Returning `null` or an empty array without proper handling may effectively disable issuer validation.
-
-When testing using automated tools, you will need to inspect all the reported locations in the reverse-engineered code to confirm the incorrect implementation (@MASTG-TECH-0023).

@@ -2,7 +2,7 @@
 platform: ios
 title: Uses of Low-Level Networking APIs for Cleartext Traffic
 id: MASTG-TEST-0323
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0050
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0073]
@@ -24,9 +24,8 @@ For more information on when ATS applies, see @MASTG-KNOW-0071.
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
-2. Use @MASTG-TECH-0072 to look for uses of low-level networking APIs in the app binary.
-3. Use @MASTG-TECH-0076 to analyze the relevant code paths and determine if they could establish cleartext connections. For example, if using `Network` framework, verify that TLS is properly configured using `.tls` parameter in `NWParameters`.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -35,3 +34,10 @@ The output should contain a list of low-level networking API usages and their lo
 ## Evaluation
 
 The test case fails if the app uses low-level networking APIs to establish cleartext connections.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether cleartext connections are established:
+
+- Determine whether TLS is configured for `Network` framework connections, for example by checking whether `.tls` is included in `NWParameters`.
+- Determine whether `CFNetwork` or BSD socket connections use any TLS wrapping.

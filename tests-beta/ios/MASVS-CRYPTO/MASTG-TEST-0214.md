@@ -2,7 +2,7 @@
 title: Hardcoded Cryptographic Keys in Files
 platform: ios
 id: MASTG-TEST-0214
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0014
 profiles: [L1, L2]
 ---
@@ -19,7 +19,8 @@ Cryptographic keys may be embedded files such as configuration files or key file
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary looking for strings or sequences of bytes as indicated above.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -29,4 +30,8 @@ The output should include any instances where potential cryptographic keys are f
 
 The test case fails if hardcoded cryptographic keys are found within the source code or binary.
 
-Ensure that any identified keys are indeed cryptographic keys used for security-relevant purposes. Avoid false positives by verifying the key's usage context (e.g., configuration settings or non-security-related constants might be misidentified as cryptographic keys).
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether the identified data is indeed a cryptographic key used for security-relevant purposes:
+
+- Determine whether the identified value is a cryptographic key (configuration settings or non-security-related constants might be misidentified as cryptographic keys).

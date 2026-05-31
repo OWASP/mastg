@@ -2,7 +2,7 @@
 title: Expired Certificate Pins in the Network Security Configuration 
 platform: android
 id: MASTG-TEST-0243
-type: [static]
+type: [static, code]
 weakness: MASWE-0047
 profiles: [L2]
 knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
@@ -20,8 +20,10 @@ The goal of this test is to check if any expiration date is in the past.
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Inspect the AndroidManifest.xml, and check if a `networkSecurityConfig` is set in the `<application>` tag. If yes, inspect the referenced file, and extract the expiration dates for every domain.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+3. Use @MASTG-TECH-0150 to check if `android:networkSecurityConfig` is set in the `<application>` tag.
+4. Use @MASTG-TECH-0151 to extract the expiration dates for all certificate pins from the Network Security Configuration file.
 
 ## Observation
 

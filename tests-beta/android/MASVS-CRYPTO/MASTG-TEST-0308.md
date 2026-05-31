@@ -2,7 +2,7 @@
 platform: android
 title: Runtime Use of Asymmetric Key Pairs Used For Multiple Purposes
 id: MASTG-TEST-0308
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0012
 profiles: [L2]
 knowledge: [MASTG-KNOW-0012]
@@ -24,7 +24,9 @@ Some of the relevant functions to intercept are:
 
 ## Steps
 
-1. Execute a method trace (@MASTG-TECH-0033) targeting all functions that use an asymmetric key to perform cryptographic operations.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 

@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Use Of Event-Bound Biometric Authentication
 id: MASTG-TEST-0267
 apis: [LAContext.evaluatePolicy]
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0044
 best-practices: []
 profiles: [L2]
@@ -14,9 +14,13 @@ knowledge: [MASTG-KNOW-0056]
 
 This test is the dynamic counterpart to @MASTG-TEST-0266.
 
+In this case we'll hook [`LAContext.evaluatePolicy(...)`](https://developer.apple.com/documentation/localauthentication/lacontext/evaluatepolicy(_:localizedreason:reply:)) and [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)), including all flags.
+
 ## Steps
 
-1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of [LAContext.evaluatePolicy(...)](https://developer.apple.com/documentation/localauthentication/lacontext/evaluatepolicy(_:localizedreason:reply:)) and [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)), including all flags.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
