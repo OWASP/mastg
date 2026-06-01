@@ -31,7 +31,9 @@ The goal is to ensure that sensitive information is not persisted in plaintext i
 4. Inspect database contents using a SQLite client or dynamic analysis tool to confirm whether sensitive data is stored in plaintext.
 
 ## Observation
+
 The output should contain:
+
 - The location of the Room database files inside the application's private storage.
 - Occurrences inside the Room database file where the sensitive data (tokens, secrets, PII) is stored in plaintext.
 

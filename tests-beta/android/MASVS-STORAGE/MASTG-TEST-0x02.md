@@ -31,7 +31,9 @@ This test inspects the app's code for references to Room APIs and verifies wheth
    - a secure factory or wrapper (e.g., SQLCipher implementation of `SupportSQLiteOpenHelper.Factory`) is explicitly applied to the database builder
 
 ## Observation
+
 The output should contain:
+
 - Which Room database files are referenced in the code
 - Whether encryption is being applied in the code to the sensitive data before being stored
 
