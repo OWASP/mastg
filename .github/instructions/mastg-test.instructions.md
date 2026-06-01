@@ -204,6 +204,27 @@ Example:
 Android apps sometimes use insecure pseudorandom number generators (PRNGs) such as `java.util.Random`, which is essentially a linear congruential generator. This type of PRNG generates a predictable sequence of numbers for any given seed value, making the sequence reproducible and insecure for cryptographic use. In particular, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calling `nextDouble()` on a static `java.util.Random` instance) produce identical number sequences when initialized with the same seed across all Java implementations.
 ```
 
+#### Example Attack Scenario
+
+The Overview MUST include an `**Example Attack Scenario:**` block. It helps the reader understand how an attacker would actually abuse the issue and what the real-world consequence is. Place it at the end of the Overview, immediately before the `## Steps` section.
+
+Write it as a short setup sentence followed by a numbered list of concrete attacker steps that ends with the impact (for example, data exposure, authentication bypass, account takeover, or code execution). Refer to relevant techniques with their `@MASTG-TECH-XXXX` IDs where helpful.
+
+See @MASTG-TEST-0250 and @MASTG-TEST-0252 for reference.
+
+Example:
+
+```md
+**Example Attack Scenario:**
+
+Suppose a banking app protects its account screen behind a login activity but also declares an account-details activity that is exported.
+
+1. An attacker reverse engineers the app and finds the exported activity.
+2. The attacker writes a malicious app that starts it directly by its component name.
+3. The account screen opens without going through the login activity.
+4. The victim's account data is exposed, bypassing authentication entirely.
+```
+
 ### Steps
 
 A test must include at least one step. Steps can be static, dynamic, manual, or, in very specific cases, a combination of these.

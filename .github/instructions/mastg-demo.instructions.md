@@ -220,6 +220,56 @@ Review each of the reported instances.
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
 ```
 
+### Confirming the Vulnerability
+
+Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use.
+
+- Add it as a `### Exploitation` (or `### Confirm the Exposure`) subsection at the end of the `## Evaluation` section. A dedicated heading is preferred, but it may also be woven into the Evaluation prose when a heading feels forced.
+- Always reference the relevant technique by ID (for example, "You can use @MASTG-TECH-0148 to interact with the `ContentProvider` and confirm the injection") and include the exact, copyable commands.
+- Make the confirmation observable. When possible, design the sample so the result is visible in the app (for example, the `mastgTest()` output reflects the state the attacker changed) or in a tool output (for example, `adb logcat`).
+
+See @MASTG-DEMO-0102 (dedicated `### Exploitation` heading) and @MASTG-DEMO-0100 (woven into the Evaluation prose) for reference.
+
+### Fix
+
+Every demo for a `fail` case SHOULD include a `## Fix` section after `## Evaluation` that explains how to remediate the finding.
+
+- Describe only the options that apply to the specific component type and vulnerability shown in the demo.
+- Use bold `**Option N: …**` headings for each option.
+- **Always include Option 1** as the recommended minimal fix (for example, `android:exported="false"` or `android:permission`).
+- For each option, include the exact manifest or code change and a copyable command that confirms the fix is effective (for example, an `adb` command that now fails with a `SecurityException`).
+- Add extra options only when they reflect realistic use cases (for example, a signature-level permission for cross-app trust, or a runtime caller check as defence-in-depth).
+- If an additional non-component fix applies (for example, removing credentials from logs), append it as a separate bold paragraph rather than a numbered option.
+- End with a brief explanation of **why** any naive protection (for example, a client-side PIN gate) is insufficient, so the reader understands the root cause.
+
+Example structure:
+
+```markdown
+## Fix
+
+There are two ways to fix this, depending on whether `<Component>` needs to be reachable by external apps.
+
+**Option 1: Set `android:exported="false"` (recommended)**
+
+…manifest snippet…
+
+…adb command confirming the fix…
+
+Explanation of when this is the right choice.
+
+**Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
+
+…manifest snippet…
+
+…adb command confirming the fix…
+
+Explanation of when this is the right choice.
+
+**Why not rely on a client-side control?**
+
+Brief explanation of why the broken pattern in the sample is insufficient.
+```
+
 ## Code Samples
 
 Code samples for demos **must be** **created using one of our test apps** to ensure consistency across demos and facilitate the review process:
