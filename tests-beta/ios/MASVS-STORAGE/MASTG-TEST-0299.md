@@ -15,11 +15,13 @@ knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0108]
 
 This test retrieves the data protection classes of files created or modified in the app's private storage during typical app usage. The goal is to ensure that files containing sensitive data are assigned appropriate data protection classes to safeguard them when the device is locked.
 
+Ensure the device / simulator is in a clean state (no prior test artifacts). When exercising the app, ensure to trigger typical workflows (authentication, profile loading, messaging, caching, offline usage, cryptographic operations).
+
 ## Steps
 
-1. Ensure the device / simulator is in a clean state (no prior test artifacts). Terminate the app if running.
-2. Launch and exercise the app to trigger typical workflows (authentication, profile loading, messaging, caching, offline usage, cryptographic operations).
-3. Retrieve the list of files from the app's private storage (sandbox) directory tree (`/var/mobile/Containers/Data/Application/<UUID>/`) including the data protection classes (@MASTG-TECH-0059).
+1. Use @MASTG-TECH-0056 to install the app.
+2. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+3. Use @MASTG-TECH-0059 to retrieve the list of files from the app's private storage (sandbox) directory tree (`/var/mobile/Containers/Data/Application/<UUID>/`) including the data protection classes.
 
 ## Observation
 

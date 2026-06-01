@@ -70,6 +70,8 @@ static boolean detect_threadCpuTimeNanos(){
 
 ## Messing with JDWP-Related Data Structures
 
+### DvmGlobals Structure (Android <5.0)
+
 In Dalvik, the global virtual machine state is accessible via the `DvmGlobals` structure. The global variable gDvm holds a pointer to this structure. `DvmGlobals` contains various variables and pointers that are important for JDWP debugging and can be tampered with.
 
 ```c
@@ -103,6 +105,8 @@ JNIEXPORT jboolean JNICALL Java_poc_c_crashOnInit ( JNIEnv* env , jobject ) {
   gDvm.methDalvikDdmcServer_dispatch = NULL;
 }
 ```
+
+### JdwpAdbState Structure (Android >=5.0)
 
 You can disable debugging by using similar techniques in ART even though the gDvm variable is not available. The ART runtime exports some of the vtables of JDWP-related classes as global symbols (in C++, vtables are tables that hold pointers to class methods). This includes the vtables of the classes `JdwpSocketState` and `JdwpAdbState`, which handle JDWP connections via network sockets and @MASTG-TOOL-0004, respectively. You can manipulate the behavior of the debugging runtime [by overwriting the method pointers in the associated vtables](https://web.archive.org/web/20200307152820/https://www.vantagepoint.sg/blog/88-anti-debugging-fun-with-android-art "Anti-Debugging Fun with Android ART") (archived).
 
@@ -180,9 +184,9 @@ When you debug an app and set a breakpoint on native code, Android Studio will c
 
 > Remember that **this only applies to native code**. If you're debugging a Java/Kotlin-only app the value of the "TracerPid" field should be 0.
 
-This technique is usually applied within the JNI native libraries in C, as shown in [Google's gperftools (Google Performance Tools)) Heap Checker](https://github.com/gperftools/gperftools/blob/google-perftools-1.10/src/heap-checker.cc#L111 "heap-checker.cc - IsDebuggerAttached") implementation of the `IsDebuggerAttached` method. However, if you prefer to include this check as part of your Java/Kotlin code you can refer to this Java implementation of the `hasTracerPid` method from [Tim Strazzere's Anti-Emulator project](https://github.com/strazzere/anti-emulator/ "anti-emulator").
+This technique is usually applied within the JNI native libraries in C, as shown in @MASTG-DEMO-0116. However, if you prefer to include this check as part of your Java/Kotlin code you can refer to this Java implementation of the `hasTracerPid` method from [Tim Strazzere's Anti-Emulator project](https://github.com/strazzere/anti-emulator/ "anti-emulator").
 
-When trying to implement such a method yourself, you can manually check the value of TracerPid with @MASTG-TOOL-0004. The following listing uses Google's NDK sample app [hello-jni (com.example.hellojni)](https://github.com/android/ndk-samples/tree/android-mk/hello-jni "hello-jni sample") to perform the check after attaching Android Studio's debugger:
+When trying to implement such a method yourself, you can manually check the value of TracerPid with @MASTG-TOOL-0004. The following listing uses Google's NDK sample app [hello-jni (com.example.hellojni)](https://github.com/android/ndk-samples/tree/android-mk/hello-jni "hello-jni sample") to perform the check after attaching lldb (@MASTG-TOOL-0152):
 
 ```bash
 $ adb shell ps -A | grep com.example.hellojni
@@ -190,7 +194,7 @@ u0_a271      11657   573 4302108  50600 ptrace_stop         0 t com.example.hell
 $ adb shell cat /proc/11657/status | grep -e "^TracerPid:" | sed "s/^TracerPid:\t//"
 TracerPid:      11839
 $ adb shell ps -A | grep 11839
-u0_a271      11839 11837   14024   4548 poll_schedule_timeout 0 S lldb-server
+root      11839 11837   14024   4548 poll_schedule_timeout 0 S lldb-server
 ```
 
 You can see how the status file of com.example.hellojni (PID=11657) contains a TracerPID of 11839, which we can identify as the lldb-server process.

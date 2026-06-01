@@ -22,10 +22,12 @@ javac -d build/payloadgen PayloadGenerator.java
 java -cp build/payloadgen org.owasp.mastestapp.PayloadGenerator
 ```
 
+{{ PayloadGenerator.java }}
+
 This payload causes the app to accept attacker controlled serialized data and replace `UserManager.currentUser` with an admin object, resulting in privilege escalation without authentication.
 **Behavior:** When the app is launched normally and the Start button is pressed, it calls `mastgTest()` and displays the default user state, showing a standard user and `(Not an Admin)`. However, the `MainActivity` also calls `MastgTest(this).processIntent(intent)` in `onCreate()`. This means that if the activity is started with a crafted `payload_b64` extra, the app processes and deserializes that attacker controlled object before the test result is shown. As a result, pressing Start after sending the `adb` command causes the app to display `PRIVILEGED ADMIN!` because the current user state has been overwritten with a malicious `AdminUser` object.
 
-{{ MastgTest.kt # MastgTest_reversed.java }}
+{{ MastgTest.kt # MastgTest_reversed.java # MainActivity.kt }}
 
 ## Steps
 
