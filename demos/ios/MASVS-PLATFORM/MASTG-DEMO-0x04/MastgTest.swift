@@ -7,7 +7,7 @@ import WebKit
 // document.querySelector or other built-ins before these calls run, causing the app
 // to receive attacker-controlled values instead of real DOM content.
 
-class MastgTest: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
+class MastgTest: NSObject, WKNavigationDelegate {
     private var webView: WKWebView?
     private static var currentTest: MastgTest?
     private var completion: ((String) -> Void)?
@@ -48,36 +48,31 @@ class MastgTest: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
                 return { textContent: "ATTACKER_CONTROLLED" };
             };
         """)
-      
-      // FAIL: [MASTG-TEST-0x04] evaluateJavaScript runs in the page world.
-      // A malicious page can override document.querySelector before this executes:
-      // document.querySelector = () => ({ textContent: "ATTACKER_CONTROLLED" })
-      webView.evaluateJavaScript("document.querySelector('#recipient_account_number').textContent",
-                                 completionHandler: { [weak self] value, _ in
-          let account = value as? String ?? "unknown"
-          self?.completion?("Recipient Account Number: \(account)")
-      })
 
-      /*
-      // PASS: Using WKContentWorld.defaultClient (or a custom world) provides isolation.
-      // The script runs in a separate world where document.querySelector is the original
-      // built-in, even if the page world has overridden it.
-      webView.evaluateJavaScript("document.querySelector('#recipient_account_number').textContent",
-                                 in: nil,
-                                 in: .defaultClient) { [weak self] result in
-          switch result {
-          case .success(let value):
-              let account = value as? String ?? "unknown"
-              self?.completion?("Recipient Account Number: \(account)")
-          case .failure:
-              self?.completion?("Error: Failed to retrieve account number")
-          }
-      }
-       */
-        
-    }
+        // FAIL: [MASTG-TEST-0x04] evaluateJavaScript runs in the page world.
+        // A malicious page can override document.querySelector before this executes:
+        // document.querySelector = () => ({ textContent: "ATTACKER_CONTROLLED" })
+        webView.evaluateJavaScript("document.querySelector('#recipient_account_number').textContent",
+                                   completionHandler: { [weak self] value, _ in
+            let account = value as? String ?? "unknown"
+            self?.completion?("Recipient Account Number: \(account)")
+        })
 
-    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        // Conform to WKScriptMessageHandler protocol
+        /*
+        // PASS: Using WKContentWorld.defaultClient (or a custom world) provides isolation.
+        // The script runs in a separate world where document.querySelector is the original
+        // built-in, even if the page world has overridden it.
+        webView.evaluateJavaScript("document.querySelector('#recipient_account_number').textContent",
+                                   in: nil,
+                                   in: .defaultClient) { [weak self] result in
+            switch result {
+            case .success(let value):
+                let account = value as? String ?? "unknown"
+                self?.completion?("Recipient Account Number: \(account)")
+            case .failure:
+                self?.completion?("Error: Failed to retrieve account number")
+            }
+        }
+        */
     }
 }
