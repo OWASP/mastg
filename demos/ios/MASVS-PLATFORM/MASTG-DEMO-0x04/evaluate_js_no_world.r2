@@ -9,9 +9,15 @@ f~evaluateJavaScript
 ?e
 
 ?e xrefs to 'evaluateJavaScript:completionHandler:':
-axt @ reloc.fixup.evaluateJavaScript:completionHa
+axt @ 0x1000144a8
 
 ?e
 
 ?e Code snippet at call site:
-pd 15 @ 0x1000048a0
+pd-- 10 @ 0x100004804
+
+
+?e
+
+?e Code snippet at call site:
+pd-- 10 @ 0x1000048b0
