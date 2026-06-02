@@ -70,6 +70,7 @@ Common patterns that match existing pages in `tools/`:
 - Start with a short description paragraph (often with a link to the upstream project or docs).
 - Add sections only when they add value for that tool. Typical headings are `## Installation`, `## Usage`, and tool-specific headings (for example, `## Installing Frida on iOS`).
 - Include copyable commands when relevant. If usage is extensive, keep only the most common commands and link to a technique or upstream docs.
+- **Do not add step-by-step usage examples or multi-step walkthroughs to tool pages.** These belong in a technique page (for example, @MASTG-TECH-0031). The website will automatically list any techniques that reference the tool as examples of use on the rendered tool page, so adding them to the right technique page is the correct way to surface them.
 - Add caveats as `!!! note` / `!!! warning` admonitions when needed (version pinning, jailbreak/root requirements, security warnings).
 - Link to related techniques/tests/demos where it helps the reader complete a workflow.
 
