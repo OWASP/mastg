@@ -42,7 +42,7 @@ class MastgTest: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
 
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
-        // Maliciousely injected code by an attacker. It overwrites the recipent data
+        // Maliciously injected code by an attacker. It overwrites the recipient data
         webView.evaluateJavaScript("""
             document.querySelector = function(selector) {
                 return { textContent: "ATTACKER_CONTROLLED" };

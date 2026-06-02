@@ -3,7 +3,7 @@ import WebKit
 
 // SUMMARY: This sample demonstrates sensitive data being written into the WebView DOM
 // via evaluateJavaScript. The app loads a page with placeholder elements and then
-// injects a one time password directly into those elements using textContent assignments.
+// injects a one-time-password directly into those elements using textContent assignments.
 // Any JavaScript running on the page can read those values from the DOM at any time
 // after injection.
 

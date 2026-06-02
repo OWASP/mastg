@@ -3,7 +3,7 @@ title: Use WKScriptMessageHandlerWithReply to Return Data to JavaScript
 alias: use-wkscriptmessagehandlerwithreply-to-return-data-to-javascript
 id: MASTG-BEST-0x05
 platform: ios
-available_since: "14.0"
+available_since: 14
 knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
 ---
 

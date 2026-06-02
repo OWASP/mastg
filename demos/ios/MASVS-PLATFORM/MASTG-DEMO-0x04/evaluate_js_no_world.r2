@@ -9,15 +9,13 @@ f~evaluateJavaScript
 ?e
 
 ?e xrefs to 'evaluateJavaScript:completionHandler:':
-axt @ 0x1000144a8
+axt @ reloc.fixup.evaluateJavaScript:completionHa
 
 ?e
 
-?e Code snippet at call site:
-pd-- 10 @ 0x100004804
-
+?e Code snippet at first call site (attacker-injected prototype override):
+pd 15 @ 0x1000047dc
 
 ?e
-
-?e Code snippet at call site:
-pd-- 10 @ 0x1000048b0
+?e Code snippet at second call site (reads recipient account number):
+pd 40 @ 0x100004820

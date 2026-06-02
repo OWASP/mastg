@@ -2,7 +2,7 @@
 masvs_category: MASVS-PLATFORM
 platform: ios
 title: WKContentWorld
-available_since: "14.0"
+available_since: 14
 ---
 
 [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld), introduced in iOS 14, represents an isolated JavaScript execution environment within a `WKWebView`. Each content world has its own JavaScript global scope and its own copy of the built-in prototype chain, but all worlds share the same underlying DOM.
