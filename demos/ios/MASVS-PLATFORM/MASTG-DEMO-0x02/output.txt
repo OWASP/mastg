@@ -7,29 +7,29 @@ sym.MASTestApp.SecretBridgeHandler.userContentController.allocator.didReceive...
 sym.MASTestApp.SecretBridgeHandler.userContentController.allocator.didReceive...ySo06WKUsergH0C_So15WKScriptMessageCtF 0x18ec [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
 
 Code snippet at first call site:
-│           0x00001698      ldr x1, [x8, 0x2c0]                        ; [0x1c2c0:4]=0x134e2 str.evaluateJavaScript:completionHandler: ; reloc.fixup.evaluateJavaScript:completionHa ; char *selector
+│           0x00001698      ldr x1, [x8, 0x2c0]                        ; [0x134e2:4]=0x6c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
 │           0x0000169c      mov x3, 0
 │           0x000016a0      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
 │           0x000016a4      ldr x0, [var_88h]
 │           0x000016a8      adrp x8, segment.__DATA_CONST              ; 0x18000
-│           0x000016ac      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│           0x000016ac      ldr x8, [x8, 0x108]                        ; [0x18108:4]=0
 │                                                                      ; reloc.objc_release
 │           0x000016b0      blr x8
 │           0x000016b4      ldr x0, [var_90h]
 │           0x000016b8      adrp x8, segment.__DATA_CONST              ; 0x18000
-│           0x000016bc      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│           0x000016bc      ldr x8, [x8, 0x108]                        ; [0x18108:4]=0
 │                                                                      ; reloc.objc_release
 
 Code snippet at second call site:
-│           0x000018ec      ldr x1, [x8, 0x2c0]                        ; [0x1c2c0:4]=0x134e2 str.evaluateJavaScript:completionHandler: ; reloc.fixup.evaluateJavaScript:completionHa ; char *selector
+│           0x000018ec      ldr x1, [x8, 0x2c0]                        ; [0x134e2:4]=0x6c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
 │           0x000018f0      mov x3, 0
 │           0x000018f4      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
 │           0x000018f8      ldr x0, [var_8h]
 │           0x000018fc      adrp x8, segment.__DATA_CONST              ; 0x18000
-│           0x00001900      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│           0x00001900      ldr x8, [x8, 0x108]                        ; [0x18108:4]=0
 │                                                                      ; reloc.objc_release
 │           0x00001904      blr x8
 │           0x00001908      ldr x0, [var_10h_2]
 │           0x0000190c      adrp x8, segment.__DATA_CONST              ; 0x18000
-│           0x00001910      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│           0x00001910      ldr x8, [x8, 0x108]                        ; [0x18108:4]=0
 │                                                                      ; reloc.objc_release

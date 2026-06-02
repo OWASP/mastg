@@ -2,7 +2,7 @@
 platform: ios
 title: References to Native Bridge APIs in WebViews
 id: MASTG-TEST-0x01
-type: [static]
+type: [static, code]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
@@ -22,7 +22,7 @@ This test checks whether the app registers native bridge handlers that expose se
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TOOL-0073 on the app binary, looking for calls to `WKUserContentController.add(_:name:)`.
+2. Use @MASTG-TECH-0066 to look for calls to `addScriptMessageHandler:name:` in the app binary.
 
 ## Observation
 

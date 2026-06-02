@@ -6,11 +6,11 @@ xrefs to 'addScriptMessageHandler:name:':
 sym.MASTestApp.MastgTest.showWebView._6E8AB2C58CE173A727EF27CB85DF8CD8.completion_...FZ_ 0x1eac [DATA:r--] ldr x1, reloc.fixup.addScriptMessageHandler:name:
 
 Code snippet containing the bridge registration call:
-│           0x00001eac      ldr x1, [x8, 0x2e0]                        ; [0x1c2e0:4]=0x1342e str.addScriptMessageHandler:name: ; ".4\x01" ; char *selector
+│           0x00001eac      ldr x1, [x8, 0x2e0]                        ; [0x1342e:4]=0x53646461 ; "addScriptMessageHandler:name:" ; char *selector
 │           0x00001eb0      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
 │           0x00001eb4      ldur x0, [x29, -0xe8]
 │           0x00001eb8      adrp x8, segment.__DATA_CONST              ; 0x18000
-│           0x00001ebc      ldr x8, [x8, 0x108]                        ; [0x18108:4]=31
+│           0x00001ebc      ldr x8, [x8, 0x108]                        ; [0x18108:4]=0
 │                                                                      ; reloc.objc_release
 │           0x00001ec0      blr x8
 │           0x00001ec4      ldur x0, [x29, -0xe0]

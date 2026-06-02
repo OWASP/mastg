@@ -2,6 +2,7 @@ e asm.bytes=false
 e scr.color=false
 e scr.interactive=false
 e asm.var=false
+e bin.relocs.apply=true
 
 ?e List all uses of the 'evaluateJavaScript:completionHandler:' selector:
 f~evaluateJavaScript

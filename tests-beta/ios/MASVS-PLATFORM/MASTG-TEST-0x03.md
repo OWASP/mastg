@@ -2,7 +2,7 @@
 platform: ios
 title: References to Password Fields in WebView-Loaded HTML
 id: MASTG-TEST-0x03
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x02, MASTG-BEST-0x03]
 profiles: [L1, L2]
@@ -18,7 +18,7 @@ This test checks whether the app loads HTML containing password input fields int
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TOOL-0073 on the app binary, looking for the string `type="password"` or `type='password'` in the binary's string table, which indicates that password input fields are embedded in HTML loaded by the app.
+2. Use @MASTG-TECH-0066 to look for the string `type="password"` or `type='password'` in the binary's string table.
 
 ## Observation
 
@@ -27,3 +27,7 @@ The output should contain a list of locations in the binary where password field
 ## Evaluation
 
 The test case fails if the binary contains `type="password"` references and the app does not implement a native input overlay.
+
+**Further Validation Required:**
+
+Inspect each reported call site using @MASTG-TECH-0076 to confirm the password field HTML is loaded into a `WKWebView` and to check whether the app registers a `WKUserScript` that intercepts focus and overlays a native `UITextField` with `isSecureTextEntry = true` at the corresponding position.

@@ -2,7 +2,7 @@
 platform: ios
 title: Sensitive Data Written into WebView DOM via evaluateJavaScript
 id: MASTG-TEST-0x05
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x02]
 profiles: [L1, L2]
@@ -28,7 +28,7 @@ This test checks whether the app uses `evaluateJavaScript:completionHandler:` to
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TOOL-0073 on the app binary, looking for calls to `evaluateJavaScript:completionHandler:` whose JavaScript string assigns to a DOM element property (`innerHTML`, `textContent`, `innerText`, or `value`).
+2. Use @MASTG-TECH-0066 to look for calls to `evaluateJavaScript:completionHandler:` in the app binary, checking whether the JavaScript string assigns to a DOM element property (`innerHTML`, `textContent`, `innerText`, or `value`).
 
 ## Observation
 
@@ -37,3 +37,7 @@ The output should contain a list of locations where `evaluateJavaScript:completi
 ## Evaluation
 
 The test case fails if `evaluateJavaScript:completionHandler:` is used to assign sensitive data to a DOM element property.
+
+**Further Validation Required:**
+
+Inspect each reported call site using @MASTG-TECH-0076 to confirm that the value assigned to the DOM property is sensitive data derived from a native source, such as a one-time password, account number, or credential, and is not a static placeholder or non-sensitive UI string.

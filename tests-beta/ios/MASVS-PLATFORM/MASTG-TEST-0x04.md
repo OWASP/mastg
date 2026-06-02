@@ -2,7 +2,7 @@
 platform: ios
 title: References to evaluateJavaScript Without Content World Isolation
 id: MASTG-TEST-0x04
-type: [static]
+type: [static, code]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x04]
 profiles: [L1, L2]
@@ -20,7 +20,7 @@ This test checks whether the app uses the legacy `evaluateJavaScript:completionH
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TOOL-0073 on the app binary, looking for uses of `evaluateJavaScript:completionHandler:` and the symbol names of the functions containing those calls.
+2. Use @MASTG-TECH-0066 to look for uses of `evaluateJavaScript:completionHandler:` in the app binary.
 
 ## Observation
 
