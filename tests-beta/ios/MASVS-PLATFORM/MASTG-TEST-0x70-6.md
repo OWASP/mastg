@@ -16,13 +16,13 @@ If an application processes [Universal Link](https://developer.apple.com/documen
 ## Steps
 
 1. Install the target application on a jailbroken device (@MASTG-TECH-0056).
-2. Launch the app and attach a Frida script to hook the `application:continue:restorationHandler:` delegate method.
+2. Launch the app and attach a Frida script to hook the `scene:continueUserActivity:` delegate method.
 3. Invoke `UIApplication.sharedApplication().openURL_()` with a crafted URL to trigger the Universal Link processing flow, bypassing OS-level AASA validation.
 
 ## Observation
 
-The output should contain the result of the URL routing API call, including the target URL and a boolean value indicating whether the OS recognized the scheme and accepted the routing request.
+The output should contain the URL routing result and evidence of whether the app's Universal Link receiver (`scene:continueUserActivity:`) executed.
 
 ## Evaluation
 
-The test case fails if it returns `true` and the app processes the injected URL without validating its components, resulting in unintended application behavior or state change.
+The test case fails if the output shows that `scene:continueUserActivity:` executed with the injected URL without validating its components. A `Result: true` alone is not sufficient — it may only indicate Safari handled the URL.

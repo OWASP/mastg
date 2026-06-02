@@ -26,19 +26,19 @@ Example output showing a wildcard entitlement:
 
 Use @MASTG-TOOL-0129 to extract Objective-C selectors from the compiled app binary. Two selectors are relevant for Universal Links:
 
-- `application:continue:restorationHandler:`: The `UIApplicationDelegate` method that receives incoming Universal Links as `NSUserActivity` objects.
+- `scene:continueUserActivity:`: The `UIWindowSceneDelegate` method that receives incoming Universal Links as `NSUserActivity` objects.
 - `openURL:options:completionHandler:`: The [`UIApplication.open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open) method used to hand off URLs to the operating system or other apps.
 
 Search for the Universal Link receiver selector:
 
 ```bash
-rabin2 -zq Payload/MASTestApp.app/MASTestApp | grep "restorationHandler"
+rabin2 -zq Payload/MASTestApp.app/MASTestApp | grep "continueUserActivity"
 ```
 
 Output:
 
 ```plaintext
-0x10000b2e4 53 52 application:continue:restorationHandler:
+0x10000a350 28 27 scene:continueUserActivity:
 ```
 
 Search for the outgoing URL selector:
@@ -53,7 +53,7 @@ Output:
 0x10000b37c 35 34 openURL:options:completionHandler:
 ```
 
-The presence of these selectors confirms the app handles Universal Links. Use @MASTG-TECH-0048 to decompile the binary and inspect the implementation of `application:continueUserActivity:restorationHandler:`, checking whether the app validates the host, path, and query parameters of the incoming `NSUserActivity.webpageURL` using [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) before routing the user or modifying application state.
+The presence of these selectors confirms the app handles Universal Links. Use @MASTG-TECH-0048 to decompile the binary and inspect the implementation of `scene:continueUserActivity:`, checking whether the app validates the host, path, and query parameters of the incoming `NSUserActivity.webpageURL` using [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) before routing the user or modifying application state.
 
 ## Using @MASTG-TOOL-0039
 
@@ -61,7 +61,7 @@ The presence of these selectors confirms the app handles Universal Links. Use @M
 
 ### Triggering Universal Links
 
-Use @MASTG-TECH-0067 to programmatically call `UIApplication.sharedApplication().openURL_()`. This bypasses the OS level AASA domain check and forces the app to evaluate an arbitrary URL payload, to observe whether the app accepts attacker controlled links that would otherwise be filtered.
+Use @MASTG-TECH-0067 to programmatically call `UIApplication.sharedApplication().openURL_()` to route an arbitrary URL through the system. Note that `openURL` returning `true` only means the system accepted the routing request (for example, by opening Safari for `https://` URLs). It does not confirm that the AASA domain check was bypassed or that the app's Universal Link receiver method executed. Use the tracing hooks in the following section to confirm whether the receiver ran.
 
 ```bash
 frida -U -f org.owasp.mastestapp.MASTestApp-iOS -l script.js
@@ -100,7 +100,7 @@ Spawned `org.owasp.mastestapp.MASTestApp-iOS`. Resuming main thread!
 [+] Result: true
 ```
 
-The `Result: true` confirms the OS accepted the routing request.
+The `Result: true` only confirms the OS accepted the routing request, not that the Universal Link was delivered to the app's receiver. See the tracing section below to confirm receiver execution.
 
 ### Tracing the Receiver and Outgoing URLs
 
@@ -156,8 +156,8 @@ You can retrieve it via your browser, or using the command line:
 curl -s https://<domain>/.well-known/apple-app-site-association
 ```
 
-Alternatively, you can use the [Apple App Site Association (AASA) Validator](https://branch.io/resources/aasa-validator/). Upon entering the domain, it will retrieve the file, validate it, and display the results.
+To validate the response without relying on a third-party service, compare it with Apple's [Universal Links documentation](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) and parse it locally to confirm that it is valid JSON and contains the expected keys.
 
 ```bash
-curl -s https://app-site-association.cdn-apple.com/a/v1/<domain>
+curl -s https://<domain>/.well-known/apple-app-site-association | jq .
 ```

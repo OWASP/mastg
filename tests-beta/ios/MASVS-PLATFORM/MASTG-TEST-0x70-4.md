@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: References to Missing URL Validation in the Data Handler
+title: References to Universal Link Receiver Selector in Binary
 id: MASTG-TEST-0x70-4
 type: [static]
 weakness: MASWE-0083
@@ -11,22 +11,18 @@ knowledge: [MASTG-KNOW-0080]
 
 ## Overview
 
-If the app's data handler processes incoming URLs without strictly validating each component—scheme, host, path, and query parameters—using [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents), an attacker who can spoof or craft a malicious URL (e.g., via a bypassed domain) can manipulate the app's routing logic or trigger unintended actions. This test verifies whether the handler enforces strict allow listing and structural validation of all URL components before execution, rather than relying on weak or partial string matching that can be bypassed.
+If the app implements the [`scene(_:continue:)`](https://developer.apple.com/documentation/uikit/uiwindowscenedelegate/scene(_:continue:)) delegate method, it accepts external URL payloads delivered via Universal Links. Without proper validation of the incoming URL, an attacker can craft a malicious Universal Link to inject unexpected payloads, trigger unauthorized actions, or alter application state. This test checks whether the binary contains this receiver method, confirming the app is exposed to Universal Link input and must be further assessed for URL validation.
 
 ## Steps
 
-1. Once the receiver method is identified, decompile the application binary (@MASTG-TECH-0076) to trace the data flow from the `application:continue:restorationHandler:` method.
-2. Locate the specific data handling functions or routing classes where the URL is parsed.
-3. Review the decompiled code to verify if `URLComponents` (or an equivalent strict URL parser) is used to validate the payload prior to execution.
+1. Unzip the app package and locate the main compiled app binary using @MASTG-TECH-0058.
+2. Disassemble or extract the strings and Objective-C method signatures from the binary using @MASTG-TOOL-0129.
+3. Search the extracted symbols for the `scene:continueUserActivity:` (or equivalent `NSUserActivity`) delegate method.
 
 ## Observation
 
-The output should contain either strict validation checks (e.g., explicitly verifying host strings and path integrity) or direct, unsafe usage of the raw URL properties.
+The output should contain the Objective-C selector confirming the compiled binary implements the Universal Link receiver method.
 
 ## Evaluation
 
-The test case fails if:
-
-- The URL is processed without strict allow-listing of the host, path, and parameters.
-- The validation logic relies on weak string matching which can be bypassed.
-- The application does not gracefully drop the request and clear state if unexpected or malformed parameters are encountered.
+The test case fails if the `scene:continueUserActivity:` selector is found inside the binary.

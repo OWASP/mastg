@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Extracting the openURL Selector from the Binary
+title: Testing Arguments Passed to openURL
 id: MASTG-DEMO-0x70-5
 code: [swift]
 test: MASTG-TEST-0x70-5
@@ -28,4 +28,7 @@ The output contains the `openURL:options:completionHandler:` selector, confirmin
 
 ## Evaluation
 
-The test fails because the `openURL:options:completionHandler:` selector is present in the binary, indicating the application uses the iOS API for opening external links and must be further assessed to confirm whether untrusted input is passed to it without validation.
+The test fails because:
+
+- The `openURL:options:completionHandler:` selector is found at `0x10000b37c`, confirming the binary uses the iOS API for opening external links.
+- The sample code shows that `openOtherAppLinkInsecurelyWithUrl` passes the `url` argument directly to `UIApplication.shared.open` without verifying the scheme, host, or path, confirming that an attacker-controlled URL can reach this API without validation.

@@ -38,7 +38,7 @@ Review the output as follows:
 - **`UIApplication.openURL_ executed`** shows that the script invoked the routing API, but this alone does not prove Universal Link delivery.
 - **`Target: https://attacker.example.com...`** shows that the injected payload was passed into the routing request.
 - **`Result: true`** only shows that iOS accepted the request in some form, for example by opening Safari. Treat this as supporting context, not as the deciding signal.
-- Evidence that a Universal Link receiver callback executed, such as `application:continueUserActivity:restorationHandler:` or `scene:continueUserActivity:`, shows that the app processed the link.
+- Evidence that a Universal Link receiver callback executed, such as `scene:continueUserActivity:`, shows that the app processed the link.
 - Evidence of fallback handling instead of receiver execution shows that the Apple App Site Association (AASA) relationship was not used for app delivery in this attempt.
 
 If the output contains only `Result: true` without receiver-side execution or fallback evidence, the result is inconclusive for this test.

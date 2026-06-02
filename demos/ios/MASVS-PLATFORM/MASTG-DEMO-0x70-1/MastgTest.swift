@@ -1,6 +1,6 @@
 import SwiftUI
 
-// SUMMARY: This sample demonstrates insecure Universal Link handling: a wildcard associated-domains entitlement, a receiver that blindly accepts incoming URLs without validation, and an outgoing link that passes unvalidated URLs to UIApplication.shared.open.
+// SUMMARY: This sample demonstrates insecure Universal Link handling: a wildcard associated-domains entitlement, a data handler that blindly accepts incoming URLs without validation, and an outgoing link that passes unvalidated URLs to UIApplication.shared.open.
 
 class MastgTest: NSObject {
 
@@ -16,9 +16,10 @@ class MastgTest: NSObject {
         results += "--- Entitlements ---\n"
         results += testInstance.readEntitlementsFile() + "\n"
 
-        results += "--- Receiver & Handler ---\n"
-        let didAccept = testInstance.application(UIApplication.shared, continue: userActivity, restorationHandler: { _ in })
-        results += "App blindly accepted and processed link from attacker.example.com: \(didAccept)\n\n"
+        results += "--- Receiver & Data Handler ---\n"
+        // Simulating the modern SceneDelegate Universal Link routing
+        testInstance.scene(nil, continue: userActivity)
+        results += "App blindly accepted and processed link from attacker.example.com\n\n"
 
         results += "--- Outgoing App Links ---\n"
         let maliciousExternalURL = URL(string: "malicious-app://steal-data?payload=123")!
@@ -28,7 +29,7 @@ class MastgTest: NSObject {
         completion(results)
     }
 
-    // FAIL: [MASTG-TEST-0070-1] The app declares a wildcard associated-domains entitlement (applinks:*.example.com), expanding the attack surface to any subdomain.
+    // FAIL: [MASTG-TEST-0x70-1] The app declares a wildcard associated-domains entitlement (applinks:*.example.com), expanding the attack surface to any subdomain.
     func readEntitlementsFile() -> String {
         guard let path = Bundle.main.path(forResource: "entitlements", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path) as? [String: Any] else {
@@ -43,21 +44,18 @@ class MastgTest: NSObject {
         }
     }
 
-    // FAIL: [MASTG-TEST-0070-3] The app implements the application:continue:restorationHandler: delegate method, confirming the Universal Link attack surface in the binary.
-    // FAIL: [MASTG-TEST-0070-4] The receiver extracts the webpageURL directly without validating the host, path, or query parameters using URLComponents.
-    // @objc exposes this selector to the Objective-C runtime so it appears in binary analysis output.
-    @objc func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    // FAIL: [MASTG-TEST-0x70-4] The binary implements the scene:continueUserActivity: selector, confirming the Universal Link receiver attack surface. The handler also extracts the webpageURL directly without validating the host, path, or query parameters.
+    @objc(scene:continueUserActivity:)
+    func scene(_ scene: UIScene?, continue userActivity: NSUserActivity) {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             if let url = userActivity.webpageURL {
+                // VULNERABLE: Direct processing of the raw URL without strict URLComponents validation
                 print("VULNERABLE: Processing URL directly - \(url.absoluteString)")
-                return true
             }
         }
-        return false
     }
     
-    // FAIL: [MASTG-TEST-0070-5] The app imports and uses openURL:options:completionHandler:, passing an unvalidated URL directly to UIApplication.shared.open.
-    // @objc exposes this selector to the Objective-C runtime so it appears in binary analysis output.
+    // FAIL: [MASTG-TEST-0x70-5] The app imports and uses openURL:options:completionHandler:, passing an unvalidated URL directly to UIApplication.shared.open.
     @objc func openOtherAppLinkInsecurely(url: URL) {
         print("VULNERABLE: Executing outgoing link to \(url.absoluteString)")
         UIApplication.shared.open(url, options: [:], completionHandler: nil)

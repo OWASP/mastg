@@ -17,7 +17,8 @@ If the app passes a URL constructed from untrusted input (such as an inbound Uni
 
 1. Obtain the main app binary (@MASTG-TECH-0058).
 2. Extract the Objective-C method signatures and binary imports from the binary using @MASTG-TECH-0076.
-3. Search the extracted symbols for the `openURL:options:completionHandler:` selector.
+3. Search the extracted symbols for the openURL:options:completionHandler: selector.
+4. Inspect each call site using @MASTG-TECH-0076 to examine what URL argument is passed.
 
 ## Observation
 
