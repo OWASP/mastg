@@ -2,7 +2,7 @@
 title: Use of Hardcoded Cryptographic Keys in Code
 platform: android
 id: MASTG-TEST-0212
-type: [static]
+type: [static, code]
 weakness: MASWE-0014
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0012]
@@ -14,7 +14,8 @@ In this test case, we will look for the use of hardcoded keys in Android applica
 
 ## Steps
 
-1. Use either @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 or @MASTG-TECH-0033 (dynamic analysis) with a tool like @MASTG-TOOL-0001 to identify all the instances of symmetric key encryption in code and look for uses of the hardcoded cryptographic keys.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

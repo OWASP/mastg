@@ -2,7 +2,7 @@
 platform: ios
 title: Sensitive Data Exposure Through Logging APIs
 id: MASTG-TEST-0297
-type: [static]
+type: [static, code]
 weakness: MASWE-0001
 prerequisites:
 - identify-sensitive-data
@@ -21,7 +21,8 @@ This test focuses on logged sensitive data. For tests specifically targeting imp
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and look for uses of logging APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

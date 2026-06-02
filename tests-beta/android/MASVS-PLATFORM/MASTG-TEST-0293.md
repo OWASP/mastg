@@ -2,7 +2,7 @@
 title: "`setSecure` Not Used to Prevent Screenshots in SurfaceViews"
 platform: android
 id: MASTG-TEST-0293
-type: [static]
+type: [static, code]
 profiles: [L2]
 best-practices: [MASTG-BEST-0014, MASTG-BEST-0017]
 weakness: MASWE-0055

@@ -2,7 +2,7 @@
 platform: ios
 title: Hardcoded HTTP URLs
 id: MASTG-TEST-0321
-type: [static]
+type: [static, code]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---
@@ -13,7 +13,7 @@ An iOS app may have hardcoded HTTP URLs embedded in the app binary, library bina
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
 2. Use @MASTG-TECH-0071 to search for any `http://` URLs.
 
 ## Observation
