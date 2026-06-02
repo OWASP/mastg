@@ -3,7 +3,7 @@ platform: android
 title: References to Platform Version APIs
 id: MASTG-TEST-0245
 apis: [Build]
-type: [static]
+type: [static, code]
 weakness: MASWE-0077
 best-practices: []
 profiles: [L2]
@@ -19,7 +19,8 @@ Android apps specify a `minSdkVersion`, which defines the oldest OS version they
 
 ## Steps
 
-1. Use either @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 to identify APIs that check the version of the operating system.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -27,4 +28,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app does not include any API calls to verify the operating system version.
+The test case fails if the app does not include any API calls to verify the operating system version.

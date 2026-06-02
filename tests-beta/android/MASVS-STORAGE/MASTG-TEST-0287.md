@@ -1,8 +1,8 @@
 ---
-title: Sensitive Data Stored Unencrypted via the SharedPreferences API to the App Sandbox
+title: References to Sensitive Data Stored Unencrypted via the SharedPreferences API to the App Sandbox
 platform: android
 id: MASTG-TEST-0287
-type: [dynamic]
+type: [static, code]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0x31]
 profiles: [L1, L2]

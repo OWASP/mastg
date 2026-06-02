@@ -2,7 +2,7 @@
 title: Integrity and Authenticity Validation of Local Storage Data
 platform: android
 id: MASTG-TEST-0338
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0082
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0036]
@@ -20,8 +20,8 @@ When performing this test, look not only for storage read APIs, but also for nea
 
 ## Steps
 
-1. Reverse engineer the app with @MASTG-TECH-0017.
-2. Run a static analysis tool with @MASTG-TECH-0014 on the reverse engineered app to identify APIs that read data from local storage and, where possible, related integrity and authenticity validation APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -31,11 +31,10 @@ The output should contain code locations where the app reads data from local sto
 
 The test case fails if the app doesn't verify the integrity and authenticity of data loaded from local storage before being used in security-relevant decisions.
 
-This means that the presence of the target APIs, for example `SharedPreferences.getString`, does not inherently fail the test. Each reported code location must be carefully analyzed by reverse engineering it and checking whether the app performs the proper validation.
+**Further Validation Required:**
 
-When evaluating reported code locations, determine:
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the data is used in security-relevant decisions without adequate integrity and authenticity verification:
 
-1. What value is being loaded from local storage.
-2. Whether that value can influence a security-relevant decision, such as authentication state, authorization, feature access, configuration, or trust decisions.
-3. Whether the app verifies the integrity and authenticity of the loaded value before using it, for example with an HMAC, MAC, signature, or similar verification mechanism.
-4. Whether that validation is effective for the attacker model in scope.
+- Determine whether the loaded value can influence a security-relevant decision, such as authentication state, authorization, feature access, configuration, or trust decisions.
+- Determine whether the app verifies the integrity and authenticity of the loaded value before using it, for example with an HMAC, MAC, signature, or similar verification mechanism.
+- Determine whether that validation is effective for the attacker model in scope.
