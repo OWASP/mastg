@@ -66,4 +66,31 @@ sym.func.10000465c 0x100004784 [CALL:--x] bl sym.imp.os_log_type_enabled
 sym.func.100005fb4 0x100006304 [CALL:--x] bl sym.imp.os_log_type_enabled
 sym.func.100005fb4 0x1000063a8 [CALL:--x] bl sym.imp.os_log_type_enabled
 
+[*] Recovered log message contents
+(string operand loaded immediately before each logging call)
+
+=== NSLog -> internal API endpoint (mastgTest) ===
+│           0x100006864      adrp x8, sym.imp.append_...ySSF_          ; 0x10000b000
+│           0x100006868      add x8, x8, 0xa80                         ; 0x10000ba80 ; "[DEBUG] Attempting to connect to API endpoint: https://internal-api.example.com/v2/auth/login"
+
+=== print -> username (performLogin) ===
+│           0x1000048c4      adrp x8, 0x10000c000
+│           0x1000048c8      add x8, x8, 0x220                         ; 0x10000c220 ; "[DEBUG] performLogin() called with username:"
+
+=== debugPrint -> mock session token literal (performLogin) ===
+│           0x10000498c      adrp x8, sym.imp.append_...ySSF_          ; 0x10000b000
+│           0x100004990      add x8, x8, 0xcc0                         ; 0x10000bcc0 ; "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+
+=== print -> SSL pinning disabled (performNetworkRequest) ===
+│           0x100004d44      adrp x8, 0x10000c000
+│           0x100004d48      add x8, x8, 0x140                         ; 0x10000c140 ; "[DEBUG] SSL pinning: disabled"
+
+=== Logger.debug -> password hashing algorithm (validateCredentials) ===
+│           0x1000047a8      adrp x3, section.16.__TEXT.__oslogstring  ; 0x100010000
+│           0x1000047ac      add x3, x3, 0x60
+
+=== NSLog -> error code & internal module (performLogin) ===
+│           0x100004a7c      adrp x8, 0x10000c000
+│           0x100004a80      add x8, x8, 0x2c0                         ; 0x10000c2c0 ; "[DEBUG] Error code: AUTH_001, Module: AuthenticationService.validateCredentials()"
+
 [*] Done
