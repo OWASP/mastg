@@ -14,6 +14,7 @@ iOS developers can write logs through several APIs and mechanisms, including:
 - [`os_log`](https://developer.apple.com/documentation/os/os_log)
 
 Depending on what you log, these APIs can record:
+
 - Authentication data, such as passwords, access tokens, refresh tokens, and cookies.
 - Personally identifiable information, such as usernames, email addresses, account identifiers, and profile data.
 - Network metadata, such as internal API routes, staging hosts, request IDs, headers, and backend names.
@@ -37,7 +38,9 @@ Common patterns that produce verbose logs include:
 - Logging stack traces or internal class and method names in production builds.
 
 Logs can be retained in different stores and collected by development tools or third-party services, so their contents can be visible outside the app during development and troubleshooting.
+
 ## Additional Logging Sources
+
 Logging exposure on iOS is not limited to the standard Apple logging APIs. Sensitive information may also be emitted or persisted through other components integrated into the application.
 
 - **Native libraries**: Bundled C, C++, or mixed language components may write directly to standard output or standard error using functions such as `printf`, `fprintf`, or related I/O APIs. These messages can become visible during development, debugging, or runtime monitoring.
