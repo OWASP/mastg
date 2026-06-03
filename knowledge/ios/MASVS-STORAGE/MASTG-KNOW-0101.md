@@ -38,12 +38,9 @@ Common patterns that produce verbose logs include:
 
 Logs can be retained in different stores and collected by development tools or third-party services, so their contents can be visible outside the app during development and troubleshooting.
 ## Additional Logging Sources
-
 Logging exposure on iOS is not limited to the standard Apple logging APIs. Sensitive information may also be emitted or persisted through other components integrated into the application.
 
 - **Native libraries**: Bundled C, C++, or mixed language components may write directly to standard output or standard error using functions such as `printf`, `fprintf`, or related I/O APIs. These messages can become visible during development, debugging, or runtime monitoring.
 - **Crash reporting and error monitoring tools**: Third party SDKs may collect logs, breadcrumbs, exception context, request metadata, or user actions and persist them locally before transmission. This can create an additional exposure surface beyond the app's immediate console output.
 - **Networking and HTTP client libraries**: Debug or verbose modes in networking stacks may log URLs, headers, request bodies, response bodies, cookies, API keys, and authentication tokens.
 - **WebViews and JavaScript logging**: Apps that embed web content may capture JavaScript console output or bridge messages from web content into native logging and diagnostic handlers, which can expose sensitive data originating in the web layer.
-
-These sources should be reviewed alongside the app's direct use of logging APIs, because they can significantly expand the application's logging footprint.

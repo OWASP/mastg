@@ -23,9 +23,9 @@ This test focuses on verbose logging that exposes implementation details. For te
 
 ## Steps
 
-1. Install the app on a device using @MASTG-TECH-0056.
-2. Monitor system logs with @MASTG-TECH-0060 while interacting with the app.
-3. Trigger various app functionalities, including error conditions, for example network failures and invalid inputs.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0060 to monitor the device logs.
+3. Trigger various app functionalities, including error conditions (for example, network failures and invalid inputs).
 
 ## Observation
 
