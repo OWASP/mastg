@@ -1,5 +1,6 @@
 e scr.color=0
 e scr.interactive=false
+e bin.relocs.apply=true
 e bin.cache=true
 e search.in=io.maps.x
 e asm.lines=false

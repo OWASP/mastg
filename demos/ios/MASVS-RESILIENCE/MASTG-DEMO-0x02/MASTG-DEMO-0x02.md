@@ -19,6 +19,8 @@ This demo uses the sample from @MASTG-DEMO-0x01.
 3. Interact with the application and trigger the vulnerable logging flow from the UI.
 4. Capture the emitted runtime logs.
 
+{{ run.sh }}
+
 ## Observation
 
 Monitoring system logs during runtime reveals that the application emits verbose debug and error messages containing internal implementation details. The captured logs are stored in `system_log.txt`, while `output.txt` contains the PID used during the run.

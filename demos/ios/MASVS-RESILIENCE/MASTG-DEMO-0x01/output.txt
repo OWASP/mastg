@@ -35,10 +35,10 @@ sym.func.100006840 0x100006b50 [CALL:--x] bl sym.imp.print.separator.terminator.
 sym.func.100004838 0x1000049c8 [CALL:--x] bl sym.imp.debugPrint.separator.terminator.St
 sym.func.100004838 0x100004a1c [CALL:--x] bl sym.imp.debugPrint.separator.terminator.St
 sym.func.100005fb4 0x100006298 [CALL:--x] bl sym.imp.dump.name.indent__String_...SgS3itlF_
-sym.func.10000465c 0x100004708 [CALL:--x] bl sym.imp.os_log_type_t...a0A0E5debugABvgZ
-sym.func.10000465c 0x100004774 [CALL:--x] bl sym.imp.os_log_type_t...a0A0E5debugABvgZ
-sym.func.100005fb4 0x1000062f4 [CALL:--x] bl sym.imp.os_log_type_t...a0A0E5errorABvgZ
-sym.func.100005fb4 0x100006394 [CALL:--x] bl sym.imp.os_log_type_t...a0A0E5faultABvgZ
+sym.func.10000465c 0x100004708 [CALL:--x] bl sym.imp.os_log_type_t.addressor..debug_...vgZ_
+sym.func.10000465c 0x100004774 [CALL:--x] bl sym.imp.os_log_type_t.addressor..debug_...vgZ_
+sym.func.100005fb4 0x1000062f4 [CALL:--x] bl sym.imp.os_log_type_t.addressor..error_...vgZ_
+sym.func.100005fb4 0x100006394 [CALL:--x] bl sym.imp.os_log_type_t.addressor..fault_...vgZ_
 sym.func.10000465c 0x100004754 [CALL:--x] bl sym.imp._os_log_impl
 sym.func.10000465c 0x1000047c0 [CALL:--x] bl sym.imp._os_log_impl
 sym.func.100005fb4 0x10000635c [CALL:--x] bl sym.imp._os_log_impl
