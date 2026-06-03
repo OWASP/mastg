@@ -27,7 +27,7 @@ Monitoring system logs during runtime reveals that the application emits verbose
 
 ## Evaluation
 
-The test fails because runtime log monitoring shows that the application emits internal implementation details through multiple logging APIs.
+The test case fails because runtime log monitoring shows that the application emits internal implementation details through multiple logging APIs.
 
 The observed logs reveal:
 

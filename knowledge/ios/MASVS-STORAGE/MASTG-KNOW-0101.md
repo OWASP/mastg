@@ -4,8 +4,7 @@ platform: ios
 title: Logs
 ---
 
-Logging is commonly used during development and troubleshooting to record runtime behavior, errors, and operational events. On iOS, insecure logging can expose sensitive data such as usernames, passwords, session tokens, cookies, request and response bodies, internal endpoints, stack traces, and implementation details. These logs may be visible in development tools, device logs, crash reports, or centralized logging systems.
-
+Logging is commonly used during development and troubleshooting to record runtime behavior, errors, and operational events. Depending on what is recorded, logs may include request/response metadata, identifiers, stack traces, and other diagnostic information, and may be visible in development tools, device logs, crash reports, or centralized log collectors.
 iOS developers can write logs through several APIs and mechanisms, including:
 
 - [`print`](https://developer.apple.com/documentation/swift/print(_:separator:terminator:))
@@ -14,8 +13,7 @@ iOS developers can write logs through several APIs and mechanisms, including:
 - [`Logger`](https://developer.apple.com/documentation/os/logger)
 - [`os_log`](https://developer.apple.com/documentation/os/os_log)
 
-Insecure use of these APIs can lead to exposure of:
-
+Depending on what you log, these APIs can record:
 - Authentication data, such as passwords, access tokens, refresh tokens, and cookies.
 - Personally identifiable information, such as usernames, email addresses, account identifiers, and profile data.
 - Network metadata, such as internal API routes, staging hosts, request IDs, headers, and backend names.
@@ -30,7 +28,7 @@ Key concepts:
 - **Privacy Controls**: Interpolated values can be marked with privacy annotations such as `privacy: .private` to reduce exposure of sensitive data in logs.
 - **Structured Logging**: Developers can organize logs by subsystem and category to improve observability without dumping raw internal state.
 
-Typical insecure patterns include:
+Common patterns that produce verbose logs include:
 
 - Logging full request headers or bodies.
 - Logging authentication responses containing tokens or cookies.
@@ -38,8 +36,7 @@ Typical insecure patterns include:
 - Logging complete `NSError` objects, including `domain`, `code`, and `userInfo`.
 - Logging stack traces or internal class and method names in production builds.
 
-Logging should be treated as a potential data exposure surface. Even when logs are intended only for debugging, they can reveal sensitive information that should not be accessible on a production device.
-
+Logs can be retained in different stores and collected by development tools or third-party services, so their contents can be visible outside the app during development and troubleshooting.
 ## Additional Logging Sources
 
 Logging exposure on iOS is not limited to the standard Apple logging APIs. Sensitive information may also be emitted or persisted through other components integrated into the application.

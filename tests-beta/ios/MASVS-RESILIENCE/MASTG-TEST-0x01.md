@@ -2,8 +2,9 @@
 platform: ios
 title: Implementation Details Exposure Through Logging APIs
 id: MASTG-TEST-0x01
-type: [static]
+type: [static, code]
 weakness: MASWE-0094
+best-practices: [MASTG-BEST-0022]
 knowledge: [MASTG-KNOW-0064, MASTG-KNOW-0101]
 profiles: [R]
 ---
@@ -44,4 +45,4 @@ Examples of failing cases include logs that reveal:
 - library, framework, or component version details
 - developer-oriented debugging messages not intended for production use
 
-It does not fail when logs include sensitive data such as API keys, passwords, or user personal information. These assets are treated separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.
+Sensitive data logged through these APIs (e.g., API keys, passwords, personal data) is covered separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.

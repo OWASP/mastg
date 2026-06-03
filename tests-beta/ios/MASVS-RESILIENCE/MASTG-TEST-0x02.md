@@ -2,8 +2,9 @@
 platform: ios
 title: Implementation Details Exposure in Logs
 id: MASTG-TEST-0x02
-type: [dynamic]
+type: [dynamic, logs]
 weakness: MASWE-0094
+best-practices: [MASTG-BEST-0022]
 knowledge: [MASTG-KNOW-0064, MASTG-KNOW-0101]
 profiles: [R]
 ---
@@ -15,7 +16,7 @@ This test is the dynamic counterpart to @MASTG-TEST-0x01.
 In this test, device logs are monitored, captured, and analyzed.
 
 !!! warning Limitation
-    - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative, you can use dynamic analysis with @MASTG-TOOL-0039.
+    - Linking the logs back to specific locations in the app can be difficult and requires manual analysis of the code. As an alternative, you can use @MASTG-TECH-0095 to hook relevant logging APIs and capture backtraces.
     - Dynamic analysis works best when you interact extensively with the app. But even then, there could be corner cases that are difficult or impossible to execute on every device. The results from this test therefore are likely not exhaustive.
 
 This test focuses on verbose logging that exposes implementation details. For tests specifically targeting sensitive data in logs, see @MASTG-TEST-0296 and @MASTG-TEST-0297.
@@ -45,4 +46,4 @@ Examples of failing cases include logs that reveal:
 - library, framework, or component version details
 - developer-oriented debugging messages not intended for production use
 
-It does not fail when logs include sensitive data such as API keys, passwords, or user personal information. These assets are treated separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.
+Sensitive data exposure through logs (e.g., API keys, passwords, personal data) is covered separately in @MASTG-TEST-0296 and @MASTG-TEST-0297.
