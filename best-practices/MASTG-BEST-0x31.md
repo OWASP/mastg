@@ -1,8 +1,8 @@
 ---
 title: Store Data Encrypted in App Sandbox Directory
 alias: store-data-encrypted-in-the-app-sandbox-directory
-id: MASTG-BEST-0024
-platform: ios
+id: MASTG-BEST-0x31
+platform: android
 knowledge: [MASTG-KNOW-0036]
 ---
 

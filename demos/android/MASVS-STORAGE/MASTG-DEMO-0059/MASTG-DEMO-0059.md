@@ -4,6 +4,7 @@ title: Using SharedPreferences to Write Sensitive Data Unencrypted to the App Sa
 id: MASTG-DEMO-0059
 code: [kotlin]
 test: MASTG-TEST-0287
+kind: fail
 ---
 
 ## Sample
