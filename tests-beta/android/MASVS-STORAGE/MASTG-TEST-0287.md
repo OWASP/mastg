@@ -2,7 +2,7 @@
 title: References to Sensitive Data Stored Unencrypted via the SharedPreferences API to the App Sandbox
 platform: android
 id: MASTG-TEST-0287
-type: [static, code]
+type: [dynamic, hooks, manual]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0x31]
 profiles: [L1, L2]
@@ -19,43 +19,31 @@ While `MODE_PRIVATE` restricts file access to the app itself, it doesn't protect
 
 This test uses runtime instrumentation to detect when the app writes data via `SharedPreferences` and determines whether sensitive data is being stored unencrypted.
 
+Relevant API calls regarding `SharedPreferences` include `SharedPreferences.Editor.putString(...)` and `putStringSet(...)`, which write string values to the XML files in the app's sandbox. There's also `put*` methods for other data types, but strings are the most common way to store sensitive data such as API keys, tokens, passwords, or private keys.
+
+For encryption, relevant API calls include `javax.crypto.Cipher`, `java.security.KeyStore`, or `javax.crypto.KeyGenerator`.
+
 For more information about the `SharedPreferences` API, refer to @MASTG-KNOW-0036.
 
 ## Steps
 
-1. Install the app on a device (@MASTG-TECH-0005).
-2. Execute a method trace (@MASTG-TECH-0033) targeting the `SharedPreferences.Editor` methods that write data:
-    - `SharedPreferences.Editor.putString`
-    - `SharedPreferences.Editor.putStringSet`
-3. Include tracing of cryptographic APIs to help determine if values are encrypted:
-    - `javax.crypto.Cipher.*`
-    - `java.security.KeyStore.*`
-    - `javax.crypto.KeyGenerator.*`
-    - `android.util.Base64.*`
-4. Exercise all workflows of the application that handle sensitive data.
- 5. Retrieve the app's `SharedPreferences` XML files from the app's private data directory, typically under `shared_prefs/` (@MASTG-TECH-0008).
- 6. Correlate each `SharedPreferences.Editor` write call with preceding cryptographic operations and with the values stored in the retrieved XML files.
- 
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+4. Use @MASTG-TECH-0008 to retrieve the app's `SharedPreferences` XML files.
+
 ## Observation
 
 The output should contain a list of all calls to `SharedPreferences` write methods, including the keys, values, and stack traces showing where in the app's code these calls originate. The trace should also include related cryptographic operations that may indicate encryption is being used.
 
-The output should also contain the contents of the `SharedPreferences` XML file.
+The output should also contain the contents of all `SharedPreferences` XML files.
 
 ## Evaluation
 
 The test case fails if sensitive data is written to `SharedPreferences` without being encrypted first.
 
-A write should be considered unencrypted when a sensitive value is passed to a `SharedPreferences.Editor` write method and the same value, or a trivially reversible representation of it, appears in the retrieved XML file.
+**Further Validation Required:**
 
-A write should not be considered a failure only because the sensitive value appears in the runtime trace. Runtime hooks can capture values before encryption, so findings from pattern matching must be correlated with the value passed to `SharedPreferences.Editor` and the value stored on disk.
-
-If the trace is inconclusive, use the stack traces to inspect the relevant code paths in the reversed app (@MASTG-TECH-0017) and confirm whether encryption is applied before the value is written.
-
-1. **High-level trace inspection**: Review the sequence of calls to identify if `SharedPreferences.Editor.putString` or `putStringSet` calls are preceded by `Cipher` operations. Values written without prior encryption are likely stored in cleartext.
-
+1. **High-level trace inspection**: Review the sequence of calls from the hook output to identify if `SharedPreferences.Editor.putString` or `putStringSet` calls are preceded by `Cipher` operations. Values written without prior encryption are likely stored in cleartext.
 2. **Pattern matching**: Use a secrets detection tool (for example, @MASTG-TOOL-0144) to scan the output for known secret patterns such as API keys, tokens, passwords, or private keys.
-
-3. **Manual verification**: Use the stack traces to navigate to the relevant code locations in the reversed app (@MASTG-TECH-0117) and trace back the source of the values being written to confirm whether they contain sensitive data and whether encryption is applied.
-
-4. **File system inspection**: Retrieve the `SharedPreferences` XML files from the app's sandbox using @MASTG-TOOL-0004 and inspect their contents to verify whether sensitive data is stored in cleartext.
+3. **Manual verification**: Use the stack traces from the hook output to navigate to the relevant code locations in the reversed app (@MASTG-TECH-0023) and trace back the source of the values being written to confirm whether they contain sensitive data and whether encryption is applied.
