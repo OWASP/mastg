@@ -38,7 +38,7 @@ The test case fails because the FileProvider path configuration exposes the enti
 - An attacker who tricks the app into sharing a URI (e.g., by sending a crafted intent) can request `session_token.txt` or any other file under `filesDir` using the same `org.owasp.mastestapp.fileprovider` authority.
 - The fix is to restrict the path to the specific subdirectory: `path="reports/"`.
 
-An attacker app could retrieve the secret token from the provider app and print it to the logs. 
+An attacker app could retrieve the secret token from the provider app and print it to the logs.
 
 ```java
 class AttackerActivity : ComponentActivity() {

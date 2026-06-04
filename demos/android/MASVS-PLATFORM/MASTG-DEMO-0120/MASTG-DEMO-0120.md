@@ -32,6 +32,6 @@ The output should contain a finding that a `<provider>` is exported (`android:ex
 
 ## Evaluation
 
-The test case fails because the exported `AppointmentProvider` exposes sensitive patient medical records through an exported database-backed content provider without enforcing appropriate access restrictions. 
+The test case fails because the exported `AppointmentProvider` exposes sensitive patient medical records through an exported database-backed content provider without enforcing appropriate access restrictions.
 
 This means any app on the device is allowed to query the content provider to retrieve the data that is offered by the database.

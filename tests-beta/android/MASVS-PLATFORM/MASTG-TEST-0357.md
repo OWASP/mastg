@@ -15,7 +15,7 @@ If the app exports an Android content provider without enforcing access restrict
 
 ## Steps
 
-1. Use @MASTG-TECH-0013 to reverse engineer the app. 
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 and @MASTG-TECH-0159 to confirm which provider classes expose file access, and whether they validate the caller before returning data.
 
 ## Observation

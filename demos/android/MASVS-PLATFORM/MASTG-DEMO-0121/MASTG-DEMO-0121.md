@@ -16,7 +16,6 @@ The `android:authorities` value in the Android Manifest identifies the provider 
 
 The reverse engineered AndroidManifest only reveals the authority via `android:authorities="org.owasp.mastestapp.appointments"`, but the path segment must be discovered by reverse-engineering the provider class. The path can be identified in the reversed class `MastgTest_reversed.java` in the method `addURI`, which is either `appointments` to retrieve all rows from the database or `appointments/#` to query for one specific row.
 
-
 {{ MastgTest.kt # MastgTest_reversed.java # AndroidManifest.xml # AndroidManifest_reversed.xml}}
 
 ## Steps

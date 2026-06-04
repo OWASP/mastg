@@ -5,9 +5,9 @@ id: MASTG-TECH-0159
 platform: android
 ---
 
-See  @MASTG-KNOW-0117 for an overview of Android ContentProviders, including URI structure, access control, and query handling.
+See @MASTG-KNOW-0117 for an overview of Android ContentProviders, including URI structure, access control, and query handling.
 
-This technique describes how to identify file based content providers. 
+This technique describes how to identify file based content providers.
 
 ## Using the AndroidManifest
 
@@ -15,9 +15,9 @@ Use @MASTG-TECH-0117, to identify exported activities that are set to `android:e
 
 Extract `res/xml/*.xml` and check for `FileProvider` path declarations. Flag any usage of:
 
-- `path="."`, 
-- `path=""`, 
-- `path="/"` or 
+- `path="."`,
+- `path=""`,
+- `path="/"` or
 - `<root-path>`.
 
 ## Using the Decompiled Source Code

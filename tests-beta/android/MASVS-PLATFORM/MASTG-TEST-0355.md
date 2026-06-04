@@ -22,7 +22,7 @@ The same applies when no protection level is configured and becomes automaticall
 
 ## Observation
 
-The output should contain a list of providers and their configuration. 
+The output should contain a list of providers and their configuration.
 
 ## Evaluation
 
