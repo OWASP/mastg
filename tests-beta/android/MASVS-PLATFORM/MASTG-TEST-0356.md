@@ -11,7 +11,16 @@ knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0355.
+If an app exports a content provider without requiring permissions, any app on the device can directly query its underlying database using `ContentResolver` or the `adb shell content` command. Even when a permission is declared, a misconfigured protection level (for example, `android:protectionLevel="normal"`) allows any requesting app to obtain it automatically, effectively bypassing the restriction. This test verifies at runtime whether the app's exported content providers are accessible without the required permissions.
+
+**Example Attack Scenario:**
+
+Suppose a finance app stores transaction records in a database exposed through an exported content provider with no declared `android:readPermission`.
+
+1. An attacker identifies the exported provider's authority from the AndroidManifest.
+2. The attacker uses `adb shell content query` to query the provider's URI without any credentials.
+3. The content provider returns all database rows without checking the caller's identity.
+4. The attacker reads account numbers, balances, and transaction history directly from the victim's device.
 
 ## Steps
 
@@ -26,3 +35,10 @@ The output should contain the content of the database that is available through 
 ## Evaluation
 
 The test case fails if sensitive data can be accessed through content providers.
+
+**Further Validation Required:**
+
+Inspect the content of each row returned by the query to determine whether the data is sensitive:
+
+- Determine whether the records contain sensitive information (e.g., personal data, credentials, tokens, or health data).
+- Determine whether the accessible data represents a security risk given the app's data classification.
