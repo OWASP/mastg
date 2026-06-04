@@ -1,5 +1,5 @@
 ---
-title: References to Sensitive Data Stored Unencrypted via the SharedPreferences API to the App Sandbox
+title: Runtime Storage of Unencrypted Data via the SharedPreferences API
 platform: android
 id: MASTG-TEST-0287
 type: [dynamic, hooks, manual]
