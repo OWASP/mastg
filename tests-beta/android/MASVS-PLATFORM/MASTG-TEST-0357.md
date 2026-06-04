@@ -6,7 +6,7 @@ weakness: MASWE-0064
 type: [static, config, code]
 best-practices: [MASTG-BEST-0049]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0020]
+knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
 ---
 
 ## Overview
@@ -24,4 +24,4 @@ The output should contain each provider's authorities, the access control config
 
 ## Evaluation
 
-The test case fails if an external caller can open provider backed private files without the required permissions.
+The test case fails if an external caller can open provider-backed private files without the required permissions.

@@ -6,7 +6,7 @@ type: [dynamic, filesystem, manual]
 weakness: MASWE-0064
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0049]
-knowledge: [MASTG-KNOW-0020]
+knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
 ---
 
 ## Overview
@@ -16,8 +16,8 @@ This test is the dynamic counterpart to @MASTG-TEST-0355.
 ## Steps
 
 1. Use @MASTG-TECH-0005 to install the app.
-2. Use @MASTG-TECH-0148 to query the app's exported content providers.
-3. Press the Start button to ensure the provider data is populated before testing.
+2. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+3. Use @MASTG-TECH-0148 to query the app's exported content providers.
 
 ## Observation
 
