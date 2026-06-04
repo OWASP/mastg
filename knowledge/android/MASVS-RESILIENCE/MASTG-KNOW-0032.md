@@ -4,16 +4,16 @@ platform: android
 title: Runtime Integrity Verification
 ---
 
-Techniques in this category verify the integrity of the app's memory to defend against runtime memory patches. Such changes include unwanted modifications to native code, bytecode execution targets, function pointer tables, important runtime data structures, and unauthorized executable code loaded into process memory.
+defensive controls in this category verify the integrity of the app's memory to defend against runtime memory patches. Such changes include unwanted modifications to native code, bytecode execution targets, function pointer tables, important runtime data structures, and unauthorized executable code loaded into process memory.
 
 Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning for tool-specific strings or checking for open ports), this document focuses on detecting the _modifications_ that instrumentation tools make to the app's code and memory.
 
 !!! note
-  Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass techniques evolve continuously. Determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These techniques should be part of a defense-in-depth strategy, not a standalone solution.
+  Runtime integrity verification is inherently a cat-and-mouse game. Detection methods and bypass defensive controls evolve continuously. Determined attackers with sufficient time and resources can typically circumvent these protections, especially on rooted devices (see [Tan, 2016](https://blackhat.com/docs/us-16/materials/us-16-Tan-Bad-For-Enterprise-Attacking-BYOD-Enterprise-Mobile-Security-Solutions-wp.pdf)). These defensive controls should be part of a defense-in-depth strategy, not a standalone solution.
 
-The following sections present these techniques grouped into four categories based on the type of integrity violation they detect. Each category includes specific methods and a discussion of their effectiveness and potential bypasses. They help answer the following questions:
+The following sections present these defensive controls grouped into four categories based on the type of integrity violation they detect. Each category includes specific methods and a discussion of their effectiveness and potential bypasses. They help answer the following questions:
 
-| Question | Category | Techniques |
+| Question | Category | Defensive Controls |
 |---|---|---|
 | Did an indirect call target change? | **[Control Flow Integrity Checks](#control-flow-integrity-checks)** | PLT/GOT hook detection, vtable hook detection, ART entry point verification |
 | Did executable code or protected data change? | **[Code Integrity Verification](#code-integrity-verification)** | Memory checksums, inline hook detection |
@@ -24,7 +24,7 @@ The following sections present these techniques grouped into four categories bas
 
 Control flow integrity is a well-known security concept that aims to prevent unintended redirection of program control flow. This category focuses on runtime checks for indirect control flow targets, such as function pointers, vtable entries, and ART method entry points. See [Clang Control Flow Integrity](https://clang.llvm.org/docs/ControlFlowIntegrity.html) for a compiler-level implementation of related concepts.
 
-All techniques in this category share the same attack primitive: overwriting a pointer in an indirection structure to redirect control flow. Detection follows the same pattern: walk the table and verify each relevant function pointer resolves to an expected executable mapping, using `/proc/self/maps` as one source of mapping information.
+All defensive controls in this category share the same attack primitive: overwriting a pointer in an indirection structure to redirect control flow. Detection follows the same pattern: walk the table and verify each relevant function pointer resolves to an expected executable mapping, using `/proc/self/maps` as one source of mapping information.
 
 Installing such hooks requires the target memory region to be writable. The kernel records current memory permissions in [`/proc/self/maps`](https://man7.org/linux/man-pages/man5/proc_pid_maps.5.html). Under normal conditions, code sections (marked `r-xp`) are never writable, so an executable mapping that is also writable, such as `rwxp`, is suspicious. A writable mapping is also suspicious when it corresponds to a region expected to be read-only after relocation, such as RELRO-protected data. For RELRO-protected regions, the [expected state after relocation is read-only](https://android.googlesource.com/platform/bionic/%2B/master/linker/linker.cpp). Ordinary `rw-p` library data mappings are expected and should not be flagged by themselves. Checking for suspicious permissions provides a broad pre-filter before performing the specific pointer verification below.
 
@@ -44,7 +44,7 @@ Detection mirrors PLT/GOT hook detection: parse the ELF to locate relocation rea
 
 ### ART Entry Point Verification
 
-Some Java method hooking techniques modify the `ArtMethod` structure in ART's internal representation. Every Java method in memory is represented by an `ArtMethod` object containing fields such as [`access_flags_`](https://android.googlesource.com/platform/art/%2B/android-6.0.0_r26/runtime/art_method.h) and pointer-sized fields such as [`entry_point_from_quick_compiled_code_`](https://android.googlesource.com/platform/art/%2B/master/runtime/art_method.h). Relevant fields include:
+Some Java method hooking defensive controls modify the `ArtMethod` structure in ART's internal representation. Every Java method in memory is represented by an `ArtMethod` object containing fields such as [`access_flags_`](https://android.googlesource.com/platform/art/%2B/android-6.0.0_r26/runtime/art_method.h) and pointer-sized fields such as [`entry_point_from_quick_compiled_code_`](https://android.googlesource.com/platform/art/%2B/master/runtime/art_method.h). Relevant fields include:
 
 - `entry_point_from_quick_compiled_code_`: Pointer to the compiled native code
 - `entry_point_from_interpreter_`: Pointer to interpreter entry
@@ -67,7 +67,7 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 
 Code integrity verification is a common protection against code tampering. OWASP describes code tampering defenses as runtime checks that detect whether code has been added or changed from what the app expects based on its original integrity state (see [OWASP Mobile Top 10 M8: Code Tampering](https://owasp.org/www-project-mobile-top-10/2016-risks/m8-code-tampering/)).
 
-Unlike [Control Flow Integrity Checks](#control-flow-integrity-checks), which detect pointer overwrites in indirection tables, the techniques in this category detect direct modifications to code or memory, either as arbitrary changes (checksums) or as specific known patterns (inline hook signatures).
+Unlike [Control Flow Integrity Checks](#control-flow-integrity-checks), which detect pointer overwrites in indirection tables, the defensive controls in this category detect direct modifications to code or memory, either as arbitrary changes (checksums) or as specific known patterns (inline hook signatures).
 
 ### Memory Checksums
 
