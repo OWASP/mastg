@@ -7,8 +7,8 @@ import android.os.Bundle
 import androidx.core.content.FileProvider
 import java.io.File
 
-// SUMMARY: Demonstrates oversharing via FileProvider misconfiguration where file_paths.xml uses path="." exposing the entire internal files directory.
-// FAIL: [MASTG-TEST-0357] FileProvider is configured with path="." in file_paths.xml, which exposes all files in filesDir — not just the intended reports subdirectory.
+// SUMMARY: Demonstrates oversharing via FileProvider misconfiguration where filepaths.xml uses path="." exposing the entire internal files directory.
+// FAIL: [MASTG-TEST-0357] FileProvider is configured with path="." in filepaths.xml, which exposes all files in filesDir — not just the intended reports subdirectory.
 
 class MastgTest(private val context: Context) {
 

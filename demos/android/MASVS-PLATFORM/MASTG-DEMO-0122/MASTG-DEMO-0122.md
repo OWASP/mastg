@@ -10,15 +10,15 @@ test: MASTG-TEST-0357
 
 ## Sample
 
-The code below sets up a `FileProvider` to share lab report PDFs with external apps (e.g., email clients or document viewers). While the provider is not directly exported (`android:exported="false"`), it enables URI grants via `android:grantUriPermissions="true"`. The `file_paths.xml` resource uses `path="."`, which exposes the entire internal `filesDir`, including sensitive files such as `session_token.txt`, to any app that receives a URI grant.
+The code below sets up a `FileProvider` to share lab report PDFs with external apps (e.g., email clients or document viewers). While the provider is not directly exported (`android:exported="false"`), it enables URI grants via `android:grantUriPermissions="true"`. The `filepaths.xml` resource uses `path="."`, which exposes the entire internal `filesDir`, including sensitive files such as `session_token.txt`, to any app that receives a URI grant.
 
 The Android Manifest exports the activity `ShareReportActivity` that can be queried by any other app.
 
-{{ MastgTest.kt # MastgTest_reversed.java # AndroidManifest.xml # AndroidManifest_reversed.xml # file_paths.xml # file_paths_reversed.xml}}
+{{ MastgTest.kt # MastgTest_reversed.java # AndroidManifest.xml # AndroidManifest_reversed.xml # filepaths.xml # filepaths_reversed.xml}}
 
 ## Steps
 
-Let's run our @MASTG-TOOL-0110 rule against the `file_paths.xml` resource.
+Let's run our @MASTG-TOOL-0110 rule against the `filepaths.xml` resource.
 
 {{ ../../../../rules/mastg-android-fileprovider-broad-scope.yml }}
 
@@ -34,7 +34,7 @@ The rule flags the `files-path` element with `path="."`.
 
 The test case fails because the FileProvider path configuration exposes the entire `filesDir` instead of only the intended `reports/` subdirectory.
 
-- The `mastg-android-fileprovider-broad-scope.yml` rule flags `path="."` in `file_paths.xml`, confirming that any file in the app's internal storage can be shared via a URI grant — not just the intended lab report PDFs.
+- The `mastg-android-fileprovider-broad-scope.yml` rule flags `path="."` in `filepaths.xml`, confirming that any file in the app's internal storage can be shared via a URI grant — not just the intended lab report PDFs.
 - An attacker who tricks the app into sharing a URI (e.g., by sending a crafted intent) can request `session_token.txt` or any other file under `filesDir` using the same `org.owasp.mastestapp.fileprovider` authority.
 - The fix is to restrict the path to the specific subdirectory: `path="reports/"`.
 
