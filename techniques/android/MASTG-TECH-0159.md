@@ -1,5 +1,5 @@
 ---
-title: Verify usage of file based content providers
+title: Verify Usage of File-Based Content Providers
 alias: verify-usage-of-file-based-content-providers
 id: MASTG-TECH-0159
 platform: android
