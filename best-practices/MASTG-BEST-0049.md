@@ -68,7 +68,7 @@ For sharing files with other apps, Android recommends using [`FileProvider`](htt
 
 ### Declare a Narrow Scope in `file_paths.xml`
 
-Declare only the specific subdirectories that should be shareable. Each path element maps to a directory on the device, as documented in the [FileProvider reference](https://developer.android.com/reference/androidx/core/content/FileProvider#specifying-available-files):
+Declare only the specific subdirectories that should be shareable. Each path element maps to a directory on the device, as documented in the [`FileProvider` reference](https://developer.android.com/reference/androidx/core/content/FileProvider#specifying-available-files):
 
 - `<files-path>`: a subpath of `Context.getFilesDir()`
 - `<cache-path>`: a subpath of `Context.getCacheDir()`
