@@ -9,7 +9,7 @@ kind: fail
 
 ## Sample
 
-The sample app stores sensitive data in `SharedPreferences`, which writes XML files inside the app's private sandbox storage. 
+The sample app stores sensitive data in `SharedPreferences`, which writes XML files inside the app's private sandbox storage.
 
 Under normal Android sandboxing, other apps cannot directly read these files. However, if the app data directory becomes accessible, for example on a rooted or compromised device or through backup extraction, any unencrypted values stored in these XML files can be read directly.
 
