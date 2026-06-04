@@ -4,7 +4,7 @@ platform: android
 id: MASTG-TEST-0287
 type: [dynamic, hooks, manual]
 weakness: MASWE-0006
-best-practices: [MASTG-BEST-0x31]
+best-practices: [MASTG-BEST-0050]
 profiles: [L1, L2]
 prerequisites:
 - identify-sensitive-data

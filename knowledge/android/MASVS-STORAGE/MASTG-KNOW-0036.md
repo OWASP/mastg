@@ -6,7 +6,7 @@ title: Shared Preferences
 
 !!! warning
 
-    Android recommends [`DataStore`](https://developer.android.com/topic/libraries/architecture/datastore) as a modern replacement for `SharedPreferences`. See @MASTG-BEST-0x31 for more information.
+    Android recommends [`DataStore`](https://developer.android.com/topic/libraries/architecture/datastore) as a modern replacement for `SharedPreferences`. See @MASTG-BEST-0050 for more information.
 
 The [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences "Shared Preferences") API is commonly used to persist small collections of key-value pairs in the app's sandbox storage.
 
