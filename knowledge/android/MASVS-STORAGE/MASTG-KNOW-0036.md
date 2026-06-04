@@ -4,9 +4,15 @@ platform: android
 title: Shared Preferences
 ---
 
-The [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences "Shared Preferences") API is commonly used to permanently save small collections of key-value pairs.
+The [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences "Shared Preferences") API is commonly used to permanently save small collections of key-value pairs in the app's sandbox storage.
 
-Since Android 4.2 (API level 17) the `SharedPreferences` object can only be declared to be private (and not world-readable, i.e. accessible to all apps). However, since data stored in a `SharedPreferences` object is written to a plain-text XML file so its misuse can often lead to exposure of sensitive data.
+Since Android 4.2 (API level 17) the `SharedPreferences` object can only be declared to be private (and not world-readable, i.e. accessible to all apps).
+
+This is made by interacting with `SharedPreferences` by calling `getSharedPreferences` with the `Context.MODE_PRIVATE` flag (see ["Use SharedPreferences in private mode"](https://developer.android.com/privacy-and-security/security-best-practices#sharedpreferences).
+
+When using such flag, the XML file containing the key-value data is stored with permissions that restrict access to the app's own Linux user ID. Under the normal Android app sandbox, other apps cannot read this file directly.
+
+However, this flag does not provide encryption of the data, as the data is still written in plain-text in the XML file.
 
 Consider the following example:
 
@@ -30,15 +36,15 @@ Once the activity has been called, the file key.xml will be created with the pro
 </map>
 ```
 
-`MODE_PRIVATE` makes the file only accessible by the calling app. See ["Use SharedPreferences in private mode"](https://developer.android.com/privacy-and-security/security-best-practices#sharedpreferences).
 
 > Other insecure modes exist, such as `MODE_WORLD_READABLE` and `MODE_WORLD_WRITEABLE`, but they have been deprecated since Android 4.2 (API level 17) and [removed in Android 7.0 (API Level 24)](https://developer.android.com/reference/android/os/Build.VERSION_CODES#N). Therefore, only apps running on an older OS version (`android:minSdkVersion` less than 17) will be affected. Otherwise, Android will throw a [`SecurityException`](https://developer.android.com/reference/java/lang/SecurityException). If an app needs to share private files with other apps, it is best to use a [`FileProvider`](https://developer.android.com/reference/androidx/core/content/FileProvider) with the [`FLAG_GRANT_READ_URI_PERMISSION`](https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_READ_URI_PERMISSION). See ["Sharing Files"](https://developer.android.com/training/secure-file-sharing) for more details.
 
-You might also use [`EncryptedSharedPreferences`](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) (see [source code](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:security/security-crypto/src/main/java/androidx/security/crypto/EncryptedSharedPreferences.java)), which is wrapper of `SharedPreferences` that automatically encrypts all data stored to the shared preferences using [Deterministic Authenticated Encryption with Associated Data (Deterministic AEAD) from Google's Tink Library](https://developers.google.com/tink/deterministic-encryption).
+[`EncryptedSharedPreferences`](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) is a `SharedPreferences` wrapper from the Jetpack Security Crypto library. It encrypts preference keys with `AES256_SIV`, a deterministic Authenticated Encryption with Associated Data (AEAD) scheme, and preference values with `AES256_GCM`, an AEAD scheme, before writing them to disk. See the [`EncryptedSharedPreferences` source code](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:security/security-crypto/src/main/java/androidx/security/crypto/EncryptedSharedPreferences.java) for implementation details.
 
 !!! Warning
 
     The **Jetpack security crypto library**, including the `EncryptedFile` and  `EncryptedSharedPreferences` classes, has been [deprecated](https://developer.android.com/privacy-and-security/cryptography#jetpack_security_crypto_library). However, since an official replacement has not yet been released, we recommend using these classes until one is available.
+The following example details storing data using `EncryptedSharedPreferences`, which encrypts the preference keys and values before writing them to disk:
 
 ```kotlin
 var masterKey: MasterKey? = null
