@@ -51,13 +51,13 @@ Some Java method hooking defensive controls modify the `ArtMethod` structure in 
 - `access_flags_`: Method modifiers (public, native, etc.)
 
 !!! note
-    `ArtMethod` structure layout varies across Android versions, requiring version-specific offset handling.
+    There is no public API to obtain a reference to the `ArtMethod` structure that backs a Java method. JNI's `FromReflectedMethod` returns a `jmethodID` which could be reinterpreted as an `ArtMethod*`, but this depends on ART configuration and it is not a guarantee. On runtimes using opaque/index JNI IDs, it is not a raw pointer. The `ArtMethod` layout itself also varies across Android versions, requiring version-specific offset handling that is brittle and error-prone.
 
-When a framework hooks a method, it may replace the original entry point with a pointer to hook or bridge code. Detection approaches include:
+When a framework hooks a method, it may replace the original entry points with a pointer to hook or bridge code. Detection approaches include:
 
-- **Entry point verification**: Using JNI's `FromReflectedMethod` to obtain the `ArtMethod` pointer and verify the entry point falls within legitimate regions (OAT file, interpreter, or JIT code cache)
+- **Entry point verification**: Inspect the relevant `ArtMethod` entrypoint fields for the target Android version and verify that they fall within legitimate regions (OAT file, interpreter bridge, JNI/native stubs, or JIT code cache)
 - **Access flags inspection**: Check if `kAccNative` (0x0100) was unexpectedly set
-- **Trampoline detection**: Scan the entry point for known hook signatures
+- **Trampoline detection**: Scan the entry points for known hook signatures
 
 Stack inspection can also reveal instrumentation-related frames during execution, but this is closer to artifact-based tool detection and is therefore covered in @MASTG-KNOW-0030.
 

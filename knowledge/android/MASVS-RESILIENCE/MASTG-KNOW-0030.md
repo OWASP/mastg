@@ -10,7 +10,7 @@ Android apps can inspect some of these indicators to detect whether the app is r
 
 These checks are usually fragile when used in isolation. Tool names, ports, file paths, strings, and process artifacts can often be changed by an attacker. They are most useful as part of a layered resilience strategy, combined with runtime integrity verification, app integrity checks, anti debugging, and obfuscation.
 
-The examples below focus on detecting @MASTG-TOOL-0031, which is used extensively throughout this guide. Other tools, such as @MASTG-TOOL-0139 or @MASTG-TOOL-0027, can leave similar artifacts and can be detected using the same general approach.
+The examples below focus on detecting @MASTG-TOOL-0031, which is used extensively throughout this guide. Other tools, such as @MASTG-TOOL-0139 or @MASTG-TOOL-0149, can leave similar artifacts and can be detected using the same general approach.
 
 !!! note
     Some tools can be detected both by their artifacts and by the modifications they make to the runtime. This knowledge article focuses on identifying the presence of known tools, while @MASTG-KNOW-0032 focuses on identifying unauthorized runtime modification.
