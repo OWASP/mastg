@@ -255,6 +255,7 @@ jobs:
           insert_block sections
           insert_block android
           insert_block libs
+          insert_block build
 
           echo "Building APK for $demo"
 
