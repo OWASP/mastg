@@ -21,7 +21,7 @@ Suppose a health app stores medical records in a database exposed through an exp
 2. The attacker uses `adb shell content query` to query the provider's URI without any restrictions.
 3. The content provider returns all database rows without checking the caller's identity.
 4. The attacker reads PII or medical information directly from the app.
-5. With this knowledge the attacker crafts a malicious app by using `ContentResolver` and trying to lure potential victims into side-loading the app on their device. 
+5. With this knowledge the attacker crafts a malicious app by using `ContentResolver` and trying to lure potential victims into side-loading the app on their device.
 6. When a victim is installing the malicious app it will query for the data and sent it to the attackers server.
 
 ## Steps
