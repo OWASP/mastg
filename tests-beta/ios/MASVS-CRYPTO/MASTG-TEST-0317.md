@@ -2,7 +2,7 @@
 title: Broken Symmetric Encryption Modes
 platform: ios
 id: MASTG-TEST-0317
-type: [static, dynamic]
+type: [static, code, manual]
 weakness: MASWE-0020
 best-practices: [MASTG-BEST-0005]
 profiles: [L1, L2]
@@ -20,9 +20,8 @@ In [`CommonCrypto`](https://web.archive.org/web/20240606000307/https://opensourc
 
 ## Steps
 
-1. Use @MASTG-TECH-0065 to reverse engineer the app.
-2. Use @MASTG-TECH-0072 to look for uses of symmetric encryption and its modes.
-3. Use @MASTG-TECH-0076 to analyze the relevant code paths and obtain the values for the encryption modes.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -30,4 +29,8 @@ The output should contain the uses of symmetric encryption and its modes.
 
 ## Evaluation
 
-The test case fails if you can find the use of symmetric encryption with broken modes enabled, such as ECB mode.
+The test case fails if you can find the use of symmetric encryption with broken modes enabled, such as ECB mode, used on sensitive data. This occurs when the `options` parameter of `CCCrypt` includes `kCCOptionECBMode` (`0x0002` or `2`).
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether this is being used to perform encryption or decryption operations on sensitive data.

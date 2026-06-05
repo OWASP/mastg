@@ -3,7 +3,7 @@ platform: android
 title: References to APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0326
 apis: [BiometricPrompt, BiometricManager.Authenticators, setAllowedAuthenticators]
-type: [static]
+type: [static, code]
 weakness: MASWE-0045
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
@@ -22,7 +22,8 @@ Similarly, using [`setDeviceCredentialAllowed(true)`](https://developer.android.
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -30,9 +31,7 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app uses `BiometricPrompt` with authenticators that include `DEVICE_CREDENTIAL` for any sensitive data resource that needs protection.
-
-The test passes if the app uses only `BiometricPrompt` with `BIOMETRIC_STRONG` to enforce biometric-only access for any sensitive data resource that needs protection.
+The test case fails if the app uses `BiometricPrompt` with authenticators that include `DEVICE_CREDENTIAL` for any sensitive data resource that needs protection.
 
 !!! note
     Using `DEVICE_CREDENTIAL` is not inherently a vulnerability, but in high-security applications (e.g., finance, government, health), their use can represent a weakness or misconfiguration that reduces the intended security posture. This issue is therefore better categorized as a security weakness or hardening issue, not a critical vulnerability.

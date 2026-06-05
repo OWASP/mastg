@@ -3,7 +3,7 @@ platform: android
 title: References to APIs for Keys used in Biometric Authentication with Extended Validity Duration
 id: MASTG-TEST-0330
 apis: [KeyGenParameterSpec.Builder, setUserAuthenticationParameters, setUserAuthenticationValidityDurationSeconds]
-type: [static]
+type: [static, code]
 weakness: MASWE-0044
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001, MASTG-KNOW-0043, MASTG-KNOW-0047, MASTG-KNOW-0012]
@@ -21,7 +21,8 @@ On Android, developers can configure this behavior using [`setUserAuthentication
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -29,12 +30,10 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app configures keys used for sensitive operations with:
+The test case fails if the app configures keys used for sensitive operations with:
 
 - `setUserAuthenticationParameters(duration, type)` where duration > 0
 - `setUserAuthenticationValidityDurationSeconds(duration)` where duration > 0
-
-The test passes if the app uses `setUserAuthenticationParameters(0, type)` to require authentication for every cryptographic operation when protecting sensitive data resources or sensitive functionality.
 
 !!! note
     A non-zero authentication validity duration is not inherently a vulnerability. Short durations in the range of seconds may be acceptable for certain use cases where multiple related operations need to be performed in quick succession. However, for high-security applications and sensitive operations, requiring authentication per use (duration = 0) provides the strongest protection against unauthorized key usage and runtime attacks.

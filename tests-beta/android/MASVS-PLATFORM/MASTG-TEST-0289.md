@@ -2,7 +2,7 @@
 title: Runtime Verification of Sensitive Content Exposure in Screenshots During App Backgrounding
 platform: android
 id: MASTG-TEST-0289
-type: [dynamic, manual]
+type: [dynamic, filesystem, manual]
 profiles: [L2]
 best-practices: [MASTG-BEST-0014]
 weakness: MASWE-0055
@@ -18,7 +18,7 @@ This test verifies that the app hides sensitive content from the screen when it 
 ## Steps
 
 1. Exercise your app until you get to each of the screens identified as sensitive. While on each of those screens, move the app to the background (for example by pressing **Home** or opening the **Recents screen** and exiting it) and continue to the next screen.
-2. Once finished, use @MASTG-TECH-0002 to copy the screenshot taken by the system to your laptop for further analysis. The system stores the screenshots in their containers `/data/system_ce/0/snapshots` or `/data/system`.
+2. Use @MASTG-TECH-0002 to copy the screenshots taken by the system to your laptop for further analysis. The system stores the screenshots in their containers `/data/system_ce/0/snapshots` or `/data/system`.
 
 ## Observation
 
@@ -27,3 +27,7 @@ The output should include a collection of screenshots cached when the app entere
 ## Evaluation
 
 The test case fails if any screenshot displays sensitive data that should have been protected.
+
+**Further Validation Required:**
+
+Inspect each screenshot visually, looking for sensitive information such as passwords, tokens, personally identifiable information, or other sensitive content that should not be exposed when the app is in the background.
