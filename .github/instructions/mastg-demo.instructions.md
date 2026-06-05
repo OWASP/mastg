@@ -222,7 +222,7 @@ Note that line 37 did not trigger the rule because the random number is generate
 
 ### Confirming the Vulnerability
 
-Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use.
+Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use. Only "attacker" apps are excluded from this requirement, since they are already the embodiment of the attack.
 
 - Add it as a `### Exploitation` (or `### Confirm the Exposure`) subsection at the end of the `## Evaluation` section. A dedicated heading is preferred, but it may also be woven into the Evaluation prose when a heading feels forced.
 - Always reference the relevant technique by ID (for example, "You can use @MASTG-TECH-0148 to interact with the `ContentProvider` and confirm the injection") and include the exact, copyable commands.
