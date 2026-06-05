@@ -204,6 +204,7 @@ jobs:
           copy_if_exists "$demo/network_security_config.xml" mas-app-android/app/src/main/res/xml/network_security_config.xml network_security_config.xml
           copy_if_exists "$demo/backup_rules.xml" mas-app-android/app/src/main/res/xml/backup_rules.xml backup_rules.xml
           copy_if_exists "$demo/data_extraction_rules.xml" mas-app-android/app/src/main/res/xml/data_extraction_rules.xml data_extraction_rules.xml
+          copy_if_exists "$demo/proguard-rules.pro" mas-app-android/app/proguard-rules.pro proguard-rules.pro
 
           if find "$demo" -maxdepth 1 -name "*.proto" -print -quit 2>/dev/null | grep -q .; then
             mkdir -p mas-app-android/app/src/main/proto
