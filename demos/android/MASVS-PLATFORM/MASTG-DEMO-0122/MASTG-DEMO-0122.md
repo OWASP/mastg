@@ -3,7 +3,6 @@ platform: android
 title: Oversharing via FileProvider with Unrestricted Path Configuration
 id: MASTG-DEMO-0122
 code: [xml, kotlin]
-tools: [MASTG-TOOL-0110]
 kind: fail
 test: MASTG-TEST-0357
 ---

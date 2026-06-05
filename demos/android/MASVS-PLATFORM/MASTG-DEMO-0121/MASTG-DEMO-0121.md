@@ -3,7 +3,6 @@ platform: android
 title: Unauthorized Access to Database Records through Exported Content Provider
 id: MASTG-DEMO-0121
 code: [kotlin]
-tools: [MASTG-TOOL-0004]
 kind: fail
 test: MASTG-TEST-0356
 ---
