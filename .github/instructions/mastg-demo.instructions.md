@@ -8,8 +8,8 @@ A collection of demos (demonstrative examples) of the test that include working 
 Demos live in `demos/android/` or `demos/ios/` under the corresponding MASVS category folder. Each demo has its own folder named using its ID and contains:
 
 - Markdown file: `MASTG-DEMO-xxx.md`
-- Code samples (e.g. `*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
-- Build customization files (e.g. `build.gradle.kts.*`, `proguard-rules.pro`, `CMakeLists.txt`, `entitlements.plist`)
+Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
+- Build customization files (`build.gradle.kts.*`, `proguard-rules.pro`, `CMakeLists.txt`, `entitlements.plist`)
 - Testing code (e.g. `*.sh`, `*.py`)
 - Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
 
@@ -72,7 +72,7 @@ The build system (`.github/workflows/build-android-demos.yml`) processes the fol
 
 ### Source files
 
-These files replace the corresponding Kotlin source files under `app/src/main/java/org/owasp/mastestapp/`:
+These files replace the corresponding Kotlin source files located under `app/src/main/java/org/owasp/mastestapp/`. All source files use Kotlin, not Java.
 
 - `MastgTest.kt` — main test entry point (required for most demos)
 - `MainActivity.kt` — override the main activity
