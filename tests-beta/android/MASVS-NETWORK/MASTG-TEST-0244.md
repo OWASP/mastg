@@ -2,7 +2,7 @@
 title: Missing Certificate Pinning in Network Traffic
 platform: network
 id: MASTG-TEST-0244
-type: [network]
+type: [dynamic, network]
 weakness: MASWE-0047
 profiles: [L2]
 knowledge: [MASTG-KNOW-0015]
@@ -22,14 +22,13 @@ _Testing Tip:_ While performing the MITM attack, it can be useful to monitor the
 
 ## Steps
 
-1. Set up an interception proxy, see @MASTG-TECH-0011.
-2. Install the application on a device connected to that proxy, and intercept the communication.
-3. Extract all domains which were intercepted.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0011 to set up an interception proxy and to intercept the communication.
 
 ## Observation
 
-The output should contain a list of domains for which the interception was successful.
+The output should contain the intercepted traffic capture.
 
 ## Evaluation
 
-The test case fails if any relevant domain was intercepted.
+The test case fails if any relevant domain appears in the intercepted traffic capture.

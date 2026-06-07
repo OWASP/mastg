@@ -2,7 +2,7 @@
 title: Usage of Insecure APK Signature Version
 platform: android
 id: MASTG-TEST-0224
-type: [static]
+type: [static, code]
 available_since: 24
 weakness: MASWE-0104
 best-practices: [MASTG-BEST-0006]
@@ -20,8 +20,9 @@ To learn more about APK Signing Schemes, see ["Signing Process"](../../../Docume
 
 ## Steps
 
-1. Obtain the `minSdkVersion` attribute from the AndroidManifest.xml, e.g., via @MASTG-TECH-0117.
-2. List all used signature schemes as shown in @MASTG-TECH-0116.
+1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+2. Use @MASTG-TECH-0150 to obtain the `minSdkVersion` from the AndroidManifest.xml file.
+3. Use @MASTG-TECH-0116 to list all used signature schemes.
 
 ## Observation
 

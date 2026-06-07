@@ -8,7 +8,8 @@ A collection of demos (demonstrative examples) of the test that include working 
 Demos live in `demos/android/` or `demos/ios/` under the corresponding MASVS category folder. Each demo has its own folder named using its ID and contains:
 
 - Markdown file: `MASTG-DEMO-xxx.md`
-- Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
+Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
+- Build customization files (`build.gradle.kts.*`, `proguard-rules.pro`, `CMakeLists.txt`, `entitlements.plist`)
 - Testing code (e.g. `*.sh`, `*.py`)
 - Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
 
@@ -51,6 +52,85 @@ output.txt
 run.sh*
 ```
 
+Android Example (native code with build customization):
+
+```sh
+% ls -1 -F demos/android/MASVS-RESILIENCE/MASTG-DEMO-0x02/
+
+MASTG-DEMO-0x02.md
+build.gradle.kts.android
+MastgTest.kt
+MastgTest_reversed.java
+native-root-check.cpp
+output.txt
+run.sh*
+```
+
+## Android: App Customization Files
+
+The build system (`.github/workflows/build-android-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-android` base app before building the APK. Include only the files relevant to the demo.
+
+### Source files
+
+These files replace the corresponding Kotlin source files located under `app/src/main/java/org/owasp/mastestapp/`. All source files use Kotlin, not Java.
+
+- `MastgTest.kt` — main test entry point (required for most demos)
+- `MainActivity.kt` — override the main activity
+- `MastgTestWebView.kt` — override the WebView activity
+
+### Resource and configuration files
+
+These files replace the corresponding resource files in the base app:
+
+| Demo file | Destination in base app |
+| --- | --- |
+| `AndroidManifest.xml` | `app/src/main/AndroidManifest.xml` |
+| `filepaths.xml` | `app/src/main/res/xml/filepaths.xml` |
+| `network_security_config.xml` | `app/src/main/res/xml/network_security_config.xml` |
+| `backup_rules.xml` | `app/src/main/res/xml/backup_rules.xml` |
+| `data_extraction_rules.xml` | `app/src/main/res/xml/data_extraction_rules.xml` |
+
+### Build customization files
+
+The following files are injected into `app/build.gradle.kts` at the matching `// ADD_<KIND>_HERE` placeholder comment:
+
+| Demo file | Injected at |
+| --- | --- |
+| `build.gradle.kts.plugins` | `// ADD_PLUGINS_HERE` — inside the `plugins {}` block |
+| `build.gradle.kts.sections` | `// ADD_SECTIONS_HERE` — as a new top-level block |
+| `build.gradle.kts.android` | `// ADD_ANDROID_HERE` — inside the `android {}` block |
+| `build.gradle.kts.libs` | `// ADD_LIBS_HERE` — inside the `dependencies {}` block |
+
+Use these files to add Gradle plugins, dependency declarations, or `android {}` configuration (for example, ProGuard or CMake settings) without modifying the base app.
+
+To customize ProGuard/R8 rules, provide a `proguard-rules.pro` file. It replaces `app/proguard-rules.pro`.
+
+### Native code files
+
+To add native C/C++ code, provide a `CMakeLists.txt` file. All `*.cpp` files in the demo folder are also copied to `app/src/main/cpp/`. You must also provide a `build.gradle.kts.android` file that enables the CMake build:
+
+```kotlin
+externalNativeBuild {
+    cmake {
+        path = file("src/main/cpp/CMakeLists.txt")
+    }
+}
+```
+
+### Protocol Buffer files
+
+All `*.proto` files in the demo folder are copied to `app/src/main/proto/`.
+
+## iOS: App Customization Files
+
+The build system (`.github/workflows/build-ios-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-ios` base app before building the IPA:
+
+| Demo file | Purpose |
+| --- | --- |
+| `MastgTest.swift` | Replaces `MASTestApp/MastgTest.swift` (main test entry point) |
+| `Info.plist` | Replaces `MASTestApp/Info.plist` (app configuration) |
+| `entitlements.plist` | Passed to `ldid` during signing (for example, to request `com.apple.developer.associated-domains`) |
+
 ## Creating Demo IDs
 
 When creating a new demo (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-DEMO-0x##` (for example, `MASTG-DEMO-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-DEMO-0x33`, `MASTG-DEMO-0x34`, `MASTG-DEMO-0x35`) as you add new content.
@@ -82,24 +162,6 @@ title: Common Uses of Insecure Random APIs
 ### platform
 
 The mobile platform. One of: `ios`, `android`.
-
-### tools
-
-Tools used in the demo.
-
-When available, prefer referencing official tool IDs from <https://mas.owasp.org/MASTG/tools/> (for example, `MASTG-TOOL-0031`). If an official ID is not available, you may use a well-known tool name (for example, `semgrep`).
-
-Example:
-
-```md
-tools: [MASTG-TOOL-0031]
-```
-
-Example without an official ID:
-
-```md
-tools: [semgrep]
-```
 
 ### code
 
@@ -172,18 +234,34 @@ The snippet below shows sample code that sends sensitive data over the network u
 
 ### Steps
 
-A concise write-up following all steps from the linked test, including placeholders for testing code and scripts (for example, SAST rules, `run.sh`).
+A concise write-up of every action needed to reproduce the test result. Always include placeholders for any testing code and scripts involved (for example, SAST rules, `run.sh`, `hooks.json`).
 
-Example:
+Always reference official tool IDs (for example, `@MASTG-TOOL-0110`) and technique IDs (for example, `@MASTG-TECH-0005`). Only fall back to a well-known tool name when no official ID exists.
+
+Use **prose** for single-command static analysis (for example, a semgrep rule run):
 
 ```md
 ## Steps
 
-Let's run our semgrep rule against the sample code.
+Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
-{{ ../../../../rules/mastg-android-non-random-use.yaml }}
+{{ ../../../../rules/mastg-android-random-apis-insufficient-entropy.yml }}
 
 {{ run.sh }}
+```
+
+Use a **numbered list** for multi-step or interactive workflows (for example, dynamic analysis with Frida):
+
+```md
+## Steps
+
+1. Install the app on a device (@MASTG-TECH-0005).
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device.
+3. Run `run.sh` to spawn the app with Frida.
+4. Tap the **Start** button.
+5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI.
+
+{{ hooks.json # run.sh }}
 ```
 
 ### Observation
@@ -220,6 +298,56 @@ Review each of the reported instances.
 - Line 27 is part of the password generation function, which is a security-critical operation.
 
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
+```
+
+### Confirming the Vulnerability
+
+Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use.
+
+- Add it as a `### Exploitation` (or `### Confirm the Exposure`) subsection at the end of the `## Evaluation` section. A dedicated heading is preferred, but it may also be woven into the Evaluation prose when a heading feels forced.
+- Always reference the relevant technique by ID (for example, "You can use @MASTG-TECH-0148 to interact with the `ContentProvider` and confirm the injection") and include the exact, copyable commands.
+- Make the confirmation observable. When possible, design the sample so the result is visible in the app (for example, the `mastgTest()` output reflects the state the attacker changed) or in a tool output (for example, `adb logcat`).
+
+See @MASTG-DEMO-0102 (dedicated `### Exploitation` heading) and @MASTG-DEMO-0100 (woven into the Evaluation prose) for reference.
+
+### Fix
+
+Every demo for a `fail` case SHOULD include a `## Fix` section after `## Evaluation` that explains how to remediate the finding.
+
+- Describe only the options that apply to the specific component type and vulnerability shown in the demo.
+- Use bold `**Option N: …**` headings for each option.
+- **Always include Option 1** as the recommended minimal fix (for example, `android:exported="false"` or `android:permission`).
+- For each option, include the exact manifest or code change and a copyable command that confirms the fix is effective (for example, an `adb` command that now fails with a `SecurityException`).
+- Add extra options only when they reflect realistic use cases (for example, a signature-level permission for cross-app trust, or a runtime caller check as defence-in-depth).
+- If an additional non-component fix applies (for example, removing credentials from logs), append it as a separate bold paragraph rather than a numbered option.
+- End with a brief explanation of **why** any naive protection (for example, a client-side PIN gate) is insufficient, so the reader understands the root cause.
+
+Example structure:
+
+```markdown
+## Fix
+
+There are two ways to fix this, depending on whether `<Component>` needs to be reachable by external apps.
+
+**Option 1: Set `android:exported="false"` (recommended)**
+
+…manifest snippet…
+
+…adb command confirming the fix…
+
+Explanation of when this is the right choice.
+
+**Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
+
+…manifest snippet…
+
+…adb command confirming the fix…
+
+Explanation of when this is the right choice.
+
+**Why not rely on a client-side control?**
+
+Brief explanation of why the broken pattern in the sample is insufficient.
 ```
 
 ## Code Samples

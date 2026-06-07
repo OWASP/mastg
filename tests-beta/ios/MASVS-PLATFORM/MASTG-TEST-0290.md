@@ -2,7 +2,7 @@
 title: Runtime Verification of Sensitive Content Exposure in Screenshots During App Backgrounding
 platform: ios
 id: MASTG-TEST-0290
-type: [dynamic, manual]
+type: [dynamic, filesystem]
 profiles: [L2]
 weakness: MASWE-0055
 prerequisites:
@@ -17,7 +17,7 @@ This test verifies that the app hides sensitive content from the screen when it 
 ## Steps
 
 1. Exercise your app until you get to each of the screens identified as sensitive. While on each of those screens, move the app to the background (for example by pressing **Home** or opening the **App Switcher** and exiting it) and continue to the next screen.
-2. Once finished, use @MASTG-TECH-0053 to copy the snapshots taken by the system to your analysis workstation. The system stores them under `/var/mobile/Containers/Data/Application/<APP_ID>/Library/SplashBoard/Snapshots/sceneID:<APP_NAME>-default/`. Note that the exact path and structure may vary across iOS versions.
+2. Use @MASTG-TECH-0053 to copy the snapshots taken by the system to your analysis workstation. The system stores them under `/var/mobile/Containers/Data/Application/<APP_ID>/Library/SplashBoard/Snapshots/sceneID:<APP_NAME>-default/`. Note that the exact path and structure may vary across iOS versions.
 
 ## Observation
 
