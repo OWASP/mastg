@@ -8,7 +8,8 @@ A collection of demos (demonstrative examples) of the test that include working 
 Demos live in `demos/android/` or `demos/ios/` under the corresponding MASVS category folder. Each demo has its own folder named using its ID and contains:
 
 - Markdown file: `MASTG-DEMO-xxx.md`
-- Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
+Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
+- Build customization files (`build.gradle.kts.*`, `proguard-rules.pro`, `CMakeLists.txt`, `entitlements.plist`)
 - Testing code (e.g. `*.sh`, `*.py`)
 - Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
 
@@ -50,6 +51,85 @@ cryptokit_hash.r2
 output.txt
 run.sh*
 ```
+
+Android Example (native code with build customization):
+
+```sh
+% ls -1 -F demos/android/MASVS-RESILIENCE/MASTG-DEMO-0x02/
+
+MASTG-DEMO-0x02.md
+build.gradle.kts.android
+MastgTest.kt
+MastgTest_reversed.java
+native-root-check.cpp
+output.txt
+run.sh*
+```
+
+## Android: App Customization Files
+
+The build system (`.github/workflows/build-android-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-android` base app before building the APK. Include only the files relevant to the demo.
+
+### Source files
+
+These files replace the corresponding Kotlin source files located under `app/src/main/java/org/owasp/mastestapp/`. All source files use Kotlin, not Java.
+
+- `MastgTest.kt` — main test entry point (required for most demos)
+- `MainActivity.kt` — override the main activity
+- `MastgTestWebView.kt` — override the WebView activity
+
+### Resource and configuration files
+
+These files replace the corresponding resource files in the base app:
+
+| Demo file | Destination in base app |
+| --- | --- |
+| `AndroidManifest.xml` | `app/src/main/AndroidManifest.xml` |
+| `filepaths.xml` | `app/src/main/res/xml/filepaths.xml` |
+| `network_security_config.xml` | `app/src/main/res/xml/network_security_config.xml` |
+| `backup_rules.xml` | `app/src/main/res/xml/backup_rules.xml` |
+| `data_extraction_rules.xml` | `app/src/main/res/xml/data_extraction_rules.xml` |
+
+### Build customization files
+
+The following files are injected into `app/build.gradle.kts` at the matching `// ADD_<KIND>_HERE` placeholder comment:
+
+| Demo file | Injected at |
+| --- | --- |
+| `build.gradle.kts.plugins` | `// ADD_PLUGINS_HERE` — inside the `plugins {}` block |
+| `build.gradle.kts.sections` | `// ADD_SECTIONS_HERE` — as a new top-level block |
+| `build.gradle.kts.android` | `// ADD_ANDROID_HERE` — inside the `android {}` block |
+| `build.gradle.kts.libs` | `// ADD_LIBS_HERE` — inside the `dependencies {}` block |
+
+Use these files to add Gradle plugins, dependency declarations, or `android {}` configuration (for example, ProGuard or CMake settings) without modifying the base app.
+
+To customize ProGuard/R8 rules, provide a `proguard-rules.pro` file. It replaces `app/proguard-rules.pro`.
+
+### Native code files
+
+To add native C/C++ code, provide a `CMakeLists.txt` file. All `*.cpp` files in the demo folder are also copied to `app/src/main/cpp/`. You must also provide a `build.gradle.kts.android` file that enables the CMake build:
+
+```kotlin
+externalNativeBuild {
+    cmake {
+        path = file("src/main/cpp/CMakeLists.txt")
+    }
+}
+```
+
+### Protocol Buffer files
+
+All `*.proto` files in the demo folder are copied to `app/src/main/proto/`.
+
+## iOS: App Customization Files
+
+The build system (`.github/workflows/build-ios-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-ios` base app before building the IPA:
+
+| Demo file | Purpose |
+| --- | --- |
+| `MastgTest.swift` | Replaces `MASTestApp/MastgTest.swift` (main test entry point) |
+| `Info.plist` | Replaces `MASTestApp/Info.plist` (app configuration) |
+| `entitlements.plist` | Passed to `ldid` during signing (for example, to request `com.apple.developer.associated-domains`) |
 
 ## Creating Demo IDs
 
