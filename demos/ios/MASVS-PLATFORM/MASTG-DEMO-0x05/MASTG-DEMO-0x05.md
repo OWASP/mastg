@@ -38,6 +38,7 @@ The script identifies the call site where `evaluateJavaScript:completionHandler:
 
 The test case fails because the app writes sensitive data into DOM elements using `evaluateJavaScript:completionHandler:`.
 
-1. Address `0x100004988`: calls `evaluateJavaScript` with a script that injects the one-time-password stored in `MastgTest.secretOtp` into `#otp-display` via `textContent`.
+1. Addresses `0x100004910`–`0x100004958`: construct the JavaScript string by appending three parts: the string literal `"document.getElementById('otp-display').textContent = '"` (from `0x10000b570`), the OTP value, and a closing `'`.
+2. Address `0x100004988`: dispatches the fully constructed script via `objc_msgSend` with the `evaluateJavaScript:completionHandler:` selector, causing the OTP to be written into `#otp-display`.
 
 The value is written into the DOM and can be read by any script running on the page. In a real app, this value would come from native data sources (for example, an authentication server or a backend API) and would be interpolated into the JavaScript string before evaluation, making it equally readable by page JavaScript once injected.
