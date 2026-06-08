@@ -1,0 +1,1 @@
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-input-field-usage.yml MainActivityKt_reversed.java ComposableSingletons\$MainActivityKt_reversed.java > output.txt

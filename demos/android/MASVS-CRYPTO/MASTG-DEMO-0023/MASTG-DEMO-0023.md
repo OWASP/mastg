@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0232
 ---
 
-### Sample
+## Sample
 
 The sample uses broken encryption modes.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -20,13 +20,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified six instances in the code file where broken encryption modes are used. The specified line numbers can be located in the reverse-engineered code for further investigation and remediation.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails since the output contains several instances of the ECB mode of AES in different transformations explicitly or implicitly (ECB is the default mode for AES if not specified).
 

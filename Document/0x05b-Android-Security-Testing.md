@@ -19,7 +19,7 @@ Sometimes it can be useful to display or control devices from the computer. To a
 For dynamic analysis, you'll need an Android device to run the target app on. In principle, you can test without a real Android device and use only the emulator. However, apps execute quite slowly on a emulator, and simulators may not give realistic results. Testing on a real device makes for a smoother process and a more realistic environment. On the other hand, emulators allow you to easily change SDK versions or create multiple devices. A full overview of the pros and cons of each approach is listed in the table below.
 
 | Property | Physical | Emulator/Simulator |
-|---|---|---|
+| --- | --- | --- |
 | Ability to restore | Softbricks are always possible, but new firmware can typically still be flashed. Hardbricks are very rare. | Emulators can crash or become corrupt, but a new one can be created or a snapshot can be restored. |
 | Reset | Can be restored to factory settings or reflashed. | Emulators can be deleted and recreated. |
 | Snapshots | Not possible. | Supported, great for malware analysis. |

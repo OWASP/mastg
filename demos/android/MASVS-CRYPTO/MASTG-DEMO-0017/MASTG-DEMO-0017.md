@@ -3,15 +3,14 @@ platform: android
 title: Use of Hardcoded AES Key in SecretKeySpec with semgrep
 id: MASTG-DEMO-0017
 test: MASTG-TEST-0212
-tools: [semgrep]
 code: [java]
 ---
 
-### Sample
+## Sample
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
@@ -19,13 +18,13 @@ Let's run our @MASTG-TOOL-0110 rule against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified one instance in the code file where hardcoded keys is used. The specified line numbers can be located in the reverse-engineered code for further investigation and remediation.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because hardcoded cryptographic keys are present in the code. Specifically:
 

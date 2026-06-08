@@ -3,7 +3,7 @@ title: Analyzing PrivacyInfo.xcprivacy Files
 platform: ios
 ---
 
-Once you've obtained a privacy manifest as indicated in @MASTG-TECH-0136, you can proceed to analyze it.
+Once you've got a privacy manifest as indicated in @MASTG-TECH-0136, you can proceed to analyze it.
 
 Let's use the `SocialApp.app/PrivacyInfo.xcprivacy` file as an example.
 
@@ -83,7 +83,7 @@ This `PrivacyInfo.xcprivacy` file contains:
     - `NSPrivacyAccessedAPICategoryUserDefaults`: `UserDefaults` accessed for reasons `CA92.1`, `1C8F.1`, `C56D.1`.
     - `NSPrivacyAccessedAPICategoryActiveKeyboards`: interaction with active keyboards accessed for reason `54BD.1`.
 - **NSPrivacyCollectedDataTypes**: Lists the types of data collected by the app and the [specific purposes](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacycollecteddatatypes/nsprivacycollecteddatatypepurposes). It also indicates whether the collected data is [linked to the user's identity](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacycollecteddatatypes/nsprivacycollecteddatatypelinked) (`NSPrivacyCollectedDataTypeLinked`) and whether it is [used for tracking purposes](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacycollecteddatatypes/nsprivacycollecteddatatypetracking) (`NSPrivacyCollectedDataTypeTracking`). In this case:
-    - `NSPrivacyCollectedDataTypeName`: collects the user name with purposes including "App Functionality" and "Other" (linked to the user identity but not used for tracking).
+    - `NSPrivacyCollectedDataTypeName`: collects the username with purposes including "App Functionality" and "Other" (linked to the user identity but not used for tracking).
     - `NSPrivacyCollectedDataTypeOtherDiagnosticData`: collects other diagnostic data for purposes including "Analytics", "App Functionality", and "Other" (linked to the user identity but not used for tracking).
 - **NSPrivacyTracking**: Indicates that SocialApp uses data for tracking as defined under the App Tracking Transparency framework.
 - **NSPrivacyTrackingDomains**: Lists the domains used for tracking purposes, which in this case includes various SocialApp-related domains.
@@ -120,7 +120,7 @@ Which outputs (truncated for readability):
 ...
 ```
 
-Benefits include readable output, standard JSON tooling, and concise selection syntax. Caveats are that dates and raw data blobs become strings, numeric precision may shift, and comments and key ordering are lost. Consider Python's @MASTG-TOOL-0136 module if you need to preserve plist-specific types.
+Benefits include readable output, standard JSON tooling, and concise selection syntax. Caveats include that dates and raw data blobs are converted to strings, numeric precision may shift, and comments and key ordering are lost. Consider Python's @MASTG-TOOL-0136 module if you need to preserve plist-specific types.
 
 ## Using plistlib
 

@@ -1,0 +1,18 @@
+rules:
+  - id: mastg-android-hardcoded-security-provider
+    languages:
+      - java
+    severity: WARNING
+    metadata:
+      summary: This rule looks for explicitly specified security providers in getInstance calls.
+    message: "[MASVS-CRYPTO-1] Explicitly specified security provider found. Do not hardcode a provider unless using AndroidKeyStore."
+    patterns:
+      - pattern-either:
+          - pattern: $X.getInstance($ALGO, $PROVIDER)
+          - pattern: $X.getInstance($ALGO, (String $PROVIDER))
+          - pattern: $X.getInstance($ALGO, (java.security.Provider $PROVIDER))
+      - pattern-not: KeyStore.getInstance("AndroidKeyStore")
+      - metavariable-regex:
+          metavariable: $X
+          regex: (Cipher|KeyGenerator|KeyPairGenerator|MessageDigest|Signature|Mac|SecretKeyFactory|KeyFactory|SecureRandom|KeyAgreement|AlgorithmParameters|AlgorithmParameterGenerator|CertificateFactory|CertPathBuilder|CertPathValidator|CertStore|KeyStore)
+

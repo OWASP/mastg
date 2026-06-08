@@ -2,10 +2,11 @@
 title: Outdated Android Version Allowing Trust in User-Provided CAs
 platform: android
 id: MASTG-TEST-0285
-type: [static]
+type: [static, code]
 deprecated_since: 24
 weakness: MASWE-0052
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0014]
 ---
 
 ## Overview
@@ -16,12 +17,13 @@ Those apps rely on the default Network Security Configuration that trusts both s
 
 ## Steps
 
-1. Obtain the AndroidManifest.xml (@MASTG-TECH-0117).
-2. Read the value of the `minSdkVersion` attribute from the `<uses-sdk>` element.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+3. Use @MASTG-TECH-0150 to read the value of the `minSdkVersion` attribute from the `<uses-sdk>` element.
 
 ## Observation
 
-The output contains the value of `minSdkVersion`.
+The output should contain the value of `minSdkVersion`.
 
 ## Evaluation
 

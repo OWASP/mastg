@@ -2,12 +2,13 @@
 platform: ios
 title: Insertion of Sensitive Data into Logs
 id: MASTG-TEST-0297
-type: [static]
+type: [static, code]
 weakness: MASWE-0001
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0022]
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0101]
 ---
 
 ## Overview
@@ -18,7 +19,8 @@ In this test, we will use static analysis to verify whether an app has any loggi
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and look for uses of logging APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

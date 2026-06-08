@@ -9,6 +9,9 @@ masvs_v1_levels:
 - L1
 - L2
 profiles: [L1, L2]
+status: deprecated
+covered_by: [MASTG-TEST-0321, MASTG-TEST-0322, MASTG-TEST-0322, MASTG-TEST-0236]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview
@@ -31,7 +34,7 @@ Identify the network APIs used by the app and see if it uses any low-level netwo
 
 > **Apple Recommendation: Prefer High-Level Frameworks in Your App**: "ATS doesn't apply to calls your app makes to lower-level networking interfaces like the Network framework or CFNetwork. In these cases, you take responsibility for ensuring the security of the connection. You can construct a secure connection this way, but mistakes are both easy to make and costly. It's typically safest to rely on the URL Loading System instead" (see [source](https://developer.apple.com/documentation/security/preventing_insecure_network_connections)).
 
-If the app uses any low-level APIs such as [`Network`](https://developer.apple.com/documentation/network) or [`CFNetwork`](https://developer.apple.com/documentation/cfnetwork), you should carefully investigate if they are being used securely. For apps using cross-platform frameworks (e.g. Flutter, Xamarin, ...) and third party frameworks (e.g. Alamofire) you should analyze if they're being configured and used securely according to their best practices.
+If the app uses any low-level APIs such as [`Network`](https://developer.apple.com/documentation/network) or [`CFNetwork`](https://developer.apple.com/documentation/cfnetwork), you should carefully investigate if they are being used securely. For apps using cross-platform frameworks (e.g. Flutter, React Native or Cordova) and third party frameworks (e.g. Alamofire) you should analyze if they're being configured and used securely according to their best practices.
 
 Make sure that the app:
 

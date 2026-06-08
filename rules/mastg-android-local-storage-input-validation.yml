@@ -1,0 +1,48 @@
+rules:
+  - id: mastg-android-local-storage-input-validation
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: SharedPreferences read that requires manual review.
+    message: "[MASVS-CODE-4] SharedPreferences value loaded. Review whether integrity and authenticity are validated before the value is trusted."
+    pattern-either:
+      - patterns:
+          - pattern-inside: |
+              ...
+              private final String loadPlain(...) {
+                ...
+              }
+          - pattern-either:
+              - pattern: prefs().getString(...)
+              - pattern: prefs().getStringSet(...)
+              - pattern: prefs().getInt(...)
+              - pattern: prefs().getLong(...)
+              - pattern: prefs().getFloat(...)
+              - pattern: prefs().getBoolean(...)
+      - patterns:
+          - pattern-inside: |
+              ...
+              private final String loadProtected(...) {
+                ...
+              }
+          - pattern-either:
+              - pattern: prefs().getString(...)
+              - pattern: prefs().getStringSet(...)
+              - pattern: prefs().getInt(...)
+              - pattern: prefs().getLong(...)
+              - pattern: prefs().getFloat(...)
+              - pattern: prefs().getBoolean(...)
+
+  - id: mastg-android-hmac-validation-present
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: HMAC or MAC based integrity logic present near local storage handling.
+    message: "[MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported local storage read and whether the secret is attacker accessible."
+    pattern-either:
+      - pattern: Mac.getInstance(...)
+      - pattern: new SecretKeySpec(...)
+      - pattern: $MAC.init(...)
+      - pattern: $MAC.doFinal(...)

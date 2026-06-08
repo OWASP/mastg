@@ -28,7 +28,7 @@ In August 2022, CREST launched the OWASP Verification Standard (OVS) Programme. 
 - [CREST OVS Accreditation Process](https://www.crest-approved.org/membership/crest-ovs-programme/ovs-programme-accreditation-process/)
 - [CREST OVS Introductory Video](https://www.youtube.com/watch?v=th1l6-e4hcg)
 
-We thank CREST for their consulation regarding the OVS programme and its support to the open-source community to build and maintain global cyber security standards.
+We thank CREST for their consultation regarding the OVS programme and its support to the open-source community to build and maintain global cyber security standards.
 
 ## Standardization Institutions
 

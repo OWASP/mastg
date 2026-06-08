@@ -3,12 +3,12 @@ title: Information Gathering - Network Communication
 platform: ios
 ---
 
-Most of the apps you might encounter connect to remote endpoints. Even before you perform any dynamic analysis (e.g. traffic capture and analysis), you can obtain some initial inputs or entry points by enumerating the domains to which the application is supposed to communicate to.
+Most of the apps you might encounter connect to remote endpoints. Even before you perform any dynamic analysis (e.g., traffic capture and analysis), you can obtain some initial inputs or entry points by enumerating the domains to which the application is supposed to communicate.
 
-Typically these domains will be present as strings within the binary of the application. One can extract domains by retrieving strings (as discussed above) or checking the strings using tools like Ghidra. The latter option has a clear advantage: it can provide you with context, as you'll be able to see in which context each domain is being used by checking the cross-references.
+Typically, these domains are stored as strings in the application's binary. One can extract domains by retrieving strings (as discussed above) or by checking them with tools like Ghidra. The latter option has a clear advantage: it provides context, as you can see which context each domain is used in by checking the cross-references.
 
-From here on you can use this information to derive more insights which might be of use later during your analysis, e.g. you could match the domains to the pinned certificates or perform further reconnaissance on domain names to know more about the target environment.
+From here on, you can use this information to derive more insights that might be of use later during your analysis, e.g., you could match the domains to the pinned certificates or perform further reconnaissance on domain names to know more about the target environment.
 
-The implementation and verification of secure connections can be an intricate process and there are numerous aspects to consider. For instance, many applications use other protocols apart from HTTP such as XMPP or plain TCP packets, or perform certificate pinning in an attempt to deter MITM attacks.
+Implementing and verifying secure connections can be an intricate process, with many factors to consider. For instance, many applications use protocols other than HTTP, such as XMPP or plain TCP, or perform certificate pinning to deter MITM attacks.
 
-Remember that in most cases, using only static analysis will not be enough and might even turn out to be extremely inefficient when compared to the dynamic alternatives which will get much more reliable results (e.g. using an interception proxy). In this section we've only touched the surface, so please refer to @MASTG-TECH-0062 in the "iOS Basic Security Testing" chapter and check out the test cases in the chapter "[iOS Network Communication](../../Document/0x06g-Testing-Network-Communication.md)" for further information.
+Remember that, in most cases, relying solely on static analysis is not enough and can be highly inefficient compared with dynamic alternatives, which often yield more reliable results (e.g., by using an interception proxy). In this section, we've only scratched the surface. Please refer to @MASTG-TECH-0062 in the "iOS Basic Security Testing" chapter and review the test cases in the "[iOS Network Communication](../../Document/0x06g-Testing-Network-Communication.md)" chapter for further information.

@@ -1,7 +1,12 @@
 ---
 title: Intercepting Xamarin Traffic
 platform: generic
+status: deprecated
 ---
+
+!!! note
+    Xamarin has been [End of Support (EoS)](https://dotnet.microsoft.com/en-us/apps/xamarin) since May 1, 2024 and no longer receives security patches or updates. New projects should target [.NET MAUI](https://dotnet.microsoft.com/en-us/apps/maui), Microsoft's supported cross-platform successor.
+    This technique is kept for legacy applications only.
 
 Xamarin is a mobile app development platform that allows developers to create [native Android](https://docs.microsoft.com/en-us/xamarin/android/get-started/ "Getting Started with Android") and [iOS apps](https://docs.microsoft.com/en-us/xamarin/ios/get-started/ "Getting Started with iOS") using Visual Studio and C#.
 
@@ -70,6 +75,6 @@ After redirecting traffic to your interception proxy, you need to forward it bac
 
 Now, start using the app and trigger its functions. If configured correctly, HTTP messages should appear in your interception proxy.
 
-> **Note:**
-> When using Bettercap or DNS Spoofing, enable **"Support invisible proxying"** under **Proxy Tab → Options → Edit Interface**.
-> Ensure the proxy settings are properly configured to handle both HTTP and HTTPS traffic for full visibility.
+!!! note
+    When using Bettercap or DNS Spoofing, enable **"Support invisible proxying"** under **Proxy Tab → Options → Edit Interface**.
+    Ensure the proxy settings are properly configured to handle both HTTP and HTTPS traffic for full visibility.

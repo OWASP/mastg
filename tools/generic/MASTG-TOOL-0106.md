@@ -2,10 +2,7 @@
 title: Fridump
 platform: generic
 source: https://github.com/Nightbringer21/fridump
-host:
-- windows
-- linux
-- macOS
+hosts: [windows, linux, macOS]
 ---
 
 Fridump is an open source memory dumping tool, primarily aimed to penetration testers and developers. Fridump is using the Frida framework to dump accessible memory addresses from any platform supported.
