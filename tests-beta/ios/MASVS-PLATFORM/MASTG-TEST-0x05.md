@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Sensitive Data Written into WebView DOM via evaluateJavaScript
+title: References to evaluateJavaScript Writing Sensitive Data into WebView DOM
 id: MASTG-TEST-0x05
 type: [static, code, manual]
 weakness: MASWE-0069
