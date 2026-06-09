@@ -1,17 +1,15 @@
 #!/bin/sh
-set -eu
 
-APP_BUNDLE_ID="org.owasp.mastestapp.MASTestApp-iOS"
-APP_NAME="MASTestApp"
+APP="${APP:-MASTestApp}"
+SCRIPT="${SCRIPT:-script.js}"
 
-xcrun simctl spawn booted log stream \
-  --style compact \
-  --level debug \
-  --predicate "process CONTAINS[c] \"$APP_NAME\"" \
-  > system_log.txt 2>&1 &
-LOG_PID=$!
+trap 'trap - INT TERM EXIT, kill 0 2>/dev/null' INT TERM EXIT
 
-xcrun simctl launch --console-pty booted "$APP_BUNDLE_ID" > output.txt 2>&1 || true
+idevicesyslog -p "$APP" \
+  | awk -v app="$APP" '$0 !~ app "\\((UIKitCore|CoreFoundation|IOKit|FrontBoardServices)\\)" { print; fflush() }' \
+  > unified.log 2>&1 &
 
-kill "$LOG_PID" 2>/dev/null || true
-wait "$LOG_PID" 2>/dev/null || true
+stdbuf -oL -eL frida -U -n "$APP" -l "$SCRIPT" \
+  > frida.log 2>&1 &
+
+wait

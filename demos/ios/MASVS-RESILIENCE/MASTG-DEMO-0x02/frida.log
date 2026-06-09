@@ -1,0 +1,105 @@
+     ____
+    / _  |   Frida 17.6.2 - A world-class dynamic instrumentation toolkit
+   | (_| |
+    > _  |   Commands:
+   /_/ |_|       help      -> Displays the help system
+   . . . .       object?   -> Display information about 'object'
+   . . . .       exit/quit -> Exit
+   . . . .
+   . . . .   More info at https://frida.re/docs/home/
+   . . . .
+   . . . .   Connected to iPad (id=81e43377d6fa9508615173d104e3f739e8c1b252)
+Attaching...
+[hooked] write at 0x1d0984f98
+[hooked] fwrite at 0x19480a484
+[hooked] puts at 0x19485270c
+[hooked] printf at 0x194822748
+[hooked] NSLog at 0x18c1629b4
+[hooked] NSLogv at 0x18c162a98
+[hooked] _os_log_impl at 0x1a591e8c0
+[hooked] _os_log_debug_impl at 0x1a59232fc
+[hooked] _os_log_error_impl at 0x1a591e8a4
+[hooked] _os_log_fault_impl at 0x1a5929b9c
+[ready] Frida log capture installed
+[iPad::MASTestApp ]-> [NSLogv.format] [DEBUG] Attempting to connect to API endpoint: https://internal-api.example.com/v2/auth/login
+[fwrite] [DEBUG] performLogin() called with username: testuser
+[_os_log_impl.format] Validating credentials against local database
+[_os_log_impl.format] Checking password hash: SHA256 algorithm
+[fwrite] "✅ [DEBUG] Authentication successful - Session token generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+[fwrite] "[DEBUG] User profile loaded from cache, bypassing network call"
+[_os_log_impl.format] sceneOfRecord: sceneID: %{public}@  persistentID: %{public}@
+[_os_log_impl.format] Scene target of keyboard event deferring environment did change: %{public}d; scene: %{public}s: %{public}p; scene identity: %s
+[_os_log_debug_impl.format] %p environment updated:%{public}@
+  delta:%{public}@
+  diff:%{public}@
+  new:%{public}@
+  old:%{public}@
+  new:%{public}@
+[_os_log_debug_impl.format] [BSBlockSentinel:%@] signaled! %lu of %lu
+[_os_log_debug_impl.format] [BSBlockSentinel:%@] signaled! %lu of %lu
+[_os_log_debug_impl.format] [BSBlockSentinel:%@] dealloc
+[_os_log_impl.format] initUAUserActivity:%{private}@-%{private}@ %{public}@ %{public}@
+[_os_log_impl.format] %{public}@ CREATED %@/%@
+[_os_log_impl.format] %{public}@ SET-DIRTY	wasDirty=%{bool}d force=%{bool}d informServer=%{bool}d informIndex=%{bool}d
+[_os_log_impl.format] %{public}@ SET-USERINFO	count=%{public}ld %{bool}d
+[_os_log_impl.format] %{public}@ SET-DIRTY	wasDirty=%{bool}d force=%{bool}d informServer=%{bool}d informIndex=%{bool}d
+[_os_log_impl.format] %{public}@ INVALIDATE	wasCurrent=%{bool}d needsSave=%{bool}d dirty=%{bool}d sendToServer=%{bool}d
+[_os_log_impl.format] Scene did enter background, notification: %{private}@
+[_os_log_impl.format] sceneOfRecord: sceneID: %{public}@  persistentID: %{public}@
+[_os_log_impl.format] Deactivation reason added: %i; deactivation reasons: %i -> %i; animating application lifecycle event: %d
+[_os_log_impl.format] Deactivation reason added: %i; deactivation reasons: %i -> %i; animating application lifecycle event: %d
+[_os_log_impl.format] %{private}s: Will add backgroundTask with taskName: %{private}@, expirationHandler: %@
+[_os_log_impl.format] %{private}s: Creating new assertion because there is no existing background assertion.
+[_os_log_impl.format] %{private}s: Creating new background assertion
+[_os_log_impl.format] %{private}s: Created new background assertion %@
+[_os_log_impl.format] Acquiring assertion: %{public}@
+[_os_log_impl.format] %{private}s: Incrementing reference count for background assertion %{private}@
+[_os_log_impl.format] %{private}s: Created background task %{private}@.
+[_os_log_impl.format] [%p] invalidated because the current process cancelled the connection by calling xpc_connection_cancel()
+[_os_log_impl.format] Dropping "%@" as it isn't used in any transform (not in the config or budgeted?)
+[_os_log_impl.format] %{private}s: Will add backgroundTask with taskName: %{private}@, expirationHandler: %@
+[_os_log_impl.format] %{private}s: Reusing background assertion %@
+[_os_log_impl.format] %{private}s: Incrementing reference count for background assertion %{private}@
+[_os_log_impl.format] %{private}s: Created background task %{private}@.
+[_os_log_impl.format] forceReloadInputViews
+[_os_log_impl.format] Reloading input views for: %@ force: %d
+[_os_log_impl.format] %{public}@ traits update to screen for new style %{public}ld, %{public}@ (%{public}@)
+[_os_log_impl.format] forceReloadInputViews
+[_os_log_impl.format] Reloading input views for: %@ force: %d
+[_os_log_impl.format] %{public}@ send trait collection or coordinate space update, interface style %{public}ld -> %{public}ld, %{public}@ (%{public}@)
+[_os_log_impl.format] Performing snapshot request %p (type %lu)
+[_os_log_impl.format] [%{public}@] Sending action(s): %{public}@
+[_os_log_impl.format] didChangeInheritances: %{public}@
+[_os_log_impl.format] Gained inheritances: %{public}@
+[_os_log_impl.format] Received inheritances: %{public}@
+[_os_log_impl.format] %{public}@ RELEASED changeCount=%{public}ld
+[_os_log_impl.format] didChangeInheritances: %{public}@
+[_os_log_impl.format] Lost inheritances: %{public}@
+[_os_log_impl.format] Lost inheritances: %{public}@
+[_os_log_impl.format] Snapshot request %p complete
+[_os_log_impl.format] forceReloadInputViews
+[_os_log_impl.format] Reloading input views for: %@ force: %d
+[_os_log_impl.format] %{private}s: Ending background task with UIBackgroundTaskIdentifier: %lu
+[_os_log_impl.format] %{private}s: Ending task with identifier %lu and description: %{private}@, _expireHandler: %@
+[_os_log_impl.format] %{private}s: Decrementing reference count for assertion %{private}@ (used by background task with identifier %lu: %{private}@)
+[_os_log_impl.format] %{public}@ traits update to screen for new style %{public}ld, %{public}@ (%{public}@)
+[_os_log_impl.format] %{public}@ send trait collection or coordinate space update, interface style %{public}ld -> %{public}ld, %{public}@ (%{public}@)
+[_os_log_impl.format] [%{public}p] [%{public}s] Disabling event deferring records requested: adding recreation reason: %{public}s; for reason: %{public}s
+[_os_log_impl.format] %{private}s: Will add backgroundTask with taskName: %{private}@, expirationHandler: %@
+[_os_log_impl.format] %{private}s: Reusing background assertion %@
+[_os_log_impl.format] %{private}s: Incrementing reference count for background assertion %{private}@
+[_os_log_impl.format] %{private}s: Created background task %{private}@.
+[_os_log_impl.format] %{private}s: Ending background task with UIBackgroundTaskIdentifier: %lu
+[_os_log_impl.format] %{private}s: Ending task with identifier %lu and description: %{private}@, _expireHandler: %@
+[_os_log_impl.format] %{private}s: Decrementing reference count for assertion %{private}@ (used by background task with identifier %lu: %{private}@)
+[_os_log_impl.format] didChangeInheritances: %{public}@
+[_os_log_impl.format] Lost inheritances: %{public}@
+[_os_log_impl.format] Lost inheritances: %{public}@
+[_os_log_impl.format] Received state update for %d (%{public}@, %{public}@%{public}@
+[_os_log_impl.format] Received state update for %d (%{public}@, %{public}@%{public}@
+[_os_log_impl.format] Update skipped for %{public}@
+[_os_log_impl.format] Update delivered for %{public}@ with taskState %d
+[_os_log_impl.format] %{private}s: Ending background task with UIBackgroundTaskIdentifier: %lu
+[_os_log_impl.format] %{private}s: Ending task with identifier %lu and description: %{private}@, _expireHandler: %@
+[_os_log_impl.format] %{private}s: Decrementing reference count for assertion %{private}@ (used by background task with identifier %lu: %{private}@)
+[_os_log_impl.format] %{private}s: Will invalidate assertion: %@ for task identifier: %lu
