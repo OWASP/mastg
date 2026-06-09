@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Exfiltration of Private Files via FileProvider URI Grant Oversharing
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0123
 code: [kotlin]
 kind: attack
 test: MASTG-TEST-0357
