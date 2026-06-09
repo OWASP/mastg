@@ -4,7 +4,6 @@ title: Native Anti-Debugging Checks with TracerPid and ptrace
 id: MASTG-DEMO-0116
 code: [kotlin, cpp]
 test: MASTG-TEST-0352
-tools: [MASTG-TOOL-0110, MASTG-TOOL-0073]
 kind: pass
 ---
 
