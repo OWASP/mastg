@@ -36,4 +36,4 @@ The test case fails because the attacker app successfully reads `session_token.t
 
 The token `sess_7f3a9b1e4d2c8f0a5e6b3c1d9f4a2e7b` visible in the logcat output was written by the victim app to `filesDir/session_token.txt`. The `FileProvider.getUriForFile()` call in `ShareReportActivity` accepts this path because `file_paths.xml` uses `path="."`, making the entire `filesDir` accessible — not just the intended `reports/` subdirectory.
 
-This confirms the further Validation from @MASTG-TEST-0357: `FileProvider.getUriForFile()` is called with an attacker-controlled `file_name` parameter (derived directly from the intent's extras), and no validation is performed before the URI is granted to the caller.
+This confirms the security relevance required by the "Further Validation Required" section in @MASTG-TEST-0357. `FileProvider.getUriForFile()` is called with an attacker-controlled `file_name` parameter, derived directly from the intent extras, and the app performs no validation before granting the resulting URI to the caller.
