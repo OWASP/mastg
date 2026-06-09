@@ -43,7 +43,7 @@ Additionally, `ShareReportActivity` is declared with `android:exported="true"` i
 
 ### Exploitation
 
-@MASTG-DEMO-0x01 demonstrates the full exploit as a self-contained attacker app. Install the attacker APK, tap **Start**, and it sends a crafted intent to `ShareReportActivity` requesting `session_token.txt`. The exfiltrated token appears in a dialog and in logcat:
+@MASTG-DEMO-0123 demonstrates the full exploit as a self-contained attacker app. Install the attacker APK, tap **Start**, and it sends a crafted intent to `ShareReportActivity` requesting `session_token.txt`. The exfiltrated token appears in a dialog and in logcat:
 
 ```bash
 adb logcat -s EXFIL
@@ -63,7 +63,7 @@ In filepaths.xml, replace `path="."` with the specific subdirectory the app inte
 <files-path name="app_files" path="reports/" />
 ```
 
-After this change, any call to `FileProvider.getUriForFile()` with a path outside `reports/` throws an error. You can confirm by re-running the attacker app from @MASTG-DEMO-0x01, the app will not show the session token anymore.
+After this change, any call to `FileProvider.getUriForFile()` with a path outside `reports/` throws an error. You can confirm by re-running the attacker app from @MASTG-DEMO-0123, the app will not show the session token anymore.
 
 Run `adb logcat | grep -A20 "Failed to find configured root"` to validate it:
 
