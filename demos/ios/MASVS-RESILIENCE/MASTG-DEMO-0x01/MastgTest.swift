@@ -7,7 +7,7 @@ import os.log
 class MastgTest {
     
     static func mastgTest(completion: @escaping (String) -> Void) {
-        // FAIL: [MASTG-TEST-0x01] Verbose logging exposes internal API endpoint and request details
+        // FAIL: [MASTG-TEST-0358] Verbose logging exposes internal API endpoint and request details
         NSLog("[DEBUG] Attempting to connect to API endpoint: https://internal-api.example.com/v2/auth/login")
         
         let result = performLogin(username: "testuser", password: "testpass")
@@ -15,7 +15,7 @@ class MastgTest {
     }
     
     static func performLogin(username: String, password: String) -> String {
-        // FAIL: [MASTG-TEST-0x01] Debug print exposes function execution flow and internal state
+        // FAIL: [MASTG-TEST-0358] Debug print exposes function execution flow and internal state
         // FAIL: [MASTG-TEST-0297] Debug print exposes user name
         print("[DEBUG] performLogin() called with username: \(username)")
         
@@ -23,13 +23,13 @@ class MastgTest {
         let success = validateCredentials(username: username, password: password)
         
         if success {
-            // FAIL: [MASTG-TEST-0x01] Verbose success message exposes implementation details
+            // FAIL: [MASTG-TEST-0358] Verbose success message exposes implementation details
             // FAIL: [MASTG-TEST-0297] Verbose success message exposes authentication token
             debugPrint("✅ [DEBUG] Authentication successful - Session token generated: \(generateMockToken())")
             debugPrint("[DEBUG] User profile loaded from cache, bypassing network call")
             return "Login successful"
         } else {
-            // FAIL: [MASTG-TEST-0x01] Detailed error logging exposes error handling logic
+            // FAIL: [MASTG-TEST-0358] Detailed error logging exposes error handling logic
             NSLog("[ERROR] Authentication failed - Invalid credentials provided")
             NSLog("[DEBUG] Fallback to offline mode initiated")
             NSLog("[DEBUG] Error code: AUTH_001, Module: AuthenticationService.validateCredentials()")
@@ -38,7 +38,7 @@ class MastgTest {
     }
     
     static func validateCredentials(username: String, password: String) -> Bool {
-        // FAIL: [MASTG-TEST-0x01] os_log with .debug level exposes validation logic
+        // FAIL: [MASTG-TEST-0358] os_log with .debug level exposes validation logic
         if #available(iOS 14.0, *) {
             let logger = Logger(subsystem: "com.example.mastg", category: "Authentication")
             logger.debug("Validating credentials against local database")
@@ -54,7 +54,7 @@ class MastgTest {
     }
     
     static func performNetworkRequest() {
-        // FAIL: [MASTG-TEST-0x01] Verbose logging exposes network configuration
+        // FAIL: [MASTG-TEST-0358] Verbose logging exposes network configuration
         print("[DEBUG] Network request configuration:")
         print("[DEBUG] - Timeout: 30s")
         print("[DEBUG] - Retry count: 3")
@@ -63,15 +63,15 @@ class MastgTest {
     }
     
     static func handleError(_ error: Error) {
-        // FAIL: [MASTG-TEST-0x01] Dumping error object exposes internal error structure
+        // FAIL: [MASTG-TEST-0358] Dumping error object exposes internal error structure
         dump(error)
         
-        // FAIL: [MASTG-TEST-0x01] Verbose error logging with stack trace information
+        // FAIL: [MASTG-TEST-0358] Verbose error logging with stack trace information
         NSLog("[ERROR] Exception occurred in module: NetworkManager")
         NSLog("[ERROR] Stack trace: \(Thread.callStackSymbols)")
     }
     
-    // PASS: [MASTG-TEST-0x01] Properly guarded debug logging (would not appear in release builds if DEBUG flag is set)
+    // PASS: [MASTG-TEST-0358] Properly guarded debug logging (would not appear in release builds if DEBUG flag is set)
     static func properlyGuardedLogging() {
         #if DEBUG
         print("[DEBUG] This message only appears in debug builds")

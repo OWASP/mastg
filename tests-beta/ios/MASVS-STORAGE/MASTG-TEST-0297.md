@@ -17,7 +17,7 @@ On the iOS platform, logging APIs like `NSLog`, `NSAssert`, `NSCAssert`, `print`
 
 This test uses static analysis to verify whether an app contains logging APIs that take sensitive data as input.
 
-This test focuses on logged sensitive data. For tests specifically targeting implementation details exposed through logs, see @MASTG-TEST-0x01 and @MASTG-TEST-0x02.
+This test focuses on logged sensitive data. For tests specifically targeting implementation details exposed through logs, see @MASTG-TEST-0358 and @MASTG-TEST-0359.
 
 ## Steps
 

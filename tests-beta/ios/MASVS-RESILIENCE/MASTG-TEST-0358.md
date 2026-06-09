@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Implementation Details Exposure Through Logging APIs
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0358
 type: [static, code]
 weakness: MASWE-0094
 best-practices: [MASTG-BEST-0022]
@@ -42,7 +42,7 @@ The test case fails if the app contains implemented logging paths that produce v
 
 This determination should be based on analyzing how logging APIs are used, not merely on the presence of logging functions in the binary. Reverse engineering should be used to inspect the arguments, message strings, and surrounding code paths in order to establish what information is logged and under which conditions.
 
-Static analysis is well suited to identifying logging behavior across the codebase, including paths that may be difficult to reach at runtime, but it can require substantial effort when symbols are stripped, strings are obfuscated, or log messages are constructed indirectly. Dynamic verification, see @MASTG-TEST-0x02, can complement this test by confirming which messages are emitted during execution, but it may miss code paths that are not triggered in the tested scenarios.
+Static analysis is well suited to identifying logging behavior across the codebase, including paths that may be difficult to reach at runtime, but it can require substantial effort when symbols are stripped, strings are obfuscated, or log messages are constructed indirectly. Dynamic verification, see @MASTG-TEST-0359, can complement this test by confirming which messages are emitted during execution, but it may miss code paths that are not triggered in the tested scenarios.
 
 Examples of failing cases include logs that reveal:
 

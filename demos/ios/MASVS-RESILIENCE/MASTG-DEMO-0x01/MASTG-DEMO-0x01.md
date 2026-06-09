@@ -3,7 +3,7 @@ platform: ios
 title: Logging APIs Exposing Implementation Details with r2
 code: [swift]
 id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+test: MASTG-TEST-0358
 ---
 
 ## Sample

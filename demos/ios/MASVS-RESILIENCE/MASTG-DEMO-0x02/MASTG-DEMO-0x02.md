@@ -3,7 +3,7 @@ platform: ios
 title: Implementation Details Exposed in App Logs
 code: [swift]
 id: MASTG-DEMO-0x02
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0359
 ---
 
 ## Sample

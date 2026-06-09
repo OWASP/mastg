@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Implementation Details Exposure in Logs
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0359
 type: [dynamic, logs]
 weakness: MASWE-0094
 best-practices: [MASTG-BEST-0022]
@@ -11,7 +11,7 @@ profiles: [R]
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0x01.
+This test is the dynamic counterpart to @MASTG-TEST-0358.
 
 In this test, device logs are monitored, captured, and analyzed.
 
@@ -35,7 +35,7 @@ The output should contain the log messages captured during runtime.
 
 The test case fails if the app produces verbose debug or error messages in production builds and exposes implementation details at runtime.
 
-This determination should be based on capturing logs while exercising relevant application flows and induced error conditions, in order to establish what information is actually emitted during execution and under which circumstances. Dynamic analysis is useful for confirming real runtime exposure, but it is limited to the scenarios triggered during testing and may miss dormant or hard-to-reach logging paths. Static analysis, see @MASTG-TEST-0x01, complements this test by identifying additional logging behavior that may not be observed dynamically.
+This determination should be based on capturing logs while exercising relevant application flows and induced error conditions, in order to establish what information is actually emitted during execution and under which circumstances. Dynamic analysis is useful for confirming real runtime exposure, but it is limited to the scenarios triggered during testing and may miss dormant or hard-to-reach logging paths. Static analysis, see @MASTG-TEST-0358, complements this test by identifying additional logging behavior that may not be observed dynamically.
 
 Examples of failing cases include logs that reveal:
 
