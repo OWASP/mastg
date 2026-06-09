@@ -2,7 +2,7 @@
 platform: ios
 title: Logging APIs Exposing Implementation Details with r2
 code: [swift]
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0124
 test: MASTG-TEST-0358
 ---
 
@@ -54,4 +54,4 @@ The test fails because the app contains implemented logging paths that record ve
 
 This was determined by reverse engineering the binary in two steps. First, cross references to the logging APIs show that authentication, networking, and error-handling code paths reach `NSLog`, `print`, `debugPrint`, `dump`, and unified logging (`Logger`/`os_log`). Second, disassembling those call sites recovers the literal message strings that are passed to the logging functions, so the conclusion is not based on the mere presence of logging APIs but on the actual content that is logged. The recovered strings confirm that the compiled app emits sensitive implementation details, including an internal API endpoint, a username, a mock session token, the SSL pinning state, the password hashing algorithm, and an internal error code and module name.
 
-The disassembly recovers the static string operands of each logging call. Values that are only known at runtime, such as the interpolated results of `generateMockToken()` or `Thread.callStackSymbols`, are not resolved by static analysis; to capture those concrete values you can use dynamic analysis and runtime log capture, see @MASTG-DEMO-0x02.
+The disassembly recovers the static string operands of each logging call. Values that are only known at runtime, such as the interpolated results of `generateMockToken()` or `Thread.callStackSymbols`, are not resolved by static analysis; to capture those concrete values you can use dynamic analysis and runtime log capture, see @MASTG-DEMO-0125.

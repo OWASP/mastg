@@ -2,15 +2,15 @@
 platform: ios
 title: Implementation Details Exposed in App Logs
 code: [swift]
-id: MASTG-DEMO-0x02
+id: MASTG-DEMO-0125
 test: MASTG-TEST-0359
 ---
 
 ## Sample
 
-This demo uses the sample from @MASTG-DEMO-0x01.
+This demo uses the sample from @MASTG-DEMO-0124.
 
-{{ ../MASTG-DEMO-0x01/MastgTest.swift }}
+{{ ../MASTG-DEMO-0124/MastgTest.swift }}
 
 ## Steps
 
