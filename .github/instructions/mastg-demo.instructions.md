@@ -8,7 +8,8 @@ A collection of demos (demonstrative examples) of the test that include working 
 Demos live in `demos/android/` or `demos/ios/` under the corresponding MASVS category folder. Each demo has its own folder named using its ID and contains:
 
 - Markdown file: `MASTG-DEMO-xxx.md`
-- Code samples (e.g. `*.kt`, `*.swift`, `*.xml`, `*.plist`)
+Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
+- Build customization files (`build.gradle.kts.*`, `proguard-rules.pro`, `CMakeLists.txt`, `entitlements.plist`)
 - Testing code (e.g. `*.sh`, `*.py`)
 - Output files (e.g. `*.txt`, `*.json`, `*.sarif`)
 
@@ -23,7 +24,7 @@ The **demos MUST WORK**. See [Code Samples](#code-samples).
 
 Demos are required to be **fully self-contained** and should **not rely on external resources or dependencies**. This ensures that the demos can be run independently and that the results are reproducible. They must be proven to work on the provided sample applications and must be tested thoroughly before being included in the MASTG.
 
-**Don't create demos for outdated OS versions** that aren't supported by the MASTG. The MASTestApp is always intended to be up to date and aligned with the versions supported by the MASTG, thereby avoiding additional maintenance of the MASTestApp. However, you can include demos showcasing the "good case" in the metadata using `kind: pass` in certain cases where it can be helpful or educational. This is permitted as long as the demos work with the current version of the MASTestApp.
+**Don't create demos for outdated OS versions** that aren't supported by the MASTG. The MASTestApp is always intended to be up to date and aligned with the versions supported by the MASTG, thereby avoiding additional maintenance of the MASTestApp. However, you can include demos showcasing the "good case" in the metadata using `kind: pass` in certain cases where it can be helpful or educational. This is permitted as long as the demos work with the current version of the MASTestApp. For demos that act as a standalone attacker app targeting a victim app, use `kind: attack` (see [kind](#kind) for details).
 
 Please specify the mobile platform version, IDE version, and device.
 
@@ -50,6 +51,85 @@ cryptokit_hash.r2
 output.txt
 run.sh*
 ```
+
+Android Example (native code with build customization):
+
+```sh
+% ls -1 -F demos/android/MASVS-RESILIENCE/MASTG-DEMO-0x02/
+
+MASTG-DEMO-0x02.md
+build.gradle.kts.android
+MastgTest.kt
+MastgTest_reversed.java
+native-root-check.cpp
+output.txt
+run.sh*
+```
+
+## Android: App Customization Files
+
+The build system (`.github/workflows/build-android-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-android` base app before building the APK. Include only the files relevant to the demo.
+
+### Source files
+
+These files replace the corresponding Kotlin source files located under `app/src/main/java/org/owasp/mastestapp/`. All source files use Kotlin, not Java.
+
+- `MastgTest.kt` — main test entry point (required for most demos)
+- `MainActivity.kt` — override the main activity
+- `MastgTestWebView.kt` — override the WebView activity
+
+### Resource and configuration files
+
+These files replace the corresponding resource files in the base app:
+
+| Demo file | Destination in base app |
+| --- | --- |
+| `AndroidManifest.xml` | `app/src/main/AndroidManifest.xml` |
+| `filepaths.xml` | `app/src/main/res/xml/filepaths.xml` |
+| `network_security_config.xml` | `app/src/main/res/xml/network_security_config.xml` |
+| `backup_rules.xml` | `app/src/main/res/xml/backup_rules.xml` |
+| `data_extraction_rules.xml` | `app/src/main/res/xml/data_extraction_rules.xml` |
+
+### Build customization files
+
+The following files are injected into `app/build.gradle.kts` at the matching `// ADD_<KIND>_HERE` placeholder comment:
+
+| Demo file | Injected at |
+| --- | --- |
+| `build.gradle.kts.plugins` | `// ADD_PLUGINS_HERE` — inside the `plugins {}` block |
+| `build.gradle.kts.sections` | `// ADD_SECTIONS_HERE` — as a new top-level block |
+| `build.gradle.kts.android` | `// ADD_ANDROID_HERE` — inside the `android {}` block |
+| `build.gradle.kts.libs` | `// ADD_LIBS_HERE` — inside the `dependencies {}` block |
+
+Use these files to add Gradle plugins, dependency declarations, or `android {}` configuration (for example, ProGuard or CMake settings) without modifying the base app.
+
+To customize ProGuard/R8 rules, provide a `proguard-rules.pro` file. It replaces `app/proguard-rules.pro`.
+
+### Native code files
+
+To add native C/C++ code, provide a `CMakeLists.txt` file. All `*.cpp` files in the demo folder are also copied to `app/src/main/cpp/`. You must also provide a `build.gradle.kts.android` file that enables the CMake build:
+
+```kotlin
+externalNativeBuild {
+    cmake {
+        path = file("src/main/cpp/CMakeLists.txt")
+    }
+}
+```
+
+### Protocol Buffer files
+
+All `*.proto` files in the demo folder are copied to `app/src/main/proto/`.
+
+## iOS: App Customization Files
+
+The build system (`.github/workflows/build-ios-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-ios` base app before building the IPA:
+
+| Demo file | Purpose |
+| --- | --- |
+| `MastgTest.swift` | Replaces `MASTestApp/MastgTest.swift` (main test entry point) |
+| `Info.plist` | Replaces `MASTestApp/Info.plist` (app configuration) |
+| `entitlements.plist` | Passed to `ldid` during signing (for example, to request `com.apple.developer.associated-domains`) |
 
 ## Creating Demo IDs
 
@@ -101,14 +181,20 @@ code: [xml, kotlin]
 
 ### kind
 
-Optional. When helpful, specify whether the demo demonstrates a passing or failing case.
+Optional. When helpful, specify whether the demo demonstrates a passing or failing case, or whether it is a standalone attacker app.
 
-Valid values: `pass`, `fail`.
+Valid values: `pass`, `fail`, `attack`.
+
+- `fail`: the sample demonstrates the vulnerable behavior (default for most demos).
+- `pass`: the sample demonstrates the secure / correctly implemented behavior.
+- `attack`: the sample IS the attacker app — a separate APK that exploits a vulnerability in a victim app (typically the one demonstrated in a linked `fail` demo). Use this only when the demo's `MastgTest.kt` acts as the attacking party rather than the victim. Attacker-app demos are excluded from the "Confirming the Vulnerability" requirement in the parent test, since the demo itself embodies the attack.
+
+Every demo with `kind: attack` **MUST** include a `config.yml` file in its folder. See [Attacker Apps](#attacker-apps) for the full requirements.
 
 Example:
 
 ```md
-kind: pass
+kind: attack
 ```
 
 ### optional fields
@@ -117,6 +203,44 @@ Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note providing additional context
+
+## Attacker Apps
+
+Demos with `kind: attack` represent a self-contained attacker app that targets a victim app. They have additional requirements beyond those of regular demos.
+
+### config.yml
+
+Every attacker-app demo **MUST** include a `config.yml` file in its folder. This file tells the build automation how to package the attacker app with a distinct identity so it doesn't conflict with the victim app on the same device.
+
+Required fields:
+
+```yaml
+package: org.owasp.mastestapp.attacker.<short-name>
+app-name: <Human-Readable Attacker Name>
+```
+
+Example:
+
+```yaml
+package: org.owasp.mastestapp.attacker.provider
+app-name: Provider Attacker
+```
+
+The build automation substitutes the `package` value at build time. The `.kt` source must still declare `package org.owasp.mastestapp` (the canonical package), because the automation handles the renaming.
+
+### MastgTest.kt conventions
+
+Attacker-app demos **MUST** follow the same `MastgTest.kt` conventions as all other demos:
+
+- `package org.owasp.mastestapp` (the automation renames it using `config.yml`)
+- `class MastgTest(private val context: Context)` as the primary class
+- `fun mastgTest(): String` as the entry point called by the Start button in `MainActivity`
+
+`mastgTest()` should start the activity or service that drives the attack and return a descriptive string (for example, instructions on where to observe the result). Additional classes (such as an `AttackerActivity` that holds an `ActivityResultLauncher`) are placed in the same file.
+
+### MastgTest.swift conventions
+
+Similarly to Android attacker-apps, iOS attacker-app demos **MUST** follow the same `MastgTest.swift` conventions as all other demos.
 
 ## Markdown: Body
 
@@ -218,6 +342,56 @@ Review each of the reported instances.
 - Line 27 is part of the password generation function, which is a security-critical operation.
 
 Note that line 37 did not trigger the rule because the random number is generated using `SecureRandom`, which is a secure random number generator.
+```
+
+### Confirming the Vulnerability
+
+Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use. Only "attacker" apps are excluded from this requirement, since they are already the embodiment of the attack.
+
+- Add it as a `### Exploitation` (or `### Confirm the Exposure`) subsection at the end of the `## Evaluation` section. A dedicated heading is preferred, but it may also be woven into the Evaluation prose when a heading feels forced.
+- Always reference the relevant technique by ID (for example, "You can use @MASTG-TECH-0148 to interact with the `ContentProvider` and confirm the injection") and include the exact, copyable commands.
+- Make the confirmation observable. When possible, design the sample so the result is visible in the app (for example, the `mastgTest()` output reflects the state the attacker changed) or in a tool output (for example, `adb logcat`).
+
+See @MASTG-DEMO-0102 (dedicated `### Exploitation` heading) and @MASTG-DEMO-0100 (woven into the Evaluation prose) for reference.
+
+### Fix
+
+Every demo for a `fail` case SHOULD include a `## Fix` section after `## Evaluation` that explains how to remediate the finding.
+
+- Describe only the options that apply to the specific component type and vulnerability shown in the demo.
+- Use bold `**Option N: …**` headings for each option.
+- **Always include Option 1** as the recommended minimal fix (for example, `android:exported="false"` or `android:permission`).
+- For each option, include the exact manifest or code change and a copyable command that confirms the fix is effective (for example, an `adb` command that now fails with a `SecurityException`).
+- Add extra options only when they reflect realistic use cases (for example, a signature-level permission for cross-app trust, or a runtime caller check as defence-in-depth).
+- If an additional non-component fix applies (for example, removing credentials from logs), append it as a separate bold paragraph rather than a numbered option.
+- End with a brief explanation of **why** any naive protection (for example, a client-side PIN gate) is insufficient, so the reader understands the root cause.
+
+Example structure:
+
+```markdown
+## Fix
+
+There are two ways to fix this, depending on whether `<Component>` needs to be reachable by external apps.
+
+**Option 1: Set `android:exported="false"` (recommended)**
+
+…manifest snippet…
+
+…adb command confirming the fix…
+
+Explanation of when this is the right choice.
+
+**Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
+
+…manifest snippet…
+
+…adb command confirming the fix…
+
+Explanation of when this is the right choice.
+
+**Why not rely on a client-side control?**
+
+Brief explanation of why the broken pattern in the sample is insufficient.
 ```
 
 ## Code Samples

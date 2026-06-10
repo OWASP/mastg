@@ -17,12 +17,12 @@ This test case checks if the native libraries of the app are compiled without co
 
 ## Steps
 
-1. Use @MASTG-TECH-0007 to extract the native libraries from the app package.
-2. Use @MASTG-TECH-0115 on each shared library and grep for "canary" or the corresponding keyword used by the selected tool.
+1. Use @MASTG-TECH-0157 to extract the native libraries from the app package.
+2. Use @MASTG-TECH-0115 on each native library to obtain the compiler-provided security features.
 
 ## Observation
 
-The output should show if stack canaries are enabled or disabled.
+The output should show all the security features enabled for each native library, including stack canaries.
 
 ## Evaluation
 

@@ -204,6 +204,27 @@ Example:
 Android apps sometimes use insecure pseudorandom number generators (PRNGs) such as `java.util.Random`, which is essentially a linear congruential generator. This type of PRNG generates a predictable sequence of numbers for any given seed value, making the sequence reproducible and insecure for cryptographic use. In particular, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calling `nextDouble()` on a static `java.util.Random` instance) produce identical number sequences when initialized with the same seed across all Java implementations.
 ```
 
+#### Example Attack Scenario
+
+The Overview MUST include an `**Example Attack Scenario:**` block. It helps the reader understand how an attacker would actually abuse the issue and what the real-world consequence is. Place it at the end of the Overview, immediately before the `## Steps` section.
+
+Write it as a short setup sentence followed by a numbered list of concrete attacker steps that ends with the impact (for example, data exposure, authentication bypass, account takeover, or code execution). Refer to relevant techniques with their `@MASTG-TECH-XXXX` IDs where helpful.
+
+See @MASTG-TEST-0250 and @MASTG-TEST-0252 for reference.
+
+Example:
+
+```md
+**Example Attack Scenario:**
+
+Suppose a banking app protects its account screen behind a login activity but also declares an account-details activity that is exported.
+
+1. An attacker reverse engineers the app and finds the exported activity.
+2. The attacker writes a malicious app that starts it directly by its component name.
+3. The account screen opens without going through the login activity.
+4. The victim's account data is exposed, bypassing authentication entirely.
+```
+
 ### Steps
 
 A test must include at least one step. Steps can be static, dynamic, manual, or, in very specific cases, a combination of these.
@@ -245,7 +266,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Analyze the Network Security Configuration | @MASTG-TECH-0151 | Analyzing the Network Security Configuration | Requires the NSC reference found via @MASTG-TECH-0150 |
 | **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad; don't use for tests |
 | Search for strings | @MASTG-TECH-0019 | Retrieving Strings |  |
-| Explore the app package | @MASTG-TECH-0007 | Exploring the App Package | Use to extract specific files from the APK (e.g., native libraries, XML resource files) |
+| Explore the app package | @MASTG-TECH-0007 | Exploring the App Package | Use to extract specific files from the APK (e.g., XML resource files) |
 
 **iOS:**
 
@@ -348,7 +369,7 @@ When the test inspects App Transport Security (ATS) settings under `NSAppTranspo
 
 ##### Static Analysis - App Package Content Inspection
 
-Use when the test inspects specific files within the app package (for example, native libraries, XML resource files, or other non-code assets) without requiring full code analysis.
+Use when the test inspects specific files within the app package (for example, XML resource files, or other non-code assets) without requiring full code analysis.
 
 **`type: [static, package]` — Android**
 
@@ -360,6 +381,24 @@ Use when the test inspects specific files within the app package (for example, n
 
 ```md
 1. Use @MASTG-TECH-0058 to extract [the relevant files] from the app package.
+```
+
+##### Static Analysis - Native Libraries
+
+Use when the test requires analysis of native libraries included in the app package (for example, checking for the presence of security features in native code).
+
+**`type: [static, package]` — Android**
+
+```md
+1. Use @MASTG-TECH-0157 to extract the native libraries from the app package.
+2. Use @MASTG-TECH-0115 on each native library to obtain the compiler-provided security features.
+```
+
+**`type: [static, package]` — iOS**
+
+```md
+1. Use @MASTG-TECH-0082 to identify all bundled libraries.
+2. Use @MASTG-TECH-0118 on the main binary and each shared library to obtain all relevant artifacts related to the compiler-provided security features.
 ```
 
 ##### Static Analysis - Developer Artifacts
