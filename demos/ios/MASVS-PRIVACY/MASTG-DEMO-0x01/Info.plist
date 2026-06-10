@@ -3,12 +3,6 @@
 <plist version="1.0">
 <dict>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to provide nearby services.</string>
-    <key>NSContactsUsageDescription</key>
-    <string>We need access to your contacts to help you connect with friends.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photos to let you share images.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>We need camera access to take photos.</string>
+    <string>We use your location to show you nearby content and recommendations.</string>
 </dict>
 </plist>

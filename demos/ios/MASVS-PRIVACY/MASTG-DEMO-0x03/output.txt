@@ -1,3 +1,0 @@
-iOS privacy-relevant entitlement matches in: entitlements_reversed.plist
-
-7:	<key>com.apple.developer.healthkit</key>

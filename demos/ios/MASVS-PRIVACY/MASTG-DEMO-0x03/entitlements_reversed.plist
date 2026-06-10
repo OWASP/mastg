@@ -8,14 +8,3 @@
 	<true/>
 </dict>
 </plist>
-
-;; DER entitlements (slot 7, magic 0xfade7172)
-  OFFSET  HDR +    OBJ DEPTH FORM NAME                : VALUE
-       0  0x2 +   0x63     0 cons SET                 : 31
-     0x2  0x2 +   0x22     1 cons SEQUENCE            : 30
-     0x4  0x2 +   0x1d     2 prim UTF8String          : com.apple.developer.healthkit
-    0x23  0x2 +    0x1     2 prim BOOLEAN             : true
-    0x26  0x2 +   0x3d     1 cons SEQUENCE            : 30
-    0x28  0x2 +   0x16     2 prim UTF8String          : application-identifier
-    0x40  0x2 +   0x23     2 prim UTF8String          : org.owasp.mastestapp.MASTestApp-iOS
-

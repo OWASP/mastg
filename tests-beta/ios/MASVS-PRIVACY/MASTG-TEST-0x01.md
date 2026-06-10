@@ -1,5 +1,5 @@
 ---
-title: Purpose Strings in Info.plist
+title: Purpose String Accuracy for Reachable Protected Resource Access
 platform: ios
 id: MASTG-TEST-0x01
 type: [static, config, manual]
@@ -11,46 +11,62 @@ knowledge: [MASTG-KNOW-0077]
 
 ## Overview
 
-If an iOS app declares protected-resource purpose strings that do not match its actual features, users can be prompted to grant unnecessary access to personal data such as location, contacts, photos, or health information. This test checks whether the app declares only the purpose strings it really needs and whether the strings honestly describe the corresponding feature.
+Purpose strings are user-facing explanations that iOS displays when an app requests [access to protected resources](https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources) such as location, camera, microphone, contacts, photos, health data, Bluetooth, motion, or speech recognition. Unlike entitlements, purpose strings are tied to privacy-sensitive protected resources and runtime authorization prompts.
+
+Usage description keys and runtime APIs are separate parts of the iOS permission model. Usage description keys provide the explanation in `Info.plist`, while framework APIs request, check, or access the protected resource.
+
+| Protected Resource | Usage Description Key | Representative APIs |
+| --- | --- | --- |
+| Location | `NSLocationWhenInUseUsageDescription`, `NSLocationAlwaysAndWhenInUseUsageDescription` | `CLLocationManager.requestWhenInUseAuthorization()`, `CLLocationManager.requestAlwaysAuthorization()`, `CLLocationManager.authorizationStatus()` |
+| Camera | `NSCameraUsageDescription` | `AVCaptureDevice.requestAccess(for:completionHandler:)`, `AVCaptureDevice.authorizationStatus(for:)` |
+| Contacts | `NSContactsUsageDescription` | `CNContactStore.requestAccess(for:completionHandler:)`, `CNContactStore.authorizationStatus(for:)` |
+| Photos | `NSPhotoLibraryUsageDescription`, `NSPhotoLibraryAddUsageDescription` | `PHPhotoLibrary.requestAuthorization(for:handler:)`, `PHPhotoLibrary.authorizationStatus(for:)` |
+| Health | `NSHealthShareUsageDescription`, `NSHealthUpdateUsageDescription` | `HKHealthStore.requestAuthorization(toShare:read:completion:)`, `HKHealthStore.authorizationStatus(for:)` |
+| Bluetooth | `NSBluetoothAlwaysUsageDescription` | `CBManager.authorization`, `CBCentralManager`, `CBPeripheralManager` |
+
+A declared purpose string is not a privacy violation by itself. The risk exists when the app has a reachable code path that requests or accesses a protected resource without a reasonable connection to a real user-visible feature, or when the purpose string shown to the user is vague, deceptive, inaccurate, or inconsistent with the actual access.
+
+This test verifies whether reachable protected resource access is justified by app functionality and whether the corresponding purpose string accurately, meaningfully, and specifically explains that access to the user.
+
+See @MASTG-KNOW-0077 for the mapping between purpose string keys and framework APIs that request or check protected resource access.
+
+!!! note "Out of Scope"
+
+    This test does not check for declared purpose strings where no corresponding protected resource API use is present. A declared purpose string is not a privacy violation by itself.
+
+    This test does not check for reachable protected resource access without a matching required purpose string. That issue is treated separately as an App Store blocker. Missing purpose strings can cause access to fail or the app to exit, and App Store Connect may report this as `ITMS-90683: Missing purpose string in Info.plist`.
 
 ## Steps
 
-1. Use @MASTG-TECH-0058 to extract the app bundle and locate the `Info.plist` file.
-2. Use @MASTG-TECH-0138 to convert `Info.plist` to a readable format if needed and list all `*UsageDescription` keys.
-3. Review each declared purpose string against the app's exposed features and the privacy-preserving alternatives described in @MASTG-KNOW-0077.
+1. Use @MASTG-TECH-0058 to unzip the app package.
+2. Use @MASTG-TECH-0153 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0138 to convert the `Info.plist` file to a readable format if needed.
+4. Use @MASTG-TECH-0154 to inspect all `*UsageDescription` keys.
+5. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package.
+6. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
-The output should contain the list of purpose strings declared by the app together with the corresponding user-facing explanation. Common keys include:
+The output should contain:
 
-- `NSCameraUsageDescription`
-- `NSMicrophoneUsageDescription`
-- `NSPhotoLibraryAddUsageDescription`
-- `NSPhotoLibraryUsageDescription`
-- `NSLocationWhenInUseUsageDescription`
-- `NSLocationAlwaysAndWhenInUseUsageDescription`
-- `NSContactsUsageDescription`
-- `NSCalendarsUsageDescription`
-- `NSHealthShareUsageDescription`
-- `NSHealthUpdateUsageDescription`
-- `NSMotionUsageDescription`
-- `NSBluetoothAlwaysUsageDescription`
-- `NSFaceIDUsageDescription`
+- The usage description keys declared by the app together with their user-facing purpose strings.
+- The protected resource authorization or access APIs referenced by the app binaries.
 
 ## Evaluation
 
-The test case fails if the app declares purpose strings that are not justified by its features or if the strings misrepresent what the app is doing.
+The test case fails if there is evidence that the app has a reachable code path that requests or accesses a protected resource and the purpose string does not meaningfully, accurately, and specifically explain why the app needs that protected resource.
+
+The test case also fails if a reachable code path requests or accesses a protected resource without a matching required purpose string.
+
+**Further Validation Required:**
+
+Use the declared purpose strings, referenced APIs, app metadata and App Store information, visible app features, and runtime behavior to determine whether each protected resource access path is justified and accurately explained.
 
 Consider the following when evaluating:
 
-- Does the permission align with the app's stated purpose? For example, a flashlight app requesting `NSContactsUsageDescription` is suspicious.
-- Does the purpose string provide a clear and honest explanation to the user instead of a generic or misleading message?
-- Could the app use a narrower alternative instead? For example, prefer [`PHPickerViewController`](https://developer.apple.com/documentation/photokit/phpickerviewcontroller) or [`PhotosPicker`](https://developer.apple.com/documentation/photosui/photospicker) over broad photo library access when the user only needs to select specific photos.
+- Is the protected resource access reachable during normal or reasonably expected app use, and is it connected to a real user-visible feature?
+- Does the purpose string accurately and specifically explain why the app needs the protected resource, without being vague, generic, deceptive, or inconsistent with the actual access?
 
-Also consider the sensitivity of the requested data:
+Static analysis can find unused code, SDK code, dead code, weak-linked frameworks, dynamically resolved APIs, obfuscated code, native libraries, loaded frameworks, or feature-flagged code paths. Treat missing API references as absence of evidence, not proof that the app never requests the protected resource. Treat referenced APIs without matching purpose strings as a failure only when they can reasonably be connected to reachable protected resource access.
 
-- Location permissions such as `NSLocationAlwaysAndWhenInUseUsageDescription` provide broad access to user location and should be scrutinized carefully.
-- Health-related permissions (`NSHealthShareUsageDescription`, `NSHealthClinicalHealthRecordsShareUsageDescription`) grant access to sensitive medical data.
-- Photo library access (`NSPhotoLibraryUsageDescription`) may expose personal photos accessible by other apps.
-
-For each permission that accesses sensitive data, verify that the app handles this data securely (see @MASTG-TEST-0215 for data storage tests).
+Use dynamic analysis to complement static analysis and identify authorization APIs that are actually reached at runtime. See @MASTG-TEST-0x02.
