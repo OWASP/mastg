@@ -12,7 +12,7 @@ struct MastgTest {
     static var locationCapture: LocationCapture?
 
     static func mastgTest(completion: @escaping (String) -> Void) {
-        // FAIL: [MASTG-TEST-0x02] The app requests location access and collects GPS
+        // FAIL: [MASTG-TEST-0361] The app requests location access and collects GPS
         // coordinates while showing a plain countdown popup. The
         // NSLocationWhenInUseUsageDescription purpose string ("to show you nearby content
         // and recommendations") is deceptive: the app has no location-based feature and

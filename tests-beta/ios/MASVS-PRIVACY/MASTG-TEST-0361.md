@@ -1,17 +1,17 @@
 ---
 title: Runtime Use of Protected Resource APIs Without Accurate Purpose Strings
 platform: ios
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0361
 type: [dynamic, hooks, manual]
 weakness: MASWE-0117
 profiles: [P]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0x01. See @MASTG-TEST-0x01 for background on the relationship between protected resources, usage description keys, purpose strings, and framework APIs.
+This test is the dynamic counterpart to @MASTG-TEST-0360. See @MASTG-TEST-0360 for background on the relationship between protected resources, usage description keys, purpose strings, and framework APIs.
 
 This test verifies which protected resource authorization or access APIs the app actually reaches at runtime, and whether the observed runtime behavior is justified by user-visible functionality and accurately explained by the corresponding purpose strings.
 
@@ -63,4 +63,4 @@ Consider the following when evaluating:
 
 Runtime analysis may miss protected resource access in flows that were not triggered, code paths that depend on account state, device state, location, granted permissions, remote configuration, feature flags, backend responses, unavailable hardware, or app extensions. Treat missing runtime calls as absence of evidence, not proof that the app never requests or accesses the protected resource.
 
-Use static analysis to complement runtime analysis and identify APIs that are present in the app's code but were not observed at runtime. See @MASTG-TEST-0x01.
+Use static analysis to complement runtime analysis and identify APIs that are present in the app's code but were not observed at runtime. See @MASTG-TEST-0360.

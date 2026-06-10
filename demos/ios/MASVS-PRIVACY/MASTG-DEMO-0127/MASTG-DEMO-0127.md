@@ -1,18 +1,18 @@
 ---
 platform: ios
 title: Unjustified Capability Exposure due to Excessive Entitlements
-id: MASTG-DEMO-0x03
+id: MASTG-DEMO-0127
 code: [swift, xml]
-test: MASTG-TEST-0x04
+test: MASTG-TEST-0363
 ---
 
 ## Sample
 
-This sample uses the same app as @MASTG-DEMO-0x01. The app binary is signed with the `com.apple.developer.healthkit` entitlement, which allows the app to request user authorization for HealthKit access. This dummy app does not need the information provided by such entitlement for its functionality. Indeed, the Swift code does not import HealthKit, instantiate `HKHealthStore`, or request access to HealthKit data types.
+This sample uses the same app as @MASTG-DEMO-0126. The app binary is signed with the `com.apple.developer.healthkit` entitlement, which allows the app to request user authorization for HealthKit access. This dummy app does not need the information provided by such entitlement for its functionality. Indeed, the Swift code does not import HealthKit, instantiate `HKHealthStore`, or request access to HealthKit data types.
 
 This runtime demo traces representative HealthKit APIs associated with the `com.apple.developer.healthkit` entitlement while exercising the app and verifies if the related APIs are called.
 
-{{ ../MASTG-DEMO-0x01/MastgTest.swift # ../MASTG-DEMO-0x01/Info.plist # ../MASTG-DEMO-0x01/MASTestApp.entitlements }}
+{{ ../MASTG-DEMO-0126/MastgTest.swift # ../MASTG-DEMO-0126/Info.plist # ../MASTG-DEMO-0126/MASTestApp.entitlements }}
 
 ## Steps
 

@@ -1,7 +1,7 @@
 ---
 title: Minimize iOS Permissions and Entitlements
 alias: minimize-ios-permissions-and-entitlements
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0051
 platform: ios
 knowledge: [MASTG-KNOW-0077]
 ---

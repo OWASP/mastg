@@ -1,17 +1,17 @@
 ---
 title: Runtime Use of Entitlement-Backed APIs for Unjustified Capability Exposure
 platform: ios
-id: MASTG-TEST-0x04
+id: MASTG-TEST-0363
 type: [dynamic, hooks, manual]
 weakness: MASWE-0117
 profiles: [P]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0x03. See @MASTG-TEST-0x03 for background on the relationship between Xcode capabilities, signed entitlements, and entitlement-backed APIs or entry points.
+This test is the dynamic counterpart to @MASTG-TEST-0362. See @MASTG-TEST-0362 for background on the relationship between Xcode capabilities, signed entitlements, and entitlement-backed APIs or entry points.
 
 This test verifies which entitlement-backed APIs, shared containers, or system entry points the app actually reaches at runtime, and whether that runtime behavior is justified by the app's signed entitlements and user-visible functionality.
 
@@ -53,4 +53,4 @@ Consider the following when evaluating:
 
 Dynamic analysis may miss entitlement-backed APIs or entry points in flows that were not triggered, code paths that depend on account state, device state, location, permissions granted, remote configuration, feature flags, experiments, extensions, associated domains, backend responses, or unavailable hardware. Treat missing runtime calls as absence of evidence, not proof that the app never uses the entitlement-backed service.
 
-Use static analysis to complement the runtime analysis and identify entitlement-backed APIs, identifiers, or entry points that are present in the app's code but were not observed at runtime. See @MASTG-TEST-0x03.
+Use static analysis to complement the runtime analysis and identify entitlement-backed APIs, identifiers, or entry points that are present in the app's code but were not observed at runtime. See @MASTG-TEST-0362.

@@ -1,11 +1,11 @@
 ---
 title: Purpose String Accuracy for Reachable Protected Resource Access
 platform: ios
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0360
 type: [static, config, manual]
 weakness: MASWE-0117
 profiles: [P]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---
 
@@ -69,4 +69,4 @@ Consider the following when evaluating:
 
 Static analysis can find unused code, SDK code, dead code, weak-linked frameworks, dynamically resolved APIs, obfuscated code, native libraries, loaded frameworks, or feature-flagged code paths. Treat missing API references as absence of evidence, not proof that the app never requests the protected resource. Treat referenced APIs without matching purpose strings as a failure only when they can reasonably be connected to reachable protected resource access.
 
-Use dynamic analysis to complement static analysis and identify authorization APIs that are actually reached at runtime. See @MASTG-TEST-0x02.
+Use dynamic analysis to complement static analysis and identify authorization APIs that are actually reached at runtime. See @MASTG-TEST-0361.

@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Runtime Location Capture with a Deceptive Purpose String
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0126
 code: [swift, xml]
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0361
 ---
 
 ## Sample
