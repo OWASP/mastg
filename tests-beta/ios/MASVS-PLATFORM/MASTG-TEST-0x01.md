@@ -5,7 +5,7 @@ id: MASTG-TEST-0x01
 type: [static, code]
 weakness: MASWE-0058
 profiles: [L1, L2]
-best-practices: [MASTG-BEST-0045]
+best-practices: [MASTG-BEST-0045, MASTG-BEST-0x01]
 knowledge: [MASTG-KNOW-0079]
 apis: [onOpenURL, URLComponents, URLQueryItem]
 ---
