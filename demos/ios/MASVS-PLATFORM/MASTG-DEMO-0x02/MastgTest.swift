@@ -1,90 +1,97 @@
 import SwiftUI
 import UIKit
 
-// SUMMARY: This sample demonstrates two custom URL scheme handlers registered in Info.plist:
-// - "mastgtest://" (FAIL): the handler does not validate the source application or URL parameters.
-// - "mastgtest-safe://" (PASS): the handler validates the source application and sanitizes parameters.
-// Both are dispatched from the single application:openURL:options: delegate entry point.
+// SUMMARY: This sample demonstrates a custom URL scheme handler registered in Info.plist
+// that validates the source application using UIOpenURLContext.options.sourceApplication.
+// The SceneDelegate reads the source bundle ID from each incoming URL context and checks
+// it against an allowlist before processing. Note that sourceApplication is only populated
+// for apps that belong to the same Apple Developer Team as the receiving app.
+
+struct URLSchemeEvent {
+    let url: String
+    let source: String
+    let result: String
+}
+
+enum AppDelegateState {
+    static var lastEvent: URLSchemeEvent?
+    static var onEvent: ((URLSchemeEvent) -> Void)?
+}
 
 struct MastgTest {
     @inline(never) @_optimize(none)
     public static func mastgTest(completion: @escaping (String) -> Void) {
-        completion("""
-        This app registers two custom URL schemes:
-        - mastgtest://    (insecure — no source or parameter validation)
-        - mastgtest-safe:// (secure — validates source app and parameters)
+        func display(_ event: URLSchemeEvent) {
+            completion("""
+            Incoming URL: \(event.url)
+            Source app:   \(event.source)
+            Handler returned: \(event.result)
+            """)
+        }
 
-        To trigger the insecure handler from the Notes app, create a note containing:
-          mastgtest://transfer?amount=9999
-        Then long-press the link and tap Open.
+        if let existing = AppDelegateState.lastEvent {
+            display(existing)
+        } else {
+            completion("""
+            Waiting for incoming URL scheme...
 
-        To trigger the secure handler:
-          mastgtest-safe://transfer?amount=100
-        """)
+            Open one of the registered schemes from another app to see the result:
+              mastgtest://transfer?amount=500
+            """)
+        }
+
+        AppDelegateState.onEvent = { event in
+            display(event)
+        }
     }
 }
 
-// FAIL: [MASTG-TEST-0x02] The "mastgtest" handler processes the URL without
-// validating the source application or sanitizing the "amount" parameter.
-// Any app or web page can trigger a fund transfer with an arbitrary amount.
-
-// PASS: [MASTG-TEST-0x02] The "mastgtest-safe" handler reads
-// UIApplicationOpenURLOptionsSourceApplicationKey and rejects callers whose
-// bundle ID is not in the allowlist. It also validates the amount parameter
-// before performing the sensitive operation.
-
 @objc class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        let config = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        config.delegateClass = SceneDelegate.self
+        return config
+    }
+}
+
+// PASS: [MASTG-TEST-0x02] The SceneDelegate reads UIOpenURLContext.options.sourceApplication
+// and checks it against an allowlist before processing the URL.
+
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+
     private let allowedSources: Set<String> = [
-        "com.apple.mobilenotes",
-        "com.apple.MobileSafari"
+        "com.mastg.testing-app",
     ]
 
-    func application(
-        _ app: UIApplication,
-        open url: URL,
-        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
-    ) -> Bool {
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        connectionOptions.urlContexts.forEach { handleURL($0) }
+    }
 
-        // FAIL: [MASTG-TEST-0x02] "mastgtest://" handler — no source or parameter validation.
-        if url.scheme == "mastgtest" {
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            let action = url.host ?? ""
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        URLContexts.forEach { handleURL($0) }
+    }
 
-            if action == "transfer" {
-                // No check of UIApplicationOpenURLOptionsSourceApplicationKey.
-                // No bounds-checking or sanitization of "amount".
-                let amount = components?.queryItems?.first(where: { $0.name == "amount" })?.value ?? "0"
-                _ = "Initiating transfer of \(amount) units"
-                return true
-            }
-            return false
-        }
+    private func handleURL(_ context: UIOpenURLContext) {
+        let url = context.url
+        let source = context.options.sourceApplication ?? "(none)"
+        let result = allowedSources.contains(source)
 
-        // PASS: [MASTG-TEST-0x02] "mastgtest-safe://" handler — validates source and parameters.
-        if url.scheme == "mastgtest-safe" {
-            // Check source application.
-            let source = options[.sourceApplication] as? String ?? ""
-            guard allowedSources.contains(source) else {
-                return false
-            }
+        postEvent(url: url, source: source, result: result)
+    }
 
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            let action = url.host ?? ""
-
-            if action == "transfer" {
-                // Validate and sanitize the "amount" parameter.
-                guard let amountString = components?.queryItems?.first(where: { $0.name == "amount" })?.value,
-                      let amount = Int(amountString),
-                      amount > 0, amount <= 10_000 else {
-                    return false
-                }
-                _ = "Initiating safe transfer of \(amount) units"
-                return true
-            }
-            return false
-        }
-
-        return false
+    private func postEvent(url: URL, source: String, result: Bool) {
+        let event = URLSchemeEvent(
+            url: url.absoluteString,
+            source: source,
+            result: result ? "true" : "false"
+        )
+        AppDelegateState.lastEvent = event
+        AppDelegateState.onEvent?(event)
     }
 }
