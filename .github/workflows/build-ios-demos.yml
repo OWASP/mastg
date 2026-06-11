@@ -93,7 +93,7 @@ jobs:
           IPA_NAME="$(basename "$demo").ipa"
           EXTRA_ENTITLEMENTS=""
 
-          [ -f "$demo/entitlements.plist" ] && EXTRA_ENTITLEMENTS="$GITHUB_WORKSPACE/$demo/entitlements.plist"
+          [ -f "$demo/MASTestApp.entitlements" ] && EXTRA_ENTITLEMENTS="$GITHUB_WORKSPACE/$demo/MASTestApp.entitlements"
           
           ./mas-app-ios/.github/scripts/build-and-package.sh "$IPA_NAME" "$EXTRA_ENTITLEMENTS"
           echo "IPA_NAME=$IPA_NAME" >> $GITHUB_ENV

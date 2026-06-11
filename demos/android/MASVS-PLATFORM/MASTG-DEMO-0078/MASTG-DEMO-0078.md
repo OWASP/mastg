@@ -3,7 +3,7 @@ platform: android
 title: App Leaking Sensitive Data via Notifications
 id: MASTG-DEMO-0078
 code: [kotlin]
-test: MASTG-TEST-0315MASTG-TOOL-0110]
+test: MASTG-TEST-0315
 ---
 
 ## Sample

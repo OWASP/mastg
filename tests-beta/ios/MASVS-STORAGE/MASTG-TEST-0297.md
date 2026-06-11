@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Insertion of Sensitive Data into Logs
+title: Sensitive Data Exposure Through Logging APIs
 id: MASTG-TEST-0297
 type: [static, code]
 weakness: MASWE-0001
@@ -15,7 +15,9 @@ knowledge: [MASTG-KNOW-0101]
 
 On the iOS platform, logging APIs like `NSLog`, `NSAssert`, `NSCAssert`, `print`, and `printf` can inadvertently lead to the leakage of sensitive information. Log messages are recorded in the console, and you can access them by using @MASTG-TECH-0060. Although other apps on the device cannot read these logs, direct logging is generally discouraged due to its potential for data leakage.
 
-In this test, we will use static analysis to verify whether an app has any logging APIs which take sensitive data.
+This test uses static analysis to verify whether an app contains logging APIs that take sensitive data as input.
+
+This test focuses on logged sensitive data. For tests specifically targeting implementation details exposed through logs, see @MASTG-TEST-0358 and @MASTG-TEST-0359.
 
 ## Steps
 
@@ -24,8 +26,8 @@ In this test, we will use static analysis to verify whether an app has any loggi
 
 ## Observation
 
-The output should include the location of all logging functions. Check the decompiled code to verify if they receive sensitive data as input.
+The output should include the location of logging functions or other relevant logging references. Check the decompiled code to verify whether they receive sensitive data as input.
 
 ## Evaluation
 
-The test case fails if you can find the use of logging APIs logging any sensitive data.
+The test case fails if the app contains implemented logging paths that log sensitive data.

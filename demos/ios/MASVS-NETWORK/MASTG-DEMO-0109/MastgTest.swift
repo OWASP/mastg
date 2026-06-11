@@ -5,10 +5,10 @@ struct MastgTest {
     // 1. NSExceptionMinimumTLSVersion = TLSv1.0 for tls-v1-0.badssl.com (allows TLS 1.0, including subdomains).
     // 2. NSExceptionRequiresForwardSecrecy = false for static-rsa.badssl.com (disables the PFS requirement).
 
-    // FAIL: [MASTG-TEST-0x01] NSExceptionMinimumTLSVersion = TLSv1.0 with NSIncludesSubdomains = true.
+    // FAIL: [MASTG-TEST-0358] NSExceptionMinimumTLSVersion = TLSv1.0 with NSIncludesSubdomains = true.
     static let tls10Endpoint = "https://tls-v1-0.badssl.com:1010/"
 
-    // FAIL: [MASTG-TEST-0x01] NSExceptionRequiresForwardSecrecy = false.
+    // FAIL: [MASTG-TEST-0358] NSExceptionRequiresForwardSecrecy = false.
     static let noPfsEndpoint = "https://static-rsa.badssl.com/"
 
     static func mastgTest(completion: @escaping (String) -> Void) {

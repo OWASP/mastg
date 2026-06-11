@@ -1,0 +1,48 @@
+
+[*] Starting Location Access Tracing...
+
+[*] Hooked CLLocationManager.requestWhenInUseAuthorization
+[*] Hooked CLLocationManager.startUpdatingLocation
+[*] Hooked CLLocationManager.stopUpdatingLocation
+
+[*] Hooks installed. Tap the Start button to trigger the countdown and location capture.
+
+
+[+] CLLocationManager.requestWhenInUseAuthorization called
+    Purpose string key: NSLocationWhenInUseUsageDescription
+
+Backtrace:
+0x1010cfef0 MASTestApp.debug.dylib!LocationCapture.init()
+0x1010cff38 MASTestApp.debug.dylib!@objc LocationCapture.init()
+0x1010cc534 MASTestApp.debug.dylib!LocationCapture.__allocating_init()
+0x1010cc2a0 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:)
+0x1010d26e0 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter
+0x1920fd550 SwiftUI!0x150c550 (0x18cec1550)
+0x191994c30 SwiftUI!0xda3c30 (0x18c758c30)
+0x1919986bc SwiftUI!0xda76bc (0x18c75c6bc)
+
+[+] CLLocationManager.startUpdatingLocation called
+    GPS coordinate collection has started.
+
+Backtrace:
+0x1010cffd4 MASTestApp.debug.dylib!LocationCapture.locationManagerDidChangeAuthorization(_:)
+0x1010d0134 MASTestApp.debug.dylib!@objc LocationCapture.locationManagerDidChangeAuthorization(_:)
+0x199549ccc CoreLocation!-[CLLocationManager onClientEventAuthStatus:]
+0x199543b74 CoreLocation!-[CLLocationManager onClientEvent:supportInfo:]
+0x1995438e4 CoreLocation!0x108e4 (0x1943078e4)
+0x1aa8e0524 LocationSupport!-[CLSilo prepareAndRunBlock:]
+0x18d0fe9b8 CoreFoundation!__CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__
+0x18d0ed910 CoreFoundation!__CFRunLoopDoBlocks
+
+[+] CLLocationManager.stopUpdatingLocation called
+    GPS coordinate collection has stopped.
+
+Backtrace:
+0x1010cca18 MASTestApp.debug.dylib!LocationCapture.stop()
+0x1010cc6b4 MASTestApp.debug.dylib!closure #1 in closure #1 in static MastgTest.mastgTest(completion:)
+0x1010cef18 MASTestApp.debug.dylib!thunk for @escaping @callee_guaranteed () -> ()
+0x18f4a53a0 UIKitCore!-[UIPresentationController transitionDidFinish:]
+0x18f9da39c UIKitCore!__56-[UIPresentationController runTransitionForCurrentState]_block_invoke.91
+0x18f4f950c UIKitCore!-[_UIViewControllerTransitionContext completeTransition:]
+0x18f29af94 UIKitCore!__UIVIEW_IS_EXECUTING_ANIMATION_COMPLETION_BLOCK__
+0x18f29ae9c UIKitCore!-[UIViewAnimationBlockDelegate _didEndBlockAnimation:finished:context:]

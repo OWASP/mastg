@@ -2,7 +2,7 @@
 platform: android
 title: Use of Hardcoded AES Key in SecretKeySpec with semgrep
 id: MASTG-DEMO-0017
-test: MASTG-TEST-0212semgrep]
+test: MASTG-TEST-0212
 code: [java]
 ---
 
