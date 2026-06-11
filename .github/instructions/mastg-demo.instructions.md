@@ -24,7 +24,7 @@ The **demos MUST WORK**. See [Code Samples](#code-samples).
 
 Demos are required to be **fully self-contained** and should **not rely on external resources or dependencies**. This ensures that the demos can be run independently and that the results are reproducible. They must be proven to work on the provided sample applications and must be tested thoroughly before being included in the MASTG.
 
-**Don't create demos for outdated OS versions** that aren't supported by the MASTG. The MASTestApp is always intended to be up to date and aligned with the versions supported by the MASTG, thereby avoiding additional maintenance of the MASTestApp. However, you can include demos showcasing the "good case" in the metadata using `kind: pass` in certain cases where it can be helpful or educational. This is permitted as long as the demos work with the current version of the MASTestApp.
+**Don't create demos for outdated OS versions** that aren't supported by the MASTG. The MASTestApp is always intended to be up to date and aligned with the versions supported by the MASTG, thereby avoiding additional maintenance of the MASTestApp. However, you can include demos showcasing the "good case" in the metadata using `kind: pass` in certain cases where it can be helpful or educational. This is permitted as long as the demos work with the current version of the MASTestApp. For demos that act as a standalone attacker app targeting a victim app, use `kind: attack` (see [kind](#kind) for details).
 
 Please specify the mobile platform version, IDE version, and device.
 
@@ -181,14 +181,20 @@ code: [xml, kotlin]
 
 ### kind
 
-Optional. When helpful, specify whether the demo demonstrates a passing or failing case.
+Optional. When helpful, specify whether the demo demonstrates a passing or failing case, or whether it is a standalone attacker app.
 
-Valid values: `pass`, `fail`.
+Valid values: `pass`, `fail`, `attack`.
+
+- `fail`: the sample demonstrates the vulnerable behavior (default for most demos).
+- `pass`: the sample demonstrates the secure / correctly implemented behavior.
+- `attack`: the sample IS the attacker app — a separate APK that exploits a vulnerability in a victim app (typically the one demonstrated in a linked `fail` demo). Use this only when the demo's `MastgTest.kt` acts as the attacking party rather than the victim. Attacker-app demos are excluded from the "Confirming the Vulnerability" requirement in the parent test, since the demo itself embodies the attack.
+
+Every demo with `kind: attack` **MUST** include a `config.yml` file in its folder. See [Attacker Apps](#attacker-apps) for the full requirements.
 
 Example:
 
 ```md
-kind: pass
+kind: attack
 ```
 
 ### optional fields
@@ -197,6 +203,44 @@ Include these if relevant:
 
 - `status:` draft, placeholder, deprecated
 - `note:` short free-form note providing additional context
+
+## Attacker Apps
+
+Demos with `kind: attack` represent a self-contained attacker app that targets a victim app. They have additional requirements beyond those of regular demos.
+
+### config.yml
+
+Every attacker-app demo **MUST** include a `config.yml` file in its folder. This file tells the build automation how to package the attacker app with a distinct identity so it doesn't conflict with the victim app on the same device.
+
+Required fields:
+
+```yaml
+package: org.owasp.mastestapp.attacker.<short-name>
+app-name: <Human-Readable Attacker Name>
+```
+
+Example:
+
+```yaml
+package: org.owasp.mastestapp.attacker.provider
+app-name: Provider Attacker
+```
+
+The build automation substitutes the `package` value at build time. The `.kt` source must still declare `package org.owasp.mastestapp` (the canonical package), because the automation handles the renaming.
+
+### MastgTest.kt conventions
+
+Attacker-app demos **MUST** follow the same `MastgTest.kt` conventions as all other demos:
+
+- `package org.owasp.mastestapp` (the automation renames it using `config.yml`)
+- `class MastgTest(private val context: Context)` as the primary class
+- `fun mastgTest(): String` as the entry point called by the Start button in `MainActivity`
+
+`mastgTest()` should start the activity or service that drives the attack and return a descriptive string (for example, instructions on where to observe the result). Additional classes (such as an `AttackerActivity` that holds an `ActivityResultLauncher`) are placed in the same file.
+
+### MastgTest.swift conventions
+
+Similarly to Android attacker-apps, iOS attacker-app demos **MUST** follow the same `MastgTest.swift` conventions as all other demos.
 
 ## Markdown: Body
 
@@ -302,7 +346,7 @@ Note that line 37 did not trigger the rule because the random number is generate
 
 ### Confirming the Vulnerability
 
-Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use.
+Every demo MUST include a part that shows how to confirm or exploit the vulnerability at runtime, referencing the techniques (`@MASTG-TECH-XXXX`) and tools (`@MASTG-TOOL-XXXX`) a tester would use. Only "attacker" apps are excluded from this requirement, since they are already the embodiment of the attack.
 
 - Add it as a `### Exploitation` (or `### Confirm the Exposure`) subsection at the end of the `## Evaluation` section. A dedicated heading is preferred, but it may also be woven into the Evaluation prose when a heading feels forced.
 - Always reference the relevant technique by ID (for example, "You can use @MASTG-TECH-0148 to interact with the `ContentProvider` and confirm the injection") and include the exact, copyable commands.

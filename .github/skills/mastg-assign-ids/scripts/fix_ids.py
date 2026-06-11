@@ -35,14 +35,18 @@ def main():
         old, new = arg.split("=", 1)
         replacements.append((old, new))
 
-    result = subprocess.run(
+    committed = subprocess.run(
         ["git", "diff", "--name-only", "--diff-filter=d", "origin/master...HEAD"],
         capture_output=True, text=True, check=True,
-    )
-    files = [
-        p for p in result.stdout.splitlines()
+    ).stdout.splitlines()
+    staged = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "--diff-filter=d"],
+        capture_output=True, text=True, check=True,
+    ).stdout.splitlines()
+    files = sorted({
+        p for p in committed + staged
         if not p.startswith(".github/") and os.path.isfile(p)
-    ]
+    })
 
     for path in files:
         with open(path) as f:
