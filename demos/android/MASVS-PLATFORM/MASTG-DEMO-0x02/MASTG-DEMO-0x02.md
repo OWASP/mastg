@@ -1,5 +1,5 @@
 ---
-title: Credential Change Through an Exported Service
+title: Credential Change Through an Exported Service With No Permissions Declared
 platform: android
 id: MASTG-DEMO-0x02
 code: [kotlin]
@@ -8,14 +8,14 @@ test: MASTG-TEST-0x02
 
 ## Sample
 
-The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `AuthService`, a started service that reads a new password from the intent extras passed to `onStartCommand` and writes it to shared preferences. `AuthService` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so any app can start it and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
+The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `AuthService`, a started service that reads a new password from the intent extras passed to `onStartCommand` and writes it to shared preferences. `AuthService` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so external callers that can address the component can start it and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
 ## Steps
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0x02 to list the exported services.
+2. Use @MASTG-TECH-0x02 to list the exported services and their associated `android:permission` by running `run.sh`.
 
 The `run.sh` script lists the exported services declared in the reverse-engineered manifest.
 
@@ -23,7 +23,7 @@ The `run.sh` script lists the exported services declared in the reverse-engineer
 
 ## Observation
 
-The output lists the services declared as exported in the manifest.
+The output reveals the exported services and their associated permissions.
 
 {{ output.txt }}
 
@@ -31,7 +31,7 @@ The output lists the services declared as exported in the manifest.
 
 ## Evaluation
 
-The test case fails because `AuthService` exposes a security-relevant operation (changing the vault password) and is exported without verifying the caller.
+The test case fails because `AuthService` exposes a security-relevant operation (changing the vault password) and is exported (`android:exported="true"`) without any permission protection. Because `AuthService` is exported and unprotected, external callers that can address the component can start it directly and overwrite the password.
 
 The service changes the stored password from an intent extra in `onStartCommand` without calling `checkCallingPermission` or otherwise checking the caller:
 
@@ -46,7 +46,7 @@ override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 }
 ```
 
-Because it's exported and unprotected, any app can start it and overwrite the password.
+`VaultActivity` does not protect the underlying exported service; access control must be enforced at the `AuthService` boundary.
 
 ### Confirm the Exposure
 
@@ -56,7 +56,7 @@ Use @MASTG-TECH-0x02 with `adb` to start `AuthService` directly and pass a new p
 2. Start the exported service with a new password:
 
     ```bash
-    adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$AuthService' --es org.owasp.mastestapp.PASSWORD hacked123
+    adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$AuthService' --es org.owasp.mastestapp.PASSWORD hacked123
 
     Starting service: Intent { cmp=org.owasp.mastestapp/.MastgTest$AuthService (has extras) }
     ```
@@ -65,11 +65,11 @@ Use @MASTG-TECH-0x02 with `adb` to start `AuthService` directly and pass a new p
 
 ## Fix
 
-There are two ways to fix this, depending on whether `AuthService` needs to accept commands from external apps.
+There are two ways to fix this, and the right choice depends on whether `AuthService` needs to accept commands from external apps at all.
 
-**Option 1: Set `android:exported="false"` (recommended)**
+**Option 1: Set `android:exported="false"` (recommended for most apps)**
 
-If the service is only ever started by the app itself (the most common case for a password vault), remove external access entirely:
+If `AuthService` has no legitimate reason to be started by another app, simply prevent external apps from reaching it:
 
 ```xml
 <service
@@ -85,11 +85,11 @@ Starting service: Intent { cmp=org.owasp.mastestapp/.MastgTest$AuthService (has 
 Error: Requires permission not exported from uid 10225
 ```
 
-This is the correct fix for any service that manages internal state — credentials, session tokens, sync state — that no external app should be able to influence. The OS will reject any external `startService` or `bindService` call before it reaches `onStartCommand`.
+This is the right choice for the vast majority of services that manage internal state, such as credentials, session tokens, or sync state, that no external app should be able to influence. The OS will reject any external `startService` or `bindService` call before it reaches `onStartCommand`.
 
 **Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
 
-If the service must accept commands from a trusted partner app (for example, a separate authenticator app from the same developer), gate access with a custom signature-level permission:
+If the service must be reachable by a trusted partner app (for example, a separate authenticator app from the same developer), you can keep it exported but gate access with a custom signature-level permission:
 
 ```xml
 <permission
@@ -102,6 +102,10 @@ If the service must accept commands from a trusted partner app (for example, a s
     android:permission="org.owasp.mastestapp.USE_AUTH_SERVICE" />
 ```
 
+With `protectionLevel="signature"`, only apps signed with the same certificate are granted the permission automatically. A real-world example is an enterprise MDM agent that exposes a configuration service to a companion management app. Both are signed with the enterprise certificate, so only the management app can send commands, while any third-party app is rejected by the OS before `onStartCommand` is even called.
+
+This permission-based fix only resolves the finding if the permission cannot be obtained by untrusted apps. If the service were protected by a broadly grantable permission, such as a custom permission with `normal` or `dangerous` protection level, the demo would still fail because untrusted apps could still obtain the permission and start or bind to the service. See @MASTG-KNOW-0017 for Android permission protection levels.
+
 Trying to start `AuthService` again with `adb` after this change will fail with a different error, confirming that the service is still exported but now requires a permission that the calling app does not have:
 
 ```bash
@@ -109,8 +113,6 @@ adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTes
 Starting service: Intent { cmp=org.owasp.mastestapp/.MastgTest$AuthService (has extras) }
 Error: Requires permission org.owasp.mastestapp.USE_AUTH_SERVICE
 ```
-
-A real-world example is an enterprise MDM agent that exposes a configuration service to a companion management app — both are signed with the enterprise certificate, so only the management app can send commands, while any other app on the device is blocked.
 
 **Option 3: Validate the caller inside `onStartCommand`**
 

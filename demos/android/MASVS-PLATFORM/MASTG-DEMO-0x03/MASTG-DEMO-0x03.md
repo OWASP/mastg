@@ -1,5 +1,5 @@
 ---
-title: Sensitive Action Through an Exported Broadcast Receiver
+title: Sensitive Action Through an Exported Broadcast Receiver With No Permissions Declared
 platform: android
 id: MASTG-DEMO-0x03
 code: [kotlin]
@@ -8,14 +8,14 @@ test: MASTG-TEST-0x03
 
 ## Sample
 
-The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `PasswordResetReceiver`, a broadcast receiver that changes the stored password from an unvalidated `newpass` intent extra and logs the old password. `PasswordResetReceiver` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so any app can send the broadcast and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
+The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `PasswordResetReceiver`, a broadcast receiver that changes the stored password from an unvalidated `newpass` intent extra and logs the old password. `PasswordResetReceiver` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so external callers that know the action can send the broadcast and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
 ## Steps
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0x03 to list the exported broadcast receivers.
+2. Use @MASTG-TECH-0x03 to list the exported broadcast receivers and their associated `android:permission` by running `run.sh`.
 
 The `run.sh` script lists the exported receivers declared in the reverse-engineered manifest.
 
@@ -23,7 +23,7 @@ The `run.sh` script lists the exported receivers declared in the reverse-enginee
 
 ## Observation
 
-The output lists the broadcast receivers declared as exported in the manifest.
+The output reveals the exported broadcast receivers and their associated permissions.
 
 {{ output.txt }}
 
@@ -31,7 +31,7 @@ The output lists the broadcast receivers declared as exported in the manifest.
 
 ## Evaluation
 
-The test case fails because `PasswordResetReceiver` performs a security-relevant action and is exported without restricting who can deliver to it.
+The test case fails because `PasswordResetReceiver` performs a security-relevant action (storing a password and being able to update it) and is exported (`android:exported="true"`) without any permission protection. Because `PasswordResetReceiver` is exported and unprotected, external callers that know the action can send the broadcast and reset the password.
 
 The `onReceive` method changes the stored password from an unvalidated intent extra and discloses the old password to the log:
 
@@ -45,7 +45,7 @@ override fun onReceive(context: Context, intent: Intent) {
 }
 ```
 
-Because it's exported and unprotected, any app can send the broadcast and reset the password.
+`VaultActivity` does not protect the underlying exported broadcast receiver; access control must be enforced at the `PasswordResetReceiver` boundary.
 
 The output also lists `androidx.profileinstaller.ProfileInstallReceiver`. This receiver is added by the AndroidX Profile Installer library and, although exported, is protected by `android:permission="android.permission.DUMP"`, a signature/privileged permission that ordinary apps can't hold. It is development tooling and is not reported as vulnerable in this test case.
 
@@ -79,11 +79,11 @@ Output:
 
 ## Fix
 
-There are two ways to fix this, depending on whether `PasswordResetReceiver` needs to accept broadcasts from external apps.
+There are two ways to fix this, and the right choice depends on whether `PasswordResetReceiver` needs to accept broadcasts from external apps at all.
 
-**Option 1: Set `android:exported="false"` (recommended)**
+**Option 1: Set `android:exported="false"` (recommended for most apps)**
 
-If the receiver only needs to handle broadcasts sent by the app itself (for example, using an explicit internal intent or another in-app communication mechanism), remove external access entirely:
+If `PasswordResetReceiver` has no legitimate reason to receive broadcasts from another app, simply prevent external apps from reaching it:
 
 ```xml
 <receiver
@@ -99,14 +99,14 @@ Broadcasting: Intent { act=org.owasp.mastestapp.RESET_PASSWORD flg=0x400000 cmp=
 Broadcast completed: result=0
 ```
 
-This is the correct fix for any receiver that reacts to internal app events. No other app can send a broadcast to a non-exported receiver. Since Android 8.0 (API 26), implicit broadcast receivers must be registered at runtime anyway, so most password-change or credential-reset events should be handled through explicit internal intents rather than exported static receivers.
+This is the right choice for the vast majority of receivers that react to internal app events, such as credential-reset or state-change broadcasts, that no external app should be able to influence. Since Android 8.0 (API 26), implicit broadcast receivers must be registered at runtime anyway, so most password-change or credential-reset events should be handled through explicit internal intents rather than exported static receivers.
 
-**Option 2: Keep `android:exported="true"` but require a `android:permission`**
+**Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
 
-If the receiver must handle broadcasts from a trusted partner app (for example, a companion lock-screen app from the same developer that can trigger a remote wipe or credential reset), gate delivery with a custom signature-level send permission:
+If the receiver must be reachable by a trusted partner app (for example, a companion lock-screen app from the same developer that can trigger a remote wipe or credential reset), you can keep it exported but gate access with a custom signature-level permission:
 
 ```xml
-<!-- Declare the permission -->
+<!-- Declare the permission in the app's manifest -->
 <permission
     android:name="org.owasp.mastestapp.SEND_PASSWORD_RESET"
     android:protectionLevel="signature" />
@@ -118,15 +118,17 @@ If the receiver must handle broadcasts from a trusted partner app (for example, 
     android:permission="org.owasp.mastestapp.SEND_PASSWORD_RESET" />
 ```
 
-Trying to send the broadcast again with `adb` after this change will also not produce an error, but it won't have any effect:
+With `protectionLevel="signature"`, only apps signed with the same certificate are granted the permission automatically. A real-world example is an enterprise remote-wipe receiver that only responds to broadcasts from the company's own device management app. Both are signed with the enterprise certificate, so only the management app can send broadcasts, while any third-party app is silently ignored by the OS.
+
+This permission-based fix only resolves the finding if the permission cannot be obtained by untrusted apps. If the receiver were protected by a broadly grantable permission, such as a custom permission with `normal` or `dangerous` protection level, the demo would still fail because untrusted apps could still obtain the permission and send broadcasts to the receiver. See @MASTG-KNOW-0017 for Android permission protection levels.
+
+Trying to send the broadcast again with `adb` after this change will not necessarily produce an error, but it won't have any effect:
 
 ```bash
 adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$PasswordResetReceiver' --es newpass hacked123
 Broadcasting: Intent { act=org.owasp.mastestapp.RESET_PASSWORD flg=0x400000 cmp=org.owasp.mastestapp/.MastgTest$PasswordResetReceiver (has extras) }
 Broadcast completed: result=0
 ```
-
-With `protectionLevel="signature"`, the OS only delivers the broadcast if the sending app is signed with the same certificate. A real-world example is an enterprise remote-wipe receiver that only responds to broadcasts from the company's own device management app. Any third-party app that sends the broadcast without holding the permission is silently ignored.
 
 **Additional fix: Also remove sensitive data from logs:**
 

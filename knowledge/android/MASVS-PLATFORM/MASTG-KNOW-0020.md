@@ -37,7 +37,7 @@ Intents can be **explicit** (naming the target component) or **implicit** (descr
 
 ## App Components as IPC Entry Points
 
-Four [app component](https://developer.android.com/guide/components/fundamentals#Components) types act as IPC entry points. Each is declared in the `AndroidManifest.xml` file and its visibility to other apps is controlled by the [`android:exported`](https://developer.android.com/privacy-and-security/risks/android-exported) attribute and, optionally, permission attributes:
+Four [app component](https://developer.android.com/guide/components/fundamentals#Components) types act as IPC entry points. Each is declared in the `AndroidManifest.xml` file and its visibility to other apps is controlled by the [`android:exported`](https://developer.android.com/privacy-and-security/risks/android-exported) attribute and, optionally, permission attributes. For the permission model behind these controls, including protection levels, component permission enforcement, and custom permissions, see @MASTG-KNOW-0017:
 
 - **Activities** provide user-interface screens that other apps can start. See @MASTG-KNOW-0x01.
 - **Services** run background operations that other apps can start or bind to. See @MASTG-KNOW-0x02.

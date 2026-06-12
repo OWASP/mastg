@@ -20,7 +20,7 @@ import android.widget.TextView
 class MastgTest(private val context: Context) {
 
     fun mastgTest(): String {
-        // Launch PinEntryActivity — the intended path that enforces the PIN gate.
+        // Launch PinEntryActivity - the intended path that enforces the PIN gate.
         // SecretActivity is also exported, so an attacker can bypass PinEntryActivity
         // entirely by starting it directly.
         context.startActivity(
@@ -28,11 +28,11 @@ class MastgTest(private val context: Context) {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         )
-        return "Launching PIN entry screen…"
+        return "Launching PIN entry screen..."
     }
 
     // Legitimate entry point: enforces PIN 4321 before launching SecretActivity.
-    // Not exported — only reachable through the app's own flow.
+    // Not exported - only reachable through the app's own flow.
     class PinEntryActivity : Activity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class MastgTest(private val context: Context) {
             }
 
             val title = TextView(this).apply {
-                text = "MASTestApp – Secure Area"
+                text = "MASTestApp - Secure Area"
                 textSize = 22f
             }
 
@@ -82,8 +82,8 @@ class MastgTest(private val context: Context) {
         }
     }
 
-    // FAIL: [MASTG-TEST-0x01] SecretActivity is exported and performs no authentication
-    // check. Any app — or adb — can start it directly, bypassing PinEntryActivity.
+    // FAIL: [MASTG-TEST-0x01] SecretActivity is exported and does not need any special permissions.
+    // External callers, like other apps including adb, can start it directly, bypassing PinEntryActivity.
     class SecretActivity : Activity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

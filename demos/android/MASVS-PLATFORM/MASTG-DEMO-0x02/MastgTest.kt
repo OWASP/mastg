@@ -90,9 +90,8 @@ class MastgTest(private val context: Context) {
         }
     }
 
-    // FAIL: [MASTG-TEST-0x02] AuthService is exported (see AndroidManifest.xml) and changes the
-    // stored password from an intent extra in onStartCommand without calling checkCallingPermission()
-    // or otherwise verifying the caller, so any app can start it and reset the password.
+    // FAIL: [MASTG-TEST-0x02] AuthService is exported and does not need any special permissions.
+    // External callers, like other apps including adb, can start it directly and reset the password.
     class AuthService : Service() {
 
         companion object {

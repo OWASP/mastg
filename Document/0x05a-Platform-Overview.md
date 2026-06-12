@@ -494,7 +494,7 @@ For a detailed description of explicit and implicit intents, see @MASTG-KNOW-002
 
 #### Broadcast Receivers
 
-A [broadcast receiver](https://developer.android.com/guide/components/broadcasts) lets an app receive notifications from other apps and from the system through a publish-subscribe model. A receiver can be declared in the `AndroidManifest.xml` file with a [`<receiver>`](https://developer.android.com/guide/topics/manifest/receiver-element) element or registered at runtime with [`Context.registerReceiver`](https://developer.android.com/reference/android/content/Context#registerReceiver(android.content.BroadcastReceiver,%20android.content.IntentFilter)). Apps send broadcasts with `sendBroadcast` or `sendOrderedBroadcast`. Background execution limits restrict implicit broadcasts for apps targeting Android 8.0 (API level 26) or higher, and since Android 13 (API level 33) context-registered receivers of non-system broadcasts must specify `RECEIVER_EXPORTED` or `RECEIVER_NOT_EXPORTED`.
+A [broadcast receiver](https://developer.android.com/guide/components/broadcasts) lets an app receive notifications from other apps and from the system through a publish-subscribe model. A receiver can be declared in the `AndroidManifest.xml` file with a [`<receiver>`](https://developer.android.com/guide/topics/manifest/receiver-element) element or registered at runtime with the relevant `registerReceiver()` methods. Apps send broadcasts with `sendBroadcast()` or `sendOrderedBroadcast()`.
 
 For a detailed description of broadcast receivers, their registration, and access control, see @MASTG-KNOW-0x03.
 
