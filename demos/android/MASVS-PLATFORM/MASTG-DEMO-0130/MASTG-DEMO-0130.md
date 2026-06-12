@@ -129,6 +129,6 @@ Broadcasting: Intent { act=org.owasp.mastestapp.RESET_PASSWORD flg=0x400000 cmp=
 Broadcast completed: result=0
 ```
 
-**Additional fix: Remove sensitive data from logs**
+**Additional fix - Remove sensitive data from logs:**
 
 Regardless of whether the receiver itself is protected, no credentials must be written to the app logs, which are readable by any app that holds `READ_LOGS` (granted to shell and ADB).
