@@ -15,7 +15,7 @@ import android.widget.Toast
 
 // SUMMARY: This sample demonstrates an attacker app that uses the SYSTEM_ALERT_WINDOW permission
 // to draw a visible overlay over other apps. It is used to demonstrate how overlay attacks work
-// against apps that lack overlay protections (see MASTG-DEMO-0x01).
+// against apps that lack overlay protections (see MASTG-DEMO-0103).
 
 class MastgTest(private val context: Context) {
 
