@@ -44,7 +44,7 @@ Review each of the reported instances:
 
 - **Line 28**: FAIL - Uses `PendingIntent.getService()` with `FLAG_MUTABLE` explicitly set. Even though the intent is explicit, the mutable flag allows modification of unfilled fields.
 
-- **Lines 31**: FAIL - Uses `PendingIntent.getBroadcast()` with an implicit intent (custom action) and no flags. On API < 31, the absence of flags results in implicit mutability.
+- **Line 31**: FAIL - Uses `PendingIntent.getBroadcast()` with an implicit intent (custom action) and no flags. On API < 31, the absence of flags results in implicit mutability.
 
 The test fails for the three instances because they either lack `FLAG_IMMUTABLE` or use implicit intents that could be hijacked.
 
