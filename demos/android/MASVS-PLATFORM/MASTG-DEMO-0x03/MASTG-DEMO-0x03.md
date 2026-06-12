@@ -8,7 +8,7 @@ test: MASTG-TEST-0x03
 
 ## Sample
 
-The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `PasswordResetReceiver`, a broadcast receiver that changes the stored password from an unvalidated `newpass` intent extra and logs the old password. `PasswordResetReceiver` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so external callers that know the action can send the broadcast and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
+The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `PasswordResetReceiver`, a broadcast receiver that changes the stored password from a `newpass` intent extra and logs the old password. `PasswordResetReceiver` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so external callers can send the broadcast and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
@@ -31,9 +31,9 @@ The output reveals the exported broadcast receivers and their associated permiss
 
 ## Evaluation
 
-The test case fails because `PasswordResetReceiver` performs a security-relevant action (storing a password and being able to update it) and is exported (`android:exported="true"`) without any permission protection. Because `PasswordResetReceiver` is exported and unprotected, external callers that know the action can send the broadcast and reset the password.
+The test case fails because `PasswordResetReceiver` performs a security-relevant action (storing a password and being able to update it) and is exported (`android:exported="true"`) without any permission protection. Because `PasswordResetReceiver` is exported and unprotected, external callers can send a broadcast to it and overwrite the password.
 
-The `onReceive` method changes the stored password from an unvalidated intent extra and discloses the old password to the log:
+The `onReceive` method changes the stored password from an intent extra and discloses the old password to the log:
 
 ```kotlin
 override fun onReceive(context: Context, intent: Intent) {
@@ -45,7 +45,7 @@ override fun onReceive(context: Context, intent: Intent) {
 }
 ```
 
-`VaultActivity` does not protect the underlying exported broadcast receiver; access control must be enforced at the `PasswordResetReceiver` boundary.
+`VaultActivity` does not protect the underlying exported broadcast receiver. Access control must be enforced at the `PasswordResetReceiver` boundary.
 
 The output also lists `androidx.profileinstaller.ProfileInstallReceiver`. This receiver is added by the AndroidX Profile Installer library and, although exported, is protected by `android:permission="android.permission.DUMP"`, a signature/privileged permission that ordinary apps can't hold. It is development tooling and is not reported as vulnerable in this test case.
 
@@ -57,13 +57,13 @@ You can use @MASTG-TECH-0x03 with @MASTG-TOOL-0004 to deliver the broadcast and 
 2. Send the broadcast, targeting the receiver explicitly so it's delivered on modern Android:
 
     ```bash
-    adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$PasswordResetReceiver' --es newpass hacked123
+    adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$PasswordResetReceiver' --es newpass hacked123
 
     Broadcasting: Intent { act=org.owasp.mastestapp.RESET_PASSWORD flg=0x400000 cmp=org.owasp.mastestapp/.MastgTest$PasswordResetReceiver (has extras) }
     Broadcast completed: result=0
     ```
 
-3. Return to the app and tap **Refresh**. The vault password now shows `hacked123`, confirming that an external app triggered the change.
+3. Return to the app and tap **Refresh**. The vault password now shows `hacked123`, confirming that an external caller changed it through the exported receiver.
 
 The disclosed old password is also visible in the log:
 
@@ -83,7 +83,7 @@ There are two ways to fix this, and the right choice depends on whether `Passwor
 
 **Option 1: Set `android:exported="false"` (recommended for most apps)**
 
-If `PasswordResetReceiver` has no legitimate reason to receive broadcasts from another app, simply prevent external apps from reaching it:
+If `PasswordResetReceiver` has no legitimate reason to receive broadcasts from another app, prevent external apps from reaching it:
 
 ```xml
 <receiver
@@ -94,12 +94,12 @@ If `PasswordResetReceiver` has no legitimate reason to receive broadcasts from a
 Trying to send the broadcast again with `adb` after this change will not necessarily produce an error, but the password will not change and the log will not show the old password, confirming that the receiver is no longer reachable from outside the app.
 
 ```bash
-adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$PasswordResetReceiver' --es newpass hacked123
+adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$PasswordResetReceiver' --es newpass hacked123
 Broadcasting: Intent { act=org.owasp.mastestapp.RESET_PASSWORD flg=0x400000 cmp=org.owasp.mastestapp/.MastgTest$PasswordResetReceiver (has extras) }
 Broadcast completed: result=0
 ```
 
-This is the right choice for the vast majority of receivers that react to internal app events, such as credential-reset or state-change broadcasts, that no external app should be able to influence. Since Android 8.0 (API 26), implicit broadcast receivers must be registered at runtime anyway, so most password-change or credential-reset events should be handled through explicit internal intents rather than exported static receivers.
+This is the right choice for the vast majority of receivers that react to internal app events, such as credential-reset or state-change broadcasts, that no external app should be able to influence.
 
 **Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
 
@@ -118,18 +118,18 @@ If the receiver must be reachable by a trusted partner app (for example, a compa
     android:permission="org.owasp.mastestapp.SEND_PASSWORD_RESET" />
 ```
 
-With `protectionLevel="signature"`, only apps signed with the same certificate are granted the permission automatically. A real-world example is an enterprise remote-wipe receiver that only responds to broadcasts from the company's own device management app. Both are signed with the enterprise certificate, so only the management app can send broadcasts, while any third-party app is silently ignored by the OS.
+With `protectionLevel="signature"`, only apps signed with the same certificate are granted the permission automatically. A real-world example is an enterprise remote-wipe receiver that only responds to broadcasts from the company's own device management app. Both are signed with the enterprise certificate, so only the management app can send broadcasts, while any third-party app is rejected by the OS before `onReceive` is called.
 
 This permission-based fix only resolves the finding if the permission cannot be obtained by untrusted apps. If the receiver were protected by a broadly grantable permission, such as a custom permission with `normal` or `dangerous` protection level, the demo would still fail because untrusted apps could still obtain the permission and send broadcasts to the receiver. See @MASTG-KNOW-0017 for Android permission protection levels.
 
 Trying to send the broadcast again with `adb` after this change will not necessarily produce an error, but it won't have any effect:
 
 ```bash
-adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$PasswordResetReceiver' --es newpass hacked123
+adb shell am broadcast -a org.owasp.mastestapp.RESET_PASSWORD -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$PasswordResetReceiver' --es newpass hacked123
 Broadcasting: Intent { act=org.owasp.mastestapp.RESET_PASSWORD flg=0x400000 cmp=org.owasp.mastestapp/.MastgTest$PasswordResetReceiver (has extras) }
 Broadcast completed: result=0
 ```
 
-**Additional fix: Also remove sensitive data from logs:**
+**Additional fix: Remove sensitive data from logs**
 
 Regardless of whether the receiver itself is protected, no credentials must be written to the app logs, which are readable by any app that holds `READ_LOGS` (granted to shell and ADB).

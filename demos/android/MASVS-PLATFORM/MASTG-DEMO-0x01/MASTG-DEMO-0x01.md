@@ -10,7 +10,7 @@ test: MASTG-TEST-0x01
 
 The sample app performs a login flow by using two activities. Tapping **Start** in the main screen launches `PinEntryActivity`, which prompts for a PIN (4321) before proceeding to `SecretActivity`. `SecretActivity` displays sensitive account data and is meant to be reachable only after the user passes the PIN check.
 
-However, `SecretActivity` is declared as exported in the `AndroidManifest.xml` with `android:permission` that protects the activity from being launched from third-party apps (or `adb`), that can start `SecretActivity` directly without having to interact with `PinEntryActivity`, bypassing the PIN gate entirely.
+However, `SecretActivity` is declared as exported in the `AndroidManifest.xml` without an `android:permission`. This allows third-party apps, or `adb`, to start `SecretActivity` directly without interacting with `PinEntryActivity`, bypassing the PIN gate entirely.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
@@ -36,7 +36,7 @@ The exported activities are:
 
 ## Evaluation
 
-The test case fails because `SecretActivity` exposes sensitive functionality and is exported (`android:exported="true"`) without any permission protection. Because `SecretActivity` is exported and unprotected, external callers that can address the component can start it directly, bypassing `PinEntryActivity` entirely.
+The test case fails because `SecretActivity` exposes sensitive functionality and is exported (`android:exported="true"`) without any permission protection, so external callers can start it directly by using an explicit intent.
 
 `PinEntryActivity` does not protect the underlying exported activity; access control must be enforced at the `SecretActivity` boundary.
 

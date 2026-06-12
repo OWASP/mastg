@@ -8,7 +8,7 @@ test: MASTG-TEST-0x02
 
 ## Sample
 
-The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `AuthService`, a started service that reads a new password from the intent extras passed to `onStartCommand` and writes it to shared preferences. `AuthService` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so external callers that can address the component can start it and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
+The sample implements a small password vault. Tapping **Start** opens `VaultActivity`, which displays the password currently stored in the app (`originalPass123` on first run). The app also declares `AuthService`, a started service that reads a new password from the intent extras passed to `onStartCommand` and writes it to shared preferences. `AuthService` is declared as exported in the `AndroidManifest.xml` with no `android:permission`, so external callers can start it directly with an explicit intent and reset the password. Tapping **Refresh** in `VaultActivity` then shows the new value.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
@@ -33,7 +33,7 @@ The output reveals the exported services and their associated permissions.
 
 The test case fails because `AuthService` exposes a security-relevant operation (changing the vault password) and is exported (`android:exported="true"`) without any permission protection. Because `AuthService` is exported and unprotected, external callers that can address the component can start it directly and overwrite the password.
 
-The service changes the stored password from an intent extra in `onStartCommand` without calling `checkCallingPermission` or otherwise checking the caller:
+The service changes the stored password from an intent extra in `onStartCommand` without enforcing any caller permission:
 
 ```kotlin
 override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -46,7 +46,7 @@ override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 }
 ```
 
-`VaultActivity` does not protect the underlying exported service; access control must be enforced at the `AuthService` boundary.
+`VaultActivity` does not protect the underlying exported service. Access control must be enforced at the `AuthService` boundary.
 
 ### Confirm the Exposure
 
@@ -69,7 +69,7 @@ There are two ways to fix this, and the right choice depends on whether `AuthSer
 
 **Option 1: Set `android:exported="false"` (recommended for most apps)**
 
-If `AuthService` has no legitimate reason to be started by another app, simply prevent external apps from reaching it:
+If `AuthService` has no legitimate reason to be started by another app, prevent external apps from reaching it:
 
 ```xml
 <service
@@ -80,12 +80,12 @@ If `AuthService` has no legitimate reason to be started by another app, simply p
 Trying to start `AuthService` again with `adb` after this change will fail with an error, confirming that the service is no longer reachable from outside the app:
 
 ```bash
-adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$AuthService' --es org.owasp.mastestapp.PASSWORD hacked123
+adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$AuthService' --es org.owasp.mastestapp.PASSWORD hacked123
 Starting service: Intent { cmp=org.owasp.mastestapp/.MastgTest$AuthService (has extras) }
 Error: Requires permission not exported from uid 10225
 ```
 
-This is the right choice for the vast majority of services that manage internal state, such as credentials, session tokens, or sync state, that no external app should be able to influence. The OS will reject any external `startService` or `bindService` call before it reaches `onStartCommand`.
+This is the right choice for the vast majority of services that manage internal state, such as credentials, session tokens, or sync state, that no external app should be able to influence. The OS will reject external `startService` and `bindService` calls before they reach the service entry points.
 
 **Option 2: Keep `android:exported="true"` but enforce a `android:permission`**
 
@@ -102,18 +102,14 @@ If the service must be reachable by a trusted partner app (for example, a separa
     android:permission="org.owasp.mastestapp.USE_AUTH_SERVICE" />
 ```
 
-With `protectionLevel="signature"`, only apps signed with the same certificate are granted the permission automatically. A real-world example is an enterprise MDM agent that exposes a configuration service to a companion management app. Both are signed with the enterprise certificate, so only the management app can send commands, while any third-party app is rejected by the OS before `onStartCommand` is even called.
+With `protectionLevel="signature"`, only apps signed with the same certificate are granted the permission automatically. A real-world example is an enterprise MDM agent that exposes a configuration service to a companion management app. Both are signed with the enterprise certificate, so only the management app can send commands, while any third-party app is rejected by the OS before `onStartCommand` is called.
 
 This permission-based fix only resolves the finding if the permission cannot be obtained by untrusted apps. If the service were protected by a broadly grantable permission, such as a custom permission with `normal` or `dangerous` protection level, the demo would still fail because untrusted apps could still obtain the permission and start or bind to the service. See @MASTG-KNOW-0017 for Android permission protection levels.
 
 Trying to start `AuthService` again with `adb` after this change will fail with a different error, confirming that the service is still exported but now requires a permission that the calling app does not have:
 
 ```bash
-adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\\$AuthService' --es org.owasp.mastestapp.PASSWORD hacked123
+adb shell am startservice -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$AuthService' --es org.owasp.mastestapp.PASSWORD hacked123
 Starting service: Intent { cmp=org.owasp.mastestapp/.MastgTest$AuthService (has extras) }
 Error: Requires permission org.owasp.mastestapp.USE_AUTH_SERVICE
 ```
-
-**Option 3: Validate the caller inside `onStartCommand`**
-
-If using a system-defined permission such as a dangerous or normal permission is unavoidable, the service can also call `checkCallingOrSelfPermission` to verify the caller at runtime. However, this is harder to get right than a manifest-level permission and should be treated as an additional defence-in-depth measure rather than the primary control.
