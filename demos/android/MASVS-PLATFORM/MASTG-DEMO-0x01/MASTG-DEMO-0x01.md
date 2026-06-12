@@ -32,7 +32,7 @@ Run the @MASTG-TOOL-0110 rule against the reversed Java code to identify all Pen
 
 ## Observation
 
-The rule identifies **4 findings** where `PendingIntent` creation APIs are used. This includes both insecure and secure implementations.
+The rule identifies **3 findings** where `PendingIntent` creation APIs includes insecure implementations.
 
 {{ output.txt }}
 
@@ -40,12 +40,20 @@ The rule identifies **4 findings** where `PendingIntent` creation APIs are used.
 
 Review each of the reported instances:
 
-- **Lines 26-31**: FAIL - Uses `PendingIntent.getActivity()` with an implicit intent (`ACTION_VIEW`) and `FLAG_UPDATE_CURRENT` without `FLAG_IMMUTABLE`. A malicious app could intercept this PendingIntent and modify its target.
+- **Line 25**: FAIL - Uses `PendingIntent.getActivity()` with an implicit intent (`ACTION_VIEW`) and `FLAG_UPDATE_CURRENT` without `FLAG_IMMUTABLE`. A malicious app could intercept this PendingIntent and modify its target.
 
-- **Lines 36-41**: FAIL - Uses `PendingIntent.getService()` with `FLAG_MUTABLE` explicitly set. Even though the intent is explicit, the mutable flag allows modification of unfilled fields.
+- **Line 28**: FAIL - Uses `PendingIntent.getService()` with `FLAG_MUTABLE` explicitly set. Even though the intent is explicit, the mutable flag allows modification of unfilled fields.
 
-- **Lines 46-51**: FAIL - Uses `PendingIntent.getBroadcast()` with an implicit intent (custom action) and no flags. On API < 31, the absence of flags results in implicit mutability.
+- **Lines 31**: FAIL - Uses `PendingIntent.getBroadcast()` with an implicit intent (custom action) and no flags. On API < 31, the absence of flags results in implicit mutability.
 
-- **Lines 57-62**: PASS - Uses `PendingIntent.getActivity()` with `FLAG_IMMUTABLE` and an explicit intent specifying both class and package. This is secure.
+The test fails for the three instances because they either lack `FLAG_IMMUTABLE` or use implicit intents that could be hijacked.
 
-The test fails for the first three instances because they either lack `FLAG_IMMUTABLE` or use implicit intents that could be hijacked.
+### Confirm the Exposure
+
+The sample creates `PendingIntent` instances using mutable or non-immutable flags. If exposed to external applications, they may become exploitable when shared through notifications, widgets, shortcuts, or IPC mechanisms.
+
+For the `getActivity()` instance, the base intent uses `Intent.ACTION_VIEW` without specifying a target component. If the `PendingIntent` is exposed, an attacker-controlled application capable of handling the same action could be selected as the destination when the intent is resolved.
+
+For the `getService()` instance, `FLAG_MUTABLE` is explicitly specified. If an attacker obtains a reference to the `PendingIntent`, mutable intent fields such as extras, actions, or data URIs may be modified before the intent is delivered to the target service.
+
+For the `getBroadcast()` instance, the broadcast uses an implicit action and does not specify `FLAG_IMMUTABLE`. An attacker-controlled application could register a receiver for the same action and potentially receive or influence the broadcast when the `PendingIntent` is sent.
