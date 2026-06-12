@@ -1,9 +1,10 @@
 ---
-title: Credential Change Through an Exported Service With No Permissions Declared
+title: Sensitive Action Exposed Through an Unprotected Service
 platform: android
 id: MASTG-DEMO-0x02
 code: [kotlin]
 test: MASTG-TEST-0x02
+kind: fail
 ---
 
 ## Sample
@@ -23,11 +24,9 @@ The `run.sh` script lists the exported services declared in the reverse-engineer
 
 ## Observation
 
-The output reveals the exported services and their associated permissions.
+The output reveals the exported services and their associated permissions:
 
 {{ output.txt }}
-
-`AuthService` is exported (`android:exported="true"`) and declares no `android:permission`.
 
 ## Evaluation
 

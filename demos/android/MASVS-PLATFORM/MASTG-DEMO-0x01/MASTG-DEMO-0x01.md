@@ -1,9 +1,10 @@
 ---
-title: Authentication Bypass Through an Exported Activity With No Permissions Declared
+title: Sensitive Data Exposed Through an Unprotected Activity
 platform: android
 id: MASTG-DEMO-0x01
 code: [kotlin]
 test: MASTG-TEST-0x01
+kind: fail
 ---
 
 ## Sample
@@ -23,16 +24,9 @@ However, `SecretActivity` is declared as exported in the `AndroidManifest.xml` w
 
 ## Observation
 
-The output reveals the exported activities and their associated permissions.
+The output reveals the exported activities and their associated permissions:
 
 {{ output.txt }}
-
-The exported activities are:
-
-- `org.owasp.mastestapp.MainActivity`, without any associated permissions.
-- `org.owasp.mastestapp.MastgTest.SecretActivity`, without any associated permissions.
-- `androidx.compose.ui.tooling.PreviewActivity`, without any associated permissions.
-- `androidx.activity.ComponentActivity`, without any associated permissions.
 
 ## Evaluation
 

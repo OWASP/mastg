@@ -1,9 +1,10 @@
 ---
-title: Sensitive Action Through an Exported Broadcast Receiver With No Permissions Declared
+title: Sensitive Action Exposed Through an Unprotected Manifest-Declared Broadcast Receiver
 platform: android
 id: MASTG-DEMO-0x03
 code: [kotlin]
 test: MASTG-TEST-0x03
+kind: fail
 ---
 
 ## Sample
@@ -23,11 +24,9 @@ The `run.sh` script lists the exported receivers declared in the reverse-enginee
 
 ## Observation
 
-The output reveals the exported broadcast receivers and their associated permissions.
+The output reveals the exported broadcast receivers and their associated permissions:
 
 {{ output.txt }}
-
-`PasswordResetReceiver` is exported (`android:exported="true"`) and declares no `android:permission`.
 
 ## Evaluation
 
