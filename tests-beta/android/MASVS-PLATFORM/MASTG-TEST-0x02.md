@@ -4,7 +4,7 @@ title: Exported And Unprotected Services That Expose Sensitive Functionality
 id: MASTG-TEST-0x02
 type: [static, config, code, manual]
 weakness: MASWE-0062
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0x02, MASTG-KNOW-0017, MASTG-KNOW-0020]
 ---

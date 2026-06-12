@@ -1,17 +1,45 @@
 ---
-title: Restrict Access to Android Activities
-alias: restrict-access-to-activities
+title: Restrict Access to Android App Components
+alias: restrict-access-to-android-components
 id: MASTG-BEST-0x01
 platform: android
-knowledge: [MASTG-KNOW-0x01, MASTG-KNOW-0017]
+knowledge: [MASTG-KNOW-0017, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0020]
 ---
 
-Expose an [activity](https://developer.android.com/guide/components/activities/intro-activities) to other apps only when another app genuinely needs to start it. Every exported activity is an entry point that any app on the device can invoke, so keeping activities private by default reduces the app's attack surface.
+Only export an app component when another app genuinely needs to interact with it. Every exported component is an entry point that other apps on the device may be able to invoke, so keeping components private by default reduces the app's attack surface.
 
-- **Set `android:exported` explicitly.** Declare [`android:exported="false"`](https://developer.android.com/guide/topics/manifest/activity-element#exported) on every activity that doesn't need to be started by other apps. Don't rely on the default value: it has changed across Android versions and component types, and an [`<intent-filter>`](https://developer.android.com/guide/topics/manifest/intent-filter-element) historically makes an activity exported unless you set the attribute. Since Android 12 (API level 31), any component with an intent filter must set `android:exported` explicitly. See [`android:exported`](https://developer.android.com/privacy-and-security/risks/android-exported). For background on activities and the `android:exported` attribute, see @MASTG-KNOW-0x01.
-- **Don't put sensitive functionality behind an exported activity without authentication.** If an activity must be exported, make sure it doesn't let a caller bypass authentication or reach a screen that should only be available after login. Re-check the app's authentication state in the activity rather than assuming the user reached it through the intended flow.
-- **Require an effective permission when appropriate.** If only specific apps should start the activity, protect it with [`android:permission`](https://developer.android.com/guide/topics/manifest/activity-element#prmsn) and define a custom permission that matches the intended trust boundary. For example, use `android:protectionLevel="signature"` to limit access to apps signed with the same key. Do not treat the presence of `android:permission` as sufficient by itself: a broadly grantable custom permission, such as `normal` or `dangerous`, might still allow untrusted apps to start sensitive activities. See @MASTG-KNOW-0017 for Android permission protection levels and custom permissions.
-- **Validate incoming intent data.** Treat all data in an incoming `Intent` as untrusted and validate it before use.
+## Set the exported status explicitly
 
-!!! warning
-    Setting `android:exported="false"` prevents other apps from starting the activity, but components within the same app and apps sharing the same user ID can still reach it. Don't treat it as a substitute for in-app authentication checks on sensitive screens.
+Declare `android:exported="false"` on every manifest-declared component that doesn't need to be accessible to other apps. Don't rely on the default value: it has changed across Android versions and component types, and an [`<intent-filter>`](https://developer.android.com/guide/topics/manifest/intent-filter-element) historically makes a component exported unless the attribute is set explicitly. Since Android 12 (API level 31), any activity, service, or broadcast receiver with an intent filter [must explicitly declare `android:exported`](https://developer.android.com/privacy-and-security/risks/android-exported).
+
+For context-registered receivers, when registering the receiver with a `registerReceiver()` overload that accepts flags, explicitly pass `RECEIVER_NOT_EXPORTED` in the `flags` parameter unless the receiver must accept broadcasts from other apps. Use `RECEIVER_EXPORTED` only when external broadcasts are required.
+
+Setting `android:exported="false"` (for manifest-declared components) or `RECEIVER_NOT_EXPORTED` (for context-registered receivers) prevents ordinary apps, including separate apps from the same developer, from accessing the component. Components within the same app, [apps sharing the same user ID](https://developer.android.com/guide/topics/permissions/defining#userid), and privileged system components can still reach it. Use `android:exported="true"` with an appropriate permission, usually `signature`, when a separate trusted app must access the component.
+
+## Require an effective permission when appropriate
+
+If a component must be exported but should only be accessible to specific apps, protect it with `android:permission` and use a permission with a protection level appropriate for the intended callers. A custom permission with `signature` protection is usually appropriate when access should be limited to apps signed with the same key.
+
+Do not treat the presence of `android:permission` as sufficient by itself: a broadly grantable protection level (`normal` or `dangerous`) may still allow untrusted apps to invoke sensitive components. See @MASTG-KNOW-0017 for Android permission protection levels and custom permissions.
+
+For context-registered receivers, when registering an exported receiver that should only accept broadcasts from specific apps, pass an appropriate permission in the `broadcastPermission` parameter. This restricts which apps can send broadcasts to the receiver. The permission should resolve to a trusted `<permission>` declaration with an appropriate protection level, usually `signature`.
+
+For example, define the permission in the manifest of the app that owns the receiver or in another trusted package:
+
+```xml
+<permission
+    android:name="com.example.app.permission.SEND_INTERNAL_BROADCAST"
+    android:protectionLevel="signature" />
+```
+
+Then require that permission when registering the receiver:
+
+```kotlin
+registerReceiver(
+    myReceiver,
+    IntentFilter("com.example.app.ACTION_INTERNAL"),
+    "com.example.app.permission.SEND_INTERNAL_BROADCAST",
+    null,
+    Context.RECEIVER_EXPORTED
+)
+```

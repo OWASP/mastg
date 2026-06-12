@@ -4,7 +4,7 @@ title: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functi
 id: MASTG-TEST-0x03
 type: [static, config, code, manual]
 weakness: MASWE-0063
-best-practices: [MASTG-BEST-0x03]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0x03, MASTG-KNOW-0017, MASTG-KNOW-0020]
 ---
