@@ -420,7 +420,7 @@ Four of these component types (activities, services, broadcast receivers, and co
 
 Activities make up the visible part of any app, with one activity per screen. Each activity extends the [`Activity`](https://developer.android.com/reference/android/app/Activity) class, hosts the screen's user interface elements, and must be declared in the `AndroidManifest.xml` file with an [`<activity>`](https://developer.android.com/guide/topics/manifest/activity-element) element. Activities have their own [lifecycle](https://developer.android.com/guide/components/activities/activity-lifecycle) managed by the system, with callbacks such as `onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, and `onDestroy`.
 
-Other apps can start an activity that is exported, which makes activities an IPC entry point. For a detailed description of activities, intent filters, and the `android:exported` attribute, see @MASTG-KNOW-0x01.
+Other apps can start an activity that is exported, which makes activities an IPC entry point. For a detailed description of activities, intent filters, and the `android:exported` attribute, see @MASTG-KNOW-0132.
 
 #### Fragments
 
@@ -478,7 +478,7 @@ For a detailed description of content providers, their URI structure, and access
 
 A [service](https://developer.android.com/guide/components/services) is an app component (based on the [`Service`](https://developer.android.com/reference/android/app/Service) class) that performs tasks in the background without a user interface, such as data processing or network transactions. A service must be declared in the `AndroidManifest.xml` file with a [`<service>`](https://developer.android.com/guide/topics/manifest/service-element) element. Other apps can start or bind to a service that is exported, which makes services an IPC entry point. A service runs in the main thread of its hosting process unless configured otherwise.
 
-For a detailed description of started and bound services, their interfaces, and access control, see @MASTG-KNOW-0x02.
+For a detailed description of started and bound services, their interfaces, and access control, see @MASTG-KNOW-0133.
 
 ### Inter-Process Communication
 
@@ -496,7 +496,7 @@ For a detailed description of explicit and implicit intents, see @MASTG-KNOW-002
 
 A [broadcast receiver](https://developer.android.com/guide/components/broadcasts) lets an app receive notifications from other apps and from the system through a publish-subscribe model. A receiver can be declared in the `AndroidManifest.xml` file with a [`<receiver>`](https://developer.android.com/guide/topics/manifest/receiver-element) element or registered at runtime with the relevant `registerReceiver()` methods. Apps send broadcasts with `sendBroadcast()` or `sendOrderedBroadcast()`.
 
-For a detailed description of broadcast receivers, their registration, and access control, see @MASTG-KNOW-0x03.
+For a detailed description of broadcast receivers, their registration, and access control, see @MASTG-KNOW-0134.
 
 ## Android Application Publishing
 

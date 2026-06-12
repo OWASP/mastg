@@ -3,7 +3,7 @@ title: Enumerating Broadcast Receivers
 platform: android
 ---
 
-You can enumerate the broadcast receivers an app declares, determine which of them are exported, and identify any associated `android:permission` values by inspecting the app's `AndroidManifest.xml` or by querying the running system. See @MASTG-KNOW-0x03 for background on broadcast receivers and the `android:exported` attribute.
+You can enumerate the broadcast receivers an app declares, determine which of them are exported, and identify any associated `android:permission` values by inspecting the app's `AndroidManifest.xml` or by querying the running system. See @MASTG-KNOW-0134 for background on broadcast receivers and the `android:exported` attribute.
 
 Prefer static analysis of the manifest first, as it doesn't require a device and reflects exactly what the app declares. Use the device- and tool-based options when you also need to confirm runtime behavior. Note that context-registered receivers (registered at runtime with `Context.registerReceiver`) don't appear in the manifest and require code or runtime analysis.
 

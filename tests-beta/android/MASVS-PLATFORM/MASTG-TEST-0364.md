@@ -1,17 +1,17 @@
 ---
 platform: android
 title: Exported And Unprotected Activities That Expose Sensitive Functionality
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0364
 type: [static, config, code, manual]
 weakness: MASWE-0x01
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0052]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0x01, MASTG-KNOW-0017, MASTG-KNOW-0020]
+knowledge: [MASTG-KNOW-0132, MASTG-KNOW-0017, MASTG-KNOW-0020]
 ---
 
 ## Overview
 
-If an exported activity does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/activity-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can start it with an `Intent` and reach that functionality without going through the app's intended flow. See @MASTG-KNOW-0x01 for details on activities, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
+If an exported activity does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/activity-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can start it with an `Intent` and reach that functionality without going through the app's intended flow. See @MASTG-KNOW-0132 for details on activities, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected activities.
 
@@ -19,7 +19,7 @@ This test checks whether the app exposes sensitive functionality through exporte
 
 Suppose a banking app protects its account screen behind a login activity but also declares an unprotected account-details activity that is exported, for example by setting `android:exported="true"` and without any limiting `android:permission`.
 
-1. An attacker reverse engineers the app and finds the exported account-details activity (see @MASTG-TECH-0x01).
+1. An attacker reverse engineers the app and finds the exported account-details activity (see @MASTG-TECH-0160).
 2. The attacker writes a malicious app that calls `startActivity` with an explicit intent targeting that activity by its component name.
 3. The account-details activity starts directly, without going through the login activity.
 4. The account-details activity displays the victim's account data without requiring authentication.
@@ -28,7 +28,7 @@ Suppose a banking app protects its account screen behind a login activity but al
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-3. Use @MASTG-TECH-0x01 to list the exported activities and their associated `android:permission`.
+3. Use @MASTG-TECH-0160 to list the exported activities and their associated `android:permission`.
 4. Use @MASTG-TECH-0014 to inspect the code of each exported activity.
 
 ## Observation

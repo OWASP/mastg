@@ -1,17 +1,17 @@
 ---
 platform: android
 title: Exported And Unprotected Services That Expose Sensitive Functionality
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0365
 type: [static, config, code, manual]
 weakness: MASWE-0062
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0052]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0x02, MASTG-KNOW-0017, MASTG-KNOW-0020]
+knowledge: [MASTG-KNOW-0133, MASTG-KNOW-0017, MASTG-KNOW-0020]
 ---
 
 ## Overview
 
-If an exported service does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/service-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can start or bind to it and invoke that functionality. See @MASTG-KNOW-0x02 for details on services, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
+If an exported service does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/service-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can start or bind to it and invoke that functionality. See @MASTG-KNOW-0133 for details on services, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected services.
 
@@ -19,7 +19,7 @@ This test checks whether the app exposes sensitive functionality through exporte
 
 Suppose a password-manager app uses a bound service with a `Messenger` interface to change the master password, and the service is exported with no `android:permission`.
 
-1. An attacker reverse engineers the app and identifies the exported service and the message format it expects (see @MASTG-TECH-0x02).
+1. An attacker reverse engineers the app and identifies the exported service and the message format it expects (see @MASTG-TECH-0161).
 2. The attacker writes a malicious app that binds to the service and sends a message that sets a new master password.
 3. The service processes the request without verifying the caller, so it resets the password.
 4. The attacker now controls the victim's master password and can unlock the password vault.
@@ -28,7 +28,7 @@ Suppose a password-manager app uses a bound service with a `Messenger` interface
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-3. Use @MASTG-TECH-0x02 to list the exported services and their associated `android:permission`.
+3. Use @MASTG-TECH-0161 to list the exported services and their associated `android:permission`.
 4. Use @MASTG-TECH-0014 to inspect the code of each exported service.
 
 ## Observation

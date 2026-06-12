@@ -91,7 +91,7 @@ class MastgTest(private val context: Context) {
         }
     }
 
-    // FAIL: [MASTG-TEST-0x03] PasswordResetReceiver is exported and does not need any special permissions.
+    // FAIL: [MASTG-TEST-0366] PasswordResetReceiver is exported and does not need any special permissions.
     // External callers, like other apps including adb, can send the broadcast and reset the password.
     class PasswordResetReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {

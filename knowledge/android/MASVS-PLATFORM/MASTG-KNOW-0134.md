@@ -74,4 +74,4 @@ Whether other apps can deliver broadcasts to a receiver, or receive broadcasts t
 - `broadcastPermission` argument in `registerReceiver()` overloads: for context-registered receivers, setting this argument requires the sender to hold the named permission before the broadcast is delivered to the receiver. If it is `null`, no sender permission is required.
 - Setting an explicit target package or component on the `Intent` limits delivery to that app. See [Security considerations and best practices](https://developer.android.com/guide/components/broadcasts#security-and-best-practices) and [Insecure broadcast receivers](https://developer.android.com/privacy-and-security/risks/insecure-broadcast-receiver).
 
-For an overview of how to restrict access to exported components, see @MASTG-BEST-0x03.
+For an overview of how to restrict access to exported components, see @MASTG-BEST-0052.

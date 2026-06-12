@@ -29,9 +29,9 @@ adb shell service list
 
 [Intent messaging](https://developer.android.com/guide/components/intents-filters) is an asynchronous communication framework built on top of Binder. An [`Intent`](https://developer.android.com/reference/android/content/Intent) is a messaging object used to request an action from another app component. Intents support three fundamental use cases:
 
-- **Starting an activity** by passing an intent to `startActivity` (see @MASTG-KNOW-0x01).
-- **Starting or binding to a service** by passing an intent to `startService` or `bindService` (see @MASTG-KNOW-0x02).
-- **Delivering a broadcast** by passing an intent to `sendBroadcast` or `sendOrderedBroadcast` (see @MASTG-KNOW-0x03).
+- **Starting an activity** by passing an intent to `startActivity` (see @MASTG-KNOW-0132).
+- **Starting or binding to a service** by passing an intent to `startService` or `bindService` (see @MASTG-KNOW-0133).
+- **Delivering a broadcast** by passing an intent to `sendBroadcast` or `sendOrderedBroadcast` (see @MASTG-KNOW-0134).
 
 Intents can be **explicit** (naming the target component) or **implicit** (describing an action that the system resolves to a component based on its [`<intent-filter>`](https://developer.android.com/guide/topics/manifest/intent-filter-element) declarations). For details, see @MASTG-KNOW-0025. Related intent-based concepts are covered in @MASTG-KNOW-0024 (Pending Intents) and @MASTG-KNOW-0019 (Deep Links).
 
@@ -39,9 +39,9 @@ Intents can be **explicit** (naming the target component) or **implicit** (descr
 
 Four [app component](https://developer.android.com/guide/components/fundamentals#Components) types act as IPC entry points. Each is declared in the `AndroidManifest.xml` file and its visibility to other apps is controlled by the [`android:exported`](https://developer.android.com/privacy-and-security/risks/android-exported) attribute and, optionally, permission attributes. For the permission model behind these controls, including protection levels, component permission enforcement, and custom permissions, see @MASTG-KNOW-0017:
 
-- **Activities** provide user-interface screens that other apps can start. See @MASTG-KNOW-0x01.
-- **Services** run background operations that other apps can start or bind to. See @MASTG-KNOW-0x02.
-- **Broadcast Receivers** respond to broadcast messages from other apps and the system. See @MASTG-KNOW-0x03.
+- **Activities** provide user-interface screens that other apps can start. See @MASTG-KNOW-0132.
+- **Services** run background operations that other apps can start or bind to. See @MASTG-KNOW-0133.
+- **Broadcast Receivers** respond to broadcast messages from other apps and the system. See @MASTG-KNOW-0134.
 - **Content Providers** expose structured data through a URI-based interface. See @MASTG-KNOW-0117.
 
 ## Other IPC Mechanisms

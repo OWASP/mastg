@@ -1,9 +1,9 @@
 ---
 title: Sensitive Action Exposed Through an Unprotected Service
 platform: android
-id: MASTG-DEMO-0x02
+id: MASTG-DEMO-0129
 code: [kotlin]
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0365
 kind: fail
 ---
 
@@ -16,7 +16,7 @@ The sample implements a small password vault. Tapping **Start** opens `VaultActi
 ## Steps
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0x02 to list the exported services and their associated `android:permission` by running `run.sh`.
+2. Use @MASTG-TECH-0161 to list the exported services and their associated `android:permission` by running `run.sh`.
 
 The `run.sh` script lists the exported services declared in the reverse-engineered manifest.
 
@@ -49,7 +49,7 @@ override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 ### Confirm the Exposure
 
-Use @MASTG-TECH-0x02 with `adb` to start `AuthService` directly and pass a new password as an intent extra:
+Use @MASTG-TECH-0161 with `adb` to start `AuthService` directly and pass a new password as an intent extra:
 
 1. Tap **Start** and note the current password shown in `VaultActivity` (`originalPass123`).
 2. Start the exported service with a new password:

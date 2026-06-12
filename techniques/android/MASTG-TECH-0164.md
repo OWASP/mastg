@@ -3,7 +3,7 @@ title: Sniffing Implicit Intents and Broadcasts
 platform: android
 ---
 
-When an app sends an implicit intent or broadcast without restricting the recipient (for example, without an explicit target package or a required permission), any app on the device can register to receive it. You can use this technique to observe such intents and broadcasts and inspect the data they carry. See @MASTG-KNOW-0025 for implicit intents and @MASTG-KNOW-0x03 for broadcasts.
+When an app sends an implicit intent or broadcast without restricting the recipient (for example, without an explicit target package or a required permission), any app on the device can register to receive it. You can use this technique to observe such intents and broadcasts and inspect the data they carry. See @MASTG-KNOW-0025 for implicit intents and @MASTG-KNOW-0134 for broadcasts.
 
 ## Using @MASTG-TOOL-0004
 

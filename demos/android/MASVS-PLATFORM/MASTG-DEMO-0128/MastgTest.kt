@@ -82,7 +82,7 @@ class MastgTest(private val context: Context) {
         }
     }
 
-    // FAIL: [MASTG-TEST-0x01] SecretActivity is exported and does not need any special permissions.
+    // FAIL: [MASTG-TEST-0364] SecretActivity is exported and does not need any special permissions.
     // External callers, like other apps including adb, can start it directly, bypassing PinEntryActivity.
     class SecretActivity : Activity() {
         override fun onCreate(savedInstanceState: Bundle?) {

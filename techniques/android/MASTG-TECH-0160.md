@@ -3,7 +3,7 @@ title: Enumerating Activities
 platform: android
 ---
 
-You can enumerate the activities an app declares, determine which of them are exported, and identify any associated `android:permission` values by inspecting the app's `AndroidManifest.xml` or by querying the running system. See @MASTG-KNOW-0x01 for background on activities and the `android:exported` attribute.
+You can enumerate the activities an app declares, determine which of them are exported, and identify any associated `android:permission` values by inspecting the app's `AndroidManifest.xml` or by querying the running system. See @MASTG-KNOW-0132 for background on activities and the `android:exported` attribute.
 
 Prefer static analysis of the manifest first, as it doesn't require a device and reflects exactly what the app declares. Use the device- and tool-based options when you also need to confirm runtime behavior.
 

@@ -90,7 +90,7 @@ class MastgTest(private val context: Context) {
         }
     }
 
-    // FAIL: [MASTG-TEST-0x02] AuthService is exported and does not need any special permissions.
+    // FAIL: [MASTG-TEST-0365] AuthService is exported and does not need any special permissions.
     // External callers, like other apps including adb, can start it directly and reset the password.
     class AuthService : Service() {
 

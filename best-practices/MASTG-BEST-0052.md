@@ -1,9 +1,9 @@
 ---
 title: Restrict Access to Android App Components
 alias: restrict-access-to-android-components
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0052
 platform: android
-knowledge: [MASTG-KNOW-0017, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0020]
+knowledge: [MASTG-KNOW-0017, MASTG-KNOW-0132, MASTG-KNOW-0133, MASTG-KNOW-0134, MASTG-KNOW-0020]
 ---
 
 Only export an app component when another app genuinely needs to interact with it. Every exported component is an entry point that other apps on the device may be able to invoke, so keeping components private by default reduces the app's attack surface.

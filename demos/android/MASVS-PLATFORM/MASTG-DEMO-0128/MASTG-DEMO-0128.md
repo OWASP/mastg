@@ -1,9 +1,9 @@
 ---
 title: Sensitive Data Exposed Through an Unprotected Activity
 platform: android
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0128
 code: [kotlin]
-test: MASTG-TEST-0x01
+test: MASTG-TEST-0364
 kind: fail
 ---
 
@@ -18,7 +18,7 @@ However, `SecretActivity` is declared as exported in the `AndroidManifest.xml` w
 ## Steps
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0x01 to list the exported activities and their associated `android:permission` by running `run.sh`.
+2. Use @MASTG-TECH-0160 to list the exported activities and their associated `android:permission` by running `run.sh`.
 
 {{ run.sh }}
 
@@ -55,7 +55,7 @@ The output also lists other exported activities. These are triaged but not repor
 
 ### Confirm the Exposure
 
-You can use @MASTG-TECH-0x01 to start `SecretActivity` directly and confirm that the sensitive screen is reachable without entering the PIN:
+You can use @MASTG-TECH-0160 to start `SecretActivity` directly and confirm that the sensitive screen is reachable without entering the PIN:
 
 ```bash
 adb shell am start -n 'org.owasp.mastestapp/org.owasp.mastestapp.MastgTest\$SecretActivity'

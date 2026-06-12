@@ -1,9 +1,9 @@
 ---
 title: Sensitive Action Exposed Through an Unprotected Manifest-Declared Broadcast Receiver
 platform: android
-id: MASTG-DEMO-0x03
+id: MASTG-DEMO-0130
 code: [kotlin]
-test: MASTG-TEST-0x03
+test: MASTG-TEST-0366
 kind: fail
 ---
 
@@ -16,7 +16,7 @@ The sample implements a small password vault. Tapping **Start** opens `VaultActi
 ## Steps
 
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0x03 to list the exported broadcast receivers and their associated `android:permission` by running `run.sh`.
+2. Use @MASTG-TECH-0162 to list the exported broadcast receivers and their associated `android:permission` by running `run.sh`.
 
 The `run.sh` script lists the exported receivers declared in the reverse-engineered manifest.
 
@@ -50,7 +50,7 @@ The output also lists `androidx.profileinstaller.ProfileInstallReceiver`. This r
 
 ### Confirm the Exposure
 
-You can use @MASTG-TECH-0x03 with @MASTG-TOOL-0004 to deliver the broadcast and trigger the action.
+You can use @MASTG-TECH-0162 with @MASTG-TOOL-0004 to deliver the broadcast and trigger the action.
 
 1. Tap **Start** and note the current password shown in `VaultActivity` (`originalPass123`).
 2. Send the broadcast, targeting the receiver explicitly so it's delivered on modern Android:
