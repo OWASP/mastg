@@ -1,90 +1,73 @@
 ---
 platform: ios
-title: Custom URL Scheme Handler Without Input Validation
-code: [swift]
+title: Custom URL Scheme Handler with Source Validation
+code: [swift, xml]
 id: MASTG-DEMO-0x02
 test: MASTG-TEST-0x02
-kind: fail
-status: draft
+kind: pass
 ---
 
 ## Sample
 
-The app registers two custom URL schemes in its `Info.plist` via `CFBundleURLTypes`:
+The app registers a custom URL scheme (`mastgtest://`).
 
-- `mastgtest://` — handled **without** source or parameter validation (FAIL).
-- `mastgtest-safe://` — handled **with** source allowlisting and parameter bounds-checking (PASS).
+The `SceneDelegate` handles incoming URLs via `scene(_:openURLContexts:)`. For each URL, the handler reads `sourceApplication` from `UIOpenURLContext.options` and checks it against a hardcoded `allowedSources` set before processing. In this demo we verify that the `sourceApplication` property is accessed in the compiled binary.
 
-Both are dispatched from the single `application:openURL:options:` delegate method.
+Apple only populates `sourceApplication` when the calling app belongs to the same Apple Developer Team. Apps from other teams or system apps (e.g. Notes, Safari) will have `sourceApplication` set to `nil`. This is an Apple platform limitation, but it still allows verifying that the URL was opened by one of your own apps, which is useful when a URL scheme triggers privileged actions that should only be accessible from within your app suite.
 
-{{ MastgTest.swift }}
-
-To trigger the insecure `mastgtest://` handler from a device with the app installed, open the **Notes** app, type the following URL in a new note, and long-press the link to open it:
-
-```text
-mastgtest://transfer?amount=9999
-```
-
-The app will initiate a transfer of 9999 units without checking which app opened the link or whether the amount is within an acceptable range. Any app on the device can trigger the same action.
+{{ Info.plist # MastgTest.swift }}
 
 ## Steps
 
-1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
-2. Use @MASTG-TECH-0x01 to inspect the `Info.plist` for registered URL schemes:
-
-    ```bash
-    grep -A 5 CFBundleURLSchemes ./Payload/MASTestApp.app/Info.plist
-    ```
-
-3. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run the r2 script.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package, which in this case is `./Payload/MASTestApp.app/MASTestApp`.
+2. Use @MASTG-TECH-0066 to locate the URL handler and check for source validation references. Run the r2 script with the `-i` option.
 
 {{ url_scheme_handler.r2 # run.sh }}
 
-The script:
-
-- Searches for `mastgtest` scheme strings in the binary (`izz~mastgtest`).
-- Lists flags for `openURL:options` reloc entries (`f~openURL:options`).
-- Resolves cross-references to the `application:openURL:options:` implementation (`axt`).
-- Checks whether `UIApplicationOpenURLOptionsSourceApplicationKey` appears as a flag (`f~UIApplicationOpenURLOptionsSourceApplicationKey`).
-- Disassembles the handler function (`pdf`).
-
 ## Observation
 
-The output shows two registered URL scheme strings (`mastgtest` and `mastgtest-safe`), the relocation entry for `application:openURL:options:`, a cross-reference to its implementation, a reference to the `sourceApplication` key, and the full disassembly of the handler function.
+The output shows the `SceneDelegate`'s `scene:openURLContexts:` handler, the cross-references to `sourceApplication`, and the disassembly around each access site.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test fails because the `mastgtest://` branch of the handler processes the URL without reading `UIApplicationOpenURLOptionsSourceApplicationKey` from the `options` dictionary and without validating the `amount` parameter.
+The test case passes because `sourceApplication` is accessed from both URL handler paths: `willConnectTo`, the cold launch path where iOS starts the app to handle the URL, at `0x100004c8c`, and `openURLContexts`, the warm open path where the app is already running or suspended, at `0x1000051a8`.
 
-### Info.plist Analysis
+In each disassembly block:
 
-The `CFBundleURLSchemes` array in `Info.plist` declares both `mastgtest` and `mastgtest-safe`. Any app on the device can open either scheme by calling `openURL:options:completionHandler:`.
+- `ldr x1, ... reloc.fixup.sourceApplication` loads the `sourceApplication` selector.
+- `bl sym.imp.objc_msgSend` sends it to the URL options object, retrieving the source application value.
+- The returned Objective C object is retained and bridged into a Swift `String` when non `nil`.
+- `cbz x20, ...` branches when the result is `nil`, which means the source application value was unavailable or not provided. For cross-app opens, Apple documents this as the expected result when the originating app has a different team identifier.
 
-### Binary Analysis
+This confirms that the handler reads the caller application identifier on both URL entry paths. Together with the surrounding source validation logic in the sample, this demonstrates that the custom URL scheme handler checks the caller source before processing the URL.
 
-**Locating the handler:**
+### Exploitation
 
-The r2 output shows the relocation entry at `0x100010ab0` for `reloc.fixup.application:openURL:options:`, and `axt` confirms the implementation is at `sym.MASTestApp.AppDelegate.application_open_options__1` (called at `0x100005210`).
+You can use @MASTG-TOOL-0072 to launch the app on a connected iOS device with an arbitrary custom URL scheme payload and confirm that the handler rejects the request when `sourceApplication` is not populated with an allowlisted bundle ID.
 
-**`mastgtest://` branch — no source validation (FAIL):**
+First, list the connected devices and copy the device identifier:
 
-In the disassembly, after the scheme comparison at `0x100005068–0x100005074`, the `mastgtest` branch loads URL components and accesses `url.host` and `queryItems` directly. The `options` dictionary argument (held in `x20`) is **never dereferenced** in this branch — there is no call to retrieve `UIApplicationOpenURLOptionsSourceApplicationKey` and no comparison against an allowlist. The `amount` query parameter is used as a raw string without any bounds-checking before the transfer string is constructed:
-
-```text
-; NOTE: UIApplicationOpenURLOptionsSourceApplicationKey is NOT read here
-; The options dictionary (x20) is never accessed in this branch
-0x1000050b0      ; ... (find amount, build string, return true)
+```bash
+xcrun devicectl list devices
 ```
 
-**`mastgtest-safe://` branch — source validation present (PASS):**
+Then launch the app with a crafted `mastgtest://` URL:
 
-After the `mastgtest-safe` scheme comparison (`0x1000051c4–0x1000051d0`), the disassembly shows:
+```bash
+xcrun devicectl device process launch \
+  --device <DEVICE_IDENTIFIER> \
+  --payload-url "mastgtest://transfer?amount=9999999" \
+  org.owasp.mastestapp.MASTestApp-iOS
+```
 
-- `0x1000051d4` — loads `reloc.fixup.UIApplication.OpenURLOptionsKey.sourceApplication.fget` and calls the dictionary subscript getter to read the source application from `x20` (the `options` dictionary).
-- `0x1000051f8` — calls `swift_stdlib_Set_contains__1` to check the result against the `allowedSources` set.
-- `0x100005280` — returns `false` if the source is not in the allowlist, aborting the operation before any transfer takes place.
-- Subsequent code validates the `amount` parameter bounds before performing the transfer.
+After the app opens, tap **Start** in the demo app to process the stored event. Because the URL was not opened by an allowlisted same team app, the result is observable in the app output:
 
-The contrast between the two branches is visible at the assembly level: only the `mastgtest-safe://` branch references `UIApplicationOpenURLOptionsSourceApplicationKey` (`0x100010bc8` in the flag table), confirming that the insecure `mastgtest://` handler does not perform source verification.
+```text
+Incoming URL: mastgtest://transfer?amount=9999999
+Source app:   (none)
+Handler returned: false
+```
+
+This confirms at runtime that the URL handler reads `sourceApplication` and only returns `true` when the source application bundle ID matches the allowlist.

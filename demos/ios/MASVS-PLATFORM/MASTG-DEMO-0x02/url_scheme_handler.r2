@@ -2,21 +2,17 @@ e asm.bytes=false
 e scr.color=false
 e asm.var=false
 
-?e === Registered URL scheme strings (mastgtest, mastgtest-safe) ===
-izz~mastgtest
+?e === URL scheme handler methods ===
+f~openURLContexts
 
 ?e
-?e === URL handler method references ===
-f~openURL:options
+?e === Cross-references to sourceApplication from handler ===
+axt @ reloc.fixup.sourceApplication
 
 ?e
-?e === Cross-references to application:openURL:options: implementation ===
-axt @ reloc.fixup.application:openURL:options:
+?e === Disassembly around sourceApplication access (willConnectTo) ===
+pd 15 @ 0x100004c8c
 
 ?e
-?e === References to UIApplicationOpenURLOptionsSourceApplicationKey ===
-f~UIApplicationOpenURLOptionsSourceApplicationKey
-
-?e
-?e === Disassembly of URL handler function ===
-pdf @ sym.MASTestApp.AppDelegate.application_open_options__1
+?e === Disassembly around sourceApplication access (openURLContexts) ===
+pd 15 @ 0x1000051a8
