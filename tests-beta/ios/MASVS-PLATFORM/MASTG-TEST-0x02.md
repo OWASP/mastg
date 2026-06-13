@@ -7,7 +7,7 @@ weakness: MASWE-0058
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0045, MASTG-BEST-0x02]
 knowledge: [MASTG-KNOW-0079]
-apis: [scene:openURLContexts:, UIOpenURLContext.options.sourceApplication]
+apis: ["scene:openURLContexts:", "UIOpenURLContext.options.sourceApplication"]
 ---
 
 ## Overview
