@@ -5,8 +5,6 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.example.mastgtest</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>mastgtest</string>
