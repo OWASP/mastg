@@ -30,7 +30,7 @@ import kotlin.jvm.internal.Intrinsics;
 import kotlin.text.StringsKt;
 
 /* compiled from: MastgTest.kt */
-@Metadata(d1 = {"\u0000.\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\u0002\n\u0002\b\u0002\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010 \n\u0002\b\u0002\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\u0006\u001a\u00020\u0007J\u0010\u0010\b\u001a\u00020\t2\u0006\u0010\n\u001a\u00020\u0007H\u0002J\b\u0010\u000b\u001a\u00020\fH\u0002J\u000e\u0010\r\u001a\b\u0012\u0004\u0012\u00020\u00070\u000eH\u0002J\u000e\u0010\u000f\u001a\b\u0012\u0004\u0012\u00020\u00070\u000eH\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000¨\u0006\u0010"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "mastgTest", "", "promptUserForLiability", "", "message", "checkFridaDefaultPort", "", "checkFridaProcesses", "", "checkFridaLibraries", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
+@Metadata(d1 = {"\u0000.\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\u0002\n\u0002\b\u0002\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010 \n\u0002\b\u0002\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\u0006\u001a\u00020\u0007J\u0010\u0010\b\u001a\u00020\t2\u0006\u0010\n\u001a\u00020\u0007H\u0002J\b\u0010\u000b\u001a\u00020\fH\u0002J\u000e\u0010\r\u001a\b\u0012\u0004\u0012\u00020\u00070\u000eH\u0002J\u000e\u0010\u000f\u001a\b\u0012\u0004\u0012\u00020\u00070\u000eH\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000¨\u0006\u0010"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "mastgTest", "", "promptUserForLiability", "", "message", "checkFridaDefaultPort", "", "checkFridaThreads", "", "checkFridaLibraries", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
 /* loaded from: classes3.dex */
 public final class MastgTest {
     public static final int $stable = 8;
@@ -57,15 +57,15 @@ public final class MastgTest {
             r.add(Status.ERROR, "Port check failed: " + e);
         }
         try {
-            List matches = checkFridaProcesses();
+            List matches = checkFridaThreads();
             if (!matches.isEmpty()) {
-                r.add(Status.FAIL, "Suspicious processes found: " + CollectionsKt.joinToString$default(matches, ", ", null, null, 0, null, null, 62, null));
+                r.add(Status.FAIL, "Suspicious threads found in this process: " + CollectionsKt.joinToString$default(matches, ", ", null, null, 0, null, null, 62, null));
                 anyFail = true;
             } else {
-                r.add(Status.PASS, "No Frida-related process names found under /proc.");
+                r.add(Status.PASS, "No Frida-related thread names found under /proc/self/task.");
             }
         } catch (Exception e2) {
-            r.add(Status.ERROR, "Process enumeration failed: " + e2);
+            r.add(Status.ERROR, "Thread enumeration failed: " + e2);
         }
         try {
             List libsFound = checkFridaLibraries();
@@ -90,7 +90,7 @@ public final class MastgTest {
         if (activity == null) {
             return;
         }
-        new Handler(Looper.getMainLooper()).post(new Runnable() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda3
+        new Handler(Looper.getMainLooper()).post(new Runnable() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 MastgTest.promptUserForLiability$lambda$2(activity, message);
@@ -105,12 +105,12 @@ public final class MastgTest {
         if (activity.isFinishing() || activity.isDestroyed()) {
             return;
         }
-        new AlertDialog.Builder(activity).setTitle("Security Warning").setMessage(message).setCancelable(false).setPositiveButton("Accept Liability", new DialogInterface.OnClickListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda1
+        new AlertDialog.Builder(activity).setTitle("Security Warning").setMessage(message).setCancelable(false).setPositiveButton("Accept Liability", new DialogInterface.OnClickListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
-        }).setNegativeButton("Exit", new DialogInterface.OnClickListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda2
+        }).setNegativeButton("Exit", new DialogInterface.OnClickListener() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 MastgTest.promptUserForLiability$lambda$2$lambda$1(activity, dialogInterface, i);
@@ -148,34 +148,30 @@ public final class MastgTest {
         }
     }
 
-    private final List<String> checkFridaProcesses() {
-        int i = 1;
-        List needles = CollectionsKt.listOf((Object[]) new String[]{"frida-server", "frida-helper", "frida-agent", "gum-js-loop", "gmain"});
+    private final List<String> checkFridaThreads() {
+        List needles = CollectionsKt.listOf((Object[]) new String[]{"gum-js-loop", "gmain", "gdbus", "pool-frida", "frida"});
         List matches = new ArrayList();
-        File proc = new File("/proc");
-        File[] pidDirs = proc.listFiles(new FileFilter() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda0
+        File taskDir = new File("/proc/self/task");
+        File[] tids = taskDir.listFiles(new FileFilter() { // from class: org.owasp.mastestapp.MastgTest$$ExternalSyntheticLambda3
             @Override // java.io.FileFilter
             public final boolean accept(File file) {
-                return MastgTest.checkFridaProcesses$lambda$4(file);
+                return MastgTest.checkFridaThreads$lambda$4(file);
             }
         });
-        if (pidDirs == null) {
+        if (tids == null) {
             return matches;
         }
-        int length = pidDirs.length;
-        int i2 = 0;
-        while (i2 < length) {
-            File pidDir = pidDirs[i2];
-            File cmdline = new File(pidDir, "cmdline");
-            if (cmdline.canRead()) {
+        for (File tid : tids) {
+            File commFile = new File(tid, "comm");
+            if (commFile.canRead()) {
                 try {
-                    String name = StringsKt.trim((CharSequence) StringsKt.replace$default(FilesKt.readText$default(cmdline, null, i, null), (char) 0, ' ', false, 4, (Object) null)).toString();
+                    String name = StringsKt.trim((CharSequence) FilesKt.readText$default(commFile, null, 1, null)).toString();
                     Iterator it = needles.iterator();
                     while (true) {
                         if (it.hasNext()) {
                             String needle = (String) it.next();
-                            if (StringsKt.contains$default((CharSequence) name, (CharSequence) needle, false, 2, (Object) null)) {
-                                matches.add(pidDir.getName() + ":" + name);
+                            if (StringsKt.contains((CharSequence) name, (CharSequence) needle, true)) {
+                                matches.add(tid.getName() + ":" + name);
                                 break;
                             }
                         }
@@ -183,14 +179,12 @@ public final class MastgTest {
                 } catch (Exception e) {
                 }
             }
-            i2++;
-            i = 1;
         }
         return matches;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static final boolean checkFridaProcesses$lambda$4(File f) {
+    public static final boolean checkFridaThreads$lambda$4(File f) {
         CharSequence $this$all$iv;
         if (!f.isDirectory()) {
             return false;

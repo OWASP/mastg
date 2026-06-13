@@ -15,7 +15,7 @@ This demo defeats both Xposed/LSPosed detection checks from @MASTG-DEMO-0x4A wit
 !!! note
     This is a series of correlated tests.
     - @MASTG-DEMO-0x4A is a successful test (successful defense/failed attack) against an Xposed/LSPosed instrumentation attack.
-    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0x4A by using a more "complex" attack.
+    - This test is a failed test (failed defense/successful attack) against the defenses of @MASTG-DEMO-0x4A by using a more "complex" attack.
 
 {{ ../MASTG-DEMO-0x4A/MastgTest.kt }}
 

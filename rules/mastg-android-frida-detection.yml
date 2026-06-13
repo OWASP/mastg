@@ -39,10 +39,10 @@ rules:
     severity: WARNING
     languages: [java]
     metadata:
-      summary: Enumeration of /proc to look at running processes
-    message: "[MASVS-RESILIENCE-4] The app references /proc and cmdline, a common primitive pair for enumerating running processes (e.g. to look for a frida-server process by name)."
+      summary: Enumeration of /proc or /proc/self/task to inspect process/thread names
+    message: "[MASVS-RESILIENCE-4] The app references /proc, /proc/self/task, cmdline or comm, common primitives for enumerating running processes or thread names (e.g. to look for a frida-server process or Frida worker threads such as gum-js-loop/gmain)."
     patterns:
       - pattern: $STR
       - metavariable-regex:
           metavariable: $STR
-          regex: '^"(/proc|cmdline)"$'
+          regex: '^"(/proc|/proc/self/task|cmdline|comm)"$'

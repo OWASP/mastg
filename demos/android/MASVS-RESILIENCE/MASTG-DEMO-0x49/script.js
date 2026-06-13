@@ -1,83 +1,121 @@
-// frida -U -f org.owasp.mastestapp -l bypass.js
+// frida -U -f org.owasp.mastestapp -l script.js
 
 Java.perform(function () {
 
-    const ArrayList = Java.use("java.util.ArrayList");
-    const MastgTest = Java.use("org.owasp.mastestapp.MastgTest");
 
-    console.log("[*] Installing Frida detection bypass hooks");
+    const THREAD_KEYWORDS = [
+        "gum-js-loop",
+        "gmain",
+        "gdbus",
+        "pool-frida",
+        "frida"
+    ];
 
 
-    MastgTest.checkFridaDefaultPort.implementation = function () {
+    const MAPS_KEYWORDS = [
+        "frida-agent",
+        "libfrida",
+        "frida-gadget",
+        "gum-js-loop",
+        "linjector",
+        "/gum"
+    ];
 
-        console.log("\n[+] checkFridaDefaultPort() intercepted");
+    const File = Java.use("java.io.File");
+    const FileInputStream = Java.use("java.io.FileInputStream");
+    const BufferedReader = Java.use("java.io.BufferedReader");
+    const Socket = Java.use("java.net.Socket");
+    const InetSocketAddress = Java.use("java.net.InetSocketAddress");
+    const ConnectException = Java.use("java.net.ConnectException");
 
-        console.log(
-            "- The port probe for 127.0.0.1:27042 was bypassed " +
-            "by forcing the method to return false."
-        );
 
-        console.log(
-            "- This prevents the application from detecting " +
-            "the default frida-server listener."
-        );
-
-        return false;
+    const socketConnect = Socket.connect.overload("java.net.SocketAddress", "int");
+    socketConnect.implementation = function (endpoint, timeout) {
+        const addr = Java.cast(endpoint, InetSocketAddress);
+        if (addr.getPort() === 27042) {
+            console.log("[+] Blocked Frida default-port probe (127.0.0.1:27042)");
+            throw ConnectException.$new("Connection refused");
+        }
+        return socketConnect.call(this, endpoint, timeout);
     };
 
 
-    MastgTest.checkFridaThreads.implementation = function () {
+    function commName(tidDir) {
+        try {
+            const comm = File.$new(tidDir, "comm");
+            if (!comm.canRead()) return "";
+            const fis = FileInputStream.$new(comm);
+            const buffer = Java.array("byte", new Array(64).fill(0));
+            const size = fis.read(buffer);
+            fis.close();
+            if (size <= 0) return "";
+            let name = "";
+            for (let j = 0; j < size; j++) {
+                name += String.fromCharCode(buffer[j] & 0xff);
+            }
+            return name.trim();
+        } catch (e) {
+            return "";
+        }
+    }
 
-        console.log("\n[+] checkFridaThreads() intercepted");
+    function filterTaskEntries(tids) {
+        const kept = [];
+        for (let i = 0; i < tids.length; i++) {
+            const name = commName(tids[i]);
+            let hide = false;
+            for (let k = 0; k < THREAD_KEYWORDS.length; k++) {
+                if (name.indexOf(THREAD_KEYWORDS[k]) !== -1) { hide = true; break; }
+            }
+            if (hide) {
+                console.log("[+] Hiding Frida thread: " + name);
+                continue;
+            }
+            kept.push(tids[i]);
+        }
+        return Java.array("java.io.File", kept);
+    }
 
-        console.log(
-            "- The /proc/self/task enumeration was bypassed " +
-            "by returning an empty thread list."
-        );
+    let taskListLogged = false;
+    function noteTaskIntercepted() {
+        if (!taskListLogged) {
+            taskListLogged = true;
+            console.log("[+] File.listFiles(/proc/self/task) intercepted (thread-enumeration bypass active)");
+        }
+    }
 
-        console.log(
-            "- Frida-related thread names such as " +
-            "`gum-js-loop`, `gmain`, `gdbus`, and `pool-frida` " +
-            "are hidden from the application."
-        );
+    const listFilesFilter = File.listFiles.overload("java.io.FileFilter");
+    listFilesFilter.implementation = function (filter) {
+        const files = listFilesFilter.call(this, filter);
+        if (files === null) return files;
+        if (this.getAbsolutePath() !== "/proc/self/task") return files;
+        noteTaskIntercepted();
+        return filterTaskEntries(files);
+    };
 
-        return ArrayList.$new();
+    const listFilesNoArg = File.listFiles.overload();
+    listFilesNoArg.implementation = function () {
+        const files = listFilesNoArg.call(this);
+        if (files === null) return files;
+        if (this.getAbsolutePath() !== "/proc/self/task") return files;
+        noteTaskIntercepted();
+        return filterTaskEntries(files);
     };
 
 
-
-    MastgTest.checkFridaLibraries.implementation = function () {
-
-        console.log("\n[+] checkFridaLibraries() intercepted");
-
-        console.log(
-            "- The /proc/self/maps scan was bypassed " +
-            "by returning an empty library match list."
-        );
-
-        console.log(
-            "- Frida artifacts such as `frida-agent`, " +
-            "`libfrida`, `frida-gadget`, `gum-js-loop`, " +
-            "and `linjector` are hidden from detection."
-        );
-
-        return ArrayList.$new();
+    const readLine = BufferedReader.readLine.overload();
+    readLine.implementation = function () {
+        while (true) {
+            const line = readLine.call(this);
+            if (line === null) return null;
+            let suspicious = false;
+            for (let i = 0; i < MAPS_KEYWORDS.length; i++) {
+                if (line.indexOf(MAPS_KEYWORDS[i]) !== -1) { suspicious = true; break; }
+            }
+            if (!suspicious) return line;
+            console.log("[+] Removed maps entry: " + line);
+        }
     };
 
-    MastgTest.promptUserForLiability.implementation = function (msg) {
-
-        console.log("\n[+] promptUserForLiability() intercepted");
-
-        console.log(
-            "- The anti-tampering warning dialog was suppressed " +
-            "to prevent the user prompt from appearing."
-        );
-
-        console.log("- Dialog message:");
-        console.log("  " + msg);
-
-        return;
-    };
-
-    console.log("\n[*] All Frida detection hooks installed");
+    console.log("[+] Frida detection bypass hooks installed");
 });

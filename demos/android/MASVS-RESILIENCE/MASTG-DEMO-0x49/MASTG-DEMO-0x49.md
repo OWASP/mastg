@@ -10,12 +10,12 @@ kind: fail
 
 ## Sample
 
-This sample uses the same code as @MASTG-DEMO-0x48, which implements three independent Frida detection routines: a TCP probe of the default `frida-server` port (`127.0.0.1:27042`), a `/proc/<pid>/cmdline` walk for Frida process-name needles, and a `/proc/self/maps` scan for injected Frida artifacts. This demo demonstrates bypassing all three checks with a Frida script that hooks the Java APIs each routine depends on (`Socket.connect`, `File.listFiles`, `BufferedReader.readLine`) and reconfigures `frida-server` to listen on a non-default port under a renamed binary, so the port probe fails, the `/proc` enumeration sees no Frida-named pids, and `/proc/self/maps` reports no Frida mappings.
+This sample uses the same code as @MASTG-DEMO-0x48, which implements three independent Frida detection routines: a TCP probe of the default `frida-server` port (`127.0.0.1:27042`), a `/proc/self/task/<tid>/comm` walk for Frida worker thread names (`gum-js-loop`, `gmain`, `gdbus`, `pool-frida`), and a `/proc/self/maps` scan for injected Frida artifacts. This demo demonstrates bypassing all three checks with a Frida script that hooks the Java APIs each routine depends on (`Socket.connect`, `File.listFiles`, `BufferedReader.readLine`), combined with reconfiguring `frida-server` to listen on a non-default port under a renamed binary so the default-port probe finds no listener even before the `Socket.connect` hook fires.
 
 !!! note
     This is a series of correlated tests.
     - @MASTG-DEMO-0x48 is a successful test (successful defense/failed attack) against a Frida instrumentation attack.
-    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0x48 by using a more "complex" attack.
+    - This test is a failed test (failed defense/successful attack) against the defenses of @MASTG-DEMO-0x48 by using a more "complex" attack.
 
 {{ ../MASTG-DEMO-0x48/MastgTest.kt # script.js }}
 
@@ -31,7 +31,7 @@ This sample uses the same code as @MASTG-DEMO-0x48, which implements three indep
 
 ## Observation
 
-The output contains the trace lines emitted by each hook as it intercepts a detection probe
+The output contains the trace lines emitted by each hook as it intercepts a detection probe.
 
 {{ output.txt }}
 
@@ -39,6 +39,6 @@ The output contains the trace lines emitted by each hook as it intercepts a dete
 
 The test case fails because every detection routine has been bypassed at runtime:
 
-- The `Socket.connect` hook raises `ConnectException` for `127.0.0.1:27042`, and `frida-server` was moved to a non-default port so no fallback scan succeeds.
-- The `File.listFiles` hook filters `/proc` to drop Frida-named pids, and the `frida-server` binary was renamed (e.g., to `notfrida`) so a name-based scan would also miss it.
-- The `BufferedReader.readLine` hook drops `/proc/self/maps` lines mentioning Frida artifacts (`frida-agent`, `libfrida`, `frida-gadget`, `gum-js-loop`, `linjector`), including the four `/memfd:frida-agent-64.so` entries shown in the output.
+- The `Socket.connect` hook blocks the probe to `127.0.0.1:27042`, so the port check finds no `frida-server` listener.
+- The `File.listFiles` hook hides Frida worker threads (`gmain`, `pool-frida`, `gdbus`) from the `/proc/self/task` scan.
+- The `BufferedReader.readLine` hook drops the Frida `/proc/self/maps` lines.

@@ -22,7 +22,7 @@ This test verifies whether the app detects Xposed/LSPosed at runtime using commo
 
 ## Observation
 
-The output should contain a list of detection routines that the app executed, the APIs they queried, and the value those APIs returned both with the a frida script attached.
+ The output should contain a list of detection routines that the app executed, the APIs they queried, and the value those APIs returned both without and with a Frida script attached.
 
 ## Evaluation
 

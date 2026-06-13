@@ -23,9 +23,11 @@ Java.perform(function () {
 
 
     var BufferedReader = Java.use("java.io.BufferedReader");
-    BufferedReader.readLine.overload().implementation = function () {
+
+    var readLine = BufferedReader.readLine.overload();
+    readLine.implementation = function () {
         while (true) {
-            var line = this.readLine();
+            var line = readLine.call(this);
             if (line === null) return null;
             var dirty = false;
             for (var i = 0; i < XPOSED_PKG_PREFIXES.length; i++) {
@@ -55,24 +57,28 @@ Java.perform(function () {
         return Java.array("java.lang.StackTraceElement", clean);
     }
 
-    Throwable.getStackTrace.implementation = function () {
-        return filterFrames(this.getStackTrace());
-    };
-    ThreadCls.getStackTrace.implementation = function () {
-        return filterFrames(this.getStackTrace());
+
+    var throwableGetStackTrace = Throwable.getStackTrace.overload();
+    throwableGetStackTrace.implementation = function () {
+        return filterFrames(throwableGetStackTrace.call(this));
     };
 
-    ThreadCls.getAllStackTraces.implementation = function () {
+    var threadGetStackTrace = ThreadCls.getStackTrace.overload();
+    threadGetStackTrace.implementation = function () {
+        return filterFrames(threadGetStackTrace.call(this));
+    };
 
-        var raw = this.getAllStackTraces();
+    var threadGetAllStackTraces = ThreadCls.getAllStackTraces.overload();
+    threadGetAllStackTraces.implementation = function () {
+        var raw = threadGetAllStackTraces.call(this);
         var HashMap = Java.use("java.util.HashMap");
         var clean = HashMap.$new();
         var keys = raw.keySet().toArray();
         for (var i = 0; i < keys.length; i++) {
-            var t = keys[i];
             try {
-                clean.put(t, t.getStackTrace());
-            } catch (e) { /* thread died between snapshot and re-walk — skip */ }
+                var t = Java.cast(keys[i], ThreadCls);
+                clean.put(t, filterFrames(threadGetStackTrace.call(t)));
+            } catch (e) { }
         }
         return clean;
     };

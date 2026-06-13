@@ -15,9 +15,9 @@ The test verifies whether the app's Frida detection logic can be trivially neutr
 
 ## Steps
 
-1. Install the app on a device with `frida-server` running.
-2. Use @MASTG-TOOL-0001 to attach to the app and test the function that perform Frida detection.
-3. Run @MASTG-TECH-0033 to attempt to hook the APIs used by each detection routine to return clean values.
+ 1. Use @MASTG-TECH-0005 to install the app on a device with `frida-server` running.
+ 2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+ 3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
