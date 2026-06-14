@@ -60,7 +60,7 @@ Map each fake ID to the real ID you just allocated. Record the mapping explicitl
 
 ```txt
 MASTG-KNOW-0x01 → MASTG-KNOW-0122
-MASTG-KNOW-0x02 → MASTG-KNOW-0123
+MASTG-KNOW-0044 → MASTG-KNOW-0123
 MASTG-BEST-0x56 → MASTG-BEST-0045
 ```
 
@@ -112,7 +112,7 @@ ID assignments used in this PR:
 | Fake ID | Real ID |
 |---------|---------|
 | MASTG-KNOW-0x01 | MASTG-KNOW-0122 |
-| MASTG-KNOW-0x02 | MASTG-KNOW-0123 |
+| MASTG-KNOW-0044 | MASTG-KNOW-0123 |
 | MASTG-BEST-0x56 | MASTG-BEST-0045 |
 ```
 

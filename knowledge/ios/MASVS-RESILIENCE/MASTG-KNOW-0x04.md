@@ -25,4 +25,4 @@ For more detailed information, refer to the [WWDC 2021](https://developer.apple.
 - **Not jailbreak detection**: App Attest attests the app binary and device hardware but does not detect a compromised operating system. A jailbroken device may still pass attestation.
 - **Requires network**: Attestation and assertion verification require a live connection to Apple's servers.
 
-Both App Attest and DeviceCheck are used as iOS attestation providers for Firebase App Check (see @MASTG-KNOW-0x02).
+Both App Attest and DeviceCheck are used as iOS attestation providers for Firebase App Check (see @MASTG-KNOW-0044).
