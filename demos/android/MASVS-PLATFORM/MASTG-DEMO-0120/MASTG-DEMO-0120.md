@@ -3,7 +3,6 @@ platform: android
 title: Uses of Unauthorized Access to Exported Content Providers
 id: MASTG-DEMO-0120
 code: [kotlin]
-tools: [MASTG-TOOL-0015]
 kind: fail
 test: MASTG-TEST-0355
 ---

