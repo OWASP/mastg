@@ -1,11 +1,11 @@
 ---
 platform: ios
 title: Missing Input Validation in Custom URL Scheme Handlers
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0370
 type: [static, code]
 weakness: MASWE-0058
 profiles: [L1, L2]
-best-practices: [MASTG-BEST-0045, MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0045, MASTG-BEST-0054]
 knowledge: [MASTG-KNOW-0079]
 apis: [onOpenURL, URLComponents, URLQueryItem]
 ---

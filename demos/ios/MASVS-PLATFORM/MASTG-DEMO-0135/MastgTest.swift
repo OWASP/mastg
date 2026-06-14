@@ -59,7 +59,7 @@ struct MastgTest {
     }
 }
 
-// PASS: [MASTG-TEST-0x02] The SceneDelegate reads UIOpenURLContext.options.sourceApplication
+// PASS: [MASTG-TEST-0371] The SceneDelegate reads UIOpenURLContext.options.sourceApplication
 // and checks it against an allowlist before processing the URL.
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

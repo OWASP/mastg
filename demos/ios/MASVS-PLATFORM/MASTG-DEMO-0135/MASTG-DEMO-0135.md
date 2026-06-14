@@ -2,8 +2,8 @@
 platform: ios
 title: Custom URL Scheme Handler with Source Validation
 code: [swift, xml]
-id: MASTG-DEMO-0x02
-test: MASTG-TEST-0x02
+id: MASTG-DEMO-0135
+test: MASTG-TEST-0371
 kind: pass
 ---
 

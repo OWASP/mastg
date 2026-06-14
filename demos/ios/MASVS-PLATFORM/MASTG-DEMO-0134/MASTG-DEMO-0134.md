@@ -2,8 +2,8 @@
 platform: ios
 title: Custom URL Scheme Handler Without Input Validation
 code: [swift, xml]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0134
+test: MASTG-TEST-0370
 kind: fail
 ---
 

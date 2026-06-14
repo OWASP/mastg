@@ -23,7 +23,7 @@ struct MastgTest {
         handleURL(url, completion: completion)
     }
 
-    // FAIL: [MASTG-TEST-0x01] The handler uses the "amount" parameter directly
+    // FAIL: [MASTG-TEST-0370] The handler uses the "amount" parameter directly
     // without bounds-checking or type validation.
     @inline(never) @_optimize(none)
     public static func handleURL(_ url: URL, completion: @escaping (String) -> Void) {

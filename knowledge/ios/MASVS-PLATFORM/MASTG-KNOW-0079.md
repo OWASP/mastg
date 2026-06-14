@@ -30,7 +30,7 @@ Each entry can declare one or more scheme strings under `CFBundleURLSchemes`. Th
 
 ### Compiled App Bundle
 
-In an IPA or installed app bundle, the same values are found in `Info.plist` at the root of the `.app` directory. They can be inspected as described in @MASTG-TECH-0x01.
+In an IPA or installed app bundle, the same values are found in `Info.plist` at the root of the `.app` directory. They can be inspected as described in @MASTG-TECH-0166.
 
 ### Scheme Collision
 

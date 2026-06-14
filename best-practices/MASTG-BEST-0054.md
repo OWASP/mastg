@@ -1,7 +1,7 @@
 ---
 title: Validate Input Parameters in Custom URL Scheme Handlers
 alias: validate-input-parameters-in-custom-url-scheme-handlers
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0054
 platform: ios
 knowledge: [MASTG-KNOW-0079]
 ---

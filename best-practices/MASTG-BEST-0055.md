@@ -1,7 +1,7 @@
 ---
 title: Validate Source Application in Custom URL Scheme Handlers
 alias: validate-source-application-in-custom-url-scheme-handlers
-id: MASTG-BEST-0x02
+id: MASTG-BEST-0055
 platform: ios
 knowledge: [MASTG-KNOW-0079]
 ---
