@@ -26,7 +26,7 @@ This test is best combined with @MASTG-TEST-0353, which performs dynamic testing
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0014 to look for Java/Kotlin debugging detection APIs.
-3. Use @MASTG-TECH-0007 to extract native libraries from the app package.
+3. Use @MASTG-TECH-0157 to extract the native libraries from the app package.
 4. Use @MASTG-TECH-0018 to look for native debugging detection patterns in the extracted libraries, such as calls to `ptrace`, reads of `/proc/self/status`, or checks for the `TracerPid` field.
 
 ## Observation

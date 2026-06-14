@@ -404,7 +404,7 @@ If you were to obtain the AndroidManifest.xml file from an APK (@MASTG-TECH-0117
 
 ### App Components
 
-Android apps are made of several high-level components. The main components are:
+Android apps are made of several high-level [app components](https://developer.android.com/guide/components/fundamentals#Components). The main components are:
 
 - Activities
 - Fragments
@@ -414,32 +414,13 @@ Android apps are made of several high-level components. The main components are:
 
 All these elements are provided by the Android operating system, in the form of predefined classes available through APIs.
 
+Four of these component types (activities, services, broadcast receivers, and content providers) act as inter-process communication (IPC) entry points and are key to determining how other apps can interact with an app. They are covered in detail in the Knowledge base; this overview summarizes each and links to the relevant article.
+
 #### Activities
 
-Activities make up the visible part of any app. There is one activity per screen, so an app with three different screens implements three different activities. Activities are declared by extending the Activity class. They contain all user interface elements: fragments, views, and layouts.
+Activities make up the visible part of any app, with one activity per screen. Each activity extends the [`Activity`](https://developer.android.com/reference/android/app/Activity) class, hosts the screen's user interface elements, and must be declared in the `AndroidManifest.xml` file with an [`<activity>`](https://developer.android.com/guide/topics/manifest/activity-element) element. Activities have their own [lifecycle](https://developer.android.com/guide/components/activities/activity-lifecycle) managed by the system, with callbacks such as `onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, and `onDestroy`.
 
-Each activity needs to be declared in the Android Manifest with the following syntax:
-
-```xml
-<activity android:name="ActivityName">
-</activity>
-```
-
-Activities not declared in the manifest can't be displayed, and attempting to launch them will raise an exception.
-
-Like apps, activities have their own life cycle and need to monitor system changes to handle them. Activities can be in the following states: active, paused, stopped, and inactive. These states are managed by the Android operating system. Accordingly, activities can implement the following event managers:
-
-- onCreate
-- onSaveInstanceState
-- onStart
-- onResume
-- onRestoreInstanceState
-- onPause
-- onStop
-- onRestart
-- onDestroy
-
-An app may not explicitly implement all event managers, in which case default actions are taken. Typically, at least the `onCreate` manager is overridden by the app developers. This is how most user interface components are declared and initialized. `onDestroy` may be overridden when resources (like network connections or connections to databases) must be explicitly released or specific actions must occur when the app shuts down.
+Other apps can start an activity that is exported, which makes activities an IPC entry point. For a detailed description of activities, intent filters, and the `android:exported` attribute, see @MASTG-KNOW-0132.
 
 #### Fragments
 
@@ -489,213 +470,33 @@ Fragments don't necessarily have a user interface; they can be a convenient and 
 
 #### Content Providers
 
-Android uses SQLite to store data permanently: as with Linux, data is stored in files. SQLite is a light, efficient, open source relational data storage technology that does not require much processing power, which makes it ideal for mobile use. An entire API with specific classes (Cursor, ContentValues, SQLiteOpenHelper, ContentProvider, ContentResolver, etc.) is available.
-SQLite is not run as a separate process; it is part of the app.
-By default, a database belonging to a given app is accessible to this app only. However, content providers offer a great mechanism for abstracting data sources (including databases and flat files); they also provide a standard and efficient mechanism to share data between apps, including native apps. To be accessible to other apps, a content provider needs to be explicitly declared in the manifest file of the app that will share it. As long as content providers aren't declared, they won't be exported and can only be called by the app that creates them.
+A [content provider](https://developer.android.com/guide/topics/providers/content-providers) exposes structured data to other apps and system components through a URI-based interface using the `content://` scheme. Providers support create, read, update, and delete operations and are typically backed by an SQLite database, although any data source can be used. A provider must be declared in the `AndroidManifest.xml` file with a [`<provider>`](https://developer.android.com/guide/topics/manifest/provider-element) element and is reachable by other apps only when exported, which makes it an IPC entry point.
 
-Content providers are implemented through a URI addressing scheme: they all use the content:// model. Regardless of the type of sources (SQLite database, flat file, etc.), the addressing scheme is always the same, thereby abstracting the sources and offering the developer a unique scheme. Content providers offer all regular database operations: create, read, update, delete. That means that any app with proper rights in its manifest file can manipulate the data from other apps.
+For a detailed description of content providers, their URI structure, and access control, see @MASTG-KNOW-0117.
 
 #### Services
 
-Services are Android OS components (based on the Service class) that perform tasks in the background (data processing, starting intents, and notifications, etc.) without presenting a user interface. Services are meant to run processes long-term. Their system priorities are lower than those of active apps and higher than those of inactive apps. Therefore, they are less likely to be killed when the system needs resources, and they can be configured to automatically restart when enough resources become available. This makes services a great candidate for running background tasks. Please note that Services, like Activities, are executed in the main app thread. A service does not create its own thread and does not run in a separate process unless you specify otherwise.
+A [service](https://developer.android.com/guide/components/services) is an app component (based on the [`Service`](https://developer.android.com/reference/android/app/Service) class) that performs tasks in the background without a user interface, such as data processing or network transactions. A service must be declared in the `AndroidManifest.xml` file with a [`<service>`](https://developer.android.com/guide/topics/manifest/service-element) element. Other apps can start or bind to a service that is exported, which makes services an IPC entry point. A service runs in the main thread of its hosting process unless configured otherwise.
+
+For a detailed description of started and bound services, their interfaces, and access control, see @MASTG-KNOW-0133.
 
 ### Inter-Process Communication
 
-As we've already learned, every Android process has its own sandboxed address space. Inter-process communication facilities allow apps to exchange signals and data securely. Instead of relying on the default Linux IPC facilities, Android's IPC is based on Binder, a custom implementation of OpenBinder. Most Android system services and all high-level IPC services depend on Binder.
+Every Android process has its own sandboxed address space. Inter-process communication (IPC) facilities let apps and the system exchange data across these boundaries. Instead of relying on the default Linux IPC facilities, Android's IPC is based on [Binder](https://developer.android.com/reference/android/os/Binder), a custom implementation derived from OpenBinder. Most Android system services and all high-level IPC mechanisms depend on Binder, which follows a client-server model: a caller invokes a method on a proxy object, the framework marshals the parameters into a parcel, and a transaction is sent to the Binder server, which dispatches the call to the target object.
 
-The term _Binder_ stands for a lot of different things, including:
-
-- Binder Driver: the kernel-level driver
-- Binder Protocol: low-level ioctl-based protocol used to communicate with the binder driver
-- IBinder Interface: a well-defined behavior that Binder objects implement
-- Binder object: generic implementation of the IBinder interface
-- Binder service: implementation of the Binder object; for example, location service, and sensor service
-- Binder client: an object using the Binder service
-
-The Binder framework includes a client-server communication model. To use IPC, apps call IPC methods in proxy objects. The proxy objects transparently _marshall_ the call parameters into a _parcel_ and send a transaction to the Binder server, which is implemented as a character driver (/dev/binder). The server holds a thread pool for handling incoming requests and delivers messages to the destination object. From the perspective of the client app, all of this seems like a regular method call, all the heavy lifting is done by the Binder framework.
-
-<img src="Images/Chapters/0x05a/binder.jpg" width="400px" />
-
-- _Binder Overview - Image source: [Android Binder by Thorsten Schreiber](https://web.archive.org/web/20240112052034/https://1library.net/document/z33dd47z-android-android-interprocess-communication-thorsten-schreiber-somorovsky-bussmeyer.html "Android Binder")_
-
-Services that allow other applications to bind to them are called _bound services_. These services must provide an IBinder interface to clients. Developers use the Android Interface Descriptor Language (AIDL) to write interfaces for remote services.
-
-ServiceManager is a system daemon that manages the registration and lookup of system services. It maintains a list of name/Binder pairs for all registered services. Services are added with `addService` and retrieved by name with the static `getService` method in `android.os.ServiceManager`:
-
-Example in Java:
-
-```java
-public static IBinder getService(String name) {
-        try {
-            IBinder service = sCache.get(name);
-            if (service != null) {
-                return service;
-            } else {
-                return getIServiceManager().getService(name);
-            }
-        } catch (RemoteException e) {
-            Log.e(TAG, "error in getService", e);
-        }
-        return null;
-    }
-```
-
-Example in Kotlin:
-
-```kotlin
-companion object {
-        private val sCache: Map<String, IBinder> = ArrayMap()
-        fun getService(name: String): IBinder? {
-            try {
-                val service = sCache[name]
-                return service ?: getIServiceManager().getService(name)
-            } catch (e: RemoteException) {
-                Log.e(FragmentActivity.TAG, "error in getService", e)
-            }
-            return null
-        }
-    }
-```
-
-You can query the list of system services with the `service list` command.
-
-```bash
-$ adb shell service list
-Found 99 services:
-0 carrier_config: [com.android.internal.telephony.ICarrierConfigLoader]
-1 phone: [com.android.internal.telephony.ITelephony]
-2 isms: [com.android.internal.telephony.ISms]
-3 iphonesubinfo: [com.android.internal.telephony.IPhoneSubInfo]
-```
+On top of Binder, Android builds the [`Intent`](https://developer.android.com/reference/android/content/Intent) messaging system and the four app-component IPC entry points (activities, services, broadcast receivers, and content providers). For a detailed description of the IPC model, Binder, and intents, see @MASTG-KNOW-0020.
 
 #### Intents
 
-_Intent messaging_ is an asynchronous communication framework built on top of Binder. This framework allows both point-to-point and publish-subscribe messaging. An _Intent_ is a messaging object that can be used to request an action from another app component. Although intents facilitate inter-component communication in several ways, there are three fundamental use cases:
+An _Intent_ is a messaging object used to request an action from another app component. Intents support three fundamental use cases: starting an activity, starting or binding to a service, and delivering a broadcast. An intent can be **explicit** (naming the target component) or **implicit** (describing an action that the system resolves to a component based on its [`<intent-filter>`](https://developer.android.com/guide/topics/manifest/intent-filter-element) declarations).
 
-- Starting an activity
-    - An activity represents a single screen in an app. You can start a new instance of an activity by passing an intent to `startActivity`. The intent describes the activity and carries necessary data.
-- Starting a service
-    - A Service is a component that performs operations in the background, without a user interface. With Android 5.0 (API level 21) and later, you can start a service with JobScheduler.
-- Delivering a broadcast
-    - A broadcast is a message that any app can receive. The system delivers broadcasts for system events, including system boot and charging initialization. You can deliver a broadcast to other apps by passing an intent to `sendBroadcast` or `sendOrderedBroadcast`.
-
-There are two types of intents. Explicit intents name the component that will be started (the fully qualified class name). For instance:
-
-Example in Java:
-
-```java
-Intent intent = new Intent(this, myActivity.myClass);
-```
-
-Example in Kotlin:
-
-```kotlin
-var intent = Intent(this, myActivity.myClass)
-```
-
-Implicit intents are sent to the OS to perform a given action on a given set of data (The URL of the OWASP website in our example below). It is up to the system to decide which app or class will perform the corresponding service. For instance:
-
-Example in Java:
-
-```java
-Intent intent = new Intent(Intent.MY_ACTION, Uri.parse("https://www.owasp.org"));
-```
-
-Example in Kotlin:
-
-```kotlin
-var intent = Intent(Intent.MY_ACTION, Uri.parse("https://www.owasp.org"))
-```
-
-An _intent filter_ is an expression in Android Manifest files that specifies the type of intents the component would like to receive. For instance, by declaring an intent filter for an activity, you make it possible for other apps to directly start your activity with a certain kind of intent. Likewise, your activity can only be started with an explicit intent if you don't declare any intent filters for it.
-
-Android uses intents to broadcast messages to apps (such as an incoming call or SMS) important power supply information (low battery, for example), and network changes (loss of connection, for instance). Extra data may be added to intents (through `putExtra`/`getExtras`).
-
-Here is a short list of intents sent by the operating system. All constants are defined in the Intent class, and the whole list is in the official Android documentation:
-
-- ACTION_CAMERA_BUTTON
-- ACTION_MEDIA_EJECT
-- ACTION_NEW_OUTGOING_CALL
-- ACTION_TIMEZONE_CHANGED
-
-To improve security and privacy, a Local Broadcast Manager is used to send and receive intents within an app without having them sent to the rest of the operating system. This is very useful for ensuring that sensitive and private data don't leave the app perimeter (geolocation data for instance).
+For a detailed description of explicit and implicit intents, see @MASTG-KNOW-0025. Related intent-based concepts are covered in @MASTG-KNOW-0024 (Pending Intents) and @MASTG-KNOW-0019 (Deep Links).
 
 #### Broadcast Receivers
 
-Broadcast Receivers are components that allow apps to receive notifications from other apps and from the system itself. With them, apps can react to events (internal, initiated by other apps, or initiated by the operating system). They are generally used to update user interfaces, start services, update content, and create user notifications.
+A [broadcast receiver](https://developer.android.com/guide/components/broadcasts) lets an app receive notifications from other apps and from the system through a publish-subscribe model. A receiver can be declared in the `AndroidManifest.xml` file with a [`<receiver>`](https://developer.android.com/guide/topics/manifest/receiver-element) element or registered at runtime with the relevant `registerReceiver()` methods. Apps send broadcasts with `sendBroadcast()` or `sendOrderedBroadcast()`.
 
-There are two ways to make a Broadcast Receiver known to the system. One way is to declare it in the Android Manifest file. The manifest should specify an association between the Broadcast Receiver and an intent filter to indicate the actions the receiver is meant to listen for.
-
-An example Broadcast Receiver declaration with an intent filter in a manifest:
-
-```xml
-<receiver android:name=".MyReceiver" >
-    <intent-filter>
-        <action android:name="com.owasp.myapplication.MY_ACTION" />
-    </intent-filter>
-</receiver>
-```
-
-Please note that in this example, the Broadcast Receiver does not include the [`android:exported`](https://developer.android.com/guide/topics/manifest/receiver-element "receiver element") attribute. As at least one filter was defined, the default value will be set to "true". In absence of any filters, it will be set to "false".
-
-The other way is to create the receiver dynamically in code. The receiver can then register with the method [`Context.registerReceiver`](https://developer.android.com/reference/android/content/Context.html#registerReceiver%28android.content.BroadcastReceiver,%2520android.content.IntentFilter%29 "Context.registerReceiver").
-
-An example of registering a Broadcast Receiver dynamically:
-
-Example in Java:
-
-```java
-// Define a broadcast receiver
-BroadcastReceiver myReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Intent received by myReceiver");
-    }
-};
-// Define an intent filter with actions that the broadcast receiver listens for
-IntentFilter intentFilter = new IntentFilter();
-intentFilter.addAction("com.owasp.myapplication.MY_ACTION");
-// To register the broadcast receiver
-registerReceiver(myReceiver, intentFilter);
-// To un-register the broadcast receiver
-unregisterReceiver(myReceiver);
-```
-
-Example in Kotlin:
-
-```kotlin
-// Define a broadcast receiver
-val myReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
-        Log.d(FragmentActivity.TAG, "Intent received by myReceiver")
-    }
-}
-// Define an intent filter with actions that the broadcast receiver listens for
-val intentFilter = IntentFilter()
-intentFilter.addAction("com.owasp.myapplication.MY_ACTION")
-// To register the broadcast receiver
-registerReceiver(myReceiver, intentFilter)
-// To un-register the broadcast receiver
-unregisterReceiver(myReceiver)
-```
-
-Note that the system starts an app with the registered receiver automatically when a relevant intent is raised.
-
-According to [Broadcasts Overview](https://developer.android.com/guide/components/broadcasts "Broadcasts Overview"), a broadcast is considered "implicit" if it does not target an app specifically. After receiving an implicit broadcast, Android will list all apps that have registered a given action in their filters. If more than one app has registered for the same action, Android will prompt the user to select from the list of available apps.
-
-An interesting feature of Broadcast Receivers is that they can be prioritized; this way, an intent will be delivered to all authorized receivers according to their priority. A priority can be assigned to an intent filter in the manifest via the `android:priority` attribute as well as programmatically via the [`IntentFilter.setPriority`](https://developer.android.com/reference/android/content/IntentFilter#setPriority%28int%29 "IntentFilter.setPriority") method. However, note that receivers with the same priority will be [run in an arbitrary order](https://developer.android.com/guide/components/broadcasts.html#sending-broadcasts "Sending Broadcasts").
-
-If your app is not supposed to send broadcasts across apps, use a Local Broadcast Manager ([`LocalBroadcastManager`](https://developer.android.com/reference/androidx/localbroadcastmanager/content/LocalBroadcastManager.html "LocalBroadcastManager")). They can be used to make sure intents are received from the internal app only, and any intent from any other app will be discarded. This is very useful for improving security and the efficiency of the app, as no interprocess communication is involved. However, please note that the `LocalBroadcastManager` class is [deprecated](https://developer.android.com/reference/androidx/localbroadcastmanager/content/LocalBroadcastManager.html "LocalBroadcastManager") and Google recommends using alternatives such as [`LiveData`](https://developer.android.com/reference/androidx/lifecycle/LiveData.html "LiveData").
-
-For more security considerations regarding Broadcast Receiver, see [Security Considerations and Best Practices](https://developer.android.com/guide/components/broadcasts.html#security-and-best-practices "Security Considerations and Best Practices").
-
-#### Implicit Broadcast Receiver Limitation
-
-According to [Background Optimizations](https://developer.android.com/topic/performance/background-optimization "Background Optimizations"), apps targeting Android 7.0 (API level 24) or higher no longer receive `CONNECTIVITY_ACTION` broadcast unless they register their Broadcast Receivers with `Context.registerReceiver()`. The system does not send `ACTION_NEW_PICTURE` and `ACTION_NEW_VIDEO` broadcasts as well.
-
-According to [Background Execution Limits](https://developer.android.com/about/versions/oreo/background.html#broadcasts "Background Execution Limits"), apps that target Android 8.0 (API level 26) or higher can no longer register Broadcast Receivers for implicit broadcasts in their manifest, except for those listed in [Implicit Broadcast Exceptions](https://developer.android.com/guide/components/broadcast-exceptions "Implicit Broadcast Exceptions"). The Broadcast Receivers created at runtime by calling `Context.registerReceiver` are not affected by this limitation.
-
-According to [Changes to System Broadcasts](https://developer.android.com/guide/components/broadcasts#changes-system-broadcasts "Changes to System Broadcasts"), beginning with Android 9 (API level 28), the `NETWORK_STATE_CHANGED_ACTION` broadcast doesn't receive information about the user's location or personally identifiable data.
+For a detailed description of broadcast receivers, their registration, and access control, see @MASTG-KNOW-0134.
 
 ## Android Application Publishing
 

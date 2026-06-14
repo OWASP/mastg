@@ -4,7 +4,6 @@ title: JDWP Debugging Checks in App Code
 id: MASTG-DEMO-0115
 code: [kotlin]
 test: MASTG-TEST-0352
-tools: [MASTG-TOOL-0110]
 kind: pass
 ---
 

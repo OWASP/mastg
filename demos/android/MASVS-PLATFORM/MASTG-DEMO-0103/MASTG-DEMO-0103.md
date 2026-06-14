@@ -3,7 +3,7 @@ platform: android
 title: Missing Overlay Protection on a Sensitive View
 id: MASTG-DEMO-0103
 code: [kotlin, java]
-test: MASTG-TEST-0340semgrep]
+test: MASTG-TEST-0340
 ---
 
 ## Sample
