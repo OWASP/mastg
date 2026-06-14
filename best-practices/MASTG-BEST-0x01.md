@@ -3,18 +3,18 @@ title: Use Hardware-Backed Key Attestation for Device and App Integrity
 alias: android-hardware-backed-attestation
 id: MASTG-BEST-0x01
 platform: android
-knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0x01, MASTG-KNOW-0047, MASTG-KNOW-0119, MASTG-KNOW-0120]
+knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044, MASTG-KNOW-0047, MASTG-KNOW-0119, MASTG-KNOW-0120]
 ---
 
 Applications that perform business-critical operations, such as financial transactions, multi-factor authentication, or sensitive data handling, should verify the integrity of the device environment before trusting it as well as the integrity of the application binary.
 
 For the majority of apps, **Google Play Integrity API** (@MASTG-KNOW-0035) is the recommended starting point. It provides a managed, server-backed attestation signal covering device integrity, app integrity, and licensing - without requiring apps to implement low-level certificate verification themselves.
 
-**This best practice covers the manual attestation approach** using Android's hardware-backed Key Attestation (@MASTG-KNOW-0x01). This approach should be used when Play Integrity limitations need to be addressed, or when the application requires more control. In this scenario, use Android's Key Attestation to cryptographically verify that the client's keys reside in hardware-backed storage and that the device has not been compromised.
+**This best practice covers the manual attestation approach** using Android's hardware-backed Key Attestation (@MASTG-KNOW-0044). This approach should be used when Play Integrity limitations need to be addressed, or when the application requires more control. In this scenario, use Android's Key Attestation to cryptographically verify that the client's keys reside in hardware-backed storage and that the device has not been compromised.
 
 ## Implement Server-Driven Attestation with a Fresh Challenge
 
-Always drive attestation from the server using the challenge-response flow described in @MASTG-KNOW-0x01. Generate a unique, cryptographically random challenge (nonce) for each attestation request using a Cryptographically Secure Pseudorandom Number Generator (CSPRNG). Never reuse challenges across requests. Never implement attestation verification solely on the client side.
+Always drive attestation from the server using the challenge-response flow described in @MASTG-KNOW-0044. Generate a unique, cryptographically random challenge (nonce) for each attestation request using a Cryptographically Secure Pseudorandom Number Generator (CSPRNG). Never reuse challenges across requests. Never implement attestation verification solely on the client side.
 
 Since attestation reflects the state of the device and application at the time of key generation rather than at the time of use, require fresh key generation:
 
@@ -25,7 +25,7 @@ Enforce short-lived keys or periodic re-attestation policies to reduce the windo
 
 ## Verify the Attestation Certificate Chain
 
-On the server side, verify the attestation certificate chain (@MASTG-KNOW-0x01):
+On the server side, verify the attestation certificate chain (@MASTG-KNOW-0044):
 
 - Verify the chain of trust up to the Google Hardware Attestation Root Certificate.
 - Check each certificate against Google's Certificate Revocation Status List.
@@ -60,7 +60,7 @@ The following conditions indicate low or no application integrity:
 
 ## Enforce Key Properties
 
-Use the attestation extension data (@MASTG-KNOW-0x01) to confirm that the attested key pair was generated with the expected properties:
+Use the attestation extension data (@MASTG-KNOW-0044) to confirm that the attested key pair was generated with the expected properties:
 
 - Restrict the key purpose to only the intended operations (e.g., signing, encryption).
 - Require user authentication before key use when applicable (e.g., biometric binding via [`setUserAuthenticationRequired`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setuserauthenticationrequired)).

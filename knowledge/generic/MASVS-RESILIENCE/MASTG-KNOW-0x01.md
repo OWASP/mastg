@@ -16,8 +16,8 @@ App Check is provider-agnostic. The app registers a provider at startup. Both pl
 
 ### iOS
 
-- **App Attest** (recommended, iOS 14+) - Apple's hardware-backed attestation service using the Secure Enclave (see @MASTG-KNOW-0x04).
-- **DeviceCheck** (fallback, iOS 11+) - an older Apple service providing per-device flags persisted by Apple, without cryptographic app-identity guarantees (see @MASTG-KNOW-0x03).
+- **App Attest** (recommended, iOS 14+) - Apple's hardware-backed attestation service using the Secure Enclave (see @MASTG-KNOW-0x03).
+- **DeviceCheck** (fallback, iOS 11+) - an older Apple service providing per-device flags persisted by Apple, without cryptographic app-identity guarantees (see @MASTG-KNOW-0x02).
 
 ## Limitations
 

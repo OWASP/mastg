@@ -11,7 +11,7 @@ Usage (run from repository root):
 Example:
     python3 .github/skills/mastg-assign-ids/scripts/fix_ids.py \\
         MASTG-KNOW-0x0a=MASTG-KNOW-0131 \\
-        MASTG-KNOW-0x01=MASTG-KNOW-0122 \\
+        MASTG-KNOW-0044=MASTG-KNOW-0122 \\
         MASTG-BEST-0x56=MASTG-BEST-0045
 
 Ordering: pass longer/more-specific patterns first (e.g. 0x0a before 0x01).

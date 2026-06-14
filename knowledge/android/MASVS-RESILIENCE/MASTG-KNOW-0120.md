@@ -4,7 +4,7 @@ platform: android
 title: Device Attestation via Hardware-Backed Key Attestation
 ---
 
-Device attestation uses the `rootOfTrust` field in the `AuthorizationList` of a Key Attestation (@MASTG-KNOW-0x01) certificate chain, which allows a verifier (usually a remote server) to verify the integrity of the device's software stack. For the full list of fields and their meanings, see @MASTG-KNOW-0x01.
+Device attestation uses the `rootOfTrust` field in the `AuthorizationList` of a Key Attestation (@MASTG-KNOW-0044) certificate chain, which allows a verifier (usually a remote server) to verify the integrity of the device's software stack. For the full list of fields and their meanings, see @MASTG-KNOW-0044.
 
 ## Root of Trust Fields
 
