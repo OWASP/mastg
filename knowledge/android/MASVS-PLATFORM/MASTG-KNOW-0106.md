@@ -49,4 +49,3 @@ After the service is activated, the screenshot operation is performed through th
 
 Overall, this process consists of the following steps: configuring the service with the required permissions, having it enabled by the user, calling the `takeScreenshot()` method, and processing the visual data returned by the system through the `HardwareBuffer`. In this way, accessibility services gain access to a data source through which they can programmatically analyze the content on an app's screen.
  
-Overall, this process consists of the following steps: configuring the service with the required permissions, having it enabled by the user, calling the `takeScreenshot()` method, and processing the visual data returned by the system through the `HardwareBuffer`. In this way, accessibility services gain access to a data source through which they can programmatically analyze the content on an app's screen.
