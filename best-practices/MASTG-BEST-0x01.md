@@ -1,7 +1,7 @@
 ---
 title: Properly Configure App Transport Security
 alias: properly-configure-app-transport-security
-id: MASTG-BEST-0025
+id: MASTG-BEST-0x01
 platform: ios
 available_since: 9
 ---

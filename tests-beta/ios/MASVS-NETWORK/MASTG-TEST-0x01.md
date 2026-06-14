@@ -1,10 +1,10 @@
 ---
 title: Endpoint Identity Verification Not Enforced
 platform: ios
-id: MASTG-TEST-0067
+id: MASTG-TEST-0x01
 type: [static, dynamic]
 weakness: MASWE-0052
-best-practices: [MASTG-BEST-0025]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 ---
 

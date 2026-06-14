@@ -2,8 +2,8 @@
 platform: ios
 title: Insecure App Transport Security Configuration
 code: [xml]
-id: MASTG-DEMO-0068
-test: MASTG-TEST-0067
+id: MASTG-DEMO-0x01
+test: MASTG-TEST-0x01
 ---
 
 ### Sample
