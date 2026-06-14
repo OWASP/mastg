@@ -1,8 +1,13 @@
 
-References to file storage integrity APIs:
+Evidence that the app stores data on disk (filename string literal):
+96  0x00008940 0x100008940 17  18   3.__TEXT.__cstring         ascii   user_profile.json
 
-Uses of CCHmac:
-0x100009378    1     12 sym.imp.CCHmac
+Searching the import table for file storage integrity APIs:
 
-xrefs to CCHmac:
-sym.func.100004434 0x10000476c [CALL:--x] bl sym.imp.CCHmac
+HMAC (CCHmac / CCHmacFinal):
+
+Hash functions (CC_SHA256 / CC_SHA512):
+
+Asymmetric signing (SecKeyCreateSignature):
+
+(No matches under the integrity APIs means none are referenced by the app.)

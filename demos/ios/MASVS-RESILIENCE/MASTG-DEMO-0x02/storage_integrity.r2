@@ -3,12 +3,23 @@ e scr.interactive=false
 e bin.relocs.apply=true
 
 ?e
-?e References to file storage integrity APIs:
+?e Evidence that the app stores data on disk (filename string literal):
+izz~user_profile.json
 
 ?e
-?e Uses of CCHmac:
-afl~CCHmac
+?e Searching the import table for file storage integrity APIs:
 
 ?e
-?e xrefs to CCHmac:
-axt @ sym.imp.CCHmac
+?e HMAC (CCHmac / CCHmacFinal):
+ii~CCHmac
+
+?e
+?e Hash functions (CC_SHA256 / CC_SHA512):
+ii~CC_SHA
+
+?e
+?e Asymmetric signing (SecKeyCreateSignature):
+ii~SecKeyCreateSignature
+
+?e
+?e (No matches under the integrity APIs means none are referenced by the app.)

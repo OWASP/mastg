@@ -3,20 +3,19 @@ e scr.interactive=false
 e bin.relocs.apply=true
 
 ?e
-?e References to source code integrity APIs:
+?e Evidence of a security-sensitive routine (license key string literal):
+izz~MAS-PREMIUM
 
 ?e
-?e Uses of dladdr:
-afl~dladdr
+?e Searching the import table for source code integrity APIs:
 
 ?e
-?e xrefs to dladdr:
-axt @ sym.imp.dladdr
+?e Binary base address resolution (dladdr):
+ii~dladdr
 
 ?e
-?e Uses of CC_SHA256:
-afl~CC_SHA256
+?e Cryptographic hash functions over code (CC_MD5 / CC_SHA256 / CC_SHA512):
+ii~CC_
 
 ?e
-?e xrefs to CC_SHA256:
-axt @ sym.imp.CC_SHA256
+?e (No matches under the integrity APIs means none are referenced by the app.)

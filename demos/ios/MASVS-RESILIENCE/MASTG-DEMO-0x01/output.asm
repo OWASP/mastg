@@ -1,14 +1,11 @@
 
-References to source code integrity APIs:
+Evidence of a security-sensitive routine (license key string literal):
+196 0x00009450 0x100009450 16  17   10.__TEXT.__cstring        ascii   MAS-PREMIUM-2025
 
-Uses of dladdr:
-0x100008818    1     12 sym.imp.dladdr
+Searching the import table for source code integrity APIs:
 
-xrefs to dladdr:
-sym.func.100004124 0x100004170 [CALL:--x] bl sym.imp.dladdr
+Binary base address resolution (dladdr):
 
-Uses of CC_SHA256:
-0x1000087e8    1     12 sym.imp.CC_SHA256
+Cryptographic hash functions over code (CC_MD5 / CC_SHA256 / CC_SHA512):
 
-xrefs to CC_SHA256:
-sym.func.100004124 0x100004270 [CALL:--x] bl sym.imp.CC_SHA256
+(No matches under the integrity APIs means none are referenced by the app.)

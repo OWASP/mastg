@@ -1,40 +1,43 @@
-// SUMMARY: This sample demonstrates file storage integrity checking using CCHmac with SHA-256
-// to compute an HMAC over stored data and verify it before loading.
+// SUMMARY: This sample stores sensitive data in a file in the app's Documents directory and
+// later reads it back without computing or verifying any integrity value (HMAC or signature).
+// An attacker who modifies the file on a jailbroken device can tamper with the data undetected.
 
 import Foundation
-import CommonCrypto
 
 struct MastgTest {
-    // A fixed HMAC key for demonstration purposes.
-    // In production, use a Keychain-bound key to prevent key extraction.
-    private static let hmacKeyBytes: [UInt8] = Array("storage-integrity-demo-key".utf8)
-
-    static func computeHMAC(data: Data) -> Data {
-        var hmac = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        hmacKeyBytes.withUnsafeBytes { keyBytes in
-            data.withUnsafeBytes { dataBytes in
-                CCHmac(
-                    CCHmacAlgorithm(kCCHmacAlgSHA256),
-                    keyBytes.baseAddress, hmacKeyBytes.count,
-                    dataBytes.baseAddress, data.count,
-                    &hmac
-                )
-            }
-        }
-        return Data(hmac)
-    }
-
     static func mastgTest(completion: @escaping (String) -> Void) {
-        // PASS: [MASTG-TEST-0x02] The app uses CCHmac with SHA-256 to authenticate stored data,
-        // computing and verifying an HMAC before loading to detect unauthorized modifications.
+        // FAIL: [MASTG-TEST-0x02] The app writes sensitive data to disk and later reads it back
+        // without computing or verifying an HMAC or signature, so it cannot detect tampering.
 
-        let message = "Sensitive file content".data(using: .utf8)!
-        let hmac    = computeHMAC(data: message)
-        let hmacHex = hmac.map { String(format: "%02x", $0) }.joined()
+        let fileManager = FileManager.default
+        guard let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            completion("Could not locate the Documents directory")
+            return
+        }
+        let fileURL = documents.appendingPathComponent("user_profile.json")
+
+        // Store sensitive data without any integrity protection
+        let sensitiveData = #"{"username":"alice","role":"user","premium":false}"#.data(using: .utf8)!
+
+        do {
+            try sensitiveData.write(to: fileURL)
+        } catch {
+            completion("Failed to write file: \(error.localizedDescription)")
+            return
+        }
+
+        // Later, the app reads the data back and trusts it without verifying its integrity
+        guard let loaded = try? Data(contentsOf: fileURL),
+              let contents = String(data: loaded, encoding: .utf8) else {
+            completion("Failed to read the file back")
+            return
+        }
 
         let value = """
-        Message     : \(String(data: message, encoding: .utf8)!)
-        HMAC-SHA256 : \(hmacHex)
+        Stored file : \(fileURL.path)
+        Contents    : \(contents)
+
+        The app read this data back without verifying any HMAC or signature.
         """
         completion(value)
     }
