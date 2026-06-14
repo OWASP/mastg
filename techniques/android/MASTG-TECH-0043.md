@@ -68,6 +68,8 @@ Just like regular Android apps, modules for Xposed are developed and deployed wi
 
 We'll use Frida to solve the @MASTG-APP-0003 and demonstrate how we can easily bypass root detection and extract secret data from the app.
 
+For more comprehensive tutorials on method hooking with Frida, see the [Hooking section in the Frida Handbook](https://learnfrida.info/basic_usage/#hooks-and-the-interceptor-api/).
+
 When you start the crackme app on an emulator or a rooted device, you'll find that it presents a dialog box and exits as soon as you press "OK" because it detected root:
 
 <img src="Images/Chapters/0x05c/crackme-frida-1.png" width="400px" />

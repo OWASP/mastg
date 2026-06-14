@@ -1,0 +1,75 @@
+
+
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-native-debugger-checks
+          [MASVS-RESILIENCE-4] native anti-debugging check indicator detected.
+
+          110┆ r.add(Status.FAIL, "Native ptrace self-check: debugger likely detected (child could not
+               PTRACE_SEIZE parent: EPERM).");
+            ⋮┆----------------------------------------
+          126┆ String statusText = FilesKt.readText$default(new File("/proc/self/status"), null, 1, null);
+            ⋮┆----------------------------------------
+          133┆ if (StringsKt.startsWith$default(it2, "TracerPid:", false, 2, (Object) null)) {
+
+Native anti-debugging strings:
+6   0x00000587 0x00000587 54  55   .dynstr             ascii   Java_org_owasp_mastestapp_MastgTest_getTracerPidNative
+12  0x000005e0 0x000005e0 67  68   .dynstr             ascii   Java_org_owasp_mastestapp_MastgTest_getTracerPidInlineSyscallNative
+29  0x000008d0 0x000008d0 17  18   .rodata             ascii   /proc/self/status
+30  0x000008e2 0x000008e2 10  11   .rodata             ascii   TracerPid:
+31  0x000008ef 0x000008ef 13  14   .rodata             ascii   TracerPid:\t%d
+282 0x000038dd 0x000008c0 67  68   .debug_str          ascii   Java_org_owasp_mastestapp_MastgTest_getTracerPidInlineSyscallNative
+292 0x0000396a 0x0000094d 54  55   .debug_str          ascii   Java_org_owasp_mastestapp_MastgTest_getTracerPidNative
+414 0x00005513 0x0000029b 54  55   .strtab             ascii   Java_org_owasp_mastestapp_MastgTest_getTracerPidNative
+420 0x0000556c 0x000002f4 67  68   .strtab             ascii   Java_org_owasp_mastestapp_MastgTest_getTracerPidInlineSyscallNative
+
+Imported ptrace symbol:
+16  0x000021c0 GLOBAL FUNC     ptrace
+
+Cross-references to ptrace:
+dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative 0x1fc4 [CALL:--x] bl sym.imp.ptrace
+
+Disassembly around ptrace references:
+│       ┌─< 0x00001f84      tbz w8, 0x1f, 0x1f98                       ; tracerpid_ptrace_self.cpp:15:9    if (child_pid < 0)
+│      ┌──< 0x00001f88      b 0x1f8c
+│      ││   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1f88(x)
+│      └──> 0x00001f8c      mov w8, 2                                  ; tracerpid_ptrace_self.cpp:17:9        return 2;
+│       │   0x00001f90      stur w8, [x29, -4]
+│      ┌──< 0x00001f94      b 0x2094
+│      ││   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1f84(x)
+│      │└─> 0x00001f98      ldr w8, [var_14h]                          ; tracerpid_ptrace_self.cpp:20:9    if (child_pid == 0)
+│      │┌─< 0x00001f9c      cbnz w8, 0x1ffc
+│     ┌───< 0x00001fa0      b 0x1fa4
+│     │││   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1fa0(x)
+│     └───> 0x00001fa4      bl sym.imp.getppid                         ; tracerpid_ptrace_self.cpp:22:34        const pid_t parent_pid = getppid();
+│      ││   0x00001fa8      str w0, [arg_40hx10]                       ; tracerpid_ptrace_self.cpp:22:21        const pid_t parent_pid = getppid();
+│      ││   0x00001fac      bl sym.imp.__errno                         ; tracerpid_ptrace_self.cpp:24:9        errno = 0;
+│      ││   0x00001fb0      str wzr, [x0]                              ; tracerpid_ptrace_self.cpp:24:15        errno = 0;
+│      ││   0x00001fb4      ldr w1, [arg_40hx10]                       ; tracerpid_ptrace_self.cpp:25:34        if (ptrace(PTRACE_SEIZE, parent_pid, nullptr, nullptr) == 0)
+│      ││   0x00001fb8      mov w0, 0x4206                             ; tracerpid_ptrace_self.cpp:25:13        if (ptrace(PTRACE_SEIZE, parent_pid, nullptr, nullptr) == 0)
+│      ││   0x00001fbc      mov x3, xzr                                ; void*data
+│      ││   0x00001fc0      mov x2, x3                                 ; void*addr
+│           0x00001fc4      bl sym.imp.ptrace                          ; long ptrace(__ptrace_request request, pid_t pid, void*addr, void*data)
+│       ┌─< 0x00001fc8      cbnz x0, 0x1fd8                            ; tracerpid_ptrace_self.cpp:25:13        if (ptrace(PTRACE_SEIZE, parent_pid, nullptr, nullptr) == 0)
+│      ┌──< 0x00001fcc      b 0x1fd0
+│      ││   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1fcc(x)
+│      └──> 0x00001fd0      mov w0, wzr                                ; tracerpid_ptrace_self.cpp:27:13            _exit(0);
+│       │   0x00001fd4      bl sym.imp._exit                           ; void exit(int status)
+│       │   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1fc8(x)
+│       └─> 0x00001fd8      bl sym.imp.__errno                         ; tracerpid_ptrace_self.cpp:30:13        if (errno == EPERM)
+│           0x00001fdc      ldr w8, [x0]
+│           0x00001fe0      subs w8, w8, 1
+│       ┌─< 0x00001fe4      b.ne 0x1ff4
+│      ┌──< 0x00001fe8      b 0x1fec
+│      ││   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1fe8(x)
+│      └──> 0x00001fec      mov w0, 1                                  ; tracerpid_ptrace_self.cpp:32:13            _exit(1);
+│       │   0x00001ff0      bl sym.imp._exit                           ; void exit(int status)
+│       │   ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1fe4(x)
+│       └─> 0x00001ff4      mov w0, 2                                  ; tracerpid_ptrace_self.cpp:35:9        _exit(2);
+│           0x00001ff8      bl sym.imp._exit                           ; void exit(int status)
+│           ; CODE XREF from dbg.Java_org_owasp_mastestapp_MastgTest_ptraceSelfDetectNative @ 0x1f9c(x)
+│           0x00001ffc      add x1, sp, 0xc                            ; tracerpid_ptrace_self.cpp:0:9
+│           0x00002000      mov w2, wzr

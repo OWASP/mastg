@@ -2,9 +2,10 @@
 platform: ios
 title: Usage of Outdated Code Signature Format
 id: MASTG-TEST-0220
-type: [static]
+type: [static, code]
 weakness: MASWE-0104
 profiles: [R]
+knowledge: [MASTG-KNOW-0058]
 ---
 
 ## Overview
@@ -15,8 +16,8 @@ Using an outdated code signature format may expose the app to security risks, as
 
 ## Steps
 
-1. Extract the package as described in @MASTG-TECH-0058.
-2. Obtain the version of the code signature format as described in @MASTG-TECH-0112.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0112 to obtain the version of the code signature format as described.
 
 ## Observation
 
@@ -24,6 +25,6 @@ The output should contain the version of the code signature format.
 
 ## Evaluation
 
-The test fails if the version is below the [recommended one](https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format "Apple Developer").
+The test case fails if the version is below the [recommended one](https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format "Apple Developer").
 
 Ensure that the app is using the [latest code signing format](https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format "Apple Developer"). You can retrieve the signing certificate format with @MASTG-TECH-0112. This will ensure that the integrity of the app is protected according to the latest cryptographic standards, preventing tampering with the app binary and ensuring that the unmodified copy is distributed to users.

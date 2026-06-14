@@ -1,0 +1,1 @@
+frida-trace -n 'MASTestApp' -i "*FixedWidthInteger*random*" -i "*rand" -i "*rand48" -i "arc4random*" -i "*SystemRandomNumberGenerator*" -i "CCRandom*" -i "SecRandomCopyBytes" # -i "open"

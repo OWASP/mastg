@@ -3,25 +3,25 @@ title: Dynamic Analysis on Non-Rooted Devices
 platform: android
 ---
 
-??? info "Info about objection"
+If you don't have access to a rooted device, you can patch and repackage the target app to load a dynamic library at startup (e.g., the Frida gadget), enabling dynamic testing with Frida and related tools such as objection. Unlike iOS, Android apps aren't FairPlay-encrypted, so you can extract the APK directly from a device or download it from an alternative store without root access.
 
-    The commands below are for objection version 1.11.0, which relies on Frida < 17. To use objection, install `frida-tools==13.7.1` and use a `frida-server` lower than 17 on your device. If you want to use objection with Frida 17, you can pull and build locally the latest version from the objection repository. Note that some commands have been modified in the upcoming release, so you may have to modify the steps below. For example, for objection version 2, the API `explore` command is expected to be replaced with `start`. Once the updated version has officially been released, the steps below will be updated.
+!!! note "Using the Android Emulator"
+    For researchers and learners, the Android Emulator is often the simplest starting point. Apps running in the Emulator are not subject to the same hardware-backed restrictions as physical devices. You can attach Frida directly to the process without using the Frida Gadget (simply using `frida -U`), without patching the binary, and without re-signing the app. This makes the Emulator ideal for experimentation, scripting, and learning dynamic analysis techniques before moving to real-device testing. Keep in mind that the Emulator doesn't perfectly replicate real-device behavior, especially for hardware-backed features such as TEE/StrongBox, biometrics, certain hardware identifiers, and anti-emulator or root-detection checks.
 
-Non-rooted devices have the benefit of replicating an environment that the application is intended to run on.
+The following sections walk through each step of the process for real non-rooted devices.
 
-Thanks to tools like @MASTG-TOOL-0038, you can patch the app in order to test it like if you were on a rooted device (but of course being jailed to that one app). To do that you have to perform one additional step: [patch the APK](https://github.com/sensepost/objection/wiki/Patching-Android-Applications#patching---patching-an-apk "patching - patching an APK") to include the [Frida gadget](https://www.frida.re/docs/gadget/ "Frida Gadget") library.
+## Step 1: Obtain the APK
 
-Now you can use objection to dynamically analyze the application on non-rooted devices.
+Follow @MASTG-TECH-0003 to obtain the APK for the app you want to test.
 
-The following commands summarize how to patch and start dynamic analysis using objection, using the @MASTG-APP-0003 as an example:
+## Step 2: Inject the Frida Gadget
 
-```bash
-# Download the Uncrackable APK
-$ wget https://raw.githubusercontent.com/OWASP/mastg/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk
-# Patch the APK with the Frida Gadget
-$ objection patchapk --source UnCrackable-Level1.apk
-# Install the patched APK on the Android phone
-$ adb install UnCrackable-Level1.objection.apk
-# After running the mobile phone, objection can attach to the frida-server running through the APK by specifying the foreground process (-f).
-$ objection -f start
-```
+Follow @MASTG-TECH-0041 to patch the APK and inject the Frida Gadget library. Tools such as @MASTG-TOOL-0038 can automate most of this process as described in @MASTG-TECH-0004.
+
+## Step 3: Sign the APK
+
+Follow @MASTG-TECH-0039 to re-sign the patched APK. A standard Android debug keystore is sufficient; no developer account or special certificate is required.
+
+## Step 4: Install the App
+
+Follow @MASTG-TECH-0005 to install the re-signed APK on your device. If the original app is already installed, you'll need to uninstall it first, as Android rejects installations where the signing certificate has changed.

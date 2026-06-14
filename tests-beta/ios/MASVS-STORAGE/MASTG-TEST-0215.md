@@ -2,10 +2,11 @@
 platform: ios
 title: Sensitive Data Not Marked For Backup Exclusion
 id: MASTG-TEST-0215
-type: [static]
+type: [static, code]
 weakness: MASWE-0004
 best-practices: [MASTG-BEST-0023]
 profiles: [L1, L2, P]
+knowledge: [MASTG-KNOW-0102]
 ---
 
 ## Overview
@@ -16,11 +17,13 @@ This test verifies whether your app uses the `isExcludedFromBackup` API to instr
 
 In this test, we identify all locations where the `isExcludedFromBackup` API is used to mark files that might still end up in a backup.
 
-**Note**: Files stored in an app's `/tmp` and `/Library/Caches` directories are **excluded** from iCloud backups. These directories are intended for temporary or cache data, and the system may automatically delete their contents at any time to free up space. Therefore, you don't need to mark these files with `isExcludedFromBackup`. For more details, see the [Apple documentation](https://developer.apple.com/documentation/foundation/optimizing-your-app-s-data-for-icloud-backup#Exclude-Purgeable-Data).
+!!! note
+    Files stored in an app's `/tmp` and `/Library/Caches` directories are **excluded** from iCloud backups. These directories are intended for temporary or cache data, and the system may automatically delete their contents at any time to free up space. Therefore, you don't need to mark these files with `isExcludedFromBackup`. For more details, see the [Apple documentation](https://developer.apple.com/documentation/foundation/optimizing-your-app-s-data-for-icloud-backup#Exclude-Purgeable-Data).
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, or use a dynamic analysis tool like @MASTG-TOOL-0039, and look for uses of the `isExcludedFromBackup` API.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -28,6 +31,6 @@ The output should contain the disassembled code of the functions using `isExclud
 
 ## Evaluation
 
-The test fails if the `isExcludedFromBackup` API is used and any of the affected files are considered sensitive.
+The test case fails if the `isExcludedFromBackup` API is used and any of the affected files are considered sensitive.
 
 For any sensitive files found, in addition to using `isExcludedFromBackup`, make sure to encrypt them, as `isExcludedFromBackup` does not guarantee exclusion.

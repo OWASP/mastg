@@ -1,0 +1,36 @@
+sysctlbyname("hw.machine") => iPhone10,6
+Backtrace:
+0x1c2ac4368 CoreFoundation!___CFGetProductName_block_invoke
+0x1c9794780 libdispatch.dylib!_dispatch_client_callout
+0x1c9764ddc libdispatch.dylib!_dispatch_once_callout
+0x1c2a0fe1c CoreFoundation!_CFBundleInfoPlistProcessInfoDictionary
+0x1c2a39e30 CoreFoundation!_CFBundleCopyInfoDictionaryInDirectoryWithVersion
+0x1c2a2e588 CoreFoundation!_CFBundleRefreshInfoDictionaryAlreadyLocked
+
+sysctlbyname("hw.machine") => iPhone10,6
+Backtrace:
+0x104e29fb0 MASTestApp.debug.dylib!closure #1 in VirtualDeviceDetector.currentMachineIdentifier()
+0x104e2a000 MASTestApp.debug.dylib!partial apply for closure #1 in VirtualDeviceDetector.currentMachineIdentifier()
+0x104e2a108 MASTestApp.debug.dylib!$sSa30withUnsafeMutableBufferPointeryqd__qd__SryxGzqd_0_YKXEqd_0_YKs5ErrorRd_0_r0_lF
+0x104e287cc MASTestApp.debug.dylib!VirtualDeviceDetector.currentMachineIdentifier()
+0x104e28090 MASTestApp.debug.dylib!VirtualDeviceDetector.run()
+0x104e28040 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:)
+
+MTLCreateSystemDefaultDevice() => available
+Backtrace:
+0x104e28b4c MASTestApp.debug.dylib!VirtualDeviceDetector.metalIndicator()
+0x104e28104 MASTestApp.debug.dylib!VirtualDeviceDetector.run()
+0x104e28040 MASTestApp.debug.dylib!static MastgTest.mastgTest(completion:)
+0x104e2d018 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in ContentView.body.getter
+0x1c686b35c SwiftUI!0x7d735c (0x18ac6f35c)
+0x1c686b844 SwiftUI!0x7d7844 (0x18ac6f844)
+
+stat("/usr/libexec/corelliumd") => missing
+Backtrace:
+0x104e2a5c4 MASTestApp.debug.dylib!closure #1 in VirtualDeviceDetector.corelliumDaemonExists()
+0x104e2a5fc MASTestApp.debug.dylib!partial apply for closure #1 in VirtualDeviceDetector.corelliumDaemonExists()
+0x1bc937a1c libswiftCore.dylib!String.withCString<A>(_:)
+0x104e29dec MASTestApp.debug.dylib!VirtualDeviceDetector.corelliumDaemonExists()
+0x104e28d60 MASTestApp.debug.dylib!VirtualDeviceDetector.corelliumIndicator()
+0x104e28124 MASTestApp.debug.dylib!VirtualDeviceDetector.run()
+

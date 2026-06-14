@@ -4,7 +4,7 @@ platform: generic
 source: https://github.com/sensepost/objection
 ---
 
-[Objection](https://github.com/sensepost/objection "Objection on GitHub") is a "runtime mobile exploration toolkit, powered by Frida". Its main goal is to allow security testing on non-rooted devices through an intuitive interface. You can find the [full list of features](https://github.com/sensepost/objection/wiki/Features) on the project's page, but here are a few platform-agnostic ones:
+Objection is a "runtime mobile exploration toolkit, powered by Frida". Its main goal is to allow security testing on non-rooted devices through an intuitive interface. You can find the [full list of features](https://github.com/sensepost/objection/wiki/Features) on the project's page, but here are a few platform-agnostic ones:
 
 - Access application storage to download or upload files
 - Execute custom Frida scripts
@@ -21,7 +21,4 @@ Objection can be installed through pip as described on [Objection's Wiki](https:
 pip3 install objection
 ```
 
-!!! warn "Objection's pip/PyPI package is outdated and not Frida 17+ compliant"
-    You can keep using Objection with Frida 17+ by installing it from the source repo's `master` branch. See [Development Environment Installation](https://github.com/sensepost/objection/wiki/Development-Environment-Installation).
-
-    Once a new release exists and is made available on the Python Package Index (PyPI), you can install it using `pip`.
+If the pip version is out of sync with the latest release or you want to use the latest development version, you can install Objection directly from the source repository's main branch. See [Development Environment Installation](https://github.com/sensepost/objection/wiki/Development-Environment-Installation) for instructions.

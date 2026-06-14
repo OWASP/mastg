@@ -27,7 +27,7 @@ While Corellium has some very powerful tools to analyze both applications and iO
 - **No Apple Services**: Access to Apple services (including iMessage and push notifications) is unavailable.
 - **No Camera / Cellular / NFC / Bluetooth**: Apps running on Corellium do not have access to these peripherals. But it does support [simulated SMS sending](https://support.corellium.com/features/messaging).
 
-More on iOS testing can be found [here](https://support.corellium.com/features/apps/testing-ios-apps).
+More on iOS testing can be found [in Corellium's iOS testing documentation](https://support.corellium.com/features/apps/testing-ios-apps).
 
 ## Android emulation
 
@@ -38,4 +38,4 @@ However, some features are not supported:
 - **TrustZone**: It is not possible to access a Keymaster, or use PlayReady or Widevine.
 - **SELinux in Permissive mode**: SELinux is set to permissive mode, which may be detected by applications. This is typically not the case for physical devices rooted with Magisk or KernelSU.
 
-More on Android testing can be found [here](https://support.corellium.com/features/apps/debug-test-android-apps).
+More on Android testing can be found [in Corellium's Android testing documentation](https://support.corellium.com/features/apps/debug-test-android-apps).

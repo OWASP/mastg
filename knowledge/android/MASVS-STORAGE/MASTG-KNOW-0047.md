@@ -33,7 +33,7 @@ Deriving a key from a user provided passphrase is a common solution (depending o
 
 Each time the application needs to perform a cryptographic operation, the user's passphrase is needed. Either the user is prompted for it every time, which isn't an ideal user experience, or the passphrase is kept in memory as long as the user is authenticated. Keeping the passphrase in memory is not a best-practice, as any cryptographic material must only be kept in memory while it is being used. Zeroing out a key is often a very challenging task as explained in ["Cleaning out Key Material"](#cleaning-out-key-material).
 
-Additionally, consider that keys derived from a passphrase have their own weaknesses. For instance, the passwords or passphrases might be reused by the user or easy to guess. Please refer to the chapter ["Testing Cryptography"](0x04g-Testing-Cryptography.md#improper-key-derivation-functions) for more information.
+Additionally, consider that keys derived from a passphrase have their own weaknesses. For instance, the passwords or passphrases might be reused by the user or easy to guess. Please refer to the chapter ["Testing Cryptography"](../../../Document/0x04g-Testing-Cryptography.md#improper-key-derivation-functions) for more information.
 
 ## Cleaning out Key Material
 
@@ -73,4 +73,5 @@ There are several different open-source libraries that offer encryption capabili
 - **[SQL Cipher](https://www.zetetic.net/sqlcipher/sqlcipher-for-android/ "SQL Cipher")** - SQLCipher is an open source extension to SQLite that provides transparent 256-bit AES encryption of database files.
 - **[Themis](https://github.com/cossacklabs/themis "Themis cryptographic library")** - A cross-platform high-level cryptographic library that provides the same API across many platforms, for securing data during authentication, storage, messaging, etc.
 
-> Please keep in mind that as long as the key is not stored in the KeyStore, it is always possible to easily retrieve the key on a rooted device and then decrypt the values you are trying to protect.
+!!! note
+    Please keep in mind that, as long as the key is not stored in the KeyStore, it is always possible to easily retrieve it on a rooted device and then decrypt the values you are trying to protect.

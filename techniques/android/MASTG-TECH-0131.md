@@ -87,4 +87,4 @@ dependencyCheck {
     ...
 ```
 
-Further examples of suppressing false positives can be found [here](https://jeremylong.github.io/DependencyCheck/general/suppression.html).
+Further examples of suppressing false positives can be found [in the DependencyCheck documentation](https://jeremylong.github.io/DependencyCheck/general/suppression.html).

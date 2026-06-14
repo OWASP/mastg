@@ -1,0 +1,69 @@
+{
+  "CFBundleName": "MASTestApp",
+  "DTXcode": "2620",
+  "DTSDKName": "iphoneos26.2",
+  "DTSDKBuild": "23C53",
+  "CFBundleDevelopmentRegion": "en",
+  "CFBundleVersion": "1",
+  "BuildMachineOSBuild": "25C56",
+  "DTPlatformName": "iphoneos",
+  "CFBundlePackageType": "APPL",
+  "CFBundleShortVersionString": "1.0",
+  "CFBundleSupportedPlatforms": [
+    "iPhoneOS"
+  ],
+  "UIApplicationSupportsIndirectInputEvents": true,
+  "UILaunchScreen": {
+    "UILaunchScreen": {}
+  },
+  "UISupportedInterfaceOrientations~iphone": [
+    "UIInterfaceOrientationPortrait",
+    "UIInterfaceOrientationLandscapeLeft",
+    "UIInterfaceOrientationLandscapeRight"
+  ],
+  "NSAppTransportSecurity": {
+    "NSAllowsArbitraryLoads": true,
+    "NSExceptionDomains": {
+      "httpbin.org": {
+        "NSExceptionMinimumTLSVersion": "TLSv1.1",
+        "NSExceptionAllowsInsecureHTTPLoads": true,
+        "NSIncludesSubdomains": true
+      },
+      "api.example.com": {
+        "NSExceptionAllowsInsecureHTTPLoads": true,
+        "NSExceptionRequiresForwardSecrecy": false,
+        "NSIncludesSubdomains": true,
+        "NSTemporaryExceptionMinimumTLSVersion": "TLSv1.0"
+      }
+    },
+    "NSAllowsArbitraryLoadsInWebContent": true,
+    "NSAllowsArbitraryLoadsForMedia": true,
+    "NSAllowsArbitraryLoadsForLocalNetworking": true
+  },
+  "CFBundleInfoDictionaryVersion": "6.0",
+  "CFBundleExecutable": "MASTestApp",
+  "DTCompiler": "com.apple.compilers.llvm.clang.1_0",
+  "UIRequiredDeviceCapabilities": [
+    "arm64"
+  ],
+  "MinimumOSVersion": "17.1.1",
+  "CFBundleIdentifier": "org.owasp.mastestapp.MASTestApp-iOS",
+  "UIDeviceFamily": [
+    1,
+    2
+  ],
+  "DTPlatformVersion": "26.2",
+  "DTXcodeBuild": "17C52",
+  "LSRequiresIPhoneOS": true,
+  "UIApplicationSceneManifest": {
+    "UIApplicationSupportsMultipleScenes": true,
+    "UISceneConfigurations": {}
+  },
+  "UISupportedInterfaceOrientations~ipad": [
+    "UIInterfaceOrientationPortrait",
+    "UIInterfaceOrientationPortraitUpsideDown",
+    "UIInterfaceOrientationLandscapeLeft",
+    "UIInterfaceOrientationLandscapeRight"
+  ],
+  "DTPlatformBuild": "23C53"
+}

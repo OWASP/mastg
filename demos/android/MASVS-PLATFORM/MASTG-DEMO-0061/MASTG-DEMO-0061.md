@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0291
 ---
 
-### Sample
+## Sample
 
 The sample uses the `addFlags` method to set the `FLAG_SECURE` window flag on an activity that displays sensitive data.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run our @MASTG-TOOL-0110 rule against the reversed java code.
 
@@ -20,12 +20,12 @@ Let's run our @MASTG-TOOL-0110 rule against the reversed java code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The rule has identified one location in the code file where the app has set the `FLAG_SECURE` window flag using the `addFlags` method.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 This test passes because the app used the `addFlags` method to set the `FLAG_SECURE` window flag on an activity that displays sensitive data.

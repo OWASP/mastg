@@ -2,14 +2,15 @@
 title: Position Independent Code (PIC) not Enabled
 platform: ios
 id: MASTG-TEST-0228
-type: [static]
+type: [static, code]
 weakness: MASWE-0116
 profiles: [L2]
+knowledge: [MASTG-KNOW-0061]
 ---
 
 ## Overview
 
-[PIE (Position Independent Executables)](../../../Document/0x04h-Testing-Code-Quality.md/#position-independent-code) are designed to enhance security by allowing executables to be loaded at random memory addresses, mitigating certain types of attacks.
+[PIE (Position Independent Executables)](../../../Document/0x04h-Testing-Code-Quality.md#position-independent-code) are designed to enhance security by allowing executables to be loaded at random memory addresses, mitigating certain types of attacks.
 
 In the context Mach-O file format of iOS applications:
 
@@ -20,8 +21,8 @@ This test case checks if the main executable is compiled with PIE.
 
 ## Steps
 
-1. Extract the application and identify the main binary (@MASTG-TECH-0054).
-2. Run @MASTG-TECH-0118 on the main binary and grep for "pic" or the corresponding keyword used by the selected tool.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0118 on the main binary and grep for "pic" or the corresponding keyword used by the selected tool.
 
 ## Observation
 

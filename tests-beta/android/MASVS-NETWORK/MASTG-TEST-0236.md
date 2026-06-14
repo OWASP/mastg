@@ -2,7 +2,7 @@
 title: Cleartext Traffic Observed on the Network
 platform: network
 id: MASTG-TEST-0236
-type: [dynamic]
+type: [dynamic, network]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---
@@ -31,10 +31,11 @@ You can use one of the following approaches:
 
 ## Observation
 
-The output contains the captured network traffic.
+The output should contain the captured network traffic.
 
 ## Evaluation
 
 The test case fails if any clear text traffic originates from the target app.
 
-**Note**: This can be challenging to determine because traffic can potentially come from any app on the device. See the [Overview](#overview) section.
+!!! note
+    This can be challenging to determine because traffic can potentially come from any app on the device. See the [Overview](#overview) section.

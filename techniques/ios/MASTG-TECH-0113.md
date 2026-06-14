@@ -3,7 +3,7 @@ title: Obtaining Debugging Symbols
 platform: ios
 ---
 
-To retrieve debug symbols from iOS binaries you can use @MASTG-TOOL-0073, @MASTG-TOOL-0121 or @MASTG-TOOL-0041 to inspect all of the app binaries.
+To retrieve debug symbols from iOS binaries, you can use @MASTG-TOOL-0073, @MASTG-TOOL-0121, or @MASTG-TOOL-0041 to inspect all the app binaries.
 
 ## radare2
 
@@ -38,7 +38,7 @@ $ objdump --syms MASTestApp | grep " d " | grep "swift"
 
 ## nm
 
-With @MASTG-TOOL-0041 you can compare the symbols from a plain call to `nm` with the output of a call to `nm -a`. The latter also prints the debug symbols. The following command will show only debug symbols in a diff format. If this is empty, now debug symbols are present.
+With @MASTG-TOOL-0041, you can compare the symbols from a plain call to `nm` with the output of a call to `nm -a`. The latter also prints the debug symbols. The following command will show only debug symbols in a diff format. If this is empty, now debug symbols are present.
 
 ```bash
 $ diff <(nm MASTestApp) <(nm -a MASTestApp)

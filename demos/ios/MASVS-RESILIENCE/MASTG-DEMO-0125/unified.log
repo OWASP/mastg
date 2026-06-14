@@ -1,0 +1,5 @@
+[connected:81e43377d6fa9508615173d104e3f739e8c1b252]
+Jun  9 10:14:31.806381 MASTestApp(Foundation)[2781] <Notice>: [DEBUG] Attempting to connect to API endpoint: https://internal-api.example.com/v2/auth/login
+Jun  9 10:14:31.807542 MASTestApp(MASTestApp.debug.dylib)[2781] <Debug>: Validating credentials against local database
+Jun  9 10:14:31.811025 MASTestApp(MASTestApp.debug.dylib)[2781] <Debug>: Checking password hash: SHA256 algorithm
+[disconnected:81e43377d6fa9508615173d104e3f739e8c1b252]
