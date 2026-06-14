@@ -15,15 +15,6 @@ If an exported activity does not define [`android:permission`](https://developer
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected activities.
 
-**Example Attack Scenario:**
-
-Suppose a banking app protects its account screen behind a login activity but also declares an unprotected account-details activity that is exported, for example by setting `android:exported="true"` and without any limiting `android:permission`.
-
-1. An attacker reverse engineers the app and finds the exported account-details activity (see @MASTG-TECH-0160).
-2. The attacker writes a malicious app that calls `startActivity` with an explicit intent targeting that activity by its component name.
-3. The account-details activity starts directly, without going through the login activity.
-4. The account-details activity displays the victim's account data without requiring authentication.
-
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
