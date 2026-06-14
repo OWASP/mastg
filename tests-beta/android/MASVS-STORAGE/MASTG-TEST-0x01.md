@@ -1,7 +1,7 @@
 ---
 platform: android
 title: References to Logging APIs
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0231
 apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#printStackTrace, android.util.Log]
 type: [static, code]
 weakness: MASWE-0001
