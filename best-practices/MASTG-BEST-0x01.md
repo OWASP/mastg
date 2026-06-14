@@ -14,21 +14,7 @@ The OS provides code signing to verify the authenticity and integrity of app bin
 
 To supplement the OS-level protection, implement runtime source code integrity checks. These checks parse the [Mach-O binary structure](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/MachOTopics/0-Introduction/introduction.html) to locate the `__TEXT/__text` section, compute a cryptographic hash over it, and compare the hash against a hardcoded or securely stored reference value.
 
-Use a strong hash function such as SHA-256 (via `CC_SHA256` from [CommonCrypto](https://developer.apple.com/documentation/cryptokit)) instead of MD5, which is cryptographically weak:
-
-```swift
-import CommonCrypto
-
-func computeTextSectionHash() -> Data? {
-    var info = Dl_info()
-    guard dladdr(#dsohandle, &info) != 0, let base = info.dli_fbase else {
-        return nil
-    }
-    // Parse the Mach-O header to locate __TEXT/__text and compute SHA-256 hash
-    // ...
-    return nil // Replace with actual hash bytes
-}
-```
+Use a strong hash function such as SHA-256 (via `CC_SHA256` from CommonCrypto) instead of MD5, which is cryptographically weak. @MASTG-DEMO-0x01 shows a working implementation that resolves the binary base address with `dladdr`, locates the `__TEXT/__text` section, and hashes it with `CC_SHA256`.
 
 Store the reference hash value in a location that is itself protected from modification (for example, hardcoded in an obfuscated form in the binary).
 
@@ -56,7 +42,7 @@ func verify(data: Data, mac: Data, key: SymmetricKey) -> Bool {
 }
 ```
 
-Alternatively, use [`CCHmac`](https://developer.apple.com/documentation/cryptokit) from CommonCrypto for Objective-C or mixed codebases.
+Alternatively, use `CCHmac` from CommonCrypto for Objective-C or mixed codebases. @MASTG-DEMO-0x02 shows a working `CCHmac` implementation.
 
 If you also encrypt the data, follow the [Encrypt-then-MAC](https://web.archive.org/web/20210804035343/https://cseweb.ucsd.edu/~mihir/papers/oem.html) pattern: encrypt first, then compute the HMAC over the ciphertext.
 

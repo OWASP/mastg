@@ -25,10 +25,10 @@ The sample code demonstrates file storage integrity checking by using `CCHmac` w
 
 ## Observation
 
-The output shows references to `CCHmac` and `CC_SHA256` in the binary's import table along with their cross-references, indicating calls from the app's file storage integrity check routine.
+The output shows a reference to `CCHmac` in the binary's import table along with its cross-reference, indicating a call from the app's file storage integrity check routine.
 
 {{ output.asm }}
 
 ## Evaluation
 
-The test passes because the app contains references to file storage integrity check APIs (`CCHmac`, `CC_SHA256`).
+The test passes because the app contains references to file storage integrity check APIs (`CCHmac`).

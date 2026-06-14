@@ -12,15 +12,3 @@ afl~CCHmac
 ?e
 ?e xrefs to CCHmac:
 axt @ sym.imp.CCHmac
-
-?e
-?e Uses of CC_SHA256:
-afl~CC_SHA256
-
-?e
-?e xrefs to CC_SHA256:
-axt @ sym.imp.CC_SHA256
-
-?e
-?e Uses of SecKeyCreateSignature:
-afl~SecKeyCreateSignature

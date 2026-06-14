@@ -15,7 +15,7 @@ iOS uses code signing to verify app authenticity before launch (see @MASTG-TECH-
 2. Parse the Mach-O `mach_header` and iterate through load commands to locate the `__TEXT/__text` section.
 3. Compute a cryptographic hash over the `__text` section bytes and compare it against a stored reference value.
 
-The following C example illustrates this pattern using `CC_SHA256` from [CommonCrypto](https://developer.apple.com/documentation/cryptokit):
+The following C example illustrates this pattern using `CC_SHA256` from CommonCrypto:
 
 ```c
 int xyz(char *dst) {
@@ -77,7 +77,7 @@ These checks can be bypassed on jailbroken devices, for example by patching the 
 
 Apps can protect data stored on the device (for example in the Keychain, `UserDefaults`/`NSUserDefaults`, or a database) by computing an HMAC or cryptographic signature over it and verifying that value before each use.
 
-A common approach uses `CCHmac` from [CommonCrypto](https://developer.apple.com/documentation/cryptokit) with a key held in the Keychain:
+A common approach uses `CCHmac` from CommonCrypto with a key held in the Keychain:
 
 ```objectivec
 // Generate HMAC

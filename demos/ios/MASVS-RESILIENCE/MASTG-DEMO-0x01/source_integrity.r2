@@ -20,9 +20,3 @@ afl~CC_SHA256
 ?e
 ?e xrefs to CC_SHA256:
 axt @ sym.imp.CC_SHA256
-
-?e
-?e Mach-O related strings:
-iz~__TEXT
-iz~__text
-iz~mach_header
