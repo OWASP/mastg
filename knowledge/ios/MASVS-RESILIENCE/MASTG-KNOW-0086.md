@@ -15,7 +15,7 @@ iOS uses code signing to verify app authenticity before launch (see @MASTG-TECH-
 2. Parse the Mach-O `mach_header` and iterate through load commands to locate the `__TEXT/__text` section.
 3. Compute a cryptographic hash over the `__text` section bytes and compare it against a stored reference value.
 
-The following C example illustrates this pattern using `CC_SHA256` from CommonCrypto:
+The following Swift example illustrates this pattern using `CC_SHA256` from CommonCrypto:
 
 ```c
 int xyz(char *dst) {
