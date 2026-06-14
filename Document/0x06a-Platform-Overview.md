@@ -170,8 +170,8 @@ The following APIs [require user permission](https://www.apple.com/business/docs
 
 ### DeviceCheck
 
-See @MASTG-KNOW-0122.
+See @MASTG-KNOW-0x03.
 
 #### App Attest
 
-See @MASTG-KNOW-0123.
+See @MASTG-KNOW-0x04.

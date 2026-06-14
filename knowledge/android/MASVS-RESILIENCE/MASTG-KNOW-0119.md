@@ -4,7 +4,7 @@ platform: android
 title: Application Attestation via Hardware-Backed Key Attestation
 ---
 
-Application attestation uses the `attestationApplicationId` field in the `softwareEnforced` or `hardwareEnforced` `AuthorizationList` of a Key Attestation (@MASTG-KNOW-0044) certificate chain, which allows a verifier (usually a remote server) to verify the identity and integrity of the calling application. For the full list of fields and their meanings, see @MASTG-KNOW-0044.
+Application attestation uses the `attestationApplicationId` field in the `softwareEnforced` or `hardwareEnforced` `AuthorizationList` of a Key Attestation (@MASTG-KNOW-0x01) certificate chain, which allows a verifier (usually a remote server) to verify the identity and integrity of the calling application. For the full list of fields and their meanings, see @MASTG-KNOW-0x01.
 
 ## Attestation Application ID Fields
 

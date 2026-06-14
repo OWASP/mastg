@@ -1,9 +1,9 @@
 ---
 title: Mitigate the Risk of API Keys Hardcoded in the App Package
 alias: mitigate-hardcoded-api-keys
-id: MASTG-BEST-0044
+id: MASTG-BEST-0x02
 platform: generic
-knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0035, MASTG-KNOW-0072, MASTG-KNOW-0118, MASTG-KNOW-0121, MASTG-KNOW-0122, MASTG-KNOW-0123]
+knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0035, MASTG-KNOW-0072, MASTG-KNOW-0118, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0x04]
 ---
 
 API keys embedded in the app package - whether in source code, resource files, or build artifacts - can be extracted through static analysis or binary inspection, even without a rooted device or special tooling. The ideal solution is to move the key server-side entirely so it never ships with the app binary. Often, that is not possible, so the following measures reduce the window of exploitation.
@@ -31,8 +31,8 @@ Where the architecture allows it, do not ship the API key in the app at all. Ins
 
 Require the client to pass app and device integrity verification before any API key or scoped token is issued or accepted. Do not treat attestation as an optional layer on top of a hardcoded key - make it a precondition enforced on the server:
 
-- **Android**: Play Integrity API (@MASTG-KNOW-0035) or Firebase App Check (@MASTG-KNOW-0121).
-- **iOS**: App Attest (@MASTG-KNOW-0123) or DeviceCheck (@MASTG-KNOW-0122) via Firebase App Check (@MASTG-KNOW-0121).
+- **Android**: Play Integrity API (@MASTG-KNOW-0035) or Firebase App Check (@MASTG-KNOW-0x02).
+- **iOS**: App Attest (@MASTG-KNOW-0x04) or DeviceCheck (@MASTG-KNOW-0x03) via Firebase App Check (@MASTG-KNOW-0x02).
 
 See @MASTG-BEST-0043 for server-side enforcement requirements.
 

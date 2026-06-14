@@ -8,6 +8,6 @@ title: DeviceCheck
 
 DeviceCheck is typically used to mitigate fraud by restricting access to sensitive resources — for example, limiting a promotional offer to once per device or flagging suspicious devices. Because the flags are stored server-side by Apple and keyed to the device hardware, they cannot be reset by the user without Apple's involvement.
 
-However, DeviceCheck does not attest the app's identity or verify that the app binary is unmodified. It provides no cryptographic proof that the request came from a genuine, unaltered app running on a real device. For stronger app-identity guarantees, use App Attest (see @MASTG-KNOW-0123) instead.
+However, DeviceCheck does not attest the app's identity or verify that the app binary is unmodified. It provides no cryptographic proof that the request came from a genuine, unaltered app running on a real device. For stronger app-identity guarantees, use App Attest (see @MASTG-KNOW-0x04) instead.
 
-Both DeviceCheck and App Attest serve as iOS attestation providers for Firebase App Check (see @MASTG-KNOW-0121).
+Both DeviceCheck and App Attest serve as iOS attestation providers for Firebase App Check (see @MASTG-KNOW-0x02).

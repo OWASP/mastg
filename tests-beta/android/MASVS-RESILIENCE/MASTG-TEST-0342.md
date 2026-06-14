@@ -4,17 +4,17 @@ title: Testing Device and App Binary Integrity Verification
 id: MASTG-TEST-0342
 type: [static]
 weakness: MASWE-0104
-best-practices: [MASTG-BEST-0042]
+best-practices: [MASTG-BEST-0x01]
 profiles: [R]
-knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044]
+knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0x01]
 status: placeholder
 ---
 
 ## Overview
 
-This test checks whether the app implements device and app integrity verification by statically analyzing the app binary for relevant API usage patterns. These may include calls to the Google Play Integrity API or Key Attestation related APIs (@MASTG-KNOW-0044).
+This test checks whether the app implements device and app integrity verification by statically analyzing the app binary for relevant API usage patterns. These may include calls to the Google Play Integrity API or Key Attestation related APIs (@MASTG-KNOW-0x01).
 
-See @MASTG-KNOW-0044 for more information on Key Attestation and the specific APIs and fields to look for.
+See @MASTG-KNOW-0x01 for more information on Key Attestation and the specific APIs and fields to look for.
 
 ## Steps
 
@@ -31,4 +31,4 @@ The test case fails if none of the above APIs are found in the app.
 The test case also fails if the app implements `getCertificateChain` but no instances of `setAttestationChallenge` are found to ensure freshness of the attestation.
 
 !!! note
-    Even if the app implements app integrity verification APIs, the server must still verify the results from Google Play Integrity API or certificate chains for the control to be trusted. See [Interpreting the Certificate Chain](../../../knowledge/android/MASVS-RESILIENCE/MASTG-KNOW-0044.md#interpreting-the-certificate-chain) for more information.
+    Even if the app implements app integrity verification APIs, the server must still verify the results from Google Play Integrity API or certificate chains for the control to be trusted. See [Interpreting the Certificate Chain](../../../knowledge/android/MASVS-RESILIENCE/MASTG-KNOW-0x01.md#interpreting-the-certificate-chain) for more information.
