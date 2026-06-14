@@ -1,36 +1,42 @@
 ---
 platform: ios
-title: Testing Enforced Updating
+title: Runtime Use of Enforced Updating APIs
 id: MASTG-TEST-0x80-2
-type: [dynamic]
+type: [dynamic, network, hooks, manual]
 weakness: MASWE-0075
 profiles: [L2]
+knowledge: [MASTG-KNOW-0074]
 ---
 
 ## Overview
 
-This test verifies whether the app enforces an update when directed by the backend. On iOS, apps typically read `CFBundleShortVersionString`/`CFBundleVersion` (for example, via `Bundle.main.infoDictionary`), send the version to a backend using [`URLSession`](https://developer.apple.com/documentation/foundation/urlsession "URLSession"), and enforce a minimum supported version returned by the backend. Some apps also query the App Store using the iTunes Search API lookup endpoint (for example, `https://itunes.apple.com/lookup?bundleId=<bundleId>` or `https://itunes.apple.com/lookup?id=<appId>`) to retrieve the latest published version from the App Store response (for example, `results[0].version`). If an update is required, the app should block usage and optionally redirect you to the App Store using [`UIApplication.open`](https://developer.apple.com/documentation/uikit/uiapplication/open(_:options:completionhandler:) "UIApplication.open") or present a StoreKit view (for example, [`SKStoreProductViewController`](https://developer.apple.com/documentation/storekit/skstoreproductviewcontroller "SKStoreProductViewController")).
+On iOS, apps implementing enforced updating typically read the app version, for example `CFBundleShortVersionString` via `Bundle.main.infoDictionary`, and send it to a backend that returns a minimum version policy. Apps may also read `CFBundleVersion` when the backend policy is based on build numbers. Alternatively, they may query the App Store using the iTunes Search API, for example `https://itunes.apple.com/lookup?bundleId=<bundleId>` or `https://itunes.apple.com/lookup?id=<appId>`, with an optional `country` parameter, to compare `results[0].version` against the installed `CFBundleShortVersionString`. If an update is required, the app should block usage and redirect to the App Store via `UIApplication.shared.open`, typically using `results[0].trackViewUrl`, or by presenting a [`SKStoreProductViewController`](https://developer.apple.com/documentation/storekit/skstoreproductviewcontroller). If the app does not perform these checks or if the enforcement can be bypassed, the app fails to properly enforce the update.
+
+This test checks whether the app triggers the expected update enforcement behavior at runtime by capturing version-related network traffic where applicable and hooking update-related API calls (@MASTG-KNOW-0074).
 
 ## Steps
 
-1. Apply @MASTG-TECH-0063 (MITM) to capture launch traffic and initial API calls. Filter for headers, parameters, or body fields carrying version information (for example, `X-App-Version`, `version`, `build`, `minVersion`). Additionally, look for requests to `https://itunes.apple.com/lookup` with `bundleId` or `id` (and optional `country`) parameters and note fields like `resultCount`, `results[0].version`, and `results[0].trackViewUrl` in the JSON response.
-2. Use dynamic instrumentation to hook relevant classes or methods that retrieve the app version (for example, `Bundle.main.infoDictionary["CFBundleShortVersionString"]`/`["CFBundleVersion"]`) or that are specifically related to update flows (for example, `URLSession` request builders/`resume`, the code that evaluates `minVersion`, `UIApplication.open`, or the parsing logic that reads `results[0].version` from the iTunes lookup response). Also, hook any StoreKit presentation code (for example, `SKStoreProductViewController`).
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0062 to capture the app traffic.
+3. Use @MASTG-TECH-0095 to hook the relevant APIs.
+4. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
 The output should contain:
 
-- a network traffic trace showing version values in requests and the corresponding backend responses for different versions, including any requests to `https://itunes.apple.com/lookup` and the parsed fields (for example, `results[0].version`)
-- a method trace showing which APIs were called (for example, `URLSession` request execution, version retrieval from `Bundle`, iTunes lookup parsing, and any redirection via `UIApplication.open` or StoreKit)
+- a network traffic trace showing version values in requests and the corresponding backend responses, where a backend-gated update flow is used
+- any requests to the iTunes lookup endpoint and the parsed fields, for example `results[0].version` and `results[0].trackViewUrl`, where an App Store lookup flow is used
+- a method trace showing which APIs were called, for example version retrieval from `Bundle`, network calls, iTunes lookup parsing, and any redirection via `UIApplication.shared.open` or `SKStoreProductViewController`
 
 ## Evaluation
 
-The test case fails if the app does not implement enforced updating. For example, if it neither performs backend-gated version checks nor blocks usage when the backend (or the iTunes lookup result) requires an update or if it implements these checks incorrectly (see below).
+The test case fails if the app does not perform a runtime update check, or if the update is not enforced at runtime.
 
-**Additional Verification:**
+**Further Validation Required:**
 
-Validate whether the backend indicates that an update is required but the app still allows you to continue using it (this may require manual testing):
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0076:
 
-- Try to dismiss any update prompts or navigate around them.
-- Modify requests to present an older version (for example, change `version`/`build`), replay the request, and observe whether the backend response changes (for example, an error or a field indicating an update is required).
-- If the app uses the iTunes lookup endpoint, stub or replay the lookup response to advertise a higher `results[0].version` and verify that the app enforces the update (for example, by blocking usage or redirecting to the App Store).
+- Determine whether the update check executes before access to protected functionality or backend services and cannot be bypassed.
+- For backend-gated flows, determine whether modifying the version value in network requests, for example lowering `version`, `versionCode`, or `build`, results in an update-required response that the app properly enforces.
+- For App Store lookup flows, determine whether stubbing the iTunes lookup response to advertise a higher `results[0].version` results in update enforcement, for example by blocking usage and redirecting to the App Store via `UIApplication.shared.open` using `results[0].trackViewUrl`, or by presenting `SKStoreProductViewController`.

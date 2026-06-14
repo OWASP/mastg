@@ -1,40 +1,35 @@
 ---
 platform: android
-title: Testing Enforced Updating
+title: References to Enforced Updating APIs
 id: MASTG-TEST-0x80
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0075
 profiles: [L2]
+knowledge: [MASTG-KNOW-0023]
 ---
 
 ## Overview
 
-This test verifies whether the app enforces an update (@MASTG-KNOW-0023) when directed by the backend. The app should either send its current version to the backend or retrieve the minimum supported version and prevent usage until the app is updated.
+Android apps may fail to enforce updates when critical security patches or minimum version requirements are needed. For Google Play-distributed apps, enforced updating can be implemented using the [Google Play In-App Updates API](https://developer.android.com/guide/playcore/in-app-updates) (for example, `AppUpdateManagerFactory.create`, `AppUpdateManager#getAppUpdateInfo`, `UpdateAvailability.UPDATE_AVAILABLE`, `AppUpdateType.IMMEDIATE`, `AppUpdateOptions`, `startUpdateFlowForResult`) or through a custom backend-gated flow that retrieves the app version (for example, `BuildConfig.VERSION_NAME`/`BuildConfig.VERSION_CODE`, or `PackageInfo` via `PackageManager`) and blocks usage when the backend returns a minimum version the current app does not meet. If these mechanisms are absent, implemented incorrectly (for example, using only a dismissible dialog for a mandatory update), or not triggered before access to protected functionality or backend services, an outdated app may continue to be used.
 
-On Android, enforced updates are commonly implemented using the Google Play In-App Updates API or a custom backend-gated flow that evaluates the app version retrieved via `BuildConfig.VERSION_NAME`/`BuildConfig.VERSION_CODE` (or `PackageInfo` via `PackageManager`).
-
-Specifically, look for:
-
-- Google Play In-App Updates classes and methods: `AppUpdateManagerFactory.create`, `AppUpdateManager#getAppUpdateInfo`, `UpdateAvailability.UPDATE_AVAILABLE`, `AppUpdateType.IMMEDIATE`/`FLEXIBLE`, `startUpdateFlowForResult`/`requestUpdateFlow`.
-- Version retrieval points: `BuildConfig.VERSION_NAME`, `BuildConfig.VERSION_CODE` (or `PackageInfo` via `PackageManager`).
-- Strings like `X-App-Version`, `version`, `minVersion` that may indicate version checks in network requests or other parts of the code.
+This test checks whether the app contains code that implements update enforcement, either through Play In-App Updates or through a custom version-based gating mechanism (@MASTG-KNOW-0023).
 
 ## Steps
 
-1. Apply @MASTG-TECH-0014 (static analysis) and search for Android update/version APIs used before authentication (for example, in `Application.onCreate`, splash/bootstrap flows, or initial `Activity.onCreate`).
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
-The output should contain a list of code locations where the app retrieves or sends its version (for example, `BuildConfig.VERSION_NAME` or `PackageInfo`) and uses the Google Play In-App Updates APIs (for example, `AppUpdateManager`, `startUpdateFlowForResult`), or evaluates a backend `minVersion` response, along with a call graph snippet showing these checks execute before authentication.
+The output should contain a list of code locations where the app retrieves its version (for example, `BuildConfig.VERSION_NAME`, `BuildConfig.VERSION_CODE`, or `PackageManager.getPackageInfo`) or interacts with update enforcement APIs (for example, `AppUpdateManagerFactory.create`, `AppUpdateManager#getAppUpdateInfo`, `startUpdateFlowForResult`, or comparisons against a backend-supplied `minVersion`).
 
 ## Evaluation
 
-The test case fails if no code paths implement an enforced update before authentication, if the identified logic is not reachable prior to authentication, or if the app displays a mandatory update message but still allows you to continue using the app (for example, dismissing the dialog or navigating around it).
+The test case fails if no code locations show an update enforcement mechanism.
 
-Note that this evaluation requires manual review of the identified code paths in the reverse engineered code to confirm whether they implement enforced updating correctly.
+**Further Validation Required:**
 
-For example, you should try to trace the control flow to confirm that version evaluation leads to an enforced update path, such as:
-    - Immediate update flow (`AppUpdateType.IMMEDIATE`), or
-    - A custom blocking UI (for example, a full-screen dialog/`Activity` that disables navigation) when backend `minVersion` > current version.
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the update enforcement is correct:
 
-Alternatively, you can use dynamic analysis (see @MASTG-TEST-0x80-1) to confirm the identified code paths execute before authentication and enforce updating as expected.
+- Determine whether the update check executes before access to protected functionality or backend services and cannot be bypassed (for example, by checking the call graph or entry point context).
+- Determine whether an immediate update flow (for example, `AppUpdateType.IMMEDIATE` via `startUpdateFlowForResult`) or a non-dismissible blocking screen (for example, a full-screen `Activity` or dialog that disables navigation) is used when an update is required, rather than a dismissible prompt.

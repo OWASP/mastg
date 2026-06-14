@@ -1,35 +1,40 @@
 ---
 platform: android
-title: Testing Enforced Updating
+title: Runtime Use of Enforced Updating APIs
 id: MASTG-TEST-0x80-1
-type: [dynamic]
+type: [dynamic, network, hooks, manual]
 weakness: MASWE-0075
 profiles: [L2]
+knowledge: [MASTG-KNOW-0023]
 ---
 
 ## Overview
 
-This test verifies whether the app enforces an update (@MASTG-KNOW-0023) when directed by the backend. In a backend-gated flow, the app typically sends the current app version (for example, via `BuildConfig.VERSION_NAME`/`BuildConfig.VERSION_CODE`) and receives a response indicating whether the version is supported. Alternatively, the app may use the [Google Play In-App Updates APIs](https://developer.android.com/guide/playcore/in-app-updates) for an immediate update (for example, [`AppUpdateManager`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateManager)).
+At runtime, Android apps implementing enforced updating typically either invoke the [Google Play In-App Updates API](https://developer.android.com/guide/playcore/in-app-updates) (for example, `AppUpdateManager`) or perform a custom version check, for example by retrieving `BuildConfig.VERSION_NAME`, `BuildConfig.VERSION_CODE`, or `PackageManager.getPackageInfo` values and sending them to a backend that returns a minimum version policy. If the app does not perform this check before access to protected functionality or backend services, or if the enforcement can be bypassed, for example by dismissing an update dialog or manipulating the reported version, the app fails to properly enforce the update.
+
+This test checks whether the app triggers the expected update enforcement behavior at runtime by capturing version-related network traffic where applicable and hooking update-related API calls (@MASTG-KNOW-0023).
 
 ## Steps
 
-1. Apply @MASTG-TECH-0011 (MITM) to capture launch traffic and initial API calls. Filter for headers, parameters, or body fields carrying version information (for example, `X-App-Version`, `version`, `build`, `minVersion`).
-2. Use @MASTG-TECH-0033 (dynamic instrumentation) to hook relevant classes or methods that retrieve the app version (such as `BuildConfig.VERSION_NAME`) or that are specifically related to update flows (for example, `AppUpdateManager#getAppUpdateInfo`, `AppUpdateManager#startUpdateFlowForResult`, or the code that evaluates `minVersion`).
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0010 to capture the app traffic.
+3. Use @MASTG-TECH-0043 to hook the relevant API calls.
+4. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
 The output should contain:
 
-- a network traffic trace showing version values in requests and corresponding backend responses for different versions
-- a method trace showing which APIs were called
+- a network traffic trace showing version values in requests and the corresponding backend responses, where a backend-gated update flow is used
+- a method trace showing which APIs were called, for example version retrieval, `AppUpdateManager` calls, or backend `minVersion` evaluation
 
 ## Evaluation
 
-The test case fails if the app does not implement enforced updating. For example, if it neither uses the Play In-App Updates API nor performs backend-gated version checks or if it implements them incorrectly.
+The test case fails if the app does not perform a runtime update check, or if the update is not enforced at runtime.
 
-**Additional Verification:**
+**Further Validation Required:**
 
-Validate whether the backend indicates that an update is required but the app still allows you to continue using it (this may require manual testing). For example:
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0023:
 
-- Try to dismiss any update prompts or navigate around them.
-- Modify requests to present an older version (for example, change `version`/`build`), replay the request, and observe whether the backend response changes (for example, an error or a field indicating an update is required).
+- Determine whether the update check executes before access to protected functionality or backend services and cannot be bypassed.
+- For backend-gated flows, determine whether lowering the reported version value in network requests, for example `version`, `versionCode`, or `build` using an interception proxy, results in an update-required response that the app properly enforces.

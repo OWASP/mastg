@@ -4,29 +4,47 @@ platform: android
 title: Enforced Updating
 ---
 
-Starting with Android 5.0 (API level 21), developers can implement enforced updates using the Play In‑App Updates API (Play Core). See the official documentation: [In‑App Updates](https://developer.android.com/guide/playcore/in-app-updates "In‑App Updates"). This mechanism is far more reliable than legacy methods such as scraping Play Store pages or calling undocumented endpoints, which are unstable and unsupported.
+For Google Play-distributed apps running on supported devices, developers can implement enforced update flows using the Play In-App Updates API. The feature is supported on devices running Android 5.0 (API level 21) or higher, and is supported for Android mobile devices, Android tablets, and ChromeOS devices. It is not compatible with apps that use APK expansion files (`.obb` files). See the official documentation: [In-App Updates](https://developer.android.com/guide/playcore/in-app-updates "In-App Updates"). This mechanism is far more reliable than legacy methods such as scraping Play Store pages or calling undocumented endpoints, which are unstable and unsupported.
 
-Enforced updating can be particularly useful for maintaining security when public key pins need to be rotated or when critical vulnerabilities must be patched quickly. Requiring users to install an updated version ensures that old, insecure builds are no longer active in the field.
+Enforced updating can be particularly useful for maintaining security when public key pins need to be rotated or when critical vulnerabilities must be patched quickly. Requiring users to install an updated version can reduce the use of old, insecure builds. For security-critical cases, combine client-side update gating with server-side enforcement so unsupported versions cannot continue accessing backend services.
 
 Keep in mind that updating the app does not resolve vulnerabilities residing on backend systems. A secure update mechanism should complement proper API and service lifecycle management. Similarly, if users are not forced to update, test older app versions against your backend and apply API versioning and deprecation policies to maintain security and stability across all supported releases.
 
-## Google Play In‑App Updates API
+## Google Play In-App Updates API
 
-The [Play In‑App Updates API](https://developer.android.com/guide/playcore/in-app-updates) (Play Core) is part of the Google Play ecosystem and exposes the [`AppUpdateManager`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateManager "AppUpdateManager") class, which lets apps check for available updates and initiate update flows directly within the app.
+The [Play In-App Updates API](https://developer.android.com/guide/playcore/in-app-updates) is part of the Google Play Core libraries. Current integrations use the Play In-App Update Library, for example `com.google.android.play:app-update`, and expose the [`AppUpdateManager`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateManager "AppUpdateManager") class, which lets apps check for available updates and initiate update flows directly within the app.
 
 The API supports two primary modes:
 
-- **Immediate updates**, which require the user to update before using the app further.
-- **Flexible updates**, which allow users to continue using the app while the update downloads in the background.
+- **Immediate updates**, which use a full-screen flow requiring the user to update and restart the app before continuing. This is the appropriate mode for critical updates.
+- **Flexible updates**, which allow users to continue using the app while the update downloads in the background. The app must monitor the download state and call `completeUpdate()` when the update is ready to install.
 
-Use `startUpdateFlowForResult(...)` with [`AppUpdateOptions`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateOptions "AppUpdateOptions") or an `ActivityResultLauncher`. Typical code paths evaluate [`UpdateAvailability`](https://developer.android.com/reference/com/google/android/play/core/install/model/UpdateAvailability "UpdateAvailability") and select an [`AppUpdateType`](https://developer.android.com/reference/com/google/android/play/core/install/model/AppUpdateType "AppUpdateType") (for example, `IMMEDIATE` vs. `FLEXIBLE`).
+The typical code pattern:
+
+1. Obtain an `AppUpdateManager` instance via [`AppUpdateManagerFactory.create(context)`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateManagerFactory).
+2. Call [`getAppUpdateInfo()`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateManager#getAppUpdateInfo%28%29) on the manager to retrieve an [`AppUpdateInfo`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateInfo) object.
+3. Check [`UpdateAvailability.UPDATE_AVAILABLE`](https://developer.android.com/reference/com/google/android/play/core/install/model/UpdateAvailability) and verify that the selected update type is allowed with `appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)` or `appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)`.
+4. Optionally use `clientVersionStalenessDays()` or `updatePriority()` to decide whether to request a flexible update or an immediate update. Critical security updates should use high priority and the immediate flow where appropriate.
+5. Start the flow using `startUpdateFlowForResult(...)` with an `ActivityResultLauncher` and [`AppUpdateOptions`](https://developer.android.com/reference/com/google/android/play/core/appupdate/AppUpdateOptions "AppUpdateOptions").
+6. Handle result and lifecycle cases. Users can cancel or decline an immediate update, the flow can fail, and an immediate update can remain in `UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS`. Check update state at app entry points, resume stalled immediate updates, and keep blocking only when the app genuinely cannot operate safely without the update.
 
 ## Custom Backend-Gated Flows
 
-For **apps distributed outside Google Play**, developers must design custom mechanisms to check for updates, such as querying a self‑hosted update API or leveraging distribution frameworks like Firebase Remote Config to enforce minimum version requirements. See this [blog post](https://medium.com/@sembozdemir/force-your-users-to-update-your-app-with-using-firebase-33f1e0bcec5a "Force users to update with Firebase") for an example of using Firebase for forced updates.
+For apps distributed outside Google Play, or for apps that need stricter security enforcement than the Play update prompt alone provides, developers should design custom mechanisms to check for updates. Common approaches include querying a self-hosted update API or using a configuration service such as [Firebase Remote Config](https://firebase.google.com/docs/remote-config) to publish minimum supported version requirements.
 
-Practical guidance for backend‑gated flows:
+For non-Play distribution, the app can direct users to the trusted update source, such as an enterprise app store, managed distribution channel, or verified download page. Installing an APK normally still requires platform installation flow and user approval unless the app is installed in a managed or privileged environment with the necessary permissions.
 
-- Include the app version (for example, `X-App-Version`, `version`, or `build`) in early requests and have the backend return a `minVersion` (or equivalent) policy.
-- Enforce the policy on the client by presenting a blocking UI (for example, a non‑dismissible dialog or gating screen) and disabling navigation until the update is completed.
-- Consider integrity and tamper resistance: avoid trusting only client‑provided data, sign responses where appropriate, and handle offline scenarios (for example, cache policy with a reasonable TTL and a safe fallback).
+The app version is typically retrieved at runtime using either:
+
+- Compile-time constants: `BuildConfig.VERSION_NAME` and `BuildConfig.VERSION_CODE`, generated by the build system for the app module.
+- Runtime lookup: `context.packageManager.getPackageInfo(context.packageName, 0).versionName` and the package version code. Use `PackageInfo.getLongVersionCode()` on API level 28 or higher, or `PackageInfoCompat.getLongVersionCode(packageInfo)` for compatibility across older supported API levels.
+
+For enforced update policies, prefer comparing numeric version codes rather than user-visible version names. `versionCode` is the internal ordering value used to determine whether one version is newer than another, while `versionName` is only the version string shown to users.
+
+Practical guidance for backend-gated flows:
+
+- Include the app version code, app version name, platform, application ID, build variant, and distribution channel in early requests.
+- Have the backend return a minimum supported version code, update URL or store target, severity, message, and whether the update is mandatory.
+- Enforce the policy on the client by presenting a blocking UI, for example a non-dismissible dialog or full-screen `Activity` that disables navigation until the update is completed.
+- Enforce the policy on backend services where possible by rejecting requests from unsupported app versions, especially for security-critical updates.
+- Consider integrity and tamper resistance. Avoid trusting only client-provided data, use platform integrity signals where appropriate, sign update policy responses if they are security-sensitive, and handle offline scenarios with a cached policy, a reasonable TTL, and a safe fallback.
