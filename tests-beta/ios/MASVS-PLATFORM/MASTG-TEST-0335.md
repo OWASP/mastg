@@ -2,7 +2,7 @@
 platform: ios
 title: WebView File Origin Access Relaxed by Configuration
 id: MASTG-TEST-0335
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0033]
 profiles: [L1, L2]
@@ -21,8 +21,8 @@ This test is related to, but distinct from, @MASTG-TEST-0333, which focuses on t
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and search for references to the relevant configuration values.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -32,7 +32,9 @@ The output should identify locations in the binary where the app references or e
 
 The test case fails if the app enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
-Inspect each reported call site using @MASTG-TECH-0076.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076:
 
 - Determine whether `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` is explicitly used and set to `true`, for example through `setValue:forKey:` or equivalent Swift calls.
 - Determine which `WKWebView` instance receives the configuration and whether it handles sensitive information or functionality.

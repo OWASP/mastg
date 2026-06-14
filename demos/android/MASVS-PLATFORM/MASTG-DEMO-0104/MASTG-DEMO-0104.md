@@ -4,8 +4,7 @@ title: App Requesting SYSTEM_ALERT_WINDOW Permission
 id: MASTG-DEMO-0104
 code: [xml]
 test: MASTG-TEST-0340
-tools: [semgrep]
-kind: info
+kind: attack
 ---
 
 ## Sample

@@ -2,7 +2,7 @@
 platform: ios
 title: Usage of Outdated Code Signature Format
 id: MASTG-TEST-0220
-type: [static]
+type: [static, code]
 weakness: MASWE-0104
 profiles: [R]
 knowledge: [MASTG-KNOW-0058]
@@ -16,8 +16,8 @@ Using an outdated code signature format may expose the app to security risks, as
 
 ## Steps
 
-1. Extract the package as described in @MASTG-TECH-0058.
-2. Obtain the version of the code signature format as described in @MASTG-TECH-0112.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0112 to obtain the version of the code signature format as described.
 
 ## Observation
 

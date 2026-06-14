@@ -2,7 +2,7 @@
 platform: ios
 title: Use of the iOS General Pasteboard
 id: MASTG-TEST-0276
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0053
 threat: [app]
 prerequisites:
@@ -24,8 +24,8 @@ The test statically analyzes the code for use of the general pasteboard ([`UIPas
 
 ## Steps
 
-1. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the general pasteboard.
-2. Run a static analysis scan using @MASTG-TOOL-0073 to detect usage of the pasteboard methods which may be handling sensitive data.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -35,4 +35,8 @@ The output should contain a list of locations where relevant APIs are used.
 
 The test case fails if calls are made to `UIPasteboard.generalPasteboard` and sensitive data is written to it.
 
-Since determining what constitutes sensitive data is context-dependent, it can be difficult to detect statically. To check if sensitive data is being written to the pasteboard using the aforementioned methods, inspect the reported code locations in the reverse-engineered code (see @MASTG-TECH-0076).
+**Further Validation Required:**
+
+Since determining what constitutes sensitive data is context-dependent, inspect each reported code location using @MASTG-TECH-0076:
+
+- Determine whether the data written to the pasteboard is sensitive (e.g., passwords, tokens, or personal data).

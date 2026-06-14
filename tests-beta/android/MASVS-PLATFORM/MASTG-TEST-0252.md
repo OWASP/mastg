@@ -4,7 +4,7 @@ title: References to Local File Access in WebViews
 alias: references-to-local-file-access-in-webviews
 id: MASTG-TEST-0252
 apis: [WebView, WebSettings, getSettings, setAllowFileAccess, setAllowFileAccessFromFileURLs, setAllowUniversalAccessFromFileURLs]
-type: [static]
+type: [static, code]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 profiles: [L1, L2]
@@ -17,7 +17,7 @@ This test checks for references to methods from the [`WebSettings`](https://deve
 
 - `setAllowFileAccess`: allows the WebView to load local files from the app's internal storage or external storage.
 - `setAllowFileAccessFromFileURLs`: lets JavaScript within those local files access other local files.
-- `setAllowUniversalAccessFromFileURLs`: removes any cross-origin restrictions, allowing that JavaScript to read data across origins. The JavaScript **can always send data to any origin** (e.g. via `POST`), regardless of this setting; this setting only affects reading data (e.g. the code wouldn't get a response to a `POST` request but the data would still be sent).
+- `setAllowUniversalAccessFromFileURLs`: removes any cross-origin restrictions, allowing JavaScript to read data across origins. The JavaScript **can always send data to any origin** (e.g., via `POST`), regardless of this setting; this setting only affects reading data (e.g., the code wouldn't get a response to a `POST` request, but the data would still be sent).
 
 When these settings are combined, they can enable an attack in which a malicious HTML file gains elevated privileges, accesses local resources, and exfiltrates data over the network, effectively bypassing the security boundaries typically enforced by the same-origin policy.
 
@@ -27,9 +27,9 @@ Refer to [Android WebView Local File Access Settings](../../../Document/0x05h-Te
 
 **Example Attack Scenario**:
 
-Suppose a banking app uses a WebView to display dynamic content, and the developers enabled all three insecure settings. Additionally, JavaScript is enabled in the WebView.
+Suppose a banking app uses a WebView to display dynamic content, and the developers have enabled all three insecure settings. Additionally, JavaScript is enabled in the WebView.
 
-1. An attacker injects a malicious HTML file into the device (via phishing or another exploit) into a location that the attacker _knows_ the WebView will access it from (e.g. thanks to reverse engineering). For example, an HTML file used to display the app's terms and conditions.
+1. An attacker injects a malicious HTML file into the device (via phishing or another exploit) into a location that the attacker _knows_ the WebView will access it from (e.g. thanks to reverse engineering). For example, an HTML file is used to display the app's terms and conditions.
 2. The WebView can load the malicious file because of `setAllowFileAccess(true)`.
 3. Thanks to `setJavaScriptEnabled(true)` and `setAllowFileAccessFromFileURLs(true)`, the JavaScript in the malicious file (running in a `file://` context) is able to access other local files using `file://` URLs.
 4. The attacker-controlled script exfiltrates sensitive data from the device to an external server.
@@ -53,18 +53,21 @@ Error reading file: 0
 
 ## Steps
 
-1. Determine the `minSdkVersion` of the app.
-2. Use a tool like semgrep to search for references to:
-      - the `WebView` class.
-      - the `WebSettings` class.
-      - the `setJavaScriptEnabled` method.
-      - the `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs` methods from the `WebSettings` class.
-
-Note that in this case **the lack of references to the `setAllow*` methods is especially interesting** and must be captured, because it could mean that the app is using the default values, which in some scenarios are insecure. For this reason, it's highly recommended to try to identify every WebView instance in the app.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+4. Use @MASTG-TECH-0150 to obtain the `minSdkVersion` from the AndroidManifest.xml file.
 
 ## Observation
 
-The output should contain a list of WebView instances where the abovementioned methods are used.
+The output should include a list of WebView instances that use the abovementioned methods, specifically:
+
+- the `WebView` class.
+- the `WebSettings` class.
+- the `setJavaScriptEnabled` method.
+- the `setAllowFileAccess`, `setAllowFileAccessFromFileURLs`, and `setAllowUniversalAccessFromFileURLs` methods from the `WebSettings` class.
+
+Note that in this case, **the lack of references to the `setAllow*` methods is especially interesting** and must be captured, because it could mean that the app is using the default values, which in some scenarios are insecure. For this reason, it's highly recommended to try to identify every WebView instance in the app.
 
 ## Evaluation
 

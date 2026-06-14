@@ -2,7 +2,7 @@
 platform: android
 title: Insecure Random API Usage
 id: MASTG-TEST-0204
-type: [static]
+type: [static, code, manual]
 best-practices: [MASTG-BEST-0001]
 prerequisites:
 - identify-sensitive-data
@@ -20,8 +20,8 @@ In general, if a PRNG is not explicitly documented as being cryptographically se
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool on the app and look for insecure random APIs, or you can use @MASTG-TECH-0033 to detect the use of such APIs.
-2. For each of the identified API uses, check if they are used in a security relevant context. You can decompile the app (@MASTG-TECH-0017) and inspect the code (@MASTG-TECH-0023) to confirm.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -30,3 +30,9 @@ The output should contain a list of locations where insecure random APIs are use
 ## Evaluation
 
 The test case fails if you can find random numbers generated using those APIs that are used in security-relevant contexts, such as generating passwords or authentication tokens.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the usage is security-relevant:
+
+- Determine whether the generated random values are used for security-relevant purposes, such as generating cryptographic keys, initialization vectors (IVs), nonces, authentication tokens, session identifiers, passwords, or PINs.

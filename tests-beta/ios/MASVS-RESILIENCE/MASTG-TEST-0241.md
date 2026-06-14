@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Use of Jailbreak Detection Techniques
 id: MASTG-TEST-0241
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0097
 false_negative_prone: true
 profiles: [R]
@@ -11,13 +11,14 @@ knowledge: [MASTG-KNOW-0084]
 
 ## Overview
 
-The test verifies that a mobile application can identify if the iOS device it is running on is jailbroken. It does so by dynamically analyzing the app binary for [common jailbreak detection checks](../../../Document/0x06j-Testing-Resiliency-Against-Reverse-Engineering.md#common-jailbreak-detection-checks) and trying to bypass them. For example, it may detect a check for the presence of certain files or directories that are indicative of a jailbroken device.
+The test verifies that a mobile application can identify if the iOS device it is running on is jailbroken. It does so by dynamically analyzing the app binary for common jailbreak detection checks (@MASTG-KNOW-0084) and trying to bypass them. For example, it may detect a check for the presence of certain files or directories that are indicative of a jailbroken device.
 
 The limitations of using jailbreak detection bypass tools should be considered. It is possible that the app uses more sophisticated jailbreak detection techniques that are not detected by the tool used. In such cases, careful manual reverse engineering and deobfuscation are required to identify the jailbreak detection checks. Also, additional dynamic analysis work may be required to bypass the jailbreak detection checks.
 
 ## Steps
 
-1. Run a dynamic analysis tool such as @MASTG-TOOL-0038 on the app and execute its [automated jailbreak detection bypass commands](../../../Document/0x06j-Testing-Resiliency-Against-Reverse-Engineering.md#automated-jailbreak-detection-bypass)
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0152 to bypass the jailbreak detection.
 
 ## Observation
 

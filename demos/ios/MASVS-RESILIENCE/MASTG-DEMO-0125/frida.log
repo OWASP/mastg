@@ -1,0 +1,29 @@
+     ____
+    / _  |   Frida 17.6.2 - A world-class dynamic instrumentation toolkit
+   | (_| |
+    > _  |   Commands:
+   /_/ |_|       help      -> Displays the help system
+   . . . .       object?   -> Display information about 'object'
+   . . . .       exit/quit -> Exit
+   . . . .
+   . . . .   More info at https://frida.re/docs/home/
+   . . . .
+   . . . .   Connected to iPad (id=81e43377d6fa9508615173d104e3f739e8c1b252)
+Attaching...
+[hooked] write at 0x1d0984f98
+[hooked] fwrite at 0x19480a484
+[hooked] puts at 0x19485270c
+[hooked] printf at 0x194822748
+[hooked] NSLog at 0x18c1629b4
+[hooked] NSLogv at 0x18c162a98
+[hooked] _os_log_impl at 0x1a591e8c0
+[hooked] _os_log_debug_impl at 0x1a59232fc
+[hooked] _os_log_error_impl at 0x1a591e8a4
+[hooked] _os_log_fault_impl at 0x1a5929b9c
+[ready] Frida log capture installed
+[iPad::MASTestApp ]-> [NSLogv.format] [DEBUG] Attempting to connect to API endpoint: https://internal-api.example.com/v2/auth/login
+[fwrite] [DEBUG] performLogin() called with username: testuser
+[_os_log_impl.format] Validating credentials against local database
+[_os_log_impl.format] Checking password hash: SHA256 algorithm
+[fwrite] "✅ [DEBUG] Authentication successful - Session token generated: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+[fwrite] "[DEBUG] User profile loaded from cache, bypassing network call"

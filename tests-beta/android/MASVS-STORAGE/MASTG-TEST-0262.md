@@ -2,7 +2,7 @@
 platform: android
 title: References to Backup Configurations Not Excluding Sensitive Data
 id: MASTG-TEST-0262
-type: [static]
+type: [static, code]
 weakness: MASWE-0004
 best-practices: [MASTG-BEST-0004]
 profiles: [L1, L2, P]
@@ -15,10 +15,10 @@ This test verifies whether apps correctly instruct the system to exclude sensiti
 
 "Android Backups" (@MASTG-KNOW-0050) can be implemented via [Auto Backup](https://developer.android.com/identity/data/autobackup) (Android 6.0 (API level 23) and higher) and [Key-value backup](https://developer.android.com/identity/data/keyvaluebackup) (Android 2.2 (API level 8) and higher). Auto Backup is the recommended approach by Android as it is enabled by default and requires no work to implement.
 
-To exclude specific files when using Auto Backup, developers must explicitly define exclusion rules in the `exclude` tag in:
+In the AndroidManifest.xml file, the `allowBackup` flag controls whether the app's data can be backed up. In addition, the `fullBackupContent` attribute (for Android 11 or lower) or the `dataExtractionRules` attribute (for Android 12 and higher) can be used to reference XML files that specify which files should be included or excluded from backups using the `exclude` tag. The files are typically named:
 
-- `data_extraction_rules.xml` (for Android 12 and higher using `android:dataExtractionRules`)
 - `backup_rules.xml` (for Android 11 or lower using `android:fullBackupContent`)
+- `data_extraction_rules.xml` (for Android 12 and higher using `android:dataExtractionRules`)
 
 The `cloud-backup` and `device-transfer` parameters can be used to exclude files from cloud backups and device-to-device transfers, respectively.
 
@@ -28,10 +28,9 @@ Regardless of which approach the app used, Android provides a way to start the b
 
 ## Steps
 
-1. Obtain the `AndroidManifest.xml` file using @MASTG-TECH-0117.
-2. Search for the `allowBackup` flag in the `AndroidManifest.xml`.
-3. Search for the `fullBackupContent` attribute (for Android 11 or lower) or the `dataExtractionRules` attribute (for Android 12 and higher) in the `AndroidManifest.xml`.
-4. Retrieve the `backup_rules.xml` or `data_extraction_rules.xml` file.
+1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+2. Use @MASTG-TECH-0150 to obtain the relevant flag and attributes from the AndroidManifest.xml.
+3. Use @MASTG-TECH-0007 to extract the `backup_rules.xml` or `data_extraction_rules.xml` file from the app package.
 
 ## Observation
 

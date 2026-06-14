@@ -2,7 +2,7 @@
 title: Incorrect SSL Error Handling in WebViews
 platform: android
 id: MASTG-TEST-0284
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0052
 best-practices: [MASTG-BEST-0021]
 profiles: [L1, L2]
@@ -19,8 +19,8 @@ This effectively bypasses SSL certificate checks in the `WebView`, exposing the 
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Inspect the source code and run a static analysis (@MASTG-TECH-0014) tool and look for all usages of `onReceivedSslError(...)`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -30,12 +30,12 @@ The output should contain a list of locations where `onReceivedSslError(...)` th
 
 The test case fails if `onReceivedSslError(...)` is overridden and certificate errors are ignored without proper validation or user involvement.
 
-This includes cases such as:
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023, looking for cases such as:
 
 - **Unconditionally accepting SSL errors:** calling `proceed()` without checking the nature of the error.
 - **Relying only on primary error code:** using [`getPrimaryError()`](https://developer.android.com/reference/android/net/http/SslError#getPrimaryError()) for decision-making, such as proceeding if the primary error is not `SSL_UNTRUSTED`, which may overlook additional errors in the chain.
 - **Suppressing exceptions silently:** catching exceptions in `onReceivedSslError(...)` without calling [`cancel()`](https://developer.android.com/reference/android/webkit/SslErrorHandler#cancel()), which allows the connection to continue silently.
 
 According to [official Android guidance](https://developer.android.com/reference/android/webkit/WebViewClient.html#onReceivedSslError(android.webkit.WebView,%20android.webkit.SslErrorHandler,%20android.net.http.SslError)), apps should never call `proceed()` in response to SSL errors. The correct behavior is to cancel the request to protect users from potentially insecure connections. User prompts are also discouraged, as users cannot reliably evaluate SSL issues.
-
-When testing using automated tools, you will need to inspect all the reported locations in the reverse-engineered code to confirm the incorrect implementation (@MASTG-TECH-0023).

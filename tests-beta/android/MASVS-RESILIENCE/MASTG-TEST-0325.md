@@ -2,7 +2,7 @@
 platform: android
 title: Runtime Use of Root Detection Techniques
 id: MASTG-TEST-0325
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0097
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0030]
 profiles: [R]
@@ -22,10 +22,14 @@ It is recommended to run this test using a rooted device or emulator to ensure t
 !!! note "Out of Scope"
     This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through automated testing alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0030 for best practices on implementing root detection effectively.
 
+In this test we focus our approach on identifying the presence of root detection mechanisms at runtime by hooking into common root detection APIs and tracing relevant system calls. But, optionally, you can use @MASTG-TECH-0144 to try to bypass root detection checks in the app and observe the results. For example, successful bypassing of certain checks or failed detections may indicate the presence of root detection mechanisms.
+
 ## Steps
 
-1. Run @MASTG-TECH-0043, @MASTG-TECH-0033 or @MASTG-TECH-0032 to trace the relevant API calls.
-2. Optionally, run @MASTG-TECH-0144 to try to bypass root detection checks in the application and observe the results. For example, successful bypassing of certain checks or failed detections may indicate the presence of root detection mechanisms.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Use @MASTG-TECH-0032 to trace the relevant system API calls.
+4. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
@@ -37,4 +41,4 @@ The test case fails if no instances of root detection checks are observed. Howev
 
 **Expected False Negatives:**
 
-This test relies on tracing and bypass tools to surface root detection logic. Detection mechanisms that are highly obfuscated, implemented entirely in native code, dynamically loaded at runtime, or protected by anti instrumentation techniques may not be observed. In such cases, the absence of findings does not guarantee the absence of root detection, and additional manual reverse engineering or custom instrumentation may be required.
+This test may produce false negatives if the app uses root detection techniques that are not covered by the hooks or traces used in this test, or if the root detection logic is implemented in a way that evades detection (for example, through obfuscation, dynamic code loading, or anti-instrumentation techniques). In such cases, the absence of findings does not guarantee the absence of root detection, and additional manual reverse engineering or custom instrumentation may be required to identify and analyze root detection mechanisms.

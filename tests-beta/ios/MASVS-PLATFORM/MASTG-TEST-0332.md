@@ -2,7 +2,7 @@
 platform: ios
 title: Attacker-Controlled URI in WebViews
 id: MASTG-TEST-0332
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0071
 best-practices: [MASTG-BEST-0034]
 profiles: [L1, L2, P]
@@ -32,8 +32,8 @@ This test checks whether the app passes attacker-controlled input to `WKWebView`
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, looking for calls to any `WKWebView` URL load APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -43,7 +43,9 @@ The output should contain a list of locations in the binary where `WKWebView` UR
 
 The test case fails if any call to `WKWebView` URL load APIs is found where the URL is derived from attacker-controlled input without proper validation.
 
-Inspect each reported code location using @MASTG-TECH-0076.
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076:
 
 - Trace where the URL originates.
 - Determine whether it is derived from attacker-controlled input, for example a custom URL scheme parameter, a deep link component, or unsanitized user input from the UI.
