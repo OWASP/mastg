@@ -1,11 +1,11 @@
 ---
 name: mastg-assign-ids
-description: Assign real MASTG IDs to draft files that use fake placeholder IDs (e.g. MASTG-KNOW-0044, MASTG-BEST-0x56). Use when finishing a PR that introduces new MASTG components with placeholder IDs, or when asked to "fix fake IDs", "assign real IDs", or "use next available IDs". Runs next_id.py to get the correct next IDs, renames all affected files, and replaces all in-content references.
+description: Assign real MASTG IDs to draft files that use fake placeholder IDs (e.g. MASTG-KNOW-0x01, MASTG-BEST-0x56). Use when finishing a PR that introduces new MASTG components with placeholder IDs, or when asked to "fix fake IDs", "assign real IDs", or "use next available IDs". Runs next_id.py to get the correct next IDs, renames all affected files, and replaces all in-content references.
 ---
 
 # MASTG Assign IDs
 
-Replace all fake/placeholder component IDs (e.g. `MASTG-KNOW-0044`, `MASTG-BEST-0x56`) with the next real sequential IDs across file names and file contents.
+Replace all fake/placeholder component IDs (e.g. `MASTG-KNOW-0x01`, `MASTG-BEST-0x56`) with the next real sequential IDs across file names and file contents.
 
 ## When to use
 
@@ -59,8 +59,8 @@ See [scripts/next_id.py](scripts/next_id.py).
 Map each fake ID to the real ID you just allocated. Record the mapping explicitly before proceeding, e.g.:
 
 ```txt
-MASTG-KNOW-0044 → MASTG-KNOW-0122
-MASTG-KNOW-0x01 → MASTG-KNOW-0123
+MASTG-KNOW-0x01 → MASTG-KNOW-0122
+MASTG-KNOW-0x02 → MASTG-KNOW-0123
 MASTG-BEST-0x56 → MASTG-BEST-0045
 ```
 
@@ -87,7 +87,7 @@ Pass `OLD=NEW` pairs as arguments — longer patterns first:
 ```bash
 python3 .github/skills/mastg-assign-ids/scripts/fix_ids.py \
     MASTG-KNOW-0x0a=MASTG-KNOW-0131 \
-    MASTG-KNOW-0044=MASTG-KNOW-0122 \
+    MASTG-KNOW-0x01=MASTG-KNOW-0122 \
     MASTG-BEST-0x56=MASTG-BEST-0045
 ```
 
@@ -111,8 +111,8 @@ ID assignments used in this PR:
 
 | Fake ID | Real ID |
 |---------|---------|
-| MASTG-KNOW-0044 | MASTG-KNOW-0122 |
-| MASTG-KNOW-0x01 | MASTG-KNOW-0123 |
+| MASTG-KNOW-0x01 | MASTG-KNOW-0122 |
+| MASTG-KNOW-0x02 | MASTG-KNOW-0123 |
 | MASTG-BEST-0x56 | MASTG-BEST-0045 |
 ```
 
