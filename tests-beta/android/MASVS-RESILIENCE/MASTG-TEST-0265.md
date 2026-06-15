@@ -2,7 +2,7 @@
 platform: android
 title: References to StrictMode APIs
 id: MASTG-TEST-0265
-type: [static]
+type: [static, code]
 weakness: MASWE-0094
 best-practices: []
 profiles: [R]
@@ -14,7 +14,8 @@ This test checks whether the app uses `StrictMode`. While useful for developers 
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify all instances of `StrictMode` APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

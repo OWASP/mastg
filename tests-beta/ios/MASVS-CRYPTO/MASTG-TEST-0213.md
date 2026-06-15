@@ -2,7 +2,7 @@
 title: Use of Hardcoded Cryptographic Keys in Code
 platform: ios
 id: MASTG-TEST-0213
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0014
 profiles: [L1, L2]
 ---
@@ -17,7 +17,8 @@ In this test case, we will examine iOS applications for the presence of hardcode
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary looking for cryptographic APIs as indicated above.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -33,4 +34,8 @@ You may find the keys being directly passed as arguments to cryptographic functi
 - **Base64-Encoded Strings**: Developers might encode cryptographic keys as Base64 strings within the code, which can be easily decoded by attackers if discovered.
 - **Hex-Encoded Strings**: Keys are sometimes stored as hexadecimal strings, which are then converted to `Data` objects at runtime for cryptographic operations.
 
-Ensure that any identified keys are indeed cryptographic keys used for security-relevant purposes. Avoid false positives by verifying the key's usage context (e.g., configuration settings or non-security-related constants might be misidentified as cryptographic keys).
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether the identified data is indeed a cryptographic key used for security-relevant purposes:
+
+- Determine whether the identified value is a cryptographic key (configuration settings or non-security-related constants might be misidentified as cryptographic keys).

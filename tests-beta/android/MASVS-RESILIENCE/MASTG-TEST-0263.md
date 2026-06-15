@@ -3,7 +3,7 @@ platform: android
 title: Logging of StrictMode Violations
 id: MASTG-TEST-0263
 apis: [StrictMode]
-type: [dynamic]
+type: [dynamic, logs]
 weakness: MASWE-0094
 profiles: [R]
 ---
@@ -12,10 +12,12 @@ profiles: [R]
 
 This test checks whether an app enables [`StrictMode`](../../../Document/0x05i-Testing-Code-Quality-and-Build-Settings.md#strictmode) in production. While useful for developers to log policy violations such as disk I/O or network operations in production apps, leaving `StrictMode` enabled can expose sensitive implementation details in the logs that could be exploited by attackers.
 
+The target of this test is the production build of the app.
+
 ## Steps
 
-1. Install the production build of your app on your device or emulator.
-2. Uses @MASTG-TECH-0009 to show the system logs `StrictMode` creates.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0009 to show the system logs `StrictMode` creates.
 3. Open the app and let it execute.
 
 ## Observation

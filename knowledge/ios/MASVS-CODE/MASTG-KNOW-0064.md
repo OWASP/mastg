@@ -1,7 +1,16 @@
 ---
 masvs_category: MASVS-CODE
 platform: ios
-title: Debugging Code and Error Logging
+title: Non-Production Resources
 ---
 
-To speed up verification and get a better understanding of errors, developers often include debugging code, such as verbose logging statements (using `NSLog`, `println`, `print`, `dump`, and `debugPrint`) about responses from their APIs and about their application's progress and/or state. Furthermore, there may be debugging code for "management-functionality", which is used by developers to set the application's state or mock responses from an API. Reverse engineers can easily use this information to track what's happening with the application. Therefore, debugging code should be removed from the application's release version.
+Non-production resources are assets, endpoints, or configurations intended for development, testing, or staging environments rather than live production use. These resources often have relaxed security controls, debug features, or test data that can introduce vulnerabilities if inadvertently included in production builds. They can expose sensitive information, provide attack vectors, or lead to unintended behaviors in a production environment.
+
+Common examples of non-production resources on iOS apps include:
+
+- Debug or verbose logging frameworks that expose sensitive information.
+- Test servers or API endpoints that lack proper authentication or encryption.
+- Sample data files containing fake or real user information.
+- Feature flags or configurations that enable insecure behaviors.
+- Development certificates or provisioning profiles.
+- Hardcoded credentials or API keys used for testing purposes.
