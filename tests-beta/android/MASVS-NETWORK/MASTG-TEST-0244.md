@@ -16,6 +16,8 @@ The goal of this test case is to observe whether a [MITM attack](../../../Docume
 
 If the app is properly implementing certificate pinning, the MITM attack should fail because the app rejects certificates issued by an unauthorized CA, even if the CA is trusted by the system.
 
+This test focuses on relevant first-party domains, which are remote endpoints under the developer's control that support the app's core or security-sensitive functionality. Third-party domains outside the developer's control should not be reported only because their traffic can be intercepted.
+
 _Testing Tip:_ While performing the MITM attack, it can be useful to monitor the system logs (see @MASTG-TECH-0009). If a certificate pinning/validation check fails, an event similar to the following log entry might be visible, indicating that the app detected the MITM attack and did not establish a connection.
 
 `I/X509Util: Failed to validate the certificate chain, error: Pin verification failed`
@@ -27,8 +29,14 @@ _Testing Tip:_ While performing the MITM attack, it can be useful to monitor the
 
 ## Observation
 
-The output should contain the intercepted traffic capture.
+The output should contain the intercepted traffic capture, including the domains whose HTTPS traffic was successfully intercepted.
 
 ## Evaluation
 
-The test case fails if any relevant domain appears in the intercepted traffic capture.
+The test case fails if any relevant first-party domain appears in the intercepted traffic capture.
+
+The test case should not fail only because unrelated third-party domains are intercepted.
+
+**Further Validation Required:**
+
+Determining which of the intercepted domains are first-party and security-relevant typically requires information that is not present in the app binary and may require contact with the developers.
