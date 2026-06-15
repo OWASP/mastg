@@ -4,7 +4,7 @@
 │ 4 Code Findings │
 └─────────────────┘
                                                    
-    ../MASTG-DEMO-0x01/AndroidManifest_reversed.xml
+    ../MASTG-DEMO-0136/AndroidManifest_reversed.xml
     ❯❱ android-exported-activity
           [MASVS-CODE-4] Activity is explicitly exported. Verify whether it should be accessible by external
           apps.                                                                                             

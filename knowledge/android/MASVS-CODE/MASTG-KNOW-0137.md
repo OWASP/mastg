@@ -65,7 +65,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 }
 ```
 
-The result intent can carry a URI (`data`) or extras back to the caller. See @MASTG-KNOW-0x02 for details on how URI schemes affect the data returned by the responding app.
+The result intent can carry a URI (`data`) or extras back to the caller. See @MASTG-KNOW-0138 for details on how URI schemes affect the data returned by the responding app.
 
 ## Restricting Resolution with `setPackage`
 

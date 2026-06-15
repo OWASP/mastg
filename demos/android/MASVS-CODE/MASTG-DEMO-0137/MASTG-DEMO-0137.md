@@ -1,5 +1,5 @@
 ---
-id: MASTG-DEMO-0x02
+id: MASTG-DEMO-0137
 title: Detecting Unintentionally Exported Activities
 platform: android
 code: [xml]
@@ -10,7 +10,7 @@ kind: fail
 
 The following reversed `AndroidManifest.xml` snippet shows multiple activities marked as exported. While `MainActivity` must be exported to be launched by the system, `InternalActivity` is intended for internal use and should not be accessible to other apps. Additionally, some activities from external libraries are exported by default.
 
-{{ ../MASTG-DEMO-0x01/AndroidManifest.xml # ../MASTG-DEMO-0x01/AndroidManifest_reversed.xml }}
+{{ ../MASTG-DEMO-0136/AndroidManifest.xml # ../MASTG-DEMO-0136/AndroidManifest_reversed.xml }}
 
 ## Steps
 

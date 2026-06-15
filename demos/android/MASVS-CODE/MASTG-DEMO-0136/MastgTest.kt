@@ -9,7 +9,7 @@ class MastgTest (private val context: Context){
     fun mastgTest(): String {
         val r = DemoResults("0x01")
 
-        // FAIL: [MASTG-TEST-0x01] The app uses an implicit intent to start an internal activity.
+        // FAIL: [MASTG-TEST-0372] The app uses an implicit intent to start an internal activity.
         val implicitIntent = Intent().apply {
             action = "org.owasp.mastestapp.INTERNAL_ACTION"
             putExtra("user_id", "12345")
@@ -25,7 +25,7 @@ class MastgTest (private val context: Context){
         }
 
         /*
-        // PASS: [MASTG-TEST-0x01] The app uses an explicit intent for internal communication.
+        // PASS: [MASTG-TEST-0372] The app uses an explicit intent for internal communication.
         val explicitIntent = Intent(context, InternalActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }

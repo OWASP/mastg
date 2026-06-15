@@ -1,7 +1,7 @@
 ---
 title: Use Explicit Intents for Internal IPC
 alias: use-explicit-intents-for-internal-ipc
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0056
 platform: android
 knowledge: [MASTG-KNOW-0025]
 ---

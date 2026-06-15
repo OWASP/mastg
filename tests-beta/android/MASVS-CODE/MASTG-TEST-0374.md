@@ -1,11 +1,11 @@
 ---
 title: References to Implicit Intents Carrying Sensitive Extras
 platform: android
-id: MASTG-TEST-0x03
+id: MASTG-TEST-0374
 type: [static, code]
 weakness: MASWE-0066
-best-practices: [MASTG-BEST-0x01]
-knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0x01]
+best-practices: [MASTG-BEST-0056]
+knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0137]
 profiles: [L1, L2]
 ---
 

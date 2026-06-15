@@ -1,11 +1,11 @@
 ---
 title: Missing Validation of Data Returned from Implicit Intents
 platform: android
-id: MASTG-TEST-0x04
+id: MASTG-TEST-0375
 type: [dynamic, hooks, manual]
 weakness: MASWE-0083
-best-practices: [MASTG-BEST-0x01, MASTG-BEST-0x02]
-knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0x02]
+best-practices: [MASTG-BEST-0056, MASTG-BEST-0057]
+knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0138]
 profiles: [L1, L2]
 ---
 
@@ -13,7 +13,7 @@ profiles: [L1, L2]
 
 Applications that use implicit intents to request data (such as files) from other applications must properly validate and sanitize the data received in the `onActivityResult` callback. When an implicit intent is used (whether it is a standard action like `GET_CONTENT` or a custom action), any app on the device can potentially respond. A malicious responder can return unexpected URIs (like `file://` instead of `content://`) or malicious metadata (like filenames containing path-traversal strings `../`).
 
-If the receiving app trusts this data without validation, it can lead to severe vulnerabilities such as arbitrary file read or arbitrary code execution (see @MASTG-KNOW-0x02).
+If the receiving app trusts this data without validation, it can lead to severe vulnerabilities such as arbitrary file read or arbitrary code execution (see @MASTG-KNOW-0138).
 
 This test focuses on the broader issue of improper verification of data returned by third-party components.
 

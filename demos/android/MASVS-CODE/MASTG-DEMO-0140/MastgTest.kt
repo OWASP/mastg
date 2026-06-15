@@ -11,7 +11,7 @@ class MastgTest(private val context: Context) {
 
     fun mastgTest(): String {
         val r = DemoResults("0x05")
-        r.add(Status.FAIL, "This app should be invoked by an implicit intents from MASTG-DEMO-0x01")
+        r.add(Status.FAIL, "This app should be invoked by an implicit intents from MASTG-DEMO-0136")
         return r.toJson()
     }
 }

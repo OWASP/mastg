@@ -1,10 +1,10 @@
 ---
 title: Internal Component Unintentionally Exported
 platform: android
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0373
 type: [static, config]
 weakness: MASWE-0066
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0056]
 knowledge: [MASTG-KNOW-0025]
 profiles: [L1, L2]
 ---

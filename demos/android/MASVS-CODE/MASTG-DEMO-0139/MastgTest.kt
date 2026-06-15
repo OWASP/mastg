@@ -48,7 +48,7 @@ class VulnerableActivity : Activity() {
             val tv = TextView(this)
             tv.textSize = 18f
             tv.setPadding(32, 32, 32, 32)
-            tv.text = "No handler found for REQUEST_FILE.\nInstall the attacker app from MASTG-DEMO-0x06 first."
+            tv.text = "No handler found for REQUEST_FILE.\nInstall the attacker app from MASTG-DEMO-0141 first."
             setContentView(tv)
         }
     }
@@ -64,14 +64,14 @@ class VulnerableActivity : Activity() {
                     if (it.moveToFirst()) {
                         val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                         if (nameIndex >= 0) {
-                            // FAIL: [MASTG-TEST-0x04] Blindly trusting the filename provided by an external app
+                            // FAIL: [MASTG-TEST-0375] Blindly trusting the filename provided by an external app
                             fileName = it.getString(nameIndex)
                         }
                     }
                 }
 
                 val publicDir = File(filesDir, "public")
-                // FAIL: [MASTG-TEST-0x04] Writing to internal storage using the unsanitized filename
+                // FAIL: [MASTG-TEST-0375] Writing to internal storage using the unsanitized filename
                 val outFile = File(publicDir, fileName)
                 val content = contentResolver.openInputStream(uri)?.use { it.bufferedReader().readText() } ?: "(empty)"
                 FileOutputStream(outFile).use { it.write(content.toByteArray()) }

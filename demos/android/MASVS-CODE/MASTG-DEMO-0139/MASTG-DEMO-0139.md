@@ -1,5 +1,5 @@
 ---
-id: MASTG-DEMO-0x04
+id: MASTG-DEMO-0139
 title: Path Traversal via Malicious ContentProvider Filename
 platform: android
 code: [kotlin]
@@ -16,7 +16,7 @@ However, because the filename (`_display_name`) is used directly in a `File` ins
 
 ## Steps
 
-1. Build and install the attacker app from @MASTG-DEMO-0x06 on the device (@MASTG-TECH-0005).
+1. Build and install the attacker app from @MASTG-DEMO-0141 on the device (@MASTG-TECH-0005).
 2. Install the main app on the same device (@MASTG-TECH-0005).
 3. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device.
 4. Run `run.sh` to spawn the app with Frida.

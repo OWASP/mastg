@@ -1,5 +1,5 @@
 ---
-id: MASTG-DEMO-0x03
+id: MASTG-DEMO-0138
 title: Leaking Sensitive Arguments via Implicit Intents
 platform: android
 code: [kotlin]
@@ -10,7 +10,7 @@ kind: fail
 
 The following code implements an application that demonstrates how sensitive information can be leaked when sent as extras in an implicit intent. Because the intent is implicit, any application that registers for the action can receive it and extract its arguments. The snippets show both the original source code and the reversed Java version.
 
-{{ ../MASTG-DEMO-0x01/MastgTest.kt # ../MASTG-DEMO-0x01/MastgTest_reversed.java }}
+{{ ../MASTG-DEMO-0136/MastgTest.kt # ../MASTG-DEMO-0136/MastgTest_reversed.java }}
 
 ## Steps
 

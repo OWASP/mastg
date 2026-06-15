@@ -1,16 +1,16 @@
 ---
 title: Sanitize Data Coming from External Components
 alias: sanitize-external-data
-id: MASTG-BEST-0x02
+id: MASTG-BEST-0057
 platform: android
-knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0x02]
+knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0138]
 ---
 
 All data received from external sources (such as `Intent` extras, `onActivityResult` callbacks, or `ContentProvider` results) must be treated as untrusted and thoroughly sanitized before use. Failure to validate this data can lead to serious vulnerabilities, including arbitrary file access and path traversal. Specifically, applications must always validate URIs and associated metadata before reading from them, copying their content, or passing them to sensitive system APIs.
 
 ## Validate the URI scheme
 
-Prefer `content://` URIs over `file://` URIs. A `content://` URI routes through a `ContentProvider`, which controls exactly what data it exposes. A `file://` URI is resolved directly using the calling app's own process identity and permissions. This means a malicious responding app can return a `file://` URI pointing at any path the calling app can access, which, depending on the permissions the app holds, may go well beyond its own private storage. See @MASTG-KNOW-0x02 for a detailed explanation of how this is exploited.
+Prefer `content://` URIs over `file://` URIs. A `content://` URI routes through a `ContentProvider`, which controls exactly what data it exposes. A `file://` URI is resolved directly using the calling app's own process identity and permissions. This means a malicious responding app can return a `file://` URI pointing at any path the calling app can access, which, depending on the permissions the app holds, may go well beyond its own private storage. See @MASTG-KNOW-0138 for a detailed explanation of how this is exploited.
 
 ## Sanitize Filenames Provided by External Components
 

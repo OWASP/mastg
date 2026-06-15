@@ -1,11 +1,11 @@
 ---
 title: Implicit Intents Used for Internal App Communication
 platform: android
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0372
 type: [static, code]
 weakness: MASWE-0066
-best-practices: [MASTG-BEST-0x01]
-knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0x01]
+best-practices: [MASTG-BEST-0056]
+knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0137]
 profiles: [L1, L2]
 ---
 
