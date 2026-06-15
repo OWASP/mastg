@@ -6,8 +6,6 @@ type: [dynamic, network]
 weakness: MASWE-0047
 profiles: [L2]
 knowledge: [MASTG-KNOW-0015]
-prerequisites:
-- identify-first-party-domains
 ---
 
 ## Overview

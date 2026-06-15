@@ -6,8 +6,6 @@ type: [static, code]
 weakness: MASWE-0047
 profiles: [L2]
 knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
-prerequisites:
-- identify-first-party-domains
 ---
 
 ## Overview
