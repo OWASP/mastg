@@ -1,0 +1,11 @@
+xrefs to URLSession challenge handler implementations:
+ICOD 0x00004290 0x00004000 sym.MASTestApp.InsecureURLSessionDelegate.urlSession.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_
+CALL 0x00004298 0x00004000 sym.MASTestApp.InsecureURLSessionDelegate.urlSession.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_
+ICOD 0x00004818 0x00004000 sym.MASTestApp.InsecureURLSessionDelegate.urlSession.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_
+CALL 0x00004820 0x00004490 sym.MASTestApp.SecureURLSessionDelegate.urlSession.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_
+
+Uses of SecTrustEvaluateWithError — shows which handlers properly evaluate server trust:
+949  0x000161bc 0x000161bc LOCAL  FUNC 0        imp.SecTrustEvaluateWithError
+
+xrefs to SecTrustEvaluateWithError:
+sym.MASTestApp.SecureURLSessionDelegate.urlSession.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_ 0x4638 [CALL:--x] bl sym.imp.SecTrustEvaluateWithError

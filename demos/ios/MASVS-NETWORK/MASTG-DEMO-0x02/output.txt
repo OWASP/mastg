@@ -1,0 +1,7 @@
+xrefs to WKNavigationDelegate challenge handler implementation:
+ICOD 0x00004290 0x00004000 sym.MASTestApp.InsecureWKNavigationDelegate.webView.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_
+CALL 0x00004298 0x00004000 sym.MASTestApp.InsecureWKNavigationDelegate.webView.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_
+
+[2] SecTrustEvaluateWithError calls — empty output confirms server trust is never evaluated:
+
+xrefs to SecTrustEvaluateWithError:
