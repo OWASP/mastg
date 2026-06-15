@@ -33,7 +33,7 @@ To observe the implicit intent resolution in action, you can install a second ap
 3. Launch the main app and tap **Start**.
 4. The system presents a chooser dialog listing both apps as candidates for handling `INTERNAL_ACTION`.
 
-{{ implicit-intent-choose-app.png }}
+<img src="implicit-intent-choose-app.png" width="50%" />
 
 ## Observation
 
