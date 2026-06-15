@@ -6,7 +6,7 @@ id: MASTG-TEST-0250
 apis: [WebView, WebSettings, getSettings, ContentProvider, setAllowContentAccess, setAllowUniversalAccessFromFileURLs, setJavaScriptEnabled]
 type: [static, code]
 weakness: MASWE-0069
-best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013]
+best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0049]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]
 ---
@@ -21,14 +21,6 @@ The JavaScript code would have access to any content providers on the device, su
 - declared by other apps, **only if they are exported** and if they are not following recommended [best practices](https://developer.android.com/privacy-and-security/security-tips#content-providers) to restrict access.
 
 Refer to @MASTG-KNOW-0018 for more information on the `setAllowContentAccess` method, the specific files that can be accessed, and the conditions under which they can be accessed.
-
-**Example Attack Scenario:**
-
-Suppose a banking app uses a WebView to display dynamic content. The developers have not explicitly set the `setAllowContentAccess` method, so it defaults to `true`. Additionally, JavaScript is enabled in the WebView, and the `setAllowUniversalAccessFromFileURLs` method is also used.
-
-1. An attacker exploits a vulnerability (such as an XSS flaw) to inject malicious JavaScript into the WebView. This could occur through a compromised or malicious link that the WebView loads without proper validation.
-2. Thanks to `setAllowUniversalAccessFromFileURLs(true)`, the malicious JavaScript can issue requests to `content://` URIs to read locally stored files or data exposed by content providers. Even those content providers in the app that are not exported can be accessed because the malicious code runs in the same process and origin as the trusted code.
-3. The attacker-controlled script exfiltrates sensitive data from the device to an external server.
 
 **Note 1:** We do not consider `minSdkVersion` since `setAllowContentAccess` defaults to `true` regardless of the Android version.
 

@@ -1,0 +1,1 @@
+[+] CCCrypt hooked: extracting sensitive cryptographic data
