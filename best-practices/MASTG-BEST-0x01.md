@@ -1,7 +1,7 @@
 ---
 title: Implement Certificate Pinning on iOS
 alias: ios-implement-certificate-pinning
-id: MASTG-BEST-0032
+id: MASTG-BEST-0x01
 platform: ios
 knowledge: [MASTG-KNOW-0072]
 ---

@@ -9,7 +9,7 @@ kind: fail
 
 ## Sample
 
-The sample below shows an app that makes HTTPS connections to `api.example.com` via `URLSession`. While the app uses HTTPS, the `Info.plist` file contains an `NSAppTransportSecurity` section with no `NSPinnedDomains` key, meaning no certificate pinning is configured via ATS:
+The sample below shows an app that makes HTTPS connections to three domains via `URLSession`: two domains that are pinned through ATS `NSPinnedDomains` (`sha256.badssl.com` and `rsa2048.badssl.com`) and the app's own backend (`example.com`), which is **not** pinned. Here `example.com` stands in for a first-party, developer-owned domain that should be pinned but isn't:
 
 {{ MastgTest.swift # Info.plist }}
 
@@ -17,16 +17,16 @@ The sample below shows an app that makes HTTPS connections to `api.example.com` 
 
 1. Extract the app (@MASTG-TECH-0058) and locate the `Info.plist` file inside the app bundle (which we'll name `Info_reversed.plist`).
 2. Convert the `Info.plist` to a JSON format (@MASTG-TECH-0138).
-3. Search for `NSPinnedDomains` in the ATS configuration.
+3. Search for the `NSPinnedDomains` entries in the ATS configuration.
 
 {{ run.sh }}
 
 ## Observation
 
-The output is empty, indicating that `NSPinnedDomains` is not present in the `NSAppTransportSecurity` section of the `Info.plist`:
+The output lists the domains configured under `NSPinnedDomains`:
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test fails because the `Info.plist` does not contain a `NSPinnedDomains` key inside `NSAppTransportSecurity`. As a result, the app doesn't enforce certificate pinning via ATS and relies entirely on the system CA trust store.
+The test case fails because the app's own backend domain (`example.com`) is a relevant domain the app connects to, but it has no entry under `NSPinnedDomains`. Only `sha256.badssl.com` and `rsa2048.badssl.com` are pinned, so connections to `example.com` rely entirely on the system CA trust store and are not protected against a MITM attacker who controls a trusted CA.

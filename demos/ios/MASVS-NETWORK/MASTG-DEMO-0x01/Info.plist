@@ -4,7 +4,34 @@
 	<dict>
 		<key>NSAppTransportSecurity</key>
 		<dict>
-			<!-- No NSPinnedDomains configured: certificate pinning is absent -->
+			<key>NSPinnedDomains</key>
+			<dict>
+				<key>sha256.badssl.com</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedCAIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>HXXQgxueCIU5TTLHob/bPbwcKOKw6DkfsTWYHbxbqTY=</string>
+						</dict>
+					</array>
+				</dict>
+				<key>rsa2048.badssl.com</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedCAIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>0SDf3cRToyZJaMsoS17oF72VMavLxj/N7WkTpymPxdc=</string>
+						</dict>
+					</array>
+				</dict>
+				<!-- example.com (the app's own backend) is NOT pinned: this is the missing pin -->
+			</dict>
 		</dict>
 	</dict>
 </plist>

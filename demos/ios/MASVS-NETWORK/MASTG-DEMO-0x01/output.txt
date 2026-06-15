@@ -1,0 +1,11 @@
+json.NSAppTransportSecurity.NSPinnedDomains = {};
+json.NSAppTransportSecurity.NSPinnedDomains["rsa2048.badssl.com"] = {};
+json.NSAppTransportSecurity.NSPinnedDomains["rsa2048.badssl.com"].NSIncludesSubdomains = true;
+json.NSAppTransportSecurity.NSPinnedDomains["rsa2048.badssl.com"].NSPinnedCAIdentities = [];
+json.NSAppTransportSecurity.NSPinnedDomains["rsa2048.badssl.com"].NSPinnedCAIdentities[0] = {};
+json.NSAppTransportSecurity.NSPinnedDomains["rsa2048.badssl.com"].NSPinnedCAIdentities[0]["SPKI-SHA256-BASE64"] = "0SDf3cRToyZJaMsoS17oF72VMavLxj/N7WkTpymPxdc=";
+json.NSAppTransportSecurity.NSPinnedDomains["sha256.badssl.com"] = {};
+json.NSAppTransportSecurity.NSPinnedDomains["sha256.badssl.com"].NSIncludesSubdomains = true;
+json.NSAppTransportSecurity.NSPinnedDomains["sha256.badssl.com"].NSPinnedCAIdentities = [];
+json.NSAppTransportSecurity.NSPinnedDomains["sha256.badssl.com"].NSPinnedCAIdentities[0] = {};
+json.NSAppTransportSecurity.NSPinnedDomains["sha256.badssl.com"].NSPinnedCAIdentities[0]["SPKI-SHA256-BASE64"] = "HXXQgxueCIU5TTLHob/bPbwcKOKw6DkfsTWYHbxbqTY=";

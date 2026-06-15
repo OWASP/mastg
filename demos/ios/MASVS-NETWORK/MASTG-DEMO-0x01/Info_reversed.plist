@@ -45,7 +45,35 @@
 	<key>MinimumOSVersion</key>
 	<string>17.1.1</string>
 	<key>NSAppTransportSecurity</key>
-	<dict/>
+	<dict>
+		<key>NSPinnedDomains</key>
+		<dict>
+			<key>rsa2048.badssl.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSPinnedCAIdentities</key>
+				<array>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>0SDf3cRToyZJaMsoS17oF72VMavLxj/N7WkTpymPxdc=</string>
+					</dict>
+				</array>
+			</dict>
+			<key>sha256.badssl.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSPinnedCAIdentities</key>
+				<array>
+					<dict>
+						<key>SPKI-SHA256-BASE64</key>
+						<string>HXXQgxueCIU5TTLHob/bPbwcKOKw6DkfsTWYHbxbqTY=</string>
+					</dict>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

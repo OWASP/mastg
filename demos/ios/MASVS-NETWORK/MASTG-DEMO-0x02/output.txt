@@ -1,1 +1,0 @@
-json.TSKConfiguration.TSKPinnedDomains["api.example.com"].TSKExpirationDate = "2020-01-01";
