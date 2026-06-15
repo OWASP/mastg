@@ -27,7 +27,7 @@ If the app uses [`UIActivityViewController`](https://developer.apple.com/documen
 
 Typical APIs to monitor include:
 
-- `UIActivityViewController initWithActivityItems:applicationActivities:` to capture the items being shared.
+- `UIActivityViewController initWithActivityItems:applicationActivities:` to capture the items being shared and optional custom `UIActivity`.
 - `UIActivityViewController setExcludedActivityTypes:` to capture the excluded activity types.
 
 ## Observation
@@ -41,3 +41,4 @@ The test case fails if the app passes sensitive data as activity items to `UIAct
 - Determine whether the `activityItems` array contains or derives from sensitive data (for example, credentials, personal information, or health data).
 - Determine whether `excludedActivityTypes` is set for the corresponding `UIActivityViewController` instance and whether the excluded types are appropriate for the sensitivity of the shared data.
 - If `excludedActivityTypes` is not set or is `nil`, all system activity types are available to the user, potentially allowing sensitive data to be sent via AirDrop, posted to social networks, or otherwise shared in unintended ways.
+- If the parameter `applicationActivities` is not `nil` the data is shared with one or multiple custom `UIActivity`. Use static or dynamic techniques to verify if the data is handle securely.

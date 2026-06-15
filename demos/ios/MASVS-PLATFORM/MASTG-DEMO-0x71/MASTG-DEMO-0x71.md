@@ -29,4 +29,4 @@ The output shows a reference to `initWithActivityItems:applicationActivities:` c
 
 ## Evaluation
 
-The test case fails because the app initializes a `UIActivityViewController` with sensitive data (an account token and a private URL) but does not set `excludedActivityTypes`. This means all system activity types, including AirDrop, Mail, Messages, and social network posting, are available when the share sheet is presented.
+The test case fails because the app initializes a `UIActivityViewController` with sensitive data (an account token and a private URL) but does not set `excludedActivityTypes`. This means all system activity types, including AirDrop, Mail, Messages, Reminders and social network posting, are available when the share sheet is presented.

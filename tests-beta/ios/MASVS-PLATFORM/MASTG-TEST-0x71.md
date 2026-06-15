@@ -32,7 +32,7 @@ The test case fails if the app passes sensitive data as activity items to `UIAct
 
 Inspect each reported call site using @MASTG-TECH-0076.
 
-- Determine what items are passed to `initWithActivityItems:applicationActivities:` and whether any of them contain or derive from sensitive data (for example, credentials, personal information, or health data).
+- Determine what `activityItems` are passed to `initWithActivityItems:applicationActivities:` and whether any of them contain or derive from sensitive data (for example, credentials, personal information, or health data).
 - Determine whether `excludedActivityTypes` is set for the corresponding `UIActivityViewController` instance and whether the excluded types are appropriate for the sensitivity of the shared data.
-
+- If custom `UIActivity` are set in the `applicationActivities` parameter, verify that they handle sensitve data securely.
 Note that new system activity types are added by Apple in each iOS release and are not automatically excluded. Even if `excludedActivityTypes` is set, verify that it covers all activity types that are not appropriate for the shared content.

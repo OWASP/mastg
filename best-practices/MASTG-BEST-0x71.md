@@ -31,3 +31,5 @@ activityVC.excludedActivityTypes = [
 ```
 
 Keep the exclusion list up to date. New activity types may be added by the system in newer iOS versions and are not automatically excluded. Test on each supported iOS version to ensure no unintended activity types are available.
+
+If you implement and use a custom `UIActivity`, make sure that potentially sensitve data is handled securely.
