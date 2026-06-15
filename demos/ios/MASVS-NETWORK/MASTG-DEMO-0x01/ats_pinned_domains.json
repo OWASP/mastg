@@ -1,0 +1,18 @@
+{
+  "sha256.badssl.com": {
+    "NSPinnedCAIdentities": [
+      {
+        "SPKI-SHA256-BASE64": "AlSQhgtJirc8ahLyekmtX+Iw+v46yPYRLJt9Cq1GlB0="
+      }
+    ],
+    "NSIncludesSubdomains": true
+  },
+  "rsa2048.badssl.com": {
+    "NSPinnedCAIdentities": [
+      {
+        "SPKI-SHA256-BASE64": "AlSQhgtJirc8ahLyekmtX+Iw+v46yPYRLJt9Cq1GlB0="
+      }
+    ],
+    "NSIncludesSubdomains": true
+  }
+}

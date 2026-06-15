@@ -9,7 +9,14 @@ kind: fail
 
 ## Sample
 
-The sample below shows an app that makes HTTPS connections to three domains via `URLSession`: two domains that are pinned through ATS `NSPinnedDomains` (`sha256.badssl.com` and `rsa2048.badssl.com`) and the app's own backend (`example.com`), which is **not** pinned. Here `example.com` stands in for a first-party, developer-owned domain that should be pinned but isn't:
+The sample below shows an app that makes HTTPS connections to three domains via `URLSession`.
+
+- `sha256.badssl.com` and `rsa2048.badssl.com`, which are pinned through ATS `NSPinnedDomains`.
+- `example.com`, which is not pinned.
+
+In this demo, `example.com` represents the app's own backend. In a real app, this would be the actual first-party domain used for core functionality, such as `api.myapp.com`.
+
+This distinction is central to the evaluation. Certificate pinning should be assessed for domains that belong to the app and are controlled by its developer, such as first-party backend or server-side API domains. Domains outside the developer's control should not be pinned, because their certificates and key rotation are managed by someone else.
 
 {{ MastgTest.swift # Info.plist }}
 
@@ -17,16 +24,23 @@ The sample below shows an app that makes HTTPS connections to three domains via 
 
 1. Extract the app (@MASTG-TECH-0058) and locate the `Info.plist` file inside the app bundle (which we'll name `Info_reversed.plist`).
 2. Convert the `Info.plist` to a JSON format (@MASTG-TECH-0138).
-3. Search for the `NSPinnedDomains` entries in the ATS configuration.
+3. Extract the `NSPinnedDomains` configuration from `NSAppTransportSecurity`.
+4. Use @MASTG-TOOL-0129 to extract HTTP URLs from the app binary and compare them against the pinned domains.
 
 {{ run.sh }}
 
 ## Observation
 
-The output lists the domains configured under `NSPinnedDomains`:
+The output shows the whole `NSPinnedDomains` configuration:
+
+{{ ats_pinned_domains.json }}
+
+The output from @MASTG-TOOL-0129 shows that the app contains hardcoded URLs for all three domains:
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case fails because the app's own backend domain (`example.com`) is a relevant domain the app connects to, but it has no entry under `NSPinnedDomains`. Only `sha256.badssl.com` and `rsa2048.badssl.com` are pinned, so connections to `example.com` rely entirely on the system CA trust store and are not protected against a MITM attacker who controls a trusted CA.
+The test case fails because the app connects to its own backend, represented in this demo by `example.com`, but that domain has no entry under `NSPinnedDomains`.
+
+Only `sha256.badssl.com` and `rsa2048.badssl.com` are pinned. As a result, connections to the app-controlled backend rely only on the system CA trust store and are not protected by ATS certificate pinning against a MITM attacker who can cause the device to trust a forged or misissued certificate.
