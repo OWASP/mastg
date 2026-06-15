@@ -31,4 +31,4 @@ Never send sensitive data (tokens, credentials, API keys) in an implicit intent.
 
 ## Manifest Configuration
 
-For internal components, ensure they are not inadvertently exposed to other applications. For detailed instructions on properly securing the `AndroidManifest.xml`, refer to @MASTG-BEST-0x03.
+For internal components, ensure they are not inadvertently exposed to other applications. For detailed instructions on properly securing the `AndroidManifest.xml`, refer to @MASTG-BEST-0052.
