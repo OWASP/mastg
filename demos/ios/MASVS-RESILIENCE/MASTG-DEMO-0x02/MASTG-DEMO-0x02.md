@@ -10,8 +10,6 @@ kind: fail
 <!-- Placeholder: the rest of this demo lives on the MASTG-TEST-0090 branch.
      Only the v2.1 spec sections (Exploitation, Fix) are staged here. -->
 
-## Evaluation
-
 ### Exploitation
 
 You can confirm the missing integrity check at runtime by tampering with the stored file:
