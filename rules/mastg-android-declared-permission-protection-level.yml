@@ -1,0 +1,42 @@
+rules:
+  - id: mastg-android-declared-permission-level
+    languages: [xml]
+    severity: INFO
+    metadata:
+      summary: Reports each custom permission declared in the manifest together with its protection level.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Declared permission. permission=$NAME level=$LEVEL
+    pattern: <permission ... android:name="$NAME" ... android:protectionLevel="$LEVEL" ... />
+
+  - id: mastg-android-declared-permission-no-level
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects a custom permission declared without a protection level, which defaults to normal (any app can hold it).
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Declared permission with no android:protectionLevel; it
+      defaults to "normal", so any app can be granted it. permission=$NAME level=normal
+    patterns:
+      - pattern: <permission ... android:name="$NAME" ... />
+      - pattern-not: <permission ... android:protectionLevel="$LEVEL" ... />
+
+  - id: mastg-android-weak-custom-permission
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects a custom permission whose protection level is normal or dangerous, which untrusted apps can obtain.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Weak custom permission. A "normal" or "dangerous"
+      protection level can be obtained by untrusted apps, so it does not
+      restrict access to trusted-app identity. permission=$NAME level=$LEVEL
+    patterns:
+      - pattern: <permission ... android:name="$NAME" ... android:protectionLevel="$LEVEL" ... />
+      - metavariable-regex:
+          metavariable: $LEVEL
+          regex: (^|\|)(normal|dangerous)(\||$)
