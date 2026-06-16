@@ -6,10 +6,10 @@ title: Enforced Updating
 
 Forcing a user to update the application can be necessary in multiple cases:
 
-* A client-side vulnerability was discovered which needs to be fixed
-* Cryptographical key material that needs to be rotated (e.g. public key pinning)
-* Migrating to a new API so that the old API can be decomissioned more quickly
-* Updating a dependency to ensure compatibility with third-party backend systems
+- A client-side vulnerability was discovered which needs to be fixed
+- Cryptographical key material that needs to be rotated (e.g. public key pinning)
+- Migrating to a new API so that the old API can be decomissioned more quickly
+- Updating a dependency to ensure compatibility with third-party backend systems
 
 Keep in mind that updating the app does not resolve vulnerabilities residing on backend systems. A secure update mechanism should complement proper API and service lifecycle management. Similarly, if users are not forced to update, test older app versions against your backend and apply API versioning and deprecation policies to maintain security and stability across all supported releases.
 
