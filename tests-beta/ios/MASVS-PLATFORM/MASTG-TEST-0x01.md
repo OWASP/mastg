@@ -2,7 +2,7 @@
 platform: ios
 title: References to Native Bridge APIs in WebViews
 id: MASTG-TEST-0x01
-type: [static]
+type: [static, code]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
@@ -13,7 +13,7 @@ prerequisites:
 
 ## Overview
 
-iOS apps can establish a bidirectional communication channel between JavaScript and native code through WebView-native bridges. When using `WKWebView`, message handlers are registered on the `WKUserContentController` via [`add(_:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/add(_:name:)). This defines a `WKScriptMessageHandler` that handles messages sent from JavaScript using `window.webkit.messageHandlers.<name>.postMessage(...)`.
+iOS apps can establish a bidirectional communication channel between JavaScript and native code through WebView-native bridges. When using `WKWebView`, message handlers are registered on the `WKUserContentController` via [`add(_:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/add(_:name:)) (or `addScriptMessageHandler:name:` in Objective-C). This defines a `WKScriptMessageHandler` that handles messages sent from JavaScript using `window.webkit.messageHandlers.<name>.postMessage(...)`.
 
 If the app exposes sensitive native functionality or data through these handlers (for example, returning stored credentials, executing privileged operations, or modifying app state) without adequate input validation, an attacker who can execute JavaScript in the WebView (for example, through XSS, insecure content loading, or other injection vectors) can invoke these native methods and potentially extract data or trigger unauthorized actions.
 
@@ -21,8 +21,8 @@ This test checks whether the app registers native bridge handlers that expose se
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary, looking for calls to `WKUserContentController.add(_:name:)`.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -31,6 +31,8 @@ The output should contain a list of locations in the binary where `WKUserContent
 ## Evaluation
 
 The test case fails if a native bridge is registered and the `WKScriptMessageHandler` implementation exposes sensitive functionality or data to JavaScript without adequate validation.
+
+**Further Validation Required:**
 
 Inspect each reported call site using @MASTG-TECH-0076.
 

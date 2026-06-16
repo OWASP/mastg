@@ -5,8 +5,6 @@ code: [swift]
 id: MASTG-DEMO-0x01
 test: MASTG-TEST-0x01
 kind: fail
-status: placeholder
-note: This demo requires a MASTestApp binary compiled from the accompanying MastgTest.swift. Run the MASTestApp iOS project with this MastgTest.swift to obtain the binary, then run run.sh.
 ---
 
 ## Sample
@@ -22,8 +20,8 @@ window.webkit.messageHandlers.bridge.postMessage({action: 'getCredentials'})
 
 ## Steps
 
-1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.
-2. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
+1. Use @MASTG-TECH-0058 to extract the app. The main binary is `./Payload/MASTestApp.app/MASTestApp`.
+2. Use @MASTG-TOOL-0073 with the `-i` option to run this script.
 
 {{ webview_native_bridge.r2 # run.sh }}
 
@@ -37,9 +35,9 @@ The output shows the `addScriptMessageHandler:name:` selector used in the binary
 
 The test case fails because the app registers a native bridge handler named `"bridge"` via `WKUserContentController.add(_:name:)` and the corresponding `SecretBridgeHandler.userContentController(_:didReceive:)` exposes sensitive data to any JavaScript running in the WebView.
 
-In the output, the `addScriptMessageHandler:name:` selector is found at `reloc.fixup.addScriptMessageHandler:name:`, and the cross-reference points to `sym.MASTestApp.MastgTest.showWebView_completion__1`. Inspecting that function (using @MASTG-TECH-0076) reveals that:
+In the output, the `addScriptMessageHandler:name:` selector is found at `reloc.fixup.addScriptMessageHandler:name:`, and the cross-reference points to `sym.MASTestApp.MastgTest.showWebView._6E8AB2C58CE173A727EF27CB85DF8CD8.completion_...FZ_`. Inspecting that function (using @MASTG-TECH-0076) reveals that:
 
-- The bridge named `"bridge"` is registered unconditionally on the `WKUserContentController` without any origin-based restrictions.
+- The bridge named `"bridge"` is registered unconditionally on the `WKUserContentController` without any origin-based restrictions, as shown by the `"bridge"` string loaded at `0x00001e68` immediately before the `addScriptMessageHandler:name:` call at `0x00001eac`.
 - The `SecretBridgeHandler` handles a `"getSecret"` action that returns a hardcoded API key string to JavaScript, and a `"getCredentials"` action that returns user credentials, both via `evaluateJavaScript:completionHandler:`.
 - No validation is performed on the incoming message content or origin, so any JavaScript in the page can call these actions.
 
