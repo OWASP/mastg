@@ -1,7 +1,7 @@
 ---
 title: Use Immutable PendingIntents with Explicit Intents
 alias: use-immutable-pendingintents-with-explicit-intents
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0063
 platform: android
 ---
 
