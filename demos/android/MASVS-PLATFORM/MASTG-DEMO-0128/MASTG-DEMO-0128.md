@@ -17,24 +17,41 @@ However, `SecretActivity` is declared as exported in the `AndroidManifest.xml` w
 
 ## Steps
 
-1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0160 to list the exported activities and their associated `android:permission` by running `run.sh`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app and @MASTG-TECH-0117 to obtain the `AndroidManifest.xml`.
+2. Use @MASTG-TECH-0160 to enumerate the activities, their export state, and any associated `android:permission`. `run.sh` does this by running @MASTG-TOOL-0110 in its "Stage 1" with the following rule, which flags activities that are exported without a permission and lists the permission-protected ones separately:
+
+{{ ../../../../rules/mastg-android-exported-activity.yml }}
+
+3. Use @MASTG-TECH-0014 to inspect the decompiled code of each exported activity. `run.sh` runs @MASTG-TOOL-0110 in its "Stage 2" with the following rule to locate the lifecycle entry points reachable when the activity is started (`onCreate`, `onStart`, `onResume`, `onNewIntent`):
+
+{{ ../../../../rules/mastg-android-activity-entrypoints.yml }}
 
 {{ run.sh }}
 
+4. Run `evaluate.sh` to reduce the exported, unprotected activities from "Stage 1" to the ones the app itself declares. Activities in framework or library namespaces (`android.*`, `androidx.*`, `com.google.android.*`) ship with dependencies rather than the app's own code, so they are triaged separately:
+
+{{ evaluate.sh }}
+
 ## Observation
 
-The output reveals the exported activities and their associated permissions:
+"Stage 1" lists the exported activities and their permissions, and "Stage 2" points at the activity code to review:
 
-{{ output.txt }}
+{{ manifest_scan.txt # code_scan.txt }}
+
+`evaluate.sh` narrows the exported, unprotected activities down to the app's own components:
+
+{{ evaluation.txt }}
 
 ## Evaluation
 
 The test case fails because `SecretActivity` exposes sensitive functionality and is exported (`android:exported="true"`) without any permission protection, so external callers can start it directly by using an explicit intent.
 
-`PinEntryActivity` does not protect the underlying exported activity; access control must be enforced at the `SecretActivity` boundary.
+The "Stage 1" scan reports four exported, unprotected activities, and we discard three of them:
 
-The activity displays account data in `onCreate` without checking whether the user completed the PIN challenge:
+- `androidx.compose.ui.tooling.PreviewActivity` is a Compose tooling activity used by Android Studio to run composable previews, and `androidx.activity.ComponentActivity` is a generic host activity added by the Compose libraries. Both live in the `androidx.*` namespace, so `evaluate.sh` drops them as library code; they are not part of the app's authentication flow and should only be reviewed if the tested build is meant for production.
+- `MainActivity` is app-owned, so it survives the namespace filter and remains in `evaluation.txt`, but the "Stage 1" scan shows it carries the `LAUNCHER` intent filter. Launcher activities must be exported so Android and the launcher can start the app (see [Android's guidance](https://developer.android.com/about/versions/12/behavior-changes-12#exported)), and its `onCreate` only shows the app's entry screen, so it is discarded after manual review.
+
+`org.owasp.mastestapp.MastgTest$SecretActivity` is the remaining app-owned activity. Its `onCreate` displays sensitive account data without checking whether the user completed the PIN challenge.
 
 ```kotlin
 class SecretActivity : Activity() {
@@ -44,14 +61,6 @@ class SecretActivity : Activity() {
     }
 }
 ```
-
-The output also lists other exported activities. These are triaged but not reported as vulnerable in this test case.
-
-`MainActivity` is the launcher activity. Launcher activities normally need to be exported so Android and the launcher can start the app. [Android's guidance](https://developer.android.com/about/versions/12/behavior-changes-12#exported) says activities with the `LAUNCHER` category should use `android:exported="true"`, while most other components should use `false`.
-
-`androidx.activity.ComponentActivity` is commonly added by the Compose UI test manifest as a generic host activity for Compose tests. This is expected in debug or test builds, but should be reviewed if it appears in a production build.
-
-`androidx.compose.ui.tooling.PreviewActivity` is a Compose tooling activity used by Android Studio to run composable previews. It is not part of the app's authentication flow and should normally be treated as development tooling unless the tested build is intended for production.
 
 ### Confirm the Exposure
 

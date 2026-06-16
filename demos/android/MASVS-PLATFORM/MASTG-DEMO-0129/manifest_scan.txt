@@ -1,0 +1,16 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                
+    AndroidManifest_reversed.xml
+    ❯❱ rules.mastg-android-service-exported-without-permission
+          [MASVS-PLATFORM] Exported service without android:permission, which any app on the device can start
+          or bind to. Inspect its code for sensitive functionality:                                          
+          service=org.owasp.mastestapp.MastgTest.AuthService                                                 
+                                                                                                             
+           44┆ <service
+           45┆     android:name="org.owasp.mastestapp.MastgTest.AuthService"
+           46┆     android:exported="true"/>
+

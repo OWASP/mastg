@@ -15,24 +15,42 @@ The sample implements a small password vault. Tapping **Start** opens `VaultActi
 
 ## Steps
 
-1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0162 to list the exported broadcast receivers and their associated `android:permission` by running `run.sh`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app and @MASTG-TECH-0117 to obtain the `AndroidManifest.xml`.
+2. Use @MASTG-TECH-0162 to enumerate the manifest-declared broadcast receivers, their export state, and any associated `android:permission`. `run.sh` does this by running @MASTG-TOOL-0110 with the following rule, which flags receivers that are exported without a permission and lists the permission-protected ones separately:
 
-The `run.sh` script lists the exported receivers declared in the reverse-engineered manifest.
+{{ ../../../../rules/mastg-android-exported-receiver.yml }}
+
+3. Use @MASTG-TECH-0014 to inspect the decompiled code of each exported receiver. `run.sh` runs @MASTG-TOOL-0110 with the following rule to locate the `onReceive` entry point and the attacker-controllable intent extras it reads:
+
+{{ ../../../../rules/mastg-android-receiver-entrypoints.yml }}
 
 {{ run.sh }}
 
+4. Run `evaluate.sh` to reduce the exported, unprotected receivers from "Stage 1" to the ones the app itself declares. Receivers in framework or library namespaces (`android.*`, `androidx.*`, `com.google.android.*`) ship with dependencies rather than the app's own code, so they are triaged separately:
+
+{{ evaluate.sh }}
+
 ## Observation
 
-The output reveals the exported broadcast receivers and their associated permissions:
+"Stage 1" lists the exported receivers and their permissions, and "Stage 2" points at the receiver code to review:
 
-{{ output.txt }}
+{{ manifest_scan.txt # code_scan.txt }}
+
+`evaluate.sh` narrows the exported, unprotected receivers down to the app's own components:
+
+{{ evaluation.txt }}
 
 ## Evaluation
 
-The test case fails because `PasswordResetReceiver` performs a security-relevant action (storing a password and being able to update it) and is exported (`android:exported="true"`) without any permission protection. Because `PasswordResetReceiver` is exported and unprotected, external callers can send a broadcast to it and overwrite the password.
+The test case fails because `org.owasp.mastestapp.MastgTest$PasswordResetReceiver` performs a security-relevant action (storing a password and being able to update it) and is exported (`android:exported="true"`) without any permission protection. Because this receiver is exported and unprotected, external callers can send a broadcast to it and overwrite the password.
 
-The `onReceive` method changes the stored password from an intent extra and discloses the old password to the log:
+The manifest scan from "Stage 1" reports two exported receivers, and we discard one of them:
+
+- `androidx.profileinstaller.ProfileInstallReceiver` is added by the AndroidX Profile Installer library. It does not appear in the app's original manifest; it is merged in from a dependency, which is why it shows up in the reverse-engineered manifest. Although exported, it is protected by `android:permission="android.permission.DUMP"`, a signature/privileged permission that ordinary apps can't hold, so the manifest rule lists it under the permission-protected findings, and `evaluate.sh` also drops it because it lives in the `androidx.*` namespace. It is development tooling and is **not** reported as vulnerable in this test case.
+
+`org.owasp.mastestapp.MastgTest$PasswordResetReceiver` is the only exported, unprotected receiver the app itself declares, so it is the candidate to inspect.
+
+The "Stage 2" code scan confirms the sensitivity of the receiver. The `onReceive` method changes the stored password from an unvalidated intent extra and discloses the old password to the log:
 
 ```kotlin
 override fun onReceive(context: Context, intent: Intent) {
@@ -45,8 +63,6 @@ override fun onReceive(context: Context, intent: Intent) {
 ```
 
 `VaultActivity` does not protect the underlying exported broadcast receiver. Access control must be enforced at the `PasswordResetReceiver` boundary.
-
-The output also lists `androidx.profileinstaller.ProfileInstallReceiver`. This receiver is added by the AndroidX Profile Installer library and, although exported, is protected by `android:permission="android.permission.DUMP"`, a signature/privileged permission that ordinary apps can't hold. It is development tooling and is not reported as vulnerable in this test case.
 
 ### Confirm the Exposure
 

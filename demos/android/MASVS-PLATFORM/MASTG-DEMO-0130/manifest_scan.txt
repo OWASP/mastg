@@ -1,0 +1,45 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+    ❯❱ rules.mastg-android-receiver-exported-without-permission
+          [MASVS-PLATFORM] Exported broadcast receiver without android:permission, to which any app on the
+          device can send broadcasts. Inspect its onReceive for sensitive functionality:                  
+          receiver=org.owasp.mastestapp.MastgTest.PasswordResetReceiver                                   
+                                                                                                          
+           44┆ <receiver
+           45┆     android:name="org.owasp.mastestapp.MastgTest.PasswordResetReceiver"
+           46┆     android:exported="true">
+           47┆     <intent-filter>
+           48┆         <action android:name="org.owasp.mastestapp.RESET_PASSWORD"/>
+           49┆     </intent-filter>
+           50┆ </receiver>
+   
+     ❱ rules.mastg-android-receiver-exported-with-permission
+          [MASVS-PLATFORM] Exported broadcast receiver protected by a permission. Verify the permission
+          protection level matches the intended trust boundary:                                        
+          receiver=androidx.profileinstaller.ProfileInstallReceiver                                    
+                                                                                                       
+           72┆ <receiver
+           73┆     android:name="androidx.profileinstaller.ProfileInstallReceiver"
+           74┆     android:permission="android.permission.DUMP"
+           75┆     android:enabled="true"
+           76┆     android:exported="true"
+           77┆     android:directBootAware="false">
+           78┆     <intent-filter>
+           79┆         <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
+           80┆     </intent-filter>
+           81┆     <intent-filter>
+           82┆         <action android:name="androidx.profileinstaller.action.SKIP_FILE"/>
+           83┆     </intent-filter>
+           84┆     <intent-filter>
+           85┆         <action android:name="androidx.profileinstaller.action.SAVE_PROFILE"/>
+           86┆     </intent-filter>
+           87┆     <intent-filter>
+           88┆         <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION"/>
+           89┆     </intent-filter>
+           90┆ </receiver>
+
