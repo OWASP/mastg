@@ -2,7 +2,7 @@
 platform: android
 title: WebViews Not Cleaning Up Sensitive Data
 id: MASTG-TEST-0320
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0118
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0028]
@@ -27,14 +27,15 @@ This test verifies whether the app cleans up sensitive data used by WebViews. Ap
 
 This test uses dynamic analysis to monitor the relevant API calls and file system operations. Regardless of whether the app uses these APIs directly, WebViews may use them internally when rendering content (e.g., JavaScript code using `localStorage`). So tracing calls to APIs such as `open`, `openat`, `opendir`, `unlinkat`, etc., can help identify file operations in the WebView storage directory.
 
+When exercising the app, make sure to keep a list of the sensitive data you expect to be cleaned up, so you can verify whether it is still present in the WebView storage directory after closing the app.
+
 ## Steps
 
-1. Install the app on a device (@MASTG-TECH-0005).
-2. Use @MASTG-TECH-0033 to target WebView APIs for storage enablement and cleanup.
-3. Open the app.
-4. Use the app extensively to ensure that all relevant WebViews are covered and that sensitive data is loaded into them. Ensure you keep a list of the sensitive data you expect to be cleaned up.
-5. Close the app.
-6. Use @MASTG-TECH-0002 to pull the contents of the `/data/data/<app_package>/app_webview/` directory or simply search for the sensitive data used in the WebView within that directory.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+4. Close the app.
+5. Use @MASTG-TECH-0002 to pull the contents of the `/data/data/<app_package>/app_webview/` directory or simply search for the sensitive data used in the WebView within that directory.
 
 ## Observation
 

@@ -1,14 +1,37 @@
 ---
 masvs_category: MASVS-RESILIENCE
 platform: android
-title: Detection of Reverse Engineering Tools
+title: Reverse Engineering Tool Detection
 ---
 
-The presence of tools, frameworks, and apps commonly used by reverse engineers may indicate an attempt to reverse engineer the app. Some of these tools run only on rooted devices, while others force the app into debugging mode or require starting a background service on the mobile phone. Therefore, an app may implement various ways to detect and respond to reverse-engineering attacks, e.g., by terminating itself.
+Reverse engineering and instrumentation tools often leave observable artifacts on the device or inside the app process. These artifacts can include installed packages, binaries, running services, open ports, loaded libraries, memory mappings, thread names, Unix sockets, named pipes, or tool specific strings.
 
-You can detect popular reverse-engineering tools installed in an unmodified form by looking for associated application packages, files, processes, or other tool-specific modifications and artifacts. In the following examples, we'll discuss ways to detect the Frida instrumentation framework, which is used extensively in this guide. Other tools, such as ElleKit, can be detected similarly. Xposed detection is covered in @MASTG-KNOW-0032. Note that DBI/injection/hooking tools can often be detected implicitly through runtime integrity checks, as discussed in @MASTG-KNOW-0032.
+Android apps can inspect some of these indicators to detect whether the app is running in an analysis environment or has been instrumented with common tools. This type of detection is artifact based. It does not prove that the app's code or memory has been modified, but it can provide useful signals that the runtime environment is suspicious.
 
-For instance, in its default configuration on a rooted device, Frida runs as frida-server. When you explicitly attach to a target app (e.g., via frida-trace or the Frida REPL), Frida injects a frida-agent into the app's memory. Therefore, you may expect to find it there only after attaching to the app (not before). If you check `/proc/<pid>/maps`, you'll find the frida-agent as frida-agent-64.so:
+These checks are usually fragile when used in isolation. Tool names, ports, file paths, strings, and process artifacts can often be changed by an attacker. They are most useful as part of a layered resilience strategy, combined with runtime integrity verification, app integrity checks, anti debugging, and obfuscation.
+
+The examples below focus on detecting @MASTG-TOOL-0031, which is used extensively throughout this guide. Other tools, such as @MASTG-TOOL-0139 or @MASTG-TOOL-0149, can leave similar artifacts and can be detected using the same general approach.
+
+!!! note
+    Some tools can be detected both by their artifacts and by the modifications they make to the runtime. This knowledge article focuses on identifying the presence of known tools, while @MASTG-KNOW-0032 focuses on identifying unauthorized runtime modification.
+
+The following sections describe common categories of artifact based detection. The examples use Frida, but the same approach can be applied to other reverse engineering and instrumentation tools that leave observable files, processes, network endpoints, loaded libraries, runtime strings, or IPC artifacts.
+
+Some of the following detection methods are presented in the article ["The Jiu-Jitsu of Detecting Frida" by Bernhard Mueller](https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida "The Jiu-Jitsu of Detecting Frida") archived. Please refer to it for more details, including code snippets.
+
+## App Signature Checks
+
+Embedding Frida Gadget into an APK usually requires repackaging and re-signing the app (@MASTG-TECH-0039). The app can check its own signing certificate at startup, for example using [`GET_SIGNING_CERTIFICATES`](https://developer.android.com/reference/android/content/pm/PackageManager#GET_SIGNING_CERTIFICATES "GET_SIGNING_CERTIFICATES") since API level 28, and compare it against an expected certificate pinned in the app.
+
+This can detect basic repackaging, but it is usually easy to bypass by patching the APK, modifying the comparison logic, or hooking the relevant platform APIs. Signature checks are more useful when combined with stronger app integrity controls.
+
+## Loaded Library and Memory Mapping Checks
+
+Apps can inspect `/proc/self/maps` to identify loaded libraries, executable mappings, deleted mappings, and file paths associated with injected code. `/proc/self/smaps` provides similar mapping information with additional memory usage statistics and can be used as an alternative or complement to `maps`.
+
+In its default configuration on a rooted device, Frida runs as `frida-server`. When you explicitly attach to a target app, for example via `frida-trace` or the Frida REPL, Frida injects a Frida agent into the app's memory. Therefore, you should expect to find the agent in the target process only after attaching to the app, not before.
+
+If you inspect `/proc/<pid>/maps` after attaching to the app, you may find the Frida agent mapped as `frida-agent-64.so`:
 
 ```bash
 bullhead:/ # cat /proc/18370/maps | grep -i frida
@@ -17,7 +40,7 @@ bullhead:/ # cat /proc/18370/maps | grep -i frida
 71b7e06000-71b7e28000 rw-p  /data/local/tmp/re.frida.server/frida-agent-64.so
 ```
 
-The other method (which also works on non-rooted devices) involves embedding a [frida-gadget](https://www.frida.re/docs/gadget/ "Frida Gadget") into the APK and _forcing_ the app to load it as a native library. If you inspect the app's memory maps after starting the app (no need to attach explicitly), you'll find the embedded Frida gadget as libfrida-gadget.so.
+Another approach, which also works on non-rooted devices, involves embedding [Frida Gadget](https://www.frida.re/docs/gadget/ "Frida Gadget") into the APK and forcing the app to load it as a native library. In this case, the app loads the Gadget when it starts, so no explicit attach step is required. If you inspect the app's memory maps after startup, you may find the embedded Frida Gadget as `libfrida-gadget.so`:
 
 ```bash
 bullhead:/ # cat /proc/18370/maps | grep -i frida
@@ -27,27 +50,46 @@ bullhead:/ # cat /proc/18370/maps | grep -i frida
 71b988a000-71b98ac000 rw-p  /data/app/sg.vp.owasp_mobile.omtg_android-.../lib/arm64/libfrida-gadget.so
 ```
 
-Looking at these two _traces_ that Frida _left behind_, you might assume detecting them would be trivial. In fact, bypassing detection will be trivial. But things can get much more complicated. The following table presents a set of typical Frida detection methods and a brief discussion of their effectiveness.
+These checks can detect default or lightly modified Frida deployments, especially when the tool leaves recognizable library names, paths, or executable mappings. However, these indicators are fragile. Attackers can rename binaries and libraries, change paths, patch Frida builds, hide mappings, or hook the detection code itself.
 
-!!! note
-    Some of the following detection methods are presented in the article ["The Jiu-Jitsu of Detecting Frida" by Berdhard Mueller](https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida "The Jiu-Jitsu of Detecting Frida") (archived). Please refer to it for more details, including code snippets.
+## Process and Service Artifact Checks
 
-| Method | Description | Discussion |
-| --- | --- | --- |
-| **Checking the App Signature** | To embed frida-gadget in the APK, it would need to be repackaged and re-signed. You could check the APK's signature when the app starts (e.g., [GET_SIGNING_CERTIFICATES](https://developer.android.com/reference/android/content/pm/PackageManager#GET_SIGNING_CERTIFICATES "GET_SIGNING_CERTIFICATES") since API level 28) and compare it to the one pinned in your APK. | This is unfortunately too trivial to bypass, e.g., by patching the APK or hooking system calls. |
-| **Check The Environment For Related Artifacts** | Artifacts can include package files, binaries, libraries, processes, and temporary files. For Frida, this could be the Frida server running on the target (rooted) system (the daemon that exposes Frida over TCP). Inspect the running services ([`getRunningServices`](https://developer.android.com/reference/android/app/ActivityManager.html#getRunningServices%28int%29 "getRunningServices")) and processes (`ps`) to search for one named "frida-server". You could also walk through the list of loaded libraries and check for suspicious ones (e.g., those including "frida" in their names). | Since Android 7.0 (API level 24), inspecting running services/processes won't show daemons such as the Frida server, as they aren't started by the app itself. Even if it were possible, bypassing this would be as simple as renaming the corresponding Frida artifacts (frida-server/frida-gadget/frida-agent). |
-| **Checking For Open TCP Ports** | The frida-server process binds to TCP port 27042 by default. Checking whether this port is open is another way to detect the daemon. | This method detects Frida-server in its default mode, but the listening port can be changed via a command-line argument, making bypassing trivial. |
-| **Scanning Process Memory for Known Artifacts** | Scan the memory for artifacts found in Frida's libraries, such as the string "LIBFRIDA," which is present in all versions of frida-gadget and frida-agent. For example, use `Runtime.getRuntime().exec` to iterate through the memory mappings listed in `/proc/self/maps` or `/proc/<pid>/maps` (depending on the Android version), searching for the string. Find the source code on [Berdhard Mueller's GitHub](https://github.com/muellerberndt/frida-detection-demo/blob/master/AntiFrida/app/src/main/cpp/native-lib.cpp "frida-detection-demo"). | This method is somewhat more effective and is difficult to bypass with Frida alone, especially when obfuscation is applied, and multiple artifacts are scanned. However, the chosen artifacts might be patched in the Frida binaries. |
+Tool artifacts can include package files, binaries, libraries, processes, services, temporary files, and loaded modules. For Frida, this can include a `frida-server` binary on a rooted system or a Frida daemon exposing a TCP endpoint. Apps may inspect running services with [`getRunningServices`](https://developer.android.com/reference/android/app/ActivityManager.html#getRunningServices%28int%29 "getRunningServices"), execute commands such as `ps`, or inspect known filesystem locations for suspicious binaries and files.
 
-Please remember that this table is far from exhaustive. Additional artifact-based detection includes checking for [named pipes](https://en.wikipedia.org/wiki/Named_pipe "Named Pipes") used by frida-server for external communication, which can be detected by scanning `/proc/self/fd` or similar interfaces. The `procfs` virtual filesystem exposes many other sources of Frida-related indicators of compromise (IoCs) beyond `/proc/self/maps`, for example:
+On modern Android versions, apps have limited visibility into other apps, services, and processes. Since Android 7.0, API level 24, process and service visibility is restricted, and app level APIs will not reliably expose unrelated daemons such as `frida-server`. Even when artifacts are visible, simple name based checks can often be bypassed by renaming Frida binaries, libraries, or paths.
 
-- `/proc/self/task/<tid>/status`: Thread status files list thread names. Frida spawns recognizable threads such as `gdbus` and `gum-js-loop`.
-- `/proc/self/net/unix`: Lists Unix-domain sockets in the process network namespace. Frida uses a socket named `frida-zymbiote` for internal communication.
-- `/proc/self/smaps`: Provides the same memory-region list as `/proc/self/maps` but with additional memory-usage statistics, and can be used as an alternative or complement to `maps`.
+## Open TCP Port Checks
 
-Beyond detecting Frida's presence via artifacts and network signatures, apps can also detect the _modifications_ Frida makes when hooking functions (e.g., GOT/PLT hooks, inline patches, Java method hooks). These techniques are covered in @MASTG-KNOW-0032. Xposed detection is also covered there rather than here: its primary detection vector—looking for the `XposedBridge` class injected into the app's classloader—is a runtime modification rather than a presence artifact, so it cannot be cleanly separated into "present" vs. "modified".
+`frida-server` listens on TCP port `27042` by default. An app can try to connect to this port on localhost or scan a small set of known Frida ports to detect a listening Frida daemon.
 
-Many more techniques exist, and each depends on whether you're using a rooted device, the specific version of the rooting method, and/or the version of the tool itself. Additionally, the app can make it harder to detect the implemented protection mechanisms by using various obfuscation techniques. In the end, this is part of the cat-and-mouse game of protecting data being processed in an untrusted environment (an app running on a user device).
+This can detect Frida server in its default configuration, but the port can be changed through a command line argument. Attackers may also use forwarding, custom builds, or other transport configurations. Port checks are therefore useful only as a weak signal.
 
-!!! note
-    It is important to note that these controls only increase the complexity of the reverse engineering process. If used, the best approach is to combine the controls effectively rather than use them individually. However, none of them can guarantee 100% effectiveness, as the reverse engineer will always have full access to the device and will therefore always win! You also have to consider that integrating certain controls into your app might increase its complexity and even affect its performance.
+## Process Memory String Scanning
+
+The app can scan memory regions for strings or byte patterns associated with Frida libraries, such as `LIBFRIDA`, which has historically appeared in Frida Gadget and Frida Agent binaries. A native implementation can iterate through mappings listed in `/proc/self/maps`, read mapped regions, and search for known strings. Example source code is available in [Bernhard Mueller's frida-detection-demo](https://github.com/muellerberndt/frida-detection-demo/blob/master/AntiFrida/app/src/main/cpp/native-lib.cpp "frida-detection-demo").
+
+This is generally stronger than checking names, ports, or package files, especially when implemented natively, obfuscated, and combined with several indicators. However, the selected strings can be patched out of Frida binaries, and the detection logic can itself be patched or hooked.
+
+## Thread Name Checks
+
+Instrumentation frameworks may create recognizable threads inside the process. Frida has historically used thread names such as `gum-js-loop` and `gdbus`. The app can inspect `/proc/self/task/<tid>/status` for each thread and search for suspicious thread names.
+
+This can detect default or lightly modified Frida deployments. It is fragile because thread names can be changed, hidden, or created only after specific instrumentation activity. Thread name checks should not be treated as conclusive by themselves.
+
+## Unix Socket and Named Pipe Checks
+
+Frida and similar tools may use Unix domain sockets or named pipes for communication between components. The app can inspect interfaces such as `/proc/self/net/unix` or `/proc/self/fd` to look for suspicious socket names, pipe targets, or file descriptors.
+
+For example, Frida's Android implementation [uses abstract Unix socket names](https://github.com/frida/frida-core/blob/17.9.7/src/linux/linux-host-session.vala#L1531) with the `frida-zymbiote-` prefix followed by a random identifier. This kind of indicator is highly version and configuration dependent and should not be treated as a stable Frida signature.
+
+These checks can reveal artifacts that are less obvious than process names or ports, but they remain implementation specific. A custom tool build, changed transport mechanism, or future Frida version can remove or rename these indicators.
+
+## Effectiveness and Limitations
+
+Artifact based detection is useful for identifying common reverse engineering and instrumentation setups, especially default or lightly modified tool deployments. It can raise the cost of analysis and provide signals that the app is running in an unusual environment.
+
+However, these techniques should not be treated as strong proof of compromise. Many indicators are easy to rename, remove, delay, or spoof. Some checks may also produce false positives when a device contains security tools, developer tooling, accessibility tooling, enterprise monitoring software, or other legitimate software that exposes similar artifacts.
+
+For this reason, apps should avoid relying on a single artifact or terminating immediately based on one weak signal. A more robust strategy combines several independent indicators, weighs them according to risk, and pairs them with runtime integrity verification as described in @MASTG-KNOW-0032.
+
+In the end, detecting reverse engineering tools is part of the broader cat-and-mouse problem of protecting code and data processed on a user controlled device. These techniques can increase attacker effort, but they cannot guarantee prevention against a determined attacker with sufficient time, tooling, and control over the runtime environment.

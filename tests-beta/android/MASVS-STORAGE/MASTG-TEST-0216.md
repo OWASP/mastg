@@ -19,12 +19,11 @@ Android provides a way to start the backup daemon to back up and restore app fil
 
 ## Steps
 
-1. Start the device.
-2. Install an app on your device.
-3. Launch and use the app going through the various workflows while inputting sensitive data wherever you can.
-4. Perform a backup and restore of the app data (@MASTG-TECH-0128).
-5. Uninstall and reinstall the app but don't open it anymore.
-6. Restore the data from the backup and get the list of restored files.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Launch and use the app going through the various workflows while inputting sensitive data wherever you can.
+3. Use @MASTG-TECH-0128 to perform a backup and restore of the app data.
+4. Uninstall and reinstall the app but don't open it anymore.
+5. Restore the data from the backup and get the list of restored files.
 
 ## Observation
 

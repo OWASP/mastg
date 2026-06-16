@@ -2,7 +2,7 @@
 platform: ios
 title: References to Weak ATS TLS Policy Exceptions in Info.plist
 id: MASTG-TEST-0342
-type: [static]
+type: [static, code]
 weakness: MASWE-0050
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0042]
@@ -22,10 +22,9 @@ Apps can also globally disable ATS by setting [`NSAllowsArbitraryLoads`](https:/
 
 ## Steps
 
-1. Extract the app (@MASTG-TECH-0058).
-2. Locate the `Info.plist` in the app bundle.
-3. Use @MASTG-TECH-0138 to convert the `Info.plist` to a readable format if necessary.
-4. Examine the `NSAppTransportSecurity` dictionary for TLS policy exceptions, specifically `NSExceptionMinimumTLSVersion`, `NSExceptionRequiresForwardSecrecy` and `NSAllowsArbitraryLoads`.
+1. Use @MASTG-TECH-0058 to unzip the app package.
+2. Use @MASTG-TECH-0153 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0155 to analyze the ATS configuration for TLS policy exceptions, specifically `NSExceptionMinimumTLSVersion`, `NSExceptionRequiresForwardSecrecy`, and `NSAllowsArbitraryLoads`.
 
 ## Observation
 

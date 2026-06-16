@@ -1,0 +1,72 @@
+List all uses of the 'evaluateJavaScript:completionHandler:' selector:
+0x10000ad00 38 str.evaluateJavaScript:completionHandler:
+0x1000144a8 8 reloc.fixup.evaluateJavaScript:completionHa
+
+xrefs to 'evaluateJavaScript:completionHandler:':
+sym.MASTestApp.MastgTest.webView.allocator.didFinish...ySo05WKWebF0C_So12WKNavigationCSgtFTf4ndn_n 0x100004804 [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+sym.MASTestApp.MastgTest.webView.allocator.didFinish...ySo05WKWebF0C_So12WKNavigationCSgtFTf4ndn_n 0x1000048b0 [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+
+Code snippet at first call site (attacker-injected prototype override):
+|           0x1000047dc      adrp x8, 0x10000a000
+|           0x1000047e0      add x8, x8, 0x3f0                         ; 0x10000a3f0 ; "                       document.querySelector = function(selector) {\n                           return { textContent: "ATTACKER_CONTROLLED" };\n                       };"
+|           0x1000047e4      sub x8, x8, 0x20
+|           0x1000047e8      mov x9, 0x3f                              ; '?'
+|           0x1000047ec      movk x9, 0xd000, lsl 48
+|           0x1000047f0      add x0, x9, 0x69
+|           0x1000047f4      orr x1, x8, 0x8000000000000000
+|           0x1000047f8      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+|           0x1000047fc      mov x21, x0
+|           0x100004800      adrp x23, sym.__PROTOCOL_WKScriptMessageHandler ; 0x100014000
+|           0x100004804      ldr x1, [x23, 0x4a8]                      ; [0x10000ad00:8]=0x657461756c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
+|           0x100004808      mov x0, x19                               ; void *instance
+|           0x10000480c      mov x2, x21
+|           0x100004810      mov x3, 0
+|           0x100004814      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+
+Code snippet at second call site (reads recipient account number):
+|           0x100004820      adrp x8, 0x10000a000
+|           0x100004824      add x8, x8, 0x4a0                         ; 0x10000a4a0 ; "document.querySelector('#recipient_account_number').textContent"
+|           0x100004828      sub x8, x8, 0x20
+|           0x10000482c      orr x1, x8, 0x8000000000000000
+|           0x100004830      mov x0, 0x3f                              ; '?'
+|           0x100004834      movk x0, 0xd000, lsl 48
+|           0x100004838      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+|           0x10000483c      mov x21, x0
+|           0x100004840      adrp x0, segment.__DATA_CONST             ; 0x100010000
+|           0x100004844      add x0, x0, 0x758                         ; 0x100010758
+|                                                                      ; aav.0x100010758
+|           0x100004848      mov w1, 0x18
+|           0x10000484c      mov w2, 7
+|           0x100004850      bl sym.imp.swift_allocObject
+|           0x100004854      mov x22, x0
+|           0x100004858      add x0, x0, 0x10
+|           0x10000485c      mov x1, x20
+|           0x100004860      bl sym.imp.swift_unknownObjectWeakInit
+|           0x100004864      adrp x8, sym.MASTestApp.MastgTest.mastg.allocator_...FZ_ ; 0x100004000
+|           0x100004868      add x8, x8, 0x910
+|           0x10000486c      stp x8, x22, [arg_20h]
+|           0x100004870      adrp x8, segment.__DATA_CONST             ; 0x100010000
+|           0x100004874      ldr x8, [x8, 0x50]                        ; [0x100010050:8]=0
+|                                                                      ; reloc._NSConcreteStackBlock
+|           0x100004878      str x8, [sp]
+|           0x10000487c      adrp x8, sym.imp.SwiftUI.Font.system.design.C9.Design_...FZ_ ; 0x100009000
+|           0x100004880      ldr d0, [x8, 0x810]                       ; [0x100009810:8]=0x42000000 ; section.3.__TEXT.__const
+|                                                                      [03] -r-x section size 420 named 3.__TEXT.__const
+|           0x100004884      str d0, [arg_8h]
+|           0x100004888      adrp x8, sym.MASTestApp.MastgTest.mastg.allocator_...FZ_ ; 0x100004000
+|           0x10000488c      add x8, x8, 0x5c0
+|           0x100004890      adrp x9, segment.__DATA_CONST             ; 0x100010000
+|           0x100004894      add x9, x9, 0x770
+|           0x100004898      stp x8, x9, [arg_10h]
+|           0x10000489c      mov x0, sp
+|           0x1000048a0      bl sym.imp._Block_copy
+|           0x1000048a4      mov x20, x0
+|           0x1000048a8      ldr x0, [arg0]                            ; void *arg0
+|           0x1000048ac      bl sym.imp.swift_release                  ; void swift_release(void *arg0)
+|           0x1000048b0      ldr x1, [x23, 0x4a8]                      ; [0x10000ad00:8]=0x657461756c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
+|           0x1000048b4      mov x0, x19                               ; void *instance
+|           0x1000048b8      mov x2, x21
+|           0x1000048bc      mov x3, x20
+|           0x1000048c0      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+|           0x1000048c4      mov x0, x20
+|           0x1000048c8      bl sym.imp._Block_release

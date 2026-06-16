@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Setting of Relaxed WebView File Origin Policies
 id: MASTG-TEST-0336
-type: [dynamic]
+type: [dynamic, hooks, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0033]
 profiles: [L1, L2]
@@ -17,14 +17,6 @@ This test is the dynamic counterpart to @MASTG-TEST-0335.
 
 This test verifies at runtime whether the application enables either of these settings for a `WKWebView` that loads local `file://` content.
 
-## Steps
-
-1. Deploy the app to a device or simulator as described in @MASTG-TECH-0056.
-2. Launch the app with a runtime instrumentation tool such as @MASTG-TOOL-0039.
-3. Hook the relevant WebKit APIs to observe whether the app enables relaxed file origin policies and loads local content into a `WKWebView`.
-4. Trigger the code paths that create and configure the `WKWebView`.
-5. Inspect the captured runtime arguments.
-
 Typical APIs to monitor include:
 
 - `WKPreferences _setAllowFileAccessFromFileURLs:`
@@ -33,15 +25,23 @@ Typical APIs to monitor include:
 - `WKWebView loadFileURL:allowingReadAccessToURL:`
 - `WKWebView loadHTMLString:baseURL:` when a `file://` base URL may be used
 
+## Steps
+
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+
 ## Observation
 
-The output should show whether the application enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` at runtime and whether the affected `WKWebView` loads local `file://` content.
+The output should show any uses of functions setting `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs`, loading local `file://` content, as well as the backtraces of each relevant call.
 
 ## Evaluation
 
 The test case fails if the application enables `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` for a `WKWebView` that loads local `file://` content.
 
-Inspect each reported call site using @MASTG-TECH-0077.
+**Further Validation Required:**
+
+Using the backtraces from the hook output, inspect the code locations using @MASTG-TECH-0076:
 
 - Determine whether `allowFileAccessFromFileURLs` or `allowUniversalAccessFromFileURLs` is explicitly used and set to `true`.
 - Determine which `WKWebView` instance receives the configuration and whether it handles sensitive information or functionality.

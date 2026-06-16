@@ -2,7 +2,7 @@
 platform: android
 title: Native Code Exposed Through WebViews
 id: MASTG-TEST-0334
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0069
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0035]
 profiles: [L1, L2]
@@ -22,7 +22,7 @@ For this mechanism to work, JavaScript execution must be enabled on the WebView 
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for references to the relevant WebView APIs.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -34,11 +34,14 @@ The test case fails if all the following are true:
 
 - `setJavaScriptEnabled` is explicitly set to `true`.
 - `addJavascriptInterface` is used at least once.
-- At least one method annotated with `@JavascriptInterface` handles sensitive data or actions and is reachable from untrusted content. See below.
+- At least one method annotated with `@JavascriptInterface` handles sensitive data or actions and is reachable from untrusted content.
 
-**Context Considerations**:
+**Further Validation Required:**
 
-To reduce false positives, make sure you understand the context in which the bridge is being used before reporting the associated code as insecure. Ensure that it is being used in a security-relevant context to protect sensitive data or actions, and that it is reachable from untrusted content. For example, if the WebView can load arbitrary or weakly validated URLs, or if the app does not implement proper origin allowlisting for the bridge.
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the bridge is used in a security-relevant context:
+
+- Determine whether the exposed methods handle sensitive data or security-critical actions.
+- Determine whether the bridge is reachable from untrusted content, for example if the WebView can load arbitrary or weakly validated URLs, or if the app does not implement proper origin allowlisting.
 
 **Well-known Challenges when testing for WebView-Native bridges**:
 

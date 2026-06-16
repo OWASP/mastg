@@ -2,7 +2,7 @@
 title: Incorrect Implementation of Server Hostname Verification
 platform: android
 id: MASTG-TEST-0283
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0052
 profiles: [L1, L2]
 ---
@@ -15,8 +15,8 @@ Such unsafe implementations can allow an attacker to run a [MITM attack](../../.
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Inspect the source code and run a static analysis (@MASTG-TECH-0014) tool and look for all usages of `HostnameVerifier`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -26,11 +26,11 @@ The output should contain a list of locations where `HostnameVerifier` is used.
 
 The test case fails if the app does **not** properly validate that the server's hostname matches the certificate.
 
-This includes cases such as:
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023, looking for cases such as:
 
 - **Always accepting hostnames:** overriding `verify(...)` to unconditionally return `true`, regardless of the actual hostname or certificate.
 - **Overly broad matching rules:** using permissive wildcard logic that matches unintended domains.
 - **Incomplete verification coverage:** failing to invoke hostname verification on all SSL/TLS channels, such as those created via `SSLSocket`, or during renegotiation.
 - **Missing manual verification:** not performing hostname verification when it is not done automatically, such as when using the low-level `SSLSocket` API.
-
-When testing using automated tools, you will need to inspect all the reported locations in the reverse-engineered code to confirm the incorrect implementation (@MASTG-TECH-0023).
