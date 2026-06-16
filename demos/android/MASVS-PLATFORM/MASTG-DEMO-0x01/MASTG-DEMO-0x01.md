@@ -32,7 +32,7 @@ Run the @MASTG-TOOL-0110 rule against the reversed Java code to identify all Pen
 
 ## Observation
 
-The rule identifies **3 findings** where `PendingIntent` creation APIs includes insecure implementations.
+The rule identifies **3 findings** where `PendingIntent` creation APIs include insecure implementations.
 
 {{ output.txt }}
 
