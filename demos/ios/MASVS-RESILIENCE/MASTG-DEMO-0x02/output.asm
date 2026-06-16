@@ -1,6 +1,6 @@
 
 Evidence that the app stores data on disk (filename string literal):
-96  0x00008940 0x100008940 17  18   3.__TEXT.__cstring         ascii   user_profile.json
+103 0x00009d80 0x100009d80 17  18   3.__TEXT.__cstring         ascii   user_profile.json
 
 Searching the import table for file storage integrity APIs:
 
