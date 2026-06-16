@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: References to evaluateJavaScript Without Content World Isolation
+title: References to `evaluateJavaScript` Without Content World Isolation
 id: MASTG-TEST-0x04
 type: [static, code]
 weakness: MASWE-0069
@@ -19,8 +19,8 @@ This test checks whether the app uses the legacy `evaluateJavaScript:completionH
 
 ## Steps
 
-1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TECH-0066 to look for uses of `evaluateJavaScript:completionHandler:` in the app binary.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -29,3 +29,9 @@ The output should contain a list of locations where `evaluateJavaScript:completi
 ## Evaluation
 
 The test case fails if `evaluateJavaScript:completionHandler:` is used to read DOM content in a security-relevant context.
+
+**Further Validation Required:**
+
+Inspect each reported call site using @MASTG-TECH-0076 to confirm whether the evaluated JavaScript string reads data from the DOM (for example via `document.querySelector`, `document.getElementById`, `getAttribute`, `.value`, `.textContent`, or `.innerHTML`) and whether that data is security-relevant, such as account details, credentials, or authentication tokens.
+
+Also confirm that the call uses the legacy `evaluateJavaScript:completionHandler:` selector rather than the content-world-aware `evaluateJavaScript:inFrame:inContentWorld:completionHandler:` variant. Only the legacy selector runs in the `.page` world, where page JavaScript can override built-in functions (such as `document.querySelector`) and return attacker-controlled values; reads performed in an isolated content world are not affected.

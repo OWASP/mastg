@@ -17,8 +17,8 @@ This test checks whether the app loads HTML containing password input fields int
 
 ## Steps
 
-1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TECH-0066 to look for the string `type="password"` or `type='password'` in the binary's string table.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0071 to look for the string `type="password"` or `type='password'` in the binary's string table.
 
 ## Observation
 

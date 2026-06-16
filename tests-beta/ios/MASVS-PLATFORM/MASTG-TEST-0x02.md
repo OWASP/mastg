@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: References to evaluateJavaScript Used as Bridge Reply in WKScriptMessageHandler
+title: References to `evaluateJavaScript` Used as Bridge Reply in `WKScriptMessageHandler`
 id: MASTG-TEST-0x02
 type: [static, code, manual]
 weakness: MASWE-0069
@@ -28,12 +28,12 @@ This test checks whether the app uses [`evaluateJavaScript(_:completionHandler:)
 
 ## Steps
 
-1. Use @MASTG-TECH-0058 to extract the app.
-2. Use @MASTG-TECH-0066 to look for calls to `evaluateJavaScript:completionHandler:` in the app binary, noting the symbol names of the enclosing functions.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
-The output should contain a list of locations where `evaluateJavaScript:completionHandler:` is called, along with the symbol names of the functions that contain those calls.
+The output should contain a list of locations where `evaluateJavaScript:completionHandler:` is called.
 
 ## Evaluation
 
