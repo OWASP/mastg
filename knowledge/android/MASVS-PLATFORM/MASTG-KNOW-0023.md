@@ -4,11 +4,16 @@ platform: android
 title: Enforced Updating
 ---
 
-For Google Play-distributed apps running on supported devices, developers can implement enforced update flows using the Play In-App Updates API. The feature is supported on devices running Android 5.0 (API level 21) or higher, and is supported for Android mobile devices, Android tablets, and ChromeOS devices. It is not compatible with apps that use APK expansion files (`.obb` files). See the official documentation: [In-App Updates](https://developer.android.com/guide/playcore/in-app-updates "In-App Updates"). This mechanism is far more reliable than legacy methods such as scraping Play Store pages or calling undocumented endpoints, which are unstable and unsupported.
+Forcing a user to update the application can be necessary in multiple cases:
 
-Enforced updating can be particularly useful for maintaining security when public key pins need to be rotated or when critical vulnerabilities must be patched quickly. Requiring users to install an updated version can reduce the use of old, insecure builds. For security-critical cases, combine client-side update gating with server-side enforcement so unsupported versions cannot continue accessing backend services.
+* A client-side vulnerability was discovered which needs to be fixed
+* Cryptographical key material that needs to be rotated (e.g. public key pinning)
+* Migrating to a new API so that the old API can be decomissioned more quickly
+* Updating a dependency to ensure compatibility with third-party backend systems
 
 Keep in mind that updating the app does not resolve vulnerabilities residing on backend systems. A secure update mechanism should complement proper API and service lifecycle management. Similarly, if users are not forced to update, test older app versions against your backend and apply API versioning and deprecation policies to maintain security and stability across all supported releases.
+
+For Google Play-distributed apps running on supported devices, developers can implement enforced update flows using the Play In-App Updates API. The feature is supported on devices running Android 5.0 (API level 21) or higher, and is supported for Android mobile devices, Android tablets, and ChromeOS devices. It is not compatible with apps that use APK expansion files (`.obb` files). See the official documentation: [In-App Updates](https://developer.android.com/guide/playcore/in-app-updates "In-App Updates"). This mechanism is far more reliable than legacy methods such as scraping Play Store pages or calling undocumented endpoints, which are unstable and unsupported.
 
 ## Google Play In-App Updates API
 

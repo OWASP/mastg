@@ -4,9 +4,15 @@ platform: ios
 title: Enforced Updating
 ---
 
-Enforced updating can be useful for maintaining security when critical components such as public key pins need to be rotated or when severe vulnerabilities must be patched quickly. In these cases, requiring users to install a new version can help ensure that old, insecure builds are no longer in use.
+Forcing a user to update the application can be necessary in multiple cases:
 
-The challenge with iOS, however, is that Apple does not provide a public API to force install or silently update an App Store app. Developers must implement their own update gating mechanism, commonly by querying the App Store Lookup API, using a remotely configured minimum supported version, or both.
+* A client-side vulnerability was discovered which needs to be fixed
+* Cryptographical key material that needs to be rotated (e.g. public key pinning)
+* Migrating to a new API so that the old API can be decomissioned more quickly
+* Updating a dependency to ensure compatibility with third-party backend systems
+
+
+Apple does not provide a public API to force install or silently update an App Store app. Developers must implement their own update gating mechanism, commonly done by querying the App Store Lookup API, using a remotely configured minimum supported version, or both.
 
 The typical lookup-based approach is to query the [App Store Lookup API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html) using the app's bundle ID or numeric App Store ID:
 
