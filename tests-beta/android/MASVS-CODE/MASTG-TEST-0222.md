@@ -19,12 +19,12 @@ Since Android 5.0 (API level 21), Android requires [all dynamically linked execu
 
 ## Steps
 
-1. Use @MASTG-TECH-0007 to extract the native libraries from the app package.
-2. Use @MASTG-TECH-0115 on each shared library and grep for "pic" or the corresponding keyword used by the selected tool.
+1. Use @MASTG-TECH-0157 to extract the native libraries from the app package.
+2. Use @MASTG-TECH-0115 on each native library to obtain the compiler-provided security features.
 
 ## Observation
 
-The output should list if PIC is enabled or disabled.
+The output should show all the security features enabled for each native library, including PIC.
 
 ## Evaluation
 

@@ -14,8 +14,6 @@ In Android apps, permissions are acquired through different methods to access in
 
 ## Steps
 
-There are multiple tools that can help in finding permissions in use by an app. Refer @MASTG-TECH-0118 to and use any of the mentioned tools.
-
 1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
 2. Use @MASTG-TECH-0126 to obtain the list of declared permissions.
 

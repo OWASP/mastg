@@ -36,7 +36,7 @@ class MastgTest(private val context: Context) {
             topMargin = 24
         }
 
-        // FAIL: [MASTG-TEST-0x01] The vulnerable button performs a sensitive action (payment confirmation)
+        // FAIL: [MASTG-TEST-0358] The vulnerable button performs a sensitive action (payment confirmation)
         // without any overlay protection, making it susceptible to tapjacking attacks.
         val vulnerableButton = Button(context).apply {
             text = "Vulnerable: Confirm Payment"
@@ -46,7 +46,7 @@ class MastgTest(private val context: Context) {
         }
         layout.addView(vulnerableButton, buttonParams)
 
-        // PASS: [MASTG-TEST-0x01] The protected button uses filterTouchesWhenObscured=true to discard
+        // PASS: [MASTG-TEST-0358] The protected button uses filterTouchesWhenObscured=true to discard
         // touch events when the view is obscured by another window.
         val protectedButton = Button(context).apply {
             text = "Protected: Confirm Payment"
@@ -57,7 +57,7 @@ class MastgTest(private val context: Context) {
         }
         layout.addView(protectedButton, buttonParams)
 
-        // PASS: [MASTG-TEST-0x01] The custom protected button overrides onFilterTouchEventForSecurity
+        // PASS: [MASTG-TEST-0358] The custom protected button overrides onFilterTouchEventForSecurity
         // and checks FLAG_WINDOW_IS_OBSCURED to implement a custom security policy.
         val customProtectedButton = object : Button(context) {
             override fun onFilterTouchEventForSecurity(event: MotionEvent): Boolean {
