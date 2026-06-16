@@ -10,8 +10,6 @@ kind: fail
 <!-- Placeholder: the rest of this demo lives on the MASTG-TEST-0090 branch.
      Only the v2.1 spec sections (Exploitation, Fix) are staged here. -->
 
-## Evaluation
-
 ### Exploitation
 
 You can confirm the missing integrity check by patching the security-sensitive routine and observing that the app still runs:
