@@ -11,7 +11,11 @@ knowledge: [MASTG-KNOW-0134, MASTG-KNOW-0017, MASTG-KNOW-0020]
 
 ## Overview
 
-If an exported receiver does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/receiver-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can send a broadcast to it and invoke that functionality. See @MASTG-KNOW-0134 for details on broadcast receivers, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
+If a broadcast receiver is exported, not protected against untrusted senders, and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can send a broadcast to it and invoke that functionality from their `onReceive` method.
+
+For manifest-declared receivers, relevant manifest attributes include [`android:exported`](https://developer.android.com/guide/topics/manifest/receiver-element#exported) and [`android:permission`](https://developer.android.com/guide/topics/manifest/receiver-element#prmsn). For context-registered receivers, relevant APIs and arguments include the `Context.registerReceiver()` and `ContextCompat.registerReceiver()` overloads that set `broadcastPermission` and `flags` (especially the `RECEIVER_EXPORTED` and `RECEIVER_NOT_EXPORTED` flags).
+
+See @MASTG-KNOW-0x03 for the full list of relevant overloads and more general details on broadcast receivers.
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected broadcast receivers.
 
@@ -28,27 +32,47 @@ Suppose a banking app declares a broadcast receiver that resets the user's passw
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-3. Use @MASTG-TECH-0162 to list the exported broadcast receivers and their associated `android:permission`, including context-registered receivers found in the code.
-4. Use @MASTG-TECH-0014 to inspect the `onReceive` implementation of each exported receiver.
+3. Use @MASTG-TECH-0x03 to list manifest-declared broadcast receivers, their export status, intent filters, and associated `android:permission`.
+4. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
-The output should contain a list of exported broadcast receivers and the relevant parts of their `onReceive` implementation, including how they use data from the received intent and any permission they require.
+The output should contain all broadcast receivers from the app. For each receiver, record:
+
+1. Receiver name or class.
+2. Whether it is manifest-declared or context-registered.
+3. Accepted actions or intent filters.
+4. Export state:
+    - For manifest-declared receivers, record `android:exported`.
+    - For context-registered receivers, record `RECEIVER_EXPORTED`, `RECEIVER_NOT_EXPORTED`, or the absence of an explicit flag.
+5. Required sender permission, if any:
+    - For manifest-declared receivers, record `android:permission` and its protection level.
+    - For context-registered receivers, record `broadcastPermission` and its protection level.
+6. Its `onReceive` implementation.
 
 ## Evaluation
 
-The test case fails if any exported broadcast receiver is not protected by an appropriate `android:permission` that restricts which apps can send broadcasts to it and exposes or performs sensitive functionality, for example by performing a security-relevant action or disclosing sensitive data when it receives a broadcast.
+The test fails only if all of the following are true:
+
+1. The receiver is exported. For example, a manifest-declared receiver with `android:exported="true"` or a context-registered receiver with `RECEIVER_EXPORTED`.
+2. The receiver does not enforce strong sender protection.
+3. The receiver exposes or performs sensitive functionality.
 
 **Further Validation Required:**
 
-Inspect each exported broadcast receiver using @MASTG-TECH-0023 to determine whether it exposes sensitive functionality:
+Use the following decision flow:
 
-- Determine whether `onReceive` performs a security-relevant action or discloses sensitive data based on the received intent (for example, reading extras and using them to send a message or change state).
-- Determine whether the receiver validates the data it reads from the intent before acting on it.
+```mermaid
+flowchart TD
+    A[Broadcast receiver] --> B{Exported}
+    B -->|No| C[Pass]
+    B -->|Yes| D{Strong sender protection}
+    D -->|Yes| C
+    D -->|No| E{Sensitive functionality}
+    E -->|No| C
+    E -->|Yes| F[Fail]
+```
 
-Then determine whether external access to the receiver is appropriately restricted for the functionality it exposes and the app's intended trust boundary:
+Strong sender protection means that the receiver enforces a permission or equivalent access control appropriate for the intended sender set. Use the same protection-level criteria described in @MASTG-TEST-0364.
 
-- Determine whether the receiver has a legitimate reason to accept broadcasts from third-party apps. If it doesn't, it shouldn't be exported.
-- If external access is required, determine whether the receiver is protected by an appropriate `android:permission` or an equivalent access control. Appropriate means the control matches the sensitivity of the receiver action and the set of apps that should be allowed to send broadcasts to it.
-- Verify that the permission is effective for that trust boundary, for example by using a `signature` protection level or another control that is not broadly grantable to untrusted apps.
-- Determine whether context-registered receivers are registered with `RECEIVER_NOT_EXPORTED` when they don't need to receive broadcasts from other apps.
+Inspect each exported broadcast receiver using @MASTG-TECH-0023 to determine whether `onReceive` or any code reached from it exposes or performs sensitive functionality.
