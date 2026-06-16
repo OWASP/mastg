@@ -15,4 +15,4 @@ axt @ reloc.fixup.addScriptMessageHandler:name:
 ?e
 
 ?e Code snippet containing the bridge registration call:
-pd 10 @ 0x1eac
+pd-- 20 @ 0x1eac
