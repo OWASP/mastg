@@ -17,7 +17,7 @@ struct MastgTest {
         let config = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: config)
 
-        // FAIL: [MASTG-TEST-0x03] The app loads HTML containing <input type="password">
+        // FAIL: [MASTG-TEST-0378] The app loads HTML containing <input type="password">
         // into a WKWebView. The typed value is stored in element.value and is readable
         // by any JavaScript on the page, including XSS payloads:
         //   document.querySelector('input[type=password]').value
@@ -41,7 +41,7 @@ struct MastgTest {
             <script>
                 function submitForm() {
                     const user = document.getElementById('username').value;
-                    // FAIL: [MASTG-TEST-0x03] password value is accessible to page JavaScript
+                    // FAIL: [MASTG-TEST-0378] password value is accessible to page JavaScript
                     const pass = document.getElementById('password').value;
                     window.webkit.messageHandlers.bridge.postMessage({
                         action: 'login', username: user, password: pass

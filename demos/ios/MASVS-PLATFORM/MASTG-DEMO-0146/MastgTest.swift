@@ -56,7 +56,7 @@ class MastgTest: NSObject {
 
         presenter.present(vc, animated: true) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                // FAIL: [MASTG-TEST-0x05] The OTP is written into the DOM via textContent.
+                // FAIL: [MASTG-TEST-0380] The OTP is written into the DOM via textContent.
                 // Any page script can read it: document.getElementById('otp-display').textContent
                 webView.evaluateJavaScript(
                     "document.getElementById('otp-display').textContent = '\(MastgTest.secretOtp)'",

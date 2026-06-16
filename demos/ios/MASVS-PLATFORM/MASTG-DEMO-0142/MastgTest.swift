@@ -7,7 +7,7 @@ import WebKit
 //   window.webkit.messageHandlers.bridge.postMessage({"action": "getSecret"})
 // to invoke native code and receive a sensitive API key in response.
 
-// FAIL: [MASTG-TEST-0x01] The SecretBridgeHandler exposes sensitive native data
+// FAIL: [MASTG-TEST-0376] The SecretBridgeHandler exposes sensitive native data
 // (a stored API key) to any JavaScript running in the WebView without validating
 // the origin or the content of the incoming message.
 class SecretBridgeHandler: NSObject, WKScriptMessageHandler {
@@ -18,13 +18,13 @@ class SecretBridgeHandler: NSObject, WKScriptMessageHandler {
 
         switch action {
         case "getSecret":
-            // FAIL: [MASTG-TEST-0x01] Sensitive data (API key) is returned to JavaScript
+            // FAIL: [MASTG-TEST-0376] Sensitive data (API key) is returned to JavaScript
             // without validating the origin of the message.
             let secret = "MASTG_API_KEY=072037ab-1b7b-4b3b-8b7b-1b7b4b3b8b7b"
             let js = "window.receiveSecret('\(secret)')"
             message.webView?.evaluateJavaScript(js, completionHandler: nil)
         case "getCredentials":
-            // FAIL: [MASTG-TEST-0x01] User credentials are returned to JavaScript
+            // FAIL: [MASTG-TEST-0376] User credentials are returned to JavaScript
             // without any input validation or origin check.
             let credentials = "user=admin&pass=S3cr3t!"
             let js = "window.receiveCredentials('\(credentials)')"
@@ -46,7 +46,7 @@ struct MastgTest {
     private static func showWebView(completion: @escaping (String) -> Void) {
         let config = WKWebViewConfiguration()
 
-        // FAIL: [MASTG-TEST-0x01] A native bridge named "bridge" is registered via
+        // FAIL: [MASTG-TEST-0376] A native bridge named "bridge" is registered via
         // add(_:name:), exposing SecretBridgeHandler to any JavaScript in the WebView.
         config.userContentController.add(SecretBridgeHandler(), name: "bridge")
 

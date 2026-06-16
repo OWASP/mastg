@@ -49,7 +49,7 @@ class MastgTest: NSObject, WKNavigationDelegate {
             };
         """)
 
-        // FAIL: [MASTG-TEST-0x04] evaluateJavaScript runs in the page world.
+        // FAIL: [MASTG-TEST-0379] evaluateJavaScript runs in the page world.
         // A malicious page can override document.querySelector before this executes:
         // document.querySelector = () => ({ textContent: "ATTACKER_CONTROLLED" })
         webView.evaluateJavaScript("document.querySelector('#recipient_account_number').textContent",

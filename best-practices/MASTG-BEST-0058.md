@@ -1,7 +1,7 @@
 ---
 title: Restrict Native Functionality Exposed Through WebView Bridges
 alias: restrict-native-functionality-exposed-through-webview-bridges
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0058
 platform: ios
 knowledge: [MASTG-KNOW-0076]
 ---

@@ -2,8 +2,8 @@
 platform: ios
 title: DOM Inspection Using evaluateJavaScript Without Content World Isolation
 code: [swift]
-id: MASTG-DEMO-0x04
-test: MASTG-TEST-0x04
+id: MASTG-DEMO-0145
+test: MASTG-TEST-0379
 kind: fail
 ---
 

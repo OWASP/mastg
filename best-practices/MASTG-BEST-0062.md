@@ -1,10 +1,10 @@
 ---
 title: Use WKScriptMessageHandlerWithReply to Return Data to JavaScript
 alias: use-wkscriptmessagehandlerwithreply-to-return-data-to-javascript
-id: MASTG-BEST-0x05
+id: MASTG-BEST-0062
 platform: ios
 available_since: 14
-knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]
 ---
 
 When a native bridge handler needs to return data to JavaScript, the common pattern of calling [`evaluateJavaScript:completionHandler:`](https://developer.apple.com/documentation/webkit/wkwebview/evaluatejavascript(_:completionhandler:)) with a callback string such as `window.receiveData(...)` injects the return value into the page's JavaScript context. Any page script can override that global function before the handler fires it and intercept the returned data.

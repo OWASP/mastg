@@ -2,8 +2,8 @@
 platform: ios
 title: Sensitive Data and Functionality Exposed Through a WKWebView Native Bridge
 code: [swift]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0142
+test: MASTG-TEST-0376
 kind: fail
 ---
 

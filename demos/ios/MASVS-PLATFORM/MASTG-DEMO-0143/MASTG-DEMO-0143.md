@@ -2,14 +2,14 @@
 platform: ios
 title: Sensitive Data Returned to Page JavaScript via evaluateJavaScript in a WKScriptMessageHandler
 code: [swift]
-id: MASTG-DEMO-0x02
-test: MASTG-TEST-0x02
+id: MASTG-DEMO-0143
+test: MASTG-TEST-0377
 kind: fail
 ---
 
 ## Sample
 
-This sample reuses the same vulnerable `WKWebView` setup from @MASTG-DEMO-0x01. The `SecretBridgeHandler` implementation handles two bridge actions (`getSecret` and `getCredentials`) and returns sensitive native data to JavaScript by calling `evaluateJavaScript:completionHandler:`, injecting the data directly into the page's JavaScript context via a global callback function.
+This sample reuses the same vulnerable `WKWebView` setup from @MASTG-DEMO-0142. The `SecretBridgeHandler` implementation handles two bridge actions (`getSecret` and `getCredentials`) and returns sensitive native data to JavaScript by calling `evaluateJavaScript:completionHandler:`, injecting the data directly into the page's JavaScript context via a global callback function.
 
 Any JavaScript running in the page can override those callback functions before the native handler fires them:
 
@@ -22,7 +22,7 @@ window.receiveSecret = function(secret) {
 window.webkit.messageHandlers.bridge.postMessage({action: 'getSecret'});
 ```
 
-{{ ../MASTG-DEMO-0x01/MastgTest.swift }}
+{{ ../MASTG-DEMO-0142/MastgTest.swift }}
 
 ## Steps
 
@@ -46,4 +46,4 @@ Both xrefs point to `sym.MASTestApp.SecretBridgeHandler.userContentController.al
 1. The `getSecret` case loads the hardcoded API key `"MASTG_API_KEY=072037ab-..."` (at `0x00001514`) and the JavaScript template `"window.receiveSecret('"` (at `0x0000156c`), interpolates them into a single script string, and dispatches it via the `evaluateJavaScript:completionHandler:` selector at `0x00001698`.
 2. The `getCredentials` case loads the credentials `"user=admin&pass=S3cr3t!"` (at `0x00001768`) and the JavaScript template `"window.receiveCredentials('"` (at `0x000017c0`), interpolates them, and dispatches the result via the same selector at `0x000018ec`.
 
-Because `receiveSecret` and `receiveCredentials` are plain global functions defined in the page context, any JavaScript running on the page can override them before the native handler fires, intercepting the sensitive values on their way back from native code. Refer to @MASTG-BEST-0x05 for the recommended alternative.
+Because `receiveSecret` and `receiveCredentials` are plain global functions defined in the page context, any JavaScript running on the page can override them before the native handler fires, intercepting the sensitive values on their way back from native code. Refer to @MASTG-BEST-0062 for the recommended alternative.

@@ -1,12 +1,12 @@
 ---
 platform: ios
 title: References to `evaluateJavaScript` Writing Sensitive Data into WebView DOM
-id: MASTG-TEST-0x05
+id: MASTG-TEST-0380
 type: [static, code, manual]
 weakness: MASWE-0069
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0059]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]
 ---
 
 ## Overview

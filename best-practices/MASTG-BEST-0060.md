@@ -1,9 +1,9 @@
 ---
 title: Use Native Views for Sensitive Text Entry Over a WebView
 alias: use-native-views-for-sensitive-text-entry-over-webview
-id: MASTG-BEST-0x03
+id: MASTG-BEST-0060
 platform: ios
-knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]
 ---
 
 When a `WKWebView` contains an HTML `<input type="password">` or any sensitive text field, the typed value is stored in the element's `.value` property. Any JavaScript running on the page, including injected XSS payloads, can read it with `document.querySelector('input[type=password]').value`. The page does not need a native bridge to do this.
@@ -12,7 +12,7 @@ The safer approach is to intercept user focus on the sensitive field before any 
 
 ## Detect Focus with an Isolated Script
 
-Use a `WKUserScript` registered in a custom [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld) (@MASTG-KNOW-0x01) to listen for focus events on sensitive inputs. The script runs in an isolated world, so page JavaScript cannot override it or the bridge it uses:
+Use a `WKUserScript` registered in a custom [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld) (@MASTG-KNOW-0139) to listen for focus events on sensitive inputs. The script runs in an isolated world, so page JavaScript cannot override it or the bridge it uses:
 
 ```swift
 let appWorld = WKContentWorld.world(withName: "AppWorld")

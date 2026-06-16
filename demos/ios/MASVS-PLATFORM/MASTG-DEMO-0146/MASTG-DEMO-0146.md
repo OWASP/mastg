@@ -2,8 +2,8 @@
 platform: ios
 title: Sensitive Data Written into WebView DOM via evaluateJavaScript
 code: [swift]
-id: MASTG-DEMO-0x05
-test: MASTG-TEST-0x05
+id: MASTG-DEMO-0146
+test: MASTG-TEST-0380
 kind: fail
 ---
 

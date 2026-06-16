@@ -1,12 +1,12 @@
 ---
 platform: ios
 title: References to Password Fields in WebView-Loaded HTML
-id: MASTG-TEST-0x03
+id: MASTG-TEST-0378
 type: [static, code, manual]
 weakness: MASWE-0069
-best-practices: [MASTG-BEST-0x02, MASTG-BEST-0x03]
+best-practices: [MASTG-BEST-0059, MASTG-BEST-0060]
 profiles: [L1, L2]
-knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]
 ---
 
 ## Overview
