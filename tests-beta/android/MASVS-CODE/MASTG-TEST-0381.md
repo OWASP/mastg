@@ -1,7 +1,7 @@
 ---
 platform: android
 title: References to Enforced Updating APIs
-id: MASTG-TEST-0x80
+id: MASTG-TEST-0381
 type: [static, code, manual]
 weakness: MASWE-0075
 profiles: [L2]

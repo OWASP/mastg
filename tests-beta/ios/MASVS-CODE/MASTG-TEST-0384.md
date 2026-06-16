@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Runtime Use of Enforced Updating APIs
-id: MASTG-TEST-0x04
+id: MASTG-TEST-0384
 type: [dynamic, network, hooks, manual]
 weakness: MASWE-0075
 profiles: [L2]
