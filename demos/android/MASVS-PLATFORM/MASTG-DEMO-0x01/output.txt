@@ -1,36 +1,18 @@
+                   
+                   
 ┌─────────────────┐
-│ 4 Code Findings │
+│ 3 Code Findings │
 └─────────────────┘
                            
     MastgTest_reversed.java
     ❯❱ rules.mastg-android-pendingintent-mutable
-          [MASVS-PLATFORM-1] PendingIntent created without FLAG_IMMUTABLE or using implicit intent may be
-          vulnerable to hijacking.                                                                       
-                                                                                                         
-           26┆ PendingIntent mutablePendingIntent = PendingIntent.getActivity(
-           27┆     this.context,
-           28┆     0,
-           29┆     implicitIntent,
-           30┆     134217728  // FLAG_UPDATE_CURRENT - Missing FLAG_IMMUTABLE
-           31┆ );
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-1] PendingIntent created without FLAG_IMMUTABLE or with FLAG_MUTABLE may be
+          vulnerable to hijacking.                                                                   
+                                                                                                     
+           25┆ PendingIntent.getActivity(this.context, 0, implicitIntent, 134217728);
             ⋮┆----------------------------------------
-           36┆ PendingIntent explicitMutablePendingIntent = PendingIntent.getService(
-           37┆     this.context,
-           38┆     1,
-           39┆     explicitMutableIntent,
-           40┆     33554432  // FLAG_MUTABLE
-           41┆ );
+           28┆ PendingIntent.getService(this.context, 1, explicitMutableIntent, 33554432);
             ⋮┆----------------------------------------
-           46┆ PendingIntent broadcastPendingIntent = PendingIntent.getBroadcast(
-           47┆     this.context,
-           48┆     2,
-           49┆     broadcastIntent,
-           50┆     0  // No flags - mutable by default on API < 31
-           51┆ );
-            ⋮┆----------------------------------------
-           57┆ PendingIntent securePendingIntent = PendingIntent.getActivity(
-           58┆     this.context,
-           59┆     3,
-           60┆     secureIntent,
-           61┆     67108864  // FLAG_IMMUTABLE
-           62┆ );
+           31┆ PendingIntent.getBroadcast(this.context, 2, broadcastIntent, 0);
+
