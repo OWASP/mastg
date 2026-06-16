@@ -43,19 +43,7 @@ let key = SymmetricKey(size: .bits256)
 // Store key in Keychain using SecItemAdd with kSecAttrAccessible = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
 ```
 
-## What Qualifies as Security-Relevant
-
-Apply integrity and authenticity validation to data that influences:
-
-- Authentication or session state (for example, stored tokens or role flags).
-- Authorization or feature access (for example, premium feature flags, user role, access level).
-- Configuration affecting security behavior (for example, certificate pinning settings, allowed domains).
-- Trust decisions (for example, whether a server certificate was previously accepted).
-
-Data used only for UI preferences or non-sensitive settings does not require this level of protection.
-
 ## Caveats
 
 Hardcoding the HMAC key in the app binary undermines this protection. An attacker who recovers the key through reverse engineering can compute a valid HMAC for any forged value. Always store the key in the Keychain and consider binding it to device-specific attributes.
 
-See [Protecting user privacy](https://developer.apple.com/documentation/uikit/protecting-user-privacy) and [Storing Keys in the Keychain](https://developer.apple.com/documentation/security/storing-keys-in-the-keychain) in Apple's developer documentation.
