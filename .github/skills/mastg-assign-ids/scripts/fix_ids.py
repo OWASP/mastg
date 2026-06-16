@@ -49,8 +49,11 @@ def main():
     })
 
     for path in files:
-        with open(path) as f:
-            text = f.read()
+        try:
+            with open(path, encoding="utf-8") as f:
+                text = f.read()
+        except (UnicodeDecodeError, IsADirectoryError):
+            continue
         updated = text
         for old, new_id in replacements:
             updated = updated.replace(old, new_id)
