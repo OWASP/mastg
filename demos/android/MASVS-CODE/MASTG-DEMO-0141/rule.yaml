@@ -1,0 +1,9 @@
+rules:
+  - id: android-exported-content-provider
+    severity: WARNING
+    languages:
+      - xml
+    metadata:
+      summary: Detects an exported ContentProvider in the AndroidManifest.xml.
+    message: "[MASVS-CODE-4] ContentProvider is exported. External apps can query it and receive attacker-controlled data."
+    pattern: '<provider ... android:exported="true" ... />'

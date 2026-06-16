@@ -1,0 +1,30 @@
+rules:
+  - id: android-implicit-intent-internal-communication
+    patterns:
+      - pattern: |
+          $INTENT = new Intent(...);
+          ...
+          $INTENT.setAction($ACTION);
+          ...
+          $CONTEXT.startActivity($INTENT);
+      - pattern-not: |
+          $INTENT = new Intent(...);
+          ...
+          $INTENT.setPackage(...);
+          ...
+          $CONTEXT.startActivity($INTENT);
+      - pattern-not: |
+          $INTENT = new Intent(...);
+          ...
+          $INTENT.setComponent(...);
+          ...
+          $CONTEXT.startActivity($INTENT);
+      - pattern-not: |
+          $INTENT = new Intent($CONTEXT, $CLASS);
+          ...
+          $CONTEXT.startActivity($INTENT);
+    message: "[MASVS-CODE-4] The app uses an implicit intent for internal component communication. Use explicit intents by specifying the package or component."
+    languages: [java]
+    severity: WARNING
+    metadata:
+      summary: Detects implicit intents used for internal component communication without specifying a package or component.

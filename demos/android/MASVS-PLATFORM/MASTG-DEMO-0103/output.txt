@@ -1,0 +1,25 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-overlay-protection-setfiltertoucheswhenobscured
+          [MASVS-PLATFORM-3] setFilterTouchesWhenObscured is used to protect against overlay attacks
+                                                                                                    
+           54┆ $this$mastgTest_u24lambda_u245.setFilterTouchesWhenObscured(true);
+   
+     ❱ rules.mastg-android-overlay-protection-onfiltertoucheventforsecurity
+          [MASVS-PLATFORM-3] onFilterTouchEventForSecurity is overridden for custom overlay protection
+                                                                                                      
+           64┆ @Override // android.view.View
+           65┆ public boolean onFilterTouchEventForSecurity(MotionEvent event) {
+           66┆     Intrinsics.checkNotNullParameter(event, "event");
+           67┆     if ((event.getFlags() & 1) != 0) {
+           68┆         Toast.makeText(getContext(), "Blocked obscured touch", 0).show();
+           69┆         return false;
+           70┆     }
+           71┆     return super.onFilterTouchEventForSecurity(event);
+           72┆ }
+

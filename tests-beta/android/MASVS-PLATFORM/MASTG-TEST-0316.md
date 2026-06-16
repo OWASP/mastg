@@ -2,7 +2,7 @@
 platform: android
 title: App Exposing User Authentication Data in Text Input Fields
 id: MASTG-TEST-0316
-type: [static, manual]
+type: [static, code, manual]
 weakness: MASWE-0053
 profiles: [L2]
 ---
@@ -38,8 +38,7 @@ SecureTextField(
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for references to the text field classes and text obfuscation APIs.
-3. Manually evaluate and shortlist the fields for access or verification codes usage.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -52,5 +51,10 @@ The test case fails if any text input field used for access or verification code
 - `TextField` is used
 - `SecureTextField` is used but configured with `TextObfuscationMode.Visible`
 
-!!! note
-    This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).
+**Further Validation Required:**
+
+Since determining which fields handle access or verification codes is context-dependent, inspect each reported code location using @MASTG-TECH-0023 to determine whether the field handles sensitive data and whether it is properly masked.
+
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).

@@ -6,39 +6,50 @@ platform: ios
 knowledge: [MASTG-KNOW-0101]
 ---
 
-You should avoid using insecure logging mechanisms like `print` or [`NSLog`](https://developer.apple.com/documentation/foundation/nslog). These APIs can expose sensitive runtime data to system logs, which an attacker with device access may retrieve. Instead, you should adopt [Apple's Unified Logging system](https://developer.apple.com/documentation/os/logging) (`Logger` in Swift, `os_log` in Objective-C), available from iOS 10.0 and later.
+When logging information, it's crucial to protect sensitive values and avoid exposing unnecessary implementation details.
 
-If you rely on `print` or `NSLog`:
+## Keep Production Logs Minimal
 
-- Your logs may end up in system diagnostics and remain accessible to attackers.
-- Debuggers or jailbroken devices can capture verbose log messages.
-- There is a risk of exposing tokens, passwords, or PII.
+Use logging only for operational events that are necessary for support and monitoring. Production logs should be limited to high-level, non-sensitive events that are useful for monitoring and support. Good examples include a generic authentication failure, a network timeout, or an unexpected state transition.
 
-## Use Unified Logging Features
+In particular, avoid logging:
 
-Switching to Unified Logging gives you structured, privacy-aware logging that is safer for production environments. Here are the main features you can use when adopting [`Logger`](https://developer.apple.com/documentation/os/logger) (Swift) or [`os_log`](https://developer.apple.com/documentation/os/os_log) (Objective-C):
+- full request or response headers and bodies.
+- authentication tokens, cookies, session identifiers, or API keys.
+- usernames, email addresses, or other personal data unless strictly necessary and appropriately protected.
+- full error objects, diagnostic context, attached metadata, nested causes, or stack traces.
+- backend hostnames, staging endpoints, feature flags, or internal module and class names.
+- certificate validation behavior, SSL pinning status, retry logic, or other network security details.
+
+## Use Logging APIs with Privacy Controls
+
+When logging is required, prefer the APIs that use [Apple's Unified Logging system](https://developer.apple.com/documentation/os/logging): [`Logger`](https://developer.apple.com/documentation/os/logger) in Swift or [`os_log`](https://developer.apple.com/documentation/os/os_log) in Objective-C. Avoid ad hoc logging through `print`, `NSLog`, or third-party SDKs that do not support structured logging and privacy controls.
 
 ### Privacy Modifiers
 
-When logging information, it's crucial to protect sensitive data such as personal identifiers, authentication tokens, or secrets. Apple's unified logging system provides [privacy modifiers](https://developer.apple.com/documentation/os/oslogprivacy) that let you control how data appears in logs.
+Apple's Unified Logging system provides [privacy modifiers](https://developer.apple.com/documentation/os/oslogprivacy) that let you control how data appears in logs.
 
-- **`.public`**: Explicitly marks the value as safe to display in all logs. Use this only for **non-sensitive debug information**.
-- **`.private`**: Redacts the value in persistent logs but still shows it in memory while debugging (e.g., PII, secrets, tokens, and sensitive data).
-- **`.private(mask:)`**: Allows you to preserve data correlation. For example, applying a hash mask enables identifying repeated values across logs without exposing the raw data.
-- **`.sensitive`**: Behaves identically to `.private`, but remains redacted even if private data logging is globally enabled.
+- **`.private`** redacts the value in persistent logs while still allowing debugging workflows.
+- **`.private(mask:)`** can preserve limited correlation, for example by hashing a value without exposing the original.
+- **`.sensitive`** behaves like `.private`, but remains redacted even when private data logging is enabled.
+- **`.public` (not recommended)** explicitly marks a value as safe to display in logs. Use this only for non-sensitive operational information.
+
+Privacy modifiers help protect individual values, but they do not make verbose logging safe by themselves. The principle of minimal logging still applies.
 
 ### Log Levels
 
-Unified logging supports multiple [log levels](https://developer.apple.com/documentation/os/oslogtype) to help you categorize and prioritize messages based on their importance and severity. By assigning the appropriate log level, you can control which messages appear in production, aid in debugging, and quickly identify critical issues that require attention.
+Apple's Unified Logging system supports multiple [log levels](https://developer.apple.com/documentation/os/oslogtype) so you can categorize messages by importance and severity.
 
-- **`debug`**: Used for detailed debugging information.
-- **`info`**: Used for general operational messages.
-- **`error`**: Used when something goes wrong, but the app can continue.
-- **`fault`**: Used for serious issues that require immediate attention (e.g., crashes, corruption).
+- **`debug`** for detailed debugging information.
+- **`info`** for general operational messages.
+- **`error`** for failures the app can recover from.
+- **`fault`** for serious failures that require immediate attention.
 
-## Use Macros to Disable Logging in Production
+Use these levels carefully. Higher quality logging is not about emitting more detail, it is about emitting only the detail that is appropriate for the environment. In production, avoid using log levels as a reason to include sensitive values or internal implementation details.
 
-To ensure maximum security, the safest approach is to completely remove these logging calls from the app. Below is sample code that demonstrates how to eliminate logging APIs from your application during compilation.
+## Use Macros or Build Flags to Disable Verbose Logging in Production
+
+To reduce risk, verbose diagnostics should be compiled out of release builds whenever possible. This is especially important for `print`, `NSLog`, and ad hoc debugging statements.
 
 ### 1. Swift
 
@@ -51,11 +62,11 @@ print("Hello world")
 ### 2. Objective-C
 
 ```objectivec
-#ifdef DEBUG 
-# define NSLog (...) NSLog(__VA_ARGS__) 
-#else 
-# define NSLog (...) 
+#ifdef DEBUG
+# define NSLog(...) NSLog(__VA_ARGS__)
+#else
+# define NSLog(...)
 #endif
 ```
 
-Then you need to set `DEBUG` flag in `Apple Clang - Preprocessing > Preprocessor Macros` for the development builds.
+Then set the `DEBUG` flag in **Apple Clang - Preprocessing > Preprocessor Macros** for development builds only.
