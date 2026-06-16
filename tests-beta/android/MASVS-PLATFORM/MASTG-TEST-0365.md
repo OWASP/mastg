@@ -15,15 +15,6 @@ If an exported service does not define [`android:permission`](https://developer.
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected services.
 
-**Example Attack Scenario:**
-
-Suppose a password-manager app uses a bound service with a `Messenger` interface to change the master password, and the service is exported with no `android:permission`.
-
-1. An attacker reverse engineers the app and identifies the exported service and the message format it expects (see @MASTG-TECH-0161).
-2. The attacker writes a malicious app that binds to the service and sends a message that sets a new master password.
-3. The service processes the request without verifying the caller, so it resets the password.
-4. The attacker now controls the victim's master password and can unlock the password vault.
-
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.

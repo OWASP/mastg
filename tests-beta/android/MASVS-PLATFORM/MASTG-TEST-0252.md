@@ -25,15 +25,6 @@ Even though these methods have secure defaults and are **deprecated in Android 1
 
 Refer to [Android WebView Local File Access Settings](../../../Document/0x05h-Testing-Platform-Interaction.md#webview-local-file-access-settings) for more information on these methods (default values, deprecation status, security implications), the specific files that can be accessed, and the conditions under which they can be accessed.
 
-**Example Attack Scenario**:
-
-Suppose a banking app uses a WebView to display dynamic content, and the developers have enabled all three insecure settings. Additionally, JavaScript is enabled in the WebView.
-
-1. An attacker injects a malicious HTML file into the device (via phishing or another exploit) into a location that the attacker _knows_ the WebView will access it from (e.g. thanks to reverse engineering). For example, an HTML file is used to display the app's terms and conditions.
-2. The WebView can load the malicious file because of `setAllowFileAccess(true)`.
-3. Thanks to `setJavaScriptEnabled(true)` and `setAllowFileAccessFromFileURLs(true)`, the JavaScript in the malicious file (running in a `file://` context) is able to access other local files using `file://` URLs.
-4. The attacker-controlled script exfiltrates sensitive data from the device to an external server.
-
 **Note 1**: Either `setAllowFileAccessFromFileURLs` or `setAllowUniversalAccessFromFileURLs` must be set to `true` for the attack to work. If both settings are set to `false`, the following error will appear in `logcat`:
 
 ```bash
