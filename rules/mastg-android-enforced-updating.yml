@@ -1,0 +1,12 @@
+rules:
+  - id: mastg-android-enforced-updating
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule detects usage of Play Core's immediate in-app update API
+    message: "[MASVS-CODE-2] Immediate in-app update flow usage detected"
+    patterns:
+      - pattern-either:
+          - pattern: $OBJ.startUpdateFlowForResult($INFO, $LAUNCHER,
+              AppUpdateOptions.newBuilder(1).build())
