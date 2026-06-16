@@ -1,0 +1,23 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+     ❱ rules.mastg-android-declared-permission-level
+          [MASVS-PLATFORM] Declared permission. permission=org.owasp.mastestapp.ADMIN_COMMAND_PERMISSION
+          level=signature                                                                               
+                                                                                                        
+           14┆ <permission
+           15┆     android:name="org.owasp.mastestapp.ADMIN_COMMAND_PERMISSION"
+           16┆     android:protectionLevel="signature"/>
+            ⋮┆----------------------------------------
+     ❱ rules.mastg-android-declared-permission-level
+          [MASVS-PLATFORM] Declared permission.                                                   
+          permission=org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION level=signature
+                                                                                                  
+           17┆ <permission
+           18┆     android:name="org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+           19┆     android:protectionLevel="signature"/>
+
