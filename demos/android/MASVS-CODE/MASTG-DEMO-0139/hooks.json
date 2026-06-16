@@ -1,0 +1,24 @@
+{
+  "category": "CODE",
+  "hooks": [
+    {
+      "class": "java.io.File",
+      "method": "$init",
+      "overloads": [
+        {
+          "args": ["java.io.File", "java.lang.String"]
+        }
+      ]
+    },
+    {
+      "class": "java.io.FileOutputStream",
+      "method": "$init",
+      "overloads": [
+        {
+          "args": ["java.io.File"]
+        }
+      ],
+      "filterEventsByStacktrace": ["org.owasp.mastestapp.VulnerableActivity"]
+    }
+  ]
+}
