@@ -18,4 +18,4 @@ ii~dladdr
 ii~CC_
 
 ?e
-?e (No matches under the integrity APIs means none are referenced by the app.)
+?e (Any integrity APIs listed above are referenced only by an unrelated routine and are not used to verify the license check.)

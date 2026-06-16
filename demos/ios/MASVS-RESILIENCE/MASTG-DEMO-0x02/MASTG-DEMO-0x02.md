@@ -24,10 +24,10 @@ The sample writes a sensitive value to a file in the app's Documents directory a
 
 ## Observation
 
-The output shows that the import table references the hash function `CC_SHA256`, but it belongs to an unrelated routine and is never used to protect the stored data; there are no references to file storage integrity APIs such as `CCHmac` or `SecKeyCreateSignature` guarding the file. As a result, the app reads its stored data back without verifying any HMAC or signature over it.
+The output shows that the app stores data in a file (`user_profile.json`) but contains no references to file storage integrity APIs such as `CCHmac`, `CC_SHA256`, `CC_SHA512`, or `SecKeyCreateSignature`.
 
 {{ output.asm }}
 
 ## Evaluation
 
-The test case fails because the app stores sensitive data on the device but never computes or verifies an HMAC or signature over it before reading it back. Although the import table references `CC_SHA256`, it is only used by an unrelated routine and is never wired into the read/write path of the stored file, so the app cannot detect if that data has been tampered with.
+The test case fails because the app stores sensitive data on the device but never computes or verifies an HMAC or signature over it. The import table contains no file storage integrity APIs, so the app cannot detect if the stored data has been tampered with before reading it back.

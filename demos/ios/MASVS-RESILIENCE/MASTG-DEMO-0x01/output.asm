@@ -10,4 +10,4 @@ Binary base address resolution (dladdr):
 Cryptographic hash functions over code (CC_MD5 / CC_SHA256 / CC_SHA512):
 179 0x1000086d4 NONE FUNC               CC_SHA256
 
-(No matches under the integrity APIs means none are referenced by the app.)
+(Any integrity APIs listed above are referenced only by an unrelated routine and are not used to verify the license check.)
