@@ -8,7 +8,7 @@ Forcing a user to update the application can be necessary in multiple cases:
 
 - A client-side vulnerability was discovered which needs to be fixed
 - Cryptographical key material that needs to be rotated (e.g. public key pinning)
-- Migrating to a new API so that the old API can be decomissioned more quickly
+- Migrating to a new API so that the old API can be decommissioned more quickly
 - Updating a dependency to ensure compatibility with third-party backend systems
 
 Apple does not provide a public API to force install or silently update an App Store app. Developers must implement their own update gating mechanism, commonly done by querying the App Store Lookup API, using a remotely configured minimum supported version, or both.
