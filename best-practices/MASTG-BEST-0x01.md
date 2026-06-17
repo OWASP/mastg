@@ -39,11 +39,11 @@ If you need more control, implement pinning in the [`URLSessionDelegate`](https:
 
 ## Caveats and Considerations
 
-- **Pin to a CA public key, not a leaf certificate** when possible. Leaf certificates rotate frequently; CA public keys are more stable, avoiding forced app updates on every certificate renewal.
+- **Pin to an intermediate public key, not a leaf certificate** when possible. Leaf certificates rotate frequently; intermediate public keys are more stable, avoiding forced app updates on every certificate renewal.
 - **Always include a backup pin** (a second CA or leaf key) to ensure connectivity if the primary certificate is replaced unexpectedly. Without a backup, a certificate rotation could render the app unable to connect.
 - **Manage pin rotation carefully.** Unlike Android's Network Security Configuration, `NSPinnedDomains` doesn't support expiration dates. Plan certificate rotation before pins become stale.
 - **Pinning doesn't replace proper TLS configuration.** Ensure the server is using strong cipher suites, up-to-date TLS versions, and valid certificates from trusted CAs.
-- **Pinning can be bypassed** on jailbroken devices or via tools such as [SSL Kill Switch 2](https://github.com/nabla-c0d3/ssl-kill-switch2), and by reverse-engineering and repackaging the app. Complement pinning with other controls such as jailbreak detection and app integrity checks for high-risk scenarios.
+- **Pinning can be bypassed** on jailbroken devices or via tools such as [SSL Kill Switch 2](https://github.com/nabla-c0d3/ssl-kill-switch2), and by reverse-engineering and repackaging the app. Notably, declarative system pinning (like iOS ATS) is highly vulnerable to generic, single-tweak bypasses because it relies on system libraries. Implementing certificate checks directly inside your code eliminates these universal bypasses, forcing attackers to manually reverse-engineer your specific app. Complement pinning with other controls such as jailbreak detection and app integrity checks for high-risk scenarios.
 - **Cross-platform and third-party frameworks** may use their own network stacks that bypass ATS and `NSPinnedDomains` entirely. Verify that pinning is enforced at the framework level (for example, Dart's `HttpClient` for Flutter).
 
 ## References
