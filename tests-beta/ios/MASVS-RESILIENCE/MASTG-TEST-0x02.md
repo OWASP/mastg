@@ -2,6 +2,7 @@
 platform: ios
 title: References to File Storage Integrity Check APIs
 id: MASTG-TEST-0x02
+apis: [CCHmac, CCHmacFinal, CC_SHA256, CC_SHA512, SecKeyCreateSignature]
 type: [static, code, manual]
 weakness: MASWE-0105
 false_negative_prone: true
@@ -14,7 +15,7 @@ best-practices: [MASTG-BEST-0x01]
 
 iOS apps can protect the integrity of data they store on the device (e.g., files in the Documents directory, `UserDefaults`/`NSUserDefaults`, or databases) by computing an HMAC or a digital signature over the data and verifying it before use (see @MASTG-KNOW-0086). If the app does not implement such checks, an attacker who modifies stored data can go undetected.
 
-This test verifies that the app references APIs commonly used to implement file storage integrity checks, such as `CCHmac` (HMAC via CommonCrypto), `CC_SHA256`, `CC_SHA512`, or [`SecKeyCreateSignature`](https://developer.apple.com/documentation/security/seckeycreatesignature(_:_:_:_:)) (asymmetric signing).
+This test verifies that the app references APIs commonly used to implement file storage integrity checks, such as `CCHmac`, `CCHmacFinal` (HMAC via CommonCrypto), `CC_SHA256`, `CC_SHA512`, or [`SecKeyCreateSignature`](https://developer.apple.com/documentation/security/seckeycreatesignature(_:_:_:_:)) (asymmetric signing).
 
 **Example Attack Scenario:**
 
@@ -32,11 +33,11 @@ Suppose an app stores a usage counter or entitlement flag in `UserDefaults` and 
 
 ## Observation
 
-The output should include any references to file storage integrity check APIs such as `CCHmac`, `CCHmacFinal`, `CC_SHA256`, `CC_SHA512`, or `SecKeyCreateSignature`.
+The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test case fails if the app contains no references to file storage integrity check APIs.
+The test case fails if the app stores sensitive data locally (in files, `UserDefaults`/`NSUserDefaults`, or databases) in use cases that are not covered by a corresponding file storage integrity check.
 
 **Further Validation Required:**
 
