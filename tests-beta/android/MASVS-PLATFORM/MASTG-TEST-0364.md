@@ -3,7 +3,7 @@ platform: android
 title: Exported And Unprotected Activities That Expose Sensitive Functionality
 id: MASTG-TEST-0364
 type: [static, config, code, manual]
-weakness: MASWE-0x01
+weakness: MASWE-0119
 best-practices: [MASTG-BEST-0052]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0132, MASTG-KNOW-0017, MASTG-KNOW-0020]
