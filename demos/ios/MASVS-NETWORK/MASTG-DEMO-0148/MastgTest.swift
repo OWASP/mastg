@@ -6,13 +6,13 @@ struct MastgTest {
     // app's own backend (example.com) is not pinned at all. The connections themselves always succeed;
     // whether each domain is actually protected depends on the NSPinnedDomains configuration in Info.plist.
 
-    // PASS: [MASTG-TEST-0x01] A first-party domain that is pinned via NSPinnedDomains.
+    // PASS: [MASTG-TEST-0385] A first-party domain that is pinned via NSPinnedDomains.
     static let pinnedEndpoint = "https://sha256.badssl.com/"
 
-    // PASS: [MASTG-TEST-0x01] Another first-party domain that is pinned via NSPinnedDomains.
+    // PASS: [MASTG-TEST-0385] Another first-party domain that is pinned via NSPinnedDomains.
     static let secondPinnedEndpoint = "https://rsa2048.badssl.com/"
 
-    // FAIL: [MASTG-TEST-0x01] The app's own backend. It is a relevant first-party domain that should be pinned but isn't.
+    // FAIL: [MASTG-TEST-0385] The app's own backend. It is a relevant first-party domain that should be pinned but isn't.
     static let developerEndpoint = "https://example.com/"
 
     static func mastgTest(completion: @escaping (String) -> Void) {
