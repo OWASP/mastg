@@ -1,0 +1,30 @@
+
+┌──────────────────┐
+│ 6 Code Findings  │
+└──────────────────┘
+
+    MastgTest_reversed.java
+     ❱ mastg-android-local-storage-integrity-validation-hmac-check
+          [MASVS-RESILIENCE-2] HMAC or MAC related integrity logic detected. Review whether it
+          protects the reported file read and whether the HMAC secret is attacker-accessible
+          (hardcoded constant vs Keystore-held).
+
+           60┆ boolean valid = MessageDigest.isEqual(
+            ⋮┆----------------------------------------
+           78┆ Mac mac = Mac.getInstance(HMAC_ALGORITHM);
+            ⋮┆----------------------------------------
+           95┆ KeyGenerator kg = KeyGenerator.getInstance(
+           96┆                 KeyProperties.KEY_ALGORITHM_HMAC_SHA256,
+
+     ❯❱ mastg-android-local-storage-integrity-validation-input-read
+          [MASVS-RESILIENCE-2] Local file content loaded from app private storage. Review whether
+          integrity and authenticity are validated (e.g. HMAC over the bytes with a Keystore-held
+          key) before the file is trusted.
+
+           56┆ byte[] payload = FilesKt.readBytes(roleFile);
+            ⋮┆----------------------------------------
+           57┆ String stored = StringsKt.trim(FilesKt.readText(hmacFile, StandardCharsets.UTF_8)).toString();
+            ⋮┆----------------------------------------
+           68┆ + "user_role.dat : " + StringsKt.trim(FilesKt.readText(roleFile, StandardCharsets.UTF_8)) + "\n"
+
+Ran 1 rule file containing 2 rules on 1 file: 6 findings.

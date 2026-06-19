@@ -1,0 +1,12 @@
+rules:
+  - id: mastg-android-hmac-validation-present
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detects HMAC / MAC integrity logic over loaded file content.
+    message: "[MASVS-RESILIENCE-2] HMAC or MAC related integrity logic detected. Review whether it protects the reported file read and whether the HMAC secret is attacker-accessible (hardcoded constant vs Keystore-held)."
+    pattern-either:
+      - pattern: Mac.getInstance("HmacSHA256")
+      - pattern: new SecretKeySpec($KEY, "HmacSHA256")
+      - pattern: KeyProperties.KEY_ALGORITHM_HMAC_SHA256
+      - pattern: MessageDigest.isEqual($A, $B)
