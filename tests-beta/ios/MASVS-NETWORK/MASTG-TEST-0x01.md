@@ -12,7 +12,7 @@ knowledge: [MASTG-KNOW-0072]
 
 ## Overview
 
-iOS apps can configure certificate pinning via App Transport Security (ATS) by declaring expected CA or leaf certificate public key hashes in the `Info.plist` file under the [`NSPinnedDomains`](https://developer.apple.com/documentation/bundleresources/information-property-list/nsapptransportsecurity/nspinneddomains) key. This is Apple's declarative approach for enforcing certificate pinning for connections made through the URL Loading System, such as `URLSession`.
+iOS apps can configure certificate pinning via App Transport Security (ATS) by declaring expected CA or leaf certificate public key hashes in the `Info.plist` file under the [`NSPinnedDomains`](https://developer.apple.com/documentation/bundleresources/information-property-list/nsapptransportsecurity/nspinneddomains) key. This is Apple's built-in mechanism for pinning connections made through the [URL Loading System](https://developer.apple.com/documentation/foundation/url_loading_system), such as `URLSession`.
 
 This test checks whether the app configures `NSPinnedDomains` for relevant first-party domains that the app connects to. Relevant domains are remote endpoints under the developer's control that support the app's core or security-sensitive functionality, such as authentication, account data, user content, or app-specific APIs. Third-party domains outside the developer's control **should not be reported** as missing ATS pins only because they appear in app traffic.
 

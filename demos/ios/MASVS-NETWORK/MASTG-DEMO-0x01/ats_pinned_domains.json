@@ -2,7 +2,7 @@
   "sha256.badssl.com": {
     "NSPinnedCAIdentities": [
       {
-        "SPKI-SHA256-BASE64": "AlSQhgtJirc8ahLyekmtX+Iw+v46yPYRLJt9Cq1GlB0="
+        "SPKI-SHA256-BASE64": "C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M="
       }
     ],
     "NSIncludesSubdomains": true
@@ -10,7 +10,7 @@
   "rsa2048.badssl.com": {
     "NSPinnedCAIdentities": [
       {
-        "SPKI-SHA256-BASE64": "AlSQhgtJirc8ahLyekmtX+Iw+v46yPYRLJt9Cq1GlB0="
+        "SPKI-SHA256-BASE64": "C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M="
       }
     ],
     "NSIncludesSubdomains": true

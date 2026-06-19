@@ -25,7 +25,7 @@ References:
 
 [Certificate pinning](../../../Document/0x04f-Testing-Network-Communication.md#restricting-trust-identity-pinning) allows an iOS app to reject certificates that don't match a specific expected identity, guarding against Machine-in-the-Middle (MITM) attacks even when an attacker controls a CA that is trusted by the system.
 
-While effective when implemented correctly, insecure implementations can potentially enable attackers to read and modify all communication. For more general details on pinning, refer to @MASWE-0047.
+Because pinning is layered on top of standard HTTPS, it does not weaken the underlying TLS connection. The risk lies in misconfiguration rather than in the mechanism itself. If pins are not maintained correctly, for example pinning a public key without providing a backup pin, or failing to update the pinned values before the server's certificate or key is rotated, the app will reject otherwise valid connections and break communication with the affected endpoints. This makes pinning misconfiguration an availability risk for the APIs the app depends on. For more general details on pinning, refer to @MASWE-0047.
 
 **Important Considerations:**
 
@@ -88,7 +88,6 @@ Several third-party libraries simplify certificate pinning on iOS:
 
 - **[TrustKit](https://github.com/datatheorem/TrustKit)**: Configure public key hashes in `Info.plist` or in code. TrustKit swizzles `NSURLSession` and `NSURLConnection` delegates to enforce pinning transparently.
 - **[Alamofire](https://github.com/Alamofire/Alamofire)**: Define a `ServerTrustManager` with a `PinnedCertificatesTrustEvaluator` or `PublicKeysTrustEvaluator` per domain. See the [Alamofire Security documentation](https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#security) for details.
-- **[AFNetworking](https://github.com/AFNetworking/AFNetworking)**: Configure pinning via `AFSecurityPolicy` with `AFSSLPinningModeCertificate` or `AFSSLPinningModePublicKey`.
 
 These libraries typically provide higher-level abstractions over the `URLSession` delegate mechanism, but they may not cover all network traffic in the app (for example, traffic from native code or third-party SDKs with their own network stacks).
 
