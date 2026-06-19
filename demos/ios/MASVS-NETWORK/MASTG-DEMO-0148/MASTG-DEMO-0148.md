@@ -2,8 +2,8 @@
 platform: ios
 title: Missing Certificate Pinning in ATS
 code: [swift, xml]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0148
+test: MASTG-TEST-0385
 kind: fail
 ---
 
