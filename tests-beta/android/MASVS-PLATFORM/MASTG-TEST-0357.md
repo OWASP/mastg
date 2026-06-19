@@ -13,16 +13,6 @@ knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
 
 If the app exports an Android content provider without enforcing access restrictions, external callers may open private files through `content://` URIs. This test checks whether exported providers expose sensitive stored data to callers that don't hold the required permissions.
 
-**Example Attack Scenario:**
-
-Suppose an app exports a `FileProvider` with a `files-path` element using `path="."`, exposing the entire internal `filesDir`.
-
-1. An attacker reverse engineers the app and finds the exported `FileProvider` authority and a `files-path` entry with `path="."`, which maps the entire internal filesDir into the provider's shareable root.
-2. The attacker identifies an exported component in the victim app (e.g. an Activity or Service) that accepts a filename or path from the caller and uses it to build a URI via `FileProvider.getUriForFile(context, authority, new File(filesDir, attackerInput))`.
-3. The attacker crafts a malicious app that invokes that component with a traversal payload such as `../databases/auth.db`, causing the victim app to construct a `content://` URI pointing outside the intended shared subdirectory and return it with `FLAG_GRANT_READ_URI_PERMISSION`.
-4. The malicious app calls `ContentResolver.openInputStream()` on the returned `content://` URI to access any file under `filesDir`, including sensitive files such as tokens or private databases.
-5. The `FileProvider` serves the file without restricting which paths are accessible, exposing data beyond the intended shared directory.
-
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.

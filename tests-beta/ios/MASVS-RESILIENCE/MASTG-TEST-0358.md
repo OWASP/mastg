@@ -15,16 +15,6 @@ This test checks for verbose error logging and debugging messages in iOS applica
 
 Common logging APIs on iOS include `NSLog`, `print`, `dump`, `debugPrint`, and `os_log`. If debug-level logging remains enabled in production builds, or if logged error messages are overly detailed, they can reveal implementation details that increase the app's attack surface.
 
-**Example Attack Scenario:**
-
-Suppose an app logs detailed debug messages and error context in its release build.
-
-1. An attacker captures device logs while exercising the app and intentionally triggering failures (e.g., invalid inputs, offline mode).
-2. The attacker uses the revealed module names, function names, endpoints, and stack traces to map internal code paths.
-3. The attacker uses this information to focus reverse engineering efforts and target high-value code paths more efficiently.
-
-This test focuses on verbose logging that exposes implementation details. For tests specifically targeting sensitive data in logs, see @MASTG-TEST-0296 and @MASTG-TEST-0297.
-
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
