@@ -8,7 +8,7 @@ Starting with iOS 6, apps can share data (items) via the system-wide "Share Shee
 
 From a user perspective, this is the familiar "Share" button available throughout iOS. The following figure shows such a "Share Sheet" when sharing a link in the Safari browser:
 
-<img src="Images/Chapters/0x06h/share_activity_sheet.png" width="100%" />
+<img src="Images/Chapters/0x06h/share_activity_sheet.png" width="30%" />
 
 ## Initializing a `UIActivityViewController`
 
