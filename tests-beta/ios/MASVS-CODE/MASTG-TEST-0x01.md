@@ -22,7 +22,6 @@ Developers can introduce this risk when they deserialize potentially untrusted d
 
 This test checks whether the app deserializes potentially untrusted data without enforcing secure coding, class restrictions, or equivalent validation. For background on iOS serialization mechanisms, see @MASTG-KNOW-0075.
 
-
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package.
@@ -44,4 +43,3 @@ A reference to one of these APIs doesn't fail the test on its own. Inspect each 
 - Determine whether the unarchiver enforces secure coding and whether decoded objects are restricted to the expected classes.
 
 Uses of these APIs on constant, bundled, or otherwise trusted data that an attacker can't control should be reviewed manually rather than treated as a confirmed failure.
-
