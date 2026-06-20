@@ -1,7 +1,0 @@
-[+] Hooks deployed successfully.
-[UIActivityViewController] initWithActivityItems:applicationActivities:
-  activityItems: (
-    "Account token: s3cr3t-t0ken-ABCD1234XYZ",
-    https://example.com/private-report?key=s3cr3t
-)
-  applicationActivities: nil
