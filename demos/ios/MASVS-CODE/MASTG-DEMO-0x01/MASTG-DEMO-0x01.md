@@ -44,23 +44,20 @@ The sample also includes `CachedDocument`, a plausible offline-cache model whose
 
 ## Observation
 
-The r2 output shows references to unsafe keyed unarchiving selectors `setRequiresSecureCoding:` at `0x000070c8` and `decodeObjectForKey:` at `0x00007130`. Following the xref to `setRequiresSecureCoding:` leads to the function `MastgTest.decodeInsecurely`, starting at `0x00007040`.
+The `=== Xrefs to decoding APIs ===` section of `output.txt` shows that a single function disables secure coding and decodes without a class restriction: `MastgTest.decodeInsecurely` references both `setRequiresSecureCoding:` (at `0x000070c8`) and the unrestricted `decodeObjectForKey:` (at `0x00007130`).
 
-Inside `MastgTest.decodeInsecurely`, `setRequiresSecureCoding:` is loaded at `0x000070c8`. The value `0` is prepared at `0x000070cc` to `0x000070d0`, and `objc_msgSend` is called at `0x000070d4`.
+The `=== Focused proof snippets ===` section of `output.txt` disassembles those two call sites (the full function is in `decodeInsecurely.asm`):
 
-The same function later calls `decodeObjectForKey:` between `0x00007130` and `0x00007134`.
+- At `0x000070c8` the `setRequiresSecureCoding:` selector is loaded, the value `0` is prepared at `0x000070cc` to `0x000070d0`, and `objc_msgSend` is called at `0x000070d4`.
+- The same function calls `decodeObjectForKey:` at `0x00007130` to `0x00007134`.
 
-The r2 output also identifies `MastgTest.importSharedSession(from:)`, starting at `0x00006644`. This function parses URL components, reads query items, extracts a value, reaches Base64 decoding at `0x000069f4` to `0x00006a0c`, calls `MastgTest.decodeInsecurely` at `0x00006d20`, and calls a separate secure decoder at `0x00006dc0`.
-
-{{ output.txt # decodeInsecurely.asm # importSharedSession.asm # CachedDocument.initWithCoder.asm # CachedDocument.restoreToDisk.asm }}
+{{ output.txt # decodeInsecurely.asm # importSharedSession.asm }}
 
 ## Evaluation
 
-The test fails because the app disables secure coding by passing `0` to `setRequiresSecureCoding:`. It then calls `decodeObjectForKey:` without an expected class or allowed class list.
+The test fails because the app disables secure coding by passing `0` to `setRequiresSecureCoding:`. It then calls `decodeObjectForKey:` without an expected class or allowed class list. And, all of this is reachable from the `mastgtest` custom URL scheme import path, which an attacker can trigger with a crafted link.
 
-This matches the unsafe `NSCoding` pattern. The archive can decide which class is instantiated during decoding. A later cast does not prevent this, because the class initializer has already run by the time the cast happens.
-
-Further reverse engineering shows that the vulnerable decode is reachable from a custom URL scheme payload:
+Further reverse engineering shows how the vulnerable decode is reachable from a custom URL scheme payload:
 
 ```mermaid
 flowchart TD
@@ -72,13 +69,19 @@ flowchart TD
     F --> G["Class named in archive is instantiated"]
 ```
 
-The issue is reachable because the app has a custom URL scheme import path. The function at `0x00006644` extracts the `session` query item from a URL, Base64 decodes it, and passes the resulting data to the insecure decoding function at `0x00006d20`.
+The `=== Reachability from URL payload ===` section of `output.txt` traces `MastgTest.importSharedSession(from:)` (function at `0x00006644`, full function in `importSharedSession.asm`):
 
-The possible consequence is visible by following the substituted class. A class initializer at `0x00005608` decodes `fileName` and `contents`, then calls another function at `0x00005a78`. That target function starts at `0x00005b14`, builds a file path, and reaches a string write call at `0x00005e10`.
+- It parses URL components, reads the `session` query item, Base64-decodes the value at `0x000069f4` to `0x00006a0c`.
+- Then, it passes the resulting data to `MastgTest.decodeInsecurely` at `0x00006d20`.
+
+The `=== Consequence path ===` section of `output.txt` follows what a substituted `CachedDocument` does once instantiated:
+
+- Its initializer decodes `fileName` at `0x00005644` and `contents` at `0x00005818`.
+- Then, it calls `restoreToDisk` at `0x00005a78` (function at `0x00005b14`), which builds a file path with `appendingPathComponent` and writes the file at `0x00005e10`.
 
 ```mermaid
 flowchart TD
-    A["Substituted class from archive"] --> B["init(coder:), 0x00005608"]
+    A["Substituted class from archive"] --> B["init(coder:), 0x00005644"]
     B --> C["decode fileName and contents"]
     C --> D["restoreToDisk, 0x00005b14"]
     D --> E["write call, 0x00005e10"]

@@ -88,5 +88,3 @@ pd 8 @ 0x5e10
 # === Full functions for side review ===
 pdf @ 0x6644 > importSharedSession.asm
 pdf @ 0x7040 > decodeInsecurely.asm
-pdf @ 0x5608 > CachedDocument.initWithCoder.asm
-pdf @ 0x5b14 > CachedDocument.restoreToDisk.asm
