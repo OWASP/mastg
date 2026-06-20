@@ -3,7 +3,7 @@ platform: android
 title: Runtime Use of Logging APIs
 id: MASTG-TEST-0203
 apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#printStackTrace]
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0001
 best-practices: [MASTG-BEST-0002]
 profiles: [L1, L2, P]
@@ -16,9 +16,9 @@ On Android platforms, logging APIs like `Log`, `Logger`, `System.out.print`, `Sy
 
 ## Steps
 
-1. Install and run the app.
-2. Navigate to the screen of the mobile app you want to analyse the log output from.
-3. Execute a method trace (@MASTG-TECH-0033) (using e.g. @MASTG-TOOL-0001) by attaching to the running app, targeting logging APIs and save the output.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 

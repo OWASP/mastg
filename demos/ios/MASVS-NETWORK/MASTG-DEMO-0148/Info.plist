@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSPinnedDomains</key>
+			<dict>
+				<key>sha256.badssl.com</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedCAIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</string>
+						</dict>
+					</array>
+				</dict>
+				<key>rsa2048.badssl.com</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSPinnedCAIdentities</key>
+					<array>
+						<dict>
+							<key>SPKI-SHA256-BASE64</key>
+							<string>C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</string>
+						</dict>
+					</array>
+				</dict>
+				<!-- example.com (the app's own backend) is NOT pinned: this is the missing pin -->
+			</dict>
+		</dict>
+	</dict>
+</plist>

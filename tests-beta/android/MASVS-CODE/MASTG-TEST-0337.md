@@ -2,7 +2,7 @@
 title: References to Object Deserialization of Untrusted Data
 platform: android
 id: MASTG-TEST-0337
-type: [static]
+type: [static, code]
 weakness: MASWE-0088
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0021]
@@ -16,8 +16,8 @@ This test checks whether the app uses object deserialization on Android and whet
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0013).
-2. Run static analysis (@MASTG-TECH-0014) to search for references to object deserialization APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

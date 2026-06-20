@@ -2,7 +2,7 @@
 title: Hardcoded HTTP URLs
 platform: android
 id: MASTG-TEST-0233
-type: [static]
+type: [static, code]
 weakness: MASWE-0050
 related-tests: [MASTG-TEST-0235, MASTG-TEST-0236, MASTG-TEST-0238]
 profiles: [L1, L2]
@@ -17,8 +17,8 @@ An Android app may have hardcoded HTTP URLs embedded in the app binary, library 
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Run a static analysis (@MASTG-TECH-0014) tool and look for any `http://` URLs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0019 to look for any `http://` URLs.
 
 ## Observation
 

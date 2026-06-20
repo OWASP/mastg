@@ -1,0 +1,41 @@
+[+] BufferedReader.readLine() hooked: filtering Frida-related entries from /proc/self/maps
+[+] Cipher.doFinal() hooked: extracting sensitive data
+
+[*] Hiding line from /proc/self/maps: 6d69a0b000-6d6a351000 r--p 00000000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d6a352000-6d6b092000 r-xp 00946000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d6b092000-6d6b163000 r--p 01685000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d6b164000-6d6b17f000 rw-p 01756000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d69a0b000-6d6a351000 r--p 00000000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d6a352000-6d6b092000 r-xp 00946000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d6b092000-6d6b163000 r--p 01685000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+[*] Hiding line from /proc/self/maps: 6d6b164000-6d6b17f000 rw-p 01756000 00:01 188                            /memfd:frida-agent-64.so (deleted)
+
+
+[*] Cipher.doFinal(byte[]) called
+    Algorithm: AES/GCM/NoPadding
+    Mode: ENCRYPT_MODE
+    Input (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
+    Output (ciphertext hex): e9ff1fd068d108fad6e3e64aca3ce460c169d956123a119ab596887d7f62d14245a24eeb93da5cb8395bbab4f8bc637d0852221fc96e
+
+Backtrace:
+javax.crypto.Cipher.doFinal(Native Method)
+org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:79)
+org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)
+org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)
+org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)
+java.lang.Thread.run(Thread.java:1119)
+
+
+[*] Cipher.doFinal(byte[]) called
+    Algorithm: AES/GCM/NoPadding
+    Mode: DECRYPT_MODE
+    Input (ciphertext hex): e9ff1fd068d108fad6e3e64aca3ce460c169d956123a119ab596887d7f62d14245a24eeb93da5cb8395bbab4f8bc637d0852221fc96e
+    Output (plaintext): sk-OWASP-MAS-SuperSecretKey-1234567890
+
+Backtrace:
+javax.crypto.Cipher.doFinal(Native Method)
+org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:89)
+org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)
+org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)
+org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)
+java.lang.Thread.run(Thread.java:1119)

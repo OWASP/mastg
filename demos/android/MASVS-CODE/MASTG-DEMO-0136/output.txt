@@ -1,0 +1,23 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ android-implicit-intent-internal-communication
+          [MASVS-CODE-4] The app uses an implicit intent for internal component communication. Use explicit
+          intents by specifying the package or component.                                                  
+                                                                                                           
+           22┆ Intent implicitIntent = new Intent();
+           23┆ implicitIntent.setAction("org.owasp.mastestapp.INTERNAL_ACTION");
+           24┆ implicitIntent.putExtra("user_id", "12345");
+           25┆ implicitIntent.putExtra("session_token", "abcde-fghij-12345");
+           26┆ implicitIntent.addFlags(268435456);
+           27┆ try {
+           28┆     this.context.startActivity(implicitIntent);
+           29┆     r.add(Status.FAIL, "Launched internal activity via implicit intent");
+           30┆ } catch (Exception e) {
+           31┆     r.add(Status.ERROR, e.toString());
+             [hid 1 additional lines, adjust with --max-lines-per-finding] 
+
