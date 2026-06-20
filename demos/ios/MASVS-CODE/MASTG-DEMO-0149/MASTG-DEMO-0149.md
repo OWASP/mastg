@@ -15,13 +15,15 @@ The sample imports a user session that arrives in a custom URL scheme (`mastgtes
 mastgtest://import?session=YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRyb290gAGlCwwTFBVVJG51bGzTDQ4PEBESWGNvbnRlbnRzViRjbGFzc1hmaWxlTmFtZYADgASAAl8QE3B3bmVkX3ZpYV9saW5rLmh0bWxfEG08IWRvY3R5cGUgaHRtbD48aHRtbD48Ym9keT48aDE%2BUHduZWQgdmlhIGRlZXAgbGluazwvaDE%2BPHNjcmlwdD5hbGVydCgicHduZWQgdmlhIGxpbmsiKTwvc2NyaXB0PjwvYm9keT48L2h0bWw%2B0hYXGBlaJGNsYXNzbmFtZVgkY2xhc3Nlc15DYWNoZWREb2N1bWVudKIaG15DYWNoZWREb2N1bWVudFhOU09iamVjdAAIABEAGgAkACkAMgA3AEkATABRAFMAWQBfAGYAbwB2AH8AgQCDAIUAmwELARABGwEkATMBNgFFAAAAAAAAAgEAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAU4%3D
 ```
 
-The payload was generated using `PayloadGenerator.swift`. It builds a `CachedDocument` archive with an attacker-chosen file name and contents, then base64- and URL-encodes it into a `mastgtest://import?session=...` link. You can regenerate the payload using the following command, which prints the complete link as shown above.
+The payload was generated using `PayloadGenerator.swift`. It builds a `CachedDocument` archive with an attacker-chosen file name and contents, then base64- and URL-encodes it into a `mastgtest://import?session=...` link.
+
+{{ PayloadGenerator.swift }}
+
+You can regenerate the payload using the following command, which prints the complete link as shown above.
 
 ```bash
 swift PayloadGenerator.swift
 ```
-
-{{ PayloadGenerator.swift }}
 
 To test it with the app running on a device, follow @MASTG-TECH-0169. Once you trigger the URL scheme and the app opens, click on **Start** so the app processes the link.
 
