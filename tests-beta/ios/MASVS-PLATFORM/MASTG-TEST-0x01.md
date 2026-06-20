@@ -1,10 +1,10 @@
 ---
 platform: ios
 title: References to UIActivityViewController Initialization
-id: MASTG-TEST-0x71
+id: MASTG-TEST-0x01
 type: [static]
 weakness: MASWE-0053
-best-practices: [MASTG-BEST-0x71]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 prerequisites:
 - identify-sensitive-data

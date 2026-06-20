@@ -1,10 +1,10 @@
 ---
 platform: ios
 title: Runtime Use of UIActivityViewController
-id: MASTG-TEST-0x71-2
+id: MASTG-TEST-0x02
 type: [dynamic]
 weakness: MASWE-0053
-best-practices: [MASTG-BEST-0x71]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 prerequisites:
 - identify-sensitive-data
@@ -13,7 +13,7 @@ knowledge: [MASTG-KNOW-0081]
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0x71.
+This test is the dynamic counterpart to @MASTG-TEST-0x01.
 
 If the app uses [`UIActivityViewController`](https://developer.apple.com/documentation/uikit/uiactivityviewcontroller) to share data via the system share sheet, any items passed to [`init(activityItems:applicationActivities:)`](https://developer.apple.com/documentation/uikit/uiactivityviewcontroller/init(activityitems:applicationactivities:)) become available to all active system activities unless the app explicitly restricts them. This test verifies at runtime what data the app actually shares and whether `excludedActivityTypes` is configured appropriately.
 

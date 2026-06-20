@@ -1,7 +1,7 @@
 ---
 title: Restrict Activity Types in UIActivityViewController
 alias: restrict-uiactivity-types
-id: MASTG-BEST-0x71
+id: MASTG-BEST-0x01
 platform: ios
 knowledge: [MASTG-KNOW-0081]
 ---

@@ -12,7 +12,7 @@ struct MastgTest {
             let sensitiveText = "Account token: s3cr3t-t0ken-ABCD1234XYZ"
             let sensitiveURL = URL(string: "https://example.com/private-report?key=s3cr3t")!
 
-            // FAIL: [MASTG-TEST-0x71] UIActivityViewController is created with sensitive data and
+            // FAIL: [MASTG-TEST-0x01] UIActivityViewController is created with sensitive data and
             // excludedActivityTypes is not set, allowing sharing via any system activity type.
             let activityVC = UIActivityViewController(
                 activityItems: [sensitiveText, sensitiveURL],

@@ -2,10 +2,9 @@
 platform: ios
 title: References to UIActivityViewController Initialization Without excludedActivityTypes
 code: [swift]
-id: MASTG-DEMO-0x71
-test: MASTG-TEST-0x71
+id: MASTG-DEMO-0x01
+test: MASTG-TEST-0x01
 kind: fail
-status: draft
 ---
 
 ## Sample

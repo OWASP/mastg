@@ -2,17 +2,16 @@
 platform: ios
 title: Runtime Monitoring of UIActivityViewController with Frida
 code: [swift]
-id: MASTG-DEMO-0x71-2
-test: MASTG-TEST-0x71-2
+id: MASTG-DEMO-0x02
+test: MASTG-TEST-0x02
 kind: fail
-status: draft
 ---
 
 ## Sample
 
-This demo uses the same sample as @MASTG-DEMO-0x71.
+This demo uses the same sample as @MASTG-DEMO-0x01.
 
-{{ ../MASTG-DEMO-0x71/MastgTest.swift }}
+{{ ../MASTG-DEMO-0x01/MastgTest.swift }}
 
 ## Steps
 
