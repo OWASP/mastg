@@ -1,13 +1,13 @@
 
-Evidence of a security-sensitive routine (license key string literal):
-105 0x00008de0 0x100008de0 16  17   4.__TEXT.__cstring         ascii   MAS-PREMIUM-2025
+Evidence that the app stores data on disk (filename string literal):
+103 0x00009d80 0x100009d80 17  18   3.__TEXT.__cstring         ascii   user_profile.json
 
-Searching the import table for source code integrity APIs:
+Searching the import table for file storage integrity APIs:
 
-Binary base address resolution (dladdr):
-205 0x100008704 NONE FUNC               dladdr
+HMAC (CCHmac / CCHmacFinal):
 
-Cryptographic hash functions over code (CC_MD5 / CC_SHA256 / CC_SHA512):
-179 0x1000086d4 NONE FUNC               CC_SHA256
+Hash functions (CC_SHA256 / CC_SHA512):
 
-(Any integrity APIs listed above are referenced only by an unrelated routine and are not used to verify the license check.)
+Asymmetric signing (SecKeyCreateSignature):
+
+(No matches under the integrity APIs means none are referenced by the app.)
