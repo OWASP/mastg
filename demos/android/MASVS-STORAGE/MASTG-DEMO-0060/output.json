@@ -1,258 +1,357 @@
 {
-  "id": "219ea51c-506a-45f0-a295-34febdad2ca5",
+  "type": "summary",
+  "hooks": [
+    {
+      "class": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
+      "method": "putString",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
+      "method": "putStringSet",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "java.util.Set"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "android.app.SharedPreferencesImpl$EditorImpl",
+      "method": "putString",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "class": "android.app.SharedPreferencesImpl$EditorImpl",
+      "method": "putStringSet",
+      "overloads": [
+        {
+          "args": [
+            "java.lang.String",
+            "java.util.Set"
+          ]
+        }
+      ]
+    }
+  ],
+  "totalHooks": 4,
+  "errors": [],
+  "totalErrors": 0
+}
+{
+  "id": "1c63a88b-a024-4727-9079-9895c484c61e",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.158Z",
+  "time": "2026-01-23T10:59:10.748Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
+  "instanceId": 68099307,
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
     "com.google.crypto.tink.integration.android.SharedPrefKeysetWriter.write(SharedPrefKeysetWriter.java:70)",
-    "com.google.crypto.tink.KeysetHandle.write(KeysetHandle.java:158)",
-    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.readOrGenerateNewKeyset(AndroidKeysetManager.java:299)",
-    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.build(AndroidKeysetManager.java:238)",
-    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:155)",
-    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:120)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:23)"
+    "com.google.crypto.tink.KeysetHandle.writeWithAssociatedData(KeysetHandle.java:869)",
+    "com.google.crypto.tink.KeysetHandle.write(KeysetHandle.java:858)",
+    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.generateKeysetAndWriteToPrefs(AndroidKeysetManager.java:353)",
+    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.build(AndroidKeysetManager.java:292)",
+    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:169)",
+    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:131)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "__androidx_security_crypto_encrypted_prefs_key_keyset__"
     },
     {
-      "type": "java.lang.String",
-      "value": "12a901f5a4c43d49ce7ca6c207fb4d3f7711aba5131cbbd7951bd838c6c154e3528704bf527d554ad3facc098ad4645b1d2ed0a707c1c28f12ebf24e5a9ea08c57088e7c1b43ee84272605fe1ecbf9426509054974640b23e273b73d21a1d48029e4ef3787b6b1fc9c31d590b7e37663ea81e3135b3f0d3eb067148fcbb0e37b7d5909ad7a2cfc55bc11b4f8c00e79cebbf5cbeee2aca68f7558a65b86e888aa343caeea9551d82895a0956c1a4408cdaecffd04123c0a30747970652e676f6f676c65617069732e636f6d2f676f6f676c652e63727970746f2e74696e6b2e4165735369764b6579100118cdaecffd042001"
+      "declaredType": "java.lang.String",
+      "value": "12a901aae312996a1bf0afbb324daf0ba86e8aac8f149f3a0f6152085960057035ea0a6bb62d01d7f970368b609dedf634f40fdcd520b9b6d06f78c4bb221024c383b705c9f31f0d2ea72fe7c247b4f536ea3b5d09b4ae81690c20c73146b1cc65da0b0146e2a18237a658f9b878434f5e4ada70e81f439eaccfa86a4b5e20982b3376c8eed47ddc8428c66c3780bff26775508fc5e8aee4ff80ab64c8569341db3c782da7e92871d6bbd8681a4408ecc1b09907123c0a30747970652e676f6f676c65617069732e636f6d2f676f6f676c652e63727970746f2e74696e6b2e4165735369764b6579100118ecc1b099072001"
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>",
+      "runtimeType": "android.app.SharedPreferencesImpl$EditorImpl",
+      "instanceId": "68099307",
+      "instanceToString": "android.app.SharedPreferencesImpl$EditorImpl@40f1ceb"
     }
   ]
 }
 {
-  "id": "2726948e-87f4-4088-a4fd-b5a3facfe460",
+  "id": "90892ca7-be25-40f6-955c-383e52dfbc4b",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.203Z",
+  "time": "2026-01-23T10:59:10.762Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
+  "instanceId": 229584390,
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
     "com.google.crypto.tink.integration.android.SharedPrefKeysetWriter.write(SharedPrefKeysetWriter.java:70)",
-    "com.google.crypto.tink.KeysetHandle.write(KeysetHandle.java:158)",
-    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.readOrGenerateNewKeyset(AndroidKeysetManager.java:299)",
-    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.build(AndroidKeysetManager.java:238)",
-    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:160)",
-    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:120)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:23)"
+    "com.google.crypto.tink.KeysetHandle.writeWithAssociatedData(KeysetHandle.java:869)",
+    "com.google.crypto.tink.KeysetHandle.write(KeysetHandle.java:858)",
+    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.generateKeysetAndWriteToPrefs(AndroidKeysetManager.java:353)",
+    "com.google.crypto.tink.integration.android.AndroidKeysetManager$Builder.build(AndroidKeysetManager.java:292)",
+    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:174)",
+    "androidx.security.crypto.EncryptedSharedPreferences.create(EncryptedSharedPreferences.java:131)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "__androidx_security_crypto_encrypted_prefs_value_keyset__"
     },
     {
-      "type": "java.lang.String",
-      "value": "1286013ebf2688905cdc7062581d934cf22d866c35f5b0c3a4617ef00a4b44c2a33bb9f8c49e2a82535763dadee05ed2587811270339d066bc335db019ab60a68108652cd14a90a77b324a90c5d9ce8fae1a2da0f317b10d71e92c49ae9c0a17ec321e6f3a0c4edcb41580f16e93adfea98518127706dfbee4bef3af57f7419fd7216e89efea8b3f3d1a4208fbc18150123b0a30747970652e676f6f676c65617069732e636f6d2f676f6f676c652e63727970746f2e74696e6b2e41657347636d4b6579100118fbc181502001"
+      "declaredType": "java.lang.String",
+      "value": "1288014fb70359485236514c0cfd62e67618de68221f590b54afa23b916b27a032f8100d97a64e7c875f5a3d3570495dc71709d613b0b7aa390d0992f7a23497c0c3058b9bf5d00e988aaffac39722673324fb0c2e59402f55d534d374fbee4a589711ef0205116ff707f8a4f38376999da668e51df2b8deeb6e157dd302707be73cc9e05af2c324f6600c1a4408fec8cc8002123c0a30747970652e676f6f676c65617069732e636f6d2f676f6f676c652e63727970746f2e74696e6b2e41657347636d4b6579100118fec8cc80022001"
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>",
+      "runtimeType": "android.app.SharedPreferencesImpl$EditorImpl",
+      "instanceId": "229584390",
+      "instanceToString": "android.app.SharedPreferencesImpl$EditorImpl@daf2e06"
     }
   ]
 }
 {
-  "id": "9c495048-f0db-405b-807b-01e0cfbab573",
+  "id": "a1bfb7ac-10c4-4d15-9fd1-8ec4c38f4d76",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.220Z",
+  "time": "2026-01-23T10:59:10.770Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
+  "instanceId": 251667602,
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
-    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putEncryptedObject(EncryptedSharedPreferences.java:378)",
-    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(EncryptedSharedPreferences.java:244)",
+    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putEncryptedObject(EncryptedSharedPreferences.java:389)",
+    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(EncryptedSharedPreferences.java:262)",
     "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:32)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:33)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
     "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
-      "value": "AU+z103BuqUQYnpJY8AyhGP4jbkz01jtCY5EQGG4pVwOPhVv"
+      "declaredType": "java.lang.String",
+      "value": "AXMsIOxwJrhhUoIZ27TdJdrqJz2tPLoLe9sPyru8rHPHqKPn"
     },
     {
-      "type": "java.lang.String",
-      "value": "AQoAYPs27SgygktthcLjII2K6yyUMBoY8F59mzWbE1ps2WT5P87ChxB0QF8R4UuBc6WRy+9R0qwpD3WOKw=="
+      "declaredType": "java.lang.String",
+      "value": "ASATJH7V90PhGTCL+BDDddr6uJRAhEOqXRsncTU8wJkZvXtNBDvbKTAALwxoQDhzQe2ZyKq90Hvho2Q9hA=="
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>",
+      "runtimeType": "android.app.SharedPreferencesImpl$EditorImpl",
+      "instanceId": "251667602",
+      "instanceToString": "android.app.SharedPreferencesImpl$EditorImpl@f002492"
     }
   ]
 }
 {
-  "id": "60d32d3c-210a-4a44-926f-874e02ed02b0",
+  "id": "af4f16ab-9cb9-4a0d-ac79-ab359ed5f614",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.214Z",
+  "time": "2026-01-23T10:59:10.768Z",
   "class": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
   "method": "putString",
+  "instanceId": 43653661,
   "stackTrace": [
     "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:32)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:33)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
     "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:1012)"
+    "java.lang.Thread.run(Thread.java:1119)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "EncryptedAWSKey"
     },
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "AKIAABCDEFGHIJKLMNOP"
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: androidx.security.crypto.EncryptedSharedPreferences$Editor>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: androidx.security.crypto.EncryptedSharedPreferences$Editor>",
+      "runtimeType": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
+      "instanceId": "43653661",
+      "instanceToString": "androidx.security.crypto.EncryptedSharedPreferences$Editor@29a1a1d"
     }
   ]
 }
 {
-  "id": "13976db9-4f60-4483-b2e3-46b0399f0222",
+  "id": "d1e61095-cf7c-4b1d-ad93-b78d69e9450b",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.228Z",
+  "time": "2026-01-23T10:59:10.772Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
+  "instanceId": 251667602,
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
-    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putEncryptedObject(EncryptedSharedPreferences.java:378)",
-    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(EncryptedSharedPreferences.java:244)",
+    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putEncryptedObject(EncryptedSharedPreferences.java:389)",
+    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(EncryptedSharedPreferences.java:262)",
     "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:33)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:34)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
     "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
-      "value": "AU+z101V35Id7aRshk1QOi8IHsdlvcPXjNA885hbFak="
+      "declaredType": "java.lang.String",
+      "value": "AXMsIOyvoxf6H8WrJySJhdUbXBLACJ8JuRy4RU90igY="
     },
     {
-      "type": "java.lang.String",
-      "value": "AQoAYPt6nO+4SoPqUjsZNEYzlPIZn7LtawLzrii1G0XDtQyVJOaSNNwo4OHjYx6CrYcOaSzjr8Fii72fhCSA2KTE5j0BphTnYoc0gz5j3CO/"
+      "declaredType": "java.lang.String",
+      "value": "ASATJH4SI3uV4QY3PqvVE0UgkO1nRiM1PT/PUeHnechMACMlzXNNzIkxoweqDF9GcZYG4Y+IYO1Xin+iX9FUOq6qZxzpQ75xJniPOvjYcrSi"
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>",
+      "runtimeType": "android.app.SharedPreferencesImpl$EditorImpl",
+      "instanceId": "251667602",
+      "instanceToString": "android.app.SharedPreferencesImpl$EditorImpl@f002492"
     }
   ]
 }
 {
-  "id": "29fc3b94-48ce-4d93-86ba-2a16d88ba1c5",
+  "id": "7b2c9009-af13-4f47-a6c2-9fa3479fa83b",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.222Z",
+  "time": "2026-01-23T10:59:10.771Z",
   "class": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
   "method": "putString",
+  "instanceId": 43653661,
   "stackTrace": [
     "androidx.security.crypto.EncryptedSharedPreferences$Editor.putString(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:33)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:34)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
     "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:1012)"
+    "java.lang.Thread.run(Thread.java:1119)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "GitHubToken"
     },
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "ghp_1234567890abcdefghijklmnopqrstuvABCD"
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: androidx.security.crypto.EncryptedSharedPreferences$Editor>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: androidx.security.crypto.EncryptedSharedPreferences$Editor>",
+      "runtimeType": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
+      "instanceId": "43653661",
+      "instanceToString": "androidx.security.crypto.EncryptedSharedPreferences$Editor@29a1a1d"
     }
   ]
 }
 {
-  "id": "e5aa1f47-435e-458a-93ea-37b8c4d2ef1b",
+  "id": "b827296f-cdd0-413c-8e74-ace6cd0f6f71",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.236Z",
+  "time": "2026-01-23T10:59:10.775Z",
   "class": "android.app.SharedPreferencesImpl$EditorImpl",
   "method": "putString",
+  "instanceId": 251667602,
   "stackTrace": [
     "android.app.SharedPreferencesImpl$EditorImpl.putString(Native Method)",
-    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putEncryptedObject(EncryptedSharedPreferences.java:378)",
-    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putStringSet(EncryptedSharedPreferences.java:270)",
+    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putEncryptedObject(EncryptedSharedPreferences.java:389)",
+    "androidx.security.crypto.EncryptedSharedPreferences$Editor.putStringSet(EncryptedSharedPreferences.java:287)",
     "androidx.security.crypto.EncryptedSharedPreferences$Editor.putStringSet(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:34)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:35)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
     "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
-      "value": "AU+z101iVWAe4pyZC7djOC9ugpEv9bxXAahqi4DNvuxcyA=="
+      "declaredType": "java.lang.String",
+      "value": "AXMsIOwcGTBjp1hj/MPx7Q7WOR93O8y784O8bb3EyfIiLw=="
     },
     {
-      "type": "java.lang.String",
-      "value": "AQoAYPv4h47i7VnSEOZH5BBhnMHHb7hX8wPucI9srOw3GkBZBATxlaE5DGWP+AFn6uITZMiHZdhGXPuX6YxRr4dipYLV3hD98AlV613qYAY+seweUVfeQ6VJpVeSYmqHMyeQQEDPwqT9QJ5vKE6tWbOW95wGmGgR4D7I+NCEnV9rHoJfO1vjYdJDHzBv2akR5nY/EAWI0yXDt1wdSr1p31t/myCi7UDoknmD5Iq7MSEdzCOzP+J7LGP9Hb4EW1sjgZs5yuY42hzdfZ0QgeK8afeEIu84omuzqn0+icWc6Gkx3/rtBRJbnAGL3rOoV6MISqE5PshiVWzBflt4qPmxcn9S64ru6R9mcixn1MiKG5anG/Q="
+      "declaredType": "java.lang.String",
+      "value": "ASATJH6vwDGXBIetxTN2tnEPTzeDkR9qhrlbi6vRRy0L0jrMXY3Dv4Ddk2HgG/baxrYoFsShaw7uc/IyzqTNcfwxUQjsNM2P7/uWok+qlwubIkts592K85GB5AEzn7XAou9H5EelAbEGLmUfsAOwmmFEzOPICqBklYq1AqaBFNKIqCRhgaJuy9jPvoEciNRKTJSAzOPafBWYoAcZPtJHprMKCFUkpLQY/y/5vQgTlSlgDjzb4z/CxrftAQvnhrV9r8nqEOElqZEADQgmc3wFTEmUzYX/oHRBiSGCyTUilP5xJj0zNyB4togUwICberTNyYRQP4O/1X/41pgjboAcaDde76TtI8UI295pC4YJCO7FBW4="
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: android.app.SharedPreferencesImpl$EditorImpl>",
+      "runtimeType": "android.app.SharedPreferencesImpl$EditorImpl",
+      "instanceId": "251667602",
+      "instanceToString": "android.app.SharedPreferencesImpl$EditorImpl@f002492"
     }
   ]
 }
 {
-  "id": "53480382-6252-49e5-8b1a-bbe7cc0540f2",
+  "id": "5a6bdf2d-fcce-435a-bf96-b4ccf124c9c7",
+  "type": "hook",
   "category": "STORAGE",
-  "time": "2025-09-22T20:53:10.230Z",
+  "time": "2026-01-23T10:59:10.773Z",
   "class": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
   "method": "putStringSet",
+  "instanceId": 43653661,
   "stackTrace": [
     "androidx.security.crypto.EncryptedSharedPreferences$Editor.putStringSet(Native Method)",
-    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:34)",
-    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$6$lambda$5(MainActivity.kt:55)",
-    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$PtKdgqcXvbS9cMNZVWq3K3GGQKQ(Unknown Source:0)",
+    "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:35)",
+    "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+    "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
     "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
-    "java.lang.Thread.run(Thread.java:1012)"
+    "java.lang.Thread.run(Thread.java:1119)"
   ],
   "inputParameters": [
     {
-      "type": "java.lang.String",
+      "declaredType": "java.lang.String",
       "value": "preSharedKeys"
     },
     {
-      "type": "java.util.Set",
-      "value": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----,-----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----"
+      "declaredType": "java.util.Set",
+      "value": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----,-----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----",
+      "runtimeType": "java.util.HashSet",
+      "instanceId": "153108067",
+      "instanceToString": "[-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALfX7kbfFv3pc3JjOHQ=\n-----END PRIVATE KEY-----, -----BEGIN PRIVATE KEY-----\ngJXS9EwpuzK8U1TOgfplwfKEVngCE2D5FNBQWvNmuHHbigmTCabsA=\n-----END PRIVATE KEY-----]"
     }
   ],
   "returnValue": [
     {
-      "type": "android.content.SharedPreferences$Editor",
-      "value": "<instance: android.content.SharedPreferences$Editor, $className: androidx.security.crypto.EncryptedSharedPreferences$Editor>"
+      "declaredType": "android.content.SharedPreferences$Editor",
+      "value": "<instance: android.content.SharedPreferences$Editor, $className: androidx.security.crypto.EncryptedSharedPreferences$Editor>",
+      "runtimeType": "androidx.security.crypto.EncryptedSharedPreferences$Editor",
+      "instanceId": "43653661",
+      "instanceToString": "androidx.security.crypto.EncryptedSharedPreferences$Editor@29a1a1d"
     }
   ]
 }

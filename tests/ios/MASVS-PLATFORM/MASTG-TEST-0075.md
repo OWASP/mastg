@@ -9,6 +9,9 @@ masvs_v1_levels:
 - L1
 - L2
 profiles: [L1, L2]
+status: deprecated
+covered_by: [MASTG-TEST-0370, MASTG-TEST-0371]
+deprecation_note: "New version available in MASTG V2"
 ---
 
 ## Overview
@@ -143,7 +146,7 @@ We can observe some things here:
 
 The method [`openURL:options:completionHandler:`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-openurl?language=objc "UIApplication openURL:options:completionHandler:") and the [deprecated `openURL:` method of `UIApplication`](https://developer.apple.com/documentation/uikit/uiapplication/1622961-openurl?language=objc "UIApplication openURL:") are responsible for opening URLs (i.e. to send requests / make queries to other apps) that may be local to the current app or it may be one that must be provided by a different app. If you have the original source code you can search directly for usages of those methods.
 
-Additionally, if you are interested into knowing if the app is querying specific services or apps, and if the app is well-known, you can also search for common URL schemes online and include them in your greps. For example, a [quick Google search reveals](https://ios.gadgethacks.com/news/always-updated-list-ios-app-url-scheme-names-0184033/ "Always-Updated List of iOS App URL Scheme Names"):
+Additionally, if you are interested into knowing if the app is querying specific services or apps, and if the app is well-known, you can also search for common URL schemes online and include them in your greps. For example, a [quick Google search reveals](https://web.archive.org/web/20200903221322/https://ios.gadgethacks.com/news/always-updated-list-ios-app-url-scheme-names-0184033/ "Always-Updated List of iOS App URL Scheme Names"):
 
 ```default
 Apple Music - music:// or musics:// or audio-player-event://
@@ -309,7 +312,8 @@ function openURL(url) {
 }
 ```
 
-> Note that the use of non-public APIs is not permitted on the App Store, that's why we don't even test these but we are allowed to use them for our dynamic analysis.
+!!! note
+    The use of non-public APIs is not permitted on the App Store. That's why we don't even test these, but we are allowed to use them for our dynamic analysis.
 
 ### Identifying and Hooking the URL Handler Method
 

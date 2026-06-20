@@ -3,7 +3,7 @@ title: Retrieving PrivacyInfo.xcprivacy Files
 platform: ios
 ---
 
-iOS apps can include [privacy manifest files](https://developer.apple.com/documentation/bundleresources/privacy-manifest-files) that provides information about the app's privacy practices as well as its components (e.g. Frameworks, Plugins, etc.). These files are typically named `PrivacyInfo.xcprivacy` and are used to declare the app's data collection practices, including any third-party libraries or frameworks that may collect user data.
+iOS apps can include [privacy manifest files](https://developer.apple.com/documentation/bundleresources/privacy-manifest-files) that provide information about the app's privacy practices and its components (e.g., Frameworks, Plugins, etc.). These files are typically named `PrivacyInfo.xcprivacy` and are used to declare the app's data collection practices, including any third-party libraries or frameworks that may collect user data.
 
 To retrieve these files, you can use the following command in your terminal:
 
@@ -31,7 +31,7 @@ find . -name "PrivacyInfo.xcprivacy"
 ...
 ```
 
-This output shows how SocialApp has multiple `PrivacyInfo.xcprivacy` files, including one for the main app (`./SocialApp.app/PrivacyInfo.xcprivacy`) and several others for its .bundles, PlugIns, Extensions and Frameworks (and any other nested .bundles).
+This output shows how SocialApp has multiple `PrivacyInfo.xcprivacy` files, including one for the main app (`./SocialApp.app/PrivacyInfo.xcprivacy`) and several others for its .bundles, PlugIns, Extensions, and Frameworks (and any other nested .bundles).
 
 Let's take a look at the main privacy manifest, `./SocialApp.app/PrivacyInfo.xcprivacy` (truncated for readability):
 

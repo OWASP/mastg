@@ -3,37 +3,42 @@ platform: android
 title: Using SharedPreferences to Write Sensitive Data Unencrypted to the App Sandbox
 id: MASTG-DEMO-0059
 code: [kotlin]
-test: MASTG-TEST-0207
+test: MASTG-TEST-0287
+kind: fail
 ---
 
-### Sample
+## Sample
 
-The code below stores sensitive data using the `SharedPreferences` API, both with and without encryption:
+The sample app stores sensitive data in `SharedPreferences`, which writes XML files inside the app's private sandbox storage.
+
+Under normal Android sandboxing, other apps cannot directly read these files. However, if the app data directory becomes accessible, for example on a rooted or compromised device or through backup extraction, any unencrypted values stored in these XML files can be read directly.
+
+The app stores the following sensitive data using the `SharedPreferences` API, both with and without encryption:
 
 - An AWS key is stored encrypted
 - A GitHub token is stored unencrypted
-- A set of binary pre-shared keys is stored unencrypted
+- A set of PEM-encoded private keys is stored unencrypted
 
 When encryption is performed, it uses a securely generated key stored in the Android KeyStore.
 
 {{ MastgTest.kt }}
 
-When executing the code, you will be able to inspect the shared preferences file created in the app sandbox. For example, run the following command:
+On a rooted device, you can inspect the shared preferences file created in the app sandbox. For example, run the following command:
 
 ```sh
-adb shell cat /data/data/org.owasp.mastestapp/shared_prefs/MasSharedPref_Sensitive_Data.xml
+adb shell su -c 'cat /data/data/org.owasp.mastestapp/shared_prefs/MasSharedPref_Sensitive_Data.xml'
 ```
 
 Which returns:
 
 {{ MasSharedPref_Sensitive_Data.xml }}
 
-All unencrypted entries can be leveraged by an attacker.
+The unencrypted token and private-key values are visible in the XML file if the app data directory can be accessed.
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
-2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
+2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device
 3. Run `run.sh` to spawn the app with Frida
 4. Click the **Start** button
 5. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
@@ -48,15 +53,15 @@ Our hooks also trace calls to cryptographic methods to help determine whether th
     - [`javax.crypto.KeyGenerator.*(...)`](https://developer.android.com/reference/javax/crypto/KeyGenerator)
     - [`android.util.Base64.*(...)`](https://developer.android.com/reference/android/util/Base64)
 
-{{ hooks.js # run.sh }}
+{{ hooks.json # run.sh }}
 
-### Observation
+## Observation
 
 The output shows all instances of strings written via `SharedPreferences` that were found at runtime. A backtrace is also provided to help identify the corresponding locations in the code.
 
 {{ output.json }}
 
-### Evaluation
+## Evaluation
 
 The test fails because secrets are written to SharedPreferences without encryption.
 
@@ -64,7 +69,7 @@ In `output.json` we can identify several entries that use the `SharedPreferences
 
 Determining if a string is encrypted or not, especially with crypto keys can be challenging.
 
-#### Option 1: High level trace inspection
+### Option 1: High level trace inspection
 
 After slightly processing the output using `jq`, we can get a high level view of the relevant calls, which can help us identify unencrypted secrets.
 
@@ -76,7 +81,7 @@ Here we can see that:
 - the value `V1QyXhGV88RQLmMjoTLLl...` has several calls to Cipher and then a `putString`.
 - the set of values `MIIEvAIBADAN...` and `gJXS9EwpuzK8...` are also not preceded by any Cipher calls when written via `putStringSet`.
 
-#### Option 2: Pattern matching
+### Option 2: Pattern matching
 
 At this point you could use a secrets detection tool such as @MASTG-TOOL-0144 to try to detect any secrets present in cleartext or encoded.
 

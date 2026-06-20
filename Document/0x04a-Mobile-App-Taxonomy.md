@@ -1,3 +1,7 @@
+---
+platform: generic
+---
+
 # Mobile Application Taxonomy
 
 When we use the term "mobile application" or "mobile app," we are referring to a self-contained computer program designed to execute on a mobile device. At the time of publication, the Android and iOS operating systems cumulatively comprise [more than 99% of the mobile OS market share](https://www.idc.com/promo/smartphone-market-share/os) and mobile Internet usage has far surpassed desktop Internet usage. This means that mobile apps are the [most widespread types of Internet-capable apps](https://www.idc.com/promo/smartphone-market-share/os).
@@ -26,8 +30,7 @@ The most obvious disadvantage of _native apps_ is that they are limited to one s
 
 Here are some cross-platform mobile frameworks that allow developers to compile a single codebase for different targets, including both Android and iOS:
 
-- [Xamarin](https://dotnet.microsoft.com/apps/xamarin "Xamarin")
-- [MAUI](https://dotnet.microsoft.com/en-us/apps/maui ".NET MAUI")
+- [.NET MAUI](https://dotnet.microsoft.com/en-us/apps/maui ".NET MAUI")
 - [Flutter](https://flutter.dev/ "Google Flutter")
 - [React Native](https://reactnative.dev/ "React Native")
 - [Unity](https://unity.com/ "Unity")

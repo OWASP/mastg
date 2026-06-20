@@ -3,7 +3,7 @@ title: Exploring the App Package
 platform: ios
 ---
 
-Once you have collected the package name of the application you want to target, you'll want to start gathering information about it. First, retrieve the @MASTG-APP-0028 IPA as explained in @MASTG-TECH-0054.
+Once you have the application package name you want to target, you may want to start gathering information about it. First, retrieve the @MASTG-APP-0028 IPA as explained in @MASTG-TECH-0054.
 
 You can unzip the IPA using the standard `unzip` or any other ZIP utility.
 
@@ -11,7 +11,7 @@ You can unzip the IPA using the standard `unzip` or any other ZIP utility.
 unzip iGoat-Swift.ipa
 ```
 
-Inside you'll find a `Payload` folder containing the so-called Application Bundle (.app). The following is an example in the following output, note that it was truncated for better readability and overview:
+Inside you'll find a `Payload` folder containing the so-called Application Bundle (.app). The following is an example of the output. Note that it was truncated for better readability and overview:
 
 ```bash
 $ ls -1 Payload/iGoat-Swift.app
@@ -55,14 +55,14 @@ The most relevant items are:
 - `_CodeSignature/` contains a plist file with a signature over all files in the bundle.
 - `Frameworks/` contains the app native libraries as .dylib or .framework files.
 - `PlugIns/` may contain app extensions as .appex files (not present in the example).
-- iGoat-Swift is the app binary containing the app's code. Its name is the same as the bundle's name minus the .app extension.
-- Various resources such as images/icons, `*.nib` files (storing the user interfaces of iOS app), localized content (`<language>.lproj`), text files, audio files, etc.
+- iGoat-Swift is the app binary containing the app's code. Its name is the same as the bundle's, without the .app extension.
+- Various resources such as images/icons, `*.nib` files (storing the user interfaces of iOS apps), localized content (`<language>.lproj`), text files, audio files, etc.
 
 ## The Info.plist File
 
-The information property list or `Info.plist` (named by convention) is the main source of information for an iOS app. It consists of a structured file containing key-value pairs describing essential configuration information about the app. Actually, all bundled executables (app extensions, frameworks and apps) are expected to have an `Info.plist` file. You can find all possible keys in the [Apple Developer Documentation](https://developer.apple.com/documentation/bundleresources/information_property_list?language=objc "Information Property List").
+The information property list, or `Info.plist` (by convention), is the primary source of information for an iOS app. It is a structured file containing key-value pairs that describe essential configuration information for the app. Actually, all bundled executables (app extensions, frameworks, and apps) are expected to have an `Info.plist` file. You can find all possible keys in the [Apple Developer Documentation](https://developer.apple.com/documentation/bundleresources/information_property_list?language=objc "Information Property List").
 
-The file might be formatted in XML or binary (bplist). You can convert it to XML format with one simple command:
+The file might be formatted as XML or in binary (bplist) format. You can convert it to XML format with one simple command:
 
 - On macOS with `plutil`, which is a tool that comes natively with macOS 10.2 and above versions (no official online documentation is currently available):
 
@@ -77,7 +77,7 @@ The file might be formatted in XML or binary (bplist). You can convert it to XML
   plistutil -i Info.plist -o Info_xml.plist
   ```
 
-Here's a non-exhaustive list of some info and the corresponding keywords that you can easily search for in the `Info.plist` file by just inspecting the file or by using `grep -i <keyword> Info.plist`:
+Here's a non-exhaustive list of some info and the corresponding keywords that you can search for in the `Info.plist` file by just inspecting the file or by using `grep -i <keyword> Info.plist`:
 
 - App permissions Purpose Strings: `UsageDescription` (see "[iOS Platform APIs](../../Document/0x06h-Testing-Platform-Interaction.md)")
 - Custom URL schemes: `CFBundleURLTypes` (see "[iOS Platform APIs](../../Document/0x06h-Testing-Platform-Interaction.md)")
@@ -92,24 +92,24 @@ iOS app binaries are fat binaries (they can be deployed on all devices 32- and 6
 
 ## Native Libraries
 
-iOS apps can make their codebase modular by using different elements. In the MASTG we will refer to all of them as native libraries, but they can come in different forms:
+iOS apps can make their codebase modular by using different elements. In the MASTG, we will refer to all of them as native libraries, but they can come in different forms:
 
 - [Static and Dynamic Libraries](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/OverviewOfDynamicLibraries.html#//apple_ref/doc/uid/TP40001873-SW1):
     - Static Libraries can be used and will be compiled in the app binary.
     - Dynamic Libraries (typically having the `.dylib` extension) are also used but must be part of a framework bundle. Standalone Dynamic Libraries are [not supported](https://developer.apple.com/library/archive/technotes/tn2435/_index.html#//apple_ref/doc/uid/DTS40017543-CH1-PROJ_CONFIG-APPS_WITH_DEPENDENCIES_BETWEEN_FRAMEWORKS) on iOS, watchOS, or tvOS, except for the system Swift libraries provided by Xcode.
 - [Frameworks](https://developer.apple.com/library/archive/technotes/tn2435/_index.html#//apple_ref/doc/uid/DTS40017543-CH1-PROJ_CONFIG-APPS_WITH_DEPENDENCIES_BETWEEN_FRAMEWORKS) (since iOS 8). A Framework is a hierarchical directory that encapsulates a dynamic library, header files, and resources, such as storyboards, image files, and localized strings, into a single package.
-- [Binary Frameworks (`XCFrameworks`)](https://developer.apple.com/videos/play/wwdc2019/416/): Xcode 11 supports distributing binary libraries using the `XCFrameworks` format which is a new way to bundle up multiple variants of a Framework, e.g. for any of the platforms that Xcode supports (including simulator and devices). They can also bundle up static libraries (and their corresponding headers) and support binary distribution of Swift and C-based code. `XCFrameworks` can be [distributed as Swift Packages](https://developer.apple.com/documentation/xcode/distributing-binary-frameworks-as-swift-packages).
-- [Swift Packages](https://developer.apple.com/documentation/xcode/swift-packages): Xcode 11 add supports for Swift packages, which are reusable components of Swift, Objective-C, Objective-C++, C, or C++ code that developers can use in their projects and are distributed as source code. Since Xcode 12 they can also [bundle resources](https://developer.apple.com/videos/play/wwdc2020/10169/), such as images, storyboards, and other files. Since Package libraries are [static by default](https://developer.apple.com/videos/play/wwdc2019/408/?time=739). Xcode compiles them, and the packages they depend on, and then links and combines everything into the application.
+- [Binary Frameworks (`XCFrameworks`)](https://developer.apple.com/videos/play/wwdc2019/416/): Xcode 11 supports distributing binary libraries using the `XCFrameworks` format, which is a new way to bundle up multiple variants of a Framework, e.g., for any of the platforms that Xcode supports (including simulator and devices). They can also bundle up static libraries (and their corresponding headers) and support binary distribution of Swift and C-based code. `XCFrameworks` can be [distributed as Swift Packages](https://developer.apple.com/documentation/xcode/distributing-binary-frameworks-as-swift-packages).
+- [Swift Packages](https://developer.apple.com/documentation/xcode/swift-packages): Xcode 11 adds support for Swift packages, which are reusable components of Swift, Objective-C, Objective-C++, C, or C++ code that developers can use in their projects and are distributed as source code. Since Xcode 12, they can also [bundle resources](https://developer.apple.com/videos/play/wwdc2020/10169/), such as images, storyboards, and other files. Since Package libraries are [static by default](https://developer.apple.com/videos/play/wwdc2019/408/?time=739), Xcode compiles them, and the packages they depend on, and then links and combines everything into the application.
 
 You can view native libraries in @MASTG-TOOL-0061 by clicking on the Modules icon in the left menu bar:
 
 <img src="Images/Chapters/0x06b/grapefruit_modules.png" width="100%" />
 
-And get a more detailed view including their imports/exports:
+And get a more detailed view, including their imports/exports:
 
 <img src="Images/Chapters/0x06b/grapefruit_modules_detail.png" width="100%" />
 
-They are available in the `Frameworks` folder in the IPA, you can also inspect them from the terminal:
+They are available in the `Frameworks` folder in the IPA you can also inspect them from the terminal:
 
 ```bash
 $ ls -1 Frameworks/
@@ -119,7 +119,7 @@ libswiftCoreData.dylib
 libswiftCoreFoundation.dylib
 ```
 
-or from the device with objection (as well as per SSH of course):
+Or from the device with @MASTG-TOOL-0074 (as well as per SSH, of course):
 
 ```bash
 OWASP.iGoat-Swift on (iPhone: 11.1.2) [usb] # ls
@@ -132,12 +132,12 @@ Regular           420  None                ...  libswiftCoreFoundation.dylib
 ...
 ```
 
-Please note that this might not be the complete list of native code elements being used by the app as some can be part of the source code, meaning that they'll be compiled in the app binary and therefore cannot be found as standalone libraries or Frameworks in the `Frameworks` folder.
+Please note that this may not be a complete list of native code elements used by the app, as some may be part of the source code and therefore compiled into the app binary and hence cannot be found as standalone libraries or Frameworks in the `Frameworks` folder.
 
-For now this is all information you can get about the Frameworks unless you start reverse engineering them. Refer to for more information about how to reverse engineer Frameworks.
+For now, this is all the information you can get about the Frameworks unless you start reverse engineering them. Refer to this for more information on how to reverse-engineer Frameworks.
 
 ## Other App Resources
 
-It is normally worth taking a look at the rest of the resources and files that you may find in the Application Bundle (.app) inside the IPA as some times they contain additional goodies like encrypted databases, certificates, etc.
+It is usually worth reviewing the other resources and files you may find in the Application Bundle (.app) within the IPA, as they sometimes contain additional assets such as encrypted databases, certificates, etc.
 
 <img src="Images/Chapters/0x06b/grapefruit_db_view.png" width="100%" />

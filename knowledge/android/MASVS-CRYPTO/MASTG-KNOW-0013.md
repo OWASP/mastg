@@ -1,7 +1,7 @@
 ---
 masvs_category: MASVS-CRYPTO
 platform: android
-title: Random number generation
+title: Random Number Generation
 ---
 
 Cryptography requires secure pseudo random number generation (PRNG). Standard Java classes as `java.util.Random` do not provide sufficient randomness and in fact may make it possible for an attacker to guess the next value that will be generated, and use this guess to impersonate another user or access sensitive information.

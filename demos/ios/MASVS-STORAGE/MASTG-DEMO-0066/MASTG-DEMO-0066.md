@@ -6,13 +6,13 @@ id: MASTG-DEMO-0066
 test: MASTG-TEST-0296
 ---
 
-### Sample
+## Sample
 
 The code snippet below shows sample code that logs a sensitive token:
 
 {{ ../MASTG-DEMO-0065/MastgTest.swift }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0056).
 2. Make sure you have @MASTG-TOOL-0126 installed on your machine.
@@ -22,13 +22,13 @@ The code snippet below shows sample code that logs a sensitive token:
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output contains all device logs, including the logged strings from the app.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test fails because we can see `TOKEN=123` in the logs:
 

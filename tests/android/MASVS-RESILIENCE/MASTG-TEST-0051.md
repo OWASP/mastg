@@ -8,6 +8,8 @@ title: Testing Obfuscation
 masvs_v1_levels:
 - R
 profiles: [R]
+covered_by: [MASTG-TEST-0368, MASTG-TEST-0369]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview

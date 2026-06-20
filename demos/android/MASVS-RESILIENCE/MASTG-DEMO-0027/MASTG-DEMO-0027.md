@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0249
 ---
 
-### Sample
+## Sample
 
 This sample checks if the device has a secure lock screen via `KeyguardManager.isDeviceSecure` and if the device supports strong biometric authentication using `BiometricManager.canAuthenticate`.
 
 {{ MastgTest.kt }}
 
-### Steps
+## Steps
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device
@@ -22,13 +22,13 @@ This sample checks if the device has a secure lock screen via `KeyguardManager.i
 
 {{ run.sh # script.js }}
 
-### Observation
+## Observation
 
 The output reveals the use of `KeyguardManager.isDeviceSecure` and `BiometricManager.canAuthenticate`.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test passes because the output shows the use of `KeyguardManager.isDeviceSecure` and `BiometricManager.canAuthenticate` at runtime. We can see that:
 

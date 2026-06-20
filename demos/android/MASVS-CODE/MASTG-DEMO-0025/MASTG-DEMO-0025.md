@@ -6,13 +6,13 @@ code: [kotlin]
 test: MASTG-TEST-0245
 ---
 
-### Sample
+## Sample
 
 The following sample uses the `Build.VERSION.SDK_INT` API to check the operating system version.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}
 
-### Steps
+## Steps
 
 Let's run @MASTG-TOOL-0110 rules against the sample code.
 
@@ -20,12 +20,12 @@ Let's run @MASTG-TOOL-0110 rules against the sample code.
 
 {{ run.sh }}
 
-### Observation
+## Observation
 
 The output file shows usages of the API that verifies the operating system version.
 
 {{ output.txt }}
 
-### Evaluation
+## Evaluation
 
 The test passes because the output shows references to SDK version check API.

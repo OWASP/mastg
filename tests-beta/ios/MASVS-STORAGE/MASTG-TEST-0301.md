@@ -2,25 +2,26 @@
 platform: ios
 title: Runtime Use of APIs for Storing Unencrypted Data in Private Storage
 id: MASTG-TEST-0301
-type: [dynamic]
+type: [dynamic, hooks]
 profiles: [L2]
 weakness: MASWE-0006
 best-practices: [MASTG-BEST-0024]
+knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0x52-1 and is designed to be used together with @MASTG-TEST-0x52-3.
+This test is the dynamic counterpart to @MASTG-TEST-0300 and is designed to be used together with @MASTG-TEST-0302.
 
-It uses runtime method hooking to identify if sensitive data is written unencrypted to private storage (@MASTG-KNOW-0108) or directly in the Keychain by monitoring file (@MASTG-KNOW-0091) and Keychain (@MASTG-KNOW-0057) APIs.
+It uses runtime method hooking to identify if sensitive data is written unencrypted to private storage or directly in the Keychain by monitoring file and Keychain APIs.
 
 Note that some of the target APIs route I/O through system daemons or otherwise avoid direct `open` and `write` syscalls, so you'll have to hook the relevant Objective C or Swift APIs rather than tracing syscalls only.
 
 ## Steps
 
-1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of file system APIs that create or write files.
-2. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of Keychain APIs.
-3. Exercise app features that could handle sensitive data (authentication flows, session establishment, offline caching, profile viewing/editing, cryptographic operations, secure messaging, payment, or token refresh logic).
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
