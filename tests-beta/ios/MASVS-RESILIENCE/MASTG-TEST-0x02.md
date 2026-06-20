@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Testing Device and App Binary Integrity Verification
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0x02
 apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
 type: [static]
 weakness: MASWE-0104
