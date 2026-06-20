@@ -1,13 +1,13 @@
 ---
 platform: ios
-title: Data Sharing Between App Extensions and Containing Apps
+title: References to App Extension APIs Storing Unencrypted Data
 id: MASTG-TEST-0x01
-type: [static, manual]
-weakness: MASWE-0053
+type: [static, code, manual]
+weakness: MASWE-0006
 threat: [app]
 prerequisites:
 - identify-sensitive-data
-best-practices: [MASTG-BEST-0025]
+best-practices: [MASTG-BEST-0x01]
 profiles: [L1, L2]
 ---
 
@@ -27,10 +27,7 @@ This test verifies whether the app contains app extensions and checks if they sh
    - The extension type via the [`NSExtensionPointIdentifier`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsextension/nsextensionpointidentifier) key, which identifies the functionality the extension provides (e.g., share extension, widget, custom keyboard).
    - The supported data types via the [`NSExtensionActivationRule`](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW8) key (for share and action extensions), which specifies the types and amounts of data the extension can handle.
 4. Check both the containing app and each app extension for the presence of the [App Groups entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_application-groups) (`com.apple.security.application-groups`) in their respective entitlements files or embedded provisioning profiles (`embedded.mobileprovision`). This entitlement indicates that data sharing is enabled between the app and its extensions.
-5. Review the app's and extension's code using @MASTG-TECH-0076 to identify usage of shared storage APIs:
-   - [`UserDefaults(suiteName:)`](https://developer.apple.com/documentation/foundation/userdefaults/1409957-init) to access shared user defaults.
-   - [`FileManager.containerURL(forSecurityApplicationGroupIdentifier:)`](https://developer.apple.com/documentation/foundation/filemanager/1412643-containerurl) to access shared file containers.
-   - [`NSPersistentContainer`](https://developer.apple.com/documentation/coredata/nspersistentcontainer) with App Group configurations for shared Core Data storage.
+5. Check if keychain sharing is configured via the `keychain-access-groups` entitlement, which allows sharing of Keychain items between the app and its extensions.
 
 ## Observation
 
@@ -48,5 +45,12 @@ The test case fails if:
 - The app and its extensions use the App Groups entitlement to share data via a common container, and sensitive data is stored in the shared container without adequate protection (e.g., encryption, access controls).
 - Sensitive data can be accessed by any extension with the same App Group, even if the extension does not require access to that data for its intended functionality.
 - Shared user defaults or shared file containers contain sensitive information in plaintext or with insufficient protection.
+
+**Further Validation Required:**
+
+Review the app's and extension's code using @MASTG-TECH-0076 to identify usage of shared storage APIs:
+   - [`UserDefaults(suiteName:)`](https://developer.apple.com/documentation/foundation/userdefaults/1409957-init) to access shared user defaults.
+   - [`FileManager.containerURL(forSecurityApplicationGroupIdentifier:)`](https://developer.apple.com/documentation/foundation/filemanager/1412643-containerurl) to access shared file containers.
+   - [`NSPersistentContainer`](https://developer.apple.com/documentation/coredata/nspersistentcontainer) with App Group configurations for shared Core Data storage.
 
 Determining what constitutes sensitive data is context-dependent. Review the identified code locations in the disassembled code to assess whether shared data includes sensitive information and whether appropriate safeguards are in place. Consider the functionality of each extension and whether the data sharing is necessary and minimized.
