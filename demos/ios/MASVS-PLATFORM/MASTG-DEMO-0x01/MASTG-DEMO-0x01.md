@@ -1,9 +1,9 @@
 ---
 platform: ios
 title: Identifying Data Sharing Between App and Extensions via App Groups
-id: MASTG-DEMO-0068
+id: MASTG-DEMO-0x01
 code: [swift]
-test: MASTG-TEST-0291
+test: MASTG-TEST-0x01
 ---
 
 ### Sample

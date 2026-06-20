@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Data Sharing Between App Extensions and Containing Apps
-id: MASTG-TEST-0291
+id: MASTG-TEST-0x01
 type: [static, manual]
 weakness: MASWE-0053
 threat: [app]

@@ -1,7 +1,7 @@
 ---
 title: Secure Data Sharing Between App Extensions and Containing Apps
 alias: secure-app-extension-data-sharing
-id: MASTG-BEST-0025
+id: MASTG-BEST-0x01
 platform: ios
 ---
 

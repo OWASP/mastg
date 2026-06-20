@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: Runtime Monitoring of Data Shared Between App Extensions and Containing Apps
-id: MASTG-TEST-0292
+id: MASTG-TEST-0x02
 type: [dynamic]
 weakness: MASWE-0053
 threat: [app]
@@ -13,13 +13,13 @@ profiles: [L1, L2]
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0291.
+This test is the dynamic counterpart to @MASTG-TEST-0x01.
 
 When app extensions and their containing apps share data via [App Groups](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_application-groups), you can monitor the shared data at runtime to verify whether they exchange sensitive information. This test uses dynamic instrumentation to trace the use of shared storage APIs and capture the data read from or written to shared containers, user defaults, or databases.
 
 ## Steps
 
-1. Identify the App Group identifier(s) used by the app and its extensions from the entitlements files or embedded provisioning profiles (see @MASTG-TEST-0291).
+1. Identify the App Group identifier(s) used by the app and its extensions from the entitlements files or embedded provisioning profiles (see @MASTG-TEST-0x01).
 2. Use @MASTG-TECH-0086 or write a Frida script to hook methods related to shared storage access:
    - For shared user defaults: [`UserDefaults.init(suiteName:)`](https://developer.apple.com/documentation/foundation/userdefaults/1409957-init), `UserDefaults.set*` and `UserDefaults.*forKey` methods.
    - For shared file containers: [`FileManager.containerURL(forSecurityApplicationGroupIdentifier:)`](https://developer.apple.com/documentation/foundation/filemanager/1412643-containerurl) and file I/O operations on paths within the shared container.

@@ -6,7 +6,7 @@ import os
 struct MastgTest {
   
   static func mastgTest(completion: @escaping (String) -> Void) {
-    // FAIL: [MASTG-TEST-0291] The app shares sensitive data via App Groups without encryption
+    // FAIL: [MASTG-TEST-0x01] The app shares sensitive data via App Groups without encryption
     
     let appGroupID = "group.org.owasp.mastestapp"
     
@@ -43,7 +43,7 @@ struct MastgTest {
       }
     }
     
-    // PASS: [MASTG-TEST-0291] Non-sensitive data can be safely shared
+    // PASS: [MASTG-TEST-0x01] Non-sensitive data can be safely shared
     if let sharedDefaults = UserDefaults(suiteName: appGroupID) {
       sharedDefaults.set("en-US", forKey: "preferredLanguage")
       sharedDefaults.set("light", forKey: "themeMode")
