@@ -1,21 +1,31 @@
 ---
 platform: ios
-title: Testing Device and App Binary Integrity Verification
+title: References to Source Code Integrity Check APIs
 id: MASTG-TEST-0x01
-apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0104
-best-practices: [MASTG-BEST-0x01]
+false_negative_prone: true
 profiles: [R]
-knowledge: [MASTG-KNOW-0x03]
-status: placeholder
+knowledge: [MASTG-KNOW-0086]
+best-practices: [MASTG-BEST-0x01]
 ---
 
 ## Overview
 
-This test checks whether the app implements device and app integrity verification by statically analyzing the app binary for relevant API usage patterns. On iOS, modern app attestation is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which lets a server cryptographically verify that a request comes from a genuine, unmodified instance of the app running on a real Apple device (@MASTG-KNOW-0x03).
+iOS apps can implement runtime source code integrity checks to detect if the binary has been tampered with. These checks typically parse the Mach-O binary structure to locate the `__TEXT/__text` section, compute a hash over it, and compare that hash against a reference value (see @MASTG-KNOW-0086). If the app does not implement such checks, an attacker who patches the binary can go undetected.
 
-See @MASTG-KNOW-0x03 for more information on App Attest and the specific APIs and fields to look for.
+This test verifies that the app references APIs commonly used to implement source code integrity checks, such as `dladdr` for resolving the binary base address, Mach-O header parsing structures (`mach_header`, `load_command`), and cryptographic hash functions applied to code sections (e.g., `CC_SHA256`).
+
+Note that [Apple's code signing](https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format) and DRM (FairPlay) provide some level of integrity protection at the OS level, but additional in-app runtime checks raise the bar for attackers who operate on jailbroken devices where these protections may be bypassed.
+
+**Example Attack Scenario:**
+
+Suppose a banking app relies only on OS-level code signing and implements no runtime integrity check.
+
+1. An attacker reverse engineers the app and patches the binary to disable a security control (for example, jailbreak detection) using @MASTG-TECH-0090.
+2. The attacker re-signs the modified app with their own certificate using @MASTG-TECH-0092.
+3. The attacker installs the patched app on a jailbroken device, where OS-level code signing no longer protects it.
+4. Because the app never verifies the integrity of its own code at runtime, the tampering goes undetected and the attacker can run the app with the security control removed.
 
 ## Steps
 
@@ -24,16 +34,19 @@ See @MASTG-KNOW-0x03 for more information on App Attest and the specific APIs an
 
 ## Observation
 
-The output should contain a list of locations where the App Attest APIs are used.
+The output should include any references to source code integrity check APIs such as `dladdr`, `mach_header`, `LC_SEGMENT`, and cryptographic hash functions (e.g., `CC_MD5`, `CC_SHA256`, `CC_SHA512`) applied to code sections.
 
 ## Evaluation
 
-The test case fails if none of the App Attest APIs (`DCAppAttestService.generateKey`, `attestKey`, `generateAssertion`) are found in the app.
+The test case fails if the app contains no references to source code integrity check APIs.
 
 **Further Validation Required:**
 
-The presence of these APIs does not by itself confirm a robust implementation. The following properties cannot be determined from a reference search alone and require manual or dynamic analysis:
+Inspect each reported code location using @MASTG-TECH-0076 to determine whether the referenced APIs actually implement a source code integrity check:
 
-- The `clientDataHash` passed to `attestKey` and `generateAssertion` must be derived from a one-time, server-provided challenge; otherwise the attestation can be replayed.
-- The app should generate an assertion (`generateAssertion`) for sensitive requests, not only attest the key once (`attestKey`), so that ongoing requests remain bound to the attested app instance.
-- The server must verify the attestation object and assertions against Apple's [published verification steps](https://developer.apple.com/documentation/devicecheck/validating-apps-that-connect-to-your-server); client-side use of `DCAppAttestService` alone provides no security guarantee.
+- Determine whether the hash is computed over the `__TEXT/__text` section (rather than, for example, hashing unrelated data for caching or networking).
+- Determine whether the computed hash is compared against a stored reference value and the app reacts when the comparison fails.
+
+**Expected False Negatives:**
+
+This test may produce false negatives if the integrity check is built using patterns not covered by the analysis (for example, a custom hash function instead of `CC_SHA256`). In such cases, the absence of findings does not guarantee the absence of an integrity check, and additional manual reverse engineering may be required.
