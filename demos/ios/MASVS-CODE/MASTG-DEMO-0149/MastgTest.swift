@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: FAIL example
 
-// FAIL: [MASTG-TEST-0x01] InsecureUserSession conforms to NSCoding instead of NSSecureCoding,
+// FAIL: [MASTG-TEST-0386] InsecureUserSession conforms to NSCoding instead of NSSecureCoding,
 // so it provides no class restriction when its archives are decoded.
 @objc class InsecureUserSession: NSObject, NSCoding {
     let userID: String
@@ -28,7 +28,7 @@ import Foundation
     }
 
     required convenience init?(coder: NSCoder) {
-        // FAIL: [MASTG-TEST-0x01] decodeObject(forKey:) doesn't restrict the expected class.
+        // FAIL: [MASTG-TEST-0386] decodeObject(forKey:) doesn't restrict the expected class.
         guard let userID = coder.decodeObject(forKey: "userID") as? String else {
             return nil
         }
@@ -136,7 +136,7 @@ struct MastgTest {
         completion(importSharedSession(from: url))
     }
 
-    // FAIL: [MASTG-TEST-0x01] The app accepts a session from a deep link and deserializes
+    // FAIL: [MASTG-TEST-0386] The app accepts a session from a deep link and deserializes
     // attacker-controlled data. Anyone can send a mastgtest://import?session=<base64 archive> link
     // (for example in Safari or Notes); opening it runs the insecure decode below, with no app of
     // the attacker's own required.
@@ -164,10 +164,10 @@ struct MastgTest {
         do {
             let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
 
-            // FAIL: [MASTG-TEST-0x01] Secure coding enforcement is explicitly disabled.
+            // FAIL: [MASTG-TEST-0386] Secure coding enforcement is explicitly disabled.
             unarchiver.requiresSecureCoding = false
 
-            // FAIL: [MASTG-TEST-0x01] The root object is decoded without restricting the expected class.
+            // FAIL: [MASTG-TEST-0386] The root object is decoded without restricting the expected class.
             // A substituted class is instantiated here, and its init(coder:) runs, before the cast below can reject it.
             let object = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey)
             unarchiver.finishDecoding()

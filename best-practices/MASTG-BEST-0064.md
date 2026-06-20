@@ -1,7 +1,7 @@
 ---
 title: Use Safe APIs for Object Deserialization
 alias: use-safe-apis-for-object-deserialization
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0064
 platform: ios
 knowledge: [MASTG-KNOW-0075]
 ---

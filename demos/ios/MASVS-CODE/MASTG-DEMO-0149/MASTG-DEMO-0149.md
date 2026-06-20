@@ -2,8 +2,8 @@
 platform: ios
 title: References to Object Deserialization of a URL Scheme Payload with r2
 code: [swift, xml]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0149
+test: MASTG-TEST-0386
 status: draft
 ---
 
@@ -23,7 +23,7 @@ swift PayloadGenerator.swift
 
 {{ PayloadGenerator.swift }}
 
-To test it with the app running on a device, follow @MASTG-TECH-0x01. Once you trigger the URL scheme and the app opens, click on **Start** so the app processes the link.
+To test it with the app running on a device, follow @MASTG-TECH-0169. Once you trigger the URL scheme and the app opens, click on **Start** so the app processes the link.
 
 The payload is deserialized through both an insecure and a secure path:
 
