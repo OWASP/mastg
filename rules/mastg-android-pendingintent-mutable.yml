@@ -1,0 +1,39 @@
+rules:
+  - id: mastg-android-pendingintent-mutable
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: Detects PendingIntent creation that may be vulnerable due to mutability.
+    message: "[MASVS-PLATFORM-1] PendingIntent created without FLAG_IMMUTABLE or with FLAG_MUTABLE may be vulnerable to hijacking."
+    pattern-either:
+      - patterns:
+          - pattern: PendingIntent.getActivity($CTX, $REQ, $INTENT, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(0|134217728|33554432|0x08000000|0x02000000|PendingIntent\.FLAG_UPDATE_CURRENT|PendingIntent\.FLAG_MUTABLE)$
+      - patterns:
+          - pattern: PendingIntent.getActivities($CTX, $REQ, $INTENTS, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(0|134217728|33554432|0x08000000|0x02000000|PendingIntent\.FLAG_UPDATE_CURRENT|PendingIntent\.FLAG_MUTABLE)$
+      - patterns:
+          - pattern: PendingIntent.getActivities($CTX, $REQ, $INTENTS, $FLAGS, $BUNDLE)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(0|134217728|33554432|0x08000000|0x02000000|PendingIntent\.FLAG_UPDATE_CURRENT|PendingIntent\.FLAG_MUTABLE)$
+      - patterns:
+          - pattern: PendingIntent.getService($CTX, $REQ, $INTENT, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(0|134217728|33554432|0x08000000|0x02000000|PendingIntent\.FLAG_UPDATE_CURRENT|PendingIntent\.FLAG_MUTABLE)$
+      - patterns:
+          - pattern: PendingIntent.getForegroundService($CTX, $REQ, $INTENT, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(0|134217728|33554432|0x08000000|0x02000000|PendingIntent\.FLAG_UPDATE_CURRENT|PendingIntent\.FLAG_MUTABLE)$
+      - patterns:
+          - pattern: PendingIntent.getBroadcast($CTX, $REQ, $INTENT, $FLAGS)
+          - metavariable-regex:
+              metavariable: $FLAGS
+              regex: ^(0|134217728|33554432|0x08000000|0x02000000|PendingIntent\.FLAG_UPDATE_CURRENT|PendingIntent\.FLAG_MUTABLE)$
