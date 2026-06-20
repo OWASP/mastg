@@ -3,32 +3,37 @@ platform: android
 title: Using SharedPreferences to Write Sensitive Data Unencrypted to the App Sandbox
 id: MASTG-DEMO-0059
 code: [kotlin]
-test: MASTG-TEST-0207
+test: MASTG-TEST-0287
+kind: fail
 ---
 
 ## Sample
 
-The code below stores sensitive data using the `SharedPreferences` API, both with and without encryption:
+The sample app stores sensitive data in `SharedPreferences`, which writes XML files inside the app's private sandbox storage.
+
+Under normal Android sandboxing, other apps cannot directly read these files. However, if the app data directory becomes accessible, for example on a rooted or compromised device or through backup extraction, any unencrypted values stored in these XML files can be read directly.
+
+The app stores the following sensitive data using the `SharedPreferences` API, both with and without encryption:
 
 - An AWS key is stored encrypted
 - A GitHub token is stored unencrypted
-- A set of binary pre-shared keys is stored unencrypted
+- A set of PEM-encoded private keys is stored unencrypted
 
 When encryption is performed, it uses a securely generated key stored in the Android KeyStore.
 
 {{ MastgTest.kt }}
 
-When executing the code, you will be able to inspect the shared preferences file created in the app sandbox. For example, run the following command:
+On a rooted device, you can inspect the shared preferences file created in the app sandbox. For example, run the following command:
 
 ```sh
-adb shell cat /data/data/org.owasp.mastestapp/shared_prefs/MasSharedPref_Sensitive_Data.xml
+adb shell su -c 'cat /data/data/org.owasp.mastestapp/shared_prefs/MasSharedPref_Sensitive_Data.xml'
 ```
 
 Which returns:
 
 {{ MasSharedPref_Sensitive_Data.xml }}
 
-All unencrypted entries can be leveraged by an attacker.
+The unencrypted token and private-key values are visible in the XML file if the app data directory can be accessed.
 
 ## Steps
 

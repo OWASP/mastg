@@ -1,0 +1,9 @@
+rules:
+  - id: android-intent-filter-custom-action
+    severity: WARNING
+    languages:
+      - xml
+    metadata:
+      summary: Detects the app registering as a handler for a custom implicit intent action.
+    message: "[MASVS-CODE-4] App registers an intent-filter for a custom action. It can intercept implicit intents sent by other apps targeting that action."
+    pattern: <action android:name="org.owasp.mastestapp.INTERNAL_ACTION" />

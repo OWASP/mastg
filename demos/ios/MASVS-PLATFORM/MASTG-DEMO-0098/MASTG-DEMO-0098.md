@@ -36,7 +36,7 @@ The app logs would show:
 
 ## Steps
 
-1. Extract the app binary from the IPA (@MASTG-TECH-0054).
+1. Extract the app binary from the IPA (@MASTG-TECH-0058).
 2. Run @MASTG-TOOL-0073 (radare2) using the provided script to search for references to the relevant WebView methods.
 
 {{ webview_file_access.r2 # run.sh }}

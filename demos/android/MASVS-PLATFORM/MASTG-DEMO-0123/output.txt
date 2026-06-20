@@ -1,0 +1,2 @@
+--------- beginning of main
+06-05 08:17:34.993 12771 12771 E EXFIL   : Exfiltrated from victim: sess_7f3a9b1e4d2c8f0a5e6b3c1d9f4a2e7b
