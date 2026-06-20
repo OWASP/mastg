@@ -10,8 +10,8 @@ masvs_v1_levels:
 - L2
 profiles: [L1, L2]
 status: deprecated
-covered_by: [MASTG-TEST-0x01, MASTG-TEST-0x02]
-deprecation_note: "New version available in MASTG V2"
+covered_by: []
+deprecation_note: "This test has no MASTG v2 successor by design. Whether to share a given item through the Share Sheet is a user-consent decision, and the `excludedActivityTypes` property is not a security control because it cannot restrict the third-party share extensions that are the dominant sharing channel on modern iOS. See @MASTG-KNOW-0081 for background. The static and dynamic analysis techniques from this test have been preserved as @MASTG-TECH-0x01 and @MASTG-TECH-0x02."
 ---
 
 ## Overview
