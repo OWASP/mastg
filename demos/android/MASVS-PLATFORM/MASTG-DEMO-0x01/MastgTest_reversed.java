@@ -20,7 +20,7 @@ public final class MastgTest {
     }
 
     public final String mastgTest() {
-        return "This app is vulnerable to deep link attacks.\n\nTest with:\nadb shell am start -a android.intent.action.VIEW -d \"vulnerable-app://deeplink?url=https://example.com\"";
+        return "This app is vulnerable to deep link attacks.\n\nTest with:\nadb shell am start -n org.owasp.mastestapp/.DeepLinkActivity -a android.intent.action.VIEW -d \"vulnerable-app://deeplink?url=https://example.com\"";
     }
 
     public final void processDeepLinkAndLoad(Uri uri) {

@@ -23,12 +23,24 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         android:extractNativeLibs="false"
+        android:fullBackupContent="@xml/backup_rules"
         android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:theme="@style/Theme.MASTestApp"
             android:name="org.owasp.mastestapp.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.MASTestApp"
+            android:name="org.owasp.mastestapp.DeepLinkActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -38,15 +50,12 @@
                     android:scheme="vulnerable-app"
                     android:host="deeplink"/>
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true"/>
         <activity
+            android:theme="@android:style/Theme.Material.Light.NoActionBar"
             android:name="androidx.activity.ComponentActivity"
             android:exported="true"/>
         <provider
