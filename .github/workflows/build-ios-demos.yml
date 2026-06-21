@@ -87,14 +87,6 @@ jobs:
           [ -f "$demo/MastgTest.swift" ] && cp -f "$demo/MastgTest.swift" mas-app-ios/MASTestApp/MastgTest.swift && echo "Copied MastgTest.swift for $demo" || echo "No MastgTest.swift found for $demo"
           [ -f "$demo/Info.plist" ] && cp -f "$demo/Info.plist" mas-app-ios/MASTestApp/Info.plist && echo "Copied Info.plist for $demo" || echo "No Info.plist found for $demo"
 
-          # App Extension files (only when the demo provides them). Requires the ShareExtension
-          # target to exist in mas-app-ios (see the demo's mas-app-ios setup notes).
-          if [ -f "$demo/ShareViewController.swift" ]; then
-            mkdir -p mas-app-ios/ShareExtension
-            cp -f "$demo/ShareViewController.swift" mas-app-ios/ShareExtension/ShareViewController.swift && echo "Copied ShareViewController.swift for $demo"
-            [ -f "$demo/ShareExtension_Info.plist" ] && cp -f "$demo/ShareExtension_Info.plist" mas-app-ios/ShareExtension/Info.plist && echo "Copied ShareExtension Info.plist for $demo"
-          fi
-
       - name: Build, sign, and package IPA
         run: |
           demo="${{ matrix.demo }}"
@@ -103,9 +95,8 @@ jobs:
           EXT_ENTITLEMENTS=""
 
           [ -f "$demo/MASTestApp.entitlements" ] && EXTRA_ENTITLEMENTS="$GITHUB_WORKSPACE/$demo/MASTestApp.entitlements"
-          [ -f "$demo/ShareExtension.entitlements" ] && EXT_ENTITLEMENTS="$GITHUB_WORKSPACE/$demo/ShareExtension.entitlements"
-
-          ./mas-app-ios/.github/scripts/build-and-package.sh "$IPA_NAME" "$EXTRA_ENTITLEMENTS" "$EXT_ENTITLEMENTS"
+          
+          ./mas-app-ios/.github/scripts/build-and-package.sh "$IPA_NAME" "$EXTRA_ENTITLEMENTS"
           echo "IPA_NAME=$IPA_NAME" >> $GITHUB_ENV
 
       - name: Upload IPA
