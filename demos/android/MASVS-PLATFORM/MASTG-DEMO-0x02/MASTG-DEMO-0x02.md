@@ -29,4 +29,12 @@ The rule has identified that the deep link intent filter is missing the `android
 
 ## Evaluation
 
-The test fails because the app does not enforce Android App Links verification. Without `android:autoVerify="true"`, malicious apps may intercept the app's deep links, leading to phishing or hijacking attacks.
+The test fails because the app does not enforce Android App Links verification. Without `android:autoVerify="true"`, Android never verifies domain ownership against the site's `/.well-known/assetlinks.json`, so `https://deeplink.example.com` is treated as an unverified deep link. Any malicious app can register the same host and scheme to intercept or spoof these links, leading to phishing or hijacking attacks.
+
+To demonstrate the impact, the app routes this link to an exported `DeepLinkActivity` that performs a sensitive action (disabling two-factor authentication) with no verification or user confirmation. Trigger the deep link using @MASTG-TOOL-0004:
+
+```bash
+adb shell am start -W -n org.owasp.mastestapp/.DeepLinkActivity -a android.intent.action.VIEW -d "https://deeplink.example.com/security?twofa=off"
+```
+
+The sensitive setting is changed without any confirmation, showing how any app holding this unverified link can trigger the action.

@@ -9,14 +9,13 @@
           [MASVS-PLATFORM] Deep link intent filter missing android:autoVerify="true", enabling malicious apps
           to hijack links.                                                                                   
                                                                                                              
-           36┆ <intent-filter>
-           37┆     <action android:name="android.intent.action.VIEW"/>
-           38┆     <category android:name="android.intent.category.DEFAULT"/>
-           39┆     <category android:name="android.intent.category.BROWSABLE"/>
-           40┆     <data
-           41┆         android:scheme="http"
-           42┆         android:host="deeplink.example.com"/>
-           43┆     <data
-           44┆         android:scheme="https"
-           45┆         android:host="deeplink.example.com"/>
-
+           45┆ <intent-filter>
+           46┆     <action android:name="android.intent.action.VIEW"/>
+           47┆     <category android:name="android.intent.category.DEFAULT"/>
+           48┆     <category android:name="android.intent.category.BROWSABLE"/>
+           49┆     <data
+           50┆         android:scheme="http"
+           51┆         android:host="deeplink.example.com"/>
+           52┆     <data
+           53┆         android:scheme="https"
+           54┆         android:host="deeplink.example.com"/>
