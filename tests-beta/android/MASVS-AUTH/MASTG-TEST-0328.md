@@ -3,11 +3,11 @@ platform: android
 title: References to APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0328
 apis: [KeyGenParameterSpec.Builder, setInvalidatedByBiometricEnrollment]
-type: [static]
+type: [static, code]
 weakness: MASWE-0046
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
-best-practices: []
+best-practices: [MASTG-BEST-0037]
 ---
 
 ## Overview
@@ -20,7 +20,8 @@ By default and when set to `true`, a key becomes permanently invalidated if a ne
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -28,9 +29,4 @@ The output should include a list of locations where the relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app uses `setInvalidatedByBiometricEnrollment(false)` for keys used to protect sensitive data resources.
-
-The test passes if the app either:
-
-- uses `setInvalidatedByBiometricEnrollment(true)` explicitly, or
-- relies on the default behavior, which invalidates keys on new biometric enrollment when `setUserAuthenticationRequired(true)` is set.
+The test case fails if the app uses `setInvalidatedByBiometricEnrollment(false)` for keys used to protect sensitive data resources.

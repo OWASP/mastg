@@ -2,7 +2,7 @@
 title: Android App Configurations Allowing Cleartext Traffic
 platform: android
 id: MASTG-TEST-0235
-type: [static]
+type: [static, code]
 weakness: MASWE-0050
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0014]
@@ -17,16 +17,14 @@ Since Android 9 (API level 28) cleartext HTTP traffic is blocked by default (tha
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Obtain the AndroidManifest.xml.
-3. Obtain the Network Security Configuration.
-4. Read the value of `usesCleartextTraffic` from the AndroidManifest.xml.
-5. Read the value of `cleartextTrafficPermitted` from the NSC `<base-config>` element.
-6. Read the value of `cleartextTrafficPermitted` from the NSC `<domain-config>` elements.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+3. Use @MASTG-TECH-0150 to read the value of `android:usesCleartextTraffic` and check if `android:networkSecurityConfig` is present.
+4. Use @MASTG-TECH-0151 to read the values of `cleartextTrafficPermitted` in the `<base-config>` and `<domain-config>` elements from the Network Security Configuration file.
 
 ## Observation
 
-The output contains a list of configurations potentially allowing for cleartext traffic.
+The output should contain a list of configurations potentially allowing for cleartext traffic.
 
 ## Evaluation
 
@@ -36,10 +34,11 @@ The test case fails if cleartext traffic is permitted. This can happen if any of
 2. The NSC sets `cleartextTrafficPermitted` to `true` in the `<base-config>`.
 3. The NSC sets `cleartextTrafficPermitted` to `true` in any `<domain-config>`.
 
-**Note:** The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
+!!! note
+    The test doesn't fail if the AndroidManifest sets `usesCleartextTraffic` to `true` and there's a NSC, even if it only has an empty `<network-security-config>` element. For example:
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-</network-security-config>
-```
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <network-security-config>
+    </network-security-config>
+    ```

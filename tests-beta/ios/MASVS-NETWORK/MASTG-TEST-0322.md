@@ -2,7 +2,7 @@
 platform: ios
 title: App Transport Security Configurations Allowing Cleartext Traffic
 id: MASTG-TEST-0322
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0050
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0071]
@@ -26,10 +26,9 @@ For more information on ATS configuration, see @MASTG-KNOW-0071.
 
 ## Steps
 
-1. Extract the app (@MASTG-TECH-0058).
-2. Obtain the `Info.plist` file from the app bundle.
-3. Use @MASTG-TECH-0138 to convert the `Info.plist` to a readable format (if necessary).
-4. Examine the `NSAppTransportSecurity` dictionary for cleartext traffic exceptions.
+1. Use @MASTG-TECH-0058 to unzip the app package.
+2. Use @MASTG-TECH-0153 to retrieve the `Info.plist` file.
+3. Use @MASTG-TECH-0155 to analyze the ATS configuration for cleartext traffic exceptions.
 
 ## Observation
 
@@ -45,6 +44,9 @@ The test case fails if cleartext traffic is permitted. This can happen if **any*
 4. `NSAllowsLocalNetworking = true`.
 5. Any domain under `NSExceptionDomains` sets `NSExceptionAllowsInsecureHTTPLoads = true`.
 
-**Context Considerations**:
+**Further Validation Required:**
 
-Note that ATS exceptions should be examined taking the app's context into consideration. The app may _have to_ define ATS exceptions to fulfill its intended purpose. For example, a browser app must connect to arbitrary websites, including those using HTTP. In such cases, the exception may be acceptable if a proper [justification string](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) is provided. However, Apple recommends preferring server-side fixes over client-side ATS exceptions whenever possible.
+Inspect the identified ATS exceptions to determine whether they are justified for the app's intended purpose:
+
+- Determine whether the exception is required for the app to fulfill its core functionality (for example, a browser app must connect to arbitrary websites, including those using HTTP).
+- If possible, verify that a proper [justification string](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) has been provided. This would be only possible if you have contact with the developers, as this information is not included in the app binary.

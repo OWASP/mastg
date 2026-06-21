@@ -39,8 +39,11 @@ Also, review these. We'll be using them and creating new ones as well:
 
 **About the IDs:**
 
-- Use the decimal ID format as seen in `tests-beta` (for example, `MASTG-TEST-0233`). Do not use the `0x` notation.
-- If a test must be split, suffix with a short decimal part during drafting (for example, `MASTG-TEST-0233-1`, `MASTG-TEST-0233-2`). Coordinate final IDs before merging.
+- Use "fake IDs" with the `MASTG-TEST-0x` notation (for example, `MASTG-TEST-0x33`).
+- If a test must be split, suffix with a short decimal part during drafting (for example, `MASTG-TEST-0x33-1`, `MASTG-TEST-0x33-2`).
+- Once the test is ready, the team will assign a real ID (for example, `MASTG-TEST-0233`).
+
+Use the same approach for demos (for example, `MASTG-DEMO-0x33-1`), best practices (for example, `MASTG-BEST-0x33`), knowledge (for example, `MASTG-KNOW-0x33`) and techniques (for example, `MASTG-TECH-0x33`) or any other content type. This way, we can keep track of the relationships between the content pieces during drafting and porting and avoid conflicts. Once the content is ready, we will assign real IDs.
 
 **Language**: use simple language, be concise and clear
 
@@ -52,7 +55,7 @@ Also, review these. We'll be using them and creating new ones as well:
 
 ### List of sources
 
-Use the MASTG first: e.g., the guides for 0x04 (general), 0x05 (Android), and 0x06 (iOS), and **extend** with Android/Apple docs.
+Use the MASTG-KNOW articles first and **extend** with Android/Apple docs.
 
 #### Android
 
