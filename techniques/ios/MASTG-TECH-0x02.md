@@ -3,9 +3,13 @@ title: Monitoring Data Sharing Between App Extensions and Containing Apps
 platform: ios
 ---
 
-You can inspect the items being shared by app extensions by hooking `NSExtensionContext - inputItems` in the data originating app.
+App extensions and their containing apps exchange data through inter-process communication built on XPC (see @MASTG-KNOW-0082). You can observe the items being passed by hooking the relevant Foundation APIs at runtime with @MASTG-TECH-0095.
 
-Following the previous example of Telegram we will now use the "Share" button on a text file (that was received from a chat) to create a note in the Notes app with it:
+## Inspecting the Items Being Shared
+
+Hook `NSExtensionContext - inputItems` in the data-originating app to inspect the items an extension receives.
+
+As an example, in Telegram we use the "Share" button on a text file (received from a chat) to create a note in the Notes app:
 
 <img src="Images/Chapters/0x06h/telegram_share_extension.png" width="400px" />
 
@@ -38,7 +42,7 @@ Here we can observe that:
 
 ## Identifying the App Extensions Involved
 
-You can also find out which app extension is taking care of your the requests and responses by hooking `NSExtension - _plugIn`:
+You can also find out which app extension handles the requests and responses by hooking `NSExtension - _plugIn`:
 
 We run the same example again:
 

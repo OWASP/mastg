@@ -1,39 +1,40 @@
-=== Checking for App Extensions ===
+=== App entitlements (App Group + Keychain Access Group) ===
+{
+  "com.apple.security.application-groups" => [
+    0 => "group.org.owasp.mastestapp"
+  ]
+  "keychain-access-groups" => [
+    0 => "$(AppIdentifierPrefix)org.owasp.mastestapp"
+  ]
+}
 
-Looking for NSExtensionPointIdentifier in Info.plist files...
-37:		<key>NSExtensionPointIdentifier</key>
+=== Extension entitlements (App Group + Keychain Access Group) ===
+{
+  "com.apple.security.application-groups" => [
+    0 => "group.org.owasp.mastestapp"
+  ]
+  "keychain-access-groups" => [
+    0 => "$(AppIdentifierPrefix)org.owasp.mastestapp"
+  ]
+}
 
-=== Extension Type and Activation Rules ===
+=== Main app: stores the token in the shared Keychain (PASS) ===
+[1] The app stores the token in the shared Keychain (Security framework):
+107 0x0000983c  0x10000983c LOCAL  FUNC 0        imp.SecItemAdd
+294 0x00014c8c 0x100014c8c 20  21                             ascii   _kSecAttrAccessGroup
+761 0x0001a968 0x10001a968 20  21                             ascii   _kSecAttrAccessGroup
 
-Extension type:
-		<string>com.apple.share-services</string>
+[2] The app does NOT touch the App Group shared container, so the following
+two queries (App Group identifier and shared file-container API) return no matches:
 
-Supported data types:
-			<dict>
-				<key>NSExtensionActivationSupportsText</key>
-				<true/>
+=== Share Extension: caches the token unencrypted in the shared container (FAIL) ===
+[1] App Group identifier that backs the shared container:
+78  0x000050c0 0x1000050c0 26  27   4.__TEXT.__cstring        ascii   group.org.owasp.mastestapp
 
-=== Checking for App Groups Entitlement ===
+[2] Shared-container write APIs the extension uses
+(a file in the shared container, and the shared UserDefaults):
+83  0x00005152 0x100005152 50  51   5.__TEXT.__objc_methname  ascii   containerURLForSecurityApplicationGroupIdentifier:
+91  0x000051fc 0x1000051fc 17  18   5.__TEXT.__objc_methname  ascii   setObject:forKey:
 
-	<key>com.apple.security.application-groups</key>
-	<array>
-		<string>group.org.owasp.mastestapp</string>
-	</array>
-
-=== Checking Code for Shared Storage API Usage ===
-
-UserDefaults with suiteName (shared UserDefaults):
-14:    if let sharedDefaults = UserDefaults(suiteName: appGroupID) {
-47:    if let sharedDefaults = UserDefaults(suiteName: appGroupID) {
-
-FileManager containerURL (shared container access):
-28:    if let containerURL = fileManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) {
-
-=== Identifying Sensitive Data in Shared Storage ===
-
-Sensitive data stored in shared UserDefaults:
-      sharedDefaults.set("john.doe@example.com", forKey: "userEmail")
-      sharedDefaults.set("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", forKey: "authToken")
-      sharedDefaults.set("Premium", forKey: "subscriptionLevel")
-
-Files written to shared container:
+[3] The extension reads the token from the shared Keychain (the correct source it then leaks):
+3   0x00004dec 0x100004dec LOCAL  FUNC 0        imp.SecItemCopyMatching

@@ -3,18 +3,30 @@ title: Enumerating App Extensions
 platform: ios
 ---
 
-If you have the original source code you can search for all occurrences of `NSExtensionPointIdentifier` with Xcode (cmd+shift+f) or take a look into "Build Phases / Embed App extensions":
+App extensions are bundled inside their containing app under the `PlugIns/` directory, each as a separate bundle with the `.appex` suffix (see @MASTG-KNOW-0082). This technique enumerates the extensions an app ships and inspects their configuration.
+
+## Listing the Bundled Extensions
+
+If you have the original source code, search for all occurrences of `NSExtensionPointIdentifier` in Xcode (cmd+shift+f) or open "Build Phases / Embed App Extensions":
 
 <img src="Images/Chapters/0x06h/xcode_embed_app_extensions.png" width="100%" />
 
-There you can find the names of all embedded app extensions followed by `.appex`, now you can navigate to the individual app extensions in the project.
+There you find the names of all embedded app extensions followed by `.appex` and can navigate to each one in the project.
 
-If not having the original source code:
-
-Grep for `NSExtensionPointIdentifier` among all files inside the app bundle (IPA or installed app):
+Without the source code, explore the app package (@MASTG-TECH-0058) and list the contents of the `PlugIns/` directory inside the `.app` bundle:
 
 ```bash
-$ grep -nr NSExtensionPointIdentifier Payload/Telegram\ X.app/
+$ ls -1 "Payload/Telegram X.app/PlugIns"
+NotificationContent.appex
+Share.appex
+SiriIntents.appex
+Widget.appex
+```
+
+Alternatively, grep for `NSExtensionPointIdentifier` across the app bundle to locate the extensions' `Info.plist` files:
+
+```bash
+$ grep -nr NSExtensionPointIdentifier "Payload/Telegram X.app/"
 Binary file Payload/Telegram X.app//PlugIns/SiriIntents.appex/Info.plist matches
 Binary file Payload/Telegram X.app//PlugIns/Share.appex/Info.plist matches
 Binary file Payload/Telegram X.app//PlugIns/NotificationContent.appex/Info.plist matches
@@ -22,52 +34,38 @@ Binary file Payload/Telegram X.app//PlugIns/Widget.appex/Info.plist matches
 Binary file Payload/Telegram X.app//Watch/Watch.app/PlugIns/Watch Extension.appex/Info.plist matches
 ```
 
-You can also access per SSH, find the app bundle and list all inside PlugIns (they are placed there by default) or do it with objection:
+On a jailbroken device you can do the same over SSH or with objection by navigating to the app bundle and listing `PlugIns/`.
 
-```bash
-ph.telegra.Telegraph on (iPhone: 11.1.2) [usb] # cd PlugIns
-    /var/containers/Bundle/Application/15E6A58F-1CA7-44A4-A9E0-6CA85B65FA35/
-    Telegram X.app/PlugIns
+## Identifying the Extension Type
 
-ph.telegra.Telegraph on (iPhone: 11.1.2) [usb] # ls
-NSFileType      Perms  NSFileProtection    Read    Write     Name
-------------  -------  ------------------  ------  -------   -------------------------
-Directory         493  None                True    False     NotificationContent.appex
-Directory         493  None                True    False     Widget.appex
-Directory         493  None                True    False     Share.appex
-Directory         493  None                True    False     SiriIntents.appex
-```
-
-We can see now the same four app extensions that we saw in Xcode before.
+Each extension declares its type via the `NSExtensionPointIdentifier` key in its `Info.plist` (@MASTG-TECH-0153, @MASTG-TECH-0154). The value identifies the extension point, for example `com.apple.share-services` for a share extension, `com.apple.keyboard-service` for a custom keyboard, or `com.apple.widgetkit-extension` for a widget.
 
 ## Determining the Supported Data Types
 
-This is important for data being shared with host apps (e.g. via Share or Action Extensions). When the user selects some data type in a host app and it matches the data types define here, the host app will offer the extension. It is worth noticing the difference between this and data sharing via `UIActivity` where we had to define the document types, also using UTIs. An app does not need to have an extension for that. It is possible to share data using only `UIActivity`.
-
-Inspect the app extension's `Info.plist` file and search for `NSExtensionActivationRule`. That key specifies the data being supported as well as e.g. maximum of items supported. For example:
+Share and action extensions declare the data types they accept via the `NSExtensionActivationRule` key in their `Info.plist`. The rule lists the supported Uniform Type Identifiers (UTIs) and the maximum item counts:
 
 ```xml
 <key>NSExtensionAttributes</key>
+<dict>
+    <key>NSExtensionActivationRule</key>
     <dict>
-        <key>NSExtensionActivationRule</key>
-        <dict>
-            <key>NSExtensionActivationSupportsImageWithMaxCount</key>
-            <integer>10</integer>
-            <key>NSExtensionActivationSupportsMovieWithMaxCount</key>
-            <integer>1</integer>
-            <key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-            <integer>1</integer>
-        </dict>
+        <key>NSExtensionActivationSupportsImageWithMaxCount</key>
+        <integer>10</integer>
+        <key>NSExtensionActivationSupportsMovieWithMaxCount</key>
+        <integer>1</integer>
+        <key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+        <integer>1</integer>
     </dict>
+</dict>
 ```
 
-Only the data types present here and not having `0` as `MaxCount` will be supported. However, more complex filtering is possible by using a so-called predicate string that will evaluate the UTIs given. Please refer to the [Apple App Extension Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW8 "Declaring Supported Data Types for a Share or Action Extension") for more detailed information about this.
+Only the data types present here and not set to `0` as `MaxCount` are supported. More complex matching is possible with a predicate string evaluated against the offered UTIs. As described in @MASTG-KNOW-0082, this rule controls when the extension is _offered_ to the user (for example, in the share sheet); it is not an access-control boundary on the data.
 
-## Checking Data Sharing with the Containing App
+## Detecting Shared Containers and Keychain Access Groups
 
-Remember that app extensions and their containing apps do not have direct access to each other's containers. However, data sharing can be enabled. This is done via ["App Groups"](https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/EntitlementKeyReference/Chapters/EnablingAppSandbox.html#//apple_ref/doc/uid/TP40011195-CH4-SW19 "Adding an App to an App Group") and the [`NSUserDefaults`](https://developer.apple.com/documentation/foundation/nsuserdefaults "NSUserDefaults") API. See this figure from [Apple App Extension Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW11 "An app extension's container is distinct from its containing app's container"):
+An app and its extensions can share data through App Groups and the Keychain. Inspect the entitlements of the main app and of each `.appex` (extract the embedded entitlements from the binary with @MASTG-TECH-0058, or read `embedded.mobileprovision`) for:
 
-<img src="Images/Chapters/0x06h/app_extensions_container_restrictions.png" width="400px" />
+- `com.apple.security.application-groups`: the App Group identifiers backing the shared container (`UserDefaults(suiteName:)`, `FileManager.containerURL(forSecurityApplicationGroupIdentifier:)`, or a shared Core Data store).
+- `keychain-access-groups`: the Keychain Access Groups used to share Keychain items between the app and its extensions.
 
-As also mentioned in the guide, the app must set up a shared container if the app extension uses the `NSURLSession` class to perform a background upload or download, so that both the extension and its containing app can access the transferred data.
-
+Matching identifiers across the app and an extension indicate which data-sharing channels are configured between them.

@@ -1,43 +1,21 @@
 #!/bin/bash
 
-# This script demonstrates static analysis of app extensions and App Groups usage
+# Static analysis of App Group / Keychain data sharing across the app and its Share Extension.
+# Binaries are extracted from the built IPA:
+#   - MASTestApp        : Payload/MASTestApp.app/MASTestApp
+#   - ShareExtension    : Payload/MASTestApp.app/PlugIns/ShareExtension.appex/ShareExtension
 
-echo "=== Checking for App Extensions ==="
-echo ""
-echo "Looking for NSExtensionPointIdentifier in Info.plist files..."
-grep -n "NSExtensionPointIdentifier" ShareExtension_Info.plist
-
-echo ""
-echo "=== Extension Type and Activation Rules ==="
-echo ""
-echo "Extension type:"
-grep -A 1 "NSExtensionPointIdentifier" ShareExtension_Info.plist | tail -1
+echo "=== App entitlements (App Group + Keychain Access Group) ==="
+rabin2 -OC MASTestApp | grep -A1 "com.apple.security.application-groups\|keychain-access-groups"
 
 echo ""
-echo "Supported data types:"
-grep -A 3 "NSExtensionActivationRule" ShareExtension_Info.plist | tail -3
+echo "=== Extension entitlements (App Group + Keychain Access Group) ==="
+rabin2 -OC ShareExtension | grep -A1 "com.apple.security.application-groups\|keychain-access-groups"
 
 echo ""
-echo "=== Checking for App Groups Entitlement ==="
-echo ""
-grep -A 3 "com.apple.security.application-groups" entitlements.plist
+echo "=== Main app: stores the token in the shared Keychain (PASS) ==="
+r2 -q -i app_keychain.r2 -A MASTestApp
 
 echo ""
-echo "=== Checking Code for Shared Storage API Usage ==="
-echo ""
-echo "UserDefaults with suiteName (shared UserDefaults):"
-grep -n "UserDefaults(suiteName:" MastgTest.swift
-
-echo ""
-echo "FileManager containerURL (shared container access):"
-grep -n "containerURL(forSecurityApplicationGroupIdentifier:" MastgTest.swift
-
-echo ""
-echo "=== Identifying Sensitive Data in Shared Storage ==="
-echo ""
-echo "Sensitive data stored in shared UserDefaults:"
-grep -B 1 -A 0 'set.*forKey' MastgTest.swift | grep -E "(Email|Token|subscription|apiKey|refreshToken)"
-
-echo ""
-echo "Files written to shared container:"
-grep -B 2 'write(to: fileURL' MastgTest.swift | grep 'let credentials'
+echo "=== Share Extension: caches the token unencrypted in the shared container (FAIL) ==="
+r2 -q -i extension_shared_storage.r2 -A ShareExtension

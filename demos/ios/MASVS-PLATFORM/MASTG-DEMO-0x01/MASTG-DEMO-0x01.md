@@ -1,56 +1,51 @@
 ---
 platform: ios
-title: Identifying Data Sharing Between App and Extensions via App Groups
+title: App Extension Caching a Secret in the Shared Container Instead of the Shared Keychain
 id: MASTG-DEMO-0x01
 code: [swift]
 test: MASTG-TEST-0x01
+kind: fail
 ---
 
 ### Sample
 
-The code snippet below demonstrates an app that uses App Groups to share data with its app extension. The app stores sensitive user information (email, authentication tokens, API keys) in shared storage that can be accessed by both the main app and the extension.
+The app and its Share Extension share an App Group (`group.org.owasp.mastestapp`) and a Keychain Access Group.
+
+The **main app** does it correctly: it stores the auth token in the **shared Keychain**, the appropriate channel for a secret shared with the app's extensions.
 
 {{ MastgTest.swift }}
 
-The app includes a Share Extension with the following configuration files:
+The **Share Extension** reads the token from the shared Keychain (the correct source), but then caches it **unencrypted in the App Group shared container** (both in shared `UserDefaults` and in a file), exposing it to every member of the App Group.
 
-Extension Info.plist showing the extension type and supported data types:
+{{ ShareViewController.swift }}
 
-{{ ShareExtension_Info.plist }}
+Both the app and the extension declare the App Group and the Keychain Access Group:
 
-Entitlements file showing the App Groups configuration:
-
-{{ entitlements.plist }}
+{{ MASTestApp.entitlements # ShareExtension_Info.plist # ShareExtension.entitlements }}
 
 ### Steps
 
-1. Extract the app package (@MASTG-TECH-0058) and locate the `PlugIns/` folder containing app extensions (`.appex` files).
-2. For each extension, examine the `Info.plist` file to identify the extension type via `NSExtensionPointIdentifier` and supported data types via `NSExtensionActivationRule`.
-3. Check the entitlements file (or `embedded.mobileprovision`) for the `com.apple.security.application-groups` entitlement in both the main app and extensions.
-4. Review the app's code (@MASTG-TECH-0076) to identify usage of shared storage APIs such as `UserDefaults(suiteName:)` and `FileManager.containerURL(forSecurityApplicationGroupIdentifier:)`.
-5. Run the analysis script to detect these patterns:
+We read the entitlements of the app and the extension, then analyze each binary with @MASTG-TOOL-0073. The binaries are extracted from the built IPA (@MASTG-TECH-0058): the app at `Payload/MASTestApp.app/MASTestApp` and the extension at `Payload/MASTestApp.app/PlugIns/ShareExtension.appex/ShareExtension`.
 
-{{ run.sh }}
+{{ app_keychain.r2 # extension_shared_storage.r2 # run.sh }}
 
 ### Observation
 
-The output shows:
-
-- The presence of an app extension (Share Extension) with identifier `com.apple.share-services`
-- The extension supports text, URLs, and images as input data types
-- Both the app and extension use the App Group `group.org.owasp.mastestapp`
-- The code accesses shared storage at multiple locations using the App Group identifier
-- Sensitive data (email addresses, authentication tokens, subscription info) is stored in shared UserDefaults
-- A credentials file containing API keys and refresh tokens is written to the shared container
-
 {{ output.txt }}
+
+The analysis contrasts the two binaries:
+
+- The **main app** references the Keychain APIs (`SecItemAdd`, `kSecAttrAccessGroup`) and contains neither the App Group identifier nor the shared-container write APIs.
+- The **Share Extension** contains the App Group identifier and the shared-container write APIs (`containerURLForSecurityApplicationGroupIdentifier:` for the file container and `setObject:forKey:` for the shared `UserDefaults`), while it reads the token from the shared Keychain with `SecItemCopyMatching`.
+
+!!! note
+    The keys the extension writes (`cachedAuthToken`, `auth_cache.json`) are 15-character Swift _small strings_, which the Release compiler stores inline as immediate values rather than in the `__cstring` section, so they do not appear in a string search. The App Group identifier (26 characters) is too long for that optimization and remains visible, as do the ObjC selectors and the imported `Sec*` functions.
 
 ### Evaluation
 
-The test fails because the app stores sensitive data in the App Group shared container without encryption:
+The test case fails because of the **Share Extension**: it caches the auth token (a secret) in the App Group shared container without protection.
 
-- **Shared UserDefaults**: Contains `userEmail`, `authToken`, and `subscriptionLevel` in plaintext
-- **Shared Files**: The `user_credentials.json` file in the shared container contains `username`, `apiKey`, and `refreshToken` in plaintext
-- **Weak Protection**: No evidence of encryption or access controls protecting the sensitive data in the shared storage
+- It writes the token to the shared `UserDefaults` (the `setObject:forKey:` selector on the App Group suite), in plaintext. Any member of the App Group can read it.
+- It writes the token to a file in the shared container (`containerURLForSecurityApplicationGroupIdentifier:`), in plaintext and without `NSFileProtectionComplete`.
 
-Any app extension with access to `group.org.owasp.mastestapp` can read this sensitive information. According to @MASTG-BEST-0025, sensitive data shared via App Groups should be encrypted, and access should be minimized to only what each extension requires for its functionality.
+The main app shows the correct pattern: the secret belongs in the shared Keychain (scoped to the `keychain-access-groups` entitlement), which the extension can read with `SecItemCopyMatching` whenever it needs the token, instead of copying it into the shared container. As described in @MASTG-BEST-0x01, prefer a shared Keychain for credentials and tokens, and protect any sensitive data kept in the shared container with encryption and `NSFileProtectionComplete`.
