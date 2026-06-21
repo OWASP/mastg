@@ -1,0 +1,36 @@
+                   
+                   
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+     ❱ rules.mastg-android-custom-deeplink-scheme
+          [MASVS-PLATFORM] Custom deeplink scheme detected in an intent-filter (potentially exposed deeplink).
+          Any app on the device can invoke this handler.                                                      
+                                                                                                              
+           35┆ <intent-filter>
+           36┆     <action android:name="android.intent.action.VIEW"/>
+           37┆     <category android:name="android.intent.category.DEFAULT"/>
+           38┆     <category android:name="android.intent.category.BROWSABLE"/>
+           39┆     <data
+           40┆         android:scheme="mastestapp"
+           41┆         android:host="transfer"/>
+           42┆ </intent-filter>
+                                  
+    DeepLinkActivity_reversed.java
+    ❯❱ rules.mastg-android-deeplink-unvalidated-parameter
+          [MASVS-PLATFORM] A deep link handler reads the incoming URI (getIntent/getData) and/or extracts a
+          parameter (getQueryParameter). Verify each value is validated (type conversion, bounds, or       
+          sanitization) before it is used.                                                                 
+                                                                                                           
+           24┆ lastDeepLink = intent != null ? intent.getData() : null;
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-deeplink-unvalidated-parameter
+          [MASVS-PLATFORM] A deep link handler reads the incoming URI (getIntent/getData) and/or extracts a
+          parameter (getQueryParameter). Verify each value is validated (type conversion, bounds, or       
+          sanitization) before it is used.                                                                 
+                                                                                                           
+           25┆ String amount = data.getQueryParameter("amount");
+
