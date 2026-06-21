@@ -92,7 +92,6 @@ jobs:
           demo="${{ matrix.demo }}"
           IPA_NAME="$(basename "$demo").ipa"
           EXTRA_ENTITLEMENTS=""
-          EXT_ENTITLEMENTS=""
 
           [ -f "$demo/MASTestApp.entitlements" ] && EXTRA_ENTITLEMENTS="$GITHUB_WORKSPACE/$demo/MASTestApp.entitlements"
           
