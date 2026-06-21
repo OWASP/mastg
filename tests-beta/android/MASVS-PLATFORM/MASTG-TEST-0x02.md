@@ -1,12 +1,12 @@
 ---
 title: Use of Unverified App Links
 platform: android
-id: MASTG-TEST-XXXB
+id: MASTG-TEST-0x02
 type: [static]
 weakness: MASWE-0058
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0019]
-best-practices: [MASTG-BEST-00XX]
+best-practices: [MASTG-BEST-0x01]
 ---
 
 ## Overview
@@ -24,7 +24,7 @@ Real-world exploitation has been publicly documented:
 
 ## Steps
 
-1. Run @MASTG-TECH-XXXX on the app to look for deep links with unverified app link.
+1. Run @MASTG-TECH-0x01 on the app to look for deep links with unverified app link.
 
 ## Observation
 

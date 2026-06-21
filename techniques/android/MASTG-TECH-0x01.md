@@ -25,7 +25,7 @@ Use adb to run the following command that will show all schemes:
 
 ### Using the Android App Link Verification Tester
 
-Use the Android @MASTG-TOOL-014X Tester to list all deep links (list-all) or only app links (list-applinks):
+Use the Android @MASTG-TOOL-0x01 Tester to list all deep links (list-all) or only app links (list-applinks):
 
 ```bash
  python3 deeplink_analyser.py -op list-all -apk example.apk
@@ -69,7 +69,7 @@ Check for invalid Digital Asset Links files served via HTTPS. For example:
 - The file doesn't include the target app's package.
 - If an intent-filter lists multiple hosts with different subdomains, there must be a valid Digital Asset Links file on each domain.
 
-@MASTG-TOOL-014X can be also used get the verification status for all app links (verify-applinks).
+@MASTG-TOOL-0x01 can be also used get the verification status for all app links (verify-applinks).
 
 ## Monitoring Deep Links
 

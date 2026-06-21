@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Deep Link Intent Filter Missing android:autoVerify with semgrep
-id: MASTG-DEMO-XXXB
+id: MASTG-DEMO-0x02
 code: [kotlin]
-test: MASTG-TEST-XXXB
+test: MASTG-TEST-0x02
 status: new
 ---
 

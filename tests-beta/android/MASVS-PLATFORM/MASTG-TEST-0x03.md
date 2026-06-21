@@ -1,7 +1,7 @@
 ---
 title: Use of Custom URL Schemes
 platform: android
-id: MASTG-TEST-XXXC
+id: MASTG-TEST-0x03
 type: [static]
 profiles: [L1, L2]
 weakness: MASWE-0058
@@ -14,7 +14,7 @@ Custom URL schemes (e.g., `myapp://...`) are not exclusive on Android—any app 
 
 ## Steps
 
-1. Run @MASTG-TECH-XXXX on the manifest to look for Unverified Custom URL Schemes.
+1. Run @MASTG-TECH-0x01 on the manifest to look for Unverified Custom URL Schemes.
 
 ## Observation
 

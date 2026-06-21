@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Use of Unverified Custom URL Schemes with semgrep
-id: MASTG-DEMO-XXXC
+id: MASTG-DEMO-0x03
 code: [kotlin]
-test: MASTG-TEST-XXXC
+test: MASTG-TEST-0x03
 status: new
 ---
 

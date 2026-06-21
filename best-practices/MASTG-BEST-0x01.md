@@ -1,7 +1,7 @@
 ---
 title: Use Verified Android App Links for Deep Links
 alias: use-verified-android-app-links
-id: MASTG-BEST-00XX
+id: MASTG-BEST-0x01
 platform: android
 knowledge: [MASTG-KNOW-0019]
 ---
