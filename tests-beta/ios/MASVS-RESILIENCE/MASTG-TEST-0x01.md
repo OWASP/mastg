@@ -1,9 +1,10 @@
 ---
 platform: ios
-title: References to Source Code Integrity Check APIs
+title: References to Storage Integrity Check APIs
 id: MASTG-TEST-0x01
-type: [static, code]
-weakness: MASWE-0104
+apis: [HMAC, CCHmac, CCHmacFinal, CC_SHA256, CC_SHA512, SecKeyCreateSignature]
+type: [static, code, manual]
+weakness: MASWE-0105
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0086]
@@ -12,11 +13,20 @@ best-practices: [MASTG-BEST-0x01]
 
 ## Overview
 
-iOS apps can implement runtime source code integrity checks to detect if the binary has been tampered with. These checks typically parse the Mach-O binary structure to locate the `__TEXT/__text` section, compute a hash over it, and compare that hash against a reference value. If the app does not implement such checks, an attacker who patches the binary (see @MASTG-KNOW-0086) may go undetected.
+iOS apps can protect the integrity and authenticity of data they store on the device (e.g., files in the Documents directory, `UserDefaults`/`NSUserDefaults`, or databases) by computing an HMAC or a digital signature over the data and verifying it before use (see @MASTG-KNOW-0086). If the app does not implement such checks, an attacker who modifies the stored data can go undetected and the app may trust the tampered input in a security-relevant decision.
 
-This test verifies that the app references APIs commonly used to implement source code integrity checks, such as `dladdr` for resolving the binary base address, Mach-O header parsing structures (`mach_header`, `load_command`), and cryptographic hash functions applied to code sections (e.g., `CC_MD5`, `CC_SHA256`).
+Even data stored in the app's sandbox (such as `UserDefaults`/`NSUserDefaults`) normally cannot be modified by other apps, but it can still be tampered with in local attack scenarios, such as on jailbroken devices, during dynamic analysis, through backups, or by directly manipulating the app's data directory after obtaining privileged access, as described in @MASTG-KNOW-0086. Because of that, apps should not blindly trust security-relevant data loaded from local storage.
 
-Note that [Apple's code signing](https://developer.apple.com/documentation/xcode/using-the-latest-code-signature-format) and DRM (FairPlay) provide some level of integrity protection at the OS level, but additional in-app runtime checks raise the bar for attackers who operate on jailbroken devices where these protections may be bypassed.
+This test verifies that the app references APIs commonly used to implement storage integrity checks, such as `HMAC` (the modern CryptoKit API), `CCHmac`/`CCHmacFinal` (HMAC via CommonCrypto), `CC_SHA256`/`CC_SHA512` (hash functions), or [`SecKeyCreateSignature`](https://developer.apple.com/documentation/security/seckeycreatesignature(_:_:_:_:)) (asymmetric signing). Depending on the implementation, the relevant logic may also include MAC comparison, cryptographic initialization, signature verification, or other mechanisms intended to detect tampering.
+
+**Example Attack Scenario:**
+
+Suppose an app stores a usage counter or entitlement flag in `UserDefaults` and trusts it without verifying its integrity.
+
+1. An attacker uses @MASTG-TECH-0059 to locate the app's data directories on a jailbroken device.
+2. The attacker modifies the stored value (for example, resets a trial counter or flips a "premium" flag).
+3. Because the app never verifies an HMAC or signature over the stored data, it loads the tampered value as authentic.
+4. The attacker bypasses the intended restriction, gaining access to functionality or content they should not have.
 
 ## Steps
 
@@ -25,10 +35,20 @@ Note that [Apple's code signing](https://developer.apple.com/documentation/xcode
 
 ## Observation
 
-The output should include any references to source code integrity check APIs such as `dladdr`, `mach_header`, `LC_SEGMENT`, and cryptographic hash functions (e.g., `CC_MD5`, `CC_SHA256`, `CC_SHA512`) applied to code sections.
+The output should contain a list of code locations where the relevant APIs are used. Depending on the storage API and the analysis rule, these locations may include storage read APIs such as `Data(contentsOf:)`, `UserDefaults` reads, or database queries, as well as nearby integrity-verification logic such as HMAC, MAC comparison, or signature verification.
 
 ## Evaluation
 
-The test case fails if the app contains no references to source code integrity check APIs.
+The test case fails if the app uses data loaded from local storage (files, `UserDefaults`/`NSUserDefaults`, or databases) in a security-relevant decision without verifying its integrity and authenticity beforehand.
 
-Note that this test is not exhaustive and may not detect all source code integrity check implementations, especially if they are obfuscated or implemented using patterns not covered by the analysis.
+**Further Validation Required:**
+
+These APIs are commonly used for unrelated purposes (for example, networking, analytics, or generic checksums), so their mere presence does not confirm a storage integrity mechanism. Inspect each reported code location using @MASTG-TECH-0076 to determine whether the data is protected:
+
+- Determine whether the loaded value can influence a security-relevant decision, such as authentication state, authorization, feature access, configuration, or trust decisions.
+- Determine whether the app computes an HMAC or signature over the data it reads back from local storage, and verifies it before use, reacting when verification fails.
+- Determine whether that validation is effective for the attacker model in scope.
+
+**Expected False Negatives:**
+
+This test may produce false negatives if the integrity check relies on a third-party library, a custom implementation, or APIs not covered by the analysis. In such cases, the absence of findings does not guarantee the absence of a storage integrity check, and additional manual reverse engineering may be required.

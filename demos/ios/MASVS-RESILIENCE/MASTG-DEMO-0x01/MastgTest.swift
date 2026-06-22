@@ -1,63 +1,74 @@
-// SUMMARY: This sample demonstrates source code integrity checking by using dladdr to resolve
-// the binary base address, parsing the Mach-O header to find the __TEXT/__text section,
-// and applying CC_SHA256 to hash the section for tamper detection.
+// SUMMARY: This sample stores sensitive data in a file in the app's Documents directory and
+// later reads it back without computing or verifying any integrity value (HMAC or signature).
+// An attacker who modifies the file on a jailbroken device can tamper with the data undetected.
+//
+// For contrast, the file also contains a PASS routine that stores the same data with an appended
+// HMAC-SHA256 and verifies it on read. Keeping both cases in one binary makes the difference
+// visible in the disassembly: the PASS routine references CryptoKit's HMAC, the FAIL routine
+// references no integrity API at all.
 
 import Foundation
-import CommonCrypto
-import MachO
+import CryptoKit
 
 struct MastgTest {
+    // PASS case: store data with an appended HMAC-SHA256 tag and verify it before trusting the
+    // data on read. A mismatch (for example after the file is tampered with) is detected. In a
+    // real app the key would be held in the Keychain rather than generated in-process.
+    static func storeWithIntegrity(_ data: Data, at fileURL: URL, using key: SymmetricKey) -> String {
+        let tagLength = 32 // HMAC-SHA256 tag size in bytes
+        do {
+            let mac = HMAC<SHA256>.authenticationCode(for: data, using: key)
+            try (data + Data(mac)).write(to: fileURL)
+
+            let stored = try Data(contentsOf: fileURL)
+            let payload = stored.prefix(stored.count - tagLength)
+            let tag = stored.suffix(tagLength)
+            let valid = HMAC<SHA256>.isValidAuthenticationCode(Data(tag), authenticating: Data(payload), using: key)
+            return valid ? "verified" : "tampering detected"
+        } catch {
+            return "failed: \(error.localizedDescription)"
+        }
+    }
+
     static func mastgTest(completion: @escaping (String) -> Void) {
-        // PASS: [MASTG-TEST-0x01] The app uses dladdr to obtain the binary base address,
-        // parses the Mach-O header to locate the __TEXT/__text section, and applies CC_SHA256
-        // to compute a runtime hash for source code integrity verification.
+        // FAIL: [MASTG-TEST-0x01] The app writes sensitive data to disk and later reads it back
+        // without computing or verifying an HMAC or signature, so it cannot detect tampering.
 
-        // Step 1: Resolve the binary base address using dladdr
-        var info = Dl_info()
-        let symbol = unsafeBitCast(MastgTest.mastgTest as Any, to: UnsafeRawPointer.self)
-        guard dladdr(symbol, &info) != 0, let basePtr = info.dli_fbase else {
-            completion("Failed to resolve binary base address")
+        let fileManager = FileManager.default
+        guard let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            completion("Could not locate the Documents directory")
+            return
+        }
+        let fileURL = documents.appendingPathComponent("user_profile.json")
+
+        // Store sensitive data without any integrity protection
+        let sensitiveData = #"{"username":"alice","role":"user","premium":false}"#.data(using: .utf8)!
+
+        do {
+            try sensitiveData.write(to: fileURL)
+        } catch {
+            completion("Failed to write file: \(error.localizedDescription)")
             return
         }
 
-        // Step 2: Parse the Mach-O header to locate the __TEXT/__text section
-        let base = UnsafeRawPointer(basePtr)
-        var offset = MemoryLayout<mach_header_64>.size
-        var textAddr: UInt = 0
-        var textSize: Int  = 0
-
-        let header = base.load(as: mach_header_64.self)
-        for _ in 0 ..< Int(header.ncmds) {
-            let cmd = base.load(fromByteOffset: offset, as: load_command.self)
-            if cmd.cmd == LC_SEGMENT_64 {
-                let seg = base.load(fromByteOffset: offset, as: segment_command_64.self)
-                let segName = withUnsafeBytes(of: seg.segname) { raw in
-                    String(bytes: raw.prefix(while: { $0 != 0 }), encoding: .utf8) ?? ""
-                }
-                if segName == "__TEXT" {
-                    let secOffset = offset + MemoryLayout<segment_command_64>.size
-                    let sec = base.load(fromByteOffset: secOffset, as: section_64.self)
-                    textAddr = UInt(sec.addr)
-                    textSize  = Int(sec.size)
-                }
-            }
-            offset += Int(cmd.cmdsize)
-        }
-
-        guard textSize > 0, let codePtr = UnsafeRawPointer(bitPattern: textAddr) else {
-            completion("Could not locate __TEXT/__text section")
+        // Later, the app reads the data back and trusts it without verifying its integrity
+        guard let loaded = try? Data(contentsOf: fileURL),
+              let contents = String(data: loaded, encoding: .utf8) else {
+            completion("Failed to read the file back")
             return
         }
 
-        // Step 3: Compute SHA-256 hash of the __text section to verify code integrity
-        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        CC_SHA256(codePtr, CC_LONG(textSize), &digest)
-        let hashHex = digest.map { String(format: "%02x", $0) }.joined()
+        // PASS: for contrast, store the same data with an HMAC and verify it on read. The FAIL path
+        // above produces no integrity value; this routine returns the verification result.
+        let protectedURL = documents.appendingPathComponent("user_profile_protected.json")
+        let integrityResult = storeWithIntegrity(sensitiveData, at: protectedURL, using: SymmetricKey(size: .bits256))
 
         let value = """
-        Binary base address : \(base)
-        __TEXT/__text size  : \(textSize) bytes
-        SHA-256 of __text   : \(hashHex)
+        Stored file : \(fileURL.path)
+        Contents    : \(contents)
+
+        FAIL (no integrity check) : the data above was read back without verifying any HMAC or signature.
+        PASS (HMAC verified)      : \(integrityResult)
         """
         completion(value)
     }

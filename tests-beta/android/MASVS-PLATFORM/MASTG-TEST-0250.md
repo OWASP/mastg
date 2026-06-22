@@ -22,14 +22,6 @@ The JavaScript code would have access to any content providers on the device, su
 
 Refer to @MASTG-KNOW-0018 for more information on the `setAllowContentAccess` method, the specific files that can be accessed, and the conditions under which they can be accessed.
 
-**Example Attack Scenario:**
-
-Suppose a banking app uses a WebView to display dynamic content. The developers have not explicitly set the `setAllowContentAccess` method, so it defaults to `true`. Additionally, JavaScript is enabled in the WebView, and the `setAllowUniversalAccessFromFileURLs` method is also used.
-
-1. An attacker exploits a vulnerability (such as an XSS flaw) to inject malicious JavaScript into the WebView. This could occur through a compromised or malicious link that the WebView loads without proper validation.
-2. Thanks to `setAllowUniversalAccessFromFileURLs(true)`, the malicious JavaScript can issue requests to `content://` URIs to read locally stored files or data exposed by content providers. Even those content providers in the app that are not exported can be accessed because the malicious code runs in the same process and origin as the trusted code.
-3. The attacker-controlled script exfiltrates sensitive data from the device to an external server.
-
 **Note 1:** We do not consider `minSdkVersion` since `setAllowContentAccess` defaults to `true` regardless of the Android version.
 
 **Note 2:** The provider's `android:grantUriPermissions` attribute is irrelevant in this scenario as it does not affect the app itself accessing its own content providers. It allows **other apps** to temporarily access URIs from the provider even though restrictions such as `permission` attributes, or `android:exported="false"` are set. Also, if the app uses a `FileProvider`, the `android:grantUriPermissions` attribute must be set to `true` by [definition](https://developer.android.com/reference/androidx/core/content/FileProvider#:~:text=Set%20the%20android:grantUriPermissions%20attribute%20to%20true%2C%20to%20allow%20you%20to%20grant%20temporary%20access%20to%20files.%20) (otherwise you'll get a `SecurityException: Provider must grant uri permissions"`).

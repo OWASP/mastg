@@ -15,14 +15,6 @@ This test checks whether the app exposes content providers that can be accessed 
 
 The same applies when no protection level is configured and becomes automatically `android:protectionLevel="normal"`, which is granting access automatically to any requesting app.
 
-**Example Attack Scenario:**
-
-Suppose a health app exposes a content provider backed by a database of medical records, and the `<provider>` element in the AndroidManifest declares no `android:readPermission`.
-
-1. An attacker reverse engineers the app and finds an exported `<provider>` element in the AndroidManifest with no permission restrictions.
-2. The manifest shows the provider's authority and no declared read or write permission.
-3. Because no permission guards the provider, any app on the device can call `ContentResolver.query()` against it and retrieve the underlying data without any user interaction.
-
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
