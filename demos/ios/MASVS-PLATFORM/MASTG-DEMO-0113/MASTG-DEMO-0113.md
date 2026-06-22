@@ -43,4 +43,4 @@ The test case fails because the output shows the password field with `isSecureTe
     Exposed fields display typed characters in plain text, while masked fields show bullet characters, so the test can also be verified visually by observing the on-screen behavior.
 
 !!! note
-    Besides masking, secure fields (`isSecureTextEntry=true` or SwiftUI `SecureField`) also keep input on the system keyboard: iOS does not offer installed third-party (custom) keyboards for them (see @MASTG-KNOW-0x01). The unmasked `password_field` therefore also allows a third-party keyboard to receive the typed password.
+    Besides masking, secure fields (`isSecureTextEntry=true` or SwiftUI `SecureField`) also keep input on the system keyboard: iOS does not offer installed third-party (custom) keyboards for them (see @MASTG-KNOW-0141). The unmasked `password_field` therefore also allows a third-party keyboard to receive the typed password.

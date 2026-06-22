@@ -1,19 +1,19 @@
 ---
 platform: ios
 title: Full Access Requested by a Custom Keyboard Extension
-id: MASTG-TEST-0x03
+id: MASTG-TEST-0390
 type: [static, code, manual]
 weakness: MASWE-0061
 prerequisites:
 - identify-sensitive-data
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0069]
 profiles: [L2]
-knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0141]
 ---
 
 ## Overview
 
-A [custom keyboard](https://developer.apple.com/documentation/uikit/creating-a-custom-keyboard) is an app extension that replaces the system keyboard across all apps on the device (see @MASTG-KNOW-0x01). By default it runs without "Full Access", which keeps it from making network requests or reaching shared containers. A keyboard requests "Full Access" with the [`RequestsOpenAccess`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsextension/nsextensionattributes/requestsopenaccess) key in its `Info.plist`, and once the user grants it the keyboard can check the [`hasFullAccess`](https://developer.apple.com/documentation/uikit/uiinputviewcontroller/hasfullaccess) property and then send what the user types off the device.
+A [custom keyboard](https://developer.apple.com/documentation/uikit/creating-a-custom-keyboard) is an app extension that replaces the system keyboard across all apps on the device (see @MASTG-KNOW-0141). By default it runs without "Full Access", which keeps it from making network requests or reaching shared containers. A keyboard requests "Full Access" with the [`RequestsOpenAccess`](https://developer.apple.com/documentation/bundleresources/information_property_list/nsextension/nsextensionattributes/requestsopenaccess) key in its `Info.plist`, and once the user grants it the keyboard can check the [`hasFullAccess`](https://developer.apple.com/documentation/uikit/uiinputviewcontroller/hasfullaccess) property and then send what the user types off the device.
 
 Because a custom keyboard receives the characters the user types in other apps, a keyboard that requests Full Access and transmits input is in a position to exfiltrate sensitive data such as passwords, messages, or payment details. Apple requires Full Access to be justified and limited to features that genuinely need it (for example, network-based predictions the user opted into).
 

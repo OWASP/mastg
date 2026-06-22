@@ -1,9 +1,9 @@
 ---
 title: Keep Sensitive Input on the System Keyboard
 alias: keep-sensitive-input-on-system-keyboard
-id: MASTG-BEST-0x02
+id: MASTG-BEST-0069
 platform: ios
-knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0141]
 ---
 
 Custom keyboards are app extensions that replace the system keyboard across all apps and, once granted "Full Access", can transmit what the user types off the device (see @MASTG-KNOW-0082). For input that carries secrets, such as passwords, PINs, one-time passcodes, or payment data, keep the entry on the trusted system keyboard rather than relying on whichever keyboard the user has installed.

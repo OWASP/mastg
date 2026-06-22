@@ -1,19 +1,19 @@
 ---
 platform: ios
 title: References to the App-Wide Restriction of Custom Keyboards
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0389
 type: [static, code, manual]
 weakness: MASWE-0061
 prerequisites:
 - identify-sensitive-data
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0069]
 profiles: [L2]
-knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0141]
 ---
 
 ## Overview
 
-iOS lets users install custom keyboards, which are app extensions that replace the system keyboard across all apps (see @MASTG-KNOW-0x01). Once granted "Full Access", a custom keyboard can transmit what the user types off the device. An app that collects sensitive input, such as a banking PIN or a one-time passcode, keeps using whichever keyboard the user has selected unless it opts out.
+iOS lets users install custom keyboards, which are app extensions that replace the system keyboard across all apps (see @MASTG-KNOW-0141). Once granted "Full Access", a custom keyboard can transmit what the user types off the device. An app that collects sensitive input, such as a banking PIN or a one-time passcode, keeps using whichever keyboard the user has selected unless it opts out.
 
 An app can reject custom keyboards across the whole app by implementing [`application:shouldAllowExtensionPointIdentifier:`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623122-application) in its `UIApplicationDelegate` and returning `false` for the keyboard extension point (`UIApplicationKeyboardExtensionPointIdentifier`). High-assurance apps, for example banking apps, use this app-wide control so that no field ever receives input from a third-party keyboard.
 
