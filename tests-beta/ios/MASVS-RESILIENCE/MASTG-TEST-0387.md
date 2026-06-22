@@ -1,14 +1,14 @@
 ---
 platform: ios
 title: References to Storage Integrity Check APIs
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0387
 apis: [HMAC, CCHmac, CCHmacFinal, CC_SHA256, CC_SHA512, SecKeyCreateSignature]
 type: [static, code, manual]
 weakness: MASWE-0105
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0086]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0065]
 ---
 
 ## Overview

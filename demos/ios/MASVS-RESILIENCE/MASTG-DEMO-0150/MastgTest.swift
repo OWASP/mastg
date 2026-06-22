@@ -31,7 +31,7 @@ struct MastgTest {
     }
 
     static func mastgTest(completion: @escaping (String) -> Void) {
-        // FAIL: [MASTG-TEST-0x01] The app writes sensitive data to disk and later reads it back
+        // FAIL: [MASTG-TEST-0387] The app writes sensitive data to disk and later reads it back
         // without computing or verifying an HMAC or signature, so it cannot detect tampering.
 
         let fileManager = FileManager.default

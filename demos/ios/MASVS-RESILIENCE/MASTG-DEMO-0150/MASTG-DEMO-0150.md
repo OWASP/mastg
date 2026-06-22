@@ -2,8 +2,8 @@
 platform: ios
 title: References to Storage Integrity Check APIs with radare2
 code: [swift]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0150
+test: MASTG-TEST-0387
 kind: fail
 ---
 

@@ -2,7 +2,7 @@
 masvs_category: MASVS-RESILIENCE
 platform: ios
 title: Source Code Integrity Checks
-best-practices: [MASTG-BEST-0x03]
+best-practices: [MASTG-BEST-0067]
 ---
 
 iOS uses code signing to verify app authenticity before launch (see @MASTG-TECH-0084). Apps can also implement additional runtime checks that inspect the Mach-O binary structure to verify the integrity of their own executable code, which complements the OS-level protection and helps detect patched or re-signed binaries. For verifying the integrity of data the app stores on the device, see @MASTG-KNOW-0086.

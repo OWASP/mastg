@@ -8,7 +8,7 @@ weakness: MASWE-0105
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0036]
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0066]
 ---
 
 ## Overview

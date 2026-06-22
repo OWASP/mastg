@@ -2,10 +2,10 @@
 masvs_category: MASVS-RESILIENCE
 platform: ios
 title: Storage Integrity Checks
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0065]
 ---
 
-Apps can protect data they store on the device (for example in the Keychain, `UserDefaults`/`NSUserDefaults`, or a database) by computing an HMAC or cryptographic signature over it and verifying that value before each use. This lets the app detect whether stored data was modified, for example on a jailbroken device, through a backup, or by directly manipulating the app's data directory. For verifying the integrity of the app's own executable code, see @MASTG-KNOW-0x01.
+Apps can protect data they store on the device (for example in the Keychain, `UserDefaults`/`NSUserDefaults`, or a database) by computing an HMAC or cryptographic signature over it and verifying that value before each use. This lets the app detect whether stored data was modified, for example on a jailbroken device, through a backup, or by directly manipulating the app's data directory. For verifying the integrity of the app's own executable code, see @MASTG-KNOW-0140.
 
 A common approach uses `CCHmac` from CommonCrypto with a key held in the Keychain:
 

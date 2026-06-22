@@ -1,7 +1,7 @@
 ---
 title: Implementing Storage Integrity Checks on Android
 alias: implementing-storage-integrity-checks-android
-id: MASTG-BEST-0x02
+id: MASTG-BEST-0066
 platform: android
 knowledge: [MASTG-KNOW-0036]
 ---

@@ -1,12 +1,12 @@
 ---
 title: Implementing Storage Integrity Checks on iOS
 alias: implementing-storage-integrity-checks-ios
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0065
 platform: ios
 knowledge: [MASTG-KNOW-0086]
 ---
 
-Implement storage integrity checks in iOS apps to detect unauthorized modifications to data stored on the device (for example, in the Keychain, `UserDefaults`/`NSUserDefaults`, files, or databases). These checks raise the cost for attackers who try to tamper with the app's data, especially on jailbroken devices, through backups, or by directly manipulating the app's data directory. For detecting modifications to the app's own executable code, see @MASTG-BEST-0x03.
+Implement storage integrity checks in iOS apps to detect unauthorized modifications to data stored on the device (for example, in the Keychain, `UserDefaults`/`NSUserDefaults`, files, or databases). These checks raise the cost for attackers who try to tamper with the app's data, especially on jailbroken devices, through backups, or by directly manipulating the app's data directory. For detecting modifications to the app's own executable code, see @MASTG-BEST-0067.
 
 Compute an HMAC over any data you store on the device before writing it, and verify the HMAC before reading. Use a key that is stored in the [iOS Keychain](https://developer.apple.com/documentation/security/keychain_services) with a strict accessibility setting (e.g., `kSecAttrAccessibleWhenUnlockedThisDeviceOnly`) so it cannot be extracted from a backup or transferred to another device.
 
