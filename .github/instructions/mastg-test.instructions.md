@@ -28,6 +28,29 @@ Notes:
 - Tests with `platform: network` are still organized under the OS folder that the MASVS category belongs to (for example, Android network tests live under `tests-beta/android/MASVS-NETWORK/`).
 - Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach.
 
+## Keeping Android and iOS Tests Aligned
+
+When a weakness has tests on both platforms, the Android and iOS tests **must be kept aligned**. They should share the same `title` and, as far as possible, the same body structure and wording. The goal is that a reader comparing the two platforms sees the same test, differing only where the platform genuinely forces it.
+
+What must match across platforms:
+
+- **`title`**: identical on both platforms (do not include "Android" or "iOS" in the title; see [title](#title)).
+- **`weakness`**: the same `MASWE-XXXX` id.
+- **MASVS category and folder**: the same category (for example, both under `MASVS-RESILIENCE/`). A single weakness must not be split across different categories on different platforms.
+- **`profiles`**: the same profile set.
+- **Optional metadata that expresses the same intent**: if one platform sets `false_negative_prone`, `best-practices`, or `apis`, the other should too (with its platform-specific values).
+- **Body structure**: the same sections, the same issue framing in the Overview, parallel Example Attack Scenarios, and the same Observation/Evaluation logic (including any `**Further Validation Required:**` and `**Expected False Negatives:**` blocks).
+
+What is allowed to differ (only because the platform forces it):
+
+- **APIs and class names** (for example, `CCHmac`/`SecKeyCreateSignature` on iOS vs. `javax.crypto.Mac`/`java.security.Signature` on Android).
+- **Storage and platform mechanisms** (for example, `UserDefaults`/`NSUserDefaults` vs. `SharedPreferences`; jailbroken vs. rooted).
+- **`knowledge` and `best-practices` pages**: each platform links its own.
+- **TECH IDs in Steps and `**Further Validation Required:**` blocks**: use the canonical per-platform technique (see [Preferred TECH IDs by Platform and Test Type](#preferred-tech-ids-by-platform-and-test-type)).
+- **Demos and tooling**: the underlying analysis tool may differ (for example, r2/disassembly on iOS vs. semgrep on Android). Keep demo structure parallel where practical.
+
+When you create or modify a test that has a counterpart on the other platform, update both so they stay in sync. If you intentionally diverge beyond the platform-forced differences above, that divergence must be justified and discussed with the team.
+
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
 
 ## Creating Test IDs
