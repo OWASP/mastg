@@ -2,7 +2,7 @@
 platform: ios
 title: References to Storage Integrity Check APIs
 id: MASTG-TEST-0x01
-apis: [CCHmac, CCHmacFinal, CC_SHA256, CC_SHA512, SecKeyCreateSignature]
+apis: [HMAC, CCHmac, CCHmacFinal, CC_SHA256, CC_SHA512, SecKeyCreateSignature]
 type: [static, code, manual]
 weakness: MASWE-0105
 false_negative_prone: true
@@ -17,7 +17,7 @@ iOS apps can protect the integrity and authenticity of data they store on the de
 
 Even data stored in the app's sandbox (such as `UserDefaults`/`NSUserDefaults`) normally cannot be modified by other apps, but it can still be tampered with in local attack scenarios, such as on jailbroken devices, during dynamic analysis, through backups, or by directly manipulating the app's data directory after obtaining privileged access, as described in @MASTG-KNOW-0086. Because of that, apps should not blindly trust security-relevant data loaded from local storage.
 
-This test verifies that the app references APIs commonly used to implement storage integrity checks, such as `CCHmac`, `CCHmacFinal` (HMAC via CommonCrypto), `CC_SHA256`, `CC_SHA512` (hash functions), or [`SecKeyCreateSignature`](https://developer.apple.com/documentation/security/seckeycreatesignature(_:_:_:_:)) (asymmetric signing). Depending on the implementation, the relevant logic may also include MAC comparison, cryptographic initialization, signature verification, or other mechanisms intended to detect tampering.
+This test verifies that the app references APIs commonly used to implement storage integrity checks, such as `HMAC` (the modern CryptoKit API), `CCHmac`/`CCHmacFinal` (HMAC via CommonCrypto), `CC_SHA256`/`CC_SHA512` (hash functions), or [`SecKeyCreateSignature`](https://developer.apple.com/documentation/security/seckeycreatesignature(_:_:_:_:)) (asymmetric signing). Depending on the implementation, the relevant logic may also include MAC comparison, cryptographic initialization, signature verification, or other mechanisms intended to detect tampering.
 
 **Example Attack Scenario:**
 
