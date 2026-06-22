@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Local Storage for Input Validation with semgrep
+title: References to Storage Integrity Check APIs with semgrep
 id: MASTG-DEMO-0101
 code: [kotlin]
 test: MASTG-TEST-0338
