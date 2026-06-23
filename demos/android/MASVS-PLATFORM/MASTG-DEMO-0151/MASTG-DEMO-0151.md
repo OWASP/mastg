@@ -13,7 +13,7 @@ The app handles the `https://deeplink.example.com` App Link in `DeepLinkActivity
 
 The weakness is that the App Link is declared **without** `android:autoVerify="true"`, so Android never verifies that the app owns the `deeplink.example.com` domain. Another app can register the same domain to hijack the link, or invoke this exported handler directly, to reach the sensitive action.
 
-{{ MastgTest.kt # MastgTest_reversed.java }}
+{{ MastgTest.kt }}
 
 The App Link is declared in the manifest without `android:autoVerify="true"`:
 
