@@ -1,0 +1,2 @@
+package: org.owasp.mastestapp.attacker.intent
+app-name: Intent Attacker

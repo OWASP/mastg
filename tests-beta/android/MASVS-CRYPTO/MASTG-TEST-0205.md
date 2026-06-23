@@ -2,7 +2,7 @@
 platform: android
 title: Non-random Sources Usage
 id: MASTG-TEST-0205
-type: [static]
+type: [static, code, manual]
 best-practices: [MASTG-BEST-0001]
 prerequisites:
 - identify-sensitive-data
@@ -18,7 +18,8 @@ Android applications sometimes use non-random sources to generate "random" value
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool on the app and look for uses of non-random sources.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -27,3 +28,9 @@ The output should contain a list of locations where non-random sources are used.
 ## Evaluation
 
 The test case fails if you can find security-relevant values, such as passwords or tokens, generated using non-random sources.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the usage is security-relevant:
+
+- Determine whether the generated values are used for security-relevant purposes, such as generating cryptographic keys, initialization vectors (IVs), nonces, authentication tokens, session identifiers, passwords, or PINs.

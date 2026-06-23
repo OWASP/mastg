@@ -1,0 +1,18 @@
+                   
+                   
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-pendingintent-mutable
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-1] PendingIntent created without FLAG_IMMUTABLE or with FLAG_MUTABLE may be
+          vulnerable to hijacking.                                                                   
+                                                                                                     
+           25┆ PendingIntent.getActivity(this.context, 0, implicitIntent, 134217728);
+            ⋮┆----------------------------------------
+           28┆ PendingIntent.getService(this.context, 1, explicitMutableIntent, 33554432);
+            ⋮┆----------------------------------------
+           31┆ PendingIntent.getBroadcast(this.context, 2, broadcastIntent, 0);
+

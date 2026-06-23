@@ -2,7 +2,7 @@
 platform: ios
 title: Sensitive Data in the iOS General Pasteboard at Runtime
 id: MASTG-TEST-0277
-type: [dynamic]
+type: [dynamic, hooks]
 weakness: MASWE-0053
 threat: [app]
 prerequisites:
@@ -19,8 +19,9 @@ In this case we'll monitor the @MASTG-KNOW-0083 for sensitive data being written
 
 ## Steps
 
-1. Monitor the pasteboard for sensitive data using @MASTG-TECH-0134.
-2. Run the app and perform actions that may write sensitive data to the pasteboard, such as copying passwords or personal information.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0134 to monitor the pasteboard for sensitive data.
+3. Run the app and perform actions that may write sensitive data to the pasteboard, such as copying passwords or personal information.
 
 ## Observation
 
@@ -28,4 +29,4 @@ The output should contain a list of pasteboard items that were written during th
 
 ## Evaluation
 
-The test fails if sensitive data is traced during a write operation to the general pasteboard specifically.
+The test case fails if sensitive data is traced during a write operation to the general pasteboard specifically.

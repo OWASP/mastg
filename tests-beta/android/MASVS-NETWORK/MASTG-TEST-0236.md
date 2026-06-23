@@ -2,7 +2,7 @@
 title: Cleartext Traffic Observed on the Network
 platform: network
 id: MASTG-TEST-0236
-type: [dynamic]
+type: [dynamic, network]
 weakness: MASWE-0050
 profiles: [L1, L2]
 ---
