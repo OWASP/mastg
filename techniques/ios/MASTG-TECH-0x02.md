@@ -37,11 +37,7 @@ The receiver method often does not open the URL itself but rather delegates it t
 frida-trace -U <App Name> -m "*[* *continueUserActivity*]" -i "*open*Url*"
 ```
 
-Trigger the universal link again and observe which additional functions run. For Swift symbols, demangle them to recover the class, method name, and parameter types:
-
-```bash
-xcrun swift-demangle <mangled symbol>
-```
+Trigger the universal link again and observe which additional functions run. For Swift symbols, demangle them to recover the class, method name, and parameter types (see @MASTG-TECH-0114).
 
 Use the demangled signature to edit the corresponding stub and print the relevant arguments (for example, the `url` parameter), so you can follow the URL from the receiver method to the code that ultimately acts on it.
 
