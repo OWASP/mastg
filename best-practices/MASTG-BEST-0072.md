@@ -1,7 +1,7 @@
 ---
 title: Validate Input Parameters in Universal Link Handlers
 alias: validate-input-parameters-in-universal-link-handlers
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0072
 platform: ios
 knowledge: [MASTG-KNOW-0080]
 ---

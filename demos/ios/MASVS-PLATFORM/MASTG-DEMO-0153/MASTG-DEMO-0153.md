@@ -2,8 +2,8 @@
 platform: ios
 title: Universal Link Handler Without Input Validation
 code: [swift, xml]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0153
+test: MASTG-TEST-0395
 kind: fail
 ---
 

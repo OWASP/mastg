@@ -24,7 +24,7 @@ struct MastgTest {
         handleUniversalLink(activity, completion: completion)
     }
 
-    // FAIL: [MASTG-TEST-0x01] The handler uses the "amount" parameter from the
+    // FAIL: [MASTG-TEST-0395] The handler uses the "amount" parameter from the
     // universal link directly without bounds-checking or type validation.
     @inline(never) @_optimize(none)
     public static func handleUniversalLink(_ userActivity: NSUserActivity, completion: @escaping (String) -> Void) {

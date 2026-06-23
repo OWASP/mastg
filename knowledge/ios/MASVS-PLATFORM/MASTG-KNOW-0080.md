@@ -62,7 +62,7 @@ The AASA file maps each domain to the app IDs allowed to handle its links and to
 
 The `appIDs` value must match the app's `application-identifier` (Team ID + bundle ID), which is what binds the website to the app. If verification does not succeed (for example, the AASA file is missing, not served over HTTPS, or the `appIDs` do not match), iOS does not route the link to the app and instead opens it in Safari. Because this association is controlled by the domain owner and validated by the OS, another app cannot register itself to receive a domain's universal links.
 
-Hosting and serving the AASA file is the responsibility of the website backend, not the app, and it is not part of the app package. You can retrieve the AASA file and inspect the on-device verification status with @MASTG-TECH-0x01.
+Hosting and serving the AASA file is the responsibility of the website backend, not the app, and it is not part of the app package. You can retrieve the AASA file and inspect the on-device verification status with @MASTG-TECH-0175.
 
 The `exclude` key (formerly the `NOT` path prefix) lets the developer specify paths that the app should not handle; it is a routing filter, not a security control.
 
@@ -80,7 +80,7 @@ The delivery entry point depends on the app's architecture:
 
 Unlike custom URL schemes, universal links are **not** delivered through `application(_:open:options:)` or SwiftUI's `onOpenURL(perform:)`, and there is no `sourceApplication` value associated with an incoming universal link, since the request originates from a web context rather than from a specific calling app.
 
-The continuation method is shared with Apple's Handoff feature (@MASTG-KNOW-0123): Handoff delivers its own `NSUserActivity` through the same entry point, distinguished by its `activityType` (an app-defined type and `userInfo` payload, rather than `NSUserActivityTypeBrowsingWeb` and a `webpageURL`). You can observe which method receives a link and how the app forwards it at runtime with @MASTG-TECH-0x02.
+The continuation method is shared with Apple's Handoff feature (@MASTG-KNOW-0123): Handoff delivers its own `NSUserActivity` through the same entry point, distinguished by its `activityType` (an app-defined type and `userInfo` payload, rather than `NSUserActivityTypeBrowsingWeb` and a `webpageURL`). You can observe which method receives a link and how the app forwards it at runtime with @MASTG-TECH-0176.
 
 ## URL Structure and Parsing
 
@@ -98,7 +98,7 @@ An app can open a universal link in another app with [`open(_:options:completion
 
 When an app calls `open(_:options:completionHandler:)` on a link to **its own** associated website, iOS does not treat it as a universal link, because the request originates from the app itself; the URL opens in Safari instead. Universal links are routed to the app only when opened from a different context, such as another app or a web page.
 
-The URLs an app sends to other apps this way can carry data in their path or query, so the same considerations that apply to any inter-app channel apply here (see @MASTG-KNOW-0078 and @MASTG-BEST-0045). You can trace outgoing `open(_:)` calls at runtime with @MASTG-TECH-0x02.
+The URLs an app sends to other apps this way can carry data in their path or query, so the same considerations that apply to any inter-app channel apply here (see @MASTG-KNOW-0078 and @MASTG-BEST-0045). You can trace outgoing `open(_:)` calls at runtime with @MASTG-TECH-0176.
 
 !!! note
     Also note that typing a universal link in Safari's address bar does **not** open the app. The user must follow an existing link on a web page so that iOS treats it as a navigation. See @MASTG-TECH-0169 for more ways to trigger universal links during testing.
