@@ -2,7 +2,7 @@
 platform: ios
 title: References to Debugging Detection APIs
 id: MASTG-TEST-0x89-1
-apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid]
+apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid, task_get_exception_ports, EXC_MASK_BREAKPOINT]
 type: [static, code, manual]
 weakness: MASWE-0101
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0x89]
@@ -12,7 +12,7 @@ knowledge: [MASTG-KNOW-0085]
 
 ## Overview
 
-iOS apps can implement debugging detection using mechanisms such as `ptrace` with `PT_DENY_ATTACH`, `sysctl` checks for `P_TRACED`, or parent-process checks through `getppid`. If these checks are absent or not applied in security-relevant code paths, an attacker who controls the device or app package can attach a debugger undetected and use it to inspect or modify runtime state, extract sensitive data, or bypass security controls.
+iOS apps can implement debugging detection using mechanisms such as `ptrace` with `PT_DENY_ATTACH`, `sysctl` checks for `P_TRACED`, parent-process checks through `getppid`, or Mach exception-port checks with `task_get_exception_ports`. If these checks are absent or not applied in security-relevant code paths, an attacker who controls the device or app package can attach a debugger undetected and use it to inspect or modify runtime state, extract sensitive data, or bypass security controls.
 
 See @MASTG-KNOW-0085 for more information on iOS debugging detection techniques and specific APIs and artifacts to look for.
 

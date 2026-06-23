@@ -2,7 +2,7 @@
 platform: ios
 title: Runtime Use of Debugging Detection APIs
 id: MASTG-TEST-0x89-2
-apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid]
+apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid, task_get_exception_ports, EXC_MASK_BREAKPOINT]
 type: [dynamic, hooks, manual]
 weakness: MASWE-0101
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0x89]
