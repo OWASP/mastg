@@ -30,9 +30,10 @@ The presence of `sysctl` alone does not prove anti-debugging behavior because ap
 
 Some implementations inspect the parent process ID with `getppid`. iOS apps are normally launched by system launch services, historically through `launchd` with PID 1. When a debugger launches or controls the app, the observed parent process can differ from the expected launcher process. This makes parent-process checks a possible reactive signal.
 
-## Advanced Debugging Signals
+## Using Mach Exception Ports
 
-Some implementations combine the previous techniques with lower-level runtime signals. Treat these as supporting indicators rather than standalone proof of debugging detection:
+Debuggers need to receive process events such as breakpoints and single-step exceptions. On Darwin-based systems, these events are delivered through Mach exception ports. An app can query its own registered exception ports with `task_get_exception_ports` and inspect whether a port is registered for breakpoint-related exceptions, for example with `EXC_MASK_BREAKPOINT`.
 
-- checking Mach exception ports with APIs such as `task_get_exception_ports`
-- resolving low-level APIs indirectly with `dlsym`
+A non-null exception port returned for `EXC_MASK_BREAKPOINT` can indicate that debugger infrastructure such as LLDB and `debugserver` is attached to the process. Treat this as a supporting signal rather than standalone proof. Other instrumentation can interact with Mach exception ports, and an attacker can bypass this check by hooking `task_get_exception_ports`, changing the returned values, or running the check before attaching the debugger.
+
+Because low-level APIs used for anti-debugging may be resolved dynamically, static analysis can also surface indirect lookup artifacts such as `dlsym` and string references to API names.
