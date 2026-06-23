@@ -19,6 +19,7 @@ Without input validation, the universal link handler acts on attacker-influenced
 - `https://example.com/transfer?amount=-1` or `amount=9999999` to bypass business logic bounds.
 - `https://example.com/open?path=../../private/secrets.txt` for path traversal if the value is used in file operations.
 - `https://example.com/search?q=<script>alert(1)</script>` for script injection if the value is rendered in a WebView.
+- `https://example.com/showPage?page=https://attacker.com` for loading attacker-controlled content if the value is used in a WebView or network request.
 
 The handler receives the URL through an `NSUserActivity` with an `activityType` of `NSUserActivityTypeBrowsingWeb`, read from its `webpageURL` property. Depending on the app's architecture, this is delivered via `application(_:continue:restorationHandler:)`, `scene(_:continue:)`, or SwiftUI's `onContinueUserActivity(NSUserActivityTypeBrowsingWeb, perform:)`. Unlike custom URL schemes (@MASTG-TEST-0370), universal links carry no `sourceApplication` value, so the handler cannot identify the origin of the request.
 

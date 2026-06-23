@@ -100,4 +100,7 @@ When an app calls `open(_:options:completionHandler:)` on a link to **its own** 
 
 The URLs an app sends to other apps this way can carry data in their path or query, so the same considerations that apply to any inter-app channel apply here (see @MASTG-KNOW-0078 and @MASTG-BEST-0045). You can trace outgoing `open(_:)` calls at runtime with @MASTG-TECH-0x02.
 
+!!! note
+    Also note that typing a universal link in Safari's address bar does **not** open the app. The user must follow an existing link on a web page so that iOS treats it as a navigation. See @MASTG-TECH-0169 for more ways to trigger universal links during testing.
+
 You can learn more about Universal Links in the post ["Learning about Universal Links and Fuzzing URL Schemes on iOS with Frida"](https://grepharder.github.io/blog/0x03_learning_about_universal_links_and_fuzzing_url_schemes_on_ios_with_frida.html "Learning about Universal Links and Fuzzing URL Schemes on iOS with Frida") by Carlos Holguera.

@@ -13,6 +13,8 @@ When iOS opens an app from a universal link, it delivers an `NSUserActivity` to 
 frida-trace -U <App Name> -m "*[* *continueUserActivity*]"
 ```
 
+Due to the use of wildcards, this pattern will cover both APIs.
+
 Trigger the universal link (for example, from the Notes app) and confirm the method is called. Then edit the generated stub in `__handlers__/` to print the activity details, including the verified URL in `webpageURL`:
 
 ```javascript
@@ -29,7 +31,7 @@ The output reveals the `webpageURL` the user accessed, the `activityType` (`NSUs
 
 ## Checking How the Links Are Opened
 
-The receiver method often does not open the URL itself but delegates to another method. Extend the trace to include any function that opens a URL:
+The receiver method often does not open the URL itself but rather delegates it to another method. Extend the trace to include any function that opens a URL:
 
 ```bash
 frida-trace -U <App Name> -m "*[* *continueUserActivity*]" -i "*open*Url*"
