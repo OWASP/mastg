@@ -1,7 +1,7 @@
 ---
 title: Verify Android App Links with autoVerify and Digital Asset Links
 alias: verify-android-app-links-with-autoverify-and-digital-asset-links
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0070
 platform: android
 knowledge: [MASTG-KNOW-0019]
 available_since: 23
@@ -32,11 +32,11 @@ Host a [Digital Asset Links](https://developers.google.com/digital-asset-links/v
 
 ## Verify the Association
 
-App Links are only protective once verification succeeds. Confirm the state on a device with `adb shell pm get-app-links <package>` and re-trigger verification as needed. See @MASTG-TECH-0x03 for the full verification workflow.
+App Links are only protective once verification succeeds. Confirm the state on a device with `adb shell pm get-app-links <package>` and re-trigger verification as needed. See @MASTG-TECH-0174 for the full verification workflow.
 
 !!! warning
     Before Android 12 (API level 31), a single non-verifiable link (a missing `autoVerify`, an invalid Digital Asset Links file, or a custom URL scheme in a verified intent filter) can cause Android to skip verification for **all** of the app's App Links. Keep verified intent filters free of unverifiable entries.
 
 ## Avoid Relying on Custom URL Schemes for Sensitive Flows
 
-Custom URL schemes (for example, `myapp://`) are never verified by the OS and can be claimed by any app. Prefer verified App Links for any link that triggers a sensitive action or carries sensitive data. If you must accept a custom URL scheme, validate its input as untrusted (see @MASTG-BEST-0x02).
+Custom URL schemes (for example, `myapp://`) are never verified by the OS and can be claimed by any app. Prefer verified App Links for any link that triggers a sensitive action or carries sensitive data. If you must accept a custom URL scheme, validate its input as untrusted (see @MASTG-BEST-0071).

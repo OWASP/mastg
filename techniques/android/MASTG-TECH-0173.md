@@ -3,7 +3,7 @@ title: Monitoring Deep Link Handlers at Runtime with Frida
 platform: android
 ---
 
-Here you will use the list of deep links from the static analysis (see @MASTG-TECH-0x01) to iterate and determine each handler method and the processed data, if any. You will first start a @MASTG-TOOL-0031 hook and then begin invoking the deep links.
+Here you will use the list of deep links from the static analysis (see @MASTG-TECH-0172) to iterate and determine each handler method and the processed data, if any. You will first start a @MASTG-TOOL-0031 hook and then begin invoking the deep links.
 
 The following example assumes a target app that accepts this deep link: `deeplinkdemo://load.html`. However, we don't know the corresponding handler method yet, nor the parameters it potentially accepts.
 

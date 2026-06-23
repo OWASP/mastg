@@ -35,7 +35,7 @@ There are some key differences from unverified deep links:
 
 Deep links are declared with [`<intent-filter>` elements](https://developer.android.com/guide/components/intents-filters#DataTest) on an `<activity>` in the `AndroidManifest.xml`. A browsable web deep link combines the `android.intent.action.VIEW` action, the `android.intent.category.DEFAULT` and `android.intent.category.BROWSABLE` categories, and one or more `<data>` elements that define the `scheme`, `host`, and `path`.
 
-`<data>` elements within the same `<intent-filter>` are merged across all combinations of their attributes. See @MASTG-TECH-0x01 for how to enumerate the resulting deep links.
+`<data>` elements within the same `<intent-filter>` are merged across all combinations of their attributes. See @MASTG-TECH-0172 for how to enumerate the resulting deep links.
 
 ## App Link Verification
 
@@ -52,12 +52,12 @@ The Android version also affects verification behavior:
 - Before Android 12 (API level 31), a single [non-verifiable link](https://developer.android.com/training/app-links/verify-android-applinks#fix-errors) (for example, a missing `autoVerify`, an invalid Digital Asset Links file, or a custom URL scheme in a verified intent filter) can cause the system to skip verification for all of the app's App Links.
 - Starting with Android 12 (API level 31), a generic web intent [resolves to the user's default browser](https://developer.android.com/training/app-links/deep-linking) unless the target app is approved for the specific domain in the intent.
 
-You can inspect the verification state on a device as described in @MASTG-TECH-0x03.
+You can inspect the verification state on a device as described in @MASTG-TECH-0174.
 
 ## Handling Incoming Deep Links
 
 The activity declared for a deep link receives the incoming URI through the [`Intent`](https://developer.android.com/reference/android/content/Intent) that launched it. The handler typically obtains it with [`getIntent()`](https://developer.android.com/reference/android/app/Activity#getIntent()) followed by [`Intent.getData()`](https://developer.android.com/reference/android/content/Intent#getData()), or through [`onNewIntent()`](https://developer.android.com/reference/android/app/Activity#onNewIntent(android.content.Intent)) when the activity is already running.
 
-Individual components of the resulting [`Uri`](https://developer.android.com/reference/android/net/Uri) are read with methods such as [`getQueryParameter()`](https://developer.android.com/reference/android/net/Uri#getQueryParameter(java.lang.String)), [`getPathSegments()`](https://developer.android.com/reference/android/net/Uri#getPathSegments()), and [`getLastPathSegment()`](https://developer.android.com/reference/android/net/Uri#getLastPathSegment()). See @MASTG-DEMO-0x02 for a handler that reads a query parameter from an incoming deep link.
+Individual components of the resulting [`Uri`](https://developer.android.com/reference/android/net/Uri) are read with methods such as [`getQueryParameter()`](https://developer.android.com/reference/android/net/Uri#getQueryParameter(java.lang.String)), [`getPathSegments()`](https://developer.android.com/reference/android/net/Uri#getPathSegments()), and [`getLastPathSegment()`](https://developer.android.com/reference/android/net/Uri#getLastPathSegment()). See @MASTG-DEMO-0152 for a handler that reads a query parameter from an incoming deep link.
 
 Unlike iOS, which exposes the caller's bundle identifier through the `sourceApplication` property, Android provides no built-in mechanism for a deep link handler to identify which app sent the Intent. Any app on the device can send an Intent that matches an exported intent filter.

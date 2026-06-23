@@ -51,7 +51,7 @@ class MastgTest(private val context: Context) {
         val amount = data.getQueryParameter("amount")
             ?: return "Missing 'amount' parameter"
 
-        // FAIL: [MASTG-TEST-0x03] The handler uses the "amount" query parameter
+        // FAIL: [MASTG-TEST-0394] The handler uses the "amount" query parameter
         // directly without converting it to a numeric type (e.g. toLong()) or
         // checking it against any bounds. Any app can open
         // mastestapp://transfer?amount=9999999 or amount=-1 to bypass the

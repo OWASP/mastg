@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Custom URL Scheme Handler Without Input Validation with semgrep
-id: MASTG-DEMO-0x02
+id: MASTG-DEMO-0152
 code: [kotlin]
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0394
 kind: fail
 ---
 

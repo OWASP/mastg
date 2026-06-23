@@ -1,12 +1,12 @@
 ---
 title: Missing Input Validation in Custom URL Scheme Handlers
 platform: android
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0394
 type: [static, code, manual]
 profiles: [L1, L2]
 weakness: MASWE-0058
 knowledge: [MASTG-KNOW-0019]
-best-practices: [MASTG-BEST-0x02]
+best-practices: [MASTG-BEST-0071]
 apis: [getData, getQueryParameter]
 ---
 
@@ -37,7 +37,7 @@ The output should contain the custom URL scheme declarations in the manifest and
 
 The test case fails if a custom URL scheme handler uses URL parameter values without performing adequate validation before acting on them.
 
-To complement this static analysis, you can use @MASTG-TECH-0x02 to observe at runtime which handler method receives the deep link and which parameters it reads.
+To complement this static analysis, you can use @MASTG-TECH-0173 to observe at runtime which handler method receives the deep link and which parameters it reads.
 
 **Further Validation Required:**
 

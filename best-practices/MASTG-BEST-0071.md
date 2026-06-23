@@ -1,7 +1,7 @@
 ---
 title: Validate Input Parameters in Deep Link and Custom URL Scheme Handlers
 alias: validate-input-parameters-in-deep-link-and-custom-url-scheme-handlers
-id: MASTG-BEST-0x02
+id: MASTG-BEST-0071
 platform: android
 knowledge: [MASTG-KNOW-0019]
 ---
@@ -37,4 +37,4 @@ Prefer allowlists for parameters that select a resource or an action when the se
 
 ## Restrict the Handler Surface
 
-If a deep link handler does not need to be reachable by other apps, set [`android:exported="false"`](https://developer.android.com/guide/topics/manifest/activity-element#exported) on its activity. For links that trigger sensitive actions, prefer verified App Links (see @MASTG-BEST-0x01) over custom URL schemes.
+If a deep link handler does not need to be reachable by other apps, set [`android:exported="false"`](https://developer.android.com/guide/topics/manifest/activity-element#exported) on its activity. For links that trigger sensitive actions, prefer verified App Links (see @MASTG-BEST-0070) over custom URL schemes.

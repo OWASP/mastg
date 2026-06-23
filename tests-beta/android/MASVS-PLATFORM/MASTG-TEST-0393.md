@@ -1,12 +1,12 @@
 ---
 title: Use of Unverified App Links
 platform: android
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0393
 type: [static, config]
 weakness: MASWE-0058
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0019]
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0070]
 ---
 
 ## Overview
@@ -29,7 +29,7 @@ Real-world exploitation has been publicly documented:
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0x01 to enumerate the deep links declared in the manifest.
+2. Use @MASTG-TECH-0172 to enumerate the deep links declared in the manifest.
 
 ## Observation
 
@@ -39,4 +39,4 @@ The output should contain `<intent-filter>` elements that declare `http`/`https`
 
 The test case fails if you identify any deep link `<intent-filter>` element that declares an `http`/`https` `<data>` scheme without the `android:autoVerify="true"` attribute, because App Links verification is not enforced and malicious apps can hijack the deep links and redirect users to attacker-controlled content.
 
-Note that the presence of `android:autoVerify="true"` is necessary but not sufficient: the website association must also succeed. Use @MASTG-TECH-0x03 to confirm the declared domains are actually verified, since a misconfigured Digital Asset Links file leaves the App Links unverified even when the attribute is set.
+Note that the presence of `android:autoVerify="true"` is necessary but not sufficient: the website association must also succeed. Use @MASTG-TECH-0174 to confirm the declared domains are actually verified, since a misconfigured Digital Asset Links file leaves the App Links unverified even when the attribute is set.
