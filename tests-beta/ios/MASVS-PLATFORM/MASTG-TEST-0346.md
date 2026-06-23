@@ -6,12 +6,12 @@ type: [static, code, manual]
 weakness: MASWE-0053
 profiles: [L2]
 best-practices: [MASTG-BEST-0044]
-knowledge: [MASTG-KNOW-0121]
+knowledge: [MASTG-KNOW-0121, MASTG-KNOW-0141]
 ---
 
 ## Overview
 
-If the app does not mask text input fields that contain sensitive data, such data may be visible to bystanders (shoulder surfing) or captured in screenshots and screen recordings.
+If the app does not mask text input fields that contain sensitive data, such data may be visible to bystanders (shoulder surfing) or captured in screenshots and screen recordings. Marking a field as secure also keeps it on the system keyboard: iOS does not offer installed third-party (custom) keyboards for secure fields (see @MASTG-KNOW-0141), so they never receive the typed characters.
 
 This test statically analyzes the app binary for references to text input APIs and checks whether the app configures input fields to mask sensitive text entries. In iOS, masking replaces typed characters with bullet characters using the following settings:
 
