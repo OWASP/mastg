@@ -1,19 +1,4 @@
-                  
-                  
-┌────────────────┐
-│ 1 Code Finding │
-└────────────────┘
-                       
-    AndroidManifest.xml
-    ❯❱ android-exported-content-provider
-          [MASVS-CODE-4] ContentProvider is exported. External apps can query it and receive attacker-
-          controlled data.                                                                            
-                                                                                                      
-           24┆ <provider
-           25┆     android:name=".AttackerContentProvider"
-           26┆     android:authorities="org.owasp.mastestapp.attacker.provider"
-           27┆     android:enabled="true"
-           28┆     android:exported="true"
-           29┆     android:grantUriPermissions="true">
-           30┆ </provider>
-
+--------- beginning of main
+06-20 13:03:18.380 22903 22903 E RESULT_ATTACK: Returning URI=content://org.owasp.mastestapp.attacker.provider/fakeFile
+06-20 13:03:18.408 22903 22917 E RESULT_ATTACK: Providing DISPLAY_NAME=../private/secret.txt
+06-20 13:03:18.414 22903 22917 E RESULT_ATTACK: Serving payload for uri=content://org.owasp.mastestapp.attacker.provider/fakeFile

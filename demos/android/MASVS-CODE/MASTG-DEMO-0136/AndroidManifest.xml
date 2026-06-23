@@ -11,7 +11,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Internal activity with an intent-filter (causes vulnerability) -->
+        <!-- Internal activity with an intent-filter, making it a resolver candidate -->
         <activity
             android:name="org.owasp.mastestapp.InternalActivity"
             android:exported="true">
