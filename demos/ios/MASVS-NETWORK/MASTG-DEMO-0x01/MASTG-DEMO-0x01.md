@@ -30,7 +30,7 @@ The output contains three sections followed by separate disassembly files for ea
 - **Uses of SecTrustEvaluateWithError**: confirms `SecTrustEvaluateWithError` is imported into the binary (`imp.SecTrustEvaluateWithError` at `0x000161bc`).
 - **xrefs to SecTrustEvaluateWithError**: only `SecureURLSessionDelegate`'s Swift implementation (`0x4490`) calls `SecTrustEvaluateWithError`, at offset `0x4638`. `InsecureURLSessionDelegate`'s implementation (`0x4000`) has no entry here.
 
-The disassembly and AI-reversed Swift below show the insecure handler:
+Reviewing the disassembled code (@MASTG-TECH-0076), the disassembly and AI-reversed Swift below show the insecure handler:
 
 {{ output.txt # InsecureURLSessionDelegate.asm # InsecureURLSessionDelegate_ai_reversed.swift }}
 

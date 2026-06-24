@@ -32,7 +32,7 @@ The output contains three sections followed by the disassembly file for the hand
 - **SecTrustEvaluateWithError calls**: this section is empty. `SecTrustEvaluateWithError` is not imported into the binary, confirming it is never called by any challenge handler.
 - **xrefs to SecTrustEvaluateWithError**: empty for the same reason.
 
-The disassembly and AI-reversed Swift below confirm the insecure handler:
+Reviewing the disassembled code (@MASTG-TECH-0076), the disassembly and AI-reversed Swift below confirm the insecure handler:
 
 {{ output.txt # InsecureWKNavigationDelegate.asm # InsecureWKNavigationDelegate_ai_reversed.swift }}
 
