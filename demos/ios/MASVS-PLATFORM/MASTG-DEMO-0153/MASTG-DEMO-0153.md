@@ -15,6 +15,14 @@ The handler reads the `amount` query parameter from the universal link's `webpag
 
 {{ MASTestApp.entitlements # MASTestAppApp.swift # MastgTest.swift }}
 
+Because the OS only routes the link after verifying the domain, triggering a real universal link requires the Apple App Site Association file to be reachable for `demo.mas.owasp.org`, which isn't the case for this demo. But you can still exercise the same handler by constructing an `NSUserActivity` with a crafted `webpageURL` and invoking the continuation entry point with @MASTG-TOOL-0039, as described in @MASTG-TECH-0169. Either way, the handler returns the attacker-controlled value unchanged:
+
+```text
+Transferring 9999999 units
+```
+
+Repeating with a non-numeric value (`amount=not-a-number`) returns `Transferring not-a-number units`, confirming at runtime that the handler accepts arbitrary universal link input without numeric conversion or bounds checking.
+
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package, which in this case is `./Payload/MASTestApp.app/MASTestApp`.
@@ -43,22 +51,3 @@ The test case fails because the handler uses the universal link's query value di
 - At `0x100006cd0`, the value flows into `DefaultStringInterpolation` to build the `"Transferring ... units"` output string, with the `"Transferring"` literal loaded at `0x100006cec`.
 
 Between `URLQueryItem.value` (`0x100006bc4`) and `DefaultStringInterpolation` (`0x100006cd0`) there is no call to `Int.init` or any other visible type conversion or validation function. This is further confirmed by the empty `=== References to Int conversion (input validation) ===` section. The handler therefore accepts an arbitrary string value from the universal link query and uses it directly in the transfer-related output, instead of validating that the value is numeric and within an expected range.
-
-### Confirming the Vulnerability
-
-Because the OS only routes the link after verifying the domain, triggering a real universal link requires the Apple App Site Association file to be reachable for `demo.mas.owasp.org`. When the domain is verified on the test device, you can open a crafted link with @MASTG-TECH-0169, for example with `xcrun devicectl`:
-
-```bash
-xcrun devicectl device process launch \
-  --device <DEVICE_IDENTIFIER> \
-  --payload-url "https://demo.mas.owasp.org/transfer?amount=9999999" \
-  org.owasp.mastestapp.MASTestApp-iOS
-```
-
-If the domain is not verified on your test device, exercise the same handler by constructing an `NSUserActivity` with a crafted `webpageURL` and invoking the continuation entry point with @MASTG-TOOL-0039, as described in @MASTG-TECH-0169. Either way, the handler returns the attacker-controlled value unchanged:
-
-```text
-Transferring 9999999 units
-```
-
-Repeating with a non-numeric value (`amount=not-a-number`) returns `Transferring not-a-number units`, confirming at runtime that the handler accepts arbitrary universal link input without numeric conversion or bounds checking.

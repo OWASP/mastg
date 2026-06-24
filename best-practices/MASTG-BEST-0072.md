@@ -8,7 +8,7 @@ knowledge: [MASTG-KNOW-0080]
 
 Validate and sanitize the path and query parameters of every incoming universal link before using them in security-sensitive operations. Universal link verification only proves that the request targets a domain your app is associated with (@MASTG-KNOW-0080); it does not validate the rest of the URL. Anyone can craft a link to your verified domain with arbitrary path and query values and get the user to open it, so treat the `webpageURL` and its parameters as untrusted input.
 
-Apple makes this explicit in [Supporting universal links in your app](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app "Supporting universal links in your app"): universal links are an entry point into your app, so validate all URL parameters, discard malformed URLs, and limit the actions a link can trigger to those that do not put the user's data at risk.
+Apple makes this explicit in ["Supporting universal links in your app"](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app "Supporting universal links in your app"): universal links are an entry point into your app, so validate all URL parameters, discard malformed URLs, and limit the actions a link can trigger to those that do not put the user's data at risk.
 
 ## Confirm the Activity and Read the Verified URL
 
