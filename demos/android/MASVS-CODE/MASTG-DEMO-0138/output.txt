@@ -5,7 +5,7 @@
 └────────────────┘
                                               
     ../MASTG-DEMO-0136/MastgTest_reversed.java
-    ❯❱ android-implicit-intent-leaking-extras
+    ❯❱ rules.mastg-android-implicit-intent-leaking-extras
           [MASVS-CODE-4] The app sends an implicit intent with extras. Any app that registers for this action
           can receive the data. Use explicit intents for internal communication.                             
                                                                                                              

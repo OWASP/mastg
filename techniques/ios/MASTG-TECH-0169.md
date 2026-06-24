@@ -64,6 +64,43 @@ mastgtest://import?session=<payload>
 
 This is a simple way to test user initiated deep links without writing a webpage. If the URL is not recognized as a link, check that the target app is installed, that the scheme is registered, and that the URL is properly encoded.
 
+## Triggering Universal Links
+
+Universal links (@MASTG-KNOW-0080) use `https://` URLs and are routed to the app only after iOS has verified the domain against the app's Apple App Site Association file. This makes them harder to trigger than custom URL schemes:
+
+- **Safari**: typing a universal link in the address bar does **not** open the app. You must follow an existing link on a web page so iOS treats it as a navigation.
+- **Notes app**: paste the `https://` link, leave editing mode, then long press it and choose the option to open it in the app (a single tap may open it in Safari instead, and the chosen option becomes the default for later taps).
+- **`xcrun devicectl`**: pass an `https://` URL to `--payload-url` to open it on a connected device, for example `--payload-url 'https://www.example.com/transfer?amount=9999999'`. The app opens only if its associated domain is verified on the device.
+
+If the domain is not verified on your test device (for example, because the Apple App Site Association file is not reachable from your build), you can still exercise the handler with @MASTG-TOOL-0039 by constructing an `NSUserActivity` with an `activityType` of `NSUserActivityTypeBrowsingWeb` and a crafted `webpageURL`, then invoking the app's continuation entry point. This is useful for fuzzing the path and query parameters without depending on live domain verification.
+
+```js
+function triggerUniversalLink(urlString) {
+    var NSUserActivity = ObjC.classes.NSUserActivity;
+    var NSURL = ObjC.classes.NSURL;
+
+    var activity = NSUserActivity.alloc().initWithActivityType_("NSUserActivityTypeBrowsingWeb");
+    activity.setWebpageURL_(NSURL.URLWithString_(urlString));
+
+    var scenes = ObjC.classes.UIApplication.sharedApplication()
+        .connectedScenes().allObjects();
+    for (var i = 0; i < scenes.count(); i++) {
+        var scene = scenes.objectAtIndex_(i);
+        var delegate = scene.delegate();
+        if (delegate !== null &&
+            delegate.respondsToSelector_(ObjC.selector("scene:continueUserActivity:"))) {
+            delegate.scene_continueUserActivity_(scene, activity);
+            return true;
+        }
+    }
+    return false;
+}
+
+triggerUniversalLink("https://example.com/transfer?amount=9999999");
+```
+
+This calls `scene:continueUserActivity:` directly on the `UIWindowSceneDelegate`, which is the UIKit entry point that SwiftUI's `.onContinueUserActivity` modifier hooks into. It bypasses OS-level domain verification because the OS only verifies the domain when routing a link — calling the delegate method directly skips that step entirely.
+
 ## Using @MASTG-TOOL-0039
 
 If you are instrumenting the device with Frida, you can also trigger a URL programmatically. This is useful during dynamic analysis, especially when testing many payloads.

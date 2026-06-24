@@ -1,3 +1,3 @@
 #!/bin/bash
-# SUMMARY: This script uses semgrep to detect the exported ContentProvider in the attacker app manifest.
-NO_COLOR=true semgrep --config rule.yaml AndroidManifest.xml --text > output.txt
+# SUMMARY: This script captures the returned URI and provider metadata from logcat.
+adb logcat -d -s RESULT_ATTACK > output.txt

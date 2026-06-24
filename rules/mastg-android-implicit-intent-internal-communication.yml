@@ -1,5 +1,5 @@
 rules:
-  - id: android-implicit-intent-internal-communication
+  - id: mastg-android-implicit-intent-internal-communication
     patterns:
       - pattern: |
           $INTENT = new Intent(...);
