@@ -41,4 +41,6 @@ The test case fails if `WebViewClient` URL interception methods are implemented 
 - Navigation outside trusted domains is prevented or handled securely.
 - The implementation does not inadvertently allow loading of malicious content.
 
+The test case also fails if a `WebViewClient` is assigned to a `WebView` without any URL validation logic, as this could allow navigation to untrusted content.
+
 Note that using a `WebViewClient` is not inherently insecure. The test fails only when the URL handling logic does not properly restrict navigation to trusted content.
