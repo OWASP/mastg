@@ -2,8 +2,8 @@
 platform: ios
 title: URLSessionDelegate Accepting Any Server Certificate
 code: [swift]
-id: MASTG-DEMO-0x01
-test: MASTG-TEST-0x01
+id: MASTG-DEMO-0154
+test: MASTG-TEST-0396
 kind: fail
 ---
 

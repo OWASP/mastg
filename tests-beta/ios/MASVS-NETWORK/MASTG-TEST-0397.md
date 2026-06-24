@@ -1,10 +1,10 @@
 ---
 title: References to WKNavigationDelegate Bypassing Certificate Validation
 platform: ios
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0397
 type: [static, code, manual]
 weakness: MASWE-0052
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0073]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0072]
 ---

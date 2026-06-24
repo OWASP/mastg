@@ -5,7 +5,7 @@ import WebKit
 // for WebView connections by accepting any certificate without calling SecTrustEvaluateWithError.
 
 class InsecureWKNavigationDelegate: NSObject, WKNavigationDelegate {
-    // FAIL: [MASTG-TEST-0x02] Accepts any certificate in WebView without evaluating server trust
+    // FAIL: [MASTG-TEST-0397] Accepts any certificate in WebView without evaluating server trust
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge,
                  completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else {

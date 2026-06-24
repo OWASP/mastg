@@ -5,7 +5,7 @@ import Foundation
 // evaluating trust; the secure delegate correctly rejects it via SecTrustEvaluateWithError.
 
 class InsecureURLSessionDelegate: NSObject, URLSessionDelegate {
-    // FAIL: [MASTG-TEST-0x01] Accepts any certificate without evaluating server trust
+    // FAIL: [MASTG-TEST-0396] Accepts any certificate without evaluating server trust
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else {

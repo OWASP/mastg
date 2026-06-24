@@ -2,8 +2,8 @@
 platform: ios
 title: WKNavigationDelegate Accepting Any Server Certificate
 code: [swift]
-id: MASTG-DEMO-0x02
-test: MASTG-TEST-0x02
+id: MASTG-DEMO-0155
+test: MASTG-TEST-0397
 kind: fail
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Properly Validate Server Trust in URLSessionDelegate and WKNavigationDelegate
 alias: properly-validate-server-trust-in-delegate
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0073
 platform: ios
 knowledge: [MASTG-KNOW-0072]
 ---
