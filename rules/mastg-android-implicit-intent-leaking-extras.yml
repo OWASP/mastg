@@ -1,5 +1,5 @@
 rules:
-  - id: android-implicit-intent-leaking-extras
+  - id: mastg-android-implicit-intent-leaking-extras
     patterns:
       - pattern: |
           $I = new Intent(...);
@@ -23,7 +23,7 @@ rules:
           ...
           $CTX.startActivity($I);
     message: "[MASVS-CODE-4] The app sends an implicit intent with extras. Any app that registers for this action can receive the data. Use explicit intents for internal communication."
-    languages: [java, kotlin]
+    languages: [java]
     severity: WARNING
     metadata:
       summary: Detects implicit intents that carry extras without specifying a target package or component.

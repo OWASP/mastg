@@ -48,7 +48,7 @@ class VulnerableActivity : Activity() {
             val tv = TextView(this)
             tv.textSize = 18f
             tv.setPadding(32, 32, 32, 32)
-            tv.text = "No handler found for REQUEST_FILE.\nInstall the attacker app from MASTG-DEMO-0141 first."
+            tv.text = "No handler found for REQUEST_FILE.\nInstall an app that handles REQUEST_FILE first."
             setContentView(tv)
         }
     }

