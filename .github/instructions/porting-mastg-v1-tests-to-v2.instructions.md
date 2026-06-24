@@ -39,11 +39,11 @@ Also, review these. We'll be using them and creating new ones as well:
 
 **About the IDs:**
 
-- Use "fake IDs" with the `MASTG-TEST-0x` notation (for example, `MASTG-TEST-0x33`).
-- If a test must be split, suffix with a short decimal part during drafting (for example, `MASTG-TEST-0x33-1`, `MASTG-TEST-0x33-2`).
+- Use "fake IDs" starting at `0x01` and incrementing within the PR (for example, `MASTG-TEST-0x01`, `MASTG-TEST-0x02`).
+- If a test must be split, suffix with a short decimal part during drafting (for example, `MASTG-TEST-0x01-1`, `MASTG-TEST-0x01-2`).
 - Once the test is ready, the team will assign a real ID (for example, `MASTG-TEST-0233`).
 
-Use the same approach for demos (for example, `MASTG-DEMO-0x33-1`), best practices (for example, `MASTG-BEST-0x33`), knowledge (for example, `MASTG-KNOW-0x33`) and techniques (for example, `MASTG-TECH-0x33`) or any other content type. This way, we can keep track of the relationships between the content pieces during drafting and porting and avoid conflicts. Once the content is ready, we will assign real IDs.
+Use the same approach for demos (for example, `MASTG-DEMO-0x01`, `MASTG-DEMO-0x02`), best practices (for example, `MASTG-BEST-0x01`), knowledge (for example, `MASTG-KNOW-0x01`) and techniques (for example, `MASTG-TECH-0x01`, `MASTG-TECH-0x02`) or any other content type. Each content type has its own counter starting at `0x01` within the PR. This way, we can keep track of the relationships between the content pieces during drafting and porting and avoid conflicts. Once the content is ready, we will assign real IDs.
 
 **Language**: use simple language, be concise and clear
 

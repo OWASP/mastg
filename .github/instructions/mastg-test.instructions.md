@@ -55,7 +55,7 @@ Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `fron
 
 ## Creating Test IDs
 
-When creating a new test (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-TEST-0x##` (for example, `MASTG-TEST-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-TEST-0x33`, `MASTG-TEST-0x34`, `MASTG-TEST-0x35`) as you add new content.
+When creating a new test (whether porting from v1 or writing from scratch), use a **fake ID** starting at `MASTG-TEST-0x01` and incrementing within the PR (e.g., `MASTG-TEST-0x01`, `MASTG-TEST-0x02`, `MASTG-TEST-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-TEST-0233`) before the content is published.
 

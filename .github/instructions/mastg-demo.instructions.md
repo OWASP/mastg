@@ -133,7 +133,7 @@ The build system (`.github/workflows/build-ios-demos.yml`) processes the followi
 
 ## Creating Demo IDs
 
-When creating a new demo (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-DEMO-0x##` (for example, `MASTG-DEMO-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-DEMO-0x33`, `MASTG-DEMO-0x34`, `MASTG-DEMO-0x35`) as you add new content.
+When creating a new demo (whether porting from v1 or writing from scratch), use a **fake ID** starting at `MASTG-DEMO-0x01` and incrementing within the PR (e.g., `MASTG-DEMO-0x01`, `MASTG-DEMO-0x02`, `MASTG-DEMO-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-DEMO-0054`) before the content is published.
 
