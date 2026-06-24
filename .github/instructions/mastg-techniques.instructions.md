@@ -17,7 +17,7 @@ File naming and IDs:
 - The filename defines the technique ID: `MASTG-TECH-\d{4}.md`.
 - Do not add an `id:` field to the YAML front matter for techniques.
 
-When creating a new technique (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-TECH-0x##` (for example, `MASTG-TECH-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-TECH-0x33`, `MASTG-TECH-0x34`, `MASTG-TECH-0x35`) as you add new content.
+When creating a new technique (whether during porting or writing from scratch), use a **fake ID** starting at `MASTG-TECH-0x01` and incrementing within the PR (e.g., `MASTG-TECH-0x01`, `MASTG-TECH-0x02`, `MASTG-TECH-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-TECH-0018`) before the content is published.
 
