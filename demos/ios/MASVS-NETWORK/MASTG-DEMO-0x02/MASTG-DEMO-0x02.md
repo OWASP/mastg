@@ -26,8 +26,10 @@ The WebView is used to load `self-signed.badssl.com`, which serves a self-signed
 
 ## Observation
 
-The output contains three sections followed by the disassembly file for the handler:
+The output contains five sections followed by the disassembly file for the handler:
 
+- **Custom authentication-challenge handlers**: lists every function whose signature references `NSURLAuthenticationChallenge`. `InsecureWKNavigationDelegate` (`0x00004000`) appears here because it implements a custom challenge handler. This is the broad signal that the app has taken over part of the server trust evaluation, regardless of whether it does so correctly.
+- **Accessors into the challenge protection space**: the `objc_msgSend$protectionSpace` (`0x00015980`) and `objc_msgSend$serverTrust` (`0x000159e0`) stubs confirm the app reaches into `challenge.protectionSpace.serverTrust`, an indication of manual server trust handling.
 - **xrefs to WKNavigationDelegate challenge handler implementation**: `axff` on the ObjC challenge handler method shows its call to the Swift implementation. `InsecureWKNavigationDelegate`'s ObjC method (`0x41f8`) calls the Swift implementation at `0x00004000`.
 - **SecTrustEvaluateWithError calls**: this section is empty. `SecTrustEvaluateWithError` is not imported into the binary, confirming it is never called by any challenge handler.
 - **xrefs to SecTrustEvaluateWithError**: empty for the same reason.
@@ -37,6 +39,8 @@ Reviewing the disassembled code (@MASTG-TECH-0076), the disassembly and AI-rever
 {{ output.txt # InsecureWKNavigationDelegate.asm # InsecureWKNavigationDelegate_ai_reversed.swift }}
 
 ## Evaluation
+
+`InsecureWKNavigationDelegate` surfaces in the "Custom authentication-challenge handlers" section, so it has taken control of the server trust evaluation and warrants manual review.
 
 The test case fails because `SecTrustEvaluateWithError` is not imported into the binary at all — the "SecTrustEvaluateWithError calls" section in `output.txt` is empty.
 

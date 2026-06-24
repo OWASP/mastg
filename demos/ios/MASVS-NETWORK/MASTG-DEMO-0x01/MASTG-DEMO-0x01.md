@@ -24,8 +24,10 @@ The code below implements two `URLSessionDelegate` classes that both connect to 
 
 ## Observation
 
-The output contains three sections followed by separate disassembly files for each handler:
+The output contains five sections followed by separate disassembly files for each handler:
 
+- **Custom authentication-challenge handlers**: lists every function whose signature references `NSURLAuthenticationChallenge`. Both `InsecureURLSessionDelegate` (`0x00004000`) and `SecureURLSessionDelegate` (`0x00004490`) appear here because both implement a custom challenge handler. This is the broad signal that the app has taken over part of the server trust evaluation, regardless of whether it does so correctly.
+- **Accessors into the challenge protection space**: the `objc_msgSend$protectionSpace` (`0x000165e0`) and `objc_msgSend$serverTrust` (`0x00016620`) stubs confirm the app reaches into `challenge.protectionSpace.serverTrust`, an indication of manual server trust handling.
 - **xrefs to URLSession challenge handler implementations**: `axff` on both ObjC challenge handler methods shows their calls to the underlying Swift implementations. `InsecureURLSessionDelegate`'s ObjC method (`0x41f8`) calls the Swift implementation at `0x00004000`. `SecureURLSessionDelegate`'s ObjC method (`0x4780`) calls its Swift implementation at `0x00004490`.
 - **Uses of SecTrustEvaluateWithError**: confirms `SecTrustEvaluateWithError` is imported into the binary (`imp.SecTrustEvaluateWithError` at `0x000161bc`).
 - **xrefs to SecTrustEvaluateWithError**: only `SecureURLSessionDelegate`'s Swift implementation (`0x4490`) calls `SecTrustEvaluateWithError`, at offset `0x4638`. `InsecureURLSessionDelegate`'s implementation (`0x4000`) has no entry here.
@@ -36,7 +38,9 @@ Reviewing the disassembled code (@MASTG-TECH-0076), the disassembly and AI-rever
 
 ## Evaluation
 
-The test case fails because `InsecureURLSessionDelegate`'s implementation (`0x00004000`) does not appear in the `xrefs to SecTrustEvaluateWithError` section.
+Both delegates surface in the "Custom authentication-challenge handlers" section, so both have taken control of the server trust evaluation and warrant manual review. The cross-reference to `SecTrustEvaluateWithError` is what distinguishes the secure handler (`0x4490`) from the insecure one (`0x4000`).
+
+The test case fails because `InsecureURLSessionDelegate`'s implementation (`0x00004000`) does not appear in the "xrefs to SecTrustEvaluateWithError" section.
 
 The disassembly confirms this:
 

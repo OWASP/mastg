@@ -13,6 +13,8 @@ The [Apple Developer Documentation](https://developer.apple.com/documentation/se
 - tighten trust: reject credentials that would otherwise be accepted by the system.
 - etc.
 
+Whenever an app accesses [`URLAuthenticationChallenge`](https://developer.apple.com/documentation/foundation/urlauthenticationchallenge) — which only happens when it implements an authentication-challenge delegate method such as `urlSession(_:didReceive:completionHandler:)` or `webView(_:didReceive:completionHandler:)` — it has taken over part of the server trust evaluation from the system. This is true regardless of whether the implementation ultimately calls `SecTrustEvaluateWithError`: the mere presence of custom challenge handling means the default ATS-enforced evaluation is being supplemented or replaced, and every such code path should be reviewed manually.
+
 <img src="Images/Chapters/0x06g/manual-server-trust-evaluation.png" width="100%" />
 
 References:

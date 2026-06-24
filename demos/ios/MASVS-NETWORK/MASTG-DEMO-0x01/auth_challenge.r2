@@ -2,6 +2,16 @@ e scr.color=false
 e asm.bytes=false
 e asm.var=false
 
+?e Custom authentication-challenge handlers (functions referencing NSURLAuthenticationChallenge):
+is~NSURLAuthenticationChallenge
+
+?e
+
+?e Accessors into the challenge protection space (protectionSpace / serverTrust):
+is~protectionSpace,serverTrust
+
+?e
+
 ?e xrefs to URLSession challenge handler implementations:
 axff @@ `f~URLSessionDelegate~didReceiveChallenge`~+didreceive
 
