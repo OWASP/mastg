@@ -1,0 +1,190 @@
+=== Relevant API inventory ===
+Unsafe keyed unarchiving APIs:
+207  0x0001a36e 0x0001a36e 24  25   3.__TEXT.__objc_methname   ascii setRequiresSecureCoding:
+196  0x0001a293 0x0001a293 19  20   3.__TEXT.__objc_methname   ascii decodeObjectForKey:
+
+Secure keyed unarchiving APIs:
+1016 0x00019c34 0x00019c34 LOCAL  FUNC 0        imp.$sSo7NSCoderC10FoundationE12decodeObject2of6forKeyxSgxm_SStSo8NSObjectCRbzSo8NSCodingRzlF                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            NSCoder.Foundation.allocator__String(...tSo8NSObjectCRbzSo8NSCodingRzlF)
+1015 0x00019c28 0x00019c28 LOCAL  FUNC 0        imp.$sSo17NSKeyedUnarchiverC10FoundationE16unarchivedObject7ofClass4fromxSgxm_AC4DataVtKSo8NSObjectCRbzSo8NSCodingRzlFZ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  NSKeyedUnarchiver.Foundation.allocator.(...DataVtKSo8NSObjectCRbzSo8NSCodingRzlFZ)
+
+URL payload APIs and strings:
+194  0x00009030 0x00009030 LOCAL  FUNC 0        _$s10Foundation13URLComponentsVSgWOh                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Foundation.URLComponents: GenericAccessorW.bool -> GenericAccessor
+522  0x0001aeda 0x0001aeda LOCAL  FUNC 0        _symbolic _____Sg 10Foundation13URLComponentsV                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           symbolic Foundation.URLComponents...V
+606  0x0001b9a8 0x0001b9a8 LOCAL  FUNC 0        _$s10Foundation13URLComponentsVSgMR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Foundation.URLComponents: GenericAccessorM
+757  0x000287b8 0x000287b8 LOCAL  FUNC 0        _$s10Foundation13URLComponentsVSgMd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Foundation.URLComponents: GenericAccessorM
+895  0x00019688 0x00019688 LOCAL  FUNC 0        imp.$s10Foundation13URLComponentsV10queryItemsSayAA12URLQueryItemVGSgvg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Foundation.URLComponents.queryItems.URLQueryItem...VGSgvg
+896  0x00019694 0x00019694 LOCAL  FUNC 0        imp.$s10Foundation13URLComponentsV3url23resolvingAgainstBaseURLACSgAA0G0Vh_SbtcfC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Foundation.URLComponents.url.resolvingAgainstBaseURL...A0G0Vh_SbtcfC
+897  0x000196a0 0x000196a0 LOCAL  FUNC 0        imp.$s10Foundation13URLComponentsVMa                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Foundation.URLComponents...VMa
+895  0x00019688 0x00019688 LOCAL  FUNC 0        imp.$s10Foundation13URLComponentsV10queryItemsSayAA12URLQueryItemVGSgvg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Foundation.URLComponents.queryItems.URLQueryItem...VGSgvg
+170  0x00006f7c 0x00006f7c LOCAL  FUNC 0        _$s10MASTestApp9MastgTestV19importSharedSession4fromSS10Foundation3URLV_tFZSbAF12URLQueryItemVXEfU_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      MASTestApp.MastgTest.importSharedSession.from.Foundation.URL.URLQueryItem...VXEfU_
+197  0x00009138 0x00009138 LOCAL  FUNC 0        _$sSay10Foundation12URLQueryItemVGSayxGSTsWl                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ...sSay10Foundation12URLQueryItemVGSayxGSTsWl
+198  0x000091ac 0x000091ac LOCAL  FUNC 0        _$sSay10Foundation12URLQueryItemVGWOh                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ...sSay10Foundation12URLQueryItemVGWOh
+199  0x000091d4 0x000091d4 LOCAL  FUNC 0        _$s10Foundation12URLQueryItemVSgWOh                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Foundation.URLQueryItem: GenericAccessorW.bool -> GenericAccessor
+521  0x0001aed2 0x0001aed2 LOCAL  FUNC 0        _symbolic _____Sg 10Foundation12URLQueryItemV                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            symbolic Foundation.URLQueryItem...V
+523  0x0001aee2 0x0001aee2 LOCAL  FUNC 0        _symbolic Say_____G 10Foundation12URLQueryItemV                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          symbolic Foundation.URLQueryItem...V
+605  0x0001b9a0 0x0001b9a0 LOCAL  FUNC 0        _$s10Foundation12URLQueryItemVSgMR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Foundation.URLQueryItem: GenericAccessorM
+607  0x0001b9b0 0x0001b9b0 LOCAL  FUNC 0        _$sSay10Foundation12URLQueryItemVGMR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ...sSay10Foundation12URLQueryItemVGMR
+756  0x000287b0 0x000287b0 LOCAL  FUNC 0        _$s10Foundation12URLQueryItemVSgMd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Foundation.URLQueryItem: GenericAccessorM
+758  0x000287c0 0x000287c0 LOCAL  FUNC 0        _$sSay10Foundation12URLQueryItemVGMd                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ...sSay10Foundation12URLQueryItemVGMd
+759  0x000287c8 0x000287c8 LOCAL  FUNC 0        _$sSay10Foundation12URLQueryItemVGSayxGSTsWL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ...sSay10Foundation12URLQueryItemVGSayxGSTsWL
+892  0x00019664 0x00019664 LOCAL  FUNC 0        imp.$s10Foundation12URLQueryItemV4nameSSvg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Foundation.URLQueryItem.name(...vg)
+893  0x00019670 0x00019670 LOCAL  FUNC 0        imp.$s10Foundation12URLQueryItemV5valueSSSgvg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Foundation.URLQueryItem.value(...Sgvg)
+894  0x0001967c 0x0001967c LOCAL  FUNC 0        imp.$s10Foundation12URLQueryItemVMa                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Foundation.URLQueryItem...VMa
+895  0x00019688 0x00019688 LOCAL  FUNC 0        imp.$s10Foundation13URLComponentsV10queryItemsSayAA12URLQueryItemVGSgvg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Foundation.URLComponents.queryItems.URLQueryItem...VGSgvg
+171  0x00007014 0x00007014 LOCAL  FUNC 0        _$s10Foundation4DataV13base64Encoded7optionsACSgSSh_So27NSDataBase64DecodingOptionsVtcfcfA0_                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Foundation.Data.base64Encoded.options.NSDataBase64DecodingOptions...A0_
+913  0x00019760 0x00019760 LOCAL  FUNC 0        imp.$s10Foundation4DataV13base64Encoded7optionsACSgSSh_So27NSDataBase64DecodingOptionsVtcfC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Foundation.Data.base64Encoded.options.NSDataBase64DecodingOptions...VtcfC
+219  0x0001a470 0x0001a470 111 112  4.__TEXT.__cstring         ascii Waiting for a deep link.\nOpen mastgtest://import?session=<base64 archive> from Safari or Notes, then tap Start.
+220  0x0001a4e0 0x0001a4e0 84  85   4.__TEXT.__cstring         ascii No session payload in the URL.\nExpected mastgtest://import?session=<base64 archive>.
+221  0x0001a540 0x0001a540 37  38   4.__TEXT.__cstring         ascii Imported a session from a deep link (
+245  0x0001a7bc 0x0001a7bc 7   8    4.__TEXT.__cstring         ascii session
+219  0x0001a470 0x0001a470 111 112  4.__TEXT.__cstring         ascii Waiting for a deep link.\nOpen mastgtest://import?session=<base64 archive> from Safari or Notes, then tap Start.
+220  0x0001a4e0 0x0001a4e0 84  85   4.__TEXT.__cstring         ascii No session payload in the URL.\nExpected mastgtest://import?session=<base64 archive>.
+
+Possible consequence APIs:
+909  0x00019730 0x00019730 LOCAL  FUNC 0        imp.$s10Foundation3URLV22appendingPathComponentyACSSF                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Foundation.URL.appendingPathComponent(...CSSF)
+1026 0x00019cac 0x00019cac LOCAL  FUNC 0        imp.$sSy10FoundationE5write2to10atomically8encodingyAA3URLV_SbSSAAE8EncodingVtKF                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Foundation(...bSSAAE8EncodingVtKF)
+
+=== Xrefs to decoding APIs ===
+Functions that set requiresSecureCoding:
+sym.MASTestApp.MastgTest.decodeInsecurely._6E8AB2C58CE173A727EF27CB85DF8CD8.Foundation.Data...VFZ 0x70c8 [DATA:r--] ldr x1, reloc.fixup.setRequiresSecureCoding:
+
+Functions that call unrestricted decodeObject(forKey:):
+sym.MASTestApp.InsecureUserSession.coder.allocator.SgSo7NSCoderC_tcfc 0x443c [DATA:r--] ldr x1, reloc.fixup.decodeObjectForKey:
+sym.MASTestApp.CachedDocument.coder.allocator.SgSo7NSCoderC_tcfc 0x5678 [DATA:r--] ldr x1, reloc.fixup.decodeObjectForKey:
+sym.MASTestApp.CachedDocument.coder.allocator.SgSo7NSCoderC_tcfc 0x5854 [DATA:r--] ldr x1, reloc.fixup.decodeObjectForKey:
+sym.MASTestApp.MastgTest.decodeInsecurely._6E8AB2C58CE173A727EF27CB85DF8CD8.Foundation.Data...VFZ 0x7130 [DATA:r--] ldr x1, reloc.fixup.decodeObjectForKey:
+
+Secure decoding references for comparison:
+sym.MASTestApp.SecureUserSession.coder.allocator.SgSo7NSCoderC_tcfc 0x4da0 [CALL:--x] bl sym.imp.NSCoder.Foundation.allocator__String_...tSo8NSObjectCRbzSo8NSCodingRzlF_
+sym.MASTestApp.MastgTest.decodeSecurely._6E8AB2C58CE173A727EF27CB85DF8CD8.Foundation.Data...VFZ 0x785c [CALL:--x] bl sym.imp.NSKeyedUnarchiver.Foundation.allocator._...DataVtKSo8NSObjectCRbzSo8NSCodingRzlFZ_
+
+=== Focused proof snippets ===
+setRequiresSecureCoding is called with 0, Boolean false:
+│           0x000070c8      ldr x1, [x8, 0x408]                        ; [0x28408:8]=0x1a36e str.setRequiresSecureCoding: ; "n\xa3\x01" ; char *selector
+│           0x000070cc      mov w8, 0
+│           0x000070d0      and w2, w8, 1
+│           0x000070d4      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x000070d8      adrp x8, segment.__DATA_CONST              ; 0x24000
+│           0x000070dc      ldr x8, [x8, 0x170]                        ; [0x24170:8]=0
+│                                                                      ; reloc.NSKeyedArchiveRootObjectKey
+│           0x000070e0      ldr x0, [x8]
+│           0x000070e4      str x0, [var_1d0h]
+
+The same function calls decodeObjectForKey:
+│           0x00007130      ldr x1, [x8, 0x3e0]                        ; [0x283e0:8]=0x1a293 str.decodeObjectForKey: ; reloc.fixup.decodeObjectForKey: ; char *selector
+│           0x00007134      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00007138      mov x29, x29
+│           0x0000713c      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+│           0x00007140      mov x8, x0
+│           0x00007144      ldr x0, [var_1e0h]
+│           0x00007148      str x8, [var_1e8h]
+│           0x0000714c      adrp x8, segment.__DATA_CONST              ; 0x24000
+
+=== Reachability from URL payload ===
+URLComponents and queryItems:
+│           0x000067b4      bl sym.imp.Foundation.URLComponents.url.resolvingAgainstBaseURL...A0G0Vh_SbtcfC
+│           0x000067b8      sub x8, x29, 8
+│           0x000067bc      ldur x8, [x8, -0x100]
+│           0x000067c0      ldur x0, [x29, -0x100]
+│           0x000067c4      ldur w1, [x29, -0xf4]
+│           0x000067c8      ldur x2, [x29, -0xf0]
+│           0x000067cc      ldr x8, [x8, 0x30]
+│           0x000067d0      blr x8
+│           0x00006810      bl sym.imp.Foundation.URLComponents.queryItems.URLQueryItem...VGSgvg
+│           0x00006814      sub x8, x29, 0x48
+│           0x00006818      stur x0, [x8, -0x100]
+│       ┌─< 0x0000681c      cbz x0, 0x6838
+│      ┌──< 0x00006820      b 0x6824
+│      ││   ; CODE XREF from func.00006644 @ 0x6820(x)
+│      └──> 0x00006824      sub x8, x29, 0x48
+│       │   0x00006828      ldur x8, [x8, -0x100]
+│       │   0x0000682c      sub x9, x29, 0x50
+
+Query item value and Base64 decoding:
+│           0x00006900      bl sym.imp.Foundation.URLQueryItem.value_...Sgvg_ ; Foundation.URLQueryItem.value(...Sgvg)
+│           0x00006904      sub x8, x29, 0x60
+│           0x00006908      ldur x8, [x8, -0x100]
+│           0x0000690c      mov x2, x0
+│           0x00006910      sub x9, x29, 0x30
+│           0x00006914      ldur x0, [x9, -0x100]
+│           0x00006918      sub x9, x29, 0x88
+│           0x0000691c      stur x2, [x9, -0x100]
+│           0x000069f4      bl sym.Foundation.Data.base64Encoded.options.NSDataBase64DecodingOptions...A0_ ; func.00007014
+│           0x000069f8      sub x8, x29, 0xc8
+│           0x000069fc      ldur x1, [x8, -0x100]
+│           0x00006a00      mov x2, x0
+│           0x00006a04      sub x8, x29, 0xc0
+│           0x00006a08      ldur x0, [x8, -0x100]
+│           0x00006a0c      bl sym.imp.Foundation.Data.base64Encoded.options.NSDataBase64DecodingOptions...VtcfC
+│           0x00006a10      sub x8, x29, 0xb8
+
+The URL import function calls the insecure decoder:
+│           0x00006d20      bl sym.MASTestApp.MastgTest.decodeInsecurely._6E8AB2C58CE173A727EF27CB85DF8CD8.Foundation.Data...VFZ ; func.00007040
+│           0x00006d24      sub x8, x29, 0x170
+│           0x00006d28      ldur x2, [x8, -0x100]
+│           0x00006d2c      sub x8, x29, 0x168
+│           0x00006d30      ldur x3, [x8, -0x100]
+│           0x00006d34      mov x9, x0
+│           0x00006d38      mov x8, x1
+│           0x00006d3c      sub x10, x29, 0x160
+
+The same URL import function calls the secure decoder:
+│           0x00006dc0      bl sym.MASTestApp.MastgTest.decodeSecurely._6E8AB2C58CE173A727EF27CB85DF8CD8.Foundation.Data...VFZ ; func.000077fc
+│           0x00006dc4      sub x8, x29, 0x170
+│           0x00006dc8      ldur x2, [x8, -0x100]
+│           0x00006dcc      sub x8, x29, 0x168
+│           0x00006dd0      ldur x3, [x8, -0x100]
+│           0x00006dd4      mov x9, x0
+│           0x00006dd8      mov x8, x1
+│           0x00006ddc      sub x10, x29, 0x160
+
+=== Consequence path ===
+The substituted class initializer decodes fileName and contents:
+│           0x00005644      add x0, x0, 0x41d                          ; 0x1a41d ; "fileName"
+│           0x00005648      mov w8, 1
+│           0x0000564c      and w2, w8, 1
+│           0x00005650      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+│           0x00005654      str x1, [arg0]
+│           0x00005658      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+│           0x0000565c      mov x1, x0
+│           0x00005660      ldr x0, [arg0]                             ; void *arg0
+│           0x00005818      add x0, x0, 0x426                          ; 0x1a426 ; "contents"
+│           0x0000581c      mov w8, 8
+│           0x00005820      mov x1, x8
+│           0x00005824      mov w8, 1
+│           0x00005828      and w2, w8, 1
+│           0x0000582c      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+│           0x00005830      str x1, [var_70h]
+│           0x00005834      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+
+The initializer calls restoreToDisk:
+│           0x00005a78      bl sym.MASTestApp.CachedDocument.restoreToDisk.allocator_...E8AB2C58CE173A727EF27CB85DF8CD8LLyyF_ ; func.00005b14
+│           0x00005a7c      ldr x0, [var_18h]                          ; void *arg0
+│           0x00005a80      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+│           0x00005a84      ldr x0, [var_68h]                          ; void *arg0
+│           0x00005a88      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+│           0x00005a8c      ldr x0, [instance]
+│           0x00005a90      adrp x8, segment.__DATA_CONST              ; 0x24000
+│           0x00005a94      ldr x8, [x8, 0x198]                        ; [0x24198:8]=0
+│                                                                      ; reloc.objc_release
+
+restoreToDisk builds a path and writes contents:
+│           0x00005d9c      ldur x8, [x29, -0xa0]
+│           0x00005da0      bl sym.imp.Foundation.URL.appendingPathComponent_...CSSF_ ; Foundation.URL.appendingPathComponent(...CSSF)
+│           0x00005da4      sub x8, x29, 8
+│           0x00005da8      ldur x0, [x8, -0x100]                      ; void *arg0
+│           0x00005dac      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+│           0x00005db0      ldur x8, [x29, -0xe8]
+│           0x00005db4      adrp x9, sym.__PROTOCOLS__TtC10MASTestApp19InsecureUserSession ; 0x28000
+│           0x00005db8      ldr x9, [x9, 0x788]                        ; [0x28788:8]=24
+│                                                                      ; field.class.CachedDocument.var.contents
+│                                                                      MASTestApp.CachedDocument.contents.allocator__Swift.String__String: allocator, contents__String: allocator, S.pWvd
+│           0x00005e10      bl sym.imp.Foundation_...bSSAAE8EncodingVtKF_ ; Foundation(...bSSAAE8EncodingVtKF)
+│           0x00005e14      mov x8, x21
+│           0x00005e18      stur x8, [x29, -0xf0]
+│       ┌─< 0x00005e1c      cbnz x21, 0x5eb0
+│      ┌──< 0x00005e20      b 0x5e24
+│      ││   ; CODE XREF from func.00005b14 @ 0x5e20(x)
+│      └──> 0x00005e24      ldur x1, [x29, -0xd8]                      ; int64_t arg_20h
+│       │   0x00005e28      ldur x0, [x29, -0xc0]
+│       │   0x00005e2c      ldur x8, [x29, -0xd0]

@@ -6,14 +6,14 @@ type: [dynamic, hooks]
 weakness: MASWE-0053
 profiles: [L2]
 best-practices: [MASTG-BEST-0044]
-knowledge: [MASTG-KNOW-0121]
+knowledge: [MASTG-KNOW-0121, MASTG-KNOW-0141]
 ---
 
 ## Overview
 
 This test complements @MASTG-TEST-0346. It monitors text input fields in the app at runtime to check if the app masks the text entry when the user enters sensitive data.
 
-If the app does not mask text input fields that contain sensitive data, such data may be visible to bystanders (shoulder surfing) or captured in screenshots and screen recordings.
+If the app does not mask text input fields that contain sensitive data, such data may be visible to bystanders (shoulder surfing) or captured in screenshots and screen recordings. Marking a field as secure also keeps it on the system keyboard: iOS does not offer installed third-party (custom) keyboards for secure fields (see @MASTG-KNOW-0141), so they never receive the typed characters.
 
 Ensure you exercise the app thoroughly, entering realistic sensitive data (for example, usernames, passwords, email addresses, credit card numbers, recovery codes) into each identified text input field.
 

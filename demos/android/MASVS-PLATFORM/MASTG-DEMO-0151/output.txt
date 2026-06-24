@@ -1,0 +1,19 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+    ❯❱ rules.mastg-android-deeplink-autoverify-missing
+          [MASVS-PLATFORM] Deep link intent filter missing android:autoVerify="true", enabling malicious apps
+          to hijack links.                                                                                   
+                                                                                                             
+           37┆ <data
+           38┆     android:scheme="http"
+           39┆     android:host="deeplink.example.com"/>
+            ⋮┆----------------------------------------
+           40┆ <data
+           41┆     android:scheme="https"
+           42┆     android:host="deeplink.example.com"/>
+

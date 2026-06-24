@@ -5,6 +5,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>org.owasp.mastgtest</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>mastgtest</string>
