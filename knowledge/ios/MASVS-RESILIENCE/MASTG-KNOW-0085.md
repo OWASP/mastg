@@ -59,7 +59,7 @@ bool unexpected_parent = parent_pid != 1;
 
 Debuggers need to receive process events such as breakpoints and single-step exceptions. On Darwin-based systems, these events are delivered through Mach exception ports. An app can query its own registered exception ports with `task_get_exception_ports` and inspect whether a port is registered for breakpoint-related exceptions, for example with `EXC_MASK_BREAKPOINT`.
 
-A non-null exception port returned for `EXC_MASK_BREAKPOINT` can indicate that debugger infrastructure such as LLDB and `debugserver` is attached to the process. Treat this as a supporting signal rather than standalone proof. Other instrumentation can interact with Mach exception ports, and an attacker can bypass this check by hooking `task_get_exception_ports`, changing the returned values, or running the check before attaching the debugger.
+A non-null exception port returned for `EXC_MASK_BREAKPOINT` can indicate that debugger infrastructure such as LLDB and `debugserver` is attached to the process. A breakpoint exception port is a supporting signal rather than standalone proof, since other instrumentation can also interact with Mach exception ports, and an attacker can bypass this check by hooking `task_get_exception_ports`, changing the returned values, or running the check before attaching the debugger.
 
 ```c
 exception_mask_t masks[EXC_TYPES_COUNT] = {0};
