@@ -16,27 +16,18 @@ class MastgTest(private val context: Context) {
             javaScriptEnabled = true
         }
 
-        // FAIL: [MASTG-TEST-03x3] Custom WebViewClient intercepts URL loading without proper validation
+        // FAIL: [MASTG-TEST-0x01] Custom WebViewClient intercepts URL loading without proper validation
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val url = request?.url?.toString()
                 // No URL validation is performed - any URL will be loaded
-                Log.d("MastgTest", "shouldOverrideUrlLoading: $url")
-                
-                // Extract URL components but don't validate them
-                request?.url?.let { uri ->
-                    val scheme = uri.scheme
-                    val host = uri.host
-                    val path = uri.path
-                    Log.d("MastgTest", "Scheme: $scheme, Host: $host, Path: $path")
-                }
-                
+                Log.d("MastgTest", "Loading URL: $url")
                 return false // Allow the WebView to load the URL
             }
 
             override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): android.webkit.WebResourceResponse? {
                 val url = request?.url?.toString()
-                Log.d("MastgTest", "shouldInterceptRequest: $url")
+                Log.d("MastgTest", "Intercepting request: $url")
                 // No validation - allow all requests
                 return super.shouldInterceptRequest(view, request)
             }

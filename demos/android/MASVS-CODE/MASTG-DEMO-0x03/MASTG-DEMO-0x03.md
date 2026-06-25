@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Runtime Use of WebViewClient URL Loading Handlers with Frida
-id: MASTG-DEMO-03x3
+id: MASTG-DEMO-0x03
 code: [kotlin]
-test: MASTG-TEST-03x3
+test: MASTG-TEST-0x03
 ---
 
 ## Sample
@@ -38,7 +38,7 @@ The output shows the URLs that were intercepted by the WebViewClient methods, al
 
 ## Evaluation
 
-The test **fails** because the implementation does not perform any URL validation:
+The test case fails because the implementation does not perform any URL validation:
 
 - URLs are logged but not validated against an allowlist of trusted domains.
 - All URLs are allowed to load (return value is `false` for `shouldOverrideUrlLoading`).

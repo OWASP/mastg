@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs -I{} sh -c 'echo \"=== {} ===\"; head -5 \"{}\"')",
+      "Bash(set -e)",
+      "Bash(git mv *)"
+    ]
+  }
+}

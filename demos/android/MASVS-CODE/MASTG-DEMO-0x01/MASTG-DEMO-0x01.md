@@ -1,9 +1,9 @@
 ---
 platform: android
 title: SafeBrowsing Disabled Detection with grep
-id: MASTG-DEMO-03x1
+id: MASTG-DEMO-0x01
 code: [xml]
-test: MASTG-TEST-03x2
+test: MASTG-TEST-0x02
 ---
 
 ## Sample
@@ -26,4 +26,4 @@ The output shows the meta-data element that disables SafeBrowsing.
 
 ## Evaluation
 
-The test **fails** because the `android.webkit.WebView.EnableSafeBrowsing` meta-data is present with `android:value="false"`. This explicitly disables SafeBrowsing protection for all WebViews in the app, removing an important security layer that protects users from known malicious URLs.
+The test case fails because the `android.webkit.WebView.EnableSafeBrowsing` meta-data is present with `android:value="false"`. This explicitly disables SafeBrowsing protection for all WebViews in the app, removing an important security layer that protects users from known malicious URLs.
