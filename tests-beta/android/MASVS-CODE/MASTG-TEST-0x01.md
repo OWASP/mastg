@@ -44,6 +44,6 @@ Inspect each reported code location using @MASTG-TECH-0023, looking for cases su
 
 - **No validation:** the method does not check the URL against an allowlist or denylist before allowing navigation or returning resource data.
 - **Weak validation:** the method performs validation that does not reliably prevent navigation to untrusted domains (for example, substring checks instead of validating the host).
-- **Missing client:** a `WebViewClient` is assigned to a `WebView` via `setWebViewClient` without overriding any interception method, leaving the default (unrestricted) navigation behavior in place for an app that intended to restrict it.
+- **Missing client implementation:** a `WebViewClient` is assigned to a `WebView` via `setWebViewClient` without overriding any interception method, leaving the default (unrestricted) navigation behavior in place for an app that intended to restrict it.
 
 Note that using a `WebViewClient` is not inherently insecure. The test fails only when the URL handling logic does not properly restrict navigation to trusted content.
