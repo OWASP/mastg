@@ -1,7 +1,7 @@
 ---
 platform: android
 title: References to WebViewClient URL Loading Handlers
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0398
 apis: [WebView, WebViewClient, shouldOverrideUrlLoading, shouldInterceptRequest, setWebViewClient]
 type: [static, code, manual]
 weakness: MASWE-0071

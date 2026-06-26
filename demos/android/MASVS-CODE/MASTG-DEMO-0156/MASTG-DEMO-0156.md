@@ -1,9 +1,9 @@
 ---
 platform: android
 title: SafeBrowsing Disabled Detection with grep
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0156
 code: [xml]
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0399
 ---
 
 ## Sample

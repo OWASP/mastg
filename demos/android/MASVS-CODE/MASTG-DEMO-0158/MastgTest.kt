@@ -16,7 +16,7 @@ class MastgTest(private val context: Context) {
             javaScriptEnabled = true
         }
 
-        // FAIL: [MASTG-TEST-0x03] Custom WebViewClient intercepts URL loading without proper validation
+        // FAIL: [MASTG-TEST-0400] Custom WebViewClient intercepts URL loading without proper validation
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val url = request?.url?.toString()

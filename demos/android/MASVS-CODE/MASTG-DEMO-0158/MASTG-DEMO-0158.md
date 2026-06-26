@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Runtime Use of WebViewClient URL Loading Handlers with Frida
-id: MASTG-DEMO-0x03
+id: MASTG-DEMO-0158
 code: [kotlin]
-test: MASTG-TEST-0x03
+test: MASTG-TEST-0400
 ---
 
 ## Sample

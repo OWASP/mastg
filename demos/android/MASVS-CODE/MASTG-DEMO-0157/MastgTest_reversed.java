@@ -29,7 +29,7 @@ public final class MastgTest {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
 
-        // FAIL: [MASTG-TEST-0x01] Custom WebViewClient intercepts URL loading without proper validation
+        // FAIL: [MASTG-TEST-0398] Custom WebViewClient intercepts URL loading without proper validation
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {

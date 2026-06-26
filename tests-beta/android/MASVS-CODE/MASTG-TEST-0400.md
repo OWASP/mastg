@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Runtime Use of WebViewClient URL Loading Handlers
-id: MASTG-TEST-0x03
+id: MASTG-TEST-0400
 apis: [WebView, WebViewClient, shouldOverrideUrlLoading, shouldInterceptRequest, Uri, getHost, getScheme, getPath]
 type: [dynamic, hooks, manual]
 weakness: MASWE-0071
@@ -18,7 +18,7 @@ This test dynamically analyzes the runtime behavior of `WebViewClient` URL inter
 - Whether the app implements allowlist or denylist patterns.
 - What decisions the app makes when encountering different URL schemes or domains.
 
-This complements static analysis (@MASTG-TEST-0x01) by providing actual runtime evidence of URL handling behavior.
+This complements static analysis (@MASTG-TEST-0398) by providing actual runtime evidence of URL handling behavior.
 
 ## Steps
 
