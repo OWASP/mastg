@@ -1,26 +1,20 @@
-[*] Hooking WebViewClient methods...
+[*] Hooking WebViewClient URL loading handlers...
 [*] WebViewClient hooks installed successfully
 
-[shouldOverrideUrlLoading] URL: https://mas.owasp.org/
-[shouldOverrideUrlLoading] Return value: false (false = load URL, true = block URL)
-  Scheme: https
-  Host: mas.owasp.org
-  Path: /
-[Uri.getScheme] https
-[Uri.getHost] mas.owasp.org
-[Uri.getPath] /
+[*] setWebViewClient called
+    WebViewClient implementation: org.owasp.mastestapp.MastgTestWebView$mastgTest$2
+    [!] Overrides shouldInterceptRequest (custom URL handling)
+    [!] Overrides shouldOverrideUrlLoading (custom URL handling)
 
 [shouldInterceptRequest] URL: https://mas.owasp.org/
-[shouldInterceptRequest] Default loading behavior
+    URL inspection during handler: NONE (no host/scheme/path check -> no validation)
+    -> default loading (no validation)
 
-[shouldOverrideUrlLoading] URL: https://mas.owasp.org/MASTG/
-[shouldOverrideUrlLoading] Return value: false (false = load URL, true = block URL)
-  Scheme: https
-  Host: mas.owasp.org
-  Path: /MASTG/
-[Uri.getScheme] https
-[Uri.getHost] mas.owasp.org
-[Uri.getPath] /MASTG/
+[*] setWebViewClient called
+    WebViewClient implementation: org.owasp.mastestapp.MastgTestWebView$mastgTest$2
+    [!] Overrides shouldInterceptRequest (custom URL handling)
+    [!] Overrides shouldOverrideUrlLoading (custom URL handling)
 
-[shouldInterceptRequest] URL: https://mas.owasp.org/MASTG/
-[shouldInterceptRequest] Default loading behavior
+[shouldInterceptRequest] URL: https://mas.owasp.org/
+    URL inspection during handler: NONE (no host/scheme/path check -> no validation)
+    -> default loading (no validation)
