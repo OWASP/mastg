@@ -8,7 +8,7 @@ import android.webkit.WebViewClient
 
 // SUMMARY: This sample demonstrates a WebView with a custom WebViewClient that intercepts URL loading without proper validation.
 
-class MastgTest(private val context: Context) {
+class MastgTestWebView(private val context: Context) {
 
     fun mastgTest(webView: WebView): String {
         // Configure WebView settings

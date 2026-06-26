@@ -1,48 +1,24 @@
-               
-               
-┌─────────────┐
-│ Scan Status │
-└─────────────┘
-  Scanning 1 file tracked by git with 2 Code rules:
-  Scanning 1 file with 2 java rules.
                   
                   
 ┌────────────────┐
 │ 1 Code Finding │
 └────────────────┘
-                           
-    MastgTest_reversed.java
+                                  
+    MastgTestWebView_reversed.java
      ❱ rules.mastg-android-webviewclient-url-handlers
           [MASVS-CODE-4] Detected WebViewClient URL interception method.
                                                                         
-           33┆ webView.setWebViewClient(new WebViewClient() {
-           34┆     @Override
-           35┆     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-           36┆         String url = request != null ? String.valueOf(request.getUrl()) : null;
-           37┆         // No URL validation is performed - any URL will be loaded
-           38┆         Log.d("MastgTest", "Loading URL: " + url);
-           39┆         return false; // Allow the WebView to load the URL
-           40┆     }
-           41┆
-           42┆     @Override
-           43┆     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest
-               request) {                                                                            
-           44┆         String url = request != null ? String.valueOf(request.getUrl()) : null;
-           45┆         Log.d("MastgTest", "Intercepting request: " + url);
-           46┆         // No validation - allow all requests
-           47┆         return super.shouldInterceptRequest(view, request);
-           48┆     }
-           49┆ });
+           30┆ webView.setWebViewClient(new WebViewClient() { // from class:
+               org.owasp.mastestapp.MastgTestWebView.mastgTest.2            
+           31┆     @Override // android.webkit.WebViewClient
+           32┆     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+           33┆         Uri url;
+           34┆         String url2 = (request == null || (url = request.getUrl()) == null) ? null :
+               url.toString();                                                                     
+           35┆         Log.d("MastgTest", "Loading URL: " + url2);
+           36┆         return false;
+           37┆     }
+           38┆
+           39┆     @Override // android.webkit.WebViewClient
+             [hid 7 additional lines, adjust with --max-lines-per-finding] 
 
-                
-                
-┌──────────────┐
-│ Scan Summary │
-└──────────────┘
-✅ Scan completed successfully.
- • Findings: 1 (1 blocking)
- • Rules run: 2
- • Targets scanned: 1
- • Parsed lines: ~100.0%
- • No ignore information available
-Ran 2 rules on 1 file: 1 finding.

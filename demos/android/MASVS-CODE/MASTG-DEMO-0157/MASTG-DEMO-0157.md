@@ -10,7 +10,7 @@ test: MASTG-TEST-0398
 
 The following sample demonstrates how a `WebViewClient` is configured to intercept URL loading in a WebView. The `shouldOverrideUrlLoading` method is implemented to handle navigation requests, which overrides the default behavior of opening links in the default browser.
 
-{{ MastgTest.kt # MastgTest_reversed.java }}
+{{ MastgTestWebView.kt # MastgTestWebView_reversed.java }}
 
 ## Steps
 
@@ -28,12 +28,12 @@ The output shows references to WebViewClient URL loading handlers.
 
 ## Evaluation
 
-The test case fails because the `WebViewClient` overrides `shouldOverrideUrlLoading` and `shouldInterceptRequest` without validating the requested URL against a trusted allowlist.
+The rule flags the attack surface: the reported finding points to the `setWebViewClient` call and the custom `WebViewClient` it registers, which spans both overridden handlers. Using a `WebViewClient` is not insecure on its own, so as required by @MASTG-TEST-0398 we inspect each reported handler to confirm whether it restricts navigation to trusted content.
 
-Review each reported instance:
+Reviewing the reported code shows that neither handler performs any validation:
 
 1. **`setWebViewClient`**: The WebView is configured with the custom `WebViewClient`.
-2. **`shouldOverrideUrlLoading`**: The implementation only logs the URL and always returns `false`, so every URL is allowed to load regardless of its host.
-3. **`shouldInterceptRequest`**: The implementation only logs the URL and falls back to the default behavior without checking the host or scheme.
+2. **`shouldOverrideUrlLoading`**: The implementation reads only `request.getUrl().toString()` to log the URL and always returns `false`. It never calls `getHost`, `getScheme`, or `getPath`, nor compares the URL against any allowlist or denylist, so every URL is allowed to load regardless of its host.
+3. **`shouldInterceptRequest`**: The implementation likewise only logs `request.getUrl().toString()` and falls back to `super.shouldInterceptRequest`, with no host, scheme, or path inspection.
 
-Because neither method restricts navigation to trusted domains, the WebView can load content from any host the user is directed to.
+Because the handlers inspect only the full URL string for logging and make no host-, scheme-, or path-based decision, they impose no restriction on navigation, and the WebView can load content from any host the user is directed to. The runtime counterpart of this conclusion is demonstrated in @MASTG-DEMO-0158.
