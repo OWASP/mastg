@@ -28,7 +28,7 @@ The output shows references to WebViewClient URL loading handlers.
 
 ## Evaluation
 
-The rule flags the attack surface: the reported finding points to the `setWebViewClient` call and the custom `WebViewClient` it registers, which spans both overridden handlers. Using a `WebViewClient` is not insecure on its own, so as required by @MASTG-TEST-0398 we inspect each reported handler to confirm whether it restricts navigation to trusted content.
+The test fails because the WebView can load content from any host the user is directed to. The static rule flags the attack surface: the reported finding points to the `setWebViewClient` call and the custom `WebViewClient` it registers, which spans both overridden handlers. Using a `WebViewClient` is not insecure on its own, so as required by @MASTG-TEST-0398 we inspect each reported handler to confirm whether it restricts navigation to trusted content.
 
 Reviewing the reported code shows that neither handler performs any validation:
 
