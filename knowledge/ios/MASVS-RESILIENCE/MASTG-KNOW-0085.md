@@ -29,11 +29,15 @@ ptrace_ptr_t ptrace_ptr = (ptrace_ptr_t)dlsym(RTLD_DEFAULT, "ptrace");
 ptrace_ptr(PT_DENY_ATTACH, 0, 0, 0);
 ```
 
+!!! warning
+
+    Using non-public APIs such as `ptrace` can cause App Store review issues. Consider whether your app's threat model and distribution requirements justify the added complexity and potential compatibility issues before implementing anti-debugging checks. See @MASVS-RESILIENCE for more information on the MASVS-RESILIENCE category and the associated guidelines.
+
 ## Using sysctl
 
 The `sysctl` interface can retrieve kernel and process information. Apple's archived technical Q&A ["Detecting the Debugger"](https://developer.apple.com/library/archive/qa/qa1361/_index.html "Detecting the Debugger") shows a debug-build-oriented example that queries the current process with `sysctl` and checks the `P_TRACED` flag in `info.kp_proc.p_flag`.
 
-The presence of `sysctl` alone does not prove anti-debugging behavior because apps can use it for other runtime information, such as device properties. Anti-debugging implementations usually combine `sysctl` with process-related Management Information Base values, `KERN_PROC_PID`, or checks for `P_TRACED`.
+The presence of a `sysctl` call alone does not prove anti-debugging behavior because apps can use it for other runtime information, such as device properties. Anti-debugging implementations usually combine `sysctl` with process-related Management Information Base values, `KERN_PROC_PID`, or checks for `P_TRACED`.
 
 ```c
 int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};

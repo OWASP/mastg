@@ -1,7 +1,7 @@
 ---
 platform: ios
 title: References to Debugging Detection APIs
-id: MASTG-TEST-0x89-1
+id: MASTG-TEST-0x01
 apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid, task_get_exception_ports, EXC_MASK_BREAKPOINT]
 type: [static, code, manual]
 weakness: MASWE-0101

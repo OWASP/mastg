@@ -22,7 +22,7 @@ Validate the implementation against the app's distribution requirements. Some lo
 
 ## Check Sensitive Flows
 
-Run checks close to security-relevant operations, such as:
+Run anti-debugging checks close to security-relevant operations, such as:
 
 - key unwrapping or signing
 - payment approval
@@ -35,7 +35,7 @@ Avoid tight polling loops that waste battery or degrade performance. Prefer chec
 
 ## Harden the Check and Response
 
-Place critical anti-debugging logic in native code where practical, obfuscate it, and avoid centralizing every check behind a single named function. A single dispatch point is easier to hook or patch than several distributed checks.
+Obfuscate anti-debugging logic and avoid centralizing every check behind a single named function. A single dispatch point is easier to hook or patch than several distributed checks.
 
 When the app detects a debugger, use a response that fits the risk of the protected flow. For example, terminate the sensitive operation, clear transient secrets from memory, require reauthentication, reduce functionality, or send a generic risk signal to the backend. Avoid exposing detailed detection reasons to the client because they help attackers tune bypasses.
 
