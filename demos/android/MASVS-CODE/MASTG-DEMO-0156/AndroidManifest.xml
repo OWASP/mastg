@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- SUMMARY: This AndroidManifest.xml sample demonstrates an app with SafeBrowsing explicitly disabled for WebViews. -->
+<!-- SUMMARY: This AndroidManifest.xml sample enables SafeBrowsing for WebViews, but the setting is overridden and disabled in the Kotlin code. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -16,14 +16,15 @@
         android:theme="@style/Theme.MASTestApp"
         tools:targetApi="31">
 
-        <!-- FAIL: [MASTG-TEST-0399] SafeBrowsing is explicitly disabled, removing protection against known malicious URLs -->
+        <!-- PASS: [MASTG-TEST-0399] SafeBrowsing is enabled, providing protection against known malicious URLs -->
+        <!-- But you should still check the Kotlin code since it takes precedence. -->
 
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
-            android:value="false" />
+            android:value="true" />
     
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivityWebView"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.MASTestApp">

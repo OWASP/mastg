@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -n -A1 "EnableSafeBrowsing" ./AndroidManifest.xml > output.txt
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-webview-safebrowsing.yml ./AndroidManifest_reversed.xml ./MastgTestWebView_reversed.java --text -o output.txt
