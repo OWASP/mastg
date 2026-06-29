@@ -1,7 +1,7 @@
 ---
 title: Implementing Anti-Debugging Checks on iOS
 alias: implementing-anti-debugging-checks-ios
-id: MASTG-BEST-0x89
+id: MASTG-BEST-0074
 platform: ios
 knowledge: [MASTG-KNOW-0085]
 ---

@@ -1,11 +1,11 @@
 ---
 platform: ios
 title: References to Debugging Detection APIs
-id: MASTG-TEST-0x01
+id: MASTG-TEST-0401
 apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid, task_get_exception_ports, EXC_MASK_BREAKPOINT]
 type: [static, code, manual]
 weakness: MASWE-0101
-best-practices: [MASTG-BEST-0029, MASTG-BEST-0x89]
+best-practices: [MASTG-BEST-0029, MASTG-BEST-0074]
 profiles: [R]
 knowledge: [MASTG-KNOW-0085]
 ---
@@ -18,10 +18,10 @@ See @MASTG-KNOW-0085 for more information on iOS debugging detection techniques 
 
 This test checks whether the app references debugging detection mechanisms in its Mach-O binaries. It does not test whether the app is configured as debuggable, which is covered by @MASTG-TEST-0261.
 
-This test is best combined with @MASTG-TEST-0x89-2, which performs dynamic testing to confirm whether the identified debugging detection mechanisms are active at runtime. Use the findings from this test to focus dynamic analysis in @MASTG-TEST-0x89-2 on specific checks.
+This test is best combined with @MASTG-TEST-0402, which performs dynamic testing to confirm whether the identified debugging detection mechanisms are active at runtime. Use the findings from this test to focus dynamic analysis in @MASTG-TEST-0402 on specific checks.
 
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of debugging detection mechanisms, which can be difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0x89 for best practices on implementing debugging detection effectively.
+    This test does not cover robustness or effectiveness of debugging detection mechanisms, which can be difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0074 for best practices on implementing debugging detection effectively.
 
 ## Steps
 
@@ -36,7 +36,7 @@ The output should contain a list of locations in the app binaries where debuggin
 
 The test case fails if the app contains no debugging detection patterns in its main executable or bundled Mach-O libraries. However, note that static analysis may not detect all debugging detection mechanisms, especially if they are obfuscated, dynamically loaded, inlined, or resolved indirectly.
 
-If debugging detection patterns are found, this is a positive sign, but you should still evaluate their runtime behavior using @MASTG-TEST-0x89-2.
+If debugging detection patterns are found, this is a positive sign, but you should still evaluate their runtime behavior using @MASTG-TEST-0402.
 
 **Further Validation Required:**
 

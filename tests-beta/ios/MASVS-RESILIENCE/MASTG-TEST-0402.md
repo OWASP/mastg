@@ -1,11 +1,11 @@
 ---
 platform: ios
 title: Runtime Use of Debugging Detection APIs
-id: MASTG-TEST-0x02
+id: MASTG-TEST-0402
 apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid, task_get_exception_ports, EXC_MASK_BREAKPOINT]
 type: [dynamic, hooks, manual]
 weakness: MASWE-0101
-best-practices: [MASTG-BEST-0029, MASTG-BEST-0x89]
+best-practices: [MASTG-BEST-0029, MASTG-BEST-0074]
 profiles: [R]
 knowledge: [MASTG-KNOW-0085]
 ---
@@ -18,12 +18,12 @@ See @MASTG-KNOW-0085 for more information on iOS debugging detection techniques 
 
 This test hooks debugging detection APIs at runtime to confirm whether they are invoked during app execution.
 
-This test is best combined with @MASTG-TEST-0x89-1, which checks for the presence of debugging detection logic through static analysis. Obtain a list of potential debugging detection mechanisms from static analysis and then focus dynamic testing on those specific checks to confirm they are triggered at runtime. Alternatively, you can perform dynamic testing first to identify any debugging detection mechanisms that are active at runtime, and then use static analysis to further investigate their implementation and coverage.
+This test is best combined with @MASTG-TEST-0401, which checks for the presence of debugging detection logic through static analysis. Obtain a list of potential debugging detection mechanisms from static analysis and then focus dynamic testing on those specific checks to confirm they are triggered at runtime. Alternatively, you can perform dynamic testing first to identify any debugging detection mechanisms that are active at runtime, and then use static analysis to further investigate their implementation and coverage.
 
 It is recommended to run this test while actively attempting to attach a debugger, where feasible, to ensure that debugging detection mechanisms are triggered during testing. On iOS, this may require a jailbroken device, a development or re-signed build with the required debugging entitlement, or another controlled test setup. Even without attaching a debugger, this test can still surface debugging detection logic if the app runs those checks unconditionally.
 
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of debugging detection mechanisms, which can be difficult to assess through automated testing alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0x89 for best practices on implementing debugging detection effectively.
+    This test does not cover robustness or effectiveness of debugging detection mechanisms, which can be difficult to assess through automated testing alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0074 for best practices on implementing debugging detection effectively.
 
 In this test, focus on identifying the presence of debugging detection mechanisms at runtime by hooking common debugging detection APIs and tracing relevant low-level calls.
 
@@ -39,7 +39,7 @@ The output should contain a list of calls to debugging detection APIs observed a
 
 ## Evaluation
 
-The test case fails if no debugging detection API calls are observed during app execution. However, results from this test should be interpreted as evidence of the presence of debugging detection logic, not as an assessment of its robustness or effectiveness. See @MASTG-BEST-0x89.
+The test case fails if no debugging detection API calls are observed during app execution. However, results from this test should be interpreted as evidence of the presence of debugging detection logic, not as an assessment of its robustness or effectiveness. See @MASTG-BEST-0074.
 
 **Further Validation Required:**
 

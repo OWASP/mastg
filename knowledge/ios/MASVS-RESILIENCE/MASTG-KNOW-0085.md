@@ -2,7 +2,7 @@
 masvs_category: MASVS-RESILIENCE
 platform: ios
 title: Anti-Debugging Detection
-best-practices: [MASTG-BEST-0x89]
+best-practices: [MASTG-BEST-0074]
 ---
 
 Debugging is a powerful runtime analysis technique. A debugger can stop execution at chosen points, inspect variables and registers, read process memory, and modify control flow. On iOS, debugging release apps usually involves the mechanisms described in @MASTG-TECH-0084, such as LLDB, `debugserver`, Mach task ports, and app entitlements.
