@@ -1,0 +1,41 @@
+rules:
+  - id: mastg-android-webviewclient-url-handlers
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: This rule detects WebViewClient methods that intercept URL loading, including shouldOverrideUrlLoading and shouldInterceptRequest.
+    message: "[MASVS-CODE-4] Detected WebViewClient URL interception method."
+    pattern-either:
+      - pattern: |
+          class $CLASS extends WebViewClient {
+            ...
+            $RET shouldOverrideUrlLoading(...) { ... }
+            ...
+          }
+      - pattern: |
+          class $CLASS extends WebViewClient {
+            ...
+            $RET shouldInterceptRequest(...) { ... }
+            ...
+          }
+      - pattern: (WebViewClient $WVC).shouldOverrideUrlLoading(...)
+      - pattern: (WebViewClient $WVC).shouldInterceptRequest(...)
+      - pattern: $WEBVIEW.setWebViewClient(...)
+
+  - id: mastg-android-webviewclient-safebrowsing-whitelist
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule detects usage of SafeBrowsing whitelist or onSafeBrowsingHit callback which may weaken security.
+    message: "[MASVS-CODE-4] Detected SafeBrowsing customization that may weaken security."
+    pattern-either:
+      - pattern: WebView.setSafeBrowsingWhitelist(...)
+      - pattern: $WEBVIEW.setSafeBrowsingWhitelist(...)
+      - pattern: |
+          class $CLASS extends WebViewClient {
+            ...
+            void onSafeBrowsingHit(...) { ... }
+            ...
+          }

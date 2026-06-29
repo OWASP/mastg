@@ -1,0 +1,20 @@
+rules:
+  - id: mastg-android-webview-safebrowsing-disabled-manifest
+    severity: WARNING
+    languages:
+      - xml
+    metadata:
+      summary: This rule detects when SafeBrowsing is explicitly disabled for WebViews in the AndroidManifest.xml.
+    message: "[MASVS-CODE-4] SafeBrowsing is disabled for WebViews in the AndroidManifest (EnableSafeBrowsing set to false). This removes an important security protection against known malicious URLs."
+    patterns:
+      - pattern: |
+          <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="false" ... />
+
+  - id: mastg-android-webview-safebrowsing-disabled-code
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule detects when SafeBrowsing is explicitly disabled for WebViews at runtime via WebSettings.setSafeBrowsingEnabled(false).
+    message: "[MASVS-CODE-4] SafeBrowsing is disabled for WebViews in code via setSafeBrowsingEnabled(false). This takes precedence over the AndroidManifest and removes an important security protection against known malicious URLs."
+    pattern: $WEBSETTINGS.setSafeBrowsingEnabled(false)
