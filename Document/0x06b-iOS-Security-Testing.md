@@ -126,14 +126,13 @@ For some devices and iOS versions, it is possible to downgrade to older versions
 
 #### Which Jailbreaking Tool to Use
 
-Different iOS versions require different jailbreaking techniques. [Determine whether a public jailbreak is available for your version of iOS](https://appledb.dev/ "Apple DB"). Beware of fake tools and spyware, which are often hiding behind domain names that are similar to the name of the jailbreaking group/author.
+Different iOS versions require different jailbreaking techniques. [Determine whether a public jailbreak is available for your version of iOS](https://ios.cfw.guide/). Beware of fake tools and spyware, which are often hiding behind domain names that are similar to the name of the jailbreaking group/author.
 
 The iOS jailbreak scene evolves so rapidly that providing up-to-date instructions is difficult. However, we can point you to some sources that are currently reliable.
 
-- [AppleDB](https://appledb.dev/ "AppleDB")
-- [The iPhone Wiki](https://www.theiphonewiki.com/ "The iPhone Wiki")
-- [Redmond Pie](https://www.redmondpie.com/ "Redmone Pie")
+- [The Apple Wiki](https://www.theapplewiki.com/ "The Apple Wiki")
 - [Reddit Jailbreak](https://www.reddit.com/r/jailbreak/ "Reddit Jailbreak")
+- [AppleDB](https://appledb.dev/ "AppleDB")
 
-!!! note
+!!! warning
     Any modification you make to your device is at your own risk. While jailbreaking is typically safe, things can go wrong, and you may end up bricking your device. No other party except yourself can be held accountable for any damage.
