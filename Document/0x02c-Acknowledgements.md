@@ -104,3 +104,17 @@ In the past, NowSecure has also contributed to the project and has donated the @
 - Peer reviews and actionable feedback to maintain MASTG quality.
 
 A special highlight was Guardsquare's significant contributions during the **OWASP Project Summit in November 2024**, where their team submitted the majority of the \~40 pull requests created during the event.
+
+### vulnit
+
+<img src="Images/Other/vulnit-logo.png" style="width: 50%; border-radius: 5px" />
+
+**We'd like to thank [vulnit](https://www.vulnit.com) for its outstanding contributions to the OWASP MAS project, culminating in achieving MAS Advocate status in 2026.**
+
+**High-impact Contributions:**
+
+- Active participation in the MAS Task Force, including monthly calls and proactive follow-ups.
+- Numerous pull requests focused on porting v1 to v2 tests with demos.
+- Peer reviews and actionable feedback to maintain MASTG quality.
+
+A special highlight was vulnit's significant contributions during the **OWASP MASTG v2 port**, where their team tirelessly worked on porting tests and demos, ensuring a smooth transition to the new version right on time for the official announcement at the MAScon Vienna 2026 conference.
