@@ -109,7 +109,7 @@ A special highlight was Guardsquare's significant contributions during the **OWA
 
 <img src="Images/Other/vulnit-logo.png" style="width: 50%; border-radius: 5px" />
 
-**We'd like to thank [vulnit](https://www.vulnit.com) for its outstanding contributions to the OWASP MAS project, culminating in achieving MAS Advocate status in 2026.**
+**We'd like to thank [vulnit](https://www.vulnit.com) for its outstanding contributions to the OWASP MAS project, culminating in achieving MAS Advocate status in 2026.** [Read more about their achievement here.](https://mas.owasp.org/news/2026/07/15/new-advocate-vulnit/)
 
 **High-impact Contributions:**
 
