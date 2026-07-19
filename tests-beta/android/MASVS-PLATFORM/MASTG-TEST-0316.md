@@ -3,7 +3,7 @@ platform: android
 title: App Exposing User Authentication Data in Text Input Fields
 id: MASTG-TEST-0316
 type: [static, code, manual]
-weakness: MASWE-0053
+weakness: MASWE-0028
 profiles: [L2]
 ---
 

@@ -4,7 +4,7 @@ platform: android
 id: MASTG-TEST-0338
 apis: [javax.crypto.Mac, java.security.Signature, java.security.MessageDigest]
 type: [static, code, manual]
-weakness: MASWE-0105
+weakness: MASWE-0063
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0036]

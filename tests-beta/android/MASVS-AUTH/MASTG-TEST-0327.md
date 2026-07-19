@@ -4,7 +4,7 @@ title: References to APIs for Event-Bound Biometric Authentication
 id: MASTG-TEST-0327
 apis: [BiometricPrompt, BiometricPrompt.CryptoObject, authenticate]
 type: [static, code]
-weakness: MASWE-0044
+weakness: MASWE-0021
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001, MASTG-KNOW-0043, MASTG-KNOW-0047, MASTG-KNOW-0012]
 best-practices: [MASTG-BEST-0036]

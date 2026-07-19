@@ -3,7 +3,7 @@ platform: ios
 title: Undeclared Known Tracking Domains
 id: MASTG-TEST-0281
 type: [static, dynamic]
-weakness: MASWE-0108
+weakness: MASWE-0073
 profiles: [P]
 ---
 

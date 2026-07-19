@@ -3,7 +3,7 @@ platform: ios
 title: Implementation Details Exposure in Logs
 id: MASTG-TEST-0359
 type: [dynamic, logs]
-weakness: MASWE-0094
+weakness: MASWE-0054
 best-practices: [MASTG-BEST-0022]
 knowledge: [MASTG-KNOW-0064, MASTG-KNOW-0101]
 profiles: [R]

@@ -4,7 +4,7 @@ title: References to APIs for Keys used in Biometric Authentication with Extende
 id: MASTG-TEST-0330
 apis: [KeyGenParameterSpec.Builder, setUserAuthenticationParameters, setUserAuthenticationValidityDurationSeconds]
 type: [static, code]
-weakness: MASWE-0044
+weakness: MASWE-0021
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001, MASTG-KNOW-0043, MASTG-KNOW-0047, MASTG-KNOW-0012]
 best-practices: [MASTG-BEST-0036]

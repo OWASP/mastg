@@ -4,7 +4,7 @@ title: Runtime Use Of Event-Bound Biometric Authentication
 id: MASTG-TEST-0267
 apis: [LAContext.evaluatePolicy]
 type: [dynamic, hooks]
-weakness: MASWE-0044
+weakness: MASWE-0021
 best-practices: []
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]

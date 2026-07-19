@@ -4,7 +4,7 @@ title: Runtime Use of APIs to Access External Storage
 id: MASTG-TEST-0201
 apis: [Environment#getExternalStorageDirectory, Environment#getExternalStorageDirectory, Environment#getExternalFilesDir, Environment#getExternalCacheDir, FileOutputStream]
 type: [dynamic, hooks, manual]
-weakness: MASWE-0007
+weakness: MASWE-0004
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0042]
 ---

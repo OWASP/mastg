@@ -4,7 +4,7 @@ title: Runtime Use of WebViewClient URL Loading Handlers
 id: MASTG-TEST-0400
 apis: [WebView, WebViewClient, shouldOverrideUrlLoading, shouldInterceptRequest, Uri, getHost, getScheme, getPath]
 type: [dynamic, hooks, manual]
-weakness: MASWE-0071
+weakness: MASWE-0038
 best-practices: []
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]

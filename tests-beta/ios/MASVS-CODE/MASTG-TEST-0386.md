@@ -3,7 +3,7 @@ title: References to Object Deserialization of Untrusted Data
 platform: ios
 id: MASTG-TEST-0386
 type: [static, code, manual]
-weakness: MASWE-0088
+weakness: MASWE-0048
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0075]
 best-practices: [MASTG-BEST-0064]

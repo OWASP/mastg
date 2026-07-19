@@ -3,7 +3,7 @@ title: GMS Security Provider Not Updated
 platform: android
 id: MASTG-TEST-0295
 type: [static, code]
-weakness: MASWE-0052
+weakness: MASWE-0026
 profiles: [L2]
 best-practices: [MASTG-BEST-0020]
 knowledge: [MASTG-KNOW-0011, MASTG-KNOW-0010]

@@ -3,7 +3,7 @@ title: Debuggable Flag Enabled in the AndroidManifest
 platform: android
 id: MASTG-TEST-0226
 type: [static, code]
-weakness: MASWE-0067
+weakness: MASWE-0050
 best-practices: [MASTG-BEST-0007]
 profiles: [R]
 knowledge: [MASTG-KNOW-0007]

@@ -3,7 +3,7 @@ platform: android
 title: Runtime Use of Debugging Detection APIs
 id: MASTG-TEST-0353
 type: [dynamic, hooks, manual]
-weakness: MASWE-0101
+weakness: MASWE-0060
 best-practices: [MASTG-BEST-0007, MASTG-BEST-0029, MASTG-BEST-0047]
 profiles: [R]
 knowledge: [MASTG-KNOW-0007, MASTG-KNOW-0028]

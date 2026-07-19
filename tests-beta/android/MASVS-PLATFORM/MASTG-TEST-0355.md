@@ -3,7 +3,7 @@ platform: android
 title: References to Unauthorized Database Access through Content Providers
 id: MASTG-TEST-0355
 type: [static, config, manual]
-weakness: MASWE-0064
+weakness: MASWE-0020
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0049]
 knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]

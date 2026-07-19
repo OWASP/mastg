@@ -3,7 +3,7 @@ title: Sensitive Data Stored Unencrypted via DataStore
 platform: android
 id: MASTG-TEST-0305
 type: [static, dynamic]
-weakness: MASWE-0006
+weakness: MASWE-0003
 best-practices: []
 profiles: [L1, L2]
 status: placeholder

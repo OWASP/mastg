@@ -3,7 +3,7 @@ platform: android
 title: References to StrictMode APIs
 id: MASTG-TEST-0265
 type: [static, code]
-weakness: MASWE-0094
+weakness: MASWE-0054
 best-practices: []
 profiles: [R]
 ---

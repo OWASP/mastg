@@ -3,7 +3,7 @@ title: Android App Configurations Allowing Cleartext Traffic
 platform: android
 id: MASTG-TEST-0235
 type: [static, code]
-weakness: MASWE-0050
+weakness: MASWE-0025
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0014]
 ---

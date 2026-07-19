@@ -3,7 +3,7 @@ platform: ios
 title: Broken Symmetric Encryption Algorithms
 id: MASTG-TEST-0210
 type: [static, code, manual]
-weakness: MASWE-0020
+weakness: MASWE-0011
 profiles: [L1, L2]
 ---
 

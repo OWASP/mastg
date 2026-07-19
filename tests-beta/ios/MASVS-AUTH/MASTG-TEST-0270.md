@@ -4,7 +4,7 @@ title: References to APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0270
 apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
 type: [static, code]
-weakness: MASWE-0046
+weakness: MASWE-0023
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---

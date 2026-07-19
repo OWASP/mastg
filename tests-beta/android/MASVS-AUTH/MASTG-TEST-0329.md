@@ -4,7 +4,7 @@ title: References to APIs Enforcing Authentication without Explicit User Action
 id: MASTG-TEST-0329
 apis: [BiometricPrompt.PromptInfo.Builder, setConfirmationRequired]
 type: [static, code]
-weakness: MASWE-0044
+weakness: MASWE-0021
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
 best-practices: [MASTG-BEST-0038]

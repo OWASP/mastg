@@ -3,7 +3,7 @@ platform: android
 title: References to Asymmetric Key Pairs Used For Multiple Purposes
 id: MASTG-TEST-0307
 type: [static, code]
-weakness: MASWE-0012
+weakness: MASWE-0011
 profiles: [L2]
 knowledge: [MASTG-KNOW-0012]
 ---

@@ -3,7 +3,7 @@ platform: ios
 title: References to Native Bridge APIs in WebViews
 id: MASTG-TEST-0376
 type: [static, code]
-weakness: MASWE-0069
+weakness: MASWE-0037
 best-practices: [MASTG-BEST-0058]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076]

@@ -3,7 +3,7 @@ platform: ios
 title: References to `evaluateJavaScript` Used as Bridge Reply in `WKScriptMessageHandler`
 id: MASTG-TEST-0377
 type: [static, code, manual]
-weakness: MASWE-0069
+weakness: MASWE-0037
 best-practices: [MASTG-BEST-0062]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]

@@ -3,7 +3,7 @@ platform: ios
 title: References to Enforced Updating APIs
 id: MASTG-TEST-0383
 type: [static, code, manual]
-weakness: MASWE-0075
+weakness: MASWE-0040
 profiles: [L2]
 knowledge: [MASTG-KNOW-0074]
 ---

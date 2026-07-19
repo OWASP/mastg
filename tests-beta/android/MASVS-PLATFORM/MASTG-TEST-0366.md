@@ -3,7 +3,7 @@ platform: android
 title: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality
 id: MASTG-TEST-0366
 type: [static, config, code, manual]
-weakness: MASWE-0063
+weakness: MASWE-0020
 best-practices: [MASTG-BEST-0052]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0134, MASTG-KNOW-0017, MASTG-KNOW-0020]

@@ -3,7 +3,7 @@ platform: android
 title: Runtime Use of Enforced Updating APIs
 id: MASTG-TEST-0382
 type: [dynamic, network, hooks, manual]
-weakness: MASWE-0075
+weakness: MASWE-0040
 profiles: [L2]
 knowledge: [MASTG-KNOW-0023]
 ---

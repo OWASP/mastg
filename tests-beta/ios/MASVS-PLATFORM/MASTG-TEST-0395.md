@@ -3,7 +3,7 @@ platform: ios
 title: Missing Input Validation in Universal Link Handlers
 id: MASTG-TEST-0395
 type: [static, code, manual]
-weakness: MASWE-0058
+weakness: MASWE-0032
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0072]
 knowledge: [MASTG-KNOW-0080]
