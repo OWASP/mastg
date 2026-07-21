@@ -24,22 +24,40 @@ This test checks whether the app exposes sensitive functionality through exporte
 
 ## Observation
 
-The output should contain a list of exported services and the relevant parts of their implementation, including the interface they expose and any permission checks they perform.
+The output should contain all services from the app. For each service, record:
+
+1. Service name or class.
+2. Whether it is started, bound, or both.
+3. Accepted actions or intent filters.
+4. Export state by recording `android:exported`.
+5. Required caller permission, if any, by recording `android:permission` and its protection level.
+6. Exposed bound-service interface, if any, for example Binder, Messenger, AIDL, or another bound-service API.
+7. Relevant runtime caller checks, if any, for example `checkCallingPermission`, `enforceCallingPermission`, `checkCallingOrSelfPermission`, or `enforceCallingOrSelfPermission`.
+8. Every entry point or flow reachable when the service is started or bound, for example `onStartCommand`, `onBind`, `onRebind`, `onHandleIntent`, or any exposed bound-service interface method.
 
 ## Evaluation
 
-The test case fails if any exported service is not protected by an appropriate `android:permission` that restricts which apps can start or bind to it and exposes or performs sensitive functionality, for example by returning sensitive data, performing a security-relevant action, or allowing a caller to invoke a bound-service interface without authorization.
+The test fails only if all of the following are true:
+
+1. The service is exported. For example, a service with `android:exported="true"`.
+2. The service does not enforce strong caller protection.
+3. The service exposes or performs sensitive functionality.
 
 **Further Validation Required:**
 
-Inspect each exported service using @MASTG-TECH-0023 to determine whether it exposes sensitive functionality:
+Use the following decision flow:
 
-- Determine whether the service returns sensitive data or performs a security-relevant action (for example, changing a password or PIN) in response to a request.
-- Determine whether the service exposes a started-service or bound-service interface that lets callers trigger sensitive operations or access sensitive data.
+```mermaid
+flowchart TD
+    A[Service] --> B{Exported}
+    B -->|No| C[Pass]
+    B -->|Yes| D{Strong caller protection}
+    D -->|Yes| C
+    D -->|No| E{Sensitive functionality}
+    E -->|No| C
+    E -->|Yes| F[Fail]
+```
 
-Then determine whether external access to the service is appropriately restricted for the functionality it exposes and the app's intended trust boundary:
+Strong caller protection means that the service enforces a permission or equivalent access control appropriate for the intended caller set. Use the same protection-level criteria described in @MASTG-TEST-0364.
 
-- Determine whether the service has a legitimate reason to accept start or bind requests from third-party apps. If it doesn't, it shouldn't be exported.
-- If external access is required, determine whether the service is protected by an appropriate `android:permission` or an equivalent access control. Appropriate means the control matches the sensitivity of the service operation and the set of apps that should be allowed to start or bind to it.
-- Verify that the permission is effective for that trust boundary, for example by using a `signature` protection level or another control that is not broadly grantable to untrusted apps.
-- Determine whether the service verifies the caller's permission at runtime (for example, with `checkCallingPermission` or `enforceCallingPermission`) before processing sensitive requests.
+Inspect each exported service using @MASTG-TECH-0023 to determine whether `onStartCommand`, `onBind`, `onRebind`, `onHandleIntent`, or any exposed bound-service interface reaches sensitive functionality.

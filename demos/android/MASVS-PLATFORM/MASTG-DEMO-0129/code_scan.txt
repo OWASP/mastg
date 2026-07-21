@@ -1,0 +1,28 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-service-entrypoint
+          [MASVS-PLATFORM] Service entry point reached when the service is started or bound. Review it for
+          sensitive functionality that should not be reachable by an external caller.                     
+                                                                                                          
+          120┆ @Override // android.app.Service
+          121┆ public IBinder onBind(Intent intent) {
+          122┆     Intrinsics.checkNotNullParameter(intent, "intent");
+          123┆     return null;
+          124┆ }
+            ⋮┆----------------------------------------
+          126┆ @Override // android.app.Service
+          127┆ public int onStartCommand(Intent intent, int flags, int startId) {
+          128┆     String newPassword = intent != null ? intent.getStringExtra(KEY_PASSWORD) : null;
+          129┆     if (newPassword != null) {
+          130┆         getApplicationContext().getSharedPreferences(MastgTest.PREFS,  
+               0).edit().putString(MastgTest.KEY_PASSWORD_STORE, newPassword).apply();
+          131┆         return 2;
+          132┆     }
+          133┆     return 2;
+          134┆ }
+

@@ -1,0 +1,31 @@
+                   
+                   
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-context-registered-receiver-exported
+          [MASVS-PLATFORM] Context-registered receiver registered as exported (RECEIVER_EXPORTED) with no  
+          broadcastPermission, so any app on the device can deliver broadcasts to it. Inspect its onReceive
+          for sensitive functionality: receiver=this.passwordResetReceiver                                 
+                                                                                                           
+          105┆ ContextCompat.registerReceiver(this, this.passwordResetReceiver, new
+               IntentFilter(MastgTest.ACTION_RESET_PASSWORD), 2);                  
+   
+     ❱ rules.mastg-android-context-registered-receiver-not-exported
+          [MASVS-PLATFORM] Context-registered receiver registered as not exported (RECEIVER_NOT_EXPORTED).
+          Other apps cannot deliver broadcasts to it, so it is not part of the external attack surface:   
+          receiver=this.vaultRefreshReceiver                                                              
+                                                                                                          
+          106┆ ContextCompat.registerReceiver(this, this.vaultRefreshReceiver, new
+               IntentFilter(MastgTest.ACTION_VAULT_UPDATED), 4);                  
+   
+     ❱ rules.mastg-android-context-registered-receiver-exported-with-permission
+          [MASVS-PLATFORM] Context-registered receiver registered as exported (RECEIVER_EXPORTED) but       
+          restricted with a broadcastPermission. Verify the permission protection level matches the intended
+          sender set: receiver=this.adminCommandReceiver permission=MastgTest.PERMISSION_ADMIN_COMMAND      
+                                                                                                            
+          159┆ ContextCompat.registerReceiver(this, this.adminCommandReceiver, new                        
+               IntentFilter(MastgTest.ACTION_ADMIN_COMMAND), MastgTest.PERMISSION_ADMIN_COMMAND, null, 2);
+

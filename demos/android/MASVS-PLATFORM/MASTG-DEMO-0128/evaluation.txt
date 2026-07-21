@@ -1,0 +1,2 @@
+org.owasp.mastestapp.MainActivity
+org.owasp.mastestapp.MastgTest.SecretActivity

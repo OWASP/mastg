@@ -1,0 +1,17 @@
+rules:
+  - id: mastg-android-activity-entrypoint
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Locates the lifecycle entry points reachable when an activity is started, so they can be reviewed for sensitive functionality.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Activity entry point reached when the activity is
+      started. Review it for sensitive functionality that should not be
+      reachable by an external caller.
+    pattern-either:
+      - pattern: void onCreate(...) { ... }
+      - pattern: void onStart(...) { ... }
+      - pattern: void onResume(...) { ... }
+      - pattern: void onNewIntent(...) { ... }
