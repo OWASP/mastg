@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "org.owasp.mastestapp";
+option java_multiple_files = true;
+
+message UserPreferences {
+  string name = 1;
+  string email = 2; 
+  string access_token = 3; 
+}

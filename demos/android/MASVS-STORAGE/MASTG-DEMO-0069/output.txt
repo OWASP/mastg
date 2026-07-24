@@ -1,0 +1,10 @@
+--- DataStore Extracted Content ---
+[FILE] sensitive_datastore_prefs.preferences_pb
+john.doe@proto-demo.com
+s3cr3tp4ssw0rd
+
+[FILE] sensitive_datastore_proto.pb
+John Doe
+john.doe@proto-demo.com
+(ghp_1234567890abcdefghijklmnopqrstuvABCD
+
