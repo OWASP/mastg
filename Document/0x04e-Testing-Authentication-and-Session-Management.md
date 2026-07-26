@@ -237,6 +237,10 @@ Some of the best practices include but are not limited to:
     - Remember that an attacker who has stolen tokens can access their scope and all resources associated with them if the app uses access tokens as bearer tokens with no other way to identify the client.
     - Store refresh tokens in secure local storage; they are long-term credentials.
 
+When implementing OAuth2 in **native apps** that need to interact with social media accounts, the use of embedded user agents such as WebView or WKWebView must always be avoided, because the host app has full control over the embedded view and can record user inputs such as usernames and passwords.
+
+Instead of using _custom schemes_, for example `myapp://callback`, App Links (Android) or Universal Links (iOS) must always be used. If a second app registers the same custom scheme as the legitimate, it could lead the user to a hijack scenario when the malicious app steals the secret code.
+
 ## User Logout
 
 Failing to destroy the server-side session is one of the most common logout functionality implementation errors. This error keeps the session or token alive, even after the user logs out of the application. An attacker who gets valid authentication information can continue to use it and hijack a user's account.
