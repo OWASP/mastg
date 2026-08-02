@@ -3,7 +3,7 @@ platform: ios
 title: URLSession TLS Protocol Configuration
 id: MASTG-TEST-0343
 type: [static, code, manual]
-weakness: MASWE-0025
+weakness: MASWE-0026
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0042]
 knowledge: [MASTG-KNOW-0071, MASTG-KNOW-0073]

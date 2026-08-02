@@ -3,7 +3,7 @@ platform: ios
 title: WebView File Origin Access Relaxed by Configuration
 id: MASTG-TEST-0335
 type: [static, code, manual]
-weakness: MASWE-0037
+weakness: MASWE-0034
 best-practices: [MASTG-BEST-0033]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076]

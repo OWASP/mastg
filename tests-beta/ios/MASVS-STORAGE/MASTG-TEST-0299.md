@@ -6,7 +6,7 @@ type: [dynamic, filesystem]
 prerequisites:
 - identify-sensitive-data
 profiles: [L1]
-weakness: MASWE-0003
+weakness: MASWE-0001
 best-practices: [MASTG-BEST-0024]
 knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0091, MASTG-KNOW-0108]
 ---

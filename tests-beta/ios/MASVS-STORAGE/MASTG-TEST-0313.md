@@ -3,7 +3,7 @@ platform: ios
 title: References to APIs for Preventing Keyboard Caching of Text Fields
 id: MASTG-TEST-0313
 type: [static, code, manual]
-weakness: MASWE-0028
+weakness: MASWE-0036
 profiles: [L2]
 best-practices: [MASTG-BEST-0026]
 knowledge: [MASTG-KNOW-0100]

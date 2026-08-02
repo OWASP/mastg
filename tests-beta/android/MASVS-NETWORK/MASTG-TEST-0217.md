@@ -3,7 +3,7 @@ title: Insecure TLS Protocols Explicitly Allowed in Code
 platform: android
 id: MASTG-TEST-0217
 type: [static, code]
-weakness: MASWE-0025
+weakness: MASWE-0026
 profiles: [L1, L2]
 ---
 

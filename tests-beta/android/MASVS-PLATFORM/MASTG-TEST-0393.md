@@ -3,7 +3,7 @@ title: Use of Unverified App Links
 platform: android
 id: MASTG-TEST-0393
 type: [static, config]
-weakness: MASWE-0032
+weakness: MASWE-0029
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0019]
 best-practices: [MASTG-BEST-0070]

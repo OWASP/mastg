@@ -4,7 +4,7 @@ title: References to Overlay Attack Protections
 id: MASTG-TEST-0340
 apis: [onFilterTouchEventForSecurity, setFilterTouchesWhenObscured, FLAG_WINDOW_IS_OBSCURED, FLAG_WINDOW_IS_PARTIALLY_OBSCURED]
 type: [static, code]
-weakness: MASWE-0028
+weakness: MASWE-0036
 best-practices: [MASTG-BEST-0040]
 profiles: [L2]
 knowledge: [MASTG-KNOW-0022]

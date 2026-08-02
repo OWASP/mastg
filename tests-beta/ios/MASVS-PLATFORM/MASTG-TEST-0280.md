@@ -3,7 +3,7 @@ platform: ios
 title: Pasteboard Contents Not Restricted to Local Device
 id: MASTG-TEST-0280
 type: [static, code]
-weakness: MASWE-0028
+weakness: MASWE-0036
 threat: [app]
 profiles: [L2]
 knowledge: [MASTG-KNOW-0083]

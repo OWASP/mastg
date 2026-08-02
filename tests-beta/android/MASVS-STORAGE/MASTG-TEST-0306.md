@@ -3,7 +3,7 @@ title: References to Sensitive Data Stored Unencrypted via Android Room DB
 platform: android
 id: MASTG-TEST-0306
 type: [static, code]
-weakness: MASWE-0003
+weakness: MASWE-0001
 best-practices: []
 profiles: [L1, L2]
 status: placeholder

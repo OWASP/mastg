@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Use of Virtual Device Detection Techniques
 id: MASTG-TEST-0367
 type: [dynamic]
-weakness: MASWE-0058
+weakness: MASWE-0054
 best-practices: [MASTG-BEST-0053]
 profiles: [R]
 knowledge: [MASTG-KNOW-0135]

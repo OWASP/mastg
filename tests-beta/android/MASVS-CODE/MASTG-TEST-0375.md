@@ -3,7 +3,7 @@ title: Missing Validation of Data Returned from Implicit Intents
 platform: android
 id: MASTG-TEST-0375
 type: [dynamic, hooks, manual]
-weakness: MASWE-0048
+weakness: MASWE-0051
 best-practices: [MASTG-BEST-0057]
 knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0138]
 profiles: [L1, L2]

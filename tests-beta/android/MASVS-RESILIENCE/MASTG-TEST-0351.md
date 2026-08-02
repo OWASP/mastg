@@ -3,7 +3,7 @@ platform: android
 title: Runtime Use of Emulator Detection Techniques
 id: MASTG-TEST-0351
 type: [dynamic, hooks]
-weakness: MASWE-0058
+weakness: MASWE-0054
 best-practices: [MASTG-BEST-0046]
 profiles: [R]
 knowledge: [MASTG-KNOW-0031]

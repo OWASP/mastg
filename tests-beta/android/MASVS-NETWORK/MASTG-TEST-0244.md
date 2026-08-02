@@ -3,7 +3,7 @@ title: Missing Certificate Pinning in Network Traffic
 platform: network
 id: MASTG-TEST-0244
 type: [dynamic, network]
-weakness: MASWE-0027
+weakness: MASWE-0028
 profiles: [L2]
 knowledge: [MASTG-KNOW-0015]
 ---

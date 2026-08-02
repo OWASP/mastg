@@ -4,7 +4,7 @@ title: Debugging Symbols in Native Binaries
 alias: debugging-symbols-in-native-binaries
 id: MASTG-TEST-0288
 type: [static, code]
-weakness: MASWE-0054
+weakness: MASWE-0062
 best-practices: []
 profiles: [R]
 ---

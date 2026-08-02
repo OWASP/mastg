@@ -27,7 +27,7 @@ References:
 
 [Certificate pinning](../../../Document/0x04f-Testing-Network-Communication.md#restricting-trust-identity-pinning) allows an iOS app to reject certificates that don't match a specific expected identity, guarding against Machine-in-the-Middle (MITM) attacks even when an attacker controls a CA that is trusted by the system.
 
-Because pinning is layered on top of standard HTTPS, it does not weaken the underlying TLS connection. The risk lies in misconfiguration rather than in the mechanism itself. If pins are not maintained correctly, for example pinning a public key without providing a backup pin, or failing to update the pinned values before the server's certificate or key is rotated, the app will reject otherwise valid connections and break communication with the affected endpoints. This makes pinning misconfiguration an availability risk for the APIs the app depends on. For more general details on pinning, refer to @MASWE-0047.
+Because pinning is layered on top of standard HTTPS, it does not weaken the underlying TLS connection. The risk lies in misconfiguration rather than in the mechanism itself. If pins are not maintained correctly, for example pinning a public key without providing a backup pin, or failing to update the pinned values before the server's certificate or key is rotated, the app will reject otherwise valid connections and break communication with the affected endpoints. This makes pinning misconfiguration an availability risk for the APIs the app depends on. For more general details on pinning, refer to @MASWE-0028.
 
 **Important Considerations:**
 

@@ -3,7 +3,7 @@ title: References to Explicit Security Provider in Cryptographic APIs
 platform: android
 id: MASTG-TEST-0312
 type: [static, code]
-weakness: MASWE-0011
+weakness: MASWE-0007
 best-practices: [MASTG-BEST-0020]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0011]

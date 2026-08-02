@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Monitoring of Files Eligible for Backup
 id: MASTG-TEST-0298
 type: [dynamic, hooks]
-weakness: MASWE-0002
+weakness: MASWE-0006
 best-practices: [MASTG-BEST-0023]
 profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0102]

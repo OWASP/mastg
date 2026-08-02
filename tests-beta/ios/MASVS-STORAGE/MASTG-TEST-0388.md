@@ -3,7 +3,7 @@ platform: ios
 title: References to Sensitive Data Stored Unprotected in Shared App Group Containers
 id: MASTG-TEST-0388
 type: [static, code, manual]
-weakness: MASWE-0003
+weakness: MASWE-0001
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0068]

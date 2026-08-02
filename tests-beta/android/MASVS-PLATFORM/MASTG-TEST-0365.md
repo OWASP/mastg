@@ -3,7 +3,7 @@ platform: android
 title: Exported And Unprotected Services That Expose Sensitive Functionality
 id: MASTG-TEST-0365
 type: [static, config, code, manual]
-weakness: MASWE-0020
+weakness: MASWE-0018
 best-practices: [MASTG-BEST-0052]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0133, MASTG-KNOW-0017, MASTG-KNOW-0020]

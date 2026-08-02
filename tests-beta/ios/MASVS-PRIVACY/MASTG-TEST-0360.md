@@ -3,7 +3,7 @@ title: Purpose String Accuracy for Reachable Protected Resource Access
 platform: ios
 id: MASTG-TEST-0360
 type: [static, config, manual]
-weakness: MASWE-0072
+weakness: MASWE-0067
 profiles: [P]
 best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]

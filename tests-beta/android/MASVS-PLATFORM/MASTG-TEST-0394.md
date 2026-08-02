@@ -4,7 +4,7 @@ platform: android
 id: MASTG-TEST-0394
 type: [static, code, manual]
 profiles: [L1, L2]
-weakness: MASWE-0032
+weakness: MASWE-0029
 knowledge: [MASTG-KNOW-0019]
 best-practices: [MASTG-BEST-0071]
 apis: [getData, getQueryParameter]

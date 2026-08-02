@@ -3,7 +3,7 @@ platform: ios
 title: Missing Source Validation in Custom URL Scheme Handlers
 id: MASTG-TEST-0371
 type: [static, code]
-weakness: MASWE-0032
+weakness: MASWE-0029
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0045, MASTG-BEST-0055]
 knowledge: [MASTG-KNOW-0079]
