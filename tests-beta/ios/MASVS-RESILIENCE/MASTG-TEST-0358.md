@@ -3,7 +3,7 @@ platform: ios
 title: Implementation Details Exposure Through Logging APIs
 id: MASTG-TEST-0358
 type: [static, code]
-weakness: MASWE-0062
+weakness: MASWE-0061
 best-practices: [MASTG-BEST-0022]
 knowledge: [MASTG-KNOW-0064, MASTG-KNOW-0101]
 profiles: [R]

@@ -3,14 +3,14 @@ platform: ios
 title: Testing for Debugging Symbols
 id: MASTG-TEST-0219
 type: [static, code]
-weakness: MASWE-0062
+weakness: MASWE-0061
 profiles: [R]
 knowledge: [MASTG-KNOW-0063]
 ---
 
 ## Overview
 
-This test case checks for [debugging symbols](https://mas.owasp.org/MASWE/MASVS-RESILIENCE/MASWE-0093/) in all binaries contained in the app.
+This test case checks for debugging symbols in all binaries contained in the app.
 
 Debugging symbols are added by the [compiler to ease development](https://developer.apple.com/documentation/xcode/building-your-app-to-include-debugging-information "Building your app to include debugging information") and allow symbolication of crashes. However, they can also be used to reverse engineer the app and should not be present in a released app. [Symbolication can also be performed](https://developer.apple.com/documentation/xcode/adding-identifiable-symbol-names-to-a-crash-report "Adding identifiable symbol names to a crash report") with a separate dSYM file.
 

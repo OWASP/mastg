@@ -3,7 +3,7 @@ title: Usage of Insecure APK Signature Key Size
 platform: android
 id: MASTG-TEST-0225
 type: [static, code]
-weakness: MASWE-0057
+weakness: MASWE-0056
 profiles: [R]
 knowledge: [MASTG-KNOW-0003]
 ---

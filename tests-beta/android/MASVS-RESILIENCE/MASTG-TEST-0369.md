@@ -3,7 +3,7 @@ platform: android
 title: Insufficient Obfuscation of Security-Relevant Native Code
 id: MASTG-TEST-0369
 type: [static, package, manual]
-weakness: MASWE-0060
+weakness: MASWE-0059
 best-practices: [MASTG-BEST-0029]
 profiles: [R]
 knowledge: [MASTG-KNOW-0033]

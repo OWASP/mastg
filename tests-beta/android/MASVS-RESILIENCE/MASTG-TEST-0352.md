@@ -3,7 +3,7 @@ platform: android
 title: References to Debugging Detection APIs
 id: MASTG-TEST-0352
 type: [static, code, manual]
-weakness: MASWE-0065
+weakness: MASWE-0064
 best-practices: [MASTG-BEST-0007, MASTG-BEST-0029, MASTG-BEST-0047]
 profiles: [R]
 knowledge: [MASTG-KNOW-0007, MASTG-KNOW-0028]

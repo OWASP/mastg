@@ -4,7 +4,7 @@ title: Logging of StrictMode Violations
 id: MASTG-TEST-0263
 apis: [StrictMode]
 type: [dynamic, logs]
-weakness: MASWE-0062
+weakness: MASWE-0061
 profiles: [R]
 ---
 
