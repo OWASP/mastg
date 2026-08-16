@@ -3,7 +3,7 @@ title: Use of Hardcoded Cryptographic Keys in Code
 platform: ios
 id: MASTG-TEST-0213
 type: [static, code, manual]
-weakness: MASWE-0014
+weakness: MASWE-0003
 profiles: [L1, L2]
 ---
 

@@ -3,7 +3,7 @@ platform: ios
 title: Identify Dependencies with Known Vulnerabilities by Scanning Dependency Managers Artifacts
 id: MASTG-TEST-0273
 type: [static, code]
-weakness: MASWE-0076
+weakness: MASWE-0044
 profiles: [L1, L2]
 ---
 

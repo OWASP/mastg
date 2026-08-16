@@ -5,7 +5,7 @@ alias: references-to-local-file-access-in-webviews
 id: MASTG-TEST-0252
 apis: [WebView, WebSettings, getSettings, setAllowFileAccess, setAllowFileAccessFromFileURLs, setAllowUniversalAccessFromFileURLs]
 type: [static, code]
-weakness: MASWE-0069
+weakness: MASWE-0034
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]

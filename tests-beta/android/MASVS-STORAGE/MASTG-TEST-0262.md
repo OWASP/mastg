@@ -3,7 +3,7 @@ platform: android
 title: References to Backup Configurations Not Excluding Sensitive Data
 id: MASTG-TEST-0262
 type: [static, code]
-weakness: MASWE-0004
+weakness: MASWE-0006
 best-practices: [MASTG-BEST-0004]
 profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0050]

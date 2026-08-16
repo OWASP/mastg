@@ -5,7 +5,7 @@ id: MASTG-TEST-0303
 type: [static, code]
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0024]
-weakness: MASWE-0007
+weakness: MASWE-0002
 knowledge: [MASTG-KNOW-0122, MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---
 

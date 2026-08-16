@@ -2,72 +2,88 @@
 masvs_category: MASVS-RESILIENCE
 platform: ios
 title: Anti-Debugging Detection
+best-practices: [MASTG-BEST-0074]
 ---
 
-Exploring applications using a debugger is a very powerful technique during reversing. You can not only track variables containing sensitive data and modify the control flow of the application, but also read and modify memory and registers.
+Debugging is a powerful runtime analysis technique. A debugger can stop execution at chosen points, inspect variables and registers, read process memory, and modify control flow. On iOS, debugging release apps usually involves the mechanisms described in @MASTG-TECH-0084, such as LLDB, `debugserver`, Mach task ports, and app entitlements.
 
-There are several anti-debugging techniques applicable to iOS which can be categorized as preventive or as reactive. When properly distributed throughout the app, these techniques act as a supportive measure to increase the overall resilience.
+Anti-debugging techniques on iOS can be grouped into two broad categories:
 
-- Preventive techniques act as a first line of defense to impede the debugger from attaching to the application at all.
-- Reactive techniques allow the application to detect the presence of a debugger and have a chance to diverge from normal behavior.
+- **Preventive techniques** stop or disrupt debugger attachment.
+- **Reactive techniques** inspect process state and let the app change behavior when a debugger is present.
 
 ## Using ptrace
 
-As seen in @MASTG-TECH-0084, the iOS XNU kernel implements a `ptrace` system call that's lacking most of the functionality required to properly debug a process (e.g. it allows attaching/stepping but not read/write of memory and registers).
+The iOS XNU kernel implements the [`ptrace`](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/ptrace.2.html "PTRACE(2)") system call. As described in @MASTG-TECH-0084, iOS debuggers use `ptrace` for operations such as attaching, stepping, and continuing execution, while memory and register access rely on Mach APIs and task ports.
 
-Nevertheless, the iOS implementation of the `ptrace` syscall contains a nonstandard and very useful feature: preventing the debugging of processes. This feature is implemented as the `PT_DENY_ATTACH` request, as described in the [official BSD System Calls Manual](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/ptrace.2.html "PTRACE(2)"). In simple words, it ensures that no other debugger can attach to the calling process; if a debugger attempts to attach, the process will terminate. Using `PT_DENY_ATTACH` is a fairly well-known anti-debugging technique, so you may encounter it often during iOS pentests.
+The `ptrace` implementation includes `PT_DENY_ATTACH`, a request made by the traced process itself. Apple's `ptrace(2)` manual describes this request as a way for a process that is not currently traced to deny future tracing attempts. If a process is already traced when it makes the request, the process exits. If the request succeeds, later tracing attempts fail.
 
-> Before diving into the details, it is important to know that `ptrace` is not part of the public iOS API. Non-public APIs are prohibited, and the App Store may reject apps that include them. Because of this, `ptrace` is not directly called in the code; it's called when a `ptrace` function pointer is obtained via `dlsym`.
+Because `ptrace` is not part of the public iOS SDK, implementations may resolve it dynamically with `dlsym` instead of importing it directly. Static analysis can therefore surface either direct `ptrace` references, `PT_DENY_ATTACH` constants, or string artifacts such as `ptrace`.
 
-The following is an example implementation of the above logic:
+```c
+#define PT_DENY_ATTACH 31
 
-```objectivec
-#import <dlfcn.h>
-#import <sys/types.h>
-#import <stdio.h>
-typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
-void anti_debug() {
-  ptrace_ptr_t ptrace_ptr = (ptrace_ptr_t)dlsym(RTLD_SELF, "ptrace");
-  ptrace_ptr(31, 0, 0, 0); // PTRACE_DENY_ATTACH = 31
-}
+typedef int (*ptrace_ptr_t)(int request, pid_t pid, caddr_t addr, int data);
+
+ptrace_ptr_t ptrace_ptr = (ptrace_ptr_t)dlsym(RTLD_DEFAULT, "ptrace");
+ptrace_ptr(PT_DENY_ATTACH, 0, 0, 0);
 ```
 
-**Bypass:** To demonstrate how to bypass this technique we'll use an example of a disassembled binary that implements this approach:
+!!! warning
 
-<img src="Images/Chapters/0x06j/ptraceDisassembly.png" width="100%" />
-
-Let's break down what's happening in the binary. `dlsym` is called with `ptrace` as the second argument (register R1). The return value in register R0 is moved to register R6 at offset 0x1908A. At offset 0x19098, the pointer value in register R6 is called using the BLX R6 instruction. To disable the `ptrace` call, we need to replace the instruction `BLX R6` (`0xB0 0x47` in Little Endian) with the `NOP` (`0x00 0xBF` in Little Endian) instruction. After patching, the code will be similar to the following:
-
-<img src="Images/Chapters/0x06j/ptracePatched.png" width="100%" />
-
-[Armconverter.com](http://armconverter.com/ "Armconverter") is a handy tool for conversion between bytecode and instruction mnemonics.
-
-Bypasses for other ptrace-based anti-debugging techniques can be found in ["Defeating Anti-Debug Techniques: macOS ptrace variants" by Alexander O'Mara](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/ "Defeating Anti-Debug Techniques: macOS ptrace variants").
+    Using non-public APIs such as `ptrace` can cause App Store review issues. Consider whether your app's threat model and distribution requirements justify the added complexity and potential compatibility issues before implementing anti-debugging checks. See @MASVS-RESILIENCE for more information on the MASVS-RESILIENCE category and the associated guidelines.
 
 ## Using sysctl
 
-Another approach to detecting a debugger that's attached to the calling process involves `sysctl`. According to the Apple documentation, it allows processes to set system information (if having the appropriate privileges) or simply to retrieve system information (such as whether or not the process is being debugged). However, note that just the fact that an app uses `sysctl` might be an indicator of anti-debugging controls, though this [won't be always be the case](http://www.cocoawithlove.com/blog/2016/03/08/swift-wrapper-for-sysctl.html "Gathering system information in Swift with sysctl").
+The `sysctl` interface can retrieve kernel and process information. Apple's archived technical Q&A ["Detecting the Debugger"](https://developer.apple.com/library/archive/qa/qa1361/_index.html "Detecting the Debugger") shows a debug-build-oriented example that queries the current process with `sysctl` and checks the `P_TRACED` flag in `info.kp_proc.p_flag`.
 
-The [Apple Documentation Archive](https://developer.apple.com/library/content/qa/qa1361/_index.html "How do I determine if I\'m being run under the debugger?") includes an example which checks the `info.kp_proc.p_flag` flag returned by the call to `sysctl` with the appropriate parameters. According to Apple, you **shouldn't use this code** unless [it's for the debug build of your program](https://developer.apple.com/library/archive/qa/qa1361/_index.html "Detecting the Debugger").
+The presence of a `sysctl` call alone does not prove anti-debugging behavior because apps can use it for other runtime information, such as device properties. Anti-debugging implementations usually combine `sysctl` with process-related Management Information Base values, `KERN_PROC_PID`, or checks for `P_TRACED`.
 
-**Bypass:** One way to bypass this check is by patching the binary. When the code above is compiled, the disassembled version of the second half of the code is similar to the following:
+```c
+int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
+struct kinfo_proc info;
+size_t size = sizeof(info);
 
-<img src="Images/Chapters/0x06j/sysctlOriginal.png" width="100%" />
+memset(&info, 0, sizeof(info));
+sysctl(mib, 4, &info, &size, NULL, 0);
 
-After the instruction at offset 0xC13C, `MOVNE R0, #1` is patched and changed to `MOVNE R0, #0` (0x00 0x20 in in bytecode), the patched code is similar to the following:
-
-<img src="Images/Chapters/0x06j/sysctlPatched.png" width="100%" />
-
-You can also bypass a `sysctl` check by using the debugger itself and setting a breakpoint at the call to `sysctl`. This approach is demonstrated in [iOS Anti-Debugging Protections #2](https://www.coredump.gr/articles/ios-anti-debugging-protections-part-2/ "iOS Anti-Debugging Protections #2").
+bool debugger_present = (info.kp_proc.p_flag & P_TRACED) != 0;
+```
 
 ## Using getppid
 
-Applications on iOS can detect if they have been started by a debugger by checking their parent PID. Normally, an application is started by the [launchd](http://newosxbook.com/articles/Ch07.pdf) process, which is the first process running in the _user mode_ and has PID=1. However, if a debugger starts an application, we can observe that `getppid` returns a PID different than `1`. This detection technique can be implemented in native code (via syscalls), using Objective-C or Swift as shown here:
+Some implementations inspect the parent process ID with `getppid`. iOS apps are normally launched by system launch services, historically through `launchd` with PID 1. When a debugger launches or controls the app, the observed parent process can differ from the expected launcher process. This makes parent-process checks a possible reactive signal.
 
-```default
-func AmIBeingDebugged() -> Bool {
-    return getppid() != 1
-}
+```c
+pid_t parent_pid = getppid();
+bool unexpected_parent = parent_pid != 1;
 ```
 
-**Bypass:** Similarly to the other techniques, this has also a trivial bypass (e.g. by patching the binary or by using Frida hooks).
+## Using Mach Exception Ports
+
+Debuggers need to receive process events such as breakpoints and single-step exceptions. On Darwin-based systems, these events are delivered through Mach exception ports. An app can query its own registered exception ports with `task_get_exception_ports` and inspect whether a port is registered for breakpoint-related exceptions, for example with `EXC_MASK_BREAKPOINT`.
+
+A non-null exception port returned for `EXC_MASK_BREAKPOINT` can indicate that debugger infrastructure such as LLDB and `debugserver` is attached to the process. A breakpoint exception port is a supporting signal rather than standalone proof, since other instrumentation can also interact with Mach exception ports, and an attacker can bypass this check by hooking `task_get_exception_ports`, changing the returned values, or running the check before attaching the debugger.
+
+```c
+exception_mask_t masks[EXC_TYPES_COUNT] = {0};
+mach_port_t ports[EXC_TYPES_COUNT] = {0};
+exception_behavior_t behaviors[EXC_TYPES_COUNT] = {0};
+thread_state_flavor_t flavors[EXC_TYPES_COUNT] = {0};
+mach_msg_type_number_t count = EXC_TYPES_COUNT;
+
+kern_return_t kr = task_get_exception_ports(
+    mach_task_self(),
+    EXC_MASK_BREAKPOINT,
+    masks,
+    &count,
+    ports,
+    behaviors,
+    flavors
+);
+
+bool breakpoint_port_present =
+    kr == KERN_SUCCESS && count > 0 && ports[0] != MACH_PORT_NULL;
+```
+
+Because low-level APIs used for anti-debugging may be resolved dynamically, static analysis can also surface indirect lookup artifacts such as `dlsym` and string references to API names.

@@ -3,7 +3,7 @@ platform: ios
 title: Runtime Use of Hook Detection Techniques
 id: MASTG-TEST-0354
 type: [dynamic, hooks]
-weakness: MASWE-0107
+weakness: MASWE-0058
 profiles: [R]
 knowledge: [MASTG-KNOW-0087]
 best-practices: [MASTG-BEST-0048]
