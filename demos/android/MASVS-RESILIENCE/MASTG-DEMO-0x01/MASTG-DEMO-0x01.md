@@ -23,10 +23,13 @@ Let's run @MASTG-TOOL-0110 against the reversed Java code.
 
 ## Observation
 
-The rule identifies one location where a `KeyGenParameterSpec` is built via method chaining without `setAttestationChallenge`. The certificate chain created from this spec is sent to the server without any embedded nonce.
+The rule identifies one location where a `KeyGenParameterSpec` is built via method chaining without `setAttestationChallenge`, in a method that also retrieves the key's certificate chain. The certificate chain created from this spec is sent to the server without any embedded nonce.
 
 {{ output.txt }}
 
 ## Evaluation
 
 The test fails because the output shows that `KeyGenParameterSpec.build()` is invoked without `setAttestationChallenge` anywhere in the chain. The `attestationChallenge` field in the leaf certificate will be null, so the server cannot verify the freshness of the attestation and cannot distinguish a freshly generated certificate chain from a replayed one. See @MASTG-BEST-0x01 for the correct server-driven challenge-response flow.
+
+!!! note
+    The rule reports a `KeyGenParameterSpec` only when the same method also calls `getCertificateChain`, since that is what shows the key is meant to be attested. Otherwise every AndroidKeyStore key would be reported, including keys generated only for local encryption. An app that generates the key and retrieves the chain in separate methods is therefore not reported by this rule and must be reviewed manually, as described in @MASTG-TEST-0x01.

@@ -5,7 +5,20 @@ rules:
       - java
     metadata:
       summary: Detects Key Attestation performed without a server-issued challenge, removing freshness guarantees.
-    message: "[MASVS-RESILIENCE-2] KeyGenParameterSpec built without setAttestationChallenge. The server cannot verify when this attestation was produced."
+      note: >-
+        The rule only reports a KeyGenParameterSpec when the same method also retrieves the key's
+        certificate chain, which is what indicates the key is meant to be attested. Without that
+        condition every AndroidKeyStore key would be reported, including keys generated purely for
+        local encryption where attestation was never intended. As a result, an app that generates
+        the key and retrieves the chain in different methods is not reported and must be reviewed
+        manually.
+    message: "[MASVS-RESILIENCE-2] KeyGenParameterSpec built without setAttestationChallenge, but its certificate chain is retrieved for attestation. The server cannot verify when this attestation was produced."
     patterns:
       - pattern: new KeyGenParameterSpec.Builder(...). ... .build()
       - pattern-not: new KeyGenParameterSpec.Builder(...). ... .setAttestationChallenge(...). ... .build()
+      - pattern-inside: |
+          $RET $METHOD(...) {
+            ...
+            $KS.getCertificateChain(...);
+            ...
+          }

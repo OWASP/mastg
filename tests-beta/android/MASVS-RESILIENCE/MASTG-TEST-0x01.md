@@ -31,5 +31,7 @@ The output should contain a list of locations where those APIs are used.
 The test case fails if none of the above APIs are found in the app.
 The test case also fails if the app implements `getCertificateChain` but no instances of `setAttestationChallenge` are found to ensure freshness of the attestation.
 
+Correlate the two APIs manually rather than relying on automated pattern matching alone. Key generation and certificate chain retrieval are frequently implemented in different methods or classes, which pattern-based tools cannot connect. Note also that an app may legitimately build a `KeyGenParameterSpec` without a challenge for keys that are never attested, such as keys used only for local encryption, so the absence of `setAttestationChallenge` is only relevant for keys whose chain is sent to a server.
+
 !!! note
     The presence of these APIs does not mean the attestation is trusted. The server must still verify the Play Integrity verdict or the certificate chain, which cannot be determined from the app binary alone. See [Interpreting the Certificate Chain](../../../knowledge/android/MASVS-RESILIENCE/MASTG-KNOW-0044.md#interpreting-the-certificate-chain) and @MASTG-BEST-0x01 for more information.
