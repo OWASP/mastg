@@ -4,7 +4,7 @@ title: Testing Device and App Binary Integrity Verification
 id: MASTG-TEST-0x02
 apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
 type: [static]
-weakness: MASWE-0104
+weakness: MASWE-0056
 best-practices: [MASTG-BEST-0x01]
 profiles: [R]
 knowledge: [MASTG-KNOW-0x03]

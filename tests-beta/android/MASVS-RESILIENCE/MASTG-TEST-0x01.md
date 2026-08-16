@@ -3,7 +3,7 @@ platform: android
 title: Testing Device and App Binary Integrity Verification
 id: MASTG-TEST-0x01
 type: [static]
-weakness: MASWE-0104
+weakness: MASWE-0056
 best-practices: [MASTG-BEST-0x01]
 profiles: [R]
 knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044]
