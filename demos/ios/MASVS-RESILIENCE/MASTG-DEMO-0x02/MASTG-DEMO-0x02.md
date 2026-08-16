@@ -15,6 +15,11 @@ However, the `clientDataHash` passed to both `attestKey` and `generateAssertion`
 
 {{ MastgTest.swift }}
 
+!!! note "This sample cannot succeed on a simulator"
+    App Attest requires the Secure Enclave, which the iOS simulator does not provide, so [`DCAppAttestService.shared.isSupported`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/issupported) returns `false` there and the sample returns early without attesting (@MASTG-KNOW-0x03). Exercising the full flow requires a physical device and an app configured with the App Attest capability.
+
+    This does not affect the analysis below, which is static: the binary is disassembled, never executed. The binary shipped with this demo is an iOS device build and cannot be run on a simulator in any case.
+
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package, which in this case is `./Payload/MASTestApp.app/MASTestApp`.
