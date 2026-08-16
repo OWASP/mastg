@@ -5,7 +5,7 @@ id: MASTG-TEST-0x02
 apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
 type: [static]
 weakness: MASWE-0056
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0x03]
 profiles: [R]
 knowledge: [MASTG-KNOW-0x03]
 status: placeholder
@@ -34,6 +34,8 @@ The test case fails if none of the App Attest APIs (`DCAppAttestService.generate
 
 The presence of these APIs does not by itself confirm a robust implementation. The following properties cannot be determined from a reference search alone and require manual or dynamic analysis:
 
-- The `clientDataHash` passed to `attestKey` and `generateAssertion` must be derived from a one-time, server-provided challenge; otherwise the attestation can be replayed.
-- The app should generate an assertion (`generateAssertion`) for sensitive requests, not only attest the key once (`attestKey`), so that ongoing requests remain bound to the attested app instance.
-- The server must verify the attestation object and assertions against Apple's [published verification steps](https://developer.apple.com/documentation/devicecheck/validating-apps-that-connect-to-your-server); client-side use of `DCAppAttestService` alone provides no security guarantee.
+- Whether the `clientDataHash` passed to `attestKey` and `generateAssertion` is derived from a one-time, server-provided challenge.
+- Whether the app generates an assertion (`generateAssertion`) for sensitive requests, rather than only attesting the key once (`attestKey`).
+- Whether the server verifies the attestation object and assertions, since client-side use of `DCAppAttestService` alone provides no security guarantee.
+
+See @MASTG-BEST-0x03 for the expected implementation.
