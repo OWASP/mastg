@@ -23,6 +23,8 @@ Since attestation reflects the state of the device and application at the time o
 
 Enforce short-lived keys or periodic re-attestation policies to reduce the window of exposure between a device's state changing and that change being detected.
 
+@MASTG-DEMO-0x03 shows a key generated with a challenge embedded in the attestation; @MASTG-DEMO-0x01 shows the same key generated without one.
+
 ## Verify the Attestation Certificate Chain
 
 On the server side, verify the attestation certificate chain (@MASTG-KNOW-0044):
