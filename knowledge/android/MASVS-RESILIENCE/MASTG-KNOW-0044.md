@@ -63,6 +63,17 @@ val keyGenParameterSpec = KeyGenParameterSpec
 
 For a reference implementation, see [Dionysis Lorentzos' Android-Security sample](https://github.com/Diolor/Android-Security/blob/main/app/src/main/java/dio/security/crypto/KeyManager.kt#L45-L70).
 
+## Attestation Key Provisioning
+
+The trustworthiness of an attestation rests on the attestation key that signs the chain. Android provisions those keys in two ways:
+
+- **Factory provisioning (legacy)**: The attestation key is programmed into the device during manufacturing and remains on it for the device's lifetime. Because the key material is present on the device, it can be extracted, and once extracted it can be used to sign attestations describing a device state that does not exist. Google states that ["attestation keys can be revoked for a number of reasons, including mishandling or suspected extraction by an attacker"](https://developer.android.com/privacy-and-security/security-key-attestation#certificate_status), and that leaked keys are discovered through analysis of attestation data in the wild, public disclosure, and researcher reports. Revocation typically follows within several days of discovery.
+- **[Remote Key Provisioning (RKP)](https://source.android.com/docs/core/ota/modular-system/remote-key-provisioning)**: Present in AOSP since Android 12, RKP issues attestation certificates on demand from Google's backend instead of programming keys onto the device. Devices that launch with Android 16 support only RKP. Google states that RKP "prevents key leakage because the system does not program keys directly onto the device", that keys cannot be deleted from the device, and that revocation can target a single device. Certificates issued through RKP deliberately have shorter expiration periods, so that a compromise can be responded to more quickly.
+
+Google's [certificate revocation status list](https://developer.android.com/privacy-and-security/security-key-attestation#certificate_status) is published at `https://android.googleapis.com/attestation/status` and records a `status` and a `reason` (`KEY_COMPROMISE`, `CA_COMPROMISE`, `SUPERSEDED`, `SOFTWARE_FLAW`, or `UNSPECIFIED`) for each revoked certificate. Attestation key leaks affect only the legacy factory-provisioning mechanism and do not apply to keys certified through RKP.
+
+Google publishes an [attestation verification Kotlin library](https://github.com/android/keyattestation) for verifying certificate chains, noting that it covers edge cases that custom verifiers often miss.
+
 ## Reading the X.509 Certificate
 
 The returned [X509Certificate](https://developer.android.com/reference/kotlin/java/security/cert/X509Certificate) chain from [`KeyStore.getCertificateChain(alias)`](https://developer.android.com/reference/kotlin/java/security/KeyStore#getcertificatechain) can be inspected to determine the key properties. X.509 certificates are described by [ASN.1 format](https://source.android.com/docs/security/features/keystore/attestation#tbscertificate-sequence) and the Android-specific extensions (certificate's payload) can be requested with OID `1.3.6.1.4.1.11129.2.1.17`. This attestation extension content is described by the [ASN.1 schema KeyDescription](https://source.android.com/docs/security/features/keystore/attestation#schema).

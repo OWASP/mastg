@@ -29,9 +29,15 @@ Enforce short-lived keys or periodic re-attestation policies to reduce the windo
 
 On the server side, verify the attestation certificate chain (@MASTG-KNOW-0044):
 
-- Verify the chain of trust up to the Google Hardware Attestation Root Certificate.
-- Check each certificate against Google's Certificate Revocation Status List.
+- Verify the chain of trust up to the Google Hardware Attestation Root Certificate. Keep the set of accepted root certificates up to date: Google rotates them, and a [new root certificate began signing attestation certificate chains on February 1, 2026](https://developer.android.com/privacy-and-security/security-key-attestation#root_certificate).
+- Check every certificate in the chain against [Google's certificate revocation status list](https://developer.android.com/privacy-and-security/security-key-attestation#certificate_status) at `https://android.googleapis.com/attestation/status`, and reject the attestation on any `REVOKED` entry. This is what protects you against attestation keys that were extracted from a device and are being used to sign forged device states.
+- Enforce the validity period of every certificate. Certificates issued through Remote Key Provisioning are deliberately short-lived so that compromises can be contained quickly; accepting an expired certificate discards that protection.
 - Confirm that the embedded challenge matches the one the server originally issued.
+
+Prefer Google's [attestation verification Kotlin library](https://github.com/android/keyattestation) over a custom verifier. Google notes that it covers edge cases custom verifiers often miss, and chain verification is easy to get subtly wrong.
+
+!!! warning
+    A valid chain proves that _some_ device with a trusted attestation key made the claim, not that _this_ device did. On devices using the legacy factory-provisioning mechanism, extracted attestation keys have been used to sign chains reporting a clean `verifiedBootState` and a locked bootloader on rooted devices. Revocation checking and validity-period enforcement are what limit this exposure, which is why neither step is optional. See @MASTG-KNOW-0120.
 
 ## Verify Device Integrity
 
