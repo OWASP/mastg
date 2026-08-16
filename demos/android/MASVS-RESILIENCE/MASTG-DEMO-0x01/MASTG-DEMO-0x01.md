@@ -4,6 +4,7 @@ title: Key Attestation Without a Server-Issued Challenge
 id: MASTG-DEMO-0x01
 code: [kotlin]
 test: MASTG-TEST-0x01
+kind: fail
 ---
 
 ## Sample
