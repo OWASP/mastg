@@ -8,7 +8,6 @@ weakness: MASWE-0056
 best-practices: [MASTG-BEST-0x03]
 profiles: [R]
 knowledge: [MASTG-KNOW-0x03]
-status: placeholder
 ---
 
 ## Overview
