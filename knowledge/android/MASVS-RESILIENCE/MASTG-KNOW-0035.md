@@ -37,6 +37,6 @@ The API can return local errors such as `APP_NOT_INSTALLED` and `APP_UID_MISMATC
 
 ## Limitations
 
-- **Quota**: The default daily limit is 10.000 requests per day. Applications needing more must contact Google to request an increased limit.
+- **Quota**: The default daily limit is 10,000 requests per day. Applications needing more must contact Google to request an increased limit.
 - **Requires Google Play Services**: The API only works on devices with Google Play Services. Apps distributed outside Google Play or running on non-GMS devices (e.g., custom ROMs, some enterprise deployments) cannot obtain a verdict.
 - **Requires network connectivity**: Verdict generation requires a live connection to Google's servers. The API cannot be used offline.
