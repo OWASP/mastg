@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Testing Device and App Binary Integrity Verification
+title: References to App Attestation APIs
 id: MASTG-TEST-0x02
 apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
 type: [static]
@@ -13,7 +13,7 @@ status: placeholder
 
 ## Overview
 
-This test checks whether the app implements device and app integrity verification by statically analyzing the app binary for relevant API usage patterns. On iOS, modern app attestation is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which lets a server cryptographically verify that a request comes from a genuine, unmodified instance of the app running on a real Apple device (@MASTG-KNOW-0x03).
+This test checks whether the app attests its own integrity to a server, by statically analyzing the app binary for references to the relevant APIs. On iOS this is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which binds a Secure Enclave key to the app's App ID so that a server can verify that a request comes from a legitimate, unmodified instance of the app (@MASTG-KNOW-0x03).
 
 See @MASTG-KNOW-0x03 for more information on App Attest and the specific APIs and fields to look for.
 
