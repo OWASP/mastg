@@ -21,6 +21,6 @@ App Check is provider-agnostic. The app registers a provider at startup. Both pl
 
 ## Limitations
 
-- **Server-side enforcement required**: App Check tokens are only meaningful if the backend validates them. Skipping server-side checks renders the integration ineffective.
+- **Server-side enforcement required**: App Check tokens are only meaningful if the backend validates them. An integration that skips server-side validation provides no protection.
 - **Depends on underlying provider availability**: All limitations of the underlying provider apply (see @MASTG-KNOW-0035 for Play Integrity limitations). App Attest requires iOS 14+ and is unavailable on simulators without the debug provider.
-- **Token replay**: App Check tokens have a short TTL but are bearer tokens. They should be transmitted over TLS, not logged or caches locally.
+- **Token replay**: App Check tokens have a short TTL but are bearer tokens, so anyone who obtains one can present it until it expires.

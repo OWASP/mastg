@@ -7,7 +7,7 @@ available_since: 24
 
 Android provides the [Key Attestation](https://developer.android.com/training/articles/security-key-attestation) feature, which allows a verifier (usually a remote server) to cryptographically verify the security properties of asymmetric keys managed through the Android KeyStore (@MASTG-KNOW-0043). By inspecting and validating the signed certificate chain of the generated (public) key, a third party can establish trust in the integrity of both the device environment (see @MASTG-KNOW-0120) and the identity of the calling application (see @MASTG-KNOW-0119). Starting with Android 8.0 (API level 26), key attestation became mandatory for all new devices that require device certification for Google apps. These devices use attestation keys signed by the [Google Hardware Attestation Root Certificate](https://developer.android.com/training/articles/security-key-attestation#root_certificate).
 
-@MASTG-KNOW-0035 is solving the same cryptographic goals.
+@MASTG-KNOW-0035 builds on the same hardware-backed primitives to attest device and app integrity, but returns a managed verdict from Google's servers instead of a certificate chain the verifier parses itself.
 
 ## Chain of Trust
 

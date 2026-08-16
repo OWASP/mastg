@@ -21,7 +21,7 @@ For more detailed information, refer to the [WWDC 2021](https://developer.apple.
 ## Limitations
 
 - **iOS 14+ only**: App Attest is unavailable on older OS versions. DeviceCheck (see @MASTG-KNOW-0x02) can serve as a fallback.
-- **Unavailable on simulators**: The Secure Enclave is not present in the iOS simulator. Use the debug provider (e.g., via Firebase App Check) during development.
+- **Unavailable on simulators**: The Secure Enclave is not present in the iOS simulator, so `DCAppAttestService.shared.isSupported` returns `false`. Debug providers, such as the one offered by Firebase App Check, cover this case during development.
 - **Not jailbreak detection**: App Attest attests the app binary and device hardware but does not detect a compromised operating system. A jailbroken device may still pass attestation.
 - **Requires network**: Attestation and assertion verification require a live connection to Apple's servers.
 

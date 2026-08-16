@@ -14,7 +14,7 @@ In all cases, never expose sensitive data such as API keys to clients whose inte
 
 Instead of embedding the key in the binary, fetch it at runtime from your backend only after the device and app have been attested:
 
-1. At app startup, perform app and device attestation (see @MASTG-BEST-0043).
+1. At app startup, perform app and device attestation (see @MASTG-BEST-0x01 on Android and @MASTG-BEST-0x03 on iOS).
 2. If attestation passes, the backend issues an API key (or a short-lived derivative token) over a secure, pinned channel.
 3. The app holds the key in memory for the session. If persistence is required, store it in platform-provided secure storage (Keychain on iOS, Android Keystore) rather than plain files.
 
@@ -34,7 +34,7 @@ Require the client to pass app and device integrity verification before any API 
 - **Android**: Play Integrity API (@MASTG-KNOW-0035) or Firebase App Check (@MASTG-KNOW-0x01).
 - **iOS**: App Attest (@MASTG-KNOW-0x03) or DeviceCheck (@MASTG-KNOW-0x02) via Firebase App Check (@MASTG-KNOW-0x01).
 
-See @MASTG-BEST-0043 for server-side enforcement requirements.
+See @MASTG-BEST-0x01 (Android) and @MASTG-BEST-0x03 (iOS) for server-side enforcement requirements.
 
 ### Enforce Network Integrity with Certificate Pinning
 

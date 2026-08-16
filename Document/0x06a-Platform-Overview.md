@@ -172,8 +172,8 @@ The following APIs [require user permission](https://www.apple.com/business/docs
 
 ### DeviceCheck
 
-See @MASTG-KNOW-0x02.
+The DeviceCheck framework lets an app persistently store two bits of per-device data on Apple's servers, which survive app reinstallation and device resets. It is typically used to mitigate fraud, but it does not attest the app's identity. See @MASTG-KNOW-0x02.
 
 #### App Attest
 
-See @MASTG-KNOW-0x03.
+App Attest, available under the DeviceCheck framework, lets a server cryptographically verify that a request originates from a legitimate, unmodified instance of the app running on a genuine Apple device. See @MASTG-KNOW-0x03.
