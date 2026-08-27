@@ -34,5 +34,5 @@
             "replacement": "{{BASEURL}}/Document/Images/"
         }
     ],
-    "see": "Used by url-checker-pr.yml to validate links to files inside this repository. Only relative links are checked; all http(s) links are ignored, those are covered by url-checker.yml."
+    "see": "Used by url-checker.yml and url-checker-pr.yml to validate links to files inside this repository. Only relative links are checked; all http(s) links are ignored, those are covered by url-checker.yml."
 }

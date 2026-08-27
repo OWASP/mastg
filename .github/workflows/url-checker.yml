@@ -17,3 +17,17 @@ jobs:
         with:
           use-quiet-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
+  internal-link-check:
+    # Checks links to files inside this repository, across all markdown files.
+    # The job above only reports on http(s) links, so a rename or deletion that
+    # lands on master silently breaks every other file linking to it. No network
+    # access is needed here, so a full-repo pass is cheap (~20s).
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check internal links
+        uses: tcort/github-action-markdown-link-check@v1.1.3
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/workflows/config/internal-links-config.json'
