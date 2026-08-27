@@ -14,3 +14,24 @@ jobs:
           use-quiet-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
           check-modified-files-only: 'yes'
+  internal-link-check:
+    # Checks links to files inside this repository, across all markdown files.
+    # The job above runs with check-modified-files-only, so it only sees files
+    # the PR added or modified. A renamed or deleted file silently breaks every
+    # other file linking to it. No network access is needed here, so a
+    # full-repo pass is cheap (~20s).
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check@3.15.0
+      - name: Check internal links
+        run: |
+          find . -name '*.md' -not -path './node_modules/*' -print0 \
+            | xargs -0 -n40 markdown-link-check -q \
+                -c .github/workflows/config/internal-links-config.json
