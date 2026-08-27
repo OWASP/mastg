@@ -8,20 +8,21 @@ on:
 
 jobs:
   markdown-link-check:
+    # Checks http(s) links over the network, across all markdown files.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: URL Link Check
-        uses: Diolor/github-action-markdown-link-check@1.3
+        uses: tcort/github-action-markdown-link-check@v1.1.3
         with:
           use-quiet-mode: 'yes'
           config-file: '.github/workflows/config/url-checker-config.json'
   internal-link-check:
     # Checks links to files inside this repository, across all markdown files.
-    # The job above only reports on http(s) links, so a rename or deletion that
-    # lands on master silently breaks every other file linking to it. No network
-    # access is needed here, so a full-repo pass is cheap (~20s).
+    # A rename or deletion that lands on master breaks every other file linking
+    # to it, and no http(s) check sees that. No network access is needed here,
+    # so a full-repo pass is cheap (~20s).
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
