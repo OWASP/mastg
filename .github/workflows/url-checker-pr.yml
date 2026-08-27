@@ -19,9 +19,6 @@ jobs:
           check-modified-files-only: 'yes'
   internal-link-check:
     # Checks links to files inside this repository, across all markdown files.
-    # A PR that renames or deletes a markdown file breaks every other file
-    # linking to it, and none of those files are in the PR's diff. No network
-    # access is needed here, so a full-repo pass is cheap (~20s).
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

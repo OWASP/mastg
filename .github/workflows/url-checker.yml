@@ -20,9 +20,6 @@ jobs:
           config-file: '.github/workflows/config/url-checker-config.json'
   internal-link-check:
     # Checks links to files inside this repository, across all markdown files.
-    # A rename or deletion that lands on master breaks every other file linking
-    # to it, and no http(s) check sees that. No network access is needed here,
-    # so a full-repo pass is cheap (~20s).
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
