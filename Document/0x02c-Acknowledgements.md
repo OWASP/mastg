@@ -23,7 +23,7 @@ To achieve this status, you'll need to demonstrate that you **make consistent hi
 
 **Important Note**: Contributions should align with OWASP quality guidelines and project priorities.
 
-**Initial evaluation period**: Consistency over a sustained period of time (min. 6 months) is fundamental. Note that the 6-month timeframe is a minimum and may extend depending on the nature and impact of your contributions.
+**Initial evaluation period**: Consistency over a sustained period of time (min. 6 months) is fundamental. Note that the 6-month timeframe is a minimum. In our experience, applications may take anywhere from **6 months to 1 year or longer**, depending on the individual case, the level of effort, and the consistency and impact of the contributions.
 
 ### Benefits
 
@@ -34,7 +34,9 @@ To achieve this status, you'll need to demonstrate that you **make consistent hi
 
 If you'd like to apply please contact the project leaders by sending an email to [Sven Schleier](mailto:sven.schleier@owasp.org) and [Carlos Holguera](mailto:carlos.holguera@owasp.org) who will validate your application and provide you with a _contribution report_.
 
-After the initial evaluation period (see above), you'll need to send back the contribution report including sufficient evidence (e.g links to PRs) showing what you've done in that period that goes inline with "**the minimum meaningful monthly contributions**".
+As active participation in the **MAS Task Force** is part of the requirements, please note that Task Force participation is limited to **subject matter experts (SMEs)**. The individuals representing the applicant company must apply individually and provide information about themselves, their experience, and their work. **Each selected SME will also be required to submit an initial PR for evaluation**. An introductory meeting with the MAS team will then be arranged. Once approved, they will be able to join the MAS Task Force sessions.
+
+After the initial evaluation period (see above), you'll need to send back the contribution report including sufficient evidence (e.g links to PRs) showing what you've done in that period that goes inline with **"the minimum meaningful monthly contributions"**.
 
 ### Important Disclaimers
 
