@@ -17,7 +17,7 @@ The use of a key-related API or class, such as [`SecretKeySpec`](https://develop
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to identify cryptographic key construction, import, derivation, or use, and trace the corresponding key material back to its source.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
