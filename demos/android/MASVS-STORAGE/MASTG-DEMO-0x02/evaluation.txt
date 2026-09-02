@@ -1,0 +1,8 @@
+Class: android.content.ContextWrapper, Method: openFileOutput, Params: secret_token.txt, 0
+Class: java.io.FileOutputStream, Method: write, Params: MyS3cr3tP4ssw0rd
+Class: java.io.FileOutputStream, Method: write, Params: AKIAABCDEFGHIJKLMNOP
+Class: java.security.KeyStore, Method: getKey, Params: MastgTestKeyAlias, void
+Class: javax.crypto.Cipher, Method: init, Params: 1, <android.security.keystore2.AndroidKeyStoreSecretKey>
+Class: javax.crypto.Cipher, Method: doFinal, Params: SensitiveDataToEncrypt
+Class: java.io.FileOutputStream, Method: write, Params: 0x20cf33025a0bf1ff80a01331...
+Class: java.io.FileOutputStream, Method: write, Params: 0x895d0a83b9e86cc87fe121ca00cabed8f4ff5fc17863a65f6d7a613f067b905e47473f6cb64f...
