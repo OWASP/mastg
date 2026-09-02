@@ -1,0 +1,10 @@
+[+] Frida detection bypass hooks installed
+[+] Blocked Frida default-port probe (127.0.0.1:27042)
+[+] File.listFiles(/proc/self/task) intercepted (thread-enumeration bypass active)
+[+] Hiding Frida thread: gmain
+[+] Hiding Frida thread: pool-frida
+[+] Hiding Frida thread: gdbus
+[+] Removed maps entry: 7405c1c000-7406563000 r--p 00000000 00:05 2231284                        /memfd:frida-agent-64.so (deleted)
+[+] Removed maps entry: 7406564000-74072a6000 r-xp 00947000 00:05 2231284                        /memfd:frida-agent-64.so (deleted)
+[+] Removed maps entry: 74072a6000-7407377000 r--p 01688000 00:05 2231284                        /memfd:frida-agent-64.so (deleted)
+[+] Removed maps entry: 7407378000-7407393000 rw-p 01759000 00:05 2231284                        /memfd:frida-agent-64.so (deleted)
