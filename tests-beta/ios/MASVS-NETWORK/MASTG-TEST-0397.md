@@ -11,13 +11,13 @@ knowledge: [MASTG-KNOW-0072]
 
 ## Overview
 
-`WKWebView` handles server authentication challenges through `WKNavigationDelegate.webView(_:didReceive:completionHandler:)`. When the app provides a navigation delegate that implements this method, the WebView's default certificate validation is replaced by the app's own logic, completely bypassing the default App Transport Security (ATS) checks.
+`WKWebView` handles server authentication challenges through `WKNavigationDelegate.webView(_:didReceive:completionHandler:)`. When the app provides a navigation delegate that implements this method, it can override the WebView's default server-trust handling. Returning `.performDefaultHandling` preserves the platform's default handling, while explicitly accepting a server trust object without proper evaluation can bypass certificate chain validation and hostname verification.
 
-An insecure implementation calls `completionHandler(.useCredential, URLCredential(trust: serverTrust))` without first calling [`SecTrustEvaluateWithError`](https://developer.apple.com/documentation/security/sectrustevaluatewitherror(_:_:)) on the server's trust object. This bypasses certificate chain validation and hostname verification for every HTTPS page loaded in that `WKWebView`. An attacker can use any certificate (expired, self-signed, or for the wrong hostname) to intercept or tamper with WebView traffic via a [Machine-in-the-Middle (MITM)](../../../Document/0x04f-Testing-Network-Communication.md#intercepting-network-traffic-through-mitm) attack.
+An insecure implementation calls `completionHandler(.useCredential, URLCredential(trust: serverTrust))` without first successfully evaluating the server's trust object, for example with [`SecTrustEvaluateWithError`](https://developer.apple.com/documentation/security/sectrustevaluatewitherror%28_:_:%29) or [`SecTrustEvaluateAsyncWithError`](https://developer.apple.com/documentation/security/sectrustevaluateasyncwitherror%28_:queue:result:%29). This can allow certificates that would otherwise fail validation (expired, self-signed, or for the wrong hostname) to be accepted, enabling an attacker to intercept or tamper with WebView traffic via a [Machine-in-the-Middle (MITM)](../../../Document/0x04f-Testing-Network-Communication.md#intercepting-network-traffic-through-mitm) attack.
 
-This test checks whether the app implements `WKNavigationDelegate` in a way that accepts server certificates without calling `SecTrustEvaluateWithError`.
+This test checks whether the app implements `WKNavigationDelegate` in a way that accepts server certificates without successfully evaluating server trust.
 
-More broadly, any reference to [`URLAuthenticationChallenge`](https://developer.apple.com/documentation/foundation/urlauthenticationchallenge) only appears when the app implements this authentication-challenge method, which means it has taken over part of the WebView's server trust evaluation. Checking for the absence of `SecTrustEvaluateWithError` is an efficient heuristic to prioritize the most likely bypasses, but it isn't a substitute for reviewing all custom challenge handling: an implementation that does call `SecTrustEvaluateWithError` may still evaluate trust incompletely or incorrectly. Treat every code path that handles a `URLAuthenticationChallenge` as a candidate for manual review.
+More broadly, references to [`URLAuthenticationChallenge`](https://developer.apple.com/documentation/foundation/urlauthenticationchallenge), especially accesses such as `challenge.protectionSpace.serverTrust`, can indicate custom authentication-challenge handling. Checking for the absence of trust-evaluation APIs such as `SecTrustEvaluateWithError` or `SecTrustEvaluateAsyncWithError` is an efficient heuristic to prioritize the most likely bypasses, but it isn't a substitute for reviewing all custom challenge handling: an implementation that does call a trust-evaluation API may still ignore or incorrectly handle its result. Treat every relevant code path that handles a `URLAuthenticationChallenge` as a candidate for manual review.
 
 ## Steps
 
@@ -29,19 +29,21 @@ More broadly, any reference to [`URLAuthenticationChallenge`](https://developer.
 The output should contain:
 
 - All implementations of `webView(_:didReceive:completionHandler:)` found in the binary.
-- Any references to `URLAuthenticationChallenge` (for example, accessing `challenge.protectionSpace.serverTrust`), which only appear when the app performs custom authentication-challenge handling.
-- The list of callers of `SecTrustEvaluateWithError`, if the function is imported at all.
+- Any references to `URLAuthenticationChallenge` or server-trust handling (for example, accessing `challenge.protectionSpace.serverTrust`).
+- The list of callers of `SecTrustEvaluateWithError` and `SecTrustEvaluateAsyncWithError`, if these functions are imported at all.
 
 ## Evaluation
 
-The test case fails if an implementation of `webView(_:didReceive:completionHandler:)` is found in a `WKNavigationDelegate` that has no corresponding cross-reference to `SecTrustEvaluateWithError`.
+The test case fails if an implementation of `webView(_:didReceive:completionHandler:)` in a `WKNavigationDelegate` accepts a server-trust credential without successful trust evaluation, or accepts the credential regardless of the evaluation result.
+
+The absence of a corresponding cross-reference to `SecTrustEvaluateWithError`, `SecTrustEvaluateAsyncWithError`, or an equivalent trust-evaluation API can be used to identify candidates for further validation, but is not by itself sufficient to determine that the test fails.
 
 **Further Validation Required:**
 
 Inspect each reported code location using @MASTG-TECH-0076 to confirm the certificate validation bypass. Look for cases such as:
 
-- **Accepting a credential without trust evaluation:** calling `completionHandler(.useCredential, URLCredential(trust: serverTrust))` without first calling `SecTrustEvaluateWithError(serverTrust, &error)` and verifying it returns `true`.
-- **Ignoring the challenge type:** not checking `challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust` before accepting a credential.
-- **Swallowing evaluation errors:** wrapping `SecTrustEvaluateWithError` in a `do/catch` or ignoring its return value and calling `completionHandler(.useCredential, ...)` regardless of the outcome.
+- **Accepting a credential without trust evaluation:** calling `completionHandler(.useCredential, URLCredential(trust: serverTrust))` without first successfully evaluating `serverTrust`.
+- **Ignoring the challenge type:** not checking `challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust` before accepting a server-trust credential.
+- **Ignoring the evaluation result:** calling `SecTrustEvaluateWithError`, `SecTrustEvaluateAsyncWithError`, or an equivalent trust-evaluation API but calling `completionHandler(.useCredential, ...)` even when evaluation fails.
 
-> The absence of a `SecTrustEvaluateWithError` cross-reference is a heuristic, not a guarantee of a bypass, and its presence is not a guarantee of correct validation. Treat every implementation that accesses `URLAuthenticationChallenge` as a candidate for manual review, since it has taken control of the server trust evaluation regardless of whether `SecTrustEvaluateWithError` is called.
+> The absence of a trust-evaluation API cross-reference is a heuristic, not a guarantee of a bypass, and its presence is not a guarantee of correct validation. Confirm that `.useCredential` is only reached when server-trust evaluation succeeds. Returning `.performDefaultHandling` does not bypass the platform's default challenge handling.
