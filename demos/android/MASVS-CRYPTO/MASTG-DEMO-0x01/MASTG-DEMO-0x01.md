@@ -34,7 +34,7 @@ Review each of the reported instances.
 
 - Line 43 hashes a password with MD5.
 - Line 50 hashes authentication token material with SHA-1.
-- Line 57 hashes authentication token material with the `SHA1` JCA alias of SHA-1.
+- Line 57 hashes authentication token material with the `SHA1` JCA alias of SHA-1. This is the same algorithm as line 50; the alias is included because Android code often uses `SHA1` instead of `SHA-1`.
 - Line 64 hashes `readme.txt` with MD5. This looks like a checksum of non-sensitive data, so further validation is required to decide whether it is a finding.
 
 Note that line 71 did not trigger the rule because the hash is generated using SHA-256, which is a secure hashing algorithm.
