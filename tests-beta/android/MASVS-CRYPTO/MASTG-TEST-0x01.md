@@ -57,4 +57,4 @@ Inspect each reported code location using @MASTG-TECH-0023 to determine whether 
 
 **Expected False Negatives:**
 
-This test may produce false negatives if the algorithm name is not a string literal (for example, it is stored in a variable or constructed at runtime), if hashing is implemented in native code, or if a third-party wrapper does not call `MessageDigest.getInstance` with a detectable algorithm name. In such cases, additional manual reverse engineering of native libraries or third-party code may be required.
+This test may produce false negatives if the algorithm name is not a string literal (for example, it is stored in a variable or constructed at runtime), if hashing is implemented in native code, or if a third-party wrapper does not call `MessageDigest.getInstance` with a detectable algorithm name. If you suspect native hashing, use @MASTG-TECH-0018 on bundled libraries and look for symbols such as OpenSSL `MD5_*` or `SHA1_*`. Additional manual reverse engineering of native libraries or third-party code may be required.
