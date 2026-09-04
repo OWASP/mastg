@@ -17,13 +17,17 @@ axff @@ `f~WKNavigationDelegate~didReceiveAuthenticationChallenge`~+didreceive
 
 ?e
 
-?e SecTrustEvaluateWithError calls — empty output confirms server trust is never evaluated:
-is~SecTrustEvaluateWithError
+?e Server-trust evaluation calls:
+is~SecTrustEvaluateWithError,SecTrustEvaluateAsyncWithError
 
 ?e
 
 ?e xrefs to SecTrustEvaluateWithError:
-
 axt @ sym.imp.SecTrustEvaluateWithError
+
+?e
+
+?e xrefs to SecTrustEvaluateAsyncWithError:
+axt @ sym.imp.SecTrustEvaluateAsyncWithError
 
 pdf @ sym.MASTestApp.InsecureWKNavigationDelegate.webView.allocator.didReceive.completionHandler_...o15NSURLCredentialCSgtctF_ > InsecureWKNavigationDelegate.asm
