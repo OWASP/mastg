@@ -5,6 +5,7 @@ id: MASTG-TEST-0200
 type: [dynamic, filesystem, manual]
 weakness: MASWE-0002
 profiles: [L1, L2]
+assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
 ---
 
 ## Overview
