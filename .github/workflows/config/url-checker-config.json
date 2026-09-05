@@ -179,6 +179,9 @@
         },
         {
             "pattern": "^https://developer.arm.com/documentation/"
+        },
+        {
+            "pattern": "^https://www.yumpu.com/"
         }
     ],
     "replacementPatterns": [
