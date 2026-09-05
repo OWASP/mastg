@@ -2,10 +2,10 @@
 platform: ios
 title: Use of Deprecated WebView APIs
 id: MASTG-TEST-0331
-type: [static]
+type: [static, code]
 available_since: 2.0
 deprecated_since: 12.0
-weakness: MASWE-0072
+weakness: MASWE-0035
 profiles: [L1, L2]
 best-practices: [MASTG-BEST-0032]
 knowledge: [MASTG-KNOW-0076]
@@ -18,8 +18,8 @@ In this test, we look for references to `UIWebView` (@MASTG-KNOW-0076), a deprec
 
 ## Steps
 
-1. Extract the app as described in @MASTG-TECH-0058.
-2. Look for references to `UIWebView` in the app using @MASTG-TECH-0070 on all executables and libraries.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

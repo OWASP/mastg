@@ -3,7 +3,7 @@ platform: ios
 title: Dependencies with Known Vulnerabilities in the App's SBOM
 id: MASTG-TEST-0275
 type: [static, developer]
-weakness: MASWE-0076
+weakness: MASWE-0044
 profiles: [L1, L2]
 assets: [MAS-ASSET-IP, MAS-ASSET-UD]
 ---
@@ -14,7 +14,7 @@ This test case checks for dependencies with known vulnerabilities in iOS applica
 
 ## Steps
 
-1. Either ask the development team to share a SBOM in CycloneDX format, or, if you have access to the original source code, create one following @MASTG-TECH-0132.
+1. Use @MASTG-TECH-0132 to generate a SBOM, or request one in CycloneDX format from the development team.
 2. Upload the SBOM to @MASTG-TOOL-0132.
 3. Inspect the @MASTG-TOOL-0132 project for the use of vulnerable dependencies.
 

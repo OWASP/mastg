@@ -2,8 +2,8 @@
 platform: android
 title: References to SDK APIs Known to Handle Sensitive User Data
 id: MASTG-TEST-0318
-type: [static]
-weakness: MASWE-0112
+type: [static, code]
+weakness: MASWE-0073
 profiles: [P]
 assets: [MAS-ASSET-UD-U, MAS-ASSET-UD-T]
 ---
@@ -19,7 +19,7 @@ As a prerequisite, we need to identify the SDK API methods it uses as entry poin
 ## Steps
 
 1. Use @MASTG-TECH-0013 to reverse engineer the app.
-2. Use @MASTG-TECH-0014 to look for uses of these methods where sensitive user data may be passed to the SDK.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -27,4 +27,4 @@ The output should list the locations where SDK methods are called.
 
 ## Evaluation
 
-The test case fails if you can find the use of these SDK methods in the app code, indicating that the app is sharing sensitive user data with the third-party SDK. If no such references are found, the test case passes.
+The test case fails if you can find the use of these SDK methods in the app code, indicating that the app is sharing sensitive user data with the third-party SDK.

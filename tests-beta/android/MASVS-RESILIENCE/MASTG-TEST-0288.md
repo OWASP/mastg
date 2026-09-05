@@ -3,8 +3,8 @@ platform: android
 title: Debugging Symbols in Native Binaries
 alias: debugging-symbols-in-native-binaries
 id: MASTG-TEST-0288
-type: [static]
-weakness: MASWE-0093
+type: [static, code]
+weakness: MASWE-0061
 best-practices: []
 profiles: [R]
 assets: [MAS-ASSET-IP-R]
@@ -16,7 +16,7 @@ This test checks whether the app includes debugging symbols in its native binari
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0140) to retrieve any debugging information present in the native binaries.
+1. Use @MASTG-TECH-0140 to retrieve any debugging information present in the native binaries.
 
 ## Observation
 
@@ -24,4 +24,4 @@ The output should identify all instances of debugging information in the native 
 
 ## Evaluation
 
-The test **fails** if debugging information is present in any native binary, including if actual debugging symbols were successfully extracted.
+The test case fails if debugging information is present in any native binary, including if actual debugging symbols were successfully extracted.

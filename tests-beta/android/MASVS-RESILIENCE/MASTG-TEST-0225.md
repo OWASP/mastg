@@ -2,8 +2,8 @@
 title: Usage of Insecure APK Signature Key Size
 platform: android
 id: MASTG-TEST-0225
-type: [static]
-weakness: MASWE-0104
+type: [static, code]
+weakness: MASWE-0056
 profiles: [R]
 knowledge: [MASTG-KNOW-0003]
 assets: [MAS-ASSET-IP-R]
@@ -15,7 +15,7 @@ For Android apps, the cryptographic strength of the APK signature is essential f
 
 ## Steps
 
-1. List the additional signature information using @MASTG-TECH-0116.
+1. Use @MASTG-TECH-0116 to list the additional signature information.
 
 ## Observation
 

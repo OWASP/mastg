@@ -69,7 +69,28 @@ We assume that you've successfully opened `lib/armeabi-v7a/libnative-lib.so` in 
 
 Not a lot of code there, but you should analyze it. The first thing you need to know is that the first argument passed to every JNI function is a JNI interface pointer. An interface pointer is a pointer to a pointer. This pointer points to a function table: an array of even more pointers, each of which points to a JNI interface function (is your head spinning yet?). The function table is initialized by the Java VM and allows the native function to interact with the Java environment.
 
-<img src="Images/Chapters/0x05c/JNI_interface.png" width="100%" />
+```mermaid
+flowchart LR
+    JNI["JNI interface pointer"]
+
+    STRUCT["Pointer<br/>──────────<br/>per-thread JNI<br/>data structure"]
+
+    subgraph JNI_FUNCTIONS["Array of pointers to JNI functions"]
+        direction TB
+        ARRAY["Pointer<br/>──────────<br/>Pointer<br/>──────────<br/>Pointer<br/>──────────<br/>⋯"]
+    end
+
+    F1(["an interface<br/>function"])
+    F2(["an interface<br/>function"])
+    F3(["an interface<br/>function"])
+
+    JNI --> STRUCT
+    STRUCT --> ARRAY
+
+    ARRAY --> F1
+    ARRAY --> F2
+    ARRAY --> F3
+```
 
 With that in mind, let's have a look at each line of assembly code.
 

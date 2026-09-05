@@ -16,7 +16,7 @@ Standards for authoring reference application pages under `apps/`. These pages d
 - The filename defines the app ID: `MASTG-APP-\d{4}.md`
 - Do not add an `id:` field to the YAML front matter
 
-When creating a new app (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-APP-0x##` (for example, `MASTG-APP-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-APP-0x33`, `MASTG-APP-0x34`, `MASTG-APP-0x35`) as you add new content.
+When creating a new app (whether during porting or writing from scratch), use a **fake ID** starting at `MASTG-APP-0x01` and incrementing within the PR (e.g., `MASTG-APP-0x01`, `MASTG-APP-0x02`, `MASTG-APP-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-APP-0008`) before the content is published.
 

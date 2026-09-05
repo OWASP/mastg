@@ -3,8 +3,8 @@ platform: ios
 title: References to APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0270
 apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
-type: [static]
-weakness: MASWE-0046
+type: [static, code]
+weakness: MASWE-0022
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
@@ -18,7 +18,8 @@ The test identifies the absence of the [`kSecAccessControlBiometryCurrentSet`](h
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and look for uses of [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)) API with [`kSecAccessControlBiometryCurrentSet`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/biometrycurrentset) flag.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -26,4 +27,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if the app uses `SecAccessControlCreateWithFlags` with any flag except the `kSecAccessControlBiometryCurrentSet` flag for any sensitive data resource worth protecting.
+The test case fails if the app uses `SecAccessControlCreateWithFlags` with any flag except the `kSecAccessControlBiometryCurrentSet` flag for any sensitive data resource worth protecting.

@@ -2,8 +2,8 @@
 platform: ios
 title: Debuggable Entitlement Enabled in the entitlements.plist
 id: MASTG-TEST-0261
-type: [static]
-weakness: MASWE-0067
+type: [static, code]
+weakness: MASWE-0063
 profiles: [R]
 knowledge: [MASTG-KNOW-0062]
 assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
@@ -15,13 +15,13 @@ The test evaluates whether an iOS application is configured to allow debugging. 
 
 ## Steps
 
-1. Use @MASTG-TECH-0111 to extract entitlements from the binary.
-2. Search for the `get-task-allow` key.
+1. Use @MASTG-TECH-0058 to unzip the app package.
+2. Use @MASTG-TECH-0111 to extract entitlements from the main binary.
 
 ## Observation
 
-The output contains the value of the `get-task-allow` entitlement.
+The output should contain the entitlements embedded in the app.
 
 ## Evaluation
 
-The test fails if the `get-task-allow` entitlement is `true`.
+The test case fails if the `get-task-allow` entitlement is present and set to `true`.

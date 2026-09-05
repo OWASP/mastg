@@ -3,8 +3,8 @@ platform: ios
 title: Runtime Use Of APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0269
 apis: [kSecAccessControlUserPresence, kSecAccessControlDevicePasscode, SecAccessControlCreateWithFlags]
-type: [dynamic]
-weakness: MASWE-0045
+type: [dynamic, hooks]
+weakness: MASWE-0021
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 assets: [MAS-ASSET-UD-U]
@@ -14,9 +14,13 @@ assets: [MAS-ASSET-UD-U]
 
 This test is the dynamic counterpart to @MASTG-TEST-0268.
 
+In this case we'll hook [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)) and its specific flags.
+
 ## Steps
 
-1. Use runtime method hooking (see @MASTG-TECH-0095) and look for uses of [`SecAccessControlCreateWithFlags`](https://developer.apple.com/documentation/security/secaccesscontrolcreatewithflags(_:_:_:_:)) and specific flags.
+1. Use @MASTG-TECH-0056 to install the app.
+2. Use @MASTG-TECH-0095 to hook the relevant APIs.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
@@ -24,6 +28,4 @@ The output should contain a list of locations where the `SecAccessControlCreateW
 
 ## Evaluation
 
-The test fails if the app uses `SecAccessControlCreateWithFlags` with the `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` flags for any sensitive data resource that needs protection.
-
-The test passes only if the app uses `SecAccessControlCreateWithFlags` with stricter flags, such as [`kSecAccessControlBiometryAny`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/biometryany), [`kSecAccessControlBiometryCurrentSet`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/biometrycurrentset) to enforce biometric-only access for any sensitive data resource that needs protection (being `kSecAccessControlBiometryCurrentSet` the one considered the most secure).
+The test case fails if the app uses `SecAccessControlCreateWithFlags` with the `kSecAccessControlUserPresence` or `kSecAccessControlDevicePasscode` flags for any sensitive data resource that needs protection.

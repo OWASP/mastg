@@ -1,0 +1,1 @@
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-content-provider-exported.yml ../MASTG-DEMO-0121/AndroidManifest_reversed.xml > output.txt

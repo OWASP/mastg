@@ -1,0 +1,24 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                  
+    MastgTestWebView_reversed.java
+     ❱ rules.mastg-android-webviewclient-url-handlers
+          [MASVS-CODE-4] Detected WebViewClient URL interception method.
+                                                                        
+           30┆ webView.setWebViewClient(new WebViewClient() { // from class:
+               org.owasp.mastestapp.MastgTestWebView.mastgTest.2            
+           31┆     @Override // android.webkit.WebViewClient
+           32┆     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+           33┆         Uri url;
+           34┆         String url2 = (request == null || (url = request.getUrl()) == null) ? null :
+               url.toString();                                                                     
+           35┆         Log.d("MastgTest", "Loading URL: " + url2);
+           36┆         return false;
+           37┆     }
+           38┆
+           39┆     @Override // android.webkit.WebViewClient
+             [hid 7 additional lines, adjust with --max-lines-per-finding] 
+

@@ -2,10 +2,10 @@
 platform: ios
 title: References to APIs for Storing Unencrypted Data in Private Storage
 id: MASTG-TEST-0300
-type: [static]
+type: [static, code]
 profiles: [L2]
 best-practices: [MASTG-BEST-0024]
-weakness: MASWE-0006
+weakness: MASWE-0001
 knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
 ---
@@ -21,8 +21,8 @@ This test checks whether the app writes unencrypted sensitive data to private st
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 and look for uses of file system APIs that create or write files.
-2. Run a static analysis tool such as @MASTG-TOOL-0073 and look for uses of Keychain APIs.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 

@@ -2,8 +2,8 @@
 platform: android
 title: References to Root Detection Mechanisms
 id: MASTG-TEST-0324
-type: [static]
-weakness: MASWE-0097
+type: [static, code]
+weakness: MASWE-0051
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0030]
 profiles: [R]
 knowledge: [MASTG-KNOW-0027]
@@ -23,7 +23,8 @@ This test is best combined with @MASTG-TEST-0325, which performs dynamic testing
 
 ## Steps
 
-1. Use @MASTG-TECH-0014 with appropriate patterns to search for root detection APIs and methods in the decompiled code.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

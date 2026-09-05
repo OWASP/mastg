@@ -2,8 +2,8 @@
 title: Broken Symmetric Encryption Algorithms
 platform: android
 id: MASTG-TEST-0221
-type: [static, dynamic]
-weakness: MASWE-0020
+type: [static, code, manual]
+weakness: MASWE-0007
 best-practices: [MASTG-BEST-0009]
 profiles: [L1, L2]
 assets: [MAS-ASSET-IP, MAS-ASSET-UD]
@@ -28,7 +28,8 @@ Android also provides additional guidance on [broken cryptographic algorithms](h
 
 ## Steps
 
-1. Run @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 on the app binary, or use @MASTG-TECH-0033 (dynamic analysis) with a tool like @MASTG-TOOL-0001, and look for uses of the cryptographic functions that perform encryption and decryption operations.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -37,3 +38,7 @@ The output should contain a list of locations where insecure symmetric encryptio
 ## Evaluation
 
 The test case fails if you can find [insecure or deprecated](../../../Document/0x04g-Testing-Cryptography.md#identifying-insecure-andor-deprecated-cryptographic-algorithms) encryption algorithms being used.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the algorithm is used in a security-relevant context to protect sensitive data.

@@ -2,8 +2,8 @@
 title: Missing Certificate Pinning in Network Security Configuration
 platform: android
 id: MASTG-TEST-0242
-type: [static]
-weakness: MASWE-0047
+type: [static, code]
+weakness: MASWE-0028
 profiles: [L2]
 knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
 assets: [MAS-ASSET-IP-T, MAS-ASSET-UD-T]
@@ -17,9 +17,10 @@ The goal of this test is to check if the app does not implement certificate pinn
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Obtain the AndroidManifest.xml (@MASTG-TECH-0117), and check if a `networkSecurityConfig` is set in the `<application>` tag.
-3. Inspect the referenced network security config file, and extract all domains from `<domain-config>` which have a pin set (`<pin-set>`).
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml
+3. Use @MASTG-TECH-0150 to check if a `networkSecurityConfig` is set in the `<application>` tag.
+4. Use @MASTG-TECH-0151 to extract all domains from `<domain-config>` that have a pin set (`<pin-set>`) from the Network Security Configuration file.
 
 ## Observation
 

@@ -2,8 +2,8 @@
 platform: android
 title: Files Written to External Storage
 id: MASTG-TEST-0200
-type: [dynamic]
-weakness: MASWE-0007
+type: [dynamic, filesystem, manual]
+weakness: MASWE-0002
 profiles: [L1, L2]
 assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
 ---
@@ -14,12 +14,11 @@ The goal of this test is to retrieve the files written to the external storage (
 
 ## Steps
 
-1. Make sure you have @MASTG-TOOL-0004 installed.
-2. Install the app (@MASTG-TECH-0005).
-3. Before running the app, get the current list of files (@MASTG-TECH-0002) in the external storage.
-4. Exercise the app.
-5. After running the app, retrieve the list of files in the external storage again.
-6. Calculate the difference between the two lists.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0002 to get the current list of files in the external storage.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
+4. Use @MASTG-TECH-0002 to retrieve the list of files in the external storage again.
+5. Calculate the difference between the two lists.
 
 ## Observation
 
@@ -29,4 +28,9 @@ The output should contain a list of files that were created on the external stor
 
 The test case fails if the files found above are not encrypted and leak sensitive data.
 
-To confirm this, you can reverse engineer the app(@MASTG-TECH-0017) and inspect the code(@MASTG-TECH-0023).
+**Further Validation Required:**
+
+Inspect the content of each reported file to determine whether the data is sensitive:
+
+- Determine whether the file contains sensitive information (e.g., personal data, credentials, or tokens).
+- Determine whether the data is stored without encryption.

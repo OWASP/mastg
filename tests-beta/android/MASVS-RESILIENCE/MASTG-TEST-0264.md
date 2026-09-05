@@ -2,8 +2,8 @@
 platform: android
 title: Runtime Use of StrictMode APIs
 id: MASTG-TEST-0264
-type: [dynamic]
-weakness: MASWE-0094
+type: [dynamic, hooks]
+weakness: MASWE-0061
 best-practices: []
 profiles: [R]
 assets: [MAS-ASSET-IP-U]
@@ -17,7 +17,9 @@ While `StrictMode` is useful for developers to log policy violations such as dis
 
 ## Steps
 
-1. Use runtime method hooking (see @MASTG-TECH-0043) and look for uses of `StrictMode` APIs.
+1. Use @MASTG-TECH-0005 to install the app.
+2. Use @MASTG-TECH-0043 to hook the relevant API calls.
+3. Exercise the app extensively to trigger as many flows as possible and enter sensitive data wherever you can.
 
 ## Observation
 
@@ -25,4 +27,4 @@ The output should show the runtime usage of `StrictMode` APIs.
 
 ## Evaluation
 
-The test fails if the Frida script output shows the runtime usage of `StrictMode` APIs.
+The test case fails if the output shows the runtime usage of `StrictMode` APIs.

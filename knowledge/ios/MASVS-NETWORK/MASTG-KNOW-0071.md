@@ -101,6 +101,10 @@ The following table summarizes the per-domain ATS exceptions. For more informati
 
 You may encounter exception keys prefixed with `NSTemporaryException...` in old examples or documentation. These keys were originally introduced as temporary ATS exception helpers during the early iOS 9 era and while they still work, they are deprecated and undocumented by Apple. Developers should use the modern non-temporary `NSException...` equivalents instead.
 
+**TLS Configuration in Code:**
+
+Beyond `Info.plist` exceptions, apps can also configure TLS behavior in code via `URLSessionConfiguration` properties such as [`tlsMinimumSupportedProtocolVersion`](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/tlsminimumsupportedprotocolversion). These properties are evaluated separately from ATS. ATS applies its own minimum TLS requirements in addition to values configured in code, so a lower value set in code does not by itself override ATS behavior. If no matching `Info.plist` exception is present, ATS can still block the connection. See @MASTG-KNOW-0073 for details on TLS configuration per API layer.
+
 **Justifying Exceptions:**
 
 Starting from January 1, 2017, Apple App Store review [requires justification](https://developer.apple.com/documentation/security/preventing-insecure-network-connections#Provide-Justification-for-Exceptions) if one of the following ATS exceptions are defined.
@@ -138,3 +142,11 @@ In the following example, ATS is globally enabled (there's no global `NSAllowsAr
 ```
 
 For more information on ATS exceptions please consult section "Configure Exceptions Only When Needed; Prefer Server Fixes" from the article "Preventing Insecure Network Connections" in the [Apple Developer Documentation](https://developer.apple.com/documentation/security/preventing_insecure_network_connections#3138482) and the [blog post on ATS](https://www.nowsecure.com/blog/2017/08/31/security-analysts-guide-nsapptransportsecurity-nsallowsarbitraryloads-app-transport-security-ats-exceptions/ "A guide to ATS").
+
+## Runtime Validation of ATS TLS Settings
+
+!!! note
+
+    For macOS Tahoe 26 and later, TLS 1.0/1.1 connections always fail. Since [macOS Tahoe 26](https://support.apple.com/en-us/126655), the default ATS policy enforced by `URLSession` and `Network.framework` requires TLS 1.2 or higher with ATS-compliant ciphersuites and certificates. As a result, `nscurl` reports `FAIL` for any test using a TLS version below 1.2, even when an `NSExceptionMinimumTLSVersion` exception would normally allow it because the host macOS stack refuses the handshake before ATS exceptions are evaluated. To validate apps targeting older TLS versions, for which these exceptions still apply, test on a real iOS device, not the iOS Simulator.
+
+Static analysis can identify configured exceptions in `Info.plist`, but it can't confirm what TLS version is actually negotiated against real servers. On macOS, the `nscurl` tool can test ATS behavior against a real endpoint by simulating the ATS policy evaluation. It runs a series of permutations of ATS settings and reports which configurations succeed or fail, making it useful for identifying what exceptions a given server would require. Apple recommends fixing server-side TLS issues rather than adding ATS exceptions. See @MASTG-TECH-0149 for step-by-step guidance.

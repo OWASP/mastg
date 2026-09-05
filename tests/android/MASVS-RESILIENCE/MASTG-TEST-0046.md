@@ -8,6 +8,9 @@ title: Testing Anti-Debugging Detection
 masvs_v1_levels:
 - R
 profiles: [R]
+status: deprecated
+covered_by: [MASTG-TEST-0352, MASTG-TEST-0353]
+deprecation_note: "New version available in MASTG V2"
 ---
 
 ## Bypassing Debugger Detection

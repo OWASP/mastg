@@ -2,8 +2,8 @@
 title: GMS Security Provider Not Updated
 platform: android
 id: MASTG-TEST-0295
-type: [static]
-weakness: MASWE-0052
+type: [static, code]
+weakness: MASWE-0027
 profiles: [L2]
 best-practices: [MASTG-BEST-0020]
 knowledge: [MASTG-KNOW-0011, MASTG-KNOW-0010]
@@ -16,8 +16,8 @@ This test checks whether the Android app ensures the Security Provider is [updat
 
 ## Steps
 
-1. Reverse engineer the app (@MASTG-TECH-0017).
-2. Use static analysis (@MASTG-TECH-0014) to search for usage of `ProviderInstaller.installIfNeeded` or `ProviderInstaller.installIfNeededAsync`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -25,4 +25,4 @@ The output should list all locations where the Security Provider update is perfo
 
 ## Evaluation
 
-The test fails if the app does not update the provider, or it does not handle exceptions properly. Check that these calls occur before any network connections are made.
+The test case fails if the app does not update the provider, or it does not handle exceptions properly. Check that these calls occur before any network connections are made.

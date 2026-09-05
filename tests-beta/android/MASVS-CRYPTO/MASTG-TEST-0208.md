@@ -2,8 +2,8 @@
 platform: android
 title: Insufficient Key Sizes 
 id: MASTG-TEST-0208
-type: [static]
-weakness: MASWE-0009
+type: [static, code]
+weakness: MASWE-0013
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0012]
 assets: [MAS-ASSET-IP, MAS-ASSET-UD]
@@ -22,7 +22,8 @@ For more information you can consult the MASTG section about ["Key Generation"](
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0110 on the code and look for uses of the cryptographic functions that generate keys.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

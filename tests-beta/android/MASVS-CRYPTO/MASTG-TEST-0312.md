@@ -2,8 +2,8 @@
 title: References to Explicit Security Provider in Cryptographic APIs
 platform: android
 id: MASTG-TEST-0312
-type: [static]
-weakness: MASWE-0020
+type: [static, code]
+weakness: MASWE-0007
 best-practices: [MASTG-BEST-0020]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0011]
@@ -22,7 +22,8 @@ This test identifies cases where an app explicitly specifies a security provider
 
 ## Steps
 
-1. Run @MASTG-TECH-0014 with a tool such as @MASTG-TOOL-0110 on the app binary to look for calls to `getInstance` that explicitly specify a security provider.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 
@@ -30,4 +31,4 @@ The output should contain a list of locations where a security provider is expli
 
 ## Evaluation
 
-The test case fails if any `getInstance` call explicitly specifies a security provider other than `AndroidKeyStore` for `KeyStore` operations. Review each occurrence to determine whether the provider is actually required and whether its use could introduce security or compatibility issues on modern Android versions.
+The test case fails if any `getInstance` call explicitly specifies a security provider other than `AndroidKeyStore` for `KeyStore` operations.

@@ -6,23 +6,55 @@ platform: ios
 knowledge: [MASTG-KNOW-0076]
 ---
 
-If your app relies on a static web component that loads HTML/JavaScript resources from app storage, ensure that a malicious payload cannot access other files within that storage. The app should sandbox the WebKit content using [`loadFileURL(_ URL: URL, allowingReadAccessTo readAccessURL: URL)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)) so that the website can access only files within a specific directory.
+## Avoid Enabling `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs`
 
-Restricting file access prevents malicious injection payloads such as `<img src="../secret.jpg">` and `<frame src="../secret.txt">` from exfiltrating sensitive data from other directories in the filesystem.
+For `WKWebView`, `allowFileAccessFromFileURLs` and `allowUniversalAccessFromFileURLs` are not part of the public iOS `WKWebView` API. They are commonly accessed through Key-Value Coding (KVC), but should remain disabled unless there is a specific, well justified need.
 
-To enforce this restriction, the app should use a dedicated directory for the static website content:
+If you must enable these properties, ensure that:
 
-1. If the static website resides in the app bundle, set `readAccessURL` to a directory that contains only the website resources.
-2. If the static website resides in app storage, create a dedicated directory for it within the `Library/Application Support` directory.
+- The WebView only loads trusted content from controlled sources.
+- Proper input validation and sanitization are implemented.
+- The app does not store sensitive data in locations accessible to the WebView.
 
-For example:
+These settings apply only to `WKWebView`. `UIWebView` historically allowed broader local file access and lacked the modern isolation and control model provided by `WKWebView`, which is one reason `UIWebView` was deprecated and replaced. See @MASTG-BEST-0032.
 
-```txt
-<CONTAINER>/
-   Documents/
-   tmp/
-   Library/
-      Application Support/
-         sandbox-for-website/
-            index.html
+## Load Local Files Securely
+
+When loading local HTML using [`loadHTMLString(_:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadhtmlstring(_:baseurl:)/) or [`load(_:mimeType:characterEncodingName:baseURL:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:mimetype:characterencodingname:baseurl:)), set the `baseURL` deliberately.
+
+- For `WKWebView`, setting `baseURL` to `nil` gives the document an opaque origin. This prevents it from being treated as same origin with local files and helps stop access to other local resources.
+- If the page needs bundled subresources such as CSS, images, or JavaScript, prefer [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)) or [`loadFileRequest(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:)) with a narrowly scoped read access URL.
+- If you do use a `file://` base URL, keep it limited to a controlled resource location such as the app bundle.
+
+Avoid broad `file://` base URLs unless they are strictly necessary.
+
+## Use `loadFileURL` and `loadFileRequest` Carefully
+
+When using [`loadFileURL(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:)) or [`loadFileRequest(_:allowingReadAccessTo:)`](https://developer.apple.com/documentation/webkit/wkwebview/loadfilerequest(_:allowingreadaccessto:)), ensure that the `allowingReadAccessTo` parameter grants the **minimum required file system scope**.
+
+```swift
+// Good: Restrict access to a specific file
+let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    .appendingPathComponent("safe.html")
+
+webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
 ```
+
+```swift
+// Risky: Grants access to an entire directory
+let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+
+webView.loadFileURL(fileURL, allowingReadAccessTo: dirURL) // Avoid if possible
+```
+
+If directory access is required, ensure that the directory contains only WebView assets and no sensitive app data.
+
+## Additional Considerations
+
+Even when these precautions are followed, WebViews should only load content from trusted sources. If attacker-controlled JavaScript executes in a WebView that can read local files, it may read and exfiltrate sensitive data from the app sandbox.
+
+- Disable content JavaScript when the WebView only displays static content, using [`WKWebpagePreferences.allowsContentJavaScript = false`](https://developer.apple.com/documentation/webkit/wkwebpagepreferences/allowscontentjavascript).
+- Avoid loading untrusted input into WebViews to prevent HTML or JavaScript injection.
+- Keep WebView accessible files separate from app data, secrets, and credentials.
+- Prefer loading content from the app bundle or controlled sources instead of broad `file://` paths.
+- Consider [App Bound Domains](https://webkit.org/blog/10882/app-bound-domains/) for WebViews that should only access app controlled domains and use powerful WebKit APIs.

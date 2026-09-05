@@ -3,8 +3,8 @@ platform: ios
 title: References to APIs for Detecting Secure Screen Lock
 id: MASTG-TEST-0248
 apis: [LAContext.canEvaluatePolicy, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly]
-type: [static]
-weakness: MASWE-0008
+type: [static, code]
+weakness: MASWE-0017
 best-practices: []
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
@@ -21,7 +21,8 @@ Apps leveraging the **Keychain Services API** can require passcode authenticatio
 
 ## Steps
 
-1. Run a static analysis tool such as @MASTG-TOOL-0073 on the app binary and look for uses of [LAContext.canEvaluatePolicy(.deviceOwnerAuthentication)](https://developer.apple.com/documentation/localauthentication/lacontext/canevaluatepolicy(_:error:)) API, or data stored with [kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly](https://developer.apple.com/documentation/security/ksecattraccessiblewhenpasscodesetthisdeviceonly) attribute.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
 
@@ -29,4 +30,4 @@ The output should contain a list of locations where relevant APIs are used.
 
 ## Evaluation
 
-The test fails if an app doesn't use any API to verify the secure screen lock presence.
+The test case fails if an app doesn't use any API to verify the secure screen lock presence.
