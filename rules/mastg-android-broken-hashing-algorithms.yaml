@@ -1,0 +1,31 @@
+rules:
+  - id: mastg-android-broken-hashing-algorithms
+    languages:
+      - java
+    severity: WARNING
+    metadata:
+      summary: This rule looks for broken hashing algorithms in MessageDigest.getInstance calls and common third-party wrappers.
+    message: "[MASVS-CRYPTO-1] Broken hashing algorithms found in use."
+    pattern-either:
+      - pattern: MessageDigest.getInstance("MD2")
+      - pattern: MessageDigest.getInstance("MD2", ...)
+      - pattern: MessageDigest.getInstance("MD4")
+      - pattern: MessageDigest.getInstance("MD4", ...)
+      - pattern: MessageDigest.getInstance("MD5")
+      - pattern: MessageDigest.getInstance("MD5", ...)
+      - pattern: MessageDigest.getInstance("SHA-1")
+      - pattern: MessageDigest.getInstance("SHA-1", ...)
+      - pattern: MessageDigest.getInstance("SHA1")
+      - pattern: MessageDigest.getInstance("SHA1", ...)
+      - pattern: MessageDigest.getInstance("SHA")
+      - pattern: MessageDigest.getInstance("SHA", ...)
+      - pattern: Hashing.md5()
+      - pattern: Hashing.md5(...)
+      - pattern: Hashing.sha1()
+      - pattern: Hashing.sha1(...)
+      - pattern: DigestUtils.md5(...)
+      - pattern: DigestUtils.md5Hex(...)
+      - pattern: DigestUtils.sha1(...)
+      - pattern: DigestUtils.sha1Hex(...)
+      - pattern: DigestUtils.md5Digest(...)
+      - pattern: DigestUtils.sha1Digest(...)

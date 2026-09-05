@@ -1,0 +1,23 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-broken-hashing-algorithms
+          ❰❰ Blocking ❱❱
+          [MASVS-CRYPTO-1] Broken hashing algorithms found in use.
+                                                                  
+           43┆ MessageDigest md5 =              
+               MessageDigest.getInstance("MD5");
+            ⋮┆----------------------------------------
+           50┆ MessageDigest sha1 =               
+               MessageDigest.getInstance("SHA-1");
+            ⋮┆----------------------------------------
+           57┆ MessageDigest sha1Alias =         
+               MessageDigest.getInstance("SHA1");
+            ⋮┆----------------------------------------
+           64┆ MessageDigest md5ChecksumDigest =
+               MessageDigest.getInstance("MD5");
+
