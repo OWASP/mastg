@@ -239,7 +239,11 @@ Some of the best practices include but are not limited to:
 
 When implementing OAuth2 in **native apps** that need to interact with social media accounts, the use of embedded user agents such as WebView or WKWebView must always be avoided, because the host app has full control over the embedded view and can record user inputs such as usernames and passwords.
 
-Instead of using _custom schemes_, for example `myapp://callback`, App Links (Android) or Universal Links (iOS) must always be used. If a second app registers the same custom scheme as the legitimate, it could lead the user to a hijack scenario when the malicious app steals the secret code.
+Instead, a safer implementation is the use of _external user agents_, such as the system browser or in-app browser tabs, because they run in a separate instance and prevent the host app from capturing the user's credentials.
+
+Claimed HTTPS redirect URIs, such as App Links (Android) or Universal Links (iOS), should be used where possible. A valid alternative is the implementation of _private-use URI scheme_, for example `com.example.app:/oauth2redirect/example-provider`.
+
+However, if a second app registers the same custom scheme as the legitimate, it could lead the user to a hijack scenario where the malicious app steals the authorization code.
 
 ## User Logout
 
