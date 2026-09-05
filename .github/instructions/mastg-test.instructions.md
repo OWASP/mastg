@@ -186,7 +186,7 @@ knowledge: [MASTG-KNOW-0013]
 
 ### assets
 
-The MAS-ASSET types that this test protects. See `prerequisites/identify-sensitive-data.md` for the taxonomy and the default mapping from weakness to assets. Each value combines a data category (`IP` for Intellectual Property, `UD` for User Data) with a data state (`R` at rest, `U` in use, `T` in transit).
+The MAS-ASSET types that this test protects. See `prerequisites/identify-sensitive-data.md` for the taxonomy and the default mapping from weakness to assets, and `assets/` for the description of each asset type. Each value combines a data category (`IP` for Intellectual Property, `UD` for User Data) with a data state (`R` at rest, `U` in use, `T` in transit).
 
 Valid values:
 

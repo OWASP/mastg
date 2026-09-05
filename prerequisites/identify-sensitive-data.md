@@ -68,7 +68,7 @@ The level of scrutiny appropriate for each state may depend on the data's import
 
 ### MAS-ASSET Matrix
 
-The MAS-ASSET classification combines the two data categories with the three data states to produce six asset types. Each MAS Test lists the asset types it protects in its `assets` metadata field, making it clear exactly **what kind of data** and **in which state** the test targets.
+The MAS-ASSET classification combines the two data categories with the three data states to produce six asset types. Each MAS Test lists the asset types it protects in its `assets` metadata field, making it clear exactly **what kind of data** and **in which state** the test targets. Each asset type is described in its own file under `assets/`.
 
 | Category | Data at rest | Data in use | Data in transit | Any state |
 | --- | --- | --- | --- | --- |
