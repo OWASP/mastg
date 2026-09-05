@@ -31,9 +31,7 @@ There are several indicators that the device in question is being emulated or vi
 
 ### App Attest Validation
 
-Apple's [App Attest service](https://developer.apple.com/documentation/devicecheck/dcappattestservice) can be used to assert the legitimacy of a particular instance of an app to the app's server. Apple documents this as a server side flow in ["Validating apps that connect to your server"](https://developer.apple.com/documentation/devicecheck/validating-apps-that-connect-to-your-server).
-
-Before using App Attest, the app should check [`DCAppAttestService.shared.isSupported`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/issupported), because not all device types support the service. The app can then use [`generateKey(completionHandler:)`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/generatekey%28completionhandler%3A%29) to request creation of a cryptographic key, and [`attestKey(_:clientDataHash:completionHandler:)`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/attestkey%28_%3Aclientdatahash%3Acompletionhandler%3A%29) so Apple can attest to the validity of that key.
+App Attest (see @MASTG-KNOW-0x03) lets a server cryptographically verify that a request originates from a legitimate, unmodified instance of the app running on a genuine Apple device. Because a virtual device cannot produce a valid attestation for a production app identity, App Attest validation failures are also a virtual device indicator.
 
 Corellium states that users [cannot directly download an app from the App Store onto a Corellium device](https://support.corellium.com/features/apps/testing-ios-apps), and cannot load an encrypted App Store app copied from another device. Instead, Corellium users can only load a signed, unencrypted version of the app.
 
