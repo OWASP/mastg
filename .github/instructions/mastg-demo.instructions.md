@@ -89,6 +89,7 @@ These files replace the corresponding resource files in the base app:
 | `network_security_config.xml` | `app/src/main/res/xml/network_security_config.xml` |
 | `backup_rules.xml` | `app/src/main/res/xml/backup_rules.xml` |
 | `data_extraction_rules.xml` | `app/src/main/res/xml/data_extraction_rules.xml` |
+| `strings.xml` | `app/src/main/res/values/strings.xml` |
 
 ### Build customization files
 

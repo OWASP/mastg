@@ -1,0 +1,79 @@
+=== All strings in the __TEXT.__cstring section ===
+197 0x000093f0 0x1000093f0 20  21   10.__TEXT.__cstring        ascii   Endpoint          :
+198 0x00009410 0x100009410 33  34   10.__TEXT.__cstring        ascii   https://api.example.com/v1/report
+199 0x00009440 0x100009440 21  22   10.__TEXT.__cstring        ascii   \nMaps API key      :
+200 0x00009460 0x100009460 39  40   10.__TEXT.__cstring        ascii   AIzaSyDFakeMastgDemoKeyNotARealKey12345
+201 0x00009490 0x100009490 21  22   10.__TEXT.__cstring        ascii   \nAWS access key id :
+202 0x000094b0 0x1000094b0 20  21   10.__TEXT.__cstring        ascii   AKIAIOSFODNN7EXAMPLE
+203 0x000094d0 0x1000094d0 21  22   10.__TEXT.__cstring        ascii   \nClient secret     :
+204 0x000094f0 0x1000094f0 28  29   10.__TEXT.__cstring        ascii   s3cr3t-not-a-real-value-9f2b
+205 0x00009510 0x100009510 82  83   10.__TEXT.__cstring        ascii   \n\nAll three credentials above are compiled into the app binary as string literals.
+206 0x00009570 0x100009570 29  30   10.__TEXT.__cstring        ascii    demonstrated a failed test:\n
+207 0x00009590 0x100009590 33  34   10.__TEXT.__cstring        ascii    demonstrated a successful test:\n
+208 0x000095b2 0x1000095b2 4   5    10.__TEXT.__cstring        ascii   FAIL
+209 0x000095b7 0x1000095b7 4   5    10.__TEXT.__cstring        ascii   PASS
+210 0x000095bc 0x1000095bc 5   6    10.__TEXT.__cstring        ascii   ERROR
+211 0x000095c2 0x1000095c2 16  17   10.__TEXT.__cstring        ascii   kCFAllocatorNull
+212 0x000095d3 0x1000095d3 27  28   10.__TEXT.__cstring        ascii   CFDataCreateWithBytesNoCopy
+213 0x000095ef 0x1000095ef 28  29   10.__TEXT.__cstring        ascii   CFPropertyListCreateWithData
+214 0x0000960c 0x10000960c 31  32   10.__TEXT.__cstring        ascii   CFPropertyListCreateFromXMLData
+215 0x0000962c 0x10000962c 31  32   10.__TEXT.__cstring        ascii   CFStringCreateWithCStringNoCopy
+216 0x0000964c 0x10000964c 20  21   10.__TEXT.__cstring        ascii   CFDictionaryGetValue
+217 0x00009661 0x100009661 11  12   10.__TEXT.__cstring        ascii   CFGetTypeID
+218 0x0000966d 0x10000966d 17  18   10.__TEXT.__cstring        ascii   CFStringGetTypeID
+219 0x0000967f 0x10000967f 18  19   10.__TEXT.__cstring        ascii   CFStringGetCString
+220 0x00009692 0x100009692 9   10   10.__TEXT.__cstring        ascii   CFRelease
+221 0x0000969c 0x10000969c 48  49   10.__TEXT.__cstring        ascii   /System/Library/CoreServices/SystemVersion.plist
+222 0x000096cf 0x1000096cf 14  15   10.__TEXT.__cstring        ascii   ProductVersion
+223 0x000096de 0x1000096de 8   9    10.__TEXT.__cstring        ascii   %d.%d.%d
+
+=== Credentials matching well-known provider formats ===
+200 0x00009460 0x100009460 39  40   10.__TEXT.__cstring        ascii   AIzaSyDFakeMastgDemoKeyNotARealKey12345
+202 0x000094b0 0x1000094b0 20  21   10.__TEXT.__cstring        ascii   AKIAIOSFODNN7EXAMPLE
+
+=== Cross references to the embedded credentials ===
+sym.func.100004e2c 0x100004ec8 [STRN:r--] add x8, x8, str.AIzaSyDFakeMastgDemoKeyNotARealKey12345
+sym.func.100004e2c 0x100004f04 [STRN:r--] add x8, x8, str.AKIAIOSFODNN7EXAMPLE
+sym.func.100004e2c 0x100004f40 [STRN:r--] add x8, x8, str.s3cr3t_not_a_real_value_9f2b
+
+=== Disassembly of the function referencing them ===
+│           0x100004ec0      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004ec4      adrp x8, 0x100009000
+│           0x100004ec8      add x8, x8, 0x460                         ; 0x100009460 ; "AIzaSyDFakeMastgDemoKeyNotARealKey12345"
+│           0x100004ecc      sub x8, x8, 0x20
+│           0x100004ed0      add x0, x22, 0x12
+│           0x100004ed4      orr x1, x8, 0x8000000000000000
+│           0x100004ed8      mov x20, sp
+│           0x100004edc      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004ee0      adrp x8, 0x100009000
+│           0x100004ee4      add x8, x8, 0x490                         ; 0x100009490 ; "\nAWS access key id :"
+│           0x100004ee8      sub x8, x8, 0x20
+│           0x100004eec      orr x1, x8, 0x8000000000000000
+│           0x100004ef0      mov x20, sp
+│           0x100004ef4      mov x0, 0x15
+│           0x100004ef8      movk x0, 0xd000, lsl 48
+│           0x100004efc      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004f00      adrp x8, 0x100009000
+│           0x100004f04      add x8, x8, 0x4b0                         ; 0x1000094b0 ; "AKIAIOSFODNN7EXAMPLE"
+│           0x100004f08      sub x8, x8, 0x20
+│           0x100004f0c      orr x1, x8, 0x8000000000000000
+│           0x100004f10      mov x20, sp
+│           0x100004f14      mov x0, x21
+│           0x100004f18      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004f1c      adrp x8, 0x100009000
+│           0x100004f20      add x8, x8, 0x4d0                         ; 0x1000094d0 ; "\nClient secret     :"
+│           0x100004f24      sub x8, x8, 0x20
+│           0x100004f28      orr x1, x8, 0x8000000000000000
+│           0x100004f2c      mov x20, sp
+│           0x100004f30      mov x0, 0x15
+│           0x100004f34      movk x0, 0xd000, lsl 48
+│           0x100004f38      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004f3c      adrp x8, 0x100009000
+│           0x100004f40      add x8, x8, 0x4f0                         ; 0x1000094f0 ; "s3cr3t-not-a-real-value-9f2b"
+│           0x100004f44      sub x8, x8, 0x20
+│           0x100004f48      add x0, x22, 7
+│           0x100004f4c      orr x1, x8, 0x8000000000000000
+│           0x100004f50      mov x20, sp
+│           0x100004f54      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004f58      adrp x8, 0x100009000
+│           0x100004f5c      add x8, x8, 0x510                         ; 0x100009510 ; "\n\nAll three credentials above are compiled into the app binary as string literals."
