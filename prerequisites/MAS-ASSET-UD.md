@@ -1,13 +1,8 @@
 ---
 id: MAS-ASSET-UD
-title: User Data (All States)
+title: User Data (Any State)
 ---
 
-## MAS-ASSET-UD: User Data (All States)
+This shorthand covers user data without regard to its state. Use it only when the state is not meaningful for the test, for example permission tests, where the platform mediates access to user data before the app holds it. Prefer the state-specific types `MAS-ASSET-UD-R`, `MAS-ASSET-UD-U`, and `MAS-ASSET-UD-T` wherever they apply.
 
-This asset category covers user data across all states: at rest, in use, and in transit. Use this when a test applies to user data regardless of the state in which it is accessed, for example because it assesses a platform-level or code-level security property that may protect user data in any state.
-
-### Examples
-
-- Tests that verify binary hardening mechanisms (e.g., PIC, stack canaries) that protect user data held in process memory, stored on device, or transmitted between components
-- Tests that assess dependency or platform security posture that may affect user data in any state
+Tests that protect the app itself rather than a data asset, such as binary hardening or anti-tampering, should not use this shorthand. They should not list any assets.

@@ -6,7 +6,6 @@ apis: [StrictMode]
 type: [dynamic, logs]
 weakness: MASWE-0061
 profiles: [R]
-assets: [MAS-ASSET-IP-U]
 ---
 
 ## Overview

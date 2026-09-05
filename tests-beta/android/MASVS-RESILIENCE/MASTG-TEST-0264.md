@@ -6,7 +6,6 @@ type: [dynamic, hooks]
 weakness: MASWE-0061
 best-practices: []
 profiles: [R]
-assets: [MAS-ASSET-IP-U]
 ---
 
 ## Overview

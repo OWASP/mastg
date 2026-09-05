@@ -9,6 +9,7 @@ prerequisites:
 best-practices: [MASTG-BEST-0069]
 profiles: [L2]
 knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0141]
+assets: [MAS-ASSET-UD-U]
 ---
 
 ## Overview

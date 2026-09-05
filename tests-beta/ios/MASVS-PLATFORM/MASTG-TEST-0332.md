@@ -7,7 +7,7 @@ weakness: MASWE-0035
 best-practices: [MASTG-BEST-0034]
 profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0076]
-assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
+assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
 ---
 
 ## Overview

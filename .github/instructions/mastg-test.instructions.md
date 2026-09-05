@@ -184,6 +184,28 @@ Example:
 knowledge: [MASTG-KNOW-0013]
 ```
 
+### assets
+
+The MAS-ASSET types that this test protects. See `prerequisites/identify-sensitive-data.md` for the taxonomy and the default mapping from weakness to assets. Each value combines a data category (`IP` for Intellectual Property, `UD` for User Data) with a data state (`R` at rest, `U` in use, `T` in transit).
+
+Valid values:
+
+- `MAS-ASSET-IP-R`, `MAS-ASSET-IP-U`, `MAS-ASSET-IP-T` - Intellectual Property data at rest, in use, in transit
+- `MAS-ASSET-UD-R`, `MAS-ASSET-UD-U`, `MAS-ASSET-UD-T` - User data at rest, in use, in transit
+- `MAS-ASSET-IP`, `MAS-ASSET-UD` - shorthand for any state; use only when the state is not meaningful for the test (for example permission tests)
+
+Rules:
+
+- Start from the default assets for the test's weakness and narrow them only if the test scope is narrower.
+- Prefer state-specific values over the shorthands.
+- Omit the field for tests that protect the app itself rather than a data asset (binary hardening, anti-tampering, dependency scanning, input validation).
+
+Example:
+
+```md
+assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
+```
+
 ### optional fields
 
 Include these if relevant:

@@ -197,33 +197,6 @@ Example:
 kind: attack
 ```
 
-### assets
-
-The MAS-ASSET types that this demo targets. Use the MAS-ASSET taxonomy to classify the data category (Intellectual Property or User Data) and the state in which it is accessed (at rest, in use, in transit).
-
-Valid values:
-
-- `MAS-ASSET-IP-R` — Intellectual Property Data at Rest
-- `MAS-ASSET-IP-U` — Intellectual Property Data in Use
-- `MAS-ASSET-IP-T` — Intellectual Property Data in Transit
-- `MAS-ASSET-UD-R` — User Data at Rest
-- `MAS-ASSET-UD-U` — User Data in Use
-- `MAS-ASSET-UD-T` — User Data in Transit
-- `MAS-ASSET-IP` — Intellectual Property Data in any state (use when the test applies to IP data regardless of whether it is at rest, in use, or in transit)
-- `MAS-ASSET-UD` — User Data in any state (use when the test applies to user data regardless of whether it is at rest, in use, or in transit)
-
-Example (single asset):
-
-```md
-assets: [MAS-ASSET-UD-U]
-```
-
-Example (multiple assets):
-
-```md
-assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
-```
-
 ### optional fields
 
 Include these if relevant:

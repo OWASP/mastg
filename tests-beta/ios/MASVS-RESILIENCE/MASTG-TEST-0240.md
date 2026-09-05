@@ -7,7 +7,6 @@ weakness: MASWE-0051
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0084]
-assets: [MAS-ASSET-IP, MAS-ASSET-UD]
 ---
 
 ## Overview

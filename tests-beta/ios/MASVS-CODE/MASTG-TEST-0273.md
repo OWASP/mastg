@@ -5,7 +5,6 @@ id: MASTG-TEST-0273
 type: [static, code]
 weakness: MASWE-0044
 profiles: [L1, L2]
-assets: [MAS-ASSET-IP, MAS-ASSET-UD]
 ---
 
 ## Overview

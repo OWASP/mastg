@@ -1,13 +1,8 @@
 ---
 id: MAS-ASSET-IP
-title: Intellectual Property Data (All States)
+title: Intellectual Property Data (Any State)
 ---
 
-## MAS-ASSET-IP: Intellectual Property Data (All States)
+This shorthand covers intellectual property data without regard to its state. Use it only when the state is not meaningful for the test, for example when the platform mediates access to the data before the app holds it. Prefer the state-specific types `MAS-ASSET-IP-R`, `MAS-ASSET-IP-U`, and `MAS-ASSET-IP-T` wherever they apply.
 
-This asset category covers intellectual property data across all states: at rest, in use, and in transit. Use this when a test applies to intellectual property data regardless of the state in which it is accessed, for example because it assesses a platform-level or code-level security property that may protect IP data in any state.
-
-### Examples
-
-- Tests that verify binary hardening mechanisms (e.g., PIC, stack canaries) that protect IP data held in process memory, embedded in the binary, or transmitted between components
-- Tests that assess dependency or platform security posture that may affect IP data in any state
+Tests that protect the app itself rather than a data asset, such as binary hardening or anti-tampering, should not use this shorthand. They should not list any assets.

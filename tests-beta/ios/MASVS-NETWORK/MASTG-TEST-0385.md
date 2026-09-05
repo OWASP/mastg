@@ -8,6 +8,7 @@ profiles: [L2]
 prerequisites:
 - identify-first-party-domains
 knowledge: [MASTG-KNOW-0072]
+assets: [MAS-ASSET-IP-T, MAS-ASSET-UD-T]
 ---
 
 ## Overview
