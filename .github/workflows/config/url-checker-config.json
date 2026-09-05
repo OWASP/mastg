@@ -154,7 +154,7 @@
             "pattern": "^https://code.tutsplus.com/tutorials/android-best-practices-strictmode--mobile-7581"
         },
         {
-            "patter": "^https://www.contributor-covenant.org/version/1/4/code-of-conduct.html"
+            "pattern": "^https://www.contributor-covenant.org/version/1/4/code-of-conduct.html"
         }
     ],
     "replacementPatterns": [
