@@ -59,7 +59,7 @@ The mission of the [ioXt Alliance](https://www.ioxtalliance.org/) is to build co
 
 In 2021, ioXt has [extended its security principles through the Mobile Application profile](https://www.ioxtalliance.org/news-events-blog/ioxt-alliance-expands-certification-program-for-mobile-and-vpn-security), so that app developers can ensure their products are built with, and maintain, high cybersecurity standards such as the OWASP MASVS and the VPN Trust Initiative. The ioXt Mobile Application profile is a security standard that applies to any cloud connected mobile app and provides the much needed market transparency for consumer and commercial mobile app security.
 
-- [ioXt Base Profile v2.0](https://static1.squarespace.com/static/5c6dbac1f8135a29c7fbb621/t/6078677c7d7b84799f1eaa5b/1618503553847/ioXt_Base_Profile.pdf)
+- [ioXt Base Profile v2.0](https://web.archive.org/web/20230828210402/https://static1.squarespace.com/static/5c6dbac1f8135a29c7fbb621/t/6078677c7d7b84799f1eaa5b/1618503553847/ioXt_Base_Profile.pdf)
 
 ## Governmental Institutions
 
@@ -71,7 +71,7 @@ In 2021, ioXt has [extended its security principles through the Mobile Applicati
 | ENISA (European Union Agency for Cybersecurity) | [Good Practices for Security of SMART CARS](https://www.enisa.europa.eu/publications/smart-cars) | 2019 |
 | Government of India, Ministry of Electronics & Information Technology | [Adoption of Mobile AppSec Verification Standard (MASVS) Version 1.0 of OWASP](http://egovstandards.gov.in/notified-standards-1) | 2019 |
 | Finish Transport and Communication Agency (TRAFICOM) | [Assessment guideline for electronic identification services (Draft)](https://www.traficom.fi/sites/default/files/media/file/DRAFT%20Traficom%20guideline%20211%202019%20conformity%20assessment%20of%20eID%20service.pdf) | 2019 |
-| Gobierno de España INCIBE | [Ciberseguridad en Smart Toys](https://www.incibe.es/sites/default/files/contenidos/guias/doc/guia_smarttoys_final.pdf) | 2019 |
+| Gobierno de España INCIBE | [Ciberseguridad en Smart Toys](https://web.archive.org/web/20250429140632/https://www.incibe.es/sites/default/files/contenidos/guias/doc/guia_smarttoys_final.pdf) | 2019 |
 
 ## Educational Institutions
 

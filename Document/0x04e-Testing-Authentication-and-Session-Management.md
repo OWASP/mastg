@@ -146,7 +146,7 @@ Note that the secret is shared between the authentication server and the backend
 
 **Best Practices:**
 
-Verify that the implementation adheres to JWT [best practices](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html):
+Verify that the implementation adheres to JWT [best practices](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html):
 
 - Verify that the HMAC is checked for all incoming requests containing a token.
 - Verify that the private signing key or HMAC secret key is never shared with the client. It should be available for the issuer and verifier only.
@@ -162,7 +162,7 @@ There are two different Burp Plugins that can help you for testing the vulnerabi
 - [JSON Web Token Attacker](https://portswigger.net/bappstore/82d6c60490b540369d6d5d01822bdf61 "JSON Web Token Attacker")
 - [JSON Web Tokens](https://portswigger.net/bappstore/f923cbf91698420890354c1d8958fee6 "JSON Web Tokens")
 
-Also, make sure to check out the [OWASP JWT Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html "JSON Web Token (JWT) Cheat Sheet for Java") for additional information.
+Also, make sure to check out the [OWASP JWT Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html "JSON Web Token (JWT) Cheat Sheet for Java") for additional information.
 
 ## OAuth 2.0
 
