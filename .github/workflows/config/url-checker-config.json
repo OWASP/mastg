@@ -127,7 +127,7 @@
             "pattern": "https://mitm-software.badssl.com/"
         },
         {
-            "pattern": "https://www.npmjs.com/package/itms-services"
+            "pattern": "^https://www.npmjs.com/package/"
         },
         {
             "pattern": "https://apkmirror.com"
@@ -155,6 +155,30 @@
         },
         {
             "pattern": "^https://www.contributor-covenant.org/version/1/4/code-of-conduct.html"
+        },
+        {
+            "pattern": "^https://theapplewiki.com/"
+        },
+        {
+            "pattern": "^https://www.theapplewiki.com/"
+        },
+        {
+            "pattern": "^https://asciinema.org/"
+        },
+        {
+            "pattern": "^https://apklab.surendrajat.xyz/"
+        },
+        {
+            "pattern": "^https://www.cdc.gov/"
+        },
+        {
+            "pattern": "^http://egovstandards.gov.in/"
+        },
+        {
+            "pattern": "^https://ieeexplore.ieee.org/"
+        },
+        {
+            "pattern": "^https://developer.arm.com/documentation/"
         }
     ],
     "replacementPatterns": [

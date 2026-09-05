@@ -16,7 +16,7 @@ Defending against reverse engineering tools on iOS requires a layered approach t
 
 ### Inspect Loaded Dynamic Libraries
 
-Use [`_dyld_image_count()`](https://developer.apple.com/documentation/kernel/1582893-_dyld_image_count) and [`_dyld_get_image_name()`](https://developer.apple.com/documentation/kernel/1582851-_dyld_get_image_name) to iterate over all loaded dynamic libraries and check for names associated with reverse engineering tools.
+Use [`_dyld_image_count()`](https://keith.github.io/xcode-man-pages/dyld.3.html) and [`_dyld_get_image_name()`](https://keith.github.io/xcode-man-pages/dyld.3.html) to iterate over all loaded dynamic libraries and check for names associated with reverse engineering tools.
 
 Known artifact names to look for include `FridaGadget`, `frida-agent`, `cynject`, and similar strings. `_dyld_image_count` only returns images [tracked by dyld](https://github.com/apple-oss-distributions/dyld/blob/main/dyld/DyldAPIs.cpp), so this technique is effective against Frida Gadget (embedded mode) and tools loaded through dyld such as via `DYLD_INSERT_LIBRARIES`. However, on official builds frida-server injects its agent using a [custom Mach-O loader](https://github.com/frida/frida-gum/blob/main/gum/backend-darwin/gumdarwinmapper.c) that bypasses dyld, and its [injector prioritizes the mapper over dyld](https://github.com/frida/frida-core/blob/main/src/darwin/fruitjector.vala), rendering this technique ineffective for the most common jailbroken scenario. An attacker can also bypass a name-based check by renaming the library, so combine this with the D-Bus port detection technique discussed below for better coverage.
 

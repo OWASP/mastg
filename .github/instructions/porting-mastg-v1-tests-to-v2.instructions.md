@@ -21,8 +21,8 @@ Also, review these. We'll be using them and creating new ones as well:
 
 ### Guidelines
 
-- How to write new **tests**: [Writing MAS Weaknesses & Tests](https://docs.google.com/document/d/1EMsVdfrDBAu0gmjWAUEs60q-fWaOmDB5oecY9d9pOlg/edit?pli=1&tab=t.0#heading=h.j1tiymiuocrm)
-- How to write **demos**: [Writing MAS Weaknesses & Tests](https://docs.google.com/document/d/1EMsVdfrDBAu0gmjWAUEs60q-fWaOmDB5oecY9d9pOlg/edit?pli=1&tab=t.0#heading=h.y294y561hx14)
+- How to write new **tests**: [MASTG Test Instructions](./mastg-test.instructions.md)
+- How to write **demos**: [MASTG Demo Instructions](./mastg-demo.instructions.md)
 
 **Important** tips and guidelines:
 

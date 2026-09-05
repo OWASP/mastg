@@ -40,7 +40,7 @@ The Flutter framework does not use stack canaries because of the way [Dart mitig
 
 ### Compiler Optimizations
 
-Sometimes, due to the size of the library and the optimizations applied by the compiler, it might be possible that the library was originally compiled with stack canaries but they were optimized out. For example, this is the case for some [react native apps](https://github.com/facebook/react-native/issues/36870#issuecomment-1714007068). They are built with `-fstack-protector-strong` but when attempting to search for `stack_chk_fail` inside the `.so` files, it is not found.
+Sometimes, due to the size of the library and the optimizations applied by the compiler, it might be possible that the library was originally compiled with stack canaries but they were optimized out. For example, this is the case for some [react native apps](https://github.com/react/react-native/issues/36870#issuecomment-1714007068). They are built with `-fstack-protector-strong` but when attempting to search for `stack_chk_fail` inside the `.so` files, it is not found.
 
 - **Empty .so files**: Some .so files such as `libruntimeexecutor.so` or `libreact_render_debug.so` are effectively empty in release and therefore contain no symbols. Even if you were to attempt to build with `-fstack-protector-all`, you still won't be able to see the `stack_chk_fail` string as there are no method calls there.
 - **Lack of stack buffer calls**: Other files such as `libreact_utils.so`, `libreact_config.so`, and `libreact_debug.so` are not empty and contain method calls, but those methods don't contain stack buffer calls, so there are no `stack_chk_fail` strings inside them.

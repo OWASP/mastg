@@ -11,7 +11,7 @@ knowledge: [MASTG-KNOW-0102]
 
 ## Overview
 
-This test verifies whether your app uses the `isExcludedFromBackup` API to instruct the system to exclude sensitive files from backups. This API [does not guarantee the actual exclusion](https://developer.apple.com/documentation/foundation/optimizing_your_app_s_data_for_icloud_backup/#3928527). According to the documentation:
+This test verifies whether your app uses the `isExcludedFromBackup` API to instruct the system to exclude sensitive files from backups. This API [does not guarantee the actual exclusion](https://developer.apple.com/documentation/foundation/optimizing-your-app-s-data-for-icloud-backup). According to the documentation:
 
 > "The `isExcludedFromBackup` resource value exists only to provide guidance to the system about which files and directories it can exclude; it's not a mechanism to guarantee those items never appear in a backup or on a restored device."
 
