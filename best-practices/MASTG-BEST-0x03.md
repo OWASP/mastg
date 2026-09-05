@@ -11,6 +11,8 @@ Applications that perform business-critical operations, such as financial transa
 
 On iOS, use **App Attest** (@MASTG-KNOW-0x03), which binds a Secure Enclave key to your App ID and the device hardware. Do not use DeviceCheck (@MASTG-KNOW-0x02) for this purpose: it persists per-device flags but provides no cryptographic proof of app identity or binary integrity. If you prefer a managed integration, **Firebase App Check** (@MASTG-KNOW-0x01) wraps App Attest and handles token issuance and validation for you.
 
+For the equivalent Android guidance, see @MASTG-BEST-0x01.
+
 ## Check for Availability Before Attesting
 
 Query [`DCAppAttestService.shared.isSupported`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/issupported) before starting the flow, as not all device types support the service. Treat an unsupported device as an unattested client and apply the same failure policy described below, rather than silently granting trust.
