@@ -1,0 +1,6 @@
+[bypass] Demo 4 hooks installed (/proc/self/maps + stack-trace probes).
+[bypass] dropping /proc/self/maps line: 73fcf0b000-73fcf0d000 r-xp 001ee000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] dropping /proc/self/maps line: 73fcf0d000-73fcf0e000 r--p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] dropping /proc/self/maps line: 73fcf0e000-73fcf0f000 rw-p 001ef000 103:25 289690                        /data/app/~~626HEFLllMTG5SvJsEco2A==/com.gauravssnl.bypassrootcheck.pro-Uy4OWQFppVQf6I8Iy1gRQg==/base.apk
+[bypass] stripped 2 framework frames
+[bypass] stripped 4 framework frames
