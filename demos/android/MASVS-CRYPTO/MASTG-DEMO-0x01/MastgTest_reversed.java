@@ -69,18 +69,18 @@ public final class MastgTest {
         String md5Checksum = toHex(bArrDigest4);
         Log.d("MASTG-TEST", "MD5 checksum: " + md5Checksum);
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-        byte[] bytes5 = "superSecretPassword!".getBytes(Charsets.UTF_8);
+        byte[] bytes5 = "readme.txt".getBytes(Charsets.UTF_8);
         Intrinsics.checkNotNullExpressionValue(bytes5, "getBytes(...)");
         byte[] bArrDigest5 = sha256.digest(bytes5);
         Intrinsics.checkNotNullExpressionValue(bArrDigest5, "digest(...)");
-        String sha256Password = toHex(bArrDigest5);
-        Log.d("MASTG-TEST", "SHA-256 password hash: " + sha256Password);
+        String sha256Document = toHex(bArrDigest5);
+        Log.d("MASTG-TEST", "SHA-256 document hash: " + sha256Document);
         StringBuilder $this$mastgTest_u24lambda_u241 = new StringBuilder();
         $this$mastgTest_u24lambda_u241.append("MD5 password hash: " + md5Password).append('\n');
         $this$mastgTest_u24lambda_u241.append("SHA-1 token hash: " + sha1Token).append('\n');
         $this$mastgTest_u24lambda_u241.append("SHA1 alias token hash: " + sha1AliasToken).append('\n');
         $this$mastgTest_u24lambda_u241.append("MD5 checksum: " + md5Checksum).append('\n');
-        $this$mastgTest_u24lambda_u241.append("SHA-256 password hash: " + sha256Password).append('\n');
+        $this$mastgTest_u24lambda_u241.append("SHA-256 document hash: " + sha256Document).append('\n');
         return $this$mastgTest_u24lambda_u241.toString();
     }
 }

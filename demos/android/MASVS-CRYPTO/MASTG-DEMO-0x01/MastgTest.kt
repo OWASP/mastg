@@ -30,22 +30,22 @@ class MastgTest(private val context: Context) {
         val sha1AliasToken = sha1Alias.digest(tokenMaterial.toByteArray(Charsets.UTF_8)).toHex()
         Log.d("MASTG-TEST", "SHA1 alias token hash: $sha1AliasToken")
 
-        // FAIL: [MASTG-TEST-0x01] The app uses MD5. Further validation is required to confirm this checksum is not security-relevant.
+        // CONTEXTUAL: [MASTG-TEST-0x01] The app uses MD5 for a checksum. Flagged by static analysis, but requires contextual validation to determine whether it is used in a security-relevant context.
         val md5ChecksumDigest = MessageDigest.getInstance("MD5")
         val md5Checksum = md5ChecksumDigest.digest(fileContents.toByteArray(Charsets.UTF_8)).toHex()
         Log.d("MASTG-TEST", "MD5 checksum: $md5Checksum")
 
-        // PASS: [MASTG-TEST-0x01] The app hashes a password with SHA-256.
+        // PASS: [MASTG-TEST-0x01] The app hashes non-sensitive file/document data with SHA-256.
         val sha256 = MessageDigest.getInstance("SHA-256")
-        val sha256Password = sha256.digest(password.toByteArray(Charsets.UTF_8)).toHex()
-        Log.d("MASTG-TEST", "SHA-256 password hash: $sha256Password")
+        val sha256Document = sha256.digest(fileContents.toByteArray(Charsets.UTF_8)).toHex()
+        Log.d("MASTG-TEST", "SHA-256 document hash: $sha256Document")
 
         return buildString {
             appendLine("MD5 password hash: $md5Password")
             appendLine("SHA-1 token hash: $sha1Token")
             appendLine("SHA1 alias token hash: $sha1AliasToken")
             appendLine("MD5 checksum: $md5Checksum")
-            appendLine("SHA-256 password hash: $sha256Password")
+            appendLine("SHA-256 document hash: $sha256Document")
         }
     }
 }

@@ -9,7 +9,7 @@ profiles: [L1, L2]
 
 ## Overview
 
-If an Android app hashes passwords, tokens, or other sensitive data with broken algorithms such as MD5 or SHA-1, an attacker can exploit known collision and preimage attacks to recover or forge that data. To test for this, we need to focus on APIs from cryptographic frameworks and libraries that are used to perform hashing operations.
+If an Android app uses broken hashing algorithms such as MD5 or SHA-1 to protect sensitive data (e.g., credentials, tokens, or integrity checks), attackers can exploit practical collision attacks to forge data or leverage high-speed brute-force and dictionary attacks against unsalted or weakly hashed secrets. To test for this, we need to focus on APIs from cryptographic frameworks and libraries that are used to perform hashing operations.
 
 - **Java Cryptography Architecture (JCA)**: [`MessageDigest.getInstance`](https://developer.android.com/reference/java/security/MessageDigest#getInstance(java.lang.String)) initializes a `MessageDigest` object for hashing. The `algorithm` parameter can be one of the [supported algorithms](https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest). Common JCA names and aliases include:
     - `MD2`
@@ -22,8 +22,8 @@ If an Android app hashes passwords, tokens, or other sensitive data with broken 
 
 Some broken hashing algorithms include:
 
-- **MD5**: Collision and preimage attacks are practical. It is not approved by NIST for cryptographic protection and is documented as inadequate in [RFC 6151](https://www.rfc-editor.org/rfc/rfc6151).
-- **SHA-1**: Chosen-prefix collisions are practical ([SHAttered](https://shattered.io/)). NIST [deprecated SHA-1](https://csrc.nist.gov/news/2022/nist-retires-sha-1-and-discusses-sha-3) for cryptographic use.
+- **MD5**: Collision attacks are practical (producing collisions in seconds). While preimage attacks remain theoretical (costing ~2^123.4 operations per [RFC 6151 §2.2](https://www.rfc-editor.org/rfc/rfc6151.html#section-2.2)), practical collision attacks and precomputed dictionary/rainbow table lookups make MD5 completely inadequate for cryptographic protection, digital signatures, or credential storage. It is not approved by NIST for cryptographic use.
+- **SHA-1**: Collision attacks are practical: identical-prefix collisions were demonstrated by [SHAttered](https://shattered.io/), and practical chosen-prefix collisions were demonstrated by [SHA-1 is a Shambles](https://sha-mbles.github.io/). NIST has [deprecated and retired SHA-1](https://csrc.nist.gov/news/2022/nist-retires-sha-1-and-discusses-sha-3) for all cryptographic applications.
 
 Android also provides additional guidance on [broken cryptographic algorithms](https://developer.android.com/privacy-and-security/risks/broken-cryptographic-algorithm).
 
