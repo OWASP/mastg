@@ -4,7 +4,7 @@ title: Runtime Use of APIs for Storing Unencrypted Data in Private Storage
 id: MASTG-TEST-0301
 type: [dynamic, hooks]
 profiles: [L2]
-weakness: MASWE-0006
+weakness: MASWE-0001
 best-practices: [MASTG-BEST-0024]
 knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---

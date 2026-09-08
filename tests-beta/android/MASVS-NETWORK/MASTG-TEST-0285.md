@@ -4,7 +4,7 @@ platform: android
 id: MASTG-TEST-0285
 type: [static, code]
 deprecated_since: 24
-weakness: MASWE-0052
+weakness: MASWE-0027
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0014]
 ---

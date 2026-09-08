@@ -3,7 +3,7 @@ platform: ios
 title: Attacker-Controlled URI in WebViews
 id: MASTG-TEST-0332
 type: [static, code, manual]
-weakness: MASWE-0071
+weakness: MASWE-0035
 best-practices: [MASTG-BEST-0034]
 profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0076]
@@ -17,7 +17,7 @@ The following WKWebView APIs are commonly targeted if they process untrusted inp
 
 **Remote URL Loading:**
 
-- [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:))
+- [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:)-5siv6)
 
 **Local URL and Content Loading:**
 

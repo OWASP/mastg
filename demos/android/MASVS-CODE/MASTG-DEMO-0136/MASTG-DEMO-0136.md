@@ -3,44 +3,42 @@ id: MASTG-DEMO-0136
 title: Internal Activity Communication via Implicit Intent
 platform: android
 code: [kotlin, xml]
+test: MASTG-TEST-0372
 kind: fail
 ---
 
 ## Sample
 
-The following code implements an application that attempts to invoke an implicit intent to open an internal activity. This approach is insecure because a system dialog (picker) will open if multiple apps handle the action, and a user might accidentally choose the wrong app, leading to intent hijacking. For more details on the intent resolution mechanism, see @MASTG-KNOW-0137.
+The following sample app attempts to start `InternalActivity` for app-internal communication by sending an implicit intent with the custom action `org.owasp.mastestapp.INTERNAL_ACTION`. This approach is insecure because another app can register a matching `<intent-filter>` and become a candidate during Android's intent resolution. For more details on the intent resolution mechanism, see @MASTG-KNOW-0025.
 
-The intent in this sample is implicit because it relies solely on `setAction` without explicitly defining the target component. For the secure alternative, see @MASTG-BEST-0056. In this demo, we use a custom @MASTG-TOOL-0110 rule to statically check for these insecure patterns.
+The intent in this sample is implicit because it relies on `setAction` without explicitly defining the target package or component. For the secure alternative, see @MASTG-BEST-0056.
 
-{{ MastgTest.kt # MastgTest_reversed.java }}
+{{ MastgTest.kt # MastgTest_reversed.java # AndroidManifest.xml # AndroidManifest_reversed.xml }}
+
+!!! note
+    @MASTG-DEMO-0140 provides an example attacker app that declares a matching `<intent-filter>` for `org.owasp.mastestapp.INTERNAL_ACTION`. It demonstrates how another app can become a candidate for handling this sample app's implicit intent.
 
 ## Steps
 
-### Static Analysis
+Let's use @MASTG-TECH-0014 with an @MASTG-TOOL-0110 rule to scan the reverse-engineered code for implicit intents used for internal communication.
 
-Let's run our @MASTG-TOOL-0110 rule against the sample code to detect the use of implicit intents for internal communication.
-
-{{ rule.yaml }}
+{{ ../../../../rules/mastg-android-implicit-intent-internal-communication.yml }}
 
 {{ run.sh }}
 
-### Observing the System Picker Dialog (Optional)
-
-To observe the implicit intent resolution in action, you can install a second app that registers for the same action and trigger the picker dialog on a real device:
-
-1. Build and install the attacker app from @MASTG-DEMO-0140 on the device (@MASTG-TECH-0005).
-2. Install the main app on the same device (@MASTG-TECH-0005).
-3. Launch the main app and tap **Start**.
-4. The system presents a chooser dialog listing both apps as candidates for handling `INTERNAL_ACTION`.
-
-<img src="implicit-intent-choose-app.png" width="50%" />
-
 ## Observation
 
-The @MASTG-TOOL-0110 scan identifies the vulnerable code block where the implicit intent is created and used to start an activity.
+The output shows one `Intent` dispatch:
+
+- Intent creation: `new Intent()`.
+- Action assignment: `implicitIntent.setAction("org.owasp.mastestapp.INTERNAL_ACTION")`.
+- Extras added before dispatch: `user_id` and `session_token`.
+- Dispatch API: `this.context.startActivity(implicitIntent)`.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case fails because the app uses an implicit intent (`INTERNAL_ACTION`) to start a component that is intended to be internal. Static analysis confirms the insecure code pattern. The intent resolution mechanism that enables this issue is described in @MASTG-KNOW-0137.
+The test case fails because the app uses an implicit intent (`org.owasp.mastestapp.INTERNAL_ACTION`) for app-internal communication with `InternalActivity`.
+
+The action is app-specific and the manifest declares `InternalActivity` as the component intended to handle it, but the reported dispatch does not name that component or restrict the target package. The reported block does not show a target-defining call such as `setPackage`, `setClass`, `setClassName`, `setComponent`, or an explicit `Intent(context, Class)` constructor before dispatch. Another app can declare a matching `<intent-filter>` and become a candidate during Android intent resolution.

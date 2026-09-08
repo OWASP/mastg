@@ -3,7 +3,7 @@ platform: android
 title: References to Keyboard Caching Attributes in UI Elements
 id: MASTG-TEST-0258
 type: [static, code]
-weakness: MASWE-0053
+weakness: MASWE-0036
 best-practices: [MASTG-BEST-0019]
 profiles: [L2]
 knowledge: [MASTG-KNOW-0055]

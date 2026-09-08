@@ -1,9 +1,0 @@
-rules:
-  - id: android-exported-activity
-    severity: WARNING
-    languages:
-      - xml
-    metadata:
-      summary: Detects activities explicitly marked as exported in the AndroidManifest.xml.
-    message: "[MASVS-CODE-4] Activity is explicitly exported. Verify whether it should be accessible by external apps."
-    pattern: '<activity ... android:exported="true" ... />'

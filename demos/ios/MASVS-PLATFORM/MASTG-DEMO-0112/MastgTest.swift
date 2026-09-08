@@ -20,14 +20,14 @@ struct MastgTest {
                 tf.accessibilityIdentifier = "username_field"
             }
 
-            // FAIL: [MASTG-TEST-0x57] The password field has isSecureTextEntry set to false.
+            // FAIL: [MASTG-TEST-0346] The password field has isSecureTextEntry set to false.
             alert.addTextField { tf in
                 tf.placeholder = "Password"
                 tf.isSecureTextEntry = false
                 tf.accessibilityIdentifier = "password_field"
             }
 
-            // PASS: [MASTG-TEST-0x57] The OTP 1 field has isSecureTextEntry set to true.
+            // PASS: [MASTG-TEST-0346] The OTP 1 field has isSecureTextEntry set to true.
             alert.addTextField { tf in
                 tf.placeholder = "OTP 1"
                 tf.isSecureTextEntry = true

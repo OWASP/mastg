@@ -1,13 +1,2 @@
-                  
-                  
-┌────────────────┐
-│ 1 Code Finding │
-└────────────────┘
-                       
-    AndroidManifest.xml
-    ❯❱ android-intent-filter-custom-action
-          [MASVS-CODE-4] App registers an intent-filter for a custom action. It can intercept implicit intents
-          sent by other apps targeting that action.                                                           
-                                                                                                              
-           16┆ <action android:name="org.owasp.mastestapp.INTERNAL_ACTION" />
-
+--------- beginning of main
+06-20 13:16:17.157 25071 25071 E INTENT_ATTACK: Intercepted action=org.owasp.mastestapp.INTERNAL_ACTION extras=session_token=abcde-fghij-12345, user_id=12345

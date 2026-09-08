@@ -3,7 +3,7 @@ title: Runtime Use of Entitlement-Backed APIs for Unjustified Capability Exposur
 platform: ios
 id: MASTG-TEST-0363
 type: [dynamic, hooks, manual]
-weakness: MASWE-0117
+weakness: MASWE-0066
 profiles: [P]
 best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
