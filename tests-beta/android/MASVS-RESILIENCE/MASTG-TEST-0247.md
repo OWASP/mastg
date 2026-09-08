@@ -4,7 +4,7 @@ title: References to APIs for Detecting Secure Screen Lock
 id: MASTG-TEST-0247
 apis: [KeyguardManager, BiometricManager#canAuthenticate]
 type: [static, code]
-weakness: MASWE-0008
+weakness: MASWE-0017
 best-practices: []
 profiles: [L2]
 knowledge: [MASTG-KNOW-0001]

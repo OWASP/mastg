@@ -1,0 +1,235 @@
+List all uses of the 'evaluateJavaScript:completionHandler:' selector:
+0x000134e2 38 str.evaluateJavaScript:completionHandler:
+0x0001c2c0 8 reloc.fixup.evaluateJavaScript:completionHa
+
+xrefs to 'evaluateJavaScript:completionHandler:':
+sym.MASTestApp.SecretBridgeHandler.userContentController.allocator.didReceive...ySo06WKUsergH0C_So15WKScriptMessageCtF 0x1698 [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+sym.MASTestApp.SecretBridgeHandler.userContentController.allocator.didReceive...ySo06WKUsergH0C_So15WKScriptMessageCtF 0x18ec [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+
+Code snippet at first call site (getSecret case: builds window.receiveSecret('...') with the API key):
+|           0x00001510      adrp x0, 0x14000
+|           0x00001514      add x0, x0, 0x930                          ; 0x14930 ; "MASTG_API_KEY=072037ab-1b7b-4b3b-8b7b-1b7b4b3b8b7b"
+|           0x00001518      mov w8, 0x32                               ; '2'
+|           0x0000151c      mov x1, x8
+|           0x00001520      mov w8, 1
+|           0x00001524      str w8, [var_bch]
+|           0x00001528      and w2, w8, 1
+|           0x0000152c      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+|           0x00001530      str x0, [var_a8h]
+|           0x00001534      str x1, [var_b0h]
+|           0x00001538      str x0, [var_1a8h]
+|           0x0000153c      str x1, [var_1b0h]
+|           0x00001540      mov w8, 0x18
+|           0x00001544      mov x0, x8
+|           0x00001548      mov w8, 1
+|           0x0000154c      mov x1, x8
+|           0x00001550      bl sym.imp.DefaultStringInterpolation.literalCapacity.interpolationCount_...itcfC_ ; DefaultStringInterpolation.literalCapacity.interpolationCount(...itcfC)
+|           0x00001554      ldr w8, [var_bch]
+|           0x00001558      add x20, sp, 0x198
+|           0x0000155c      str x20, [var_c8h]
+|           0x00001560      str x0, [arg_138h]
+|           0x00001564      str x1, [arg_130h]
+|           0x00001568      adrp x0, 0x14000
+|           0x0000156c      add x0, x0, 0x970                          ; 0x14970 ; "window.receiveSecret('"
+|           0x00001570      mov w9, 0x16
+|           0x00001574      mov x1, x9
+|           0x00001578      and w2, w8, 1
+|           0x0000157c      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+|           0x00001580      str x1, [var_a0h]
+|           0x00001584      bl sym.imp.DefaultStringInterpolation.appendLiteral_...SSF_ ; DefaultStringInterpolation.appendLiteral(...SSF)
+|           0x00001588      ldr x20, [var_c8h]
+|           0x0000158c      ldr x0, [var_a0h]                          ; void *arg0
+|           0x00001590      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+|           0x00001594      ldr x8, [var_a8h]
+|           0x00001598      ldr x1, [var_b0h]
+|           0x0000159c      add x0, sp, 0x188
+|           0x000015a0      str x8, [var_18h8]
+|           0x000015a4      str x1, [arg_140h]
+|           0x000015a8      adrp x1, segment.__DATA_CONST              ; 0x18000
+|           0x000015ac      ldr x1, [x1, 0x610]                        ; [0x18610:8]=0
+|                                                                      ; reloc....SSN
+|           0x000015b0      adrp x2, segment.__DATA_CONST              ; 0x18000
+|           0x000015b4      ldr x2, [x2, 0x638]                        ; [0x18638:8]=0
+|                                                                      ; reloc.CustomStringConvertible.setter_...P_
+|           0x000015b8      adrp x3, segment.__DATA_CONST              ; 0x18000
+|           0x000015bc      ldr x3, [x3, 0x630]                        ; [0x18630:8]=0
+|                                                                      ; reloc.TextOutputStreamable.setter_...P_
+|           0x000015c0      bl sym.imp.DefaultStringInterpolation.append...C0yyxs06CustomB11ConvertibleRzs20TextOutputStreamableRzlF
+|           0x000015c4      ldr x20, [var_c8h]
+|           0x000015c8      ldr w8, [var_bch]
+|           0x000015cc      adrp x0, 0x14000
+|           0x000015d0      add x0, x0, 0x92c
+|           0x000015d4      mov w9, 2
+|           0x000015d8      mov x1, x9
+|           0x000015dc      and w2, w8, 1
+|           0x000015e0      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+|           0x000015e4      str x1, [var_c0h]
+|           0x000015e8      bl sym.imp.DefaultStringInterpolation.appendLiteral_...SSF_ ; DefaultStringInterpolation.appendLiteral(...SSF)
+|           0x000015ec      ldr x0, [var_c0h]                          ; void *arg0
+|           0x000015f0      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+|           0x000015f4      ldr x8, [arg_138h]
+|           0x000015f8      str x8, [var_d8h]
+|           0x000015fc      ldr x0, [arg_130h]                         ; void *arg0
+|           0x00001600      str x0, [var_d0h]
+|           0x00001604      bl sym.imp.swift_bridgeObjectRetain        ; void *swift_bridgeObjectRetain(void *arg0)
+|           0x00001608      ldr x0, [var_c8h]                          ; void *arg1
+|           0x0000160c      bl sym....ss26DefaultStringInterpolationVWOh ; func.00002d10
+|           0x00001610      ldr x1, [var_d0h]
+|           0x00001614      ldr x0, [var_d8h]
+|           0x00001618      bl sym.imp.stringInterpolation__String_...cfC_ ; stringInterpolation__String(...cfC)
+|           0x0000161c      mov x8, x0
+|           0x00001620      ldr x0, [instance]                         ; void *instance
+|           0x00001624      str x8, [var_e0h]
+|           0x00001628      str x1, [var_e8h]
+|           0x0000162c      str x8, [var_178h]
+|           0x00001630      str x1, [var_180h]
+|           0x00001634      adrp x8, sym.__PROTOCOLS__TtC10MASTestApp19SecretBridgeHandler ; 0x1c000
+|           0x00001638      ldr x1, [x8, 0x2b8]                        ; [0x1344c:8]=0x77656956626577 ; "webView" ; char *selector
+|           0x0000163c      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+|           0x00001640      mov x29, x29
+|           0x00001644      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+|           0x00001648      str x0, [var_f0h]
+|           0x0000164c      cbz x0, 0x16dc
+|           0x00001650      b 0x1654
+|           ; CODE XREF from func.000012d0 @ 0x1650(x)
+|           0x00001654      ldr x8, [var_f0h]
+|           0x00001658      str x8, [var_98h]
+|           0x0000165c      b 0x1660
+|           ; CODE XREF from func.000012d0 @ 0x165c(x)
+|           0x00001660      ldr x0, [var_e8h]                          ; void *arg0
+|           0x00001664      ldr x8, [var_98h]
+|           0x00001668      str x8, [var_90h]
+|           0x0000166c      bl sym.imp.swift_bridgeObjectRetain        ; void *swift_bridgeObjectRetain(void *arg0)
+|           0x00001670      ldr x0, [var_e0h]
+|           0x00001674      ldr x1, [var_e8h]
+|           0x00001678      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+|           0x0000167c      mov x1, x0
+|           0x00001680      ldr x0, [var_e8h]                          ; void *arg0
+|           0x00001684      str x1, [var_88h]
+|           0x00001688      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+|           0x0000168c      ldr x2, [var_88h]
+|           0x00001690      ldr x0, [var_90h]                          ; void *instance
+|           0x00001694      adrp x8, sym.__PROTOCOLS__TtC10MASTestApp19SecretBridgeHandler ; 0x1c000
+|           0x00001698      ldr x1, [x8, 0x2c0]                        ; [0x134e2:8]=0x657461756c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
+|           0x0000169c      mov x3, 0
+|           0x000016a0      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+|           0x000016a4      ldr x0, [var_88h]
+|           0x000016a8      adrp x8, segment.__DATA_CONST              ; 0x18000
+|           0x000016ac      ldr x8, [x8, 0x108]                        ; [0x18108:8]=0
+|                                                                      ; reloc.objc_release
+|           0x000016b0      blr x8
+
+Code snippet at second call site (getCredentials case: builds window.receiveCredentials('...') with the credentials):
+|           0x00001764      adrp x0, 0x14000
+|           0x00001768      add x0, x0, 0x8f0                          ; 0x148f0 ; "user=admin&pass=S3cr3t!"
+|           0x0000176c      mov w8, 0x17
+|           0x00001770      mov x1, x8
+|           0x00001774      mov w8, 1
+|           0x00001778      str w8, [var_3ch]
+|           0x0000177c      and w2, w8, 1
+|           0x00001780      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+|           0x00001784      str x0, [var_28h]
+|           0x00001788      str x1, [var_30h]
+|           0x0000178c      stur x0, [x29, -0xd8]
+|           0x00001790      stur x1, [x29, -0xd0]
+|           0x00001794      mov w8, 0x1d
+|           0x00001798      mov x0, x8
+|           0x0000179c      mov w8, 1
+|           0x000017a0      mov x1, x8
+|           0x000017a4      bl sym.imp.DefaultStringInterpolation.literalCapacity.interpolationCount_...itcfC_ ; DefaultStringInterpolation.literalCapacity.interpolationCount(...itcfC)
+|           0x000017a8      ldr w8, [var_3ch]
+|           0x000017ac      sub x20, x29, 0xe8
+|           0x000017b0      str x20, [arg_48h]
+|           0x000017b4      stur x0, [x29, -0xe8]
+|           0x000017b8      stur x1, [x29, -0xe0]
+|           0x000017bc      adrp x0, 0x14000
+|           0x000017c0      add x0, x0, 0x910                          ; 0x14910 ; "window.receiveCredentials('"
+|           0x000017c4      mov w9, 0x1b
+|           0x000017c8      mov x1, x9
+|           0x000017cc      and w2, w8, 1
+|           0x000017d0      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+|           0x000017d4      str x1, [arg_20h]
+|           0x000017d8      bl sym.imp.DefaultStringInterpolation.appendLiteral_...SSF_ ; DefaultStringInterpolation.appendLiteral(...SSF)
+|           0x000017dc      ldr x20, [arg_48h]
+|           0x000017e0      ldr x0, [arg_20h]                          ; void *arg0
+|           0x000017e4      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+|           0x000017e8      ldr x8, [var_28h]
+|           0x000017ec      ldr x1, [var_30h]
+|           0x000017f0      sub x0, x29, 0xf8
+|           0x000017f4      stur x8, [x29, -0xf8]
+|           0x000017f8      stur x1, [x29, -0xf0]
+|           0x000017fc      adrp x1, segment.__DATA_CONST              ; 0x18000
+|           0x00001800      ldr x1, [x1, 0x610]                        ; [0x18610:8]=0
+|                                                                      ; reloc....SSN
+|           0x00001804      adrp x2, segment.__DATA_CONST              ; 0x18000
+|           0x00001808      ldr x2, [x2, 0x638]                        ; [0x18638:8]=0
+|                                                                      ; reloc.CustomStringConvertible.setter_...P_
+|           0x0000180c      adrp x3, segment.__DATA_CONST              ; 0x18000
+|           0x00001810      ldr x3, [x3, 0x630]                        ; [0x18630:8]=0
+|                                                                      ; reloc.TextOutputStreamable.setter_...P_
+|           0x00001814      bl sym.imp.DefaultStringInterpolation.append...C0yyxs06CustomB11ConvertibleRzs20TextOutputStreamableRzlF
+|           0x00001818      ldr x20, [arg_48h]
+|           0x0000181c      ldr w8, [var_3ch]
+|           0x00001820      adrp x0, 0x14000
+|           0x00001824      add x0, x0, 0x92c
+|           ; DATA XREF from symbolic UInt8...V @ 0x14104(r)
+|           ; DATA XREF from symbolic UInt8...V @ +0x20(r) ; sym.symbolic_UInt8...V__1
+|           0x00001828      mov w9, 2
+|           0x0000182c      mov x1, x9
+|           0x00001830      and w2, w8, 1
+|           0x00001834      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+|           0x00001838      str x1, [arg_40h]
+|           0x0000183c      bl sym.imp.DefaultStringInterpolation.appendLiteral_...SSF_ ; DefaultStringInterpolation.appendLiteral(...SSF)
+|           0x00001840      ldr x0, [arg_40h]                          ; void *arg0
+|           0x00001844      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+|           0x00001848      ldur x8, [x29, -0xe8]
+|           0x0000184c      str x8, [arg_58h]
+|           0x00001850      ldur x0, [x29, -0xe0]                      ; void *arg0
+|           0x00001854      str x0, [arg_50h]
+|           0x00001858      bl sym.imp.swift_bridgeObjectRetain        ; void *swift_bridgeObjectRetain(void *arg0)
+|           0x0000185c      ldr x0, [arg_48h]                          ; void *arg1
+|           0x00001860      bl sym....ss26DefaultStringInterpolationVWOh ; func.00002d10
+|           0x00001864      ldr x1, [arg_50h]
+|           0x00001868      ldr x0, [arg_58h]
+|           0x0000186c      bl sym.imp.stringInterpolation__String_...cfC_ ; stringInterpolation__String(...cfC)
+|           0x00001870      mov x8, x0
+|           0x00001874      ldr x0, [instance]                         ; void *instance
+|           0x00001878      str x8, [arg_60h]
+|           0x0000187c      str x1, [arg_68h]
+|           0x00001880      str x8, [var_1b8h]
+|           0x00001884      str x1, [var_1c0h]
+|           0x00001888      adrp x8, sym.__PROTOCOLS__TtC10MASTestApp19SecretBridgeHandler ; 0x1c000
+|           0x0000188c      ldr x1, [x8, 0x2b8]                        ; [0x1344c:8]=0x77656956626577 ; "webView" ; char *selector
+|           0x00001890      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+|           0x00001894      mov x29, x29
+|           0x00001898      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+|           0x0000189c      str x0, [arg_70h]
+|           0x000018a0      cbz x0, 0x1930
+|           0x000018a4      b 0x18a8
+|           ; CODE XREF from func.000012d0 @ 0x18a4(x)
+|           0x000018a8      ldr x8, [var_70h]
+|           0x000018ac      str x8, [var_18h]
+|           0x000018b0      b 0x18b4
+|           ; CODE XREF from func.000012d0 @ 0x18b0(x)
+|           0x000018b4      ldr x0, [var_68h]                          ; void *arg0
+|           0x000018b8      ldr x8, [var_18h]
+|           0x000018bc      str x8, [var_10h_2]
+|           0x000018c0      bl sym.imp.swift_bridgeObjectRetain        ; void *swift_bridgeObjectRetain(void *arg0)
+|           0x000018c4      ldr x0, [var_60h]
+|           0x000018c8      ldr x1, [var_68h]
+|           0x000018cc      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+|           0x000018d0      mov x1, x0
+|           0x000018d4      ldr x0, [var_68h]                          ; void *arg0
+|           0x000018d8      str x1, [var_8h]
+|           0x000018dc      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+|           0x000018e0      ldr x2, [var_8h]
+|           0x000018e4      ldr x0, [var_10h_2]                        ; void *instance
+|           0x000018e8      adrp x8, sym.__PROTOCOLS__TtC10MASTestApp19SecretBridgeHandler ; 0x1c000
+|           0x000018ec      ldr x1, [x8, 0x2c0]                        ; [0x134e2:8]=0x657461756c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
+|           0x000018f0      mov x3, 0
+|           0x000018f4      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+|           0x000018f8      ldr x0, [var_8h]
+|           0x000018fc      adrp x8, segment.__DATA_CONST              ; 0x18000
+|           0x00001900      ldr x8, [x8, 0x108]                        ; [0x18108:8]=0
+|                                                                      ; reloc.objc_release
+|           0x00001904      blr x8

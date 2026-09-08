@@ -3,7 +3,7 @@ platform: ios
 title: Jailbreak Detection in Code
 id: MASTG-TEST-0240
 type: [static, code]
-weakness: MASWE-0097
+weakness: MASWE-0051
 false_negative_prone: true
 profiles: [R]
 knowledge: [MASTG-KNOW-0084]

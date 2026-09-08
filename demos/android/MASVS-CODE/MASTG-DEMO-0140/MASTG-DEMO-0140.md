@@ -4,35 +4,43 @@ title: Attacker App Registering for Internal Implicit Intent
 id: MASTG-DEMO-0140
 code: [kotlin, xml]
 test: MASTG-TEST-0372
-kind: info
+kind: attack
 ---
 
 ## Sample
 
-The following attacker app registers an `<intent-filter>` for the custom action `org.owasp.mastestapp.INTERNAL_ACTION`, which the victim app in @MASTG-DEMO-0136 sends as an implicit intent. Because the victim uses an implicit intent, the Android system will present a chooser dialog when multiple apps handle the same action, allowing this attacker app to intercept the intent.
+The following attacker app registers an `<intent-filter>` for the custom action `org.owasp.mastestapp.INTERNAL_ACTION`, used in the @MASTG-DEMO-0136 demo. When Android presents this app as a candidate handler and it is selected, it receives the victim app's intent and displays/logs the received extras.
 
 {{ MastgTest.kt # AndroidManifest.xml }}
 
-You can use this app to demonstrate the vulnerability shown in @MASTG-DEMO-0136: install both apps on the same device, launch the victim app, and tap **Start**. The system will present a chooser dialog listing both apps as candidates for handling `INTERNAL_ACTION`.
-
-Note that this app is not inherently malicious. It simply illustrates that any app can register for a custom action and be presented to the user as a valid handler. The actual vulnerability lies in the victim app using an implicit intent for internal component communication.
+Note that this app is not inherently malicious. It illustrates that any app can register for a custom action and be presented to the user as a valid handler. The actual vulnerability lies in the victim app using an implicit intent for internal component communication.
 
 ## Steps
 
-Let's run our @MASTG-TOOL-0110 rule against the manifest to detect the registration for the custom action.
-
-{{ rule.yaml }}
+1. Use @MASTG-TECH-0005 to install the victim app from @MASTG-DEMO-0136.
+2. Use @MASTG-TECH-0005 to install this attacker app on the same device.
+3. Launch the victim app and tap **Start**.
+4. If Android presents a resolver for `INTERNAL_ACTION`, select this attacker app.
+5. Run `run.sh` to capture the intercepted intent details from logcat.
 
 {{ run.sh }}
 
 ## Observation
 
-The rule detected the custom action registration in the manifest:
+Android presents the attacker app as a candidate for handling `INTERNAL_ACTION`:
+
+<img src="../MASTG-DEMO-0136/implicit-intent-choose-app.png" width="50%" />
+
+Once selected, the attacker app receives the intent and logs the action and extras sent by the victim app:
 
 {{ output.txt }}
 
 ## Evaluation
 
-The finding confirms that this app declares an `<intent-filter>` for `org.owasp.mastestapp.INTERNAL_ACTION`. This isn't a vulnerability in this app itself; it shows that the app has the capability to intercept implicit intents targeting that action. The actual vulnerability lies in the victim app (@MASTG-DEMO-0136) that uses an implicit intent for internal component communication.
+The test case fails because the attacker app receives an implicit intent that the victim app (@MASTG-DEMO-0136) intended for app-internal communication.
 
-When assessing an app for implicit intent vulnerabilities, the threat model should include third-party apps that register for the same custom actions.
+The log output confirms that the attacker app handled `org.owasp.mastestapp.INTERNAL_ACTION` and received the extras sent with the intent.
+
+When the victim app dispatches this implicit intent, Android resolves any installed app with a matching `<intent-filter>` as a possible handler. If the attacker app is selected, the intent is delivered outside the victim app even though the flow was intended for `InternalActivity`.
+
+The attacker app therefore controls the receiving component and can read the action and full extras `Bundle`, including values such as `user_id` and `session_token`.

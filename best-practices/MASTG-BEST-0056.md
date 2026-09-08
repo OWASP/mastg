@@ -6,28 +6,28 @@ platform: android
 knowledge: [MASTG-KNOW-0025]
 ---
 
-Use [explicit intents](https://developer.android.com/guide/components/intents-filters#ExplicitIntent) when communicating between components within the same app. An explicit intent specifies the target component directly by package name or class name, ensuring the intent can only be delivered to the intended recipient and can't be intercepted by a third-party app.
+Use [explicit intents](https://developer.android.com/guide/components/intents-filters#ExplicitIntent) when communicating between components within the same app. An explicit intent specifies the target component directly by package name or class name, ensuring the intent can only be delivered to the intended recipient and can't be intercepted by a third-party app through normal intent resolution.
 
 ## Java/Kotlin
 
-Set the target package or component explicitly before sending the intent:
+Set the target package with [`Intent.setPackage`](https://developer.android.com/reference/android/content/Intent#setPackage(java.lang.String)) or target a specific component before sending the intent:
 
 ```kotlin
-// Explicit by package — restricts delivery to your own app
+// Explicit by package - restricts delivery to your own app
 val intent = Intent("com.example.app.PROCESS_DATA").apply {
     setPackage("com.example.app")
     putExtra("key", "value")
 }
 startActivity(intent)
 
-// Explicit by component — the most restrictive form
+// Explicit by component - the most restrictive form
 val intent = Intent(context, TargetActivity::class.java).apply {
     putExtra("key", "value")
 }
 startActivity(intent)
 ```
 
-Never send sensitive data (tokens, credentials, API keys) in an implicit intent. Any installed app that registers a matching `<intent-filter>` can receive the intent and all its extras.
+Never send sensitive data (tokens, credentials, API keys) in an implicit intent. Android resolves implicit intents by matching installed apps that declare compatible [`<intent-filter>`](https://developer.android.com/guide/topics/manifest/intent-filter-element) elements, so any matching app can become the selected recipient and receive the intent extras.
 
 ## Manifest Configuration
 

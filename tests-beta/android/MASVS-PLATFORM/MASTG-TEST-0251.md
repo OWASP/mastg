@@ -5,7 +5,7 @@ alias: references-to-content-provider-access-in-webviews
 id: MASTG-TEST-0251
 apis: [WebView, WebSettings, getSettings, ContentProvider, setAllowContentAccess, setAllowUniversalAccessFromFileURLs, setJavaScriptEnabled]
 type: [dynamic, hooks, manual]
-weakness: MASWE-0069
+weakness: MASWE-0034
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0049]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]

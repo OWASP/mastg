@@ -75,7 +75,7 @@ Key fields:
         - `overloads`: Optional array of overload signatures to specify which method variants to hook.
     - `filterEventsByStacktrace`: Optional array of strings; only events with stack traces containing these strings will be included in the output.
 
-See more in the [frooky Usage page](https://github.com/cpholguera/frooky/blob/main/docs/usage.md).
+See more in the [frooky Usage page](https://github.com/cpholguera/frooky#usage).
 
 ### Output format
 

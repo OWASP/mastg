@@ -41,7 +41,7 @@ The vulnerable data flow is visible in the reversed code. The provider registers
 ```java
 $this$uriMatcher_u24lambda_u240.addURI(AUTHORITY, "students/#", 2);
 $this$uriMatcher_u24lambda_u240.addURI(AUTHORITY, "students/filter/*", 3);
-````
+```
 
 For the path-based case, the provider reads a user-controlled URI segment and appends it directly into the SQL query:
 

@@ -12,6 +12,12 @@ WebViews are Android's embedded components which allow your app to open web page
 
 One of the most important things to do when testing WebViews is to make sure that only trusted content can be loaded in it. Any newly loaded page could be potentially malicious, try to exploit any WebView bindings or try to phish the user. Unless you're developing a browser app, usually you'd like to restrict the pages being loaded to the domain of your app. A good practice is to prevent the user from even having the chance to input any URLs inside WebViews (which is the default on Android) nor navigate outside the trusted domains. Even when navigating on trusted domains there's still the risk that the user might encounter and click on other links to untrustworthy content (e.g. if the page allows for other users to post comments). In addition, some developers might even override some default behavior which can be potentially dangerous for the user.
 
+## WebViewClient
+
+By default, any navigation request inside a WebView will be handled by the system's default web browser. This way, any navigation to a malicious page cannot impact the original application, as the WebView does not share cookies or JavaScript bindings with the browser.
+
+By assigning a WebViewClient to a WebView using `setWebViewClient`, all navigation will automatically be handled by the WebView itself. This is the worst-case configuration since any resource can now be loaded inside of the WebView, including malicious content. When a WebViewClient is assigned, the app must implement proper URL validation to ensure that only trusted content is loaded. This can be done by overriding `shouldOverrideUrlLoading` and/or `shouldInterceptRequest` and implementing allowlist or denylist patterns to restrict navigation to trusted content.
+
 ## SafeBrowsing API
 
 To provide a safer web browsing experience, Android 8.1 (API level 27) introduces the [`SafeBrowsing API`](https://developers.google.com/safe-browsing/v4), which allows your application to detect URLs that Google has classified as a known threat.
