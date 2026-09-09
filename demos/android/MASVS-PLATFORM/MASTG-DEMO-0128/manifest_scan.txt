@@ -1,0 +1,48 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                                
+    AndroidManifest_reversed.xml
+    ❯❱ rules.mastg-android-activity-exported-without-permission
+          [MASVS-PLATFORM] Exported activity without android:permission, reachable by any app on the device.
+          Inspect its code for sensitive functionality: activity=org.owasp.mastestapp.MainActivity          
+                                                                                                            
+           30┆ <activity
+           31┆     android:theme="@style/Theme.MASTestApp"
+           32┆     android:name="org.owasp.mastestapp.MainActivity"
+           33┆     android:exported="true"
+           34┆     android:windowSoftInputMode="adjustResize">
+           35┆     <intent-filter>
+           36┆         <action android:name="android.intent.action.MAIN"/>
+           37┆         <category android:name="android.intent.category.LAUNCHER"/>
+           38┆     </intent-filter>
+           39┆ </activity>
+            ⋮┆----------------------------------------
+    ❯❱ rules.mastg-android-activity-exported-without-permission
+          [MASVS-PLATFORM] Exported activity without android:permission, reachable by any app on the device.  
+          Inspect its code for sensitive functionality: activity=org.owasp.mastestapp.MastgTest.SecretActivity
+                                                                                                              
+           44┆ <activity
+           45┆     android:theme="@android:style/Theme.Material.Light"
+           46┆     android:name="org.owasp.mastestapp.MastgTest.SecretActivity"
+           47┆     android:exported="true"/>
+            ⋮┆----------------------------------------
+    ❯❱ rules.mastg-android-activity-exported-without-permission
+          [MASVS-PLATFORM] Exported activity without android:permission, reachable by any app on the device.
+          Inspect its code for sensitive functionality: activity=androidx.compose.ui.tooling.PreviewActivity
+                                                                                                            
+           48┆ <activity
+           49┆     android:name="androidx.compose.ui.tooling.PreviewActivity"
+           50┆     android:exported="true"/>
+            ⋮┆----------------------------------------
+    ❯❱ rules.mastg-android-activity-exported-without-permission
+          [MASVS-PLATFORM] Exported activity without android:permission, reachable by any app on the device.
+          Inspect its code for sensitive functionality: activity=androidx.activity.ComponentActivity        
+                                                                                                            
+           51┆ <activity
+           52┆     android:theme="@android:style/Theme.Material.Light.NoActionBar"
+           53┆     android:name="androidx.activity.ComponentActivity"
+           54┆     android:exported="true"/>
+

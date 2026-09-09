@@ -1,0 +1,28 @@
+rules:
+  - id: mastg-android-service-exported-without-permission
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects an exported service that does not enforce any caller permission.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Exported service without android:permission, which any
+      app on the device can start or bind to. Inspect its code for sensitive
+      functionality: service=$NAME
+    patterns:
+      - pattern: <service ... android:name="$NAME" ... android:exported="true" ... />
+      - pattern-not: <service ... android:permission="$PERM" ... />
+
+  - id: mastg-android-service-exported-with-permission
+    languages: [xml]
+    severity: INFO
+    metadata:
+      summary: Detects an exported service that enforces a caller permission.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Exported service protected by a permission. Verify the
+      permission protection level matches the intended trust boundary:
+      service=$NAME
+    pattern: <service ... android:name="$NAME" ... android:exported="true" ... android:permission="$PERM" ... />

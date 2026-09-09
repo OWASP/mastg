@@ -1,0 +1,93 @@
+rules:
+  - id: mastg-android-context-registered-receiver-exported
+    languages: [java]
+    severity: WARNING
+    metadata:
+      summary: Detects a context-registered broadcast receiver that is exported (RECEIVER_EXPORTED) without a broadcastPermission, reachable by other apps.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Context-registered receiver registered as exported
+      (RECEIVER_EXPORTED) with no broadcastPermission, so any app on the device
+      can deliver broadcasts to it. Inspect its onReceive for sensitive
+      functionality: receiver=$R
+    pattern-either:
+      # Named flag constant, as written in source or preserved by some tools (3/4-arg forms have no permission slot).
+      - patterns:
+          - pattern-either:
+              - pattern: $C.registerReceiver($R, $F, $FLAG)
+              - pattern: ContextCompat.registerReceiver($CTX, $R, $F, $FLAG)
+              - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, $FLAG)
+          - pattern-regex: \bRECEIVER_EXPORTED\b
+      # Inlined integer flag value (RECEIVER_EXPORTED == 2), as commonly seen in decompiled code.
+      - pattern: $C.registerReceiver($R, $F, 2)
+      - pattern: ContextCompat.registerReceiver($CTX, $R, $F, 2)
+      - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, 2)
+      # Exported with an explicitly null broadcastPermission is still unprotected.
+      - pattern: $C.registerReceiver($R, $F, null, $S, 2)
+      - pattern: ContextCompat.registerReceiver($CTX, $R, $F, null, $S, 2)
+      - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, null, $S, 2)
+
+  - id: mastg-android-context-registered-receiver-exported-with-permission
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Detects a context-registered broadcast receiver that is exported but restricted with a broadcastPermission.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Context-registered receiver registered as exported
+      (RECEIVER_EXPORTED) but restricted with a broadcastPermission. Verify the
+      permission protection level matches the intended sender set:
+      receiver=$R permission=$PERM
+    patterns:
+      - pattern-either:
+          - pattern: $C.registerReceiver($R, $F, $PERM, $S, 2)
+          - pattern: ContextCompat.registerReceiver($CTX, $R, $F, $PERM, $S, 2)
+          - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, $PERM, $S, 2)
+      # An explicitly null broadcastPermission is not protection; it is handled by the rule above.
+      - pattern-not: $C.registerReceiver($R, $F, null, $S, 2)
+      - pattern-not: ContextCompat.registerReceiver($CTX, $R, $F, null, $S, 2)
+      - pattern-not: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, null, $S, 2)
+
+  - id: mastg-android-context-registered-receiver-not-exported
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Detects a context-registered broadcast receiver that is not exported (RECEIVER_NOT_EXPORTED).
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Context-registered receiver registered as not exported
+      (RECEIVER_NOT_EXPORTED). Other apps cannot deliver broadcasts to it, so it
+      is not part of the external attack surface: receiver=$R
+    pattern-either:
+      # Named flag constant, as written in source or preserved by some tools.
+      - patterns:
+          - pattern-either:
+              - pattern: $C.registerReceiver($R, ...)
+              - pattern: ContextCompat.registerReceiver($CTX, $R, ...)
+              - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, ...)
+          - pattern-regex: \bRECEIVER_NOT_EXPORTED\b
+      # Inlined integer flag value (RECEIVER_NOT_EXPORTED == 4), as commonly seen in decompiled code.
+      - pattern: $C.registerReceiver($R, $F, 4)
+      - pattern: ContextCompat.registerReceiver($CTX, $R, $F, 4)
+      - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, 4)
+      - pattern: $C.registerReceiver($R, $F, $P, $S, 4)
+      - pattern: ContextCompat.registerReceiver($CTX, $R, $F, $P, $S, 4)
+      - pattern: androidx.core.content.ContextCompat.registerReceiver($CTX, $R, $F, $P, $S, 4)
+
+  - id: mastg-android-context-registered-receiver-no-flag
+    languages: [java]
+    severity: WARNING
+    metadata:
+      summary: Detects a two-argument context-registered receiver with no export flag, which is implicitly exported on older target SDKs.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Context-registered receiver registered without an export
+      flag. On apps targeting below Android 14 (API level 34 makes the flag
+      mandatory for unprotected receivers) this registration is implicitly
+      exported. Confirm the target SDK and treat it as exported unless a
+      broadcastPermission restricts senders: receiver=$R
+    pattern: $C.registerReceiver($R, $F)

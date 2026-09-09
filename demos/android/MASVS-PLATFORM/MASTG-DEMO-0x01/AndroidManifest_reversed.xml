@@ -12,6 +12,9 @@
         android:targetSdkVersion="35"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <permission
+        android:name="org.owasp.mastestapp.ADMIN_COMMAND_PERMISSION"
+        android:protectionLevel="signature"/>
+    <permission
         android:name="org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature"/>
     <uses-permission android:name="org.owasp.mastestapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
@@ -39,12 +42,12 @@
         </activity>
         <activity
             android:theme="@android:style/Theme.Material.Light"
-            android:name="org.owasp.mastestapp.MastgTest.PinEntryActivity"
+            android:name="org.owasp.mastestapp.MastgTest.VaultActivity"
             android:exported="false"/>
         <activity
             android:theme="@android:style/Theme.Material.Light"
-            android:name="org.owasp.mastestapp.MastgTest.SecretActivity"
-            android:exported="true"/>
+            android:name="org.owasp.mastestapp.MastgTest.AdminActivity"
+            android:exported="false"/>
         <activity
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true"/>
