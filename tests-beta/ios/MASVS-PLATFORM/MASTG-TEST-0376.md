@@ -9,6 +9,7 @@ profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076]
 prerequisites:
 - identify-security-relevant-contexts
+assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
 ---
 
 ## Overview

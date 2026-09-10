@@ -9,6 +9,7 @@ prerequisites:
 - privacy-policy
 - app-store-privacy-declarations
 profiles: [P]
+assets: [MAS-ASSET-UD-T]
 ---
 
 ## Overview

@@ -7,6 +7,7 @@ type: [static, code]
 weakness: MASWE-0020
 profiles: [L2]
 knowledge: [MASTG-KNOW-0056, MASTG-KNOW-0057]
+assets: [MAS-ASSET-IP-U, MAS-ASSET-UD-U]
 ---
 
 ## Overview

@@ -184,6 +184,45 @@ Example:
 knowledge: [MASTG-KNOW-0013]
 ```
 
+### assets
+
+The MAS-ASSET types that this test protects. See `assets/index.md` for the taxonomy and `assets/MAS-ASSET-*.md` for each asset type. Each value combines a data category (`IP` for Intellectual Property, `UD` for User Data) with a data state (`R` at rest, `U` in use, `T` in transit).
+
+Valid values:
+
+- `MAS-ASSET-IP-R`, `MAS-ASSET-IP-U`, `MAS-ASSET-IP-T` - Intellectual Property data at rest, in use, in transit
+- `MAS-ASSET-UD-R`, `MAS-ASSET-UD-U`, `MAS-ASSET-UD-T` - User data at rest, in use, in transit
+- `MAS-ASSET-IP`, `MAS-ASSET-UD` - shorthand for any state; use only when the state is not meaningful for the test (for example permission tests)
+
+Rules:
+
+- Start from the default assets for the test's weakness (table below) and narrow them only if the test scope is narrower.
+- Prefer state-specific values over the shorthands.
+- Omit the field for tests that protect the app itself rather than a data asset (binary hardening, anti-tampering, dependency scanning, input validation).
+
+Default assets by weakness:
+
+| Weakness area | Default assets | Rationale |
+| --- | --- | --- |
+| Unencrypted or backed-up storage, hardcoded keys, missing screen lock (MASWE-0001, 0002, 0003, 0006, 0017) | `MAS-ASSET-IP-R`, `MAS-ASSET-UD-R` | Data on the device file system, or the keys protecting it. |
+| Logging (MASWE-0005) | `MAS-ASSET-IP-U`, `MAS-ASSET-UD-U` | Values leave process memory through the log. |
+| Cryptography (MASWE-0007, 0008, 0012, 0013) | `MAS-ASSET-IP-R`, `MAS-ASSET-IP-T`, `MAS-ASSET-UD-R`, `MAS-ASSET-UD-T` | Weak crypto exposes what it was meant to protect in storage and on the wire, not data in memory. |
+| Exported components and IPC (MASWE-0018, 0032) | `MAS-ASSET-IP-T`, `MAS-ASSET-UD-T` for data crossing process boundaries; `MAS-ASSET-IP-R`, `MAS-ASSET-UD-R` for content providers exposing stored data | IPC is a transit channel on the device. |
+| Biometric and local authentication (MASWE-0020, 0021, 0022) | `MAS-ASSET-IP-U`, `MAS-ASSET-UD-U` | Authentication gates access to keys and data the app is about to use. |
+| Network (MASWE-0026, 0027, 0028) | `MAS-ASSET-IP-T`, `MAS-ASSET-UD-T` | Data on the network. |
+| WebViews (MASWE-0034, 0035) | `MAS-ASSET-IP-U`, `MAS-ASSET-UD-U`; add `-R` variants when the WebView can read local files | Web content runs inside the app process and can read what the app exposes to it. |
+| UI exposure (MASWE-0036, 0037, 0038) | `MAS-ASSET-UD-U`; `MAS-ASSET-UD-R` for keyboard caches and pasteboard persistence | What the user sees or types. |
+| Debuggable builds (MASWE-0063) | `MAS-ASSET-IP-U`, `MAS-ASSET-UD-U` | A debugger can read process memory. |
+| Permissions (MASWE-0066) | `MAS-ASSET-UD` | Platform-mediated access to user data, state not meaningful. |
+| Privacy and tracking (MASWE-0073, 0074) | `MAS-ASSET-UD-T`; add `MAS-ASSET-UD-U` when the test covers SDK API calls | Data shared with third parties. |
+| Binary hardening, dependencies, platform version, resilience, signatures, input validation (MASWE-0029, 0041, 0043, 0044, 0045, 0050, 0051, 0053, 0056, 0057, 0058, 0059, 0061, 0064) | none | Protects the app, not a specific data asset. |
+
+Example:
+
+```md
+assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
+```
+
 ### optional fields
 
 Include these if relevant:

@@ -7,6 +7,7 @@ weakness: MASWE-0036
 threat: [app]
 profiles: [L2]
 knowledge: [MASTG-KNOW-0083]
+assets: [MAS-ASSET-UD-R, MAS-ASSET-UD-U]
 ---
 
 ## Overview

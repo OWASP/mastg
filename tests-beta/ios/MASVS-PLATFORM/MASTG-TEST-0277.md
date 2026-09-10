@@ -9,6 +9,7 @@ prerequisites:
 - identify-sensitive-data
 profiles: [L2]
 knowledge: [MASTG-KNOW-0083]
+assets: [MAS-ASSET-UD-U]
 ---
 
 ## Overview

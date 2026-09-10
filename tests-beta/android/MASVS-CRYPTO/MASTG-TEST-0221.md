@@ -6,6 +6,7 @@ type: [static, code, manual]
 weakness: MASWE-0007
 best-practices: [MASTG-BEST-0009]
 profiles: [L1, L2]
+assets: [MAS-ASSET-IP-R, MAS-ASSET-IP-T, MAS-ASSET-UD-R, MAS-ASSET-UD-T]
 ---
 
 ## Overview

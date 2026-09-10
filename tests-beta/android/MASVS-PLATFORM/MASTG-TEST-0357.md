@@ -7,6 +7,7 @@ type: [static, config, code, manual]
 best-practices: [MASTG-BEST-0049]
 profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
+assets: [MAS-ASSET-IP-R, MAS-ASSET-UD-R]
 ---
 
 ## Overview
