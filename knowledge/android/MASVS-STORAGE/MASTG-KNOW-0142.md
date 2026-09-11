@@ -11,17 +11,16 @@ It stores key-value pairs or typed objects asynchronously using Kotlin coroutine
 
 DataStore comes in two flavors:
 
-- **Preferences DataStore**: stores and accesses untyped key-value pairs, similar to `SharedPreferences`. 
-- - **`Serializer<T>` DataStore**: stores any object which implements `Serializer` for the type `T` providing type safety at compile time.
+- **Preferences DataStore**: stores and accesses untyped key-value pairs, similar to `SharedPreferences`.
+- **`Serializer<T>` DataStore**: stores any object which implements `Serializer` for the type `T` providing type safety at compile time.
 
-> Well suited objects for serialization are [Protocol Buffers](https://protobuf.dev/) and [JSON](https://developer.android.com/topic/libraries/architecture/datastore#json-serialization) 
+> Well suited objects for serialization are [Protocol Buffers](https://protobuf.dev/) and [JSON](https://developer.android.com/topic/libraries/architecture/datastore#json-serialization)
 
 ## Storage Location
 
 Both DataStore variants write their data to the app's internal storage, under the directory `/data/data/<package-name>/files/datastore/`.
 
 Preferences are stored as serialized protocol buffer in a file called `<name>.preferences_pb`, while custom serialized objects are stored in the file declared when initializing the DataStore:
-
 
 The data is stored in protobuf binary format, not in plain-text XML like `SharedPreferences`. The files are not encrypted by default.
 
@@ -71,6 +70,6 @@ Neither Preferences DataStore nor Proto DataStore encrypts data at rest by defau
 
 ## Backup and Device-Transfer Behavior
 
-DataStore files stored under the app's internal `files/datastore/` directory are included in [Android Auto Backup](https://developer.android.com/identity/data/autobackup) and device-to-device transfers by default. 
+DataStore files stored under the app's internal `files/datastore/` directory are included in [Android Auto Backup](https://developer.android.com/identity/data/autobackup) and device-to-device transfers by default.
 
 Auto Backup is available for apps that target Android 6.0 (API level 23), or higher. They can exclude specific DataStore files or directories using `android:fullBackupContent`. On Android 12 (API level 31 ) and higher, apps can use `android:dataExtractionRules` for backup configuration.
