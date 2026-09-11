@@ -1,0 +1,4 @@
+--------- beginning of main
+06-20 13:03:18.380 22903 22903 E RESULT_ATTACK: Returning URI=content://org.owasp.mastestapp.attacker.provider/fakeFile
+06-20 13:03:18.408 22903 22917 E RESULT_ATTACK: Providing DISPLAY_NAME=../private/secret.txt
+06-20 13:03:18.414 22903 22917 E RESULT_ATTACK: Serving payload for uri=content://org.owasp.mastestapp.attacker.provider/fakeFile

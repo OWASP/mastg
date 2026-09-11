@@ -1,0 +1,4 @@
+Exported activity: org.owasp.mastestapp.MainActivity | permission: none
+Exported activity: org.owasp.mastestapp.MastgTest.SecretActivity | permission: none
+Exported activity: androidx.compose.ui.tooling.PreviewActivity | permission: none
+Exported activity: androidx.activity.ComponentActivity | permission: none

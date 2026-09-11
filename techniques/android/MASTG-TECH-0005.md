@@ -5,7 +5,7 @@ platform: android
 
 ## Basic APK Installation
 
-Use `adb install` to install an APK on an emulator or connected device. The given path is the path of the APK on the host.
+Use `adb install` (@MASTG-TOOL-0004) to install an APK on an emulator or connected device. The given path is the path of the APK on the host.
 
 ```bash
 adb install ./myApp.apk

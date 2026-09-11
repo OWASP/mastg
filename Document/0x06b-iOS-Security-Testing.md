@@ -10,7 +10,7 @@ Although you can use a Linux or Windows host computer for testing, you'll find t
 
 The following is the most basic iOS app testing setup:
 
-- Ideally macOS host computer with admin rights
+- Ideally macOS host computer with admin rights.
 - @MASTG-TOOL-0070 and @MASTG-TOOL-0071 installed.
 - Wi-Fi network that permits client-to-client traffic.
 - At least one jailbroken iOS device (of the desired iOS version).
@@ -62,13 +62,21 @@ It is also possible to get the UDID via various command line tools on macOS whil
 
 You should have a jailbroken iPhone or iPad for running tests. These devices allow root access and tool installation, making the security testing process more straightforward. If you don't have access to a jailbroken device, you can apply the workarounds described later in this chapter, but be prepared for a more difficult experience.
 
+### Testing on a Mac
+
+On Macs with Apple silicon, [compatible iPhone and iPad apps can be distributed through the Mac App Store and run directly on macOS](https://developer.apple.com/documentation/apple-silicon/running-your-ios-apps-in-macos). This environment is different from the iOS Simulator and should be detected separately.
+
+Refer to @MASTG-KNOW-0136 for more information.
+
 ### Testing on the iOS Simulator
 
-Unlike the Android emulator, which fully emulates the hardware of an actual Android device, the iOS SDK simulator offers a higher-level _simulation_ of an iOS device. Most importantly, emulator binaries are compiled to x86 code instead of ARM code. Apps compiled for a real device don't run, making the simulator useless for black box analysis and reverse engineering.
+Unlike the Android emulator, which fully emulates the hardware of an actual Android device, the iOS Simulator offers a higher-level _simulation_ of an iOS device. Binaries for the Simulator are compiled to x86 or ARM-based architecture for the underlying macOS operating system running the Simulator, whereas apps compiled for a physical device are compiled for the ARM-based iOS operating system. This means that apps compiled for a real device can't run in the Simulator.
 
-### Testing on an Emulator
+Refer to @MASTG-KNOW-0088 for more information.
 
-@MASTG-TOOL-0108 is the only publicly available iOS emulator. It is an enterprise SaaS solution with a per user license model and does not offer community licenses.
+### Testing on an iOS virtual device
+
+Virtual devices allow running apps compiled for a real device. @MASTG-TOOL-0108 is the only publicly available iOS virtual device. It is an enterprise SaaS solution with a per user license model and does not offer community licenses.
 
 ### Getting Privileged Access
 
@@ -81,7 +89,7 @@ On iOS devices, flashing a custom ROM is impossible because the iOS bootloader o
 
 The purpose of jailbreaking is to disable iOS protections (Apple's code signing mechanisms in particular) so that arbitrary unsigned code can run on the device (e.g. custom code or downloaded from alternative app stores such as @MASTG-TOOL-0047 or @MASTG-TOOL-0064). The word "jailbreak" is a colloquial reference to all-in-one tools that automate the disabling process.
 
-Developing a jailbreak for a given version of iOS is not easy. As a security tester, you'll most likely want to use publicly available jailbreak tools. Still, we recommend studying the techniques that have been used to jailbreak various versions of iOS-you'll encounter many interesting exploits and learn a lot about OS internals. For example, Pangu9 for iOS 9.x [exploited at least five vulnerabilities](https://www.theiphonewiki.com/wiki/Jailbreak_Exploits "Jailbreak Exploits"), including a use-after-free kernel bug (CVE-2015-6794) and an arbitrary file system access vulnerability in the Photos app (CVE-2015-7037).
+Developing a jailbreak for a given version of iOS is not easy. As a security tester, you'll most likely want to use publicly available jailbreak tools. Still, we recommend studying the techniques that have been used to jailbreak various versions of iOS-you'll encounter many interesting exploits and learn a lot about OS internals. For example, Pangu9 for iOS 9.x [exploited at least five vulnerabilities](https://theapplewiki.com/wiki/Jailbreak_Exploits "Jailbreak Exploits"), including a use-after-free kernel bug (CVE-2015-6794) and an arbitrary file system access vulnerability in the Photos app (CVE-2015-7037).
 
 Some apps attempt to detect whether the iOS device on which they're running is jailbroken. This is because jailbreaking deactivates some of iOS' default security mechanisms. However, there are several ways to get around these detections, and we'll introduce them in the chapter ["iOS Anti-Reversing Defenses"](0x06j-Testing-Resiliency-Against-Reverse-Engineering.md).
 
@@ -108,7 +116,7 @@ There are _tethered_, _semi-tethered_, _semi-untethered_, and _untethered_ jailb
 
 #### Caveats and Considerations
 
-Developing a jailbreak for iOS is becoming more and more complicated as Apple continues to harden their OS. Whenever Apple becomes aware of a vulnerability, it is patched and a system update is pushed out to all users. As it is not possible to downgrade to a specific version of iOS, and since Apple only allows you to update to the latest iOS version, it is a challenge to have a device which is running a version of iOS for which a jailbreak is available. Some vulnerabilities cannot be patched by software, such as the [checkm8 exploit](https://www.theiphonewiki.com/wiki/Checkm8_Exploit "Checkm8 exploit") affecting the BootROM of all CPUs until A12.
+Developing a jailbreak for iOS is becoming more and more complicated as Apple continues to harden their OS. Whenever Apple becomes aware of a vulnerability, it is patched and a system update is pushed out to all users. As it is not possible to downgrade to a specific version of iOS, and since Apple only allows you to update to the latest iOS version, it is a challenge to have a device which is running a version of iOS for which a jailbreak is available. Some vulnerabilities cannot be patched by software, such as the [checkm8 exploit](https://theapplewiki.com/wiki/Checkm8_Exploit "Checkm8 exploit") affecting the BootROM of all CPUs until A12.
 
 If you have a jailbroken device that you use for security testing, keep it as is unless you're 100% sure that you can re-jailbreak it after upgrading to the latest iOS version. Consider getting one (or multiple) spare device(s) (which will be updated with every major iOS release) and waiting for a jailbreak to be released publicly. Apple is usually quick to release a patch once a jailbreak has been released publicly, so you only have a couple of days to downgrade (if it is still signed by Apple) to the affected iOS version and apply the jailbreak.
 
@@ -118,14 +126,13 @@ For some devices and iOS versions, it is possible to downgrade to older versions
 
 #### Which Jailbreaking Tool to Use
 
-Different iOS versions require different jailbreaking techniques. [Determine whether a public jailbreak is available for your version of iOS](https://appledb.dev/ "Apple DB"). Beware of fake tools and spyware, which are often hiding behind domain names that are similar to the name of the jailbreaking group/author.
+Different iOS versions require different jailbreaking techniques. [Determine whether a public jailbreak is available for your version of iOS](https://ios.cfw.guide/). Beware of fake tools and spyware, which are often hiding behind domain names that are similar to the name of the jailbreaking group/author.
 
 The iOS jailbreak scene evolves so rapidly that providing up-to-date instructions is difficult. However, we can point you to some sources that are currently reliable.
 
-- [AppleDB](https://appledb.dev/ "AppleDB")
-- [The iPhone Wiki](https://www.theiphonewiki.com/ "The iPhone Wiki")
-- [Redmond Pie](https://www.redmondpie.com/ "Redmone Pie")
+- [The Apple Wiki](https://www.theapplewiki.com/ "The Apple Wiki")
 - [Reddit Jailbreak](https://www.reddit.com/r/jailbreak/ "Reddit Jailbreak")
+- [AppleDB](https://appledb.dev/ "AppleDB")
 
-!!! note
+!!! warning
     Any modification you make to your device is at your own risk. While jailbreaking is typically safe, things can go wrong, and you may end up bricking your device. No other party except yourself can be held accountable for any damage.

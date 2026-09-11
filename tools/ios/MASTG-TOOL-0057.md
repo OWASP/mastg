@@ -1,5 +1,5 @@
 ---
-title: lldb
+title: lldb (iOS)
 platform: ios
 source: https://lldb.llvm.org/
 ---

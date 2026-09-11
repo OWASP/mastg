@@ -1,0 +1,18 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    filepaths_reversed.xml
+    ❯❱ rules.mastg-android-fileprovider-broad-path-scope
+          [MASVS-PLATFORM] FileProvider path element is declared with path=".", which maps the entire       
+          corresponding base directory into the provider's addressable namespace. Any file under that       
+          directory becomes reachable through FileProvider.getUriForFile(), including secrets or files added
+          later. Narrow the path to a specific subdirectory containing only files intended for sharing (e.g.
+          path="reports/").                                                                                 
+                                                                                                            
+            3┆ <files-path
+            4┆     name="app_files"
+            5┆     path="."/>
+

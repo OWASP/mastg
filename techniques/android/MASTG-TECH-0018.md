@@ -89,9 +89,9 @@ To support both older and newer ARM processors, Android apps ship with multiple 
 
 Most disassemblers can handle any of those architectures. Below, we'll be viewing the armeabi-v7a version (located in `HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`) in radare2 and in IDA Pro. See @MASTG-TECH-0024 to learn how to proceed when inspecting the disassembled native code.
 
-## radare2
+## Using @MASTG-TOOL-0028
 
-To open the file in @MASTG-TOOL-0028, you only have to run `r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`. The chapter "[Android Basic Security Testing](../../Document/0x05b-Android-Security-Testing.md "Android Basic Security Testing")" already introduced radare2. Remember that you can use the flag `-A` to run the `aaa` command right after loading the binary in order to analyze all referenced code.
+To open the file in radare2, you only have to run `r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so`. The chapter "[Android Basic Security Testing](../../Document/0x05b-Android-Security-Testing.md "Android Basic Security Testing")" already introduced radare2. Remember that you can use the flag `-A` to run the `aaa` command right after loading the binary in order to analyze all referenced code.
 
 ```bash
 $ r2 -A HelloWord-JNI/lib/armeabi-v7a/libnative-lib.so

@@ -4,37 +4,89 @@ platform: ios
 title: Custom URL Schemes
 ---
 
-Custom URL schemes [allow apps to communicate via a custom protocol](https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW1 "Using URL Schemes to Communicate with Apps"). An app must declare support for the schemes and handle incoming URLs that use those schemes.
+Custom URL schemes allow iOS apps to receive requests from other apps or web pages via a custom URI protocol (for example, `myapp://action?param=value`). An app declares the schemes it handles and processes incoming URLs through delegate methods. Apple documentation is available at [Defining a Custom URL Scheme for Your App](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app "Defining a Custom URL Scheme for Your App").
 
-Apple warns about the improper use of custom URL schemes in the [Apple Developer Documentation](https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app "Defining a Custom URL Scheme for Your App"):
+## Registering a Custom URL Scheme
 
-> URL schemes offer a potential attack vector into your app, so make sure to validate all URL parameters and discard any malformed URLs. In addition, limit the available actions to those that do not risk the user's data. For example, do not allow other apps to directly delete content or access sensitive information about the user. When testing your URL-handling code, make sure your test cases include improperly formatted URLs.
+### Source Code
 
-They also suggest using universal links instead, if the purpose is to implement deep linking:
+In Xcode, registered URL schemes appear on the app target's **Info** tab under **URL Types**. Underneath, they are stored in the `Info.plist` as a `CFBundleURLTypes` array:
 
-> While custom URL schemes are an acceptable form of deep linking, universal links are strongly recommended as a best practice.
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>com.example.myapp</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>myapp</string>
+        </array>
+    </dict>
+</array>
+```
 
-Supporting a custom URL scheme is done by:
+Each entry can declare one or more scheme strings under `CFBundleURLSchemes`. The `CFBundleURLName` is an optional reverse-DNS identifier for the scheme owner.
 
-- defining the format for the app's URLs,
-- registering the scheme so that the system directs appropriate URLs to the app,
-- handling the URLs that the app receives.
+### Compiled App Bundle
 
-Security issues arise when an app processes calls to its URL scheme without properly validating the URL and its parameters and when users aren't prompted for confirmation before triggering an important action.
+In an IPA or installed app bundle, the same values are found in `Info.plist` at the root of the `.app` directory. They can be inspected as described in @MASTG-TECH-0166.
 
-One example is the following [bug in the Skype Mobile app](https://medium.com/section-9-lab/abusing-ios-url-handlers-on-messages-96979e8b12f5 "Insecure Handling of URL Schemes in Apple's iOS"), discovered in 2010: The Skype app registered the `skype://` protocol handler, which allowed other apps to trigger calls to other Skype users and phone numbers. Unfortunately, Skype didn't ask users for permission before placing the calls, so any app could call arbitrary numbers without the user's knowledge. Attackers exploited this vulnerability by putting an invisible `<iframe src="skype://xxx?call"></iframe>` (where `xxx` was replaced by a premium number), so any Skype user who inadvertently visited a malicious website called the premium number.
+### Scheme Collision
 
-As a developer, you should carefully validate any URL before calling it. You can allow only certain applications which may be opened via the registered protocol handler. Prompting users to confirm the URL-invoked action is another helpful control.
+If multiple apps register the same URL scheme, iOS routes incoming requests to one of them without a guaranteed resolution order. See [Registering Custom URL Schemes](https://developer.apple.com/library/archive/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW7 "Registering Custom URL Schemes") for details.
 
-All URLs are passed to the app delegate, either at launch time or while the app is running or in the background. To handle incoming URLs, the delegate should implement methods to:
+## Handling Incoming URLs
 
-- retrieve information about the URL and decide whether you want to open it,
-- open the resource specified by the URL.
+All incoming URL requests are delivered to the app delegate. The system calls the delegate method that best matches the set of methods the app has implemented.
 
-More information can be found in the [archived App Programming Guide for iOS](https://developer.apple.com/library/archive/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW13 "Handling URL Requests") and in the [Apple Secure Coding Guide](https://developer.apple.com/library/archive/documentation/Security/Conceptual/SecureCodingGuide/Articles/ValidatingInput.html "Validating Input and Interprocess Communication").
+### `application:openURL:options:` (iOS 9+, current)
 
-In addition, an app may also want to send URL requests (aka. queries) to other apps. This is done by:
+```swift
+func application(_ app: UIApplication,
+                 open url: URL,
+                 options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool
+```
 
-- registering the application query schemes that the app wants to query,
-- optionally querying other apps to know if they can open a certain URL,
-- sending the URL requests.
+This is the current method for handling incoming URLs. The `options` dictionary carries contextual metadata:
+
+| Key | Description |
+| --- | --- |
+| `UIApplication.OpenURLOptionsKey.sourceApplication` | Bundle identifier of the app that sent the request, or `nil` if not available. |
+| `UIApplication.OpenURLOptionsKey.annotation` | Property-list value supplied by the originating app (optional). |
+| `UIApplication.OpenURLOptionsKey.openInPlace` | Boolean indicating whether the URL refers to a file that should be opened in place. |
+
+The `sourceApplication` key provides the caller's bundle identifier. It is populated by UIKit when the caller used `openURL:options:completionHandler:`. It may be `nil` when the URL is opened by the system (for example, from a web browser or a universal link redirect) or when the originating app did not supply an identifier. See [application(_:open:options:)](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application) in the Apple developer documentation.
+
+### Deprecated Delegate Methods
+
+The following delegate methods are deprecated and receive no `options` dictionary:
+
+- [`application:handleOpenURL:`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622964-application) — deprecated in iOS 9.0.
+- [`application:openURL:sourceApplication:annotation:`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623073-application) — deprecated in iOS 9.0.
+
+The UIApplication instance method [`openURL:`](https://developer.apple.com/documentation/uikit/uiapplication/1622961-openurl) (for _sending_ URL requests to other apps) is deprecated since iOS 10.0 in favor of [`openURL:options:completionHandler:`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-openurl).
+
+## Querying Other Apps
+
+Before opening a URL in another app, an app can call [`canOpenURL:`](https://developer.apple.com/documentation/uikit/uiapplication/1622952-canopenurl) to check whether a registered handler exists. Since iOS 9.0, the schemes passed to `canOpenURL:` must be declared in the calling app's `Info.plist` under `LSApplicationQueriesSchemes`:
+
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>instagram</string>
+    <string>googledrive</string>
+</array>
+```
+
+Up to 50 schemes may be declared. `canOpenURL:` returns `NO` for any scheme not listed, regardless of whether a handler app is installed. The `openURL:options:completionHandler:` method is not subject to this restriction and will attempt to open any URL.
+
+## URL Structure and Parameters
+
+Incoming URLs follow the standard URI structure:
+
+```text
+scheme://host/path?key=value&key2=value2
+```
+
+URL parameters are typically parsed via [`URLComponents`](https://developer.apple.com/documentation/foundation/urlcomponents) or [`URLQueryItem`](https://developer.apple.com/documentation/foundation/urlqueryitem). The `host`, `path`, and individual query items are accessible as named properties of those types.

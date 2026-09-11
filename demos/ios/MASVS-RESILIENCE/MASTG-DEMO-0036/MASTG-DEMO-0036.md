@@ -10,7 +10,7 @@ test: MASTG-TEST-0261
 
 The sample code includes the entitlements.plist file with the `get-task-allow' entitlement, which makes the app debuggable.
 
-{{ entitlements.plist }}
+{{ MASTestApp.entitlements }}
 
 ## Steps
 

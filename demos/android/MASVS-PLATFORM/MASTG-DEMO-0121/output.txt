@@ -1,0 +1,2 @@
+Row: 0 _id=1, patient_name=Maria Garcia, dob=1988-03-14, appointment_date=2026-04-10, doctor=Dr. Chen, diagnosis=Type 2 Diabetes, notes=Adjust metformin dosage to 1000mg twice daily
+Row: 1 _id=2, patient_name=James Wilson, dob=1975-09-27, appointment_date=2026-04-11, doctor=Dr. Patel, diagnosis=Essential Hypertension, notes=Refer to cardiology; increase lisinopril to 20mg

@@ -1,0 +1,45 @@
+=== URL scheme handler methods ===
+0x1000044fc 0 sym.MASTestApp.SceneDelegate.scene.allocator.openURLContexts...ySo7UISceneC_ShySo16UIOpenURLContextCGtFTo
+0x1000044fc 132 method.MASTestApp.SceneDelegate.scene:openURLContexts:
+0x100004f0c 1296 sym.MASTestApp.SceneDelegate.scene.allocator.openURLContexts...ySo7UISceneC_ShySo16UIOpenURLContextCGtFTf4dnn_n
+0x10000b67d 23 str.scene:openURLContexts:
+0x10000ba88 0 sym.MASTestApp.SceneDelegate.scene.allocator.openURLContexts...ySo7UISceneC_ShySo16UIOpenURLContextCGtFTq
+0x1000107d0 8 reloc.fixup.scene:openURLContexts:
+
+=== Cross-references to sourceApplication from handler ===
+sym.MASTestApp.SceneDelegate.scene.allocator.willConnectTo.options 0x100004c8c [DATA:r--] ldr x1, reloc.fixup.sourceApplication
+sym.MASTestApp.SceneDelegate.scene.allocator.openURLContexts...ySo7UISceneC_ShySo16UIOpenURLContextCGtFTf4dnn_n 0x1000051a8 [DATA:r--] ldr x1, reloc.fixup.sourceApplication
+
+=== Disassembly around sourceApplication access (willConnectTo) ===
+│           0x100004c8c      ldr x1, [x8, 0x788]                       ; [0x100010788:4]=0xb7a5 ; reloc.fixup.sourceApplication ; char *selector
+│           0x100004c90      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+│           0x100004c94      mov x29, x29
+│           0x100004c98      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+│           0x100004c9c      mov x20, x0
+│           0x100004ca0      mov x0, x19                               ; void *instance
+│           0x100004ca4      bl sym.imp.objc_release                   ; void objc_release(void *instance)
+│       ┌─< 0x100004ca8      cbz x20, 0x100004cc8
+│       │   0x100004cac      mov x0, x20
+│       │   0x100004cb0      bl sym.imp.Foundation_...nconditionallyBridgeFromObjectiveCySSSo8NSStringCSgFZ_ ; Foundation(...nconditionallyBridgeFromObjectiveCySSSo8NSStringCSgFZ)
+│       │   0x100004cb4      mov x21, x0
+│       │   0x100004cb8      mov x19, x1
+│       │   0x100004cbc      mov x0, x20                               ; void *instance
+│       │   0x100004cc0      bl sym.imp.objc_release                   ; void objc_release(void *instance)
+│      ┌──< 0x100004cc4      b 0x100004cd8
+
+=== Disassembly around sourceApplication access (openURLContexts) ===
+│           0x1000051a8      ldr x1, [x8, 0x788]                       ; [0x100010788:4]=0xb7a5 ; reloc.fixup.sourceApplication ; char *selector
+│           0x1000051ac      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+│           0x1000051b0      mov x29, x29
+│           0x1000051b4      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+│           0x1000051b8      mov x20, x0
+│           0x1000051bc      mov x0, x19                               ; void *instance
+│           0x1000051c0      bl sym.imp.objc_release                   ; void objc_release(void *instance)
+│       ┌─< 0x1000051c4      cbz x20, 0x1000051e4
+│       │   0x1000051c8      mov x0, x20
+│       │   0x1000051cc      bl sym.imp.Foundation_...nconditionallyBridgeFromObjectiveCySSSo8NSStringCSgFZ_ ; Foundation(...nconditionallyBridgeFromObjectiveCySSSo8NSStringCSgFZ)
+│       │   0x1000051d0      mov x19, x0
+│       │   0x1000051d4      mov x25, x1
+│       │   0x1000051d8      mov x0, x20                               ; void *instance
+│       │   0x1000051dc      bl sym.imp.objc_release                   ; void objc_release(void *instance)
+│      ┌──< 0x1000051e0      b 0x1000051f4

@@ -1,0 +1,90 @@
+List all references to "UITextField", "setSecureTextEntry" and "SecureField":
+0x00001828 272 sym.MASTestApp.MastgTest.mastg.completion.UITextField
+0x00001938 112 sym....sSo11UITextFieldCIegg_ABIeyBy_TR
+0x000019a8 272 sym.MASTestApp.MastgTest.mastg.completion.UITextField...U0_
+0x00001ab8 296 sym.MASTestApp.MastgTest.mastg.completion.UITextField._
+0x000040a4 52 sym.SwiftUI.SecureField...VA2A4TextVRszrlE_4textACyAEGAA18LocalizedStringKeyV_AA7BindingVySSGtcfC
+0x0000567c 116 sym.SwiftUI.SecureField...VyAA4TextVGACyxGAA4ViewAAWl
+0x00005db8 4 sym.SwiftUI.SecureField...VA2A4TextVRszrlE_4textACyAEGAA18LocalizedStringKeyV_AA7BindingVySSGtcfcyycfU_
+0x00006508 96 sym....sSo11UITextFieldCMa
+0x00015570 12 sym.imp.SwiftUI.SecureField...VA2A4TextVRszrlE_4text8onCommitACyAEGAA18LocalizedStringKeyV_AA7BindingVySSGyyctcfC
+0x00016e90 22 str.v16__0__UITextField_8
+0x000177a5 20 str.setSecureTextEntry:
+0x00017900 0 sym.SwiftUI.SecureField...VyAA4TextVGMR
+0x0001c248 8 reloc.SwiftUI.SecureField...VA2A4TextVRszrlE_4text8onCommitACyAEGAA18LocalizedStringKeyV_AA7BindingVySSGyyctcfC
+0x0001c250 8 reloc.SwiftUI.SecureField...VMn
+0x0001c258 8 reloc.SwiftUI.SecureField...VyxGAA4ViewAAMc
+0x0001d578 8 reloc.UITextField
+0x000201c0 8 reloc.fixup.setSecureTextEntry:
+0x000202d8 0 sym.SwiftUI.SecureField...VyAA4TextVGMd
+0x000202e8 0 sym.SwiftUI.SecureField...VyAA4TextVGACyxGAA4ViewAAWL
+0x00020398 0 sym....sSo11UITextFieldCML
+
+Cross-references to the "setSecureTextEntry:" selector:
+sym.MASTestApp.MastgTest.mastg.completion.UITextField...U0_ 0x1a24 [DATA:r--] ldr x1, reloc.fixup.setSecureTextEntry:
+sym.MASTestApp.MastgTest.mastg.completion.UITextField._ 0x1b38 [DATA:r--] ldr x1, reloc.fixup.setSecureTextEntry:
+
+Cross-references to the "SecureField" initializer:
+sym.MASTestApp.MastgTest.OTPView.body.SwiftUI.TupleView.Text...G0J0PAGE7paddingyQrAG4EdgeO3SetV_12CoreGraphics7CGFloatVSgtFQOyAG15ModifiedContentVyAmGE14textFieldStyleyQrqd__AG0kuV0Rd__lFQOyAmGE12keyboardTypeyQrSo010UIKeyboardX0VFQOyAG06SecureU0VyAKG_Qo__AG013RoundedBorderkuV0VQo_AG31AccessibilityAttachmentModifierVG_Qo_AG6ButtonVyAKGtGyXEfU_ 0x3c60 [CALL:--x] bl sym.SwiftUI.SecureField...VA2A4TextVRszrlE_4textACyAEGAA18LocalizedStringKeyV_AA7BindingVySSGtcfC
+
+Disassembly around the password field setup (isSecureTextEntry = false, FAIL):
+│           0x00001a08      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001a0c      ldr x0, [var_10h]
+│           0x00001a10      adrp x8, segment.__DATA_CONST              ; 0x1c000
+│           0x00001a14      ldr x8, [x8, 0xe0]                         ; [0x1c0e0:4]=26
+│                                                                      ; reloc.objc_release
+│           0x00001a18      blr x8
+│           0x00001a1c      ldur x0, [x29, -0x10]                      ; void *instance
+│           0x00001a20      adrp x8, sym.__METACLASS_DATA__TtC10MASTestApp11DemoResults ; objc_class__TtC10MASTestApp11DemoResults
+│                                                                      ; 0x20000
+│           0x00001a24      ldr x1, [x8, 0x1c0]                        ; [0x201c0:4]=0x177a5 str.setSecureTextEntry: ; reloc.fixup.setSecureTextEntry: ; char *selector
+│           0x00001a28      mov w8, 0
+│           0x00001a2c      and w2, w8, 1
+│           ; DATA XREF from mach0_section___TEXT___swift5_assocty @ +0xc(r)
+│           0x00001a30      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001a34      ldur x0, [x29, -0x10]
+│           0x00001a38      adrp x8, segment.__DATA_CONST              ; 0x1c000
+│           0x00001a3c      ldr x8, [x8, 0xe8]                         ; [0x1c0e8:4]=27
+│                                                                      ; reloc.objc_retain
+│           0x00001a40      blr x8
+│           0x00001a44      ldr w8, [var_1ch]
+│           0x00001a48      adrp x0, 0x16000
+│           0x00001a4c      add x0, x0, 0xf26                          ; 0x16f26 ; "password_field"
+│           0x00001a50      mov w9, 0xe
+│           0x00001a54      mov x1, x9
+
+Disassembly around the OTP 1 field setup (isSecureTextEntry = true, PASS):
+│           0x00001b18      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001b1c      ldr x0, [var_10h]
+│           0x00001b20      adrp x8, segment.__DATA_CONST              ; 0x1c000
+│           0x00001b24      ldr x8, [x8, 0xe0]                         ; [0x1c0e0:4]=26
+│                                                                      ; reloc.objc_release
+│           0x00001b28      blr x8
+│           0x00001b2c      ldr w8, [var_1ch]
+│           0x00001b30      ldur x0, [x29, -0x10]                      ; void *instance
+│           0x00001b34      adrp x9, sym.__METACLASS_DATA__TtC10MASTestApp11DemoResults ; objc_class__TtC10MASTestApp11DemoResults
+│                                                                      ; 0x20000
+│           0x00001b38      ldr x1, [x9, 0x1c0]                        ; [0x201c0:4]=0x177a5 str.setSecureTextEntry: ; reloc.fixup.setSecureTextEntry: ; char *selector
+│           0x00001b3c      and w2, w8, 1
+│           0x00001b40      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001b44      ldur x0, [x29, -0x10]                      ; void *instance
+│           0x00001b48      adrp x8, sym.__METACLASS_DATA__TtC10MASTestApp11DemoResults ; objc_class__TtC10MASTestApp11DemoResults
+│                                                                      ; 0x20000
+│           0x00001b4c      ldr x1, [x8, 0x1c8]                        ; [0x201c8:4]=0x17794 str.setKeyboardType: ; reloc.fixup.setKeyboardType: ; char *selector
+│           0x00001b50      mov w8, 4
+│           0x00001b54      mov x2, x8
+│           0x00001b58      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001b5c      ldur x0, [x29, -0x10]
+│           0x00001b60      adrp x8, segment.__DATA_CONST              ; 0x1c000
+│           0x00001b64      ldr x8, [x8, 0xe8]                         ; [0x1c0e8:4]=27
+│                                                                      ; reloc.objc_retain
+
+Disassembly around the SecureField (OTP 2) setup (PASS):
+│           0x00003c50      ldr x7, [x19, 0x40]
+│           0x00003c54      ldr x0, [x19, 0x48]                        ; int64_t arg1
+│           0x00003c58      mov x8, x20
+│           0x00003c5c      and w2, w2, 1
+│           0x00003c60      bl sym.SwiftUI.SecureField...VA2A4TextVRszrlE_4textACyAEGAA18LocalizedStringKeyV_AA7BindingVySSGtcfC ; func.000040a4
+│           0x00003c64      bl sym.SwiftUI.SecureField...VyAA4TextVGACyxGAA4ViewAAWl ; func.0000567c
+│           0x00003c68      ldr x1, [x19, 0x60]
+│           0x00003c6c      ldr x8, [x19, 0x88]

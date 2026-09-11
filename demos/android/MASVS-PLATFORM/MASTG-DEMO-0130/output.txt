@@ -1,0 +1,2 @@
+Exported receiver: org.owasp.mastestapp.MastgTest.PasswordResetReceiver | permission: none
+Exported receiver: androidx.profileinstaller.ProfileInstallReceiver | permission: android.permission.DUMP

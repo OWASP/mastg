@@ -4,7 +4,6 @@ title: Runtime Detection of Root Detection Mechanisms
 id: MASTG-DEMO-0088
 code: [kotlin]
 test: MASTG-TEST-0325
-tools: [MASTG-TOOL-0145]
 ---
 
 ## Sample

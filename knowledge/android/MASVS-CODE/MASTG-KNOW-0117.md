@@ -64,7 +64,7 @@ In contrast:
 - Concatenating values into `selection`
 - Passing user-controlled input to `appendWhere`
 
-causes those values to become part of the SQL statement itself, where they are parsed as SQL. This is a common source of SQL injection. See @MASTG-DEMO-XXXX for a concrete example.
+causes those values to become part of the SQL statement itself, where they are parsed as SQL. This is a common source of SQL injection. See @MASTG-DEMO-0102 for a concrete example.
 
 ## Access Control
 

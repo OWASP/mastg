@@ -6,16 +6,22 @@ changelog:
     - title: 📢 News
       labels:
         - "news"
-    - title: 🧪 MASTG Test Cases
+    - title: 🧪 MASTG Tests
       labels:
         - "tests"
-    - title: 📖 MASTG Testing Fundamentals
+    - title: 📖 MASTG Knowledge
       labels:
-        - "fundamentals"
-    - title: ✨ MASTG Testing Techniques
+        - "knowledge"
+    - title: 🎬 MASTG Demos
+      labels:
+        - "demos"
+    - title: ✨ MASTG Techniques
       labels:
         - "techniques"
-    - title: 🪄 MASTG Testing Tools
+    - title: 🛡️ MASTG Best Practices
+      labels:
+        - "best practices"
+    - title: 🪄 MASTG Tools
       labels:
         - "tools"
     - title: ⚡ Automation

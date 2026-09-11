@@ -45,7 +45,7 @@ class MastgTest(private val context: Context) {
         layout.addView(vulnerableButton, buttonParams)
 
         (context as? Activity)?.let { activity ->
-            // PASS: [MASTG-TEST-0x01] The activity uses setHideOverlayWindows(true) to prevent overlay
+            // PASS: [MASTG-TEST-0358] The activity uses setHideOverlayWindows(true) to prevent overlay
             // windows from appearing over this activity, protecting all sensitive UI elements at once.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 activity.window.setHideOverlayWindows(true)

@@ -1,0 +1,4 @@
+Exposed [isSecureTextEntry=false, class=_UIAlertControllerTextField, aid=username_field, placeholder=Username]: "username"
+Exposed [isSecureTextEntry=false, class=_UIAlertControllerTextField, aid=password_field, placeholder=Password]: "password"
+Masked [isSecureTextEntry=true, class=_UIAlertControllerTextField, aid=otp_1_field, placeholder=OTP 1]: "1234"
+Masked [isSecureTextEntry=true, class=UITextField, aid=null, placeholder=OTP 2]: "5678"

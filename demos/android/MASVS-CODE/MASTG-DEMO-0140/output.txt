@@ -1,0 +1,2 @@
+--------- beginning of main
+06-20 13:16:17.157 25071 25071 E INTENT_ATTACK: Intercepted action=org.owasp.mastestapp.INTERNAL_ACTION extras=session_token=abcde-fghij-12345, user_id=12345
