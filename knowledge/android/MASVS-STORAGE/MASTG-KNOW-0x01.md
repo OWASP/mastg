@@ -5,19 +5,23 @@ title: Android DataStore
 available_since: 21
 ---
 
-[Jetpack DataStore](https://developer.android.com/topic/libraries/architecture/datastore) is an Android data storage library designed as the modern replacement for [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences). It stores key-value pairs or typed objects asynchronously using Kotlin coroutines and Flow, providing a non-blocking, consistent API.
+[Jetpack DataStore](https://developer.android.com/topic/libraries/architecture/datastore) is an Android data storage library designed as the modern replacement for [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences). It is therefore suitable for data like user preferences or app settings but not for complex or large datasets such as media data or relation data.
+
+It stores key-value pairs or typed objects asynchronously using Kotlin coroutines and Flow, providing a non-blocking, consistent API.
 
 DataStore comes in two flavors:
 
-- **Preferences DataStore**: stores and accesses untyped key-value pairs, similar to `SharedPreferences` but without an XML schema.
-- **Proto DataStore**: stores typed objects defined with [Protocol Buffers](https://protobuf.dev/) (protobuf), providing type safety at compile time.
+- **Preferences DataStore**: stores and accesses untyped key-value pairs, similar to `SharedPreferences`. 
+- - **`Serializer<T>` DataStore**: stores any object which implements `Serializer` for the type `T` providing type safety at compile time.
+
+> Well suited objects for serialization are [Protocol Buffers](https://protobuf.dev/) and [JSON](https://developer.android.com/topic/libraries/architecture/datastore#json-serialization) 
 
 ## Storage Location
 
-Both DataStore variants write their data to the app's internal storage, under the app-specific directory:
+Both DataStore variants write their data to the app's internal storage, under the directory `/data/data/<package-name>/files/datastore/`.
 
-- Preferences DataStore: `/data/data/<package-name>/files/datastore/<filename>.preferences_pb`
-- Proto DataStore: `/data/data/<package-name>/files/datastore/<filename>.pb`
+Preferences are stored as serialized protocol buffer in a file called `<name>.preferences_pb`, while custom serialized objects are stored in the file declared when initializing the DataStore:
+
 
 The data is stored in protobuf binary format, not in plain-text XML like `SharedPreferences`. The files are not encrypted by default.
 
@@ -34,9 +38,9 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 Data is read via a `Flow`:
 
 ```kotlin
-val MY_KEY = stringPreferencesKey("my_key")
+private val LANGUAGE_KEY = stringPreferencesKey("language")
 val value: Flow<String?> = context.dataStore.data.map { preferences ->
-    preferences[MY_KEY]
+    preferences[LANGUAGE_KEY]
 }
 ```
 
@@ -44,13 +48,13 @@ Data is written with a suspending `edit` call:
 
 ```kotlin
 context.dataStore.edit { preferences ->
-    preferences[MY_KEY] = "myValue"
+    preferences[LANGUAGE_KEY] = "kotlin"
 }
 ```
 
-### Proto DataStore
+### `Serializer<T>` DataStore
 
-A `DataStore<T>` instance for a protobuf-defined type `T` requires a custom `Serializer<T>` and is created with `createDataStore` or the `dataStore` delegate:
+A `DataStore<T>` instance for any serializable type `T` requires a custom `Serializer<T>` and is created with `createDataStore` or the `dataStore` delegate:
 
 ```kotlin
 val Context.settingsDataStore: DataStore<Settings> by dataStore(
@@ -65,6 +69,8 @@ Reads and writes follow the same coroutine-based `data` Flow and `updateData` AP
 
 Neither Preferences DataStore nor Proto DataStore encrypts data at rest by default. The `Serializer` can be wrapped with custom encryption logic using the [Android Keystore](https://developer.android.com/training/articles/keystore) or a library such as [Tink](https://developers.google.com/tink) to encrypt data at rest.
 
-## Backup Behavior
+## Backup and Device-Transfer Behavior
 
-DataStore files stored under the app's internal `files/datastore/` directory are included in [Android Auto Backup](https://developer.android.com/identity/data/autobackup) by default (available since Android 6.0, API level 23). Apps can opt specific files out of backup using the `android:fullBackupContent` rules or `android:dataExtractionRules` (Android 12 (API level 31) and higher).
+DataStore files stored under the app's internal `files/datastore/` directory are included in [Android Auto Backup](https://developer.android.com/identity/data/autobackup) and device-to-device transfers by default. 
+
+Auto Backup is available for apps that target Android 6.0 (API level 23), or higher. They can exclude specific DataStore files or directories using `android:fullBackupContent`. On Android 12 (API level 31 ) and higher, apps can use `android:dataExtractionRules` for backup configuration.
