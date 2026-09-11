@@ -20,7 +20,7 @@ DataStore comes in two flavors:
 
 Both DataStore variants write their data to the app's internal storage, under the directory `/data/data/<package-name>/files/datastore/`.
 
-Preferences are stored as serialized protocol buffer in a file called `<name>.preferences_pb`, while custom serialized objects are stored in the file declared when initializing the DataStore:
+Preferences are stored as serialized protocol buffer in a file called `<name>.preferences_pb`, while custom serialized objects are stored in the file name you provide (for example, `settings.pb`) when initializing DataStore.
 
 The data is stored in protobuf binary format, not in plain-text XML like `SharedPreferences`. The files are not encrypted by default.
 
@@ -53,7 +53,7 @@ context.dataStore.edit { preferences ->
 
 ### `Serializer<T>` DataStore
 
-A `DataStore<T>` instance for any serializable type `T` requires a custom `Serializer<T>` and is created with `createDataStore` or the `dataStore` delegate:
+A `DataStore<T>` instance for any serializable type `T` requires a custom `Serializer<T>` and is created with the `dataStore` delegate:
 
 ```kotlin
 val Context.settingsDataStore: DataStore<Settings> by dataStore(
