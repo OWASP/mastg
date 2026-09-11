@@ -20,6 +20,8 @@ If the app is properly implementing certificate pinning, the MITM attack should 
 
 This test focuses on relevant first-party domains, which are remote endpoints under the developer's control that support the app's core or security-sensitive functionality. Third-party domains outside the developer's control should not be reported only because their traffic can be intercepted.
 
+Unlike @MASTG-TEST-0242, which specifically assesses certificate pinning configured through the Android Network Security Configuration, this test is implementation-agnostic. It verifies at runtime whether pinning is enforced regardless of whether it is implemented through the Network Security Configuration, application code, a third-party library, or native code.
+
 _Testing Tip:_ While performing the MITM attack, it can be useful to monitor the system logs (see @MASTG-TECH-0009). If a certificate pinning/validation check fails, an event similar to the following log entry might be visible, indicating that the app detected the MITM attack and did not establish a connection.
 
 `I/X509Util: Failed to validate the certificate chain, error: Pin verification failed`

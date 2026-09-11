@@ -16,9 +16,9 @@ Apps can configure expiration dates for pinned certificates in the Network Secur
 
 If developers assume pinning is still in effect but don't realize it has expired, the app may start trusting CAs it was never intended to.
 
-> Example: A financial app previously pinned to its own private CA but, after expiration, starts trusting publicly trusted CAs, increasing the risk of compromise if a CA is breached.
+> Example: A financial app previously pinned to its own private CA but, after the pin expires, any certificate valid under the app's configured trust anchors may be accepted, whereas previously it also had to satisfy the pinning policy.
 
-This test checks whether any certificate pin configured for a relevant first-party domain has expired. Relevant domains are remote endpoints under the developer's control that support the app's core or security-sensitive functionality.
+This test identifies expired certificate pins for security-sensitive first-party endpoints. Once a pin set expires, [Android stops enforcing it](https://developer.android.com/privacy-and-security/security-config#pin-set) (this is done to prevent connectivity issues in apps which do not get updates to their pin set). Connections are then authenticated using the applicable trust anchors, which may be explicitly configured or provided by the platform defaults. Determine whether this behavior is intentional and consistent with the application's threat model.
 
 ## Steps
 
