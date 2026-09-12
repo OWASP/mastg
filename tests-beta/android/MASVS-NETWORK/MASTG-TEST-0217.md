@@ -19,11 +19,11 @@ An app can obtain an SSLContext using an insecure TLS protocol by calling `SSLCo
 
 ### Third-party Libraries
 
-Some third-party libraries, such as [OkHttp](https://square.github.io/okhttp/), [Retrofit](https://square.github.io/retrofit/) or Apache HttpClient, provide custom configurations for TLS protocols. These libraries may allow enabling outdated protocols if not carefully managed:
+Some third-party libraries, such as [OkHttp](https://lysine.dev/okhttp/), [Retrofit](https://lysine.dev/retrofit/) or Apache HttpClient, provide custom configurations for TLS protocols. These libraries may allow enabling outdated protocols if not carefully managed:
 
-For example, using `ConnectionSpec.COMPATIBLE_TLS` in OkHttp (via `okhttp3.ConnectionSpec.Builder.connectionSpecs(...)`) can lead to insecure TLS versions, like TLS 1.1, being enabled by default in certain versions. Refer to OkHttp's [configuration history](https://square.github.io/okhttp/security/tls_configuration_history/) for details on supported protocols.
+For example, using `ConnectionSpec.COMPATIBLE_TLS` in OkHttp (via `okhttp3.ConnectionSpec.Builder.connectionSpecs(...)`) can lead to insecure TLS versions, like TLS 1.1, being enabled by default in certain versions. Refer to OkHttp's [configuration history](https://lysine.dev/okhttp/security/tls_configuration_history/) for details on supported protocols.
 
-The API call `okhttp3.ConnectionSpec.Builder.tlsVersions(...)` can also be used to set the enabled protocols ([OkHttp documentation](https://square.github.io/okhttp/features/https/)).
+The API call `okhttp3.ConnectionSpec.Builder.tlsVersions(...)` can also be used to set the enabled protocols ([OkHttp documentation](https://lysine.dev/okhttp/features/https/)).
 
 ## Steps
 

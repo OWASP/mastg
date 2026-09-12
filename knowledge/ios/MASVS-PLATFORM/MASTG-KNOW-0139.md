@@ -13,7 +13,7 @@ Three types of content worlds are available:
 
 - **`.page`**: the JavaScript environment of the loaded web page. Scripts and handlers registered here share scope with the page's own JavaScript.
 - **`.defaultClient`**: a pre-defined isolated world separate from the page. Variables and functions declared here are not visible to page JavaScript and do not conflict with the page's globals.
-- **Custom worlds**: created with [`WKContentWorld.world(withName:)`](https://developer.apple.com/documentation/webkit/wkcontentworld/world(withname:)). Multiple named worlds can coexist, each fully isolated from the others and from the page.
+- **Custom worlds**: created with [`WKContentWorld.world(name:)`](https://developer.apple.com/documentation/webkit/wkcontentworld/world(name:)). Multiple named worlds can coexist, each fully isolated from the others and from the page.
 
 ## Isolation Boundaries
 

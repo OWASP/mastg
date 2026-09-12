@@ -6,6 +6,8 @@ type: [static, code]
 weakness: MASWE-0028
 profiles: [L2]
 knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
+prerequisites:
+- identify-first-party-domains
 ---
 
 ## Overview
@@ -14,9 +16,9 @@ Apps can configure expiration dates for pinned certificates in the Network Secur
 
 If developers assume pinning is still in effect but don't realize it has expired, the app may start trusting CAs it was never intended to.
 
-> Example: A financial app previously pinned to its own private CA but, after expiration, starts trusting publicly trusted CAs, increasing the risk of compromise if a CA is breached.
+> Example: A financial app previously pinned to its own private CA but, after the pin expires, any certificate valid under the app's configured trust anchors may be accepted, whereas previously it also had to satisfy the pinning policy.
 
-The goal of this test is to check if any expiration date is in the past.
+This test identifies expired certificate pins for security-sensitive first-party endpoints. Once a pin set expires, [Android stops enforcing it](https://developer.android.com/privacy-and-security/security-config#pin-set) (this is done to prevent connectivity issues in apps which do not get updates to their pin set). Connections are then authenticated using the applicable trust anchors, which may be explicitly configured or provided by the platform defaults. Determine whether this behavior is intentional and consistent with the application's threat model.
 
 ## Steps
 
@@ -24,11 +26,23 @@ The goal of this test is to check if any expiration date is in the past.
 2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
 3. Use @MASTG-TECH-0150 to check if `android:networkSecurityConfig` is set in the `<application>` tag.
 4. Use @MASTG-TECH-0151 to extract the expiration dates for all certificate pins from the Network Security Configuration file.
+5. Use @MASTG-TECH-0022 to identify the first-party domains the app connects to.
 
 ## Observation
 
-The output should contain a list of expiration dates for pinned certificates.
+The output should contain a list of expiration dates for pinned certificates, along with the domains they apply to. The output should also identify which of those domains are relevant first-party domains the app connects to.
 
 ## Evaluation
 
-The test case fails if any expiration date is in the past.
+The test case fails if any certificate pin configured for a relevant first-party domain has an expiration date in the past.
+
+The test case should not fail only because pins for unrelated third-party domains have expired.
+
+**Further Validation Required:**
+
+Before reporting an expired pin, confirm that the app actually establishes connections to the affected first-party domains:
+
+- Statically, follow the data references from the hardcoded URLs to the code that initiates the network connections (@MASTG-TECH-0023).
+- Dynamically, capture and analyze the network traffic (@MASTG-TECH-0011) or hook the relevant network APIs at runtime to log the domains the app connects to.
+
+Determining which domains are first-party and security-relevant typically requires information that is not present in the app binary and may require contact with the developers.
