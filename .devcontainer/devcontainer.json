@@ -4,20 +4,19 @@
     "dockerfile": "Dockerfile"
   },
 
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/mastg,type=bind,consistency=cached",
   "workspaceFolder": "/workspace/mastg",
-  "containerEnv": {
-    "WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
-  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
 
   "mounts": [
     "source=masvs,target=/workspace/masvs,type=volume",
     "source=maswe,target=/workspace/maswe,type=volume",
     "source=mas-website,target=/workspace/mas-website,type=volume"
   ],
+
   "remoteUser": "vscode",
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspace/* && .devcontainer/getMasProjects.sh && .devcontainer/setupShellAlias.sh",
-  "postStartCommand": ".devcontainer/runMasWebsite.sh",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace/* && .devcontainer/fetchMasWebsite.sh && /workspace/mas-website/.devcontainer/setupShellAlias.sh &&  /workspace/mas-website/.devcontainer/fetchMasProject.sh maswe masvs",
+  "postStartCommand": "/workspace/mas-website/.devcontainer/runMasWebsite.sh",
+
   "customizations": {
     "vscode": {
       "settings": {
