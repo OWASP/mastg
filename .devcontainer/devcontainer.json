@@ -1,8 +1,7 @@
 {
   "name": "mastg",
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+    "dockerfile": "Dockerfile"
   },
 
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/mastg,type=bind,consistency=cached",
@@ -17,7 +16,7 @@
   "remoteEnv": {
     "SSH_AUTH_SOCK": "/ssh-agent"
   },
-  "postCreateCommand": "bash .devcontainer/getMasProjects.sh",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace/* && .devcontainer/getMasProjects.sh && .devcontainer/runMasWebsite.sh",
 
   "customizations": {
     "vscode": {
