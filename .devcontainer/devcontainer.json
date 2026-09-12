@@ -1,0 +1,44 @@
+{
+  "name": "mastg",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/mastg,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace/mastg",
+
+  "mounts": [
+    "source=masvs,target=/workspace/masvs,type=volume",
+    "source=maswe,target=/workspace/maswe,type=volume",
+    "source=mas-website,target=/workspace/mas-website,type=volume",
+    "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
+  ],
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "/ssh-agent"
+  },
+  "postCreateCommand": "bash .devcontainer/getMasProjects.sh",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "debug.javascript.usePreview": false
+      },
+      "extensions": [
+        "yzhang.markdown-all-in-one",
+        "redhat.vscode-yaml",
+        "shardulm94.trailing-spaces",
+        "oderwat.indent-rainbow",
+        "msjsdiag.debugger-for-chrome",
+        "ms-python.python",
+        "ms-python.debugpy",
+        "davidanson.vscode-markdownlint",
+        "timonwong.shellcheck",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+
+  "forwardPorts": [8000]
+}
