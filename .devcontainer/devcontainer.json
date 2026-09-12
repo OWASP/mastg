@@ -10,14 +10,11 @@
   "mounts": [
     "source=masvs,target=/workspace/masvs,type=volume",
     "source=maswe,target=/workspace/maswe,type=volume",
-    "source=mas-website,target=/workspace/mas-website,type=volume",
-    "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
+    "source=mas-website,target=/workspace/mas-website,type=volume"
   ],
-  "remoteEnv": {
-    "SSH_AUTH_SOCK": "/ssh-agent"
-  },
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspace/* && .devcontainer/getMasProjects.sh && .devcontainer/runMasWebsite.sh",
-
+  "remoteUser": "vscode",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspace/* && .devcontainer/getMasProjects.sh",
+  "postStartCommand": ".devcontainer/runMasWebsite.sh",
   "customizations": {
     "vscode": {
       "settings": {
