@@ -7,25 +7,33 @@ rules:
       summary: This rule looks for broken hashing algorithms in MessageDigest.getInstance calls and common third-party wrappers.
     message: "[MASVS-CRYPTO-1] Broken hashing algorithms found in use."
     pattern-either:
-      - pattern: MessageDigest.getInstance("MD2")
-      - pattern: MessageDigest.getInstance("MD2", ...)
-      - pattern: MessageDigest.getInstance("MD4")
-      - pattern: MessageDigest.getInstance("MD4", ...)
-      - pattern: MessageDigest.getInstance("MD5")
-      - pattern: MessageDigest.getInstance("MD5", ...)
-      - pattern: MessageDigest.getInstance("SHA-1")
-      - pattern: MessageDigest.getInstance("SHA-1", ...)
-      - pattern: MessageDigest.getInstance("SHA1")
-      - pattern: MessageDigest.getInstance("SHA1", ...)
-      - pattern: MessageDigest.getInstance("SHA")
-      - pattern: MessageDigest.getInstance("SHA", ...)
-      - pattern: Hashing.md5()
+      - patterns:
+          - pattern-either:
+              - pattern: MessageDigest.getInstance($ALGO, ...)
+              - pattern: java.security.MessageDigest.getInstance($ALGO, ...)
+          - metavariable-regex:
+              metavariable: $ALGO
+              regex: (?i)^"?(MD2|MD4|MD5|SHA-1|SHA1|SHA)"?$
       - pattern: Hashing.md5(...)
-      - pattern: Hashing.sha1()
+      - pattern: com.google.common.hash.Hashing.md5(...)
       - pattern: Hashing.sha1(...)
+      - pattern: com.google.common.hash.Hashing.sha1(...)
       - pattern: DigestUtils.md5(...)
+      - pattern: org.apache.commons.codec.digest.DigestUtils.md5(...)
       - pattern: DigestUtils.md5Hex(...)
+      - pattern: org.apache.commons.codec.digest.DigestUtils.md5Hex(...)
       - pattern: DigestUtils.sha1(...)
+      - pattern: org.apache.commons.codec.digest.DigestUtils.sha1(...)
       - pattern: DigestUtils.sha1Hex(...)
-      - pattern: DigestUtils.md5Digest(...)
-      - pattern: DigestUtils.sha1Digest(...)
+      - pattern: org.apache.commons.codec.digest.DigestUtils.sha1Hex(...)
+      - pattern: DigestUtils.getMd5Digest(...)
+      - pattern: org.apache.commons.codec.digest.DigestUtils.getMd5Digest(...)
+      - pattern: DigestUtils.getSha1Digest(...)
+      - pattern: org.apache.commons.codec.digest.DigestUtils.getSha1Digest(...)
+      - patterns:
+          - pattern-either:
+              - pattern: DigestUtils.getDigest($ALGO, ...)
+              - pattern: org.apache.commons.codec.digest.DigestUtils.getDigest($ALGO, ...)
+          - metavariable-regex:
+              metavariable: $ALGO
+              regex: (?i)^"?(MD2|MD4|MD5|SHA-1|SHA1|SHA)"?$

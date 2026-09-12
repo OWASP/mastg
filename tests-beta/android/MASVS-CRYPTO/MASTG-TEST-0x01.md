@@ -3,6 +3,9 @@ title: Broken Hashing Algorithms
 platform: android
 id: MASTG-TEST-0x01
 type: [static, code, manual]
+prerequisites:
+  - identify-sensitive-data
+  - identify-security-relevant-contexts
 weakness: MASWE-0008
 profiles: [L1, L2]
 ---
@@ -23,11 +26,11 @@ If an Android app uses broken hashing algorithms such as MD5 or SHA-1 to protect
 Some broken hashing algorithms include:
 
 - **MD5**: Collision attacks are practical (producing collisions in seconds). While preimage attacks remain theoretical (costing ~2^123.4 operations per [RFC 6151 §2.2](https://www.rfc-editor.org/rfc/rfc6151.html#section-2.2)), practical collision attacks and precomputed dictionary/rainbow table lookups make MD5 completely inadequate for cryptographic protection, digital signatures, or credential storage. It is not approved by NIST for cryptographic use.
-- **SHA-1**: Collision attacks are practical: identical-prefix collisions were demonstrated by [SHAttered](https://shattered.io/), and practical chosen-prefix collisions were demonstrated by [SHA-1 is a Shambles](https://sha-mbles.github.io/). NIST has [deprecated and retired SHA-1](https://csrc.nist.gov/news/2022/nist-retires-sha-1-and-discusses-sha-3) for all cryptographic applications.
+- **SHA-1**: Collision attacks are practical: identical-prefix collisions were demonstrated by [SHAttered](https://shattered.io/), and practical chosen-prefix collisions were demonstrated by [SHA-1 is a Shambles](https://sha-mbles.github.io/). NIST has [deprecated and retired SHA-1](https://www.nist.gov/news-events/news/2022/12/nist-retires-sha-1-cryptographic-algorithm) for all cryptographic applications.
 
 Android also provides additional guidance on [broken cryptographic algorithms](https://developer.android.com/privacy-and-security/risks/broken-cryptographic-algorithm).
 
-Third-party wrappers such as Guava `Hashing.md5()` / `Hashing.sha1()` and Apache Commons Codec `DigestUtils` may call the same algorithms. Native libraries (for example OpenSSL `MD5_*` / `SHA1_*`) can implement hashing without going through `MessageDigest`.
+Third-party wrappers such as Guava `Hashing.md5` / `Hashing.sha1` and Apache Commons Codec `DigestUtils` may call the same algorithms. Native libraries (for example OpenSSL `MD5_*` / `SHA1_*`) can implement hashing without going through `MessageDigest`.
 
 **Out of Scope**: `Mac.getInstance` (HMAC) and password-based key derivation functions such as `PBKDF2WithHmacSHA1` are out of scope for this test.
 
@@ -42,7 +45,7 @@ The output should contain a list of locations where broken hashing algorithms ar
 
 ## Evaluation
 
-The test case fails if you can find the use of broken hashing algorithms. For example:
+The test case fails if you can find the use of broken hashing algorithms in a security-relevant context to protect sensitive data. For example:
 
 - MD5
 - SHA-1
