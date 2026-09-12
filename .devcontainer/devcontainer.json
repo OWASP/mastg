@@ -6,6 +6,9 @@
 
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/mastg,type=bind,consistency=cached",
   "workspaceFolder": "/workspace/mastg",
+  "containerEnv": {
+    "WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
+  },
 
   "mounts": [
     "source=masvs,target=/workspace/masvs,type=volume",
