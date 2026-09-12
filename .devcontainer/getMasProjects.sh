@@ -6,7 +6,8 @@ clone_or_update() {
   local dir="$2"
 
   if [ -d "${dir}/.git" ]; then
-    git -C "${dir}" pull --ff-only
+    git -C "${dir}" fetch --depth 1 origin
+    git -C "${dir}" reset --hard origin/HEAD
   else
     git clone --depth 1 "${repo_url}" "${dir}"
   fi
