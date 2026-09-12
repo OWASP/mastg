@@ -17,7 +17,7 @@ The following WKWebView APIs are commonly targeted if they process untrusted inp
 
 **Remote URL Loading:**
 
-- [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:))
+- [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:)-5siv6)
 
 **Local URL and Content Loading:**
 

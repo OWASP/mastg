@@ -7,7 +7,7 @@ weakness: MASWE-0028
 profiles: [L2]
 prerequisites:
 - identify-first-party-domains
-knowledge: [MASTG-KNOW-0072]
+knowledge: [MASTG-KNOW-0071, MASTG-KNOW-0072]
 ---
 
 ## Overview
