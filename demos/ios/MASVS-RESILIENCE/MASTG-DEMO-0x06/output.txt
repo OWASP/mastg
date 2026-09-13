@@ -1,0 +1,49 @@
+=== App Attest API references ===
+0x10000c6c2 34 str.generateKeyWithCompletionHandler:
+0x100014160 8 reloc.fixup.generateKeyWithCompletionHandle
+0x10000c61e 44 str.attestKey:clientDataHash:completionHandler:
+0x100014140 8 reloc.fixup.attestKey:clientDataHash:comple
+0x10000c68e 52 str.generateAssertion:clientDataHash:completionHandler:
+0x100014158 8 reloc.fixup.generateAssertion:clientDataHas
+0x10000c6e4 12 str.isSupported
+0x100014168 8 reloc.fixup.isSupported
+
+=== No hardcoded challenge string in the binary ===
+
+=== Challenge is fetched from a server endpoint instead ===
+214 0x0000be30 0x10000be30 42  43   7.__TEXT.__cstring         ascii   https://mastg.example.com/attest/challenge
+
+=== Cross references to the challenge endpoint ===
+(nofunc) 0x100000300 [NULL:r--] invalid
+sym.func.100004000 0x10000407c [STRN:r--] add x8, x8, str.https:__mastg.example.com_attest_challenge
+
+=== The endpoint is turned into a URL for the request ===
+│           0x100004078      adrp x8, section.3.__TEXT.__const         ; 0x10000b000
+│           0x10000407c      add x8, x8, 0xe30                         ; 0x10000be30 ; "https://mastg.example.com/attest/challenge"
+│           0x100004080      sub x8, x8, 0x20
+│           0x100004084      orr x1, x8, 0x8000000000000000
+│           0x100004088      mov x8, x19
+│           0x10000408c      mov x0, 0x2a                              ; '*'
+│           0x100004090      movk x0, 0xd000, lsl 48
+│           0x100004094      bl sym.imp.Foundation.URL.string_...cfC_  ; Foundation.URL.string(...cfC)
+│           0x100004098      ldur x22, [x20, -8]
+│           0x10000409c      ldr x8, [x22, 0x30]
+
+=== The response data is hashed to build the clientDataHash ===
+│           0x100004114      mov x25, x0                               ; arg1
+│           0x100004118      mov x0, 0
+│           0x10000411c      bl sym.imp.CryptoKit.SHA256...VMa
+│           0x100004120      mov x28, x0
+│           0x100004124      ldur x24, [x0, -8]
+│           0x100004128      ldr x8, [x24, 0x40]
+│           0x10000412c      mov x9, x8
+│           0x100004130      adrp x16, segment.__DATA_CONST            ; 0x100010000
+
+=== Network call used to retrieve the challenge ===
+fcn.10000af20 0x10000af24 [DATA:r--] ldr x1, reloc.fixup.dataTaskWithURL:completionHandl
+
+=== attestKey called with the server-derived clientDataHash ===
+fcn.10000aee0 0x10000aee4 [DATA:r--] ldr x1, reloc.fixup.attestKey:clientDataHash:comple
+
+=== generateAssertion called with its own server-derived hash ===
+fcn.10000af40 0x10000af44 [DATA:r--] ldr x1, reloc.fixup.generateAssertion:clientDataHas
