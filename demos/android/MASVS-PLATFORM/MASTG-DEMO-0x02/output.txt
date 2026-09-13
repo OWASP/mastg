@@ -1,0 +1,9 @@
+PENDING: this output has not yet been captured from a real device/emulator run.
+
+Replace this file with the actual `adb logcat -s MASTG-A11Y:I` output obtained by:
+1. Building both MASTG-DEMO-0x01 and MASTG-DEMO-0x02 with the mas-app-android base app.
+2. Installing both APKs on the same device/emulator.
+3. Enabling the "Accessibility Attacker" service in Android Accessibility settings.
+4. Running `./run.sh clear`, exercising MASTG-DEMO-0x01 (entering MASTG-SECRET-1234), then running `./run.sh`.
+
+Record the Android version, IDE version, and device/emulator used, per the demo authoring requirements.
