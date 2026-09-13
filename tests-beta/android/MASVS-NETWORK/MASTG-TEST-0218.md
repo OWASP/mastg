@@ -3,7 +3,7 @@ title: Insecure TLS Protocols in Network Traffic
 platform: android
 id: MASTG-TEST-0218
 type: [dynamic, network]
-weakness: MASWE-0026
+maswe: [MASWE-0026]
 profiles: [L1, L2]
 ---
 

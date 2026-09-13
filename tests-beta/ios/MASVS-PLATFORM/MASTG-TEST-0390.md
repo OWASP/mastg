@@ -3,7 +3,7 @@ platform: ios
 title: Full Access Requested by a Custom Keyboard Extension
 id: MASTG-TEST-0390
 type: [static, code, manual]
-weakness: MASWE-0066
+maswe: [MASWE-0066]
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0069]

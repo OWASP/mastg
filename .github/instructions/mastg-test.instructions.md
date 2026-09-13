@@ -35,7 +35,7 @@ When a weakness has tests on both platforms, the Android and iOS tests **must be
 What must match across platforms:
 
 - **`title`**: identical on both platforms (do not include "Android" or "iOS" in the title; see [title](#title)).
-- **`weakness`**: the same `MASWE-XXXX` id.
+- **`maswe`**: the same `MASWE-XXXX` id(s).
 - **MASVS category and folder**: the same category (for example, both under `MASVS-RESILIENCE/`). A single weakness must not be split across different categories on different platforms.
 - **`profiles`**: the same profile set.
 - **Optional metadata that expresses the same intent**: if one platform sets `false_negative_prone`, `best-practices`, or `apis`, the other should too (with its platform-specific values).
@@ -90,11 +90,11 @@ The mobile platform. One of the following:
 
 The test ID.
 
-### weakness
+### maswe
 
-The MASWE weakness ID associated with this test.
+The MASWE weakness ID(s) associated with this test, as a list.
 
-- In YAML front matter, specify the bare identifier (for example, `weakness: MASWE-0069`). In body text, include the leading `@` (for example, @MASWE-0069).
+- In YAML front matter, specify a list of bare identifiers, even when there is only one (for example, `maswe: [MASWE-0069]`, or `maswe: [MASWE-0069, MASWE-0070]` when a test covers more than one weakness). In body text, include the leading `@` for each reference (for example, @MASWE-0069).
 
 ### type
 
