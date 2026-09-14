@@ -6,6 +6,12 @@ code: [kotlin]
 test: MASTG-TEST-0x01
 ---
 
+## Environment
+
+- Mobile platform: Android 13 (API level 33)
+- IDE: Android Studio 2026.1
+- Device: Pixel 7 Android Virtual Device with the Google APIs ARM64 system image
+
 ## Sample
 
 The code snippet below shows sample code that hashes data with MD5, SHA-1 (including the `SHA1` alias), and SHA-256.

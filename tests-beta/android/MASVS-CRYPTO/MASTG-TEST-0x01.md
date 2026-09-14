@@ -3,11 +3,13 @@ title: Broken Hashing Algorithms
 platform: android
 id: MASTG-TEST-0x01
 type: [static, code, manual]
+best-practices: [MASTG-BEST-0x01]
 prerequisites:
   - identify-sensitive-data
   - identify-security-relevant-contexts
 weakness: MASWE-0008
 profiles: [L1, L2]
+knowledge: [MASTG-KNOW-0x01]
 ---
 
 ## Overview
