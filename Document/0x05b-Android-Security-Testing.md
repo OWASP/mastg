@@ -75,6 +75,7 @@ Several tools and VMs that can be used to test an app within an emulator environ
 - [Nathan](https://github.com/mseclab/nathan "Nathan") (not updated since 2016)
 
 ##### ARM Binary Translation on x86 Emulators
+
 !!! warning
 Running ARM code on x86 through binary translation can change app behavior or cause crashes. When contributing to the OWASP MASTG, state whether you used binary translation and identify the emulator, system image, and translation implementation. Translation can affect security testing results, so confirm relevant tests or demos on an ARM device when possible.
 Most Android devices use ARM-based processors, and many Android applications include native libraries compiled for ARM architectures (`armeabi-v7a` or `arm64-v8a`). When testing these applications on an x86 or x86_64 emulator, the emulator must provide a mechanism to execute ARM native code.
