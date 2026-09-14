@@ -1,39 +1,18 @@
 ---
 platform: android
-title: App Exposing User Authentication Data in Text Input Fields
+title: References to APIs Hiding Sensitive Data in Text Input Fields
 id: MASTG-TEST-0316
 type: [static, code, manual]
 maswe: [MASWE-0036, MASWE-0040]
 profiles: [L2]
+knowledge: [MASTG-KNOW-0x01]
 ---
 
 ## Overview
 
-This test verifies that the app handles user input correctly, ensuring that access codes (passwords or pins) and verification codes (OTPs) are not exposed in plain text within text input fields.
+If the app does not mask text input fields that contain authentication data, such as passwords, PINs, or verification codes, the data may be exposed in plain text through the user interface.
 
-Proper masking (e.g., dots instead of input characters) of these codes is essential to protect user privacy. This can be achieved by using appropriate input types that obscure the characters entered by the user. In Jetpack Compose, `SecureTextField` uses `TextObfuscationMode`, which [by default is `TextObfuscationMode.RevealLastTyped`](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/material/material/src/commonMain/kotlin/androidx/compose/material/SecureTextField.kt;l=115?q=SecureTextField), so a developer can simply use `SecureTextField` without explicitly setting `textObfuscationMode` unless another behavior is required.
-
-XML view:
-
-```xml
-<EditText
-    android:inputType="textPassword"
-    ...
-/>
-```
-
-Jetpack Compose:
-
-```kotlin
-SecureTextField(
-    // textObfuscationMode defaults to TextObfuscationMode.RevealLastTyped
-    textObfuscationMode = TextObfuscationMode.RevealLastTyped, // or TextObfuscationMode.Hidden
-    ...
-)
-```
-
-!!! note
-    Even if `SecureTextField` uses the default `TextObfuscationMode.RevealLastTyped` or is configured explicitly with `RevealLastTyped` or `Hidden`, it can later be changed to `Visible` programmatically.
+This test statically analyzes the app for text input fields and their masking configuration to determine whether authentication data can be displayed in plain text. See @MASTG-KNOW-0x01 for the Android APIs and configuration options used to mask text input.
 
 ## Steps
 
@@ -42,19 +21,23 @@ SecureTextField(
 
 ## Observation
 
-The output should contain a list of locations where text input fields for access or verification codes are used.
+The output should contain a list of locations where the app creates or configures text input fields, including references that determine whether the entered text is masked.
 
 ## Evaluation
 
-The test case fails if any text input field used for access or verification codes is found to be unmasked. For example, due to the following:
+The test case fails if a text input field used for a password, PIN, or verification code is configured so that the value is displayed in plain text by default or without an intentional user action.
 
-- `TextField` is used
-- `SecureTextField` is used but configured with `TextObfuscationMode.Visible`
+For example:
+
+- An Android View used for authentication data does not use an appropriate password input type or transformation.
+- A Compose `TextField` used for authentication data does not use an appropriate masking transformation, such as `PasswordVisualTransformation`.
+- A `SecureTextField` or `BasicSecureTextField` used for authentication data is configured with `TextObfuscationMode.Visible`.
+- The masking configuration is changed programmatically to expose the value without an intentional user action.
 
 **Further Validation Required:**
 
-Since determining which fields handle access or verification codes is context-dependent, inspect each reported code location using @MASTG-TECH-0023 to determine whether the field handles sensitive data and whether it is properly masked.
+Since determining which fields handle authentication data and whether an unmasked state is intentional is context-dependent, inspect each reported code location using @MASTG-TECH-0023 to determine whether the field handles a password, PIN, or verification code and whether its masking configuration can expose the value in plain text.
 
 **Expected False Negatives:**
 
-This test may produce false negatives if the app uses custom text input controls that do not rely on standard classes such as `TextField` or `SecureTextField` (for example in custom UI frameworks or game engines).
+This test may produce false negatives if the app uses custom text input controls that do not rely on standard Android or Jetpack Compose APIs, for example controls implemented by third-party UI frameworks, cross-platform frameworks, game engines, or custom rendering code.
