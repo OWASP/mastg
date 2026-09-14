@@ -241,9 +241,9 @@ When implementing OAuth2 in **native apps** that need to interact with social me
 
 Instead, a safer implementation is the use of _external user agents_, such as the system browser or in-app browser tabs, because they run in a separate instance and prevent the host app from capturing the user's credentials.
 
-Claimed HTTPS redirect URIs, such as App Links (Android) or Universal Links (iOS), should be used where possible. A valid alternative is the implementation of _private-use URI scheme_, for example `com.example.app:/oauth2redirect/example-provider`.
+Even though RFC 8252 permits the use of private-use URI schemes, they should be avoided where possible because another app can register the same custom scheme and intercept the authorization code.
 
-However, if a second app registers the same custom scheme as the legitimate, it could lead the user to a hijack scenario where the malicious app steals the authorization code.
+Instead, claimed "https" scheme URIs, such as Android App Links or iOS Universal Links, should be used where possible, as they allow the operating system to associate the redirect URI with the legitimate app.
 
 ## User Logout
 
