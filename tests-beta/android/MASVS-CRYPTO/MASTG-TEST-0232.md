@@ -3,7 +3,7 @@ title: Broken Symmetric Encryption Modes
 platform: android
 id: MASTG-TEST-0232
 type: [static, code, manual]
-weakness: MASWE-0007
+maswe: [MASWE-0007]
 best-practices: [MASTG-BEST-0005]
 profiles: [L1, L2]
 ---
