@@ -1,0 +1,47 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 1 file tracked by git with 3 Code rules:
+  Scanning 1 file with 3 java rules.
+                   
+                   
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-device-attestation-extension-read
+          ❰❰ Blocking ❱❱
+          [MASVS-RESILIENCE-1] Android key attestation extension (1.3.6.1.4.1.11129.2.1.17) read from the
+          certificate.                                                                                   
+                                                                                                         
+           38┆ this.attestationOid = "1.3.6.1.4.1.11129.2.1.17";
+   
+     ❱ rules.mastg-android-device-attestation-key-attestation
+          ❰❰ Blocking ❱❱
+          [MASVS-RESILIENCE-1] Key Attestation certificate chain retrieved. The rootOfTrust field carries the
+          device integrity signals, which the server must evaluate.                                          
+                                                                                                             
+           55┆ Certificate[] certChain = keyStore.getCertificateChain(this.keyAlias);
+   
+     ❱ rules.mastg-android-device-attestation-extension-read
+          ❰❰ Blocking ❱❱
+          [MASVS-RESILIENCE-1] Android key attestation extension (1.3.6.1.4.1.11129.2.1.17) read from the
+          certificate.                                                                                   
+                                                                                                         
+           61┆ byte[] extension = leaf.getExtensionValue(this.attestationOid);
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 3 (3 blocking)
+ • Rules run: 3
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 3 rules on 1 file: 3 findings.
