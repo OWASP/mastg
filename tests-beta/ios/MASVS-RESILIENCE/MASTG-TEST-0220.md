@@ -4,7 +4,6 @@ title: Usage of Outdated Code Signature Format
 id: MASTG-TEST-0220
 type: [static, code]
 maswe: [MASWE-0056]
-profiles: [R]
 knowledge: [MASTG-KNOW-0058]
 ---
 

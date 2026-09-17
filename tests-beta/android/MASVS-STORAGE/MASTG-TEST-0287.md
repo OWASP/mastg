@@ -5,7 +5,6 @@ id: MASTG-TEST-0287
 type: [dynamic, hooks, manual]
 maswe: [MASWE-0001]
 best-practices: [MASTG-BEST-0050]
-profiles: [L1, L2]
 prerequisites:
 - identify-sensitive-data
 knowledge: [MASTG-KNOW-0036]

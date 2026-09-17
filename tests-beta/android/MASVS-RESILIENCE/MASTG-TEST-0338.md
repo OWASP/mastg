@@ -6,7 +6,6 @@ apis: [javax.crypto.Mac, java.security.Signature, java.security.MessageDigest]
 type: [static, code, manual]
 maswe: [MASWE-0057]
 false_negative_prone: true
-profiles: [R]
 knowledge: [MASTG-KNOW-0036]
 best-practices: [MASTG-BEST-0066]
 ---

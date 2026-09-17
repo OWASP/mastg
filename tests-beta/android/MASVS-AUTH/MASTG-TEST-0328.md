@@ -5,7 +5,6 @@ id: MASTG-TEST-0328
 apis: [KeyGenParameterSpec.Builder, setInvalidatedByBiometricEnrollment]
 type: [static, code]
 maswe: [MASWE-0022]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
 best-practices: [MASTG-BEST-0037]
 ---

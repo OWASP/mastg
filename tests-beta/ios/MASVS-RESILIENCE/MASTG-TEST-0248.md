@@ -6,7 +6,6 @@ apis: [LAContext.canEvaluatePolicy, kSecAttrAccessibleWhenPasscodeSetThisDeviceO
 type: [static, code]
 maswe: [MASWE-0017]
 best-practices: []
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---
 

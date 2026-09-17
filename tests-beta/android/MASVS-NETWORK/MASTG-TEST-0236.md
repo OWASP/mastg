@@ -4,7 +4,6 @@ platform: network
 id: MASTG-TEST-0236
 type: [dynamic, network]
 maswe: [MASWE-0026]
-profiles: [L1, L2]
 ---
 
 ## Overview

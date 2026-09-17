@@ -6,7 +6,6 @@ type: [dynamic, logs]
 maswe: [MASWE-0061]
 best-practices: [MASTG-BEST-0022]
 knowledge: [MASTG-KNOW-0064, MASTG-KNOW-0101]
-profiles: [R]
 ---
 
 ## Overview

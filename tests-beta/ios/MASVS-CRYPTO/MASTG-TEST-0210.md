@@ -4,7 +4,6 @@ title: Broken Symmetric Encryption Algorithms
 id: MASTG-TEST-0210
 type: [static, code, manual]
 maswe: [MASWE-0007]
-profiles: [L1, L2]
 ---
 
 ## Overview

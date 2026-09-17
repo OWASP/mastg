@@ -4,7 +4,6 @@ title: Embedded or Third-party TLS Stack Configuration
 id: MASTG-TEST-0345
 type: [static, code, manual]
 maswe: [MASWE-0026]
-profiles: [L1, L2]
 best-practices: [MASTG-BEST-0043]
 knowledge: [MASTG-KNOW-0073]
 ---

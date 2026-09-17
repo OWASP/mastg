@@ -4,7 +4,6 @@ title: Runtime Use of Asymmetric Key Pairs Used For Multiple Purposes
 id: MASTG-TEST-0308
 type: [dynamic, hooks]
 maswe: [MASWE-0007]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0012]
 ---
 

@@ -5,7 +5,6 @@ id: MASTG-TEST-0285
 type: [static, code]
 deprecated_since: 24
 maswe: [MASWE-0027]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0014]
 ---
 

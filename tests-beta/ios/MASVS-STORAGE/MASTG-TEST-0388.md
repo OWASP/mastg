@@ -7,7 +7,6 @@ maswe: [MASWE-0001]
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0068]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0082]
 ---
 

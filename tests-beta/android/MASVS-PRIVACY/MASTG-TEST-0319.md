@@ -6,7 +6,6 @@ type: [dynamic, hooks]
 maswe: [MASWE-0073]
 prerequisites:
   - identify-sensitive-data
-profiles: [P]
 ---
 
 ## Overview

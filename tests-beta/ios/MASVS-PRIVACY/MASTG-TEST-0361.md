@@ -4,7 +4,6 @@ platform: ios
 id: MASTG-TEST-0361
 type: [dynamic, hooks, manual]
 maswe: [MASWE-0066]
-profiles: [P]
 best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---

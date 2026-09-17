@@ -5,7 +5,6 @@ id: MASTG-TEST-0266
 apis: [LAContext.evaluatePolicy]
 type: [static, code]
 maswe: [MASWE-0020]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056, MASTG-KNOW-0057]
 ---
 

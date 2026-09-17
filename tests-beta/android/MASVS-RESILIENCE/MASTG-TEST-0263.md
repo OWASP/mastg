@@ -5,7 +5,6 @@ id: MASTG-TEST-0263
 apis: [StrictMode]
 type: [dynamic, logs]
 maswe: [MASWE-0061]
-profiles: [R]
 ---
 
 ## Overview

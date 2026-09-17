@@ -5,7 +5,6 @@ id: MASTG-TEST-0268
 apis: [kSecAccessControlUserPresence, kSecAccessControlDevicePasscode, SecAccessControlCreateWithFlags]
 type: [static, code]
 maswe: [MASWE-0021]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---
 

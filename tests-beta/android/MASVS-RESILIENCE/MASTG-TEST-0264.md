@@ -5,7 +5,6 @@ id: MASTG-TEST-0264
 type: [dynamic, hooks]
 maswe: [MASWE-0061]
 best-practices: []
-profiles: [R]
 ---
 
 ## Overview

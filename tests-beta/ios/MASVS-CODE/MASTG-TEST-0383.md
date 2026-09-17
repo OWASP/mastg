@@ -4,7 +4,6 @@ title: References to Enforced Updating APIs
 id: MASTG-TEST-0383
 type: [static, code, manual]
 maswe: [MASWE-0043]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0074]
 ---
 

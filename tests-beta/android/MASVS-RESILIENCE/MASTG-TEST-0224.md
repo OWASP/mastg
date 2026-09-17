@@ -6,7 +6,6 @@ type: [static, code]
 available_since: 24
 maswe: [MASWE-0056]
 best-practices: [MASTG-BEST-0006]
-profiles: [R]
 knowledge: [MASTG-KNOW-0003]
 ---
 

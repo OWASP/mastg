@@ -5,7 +5,6 @@ id: MASTG-TEST-0278
 type: [static, code]
 maswe: [MASWE-0036]
 threat: [app]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0083]
 ---
 

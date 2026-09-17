@@ -4,7 +4,6 @@ title: Missing Input Validation in Universal Link Handlers
 id: MASTG-TEST-0395
 type: [static, code, manual]
 maswe: [MASWE-0029]
-profiles: [L1, L2]
 best-practices: [MASTG-BEST-0072]
 knowledge: [MASTG-KNOW-0080]
 apis: [continueUserActivity, webpageURL, NSUserActivityTypeBrowsingWeb, URLComponents, URLQueryItem]

@@ -5,7 +5,6 @@ id: MASTG-TEST-0269
 apis: [kSecAccessControlUserPresence, kSecAccessControlDevicePasscode, SecAccessControlCreateWithFlags]
 type: [dynamic, hooks]
 maswe: [MASWE-0021]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---
 

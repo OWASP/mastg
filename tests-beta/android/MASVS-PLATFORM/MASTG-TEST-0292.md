@@ -3,7 +3,6 @@ title: "`setRecentsScreenshotEnabled` Not Used to Prevent Screenshots When Backg
 platform: android
 id: MASTG-TEST-0292
 type: [static, code]
-profiles: [L2]
 best-practices: [MASTG-BEST-0014, MASTG-BEST-0015]
 maswe: [MASWE-0038]
 knowledge: [MASTG-KNOW-0053]

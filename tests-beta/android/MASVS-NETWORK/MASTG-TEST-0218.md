@@ -4,7 +4,6 @@ platform: android
 id: MASTG-TEST-0218
 type: [dynamic, network]
 maswe: [MASWE-0026]
-profiles: [L1, L2]
 ---
 
 ## Overview

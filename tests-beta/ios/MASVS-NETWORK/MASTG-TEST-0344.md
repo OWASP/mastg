@@ -4,7 +4,6 @@ title: Network.framework TLS Protocol Configuration
 id: MASTG-TEST-0344
 type: [static, code, manual]
 maswe: [MASWE-0026]
-profiles: [L1, L2]
 best-practices: [MASTG-BEST-0043]
 knowledge: [MASTG-KNOW-0073]
 ---

@@ -7,7 +7,6 @@ apis: [WebView, WebSettings, getSettings, setAllowFileAccess, setAllowFileAccess
 type: [static, code]
 maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]
 ---
 

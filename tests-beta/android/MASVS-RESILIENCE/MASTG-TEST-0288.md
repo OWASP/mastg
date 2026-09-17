@@ -6,7 +6,6 @@ id: MASTG-TEST-0288
 type: [static, code]
 maswe: [MASWE-0061]
 best-practices: []
-profiles: [R]
 ---
 
 ## Overview

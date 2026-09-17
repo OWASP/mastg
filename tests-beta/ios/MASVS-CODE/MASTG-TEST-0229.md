@@ -4,7 +4,6 @@ platform: ios
 id: MASTG-TEST-0229
 type: [static, code]
 maswe: [MASWE-0045]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0061]
 ---
 

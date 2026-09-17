@@ -5,7 +5,6 @@ id: MASTG-TEST-0302
 type: [dynamic, filesystem]
 prerequisites:
 - identify-sensitive-data
-profiles: [L2]
 maswe: [MASWE-0001]
 best-practices: [MASTG-BEST-0024]
 knowledge: [MASTG-KNOW-0108]

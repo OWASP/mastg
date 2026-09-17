@@ -5,7 +5,6 @@ id: MASTG-TEST-0379
 type: [static, code]
 maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0061]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]
 ---
 

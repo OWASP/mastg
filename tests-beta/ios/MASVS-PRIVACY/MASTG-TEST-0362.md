@@ -4,7 +4,6 @@ platform: ios
 id: MASTG-TEST-0362
 type: [static, package, manual]
 maswe: [MASWE-0066]
-profiles: [P]
 best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---

@@ -8,7 +8,6 @@ prerequisites:
 - identify-sensitive-data
 - identify-security-relevant-contexts
 maswe: [MASWE-0012]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0013]
 ---
 

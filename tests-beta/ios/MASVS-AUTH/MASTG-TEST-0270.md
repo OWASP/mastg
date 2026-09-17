@@ -5,7 +5,6 @@ id: MASTG-TEST-0270
 apis: [kSecAccessControlBiometryCurrentSet,SecAccessControlCreateWithFlags]
 type: [static, code]
 maswe: [MASWE-0022]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---
 

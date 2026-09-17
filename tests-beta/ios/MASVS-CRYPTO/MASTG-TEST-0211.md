@@ -4,7 +4,6 @@ title: Broken Hashing Algorithms
 id: MASTG-TEST-0211
 type: [static, code, manual]
 maswe: [MASWE-0008]
-profiles: [L1, L2]
 ---
 
 ## Overview

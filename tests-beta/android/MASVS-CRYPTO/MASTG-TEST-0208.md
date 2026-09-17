@@ -4,7 +4,6 @@ title: Insufficient Key Sizes
 id: MASTG-TEST-0208
 type: [static, code]
 maswe: [MASWE-0013]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0012]
 ---
 

@@ -6,7 +6,6 @@ apis: [LAContext.evaluatePolicy]
 type: [dynamic, hooks]
 maswe: [MASWE-0020]
 best-practices: []
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---
 

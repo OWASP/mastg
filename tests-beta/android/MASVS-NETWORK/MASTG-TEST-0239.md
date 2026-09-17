@@ -6,5 +6,4 @@ type: [static, code]
 maswe: [MASWE-0026]
 status: placeholder
 note: This test could also be for MASWE-0047 but we'd need to support multiple weaknesses.
-profiles: [L1, L2]
 ---

@@ -4,7 +4,6 @@ title: References to Asymmetric Key Pairs Used For Multiple Purposes
 id: MASTG-TEST-0307
 type: [static, code]
 maswe: [MASWE-0007]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0012]
 ---
 

@@ -4,7 +4,6 @@ title: Runtime Verification of Unauthorized Database Access through Content Prov
 id: MASTG-TEST-0356
 type: [dynamic, filesystem, manual]
 maswe: [MASWE-0018]
-profiles: [L1, L2]
 best-practices: [MASTG-BEST-0049]
 knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
 ---

@@ -4,7 +4,6 @@ title: Debuggable Entitlement Enabled in the entitlements.plist
 id: MASTG-TEST-0261
 type: [static, code]
 maswe: [MASWE-0063]
-profiles: [R]
 knowledge: [MASTG-KNOW-0062]
 ---
 

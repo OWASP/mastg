@@ -4,7 +4,6 @@ title: Files Written to External Storage
 id: MASTG-TEST-0200
 type: [dynamic, filesystem, manual]
 maswe: [MASWE-0002]
-profiles: [L1, L2]
 ---
 
 ## Overview

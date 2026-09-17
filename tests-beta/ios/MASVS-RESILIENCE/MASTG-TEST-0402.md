@@ -6,7 +6,6 @@ apis: [ptrace, PT_DENY_ATTACH, sysctl, KERN_PROC_PID, P_TRACED, getppid, task_ge
 type: [dynamic, hooks, manual]
 maswe: [MASWE-0064]
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0074]
-profiles: [R]
 knowledge: [MASTG-KNOW-0085]
 ---
 

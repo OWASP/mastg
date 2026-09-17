@@ -6,7 +6,6 @@ type: [static, code, manual]
 maswe: [MASWE-0032]
 best-practices: [MASTG-BEST-0056]
 knowledge: [MASTG-KNOW-0025]
-profiles: [L1, L2]
 ---
 
 ## Overview

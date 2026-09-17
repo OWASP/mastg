@@ -5,7 +5,6 @@ id: MASTG-TEST-0367
 type: [dynamic]
 maswe: [MASWE-0053]
 best-practices: [MASTG-BEST-0053]
-profiles: [R]
 knowledge: [MASTG-KNOW-0135]
 ---
 

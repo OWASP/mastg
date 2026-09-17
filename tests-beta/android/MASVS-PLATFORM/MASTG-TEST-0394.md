@@ -3,7 +3,6 @@ title: Missing Input Validation in Custom URL Scheme Handlers
 platform: android
 id: MASTG-TEST-0394
 type: [static, code, manual]
-profiles: [L1, L2]
 maswe: [MASWE-0029]
 knowledge: [MASTG-KNOW-0019]
 best-practices: [MASTG-BEST-0071]

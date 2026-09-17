@@ -6,7 +6,6 @@ apis: [onFilterTouchEventForSecurity, setFilterTouchesWhenObscured, FLAG_WINDOW_
 type: [static, code]
 maswe: [MASWE-0036]
 best-practices: [MASTG-BEST-0040]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0022]
 ---
 

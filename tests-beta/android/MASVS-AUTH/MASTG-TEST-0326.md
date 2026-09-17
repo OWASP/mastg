@@ -5,7 +5,6 @@ id: MASTG-TEST-0326
 apis: [BiometricPrompt, BiometricManager.Authenticators, setAllowedAuthenticators]
 type: [static, code]
 maswe: [MASWE-0021]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
 best-practices: [MASTG-BEST-0031]
 ---

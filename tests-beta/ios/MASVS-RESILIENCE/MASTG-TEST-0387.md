@@ -6,7 +6,6 @@ apis: [HMAC, CCHmac, CCHmacFinal, CC_SHA256, CC_SHA512, SecKeyCreateSignature]
 type: [static, code, manual]
 maswe: [MASWE-0057]
 false_negative_prone: true
-profiles: [R]
 knowledge: [MASTG-KNOW-0086]
 best-practices: [MASTG-BEST-0065]
 ---

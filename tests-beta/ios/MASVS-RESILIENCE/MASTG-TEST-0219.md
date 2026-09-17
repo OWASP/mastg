@@ -4,7 +4,6 @@ title: Testing for Debugging Symbols
 id: MASTG-TEST-0219
 type: [static, code]
 maswe: [MASWE-0061]
-profiles: [R]
 knowledge: [MASTG-KNOW-0063]
 ---
 

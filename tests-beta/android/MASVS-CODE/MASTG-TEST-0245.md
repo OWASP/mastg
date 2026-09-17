@@ -6,7 +6,6 @@ apis: [Build]
 type: [static, code]
 maswe: [MASWE-0041]
 best-practices: []
-profiles: [L2]
 ---
 
 ## Overview

@@ -6,7 +6,6 @@ apis: [KeyguardManager, BiometricManager#canAuthenticate]
 type: [dynamic, hooks]
 maswe: [MASWE-0017]
 best-practices: []
-profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
 ---
 

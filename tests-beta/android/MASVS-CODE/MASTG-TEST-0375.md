@@ -6,7 +6,6 @@ type: [dynamic, hooks, manual]
 maswe: [MASWE-0050]
 best-practices: [MASTG-BEST-0057]
 knowledge: [MASTG-KNOW-0025, MASTG-KNOW-0138]
-profiles: [L1, L2]
 ---
 
 ## Overview

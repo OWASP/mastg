@@ -8,7 +8,6 @@ maswe: [MASWE-0035]
 best-practices: []
 knowledge: [MASTG-KNOW-0018]
 available_since: 27
-profiles: [L1, L2]
 ---
 
 ## Overview

@@ -5,7 +5,6 @@ id: MASTG-TEST-0202
 apis: [Environment#getExternalStoragePublicDirectory, Environment#getExternalStorageDirectory, Environment#getExternalFilesDir, Environment#getExternalCacheDir, MediaStore, WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE]
 type: [static, code, manual]
 maswe: [MASWE-0002]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0042]
 ---
 

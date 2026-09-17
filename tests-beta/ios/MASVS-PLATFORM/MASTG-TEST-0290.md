@@ -3,7 +3,6 @@ title: Runtime Verification of Sensitive Content Exposure in Screenshots During 
 platform: ios
 id: MASTG-TEST-0290
 type: [dynamic, filesystem]
-profiles: [L2]
 maswe: [MASWE-0038]
 prerequisites:
 - identify-sensitive-screens

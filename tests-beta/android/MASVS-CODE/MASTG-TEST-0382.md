@@ -4,7 +4,6 @@ title: Runtime Use of Enforced Updating APIs
 id: MASTG-TEST-0382
 type: [dynamic, network, hooks, manual]
 maswe: [MASWE-0043]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0023]
 ---
 

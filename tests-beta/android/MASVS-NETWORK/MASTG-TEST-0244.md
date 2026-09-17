@@ -4,7 +4,6 @@ platform: network
 id: MASTG-TEST-0244
 type: [dynamic, network]
 maswe: [MASWE-0028]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0015]
 prerequisites:
 - identify-first-party-domains

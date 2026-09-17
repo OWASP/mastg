@@ -5,7 +5,6 @@ id: MASTG-TEST-0329
 apis: [BiometricPrompt.PromptInfo.Builder, setConfirmationRequired]
 type: [static, code]
 maswe: [MASWE-0020]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0001]
 best-practices: [MASTG-BEST-0038]
 ---

@@ -4,7 +4,6 @@ title: References to SDK APIs Known to Handle Sensitive User Data
 id: MASTG-TEST-0318
 type: [static, code]
 maswe: [MASWE-0073]
-profiles: [P]
 ---
 
 ## Overview

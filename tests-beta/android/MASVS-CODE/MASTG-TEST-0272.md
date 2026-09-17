@@ -4,7 +4,6 @@ title: Identify Dependencies with Known Vulnerabilities in the Android Project
 id: MASTG-TEST-0272
 type: [static, code]
 maswe: [MASWE-0044]
-profiles: [L1, L2]
 ---
 
 ## Overview

@@ -6,7 +6,6 @@ apis: [Log, Logger, System.out.print, System.err.print, java.lang.Throwable#prin
 type: [static, code]
 maswe: [MASWE-0005]
 best-practices: [MASTG-BEST-0002]
-profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0049]
 ---
 

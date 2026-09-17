@@ -4,7 +4,6 @@ platform: android
 id: MASTG-TEST-0337
 type: [static, code]
 maswe: [MASWE-0050]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0021]
 ---
 

@@ -4,7 +4,6 @@ title: Uses of Low-Level Networking APIs for Cleartext Traffic
 id: MASTG-TEST-0323
 type: [static, code, manual]
 maswe: [MASWE-0026]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0073]
 ---
 

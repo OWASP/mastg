@@ -5,7 +5,6 @@ id: MASTG-TEST-0216
 type: [dynamic, filesystem]
 maswe: [MASWE-0006]
 best-practices: [MASTG-BEST-0004]
-profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0050]
 ---
 

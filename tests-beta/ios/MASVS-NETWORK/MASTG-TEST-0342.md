@@ -4,7 +4,6 @@ title: References to Weak ATS TLS Policy Exceptions in Info.plist
 id: MASTG-TEST-0342
 type: [static, code]
 maswe: [MASWE-0026]
-profiles: [L1, L2]
 best-practices: [MASTG-BEST-0042]
 knowledge: [MASTG-KNOW-0071]
 ---

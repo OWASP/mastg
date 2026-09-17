@@ -5,7 +5,6 @@ id: MASTG-TEST-0201
 apis: [Environment#getExternalStorageDirectory, Environment#getExternalStorageDirectory, Environment#getExternalFilesDir, Environment#getExternalCacheDir, FileOutputStream]
 type: [dynamic, hooks, manual]
 maswe: [MASWE-0002]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0042]
 ---
 

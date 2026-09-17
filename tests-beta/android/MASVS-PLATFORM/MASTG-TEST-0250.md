@@ -7,7 +7,6 @@ apis: [WebView, WebSettings, getSettings, ContentProvider, setAllowContentAccess
 type: [static, code]
 maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0049]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]
 ---
 

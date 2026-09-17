@@ -6,7 +6,6 @@ type: [static, code]
 available_since: 2.0
 deprecated_since: 12.0
 maswe: [MASWE-0035]
-profiles: [L1, L2]
 best-practices: [MASTG-BEST-0032]
 knowledge: [MASTG-KNOW-0076]
 ---
