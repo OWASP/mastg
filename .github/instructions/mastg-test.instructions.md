@@ -37,7 +37,6 @@ What must match across platforms:
 - **`title`**: identical on both platforms (do not include "Android" or "iOS" in the title; see [title](#title)).
 - **`maswe`**: the same `MASWE-XXXX` id(s).
 - **MASVS category and folder**: the same category (for example, both under `MASVS-RESILIENCE/`). A single weakness must not be split across different categories on different platforms.
-- **`profiles`**: the same profile set.
 - **Optional metadata that expresses the same intent**: if one platform sets `false_negative_prone`, `best-practices`, or `apis`, the other should too (with its platform-specific values).
 - **Body structure**: the same sections, the same issue framing in the Overview, parallel Example Attack Scenarios, and the same Observation/Evaluation logic (including any `**Further Validation Required:**` and `**Expected False Negatives:**` blocks).
 
@@ -156,22 +155,6 @@ Example:
 prerequisites:
 - identify-sensitive-data
 - identify-security-relevant-contexts
-```
-
-### profiles
-
-Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in the [MAS Profiles Guide](https://mas.owasp.org/Profiles/)
-
-- L1 denotes Essential Security.
-- L2 denotes Advanced Security.
-- P denotes Privacy.
-- R denotes Resilience.
-
-Example:
-
-```md
-profiles: [L1, L2, P]
 ```
 
 ### knowledge
