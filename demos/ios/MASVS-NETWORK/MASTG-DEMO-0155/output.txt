@@ -14,3 +14,5 @@ CALL 0x00004298 0x00004000 sym.MASTestApp.InsecureWKNavigationDelegate.webView.a
 Server-trust evaluation calls:
 
 xrefs to SecTrustEvaluateWithError:
+
+xrefs to SecTrustEvaluateAsyncWithError:
