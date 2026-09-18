@@ -9,9 +9,9 @@ kind: fail
 
 ## Sample
 
-The code below implements `WKNavigationDelegate` with a `webView(_:didReceive:completionHandler:)` override that calls `completionHandler(.useCredential, URLCredential(trust: serverTrust))` without first successfully evaluating the server's trust object. This accepts any certificate the server presents in a `WKWebView`, regardless of whether it is expired, self-signed, or issued for the wrong hostname.
+The code below implements `WKNavigationDelegate` with a `webView(_:didReceive:completionHandler:)` override that calls `completionHandler(.useCredential, URLCredential(trust: serverTrust))` without first successfully evaluating the server's trust object. This accepts any certificate the server presents in a `WKWebView`, regardless of whether it is expired, self-signed, or issued for the wrong hostname, allowing the HTTPS connection to proceed even when the server certificate would otherwise be rejected.
 
-The WebView is used to load `self-signed.badssl.com`, which serves a self-signed certificate that is not trusted by the iOS system trust store. A correctly implemented delegate would reject this certificate.
+The WebView is used to load `self-signed.badssl.com`, which serves a self-signed certificate. As explained in [Apple's documentation on manual server trust authentication](https://developer.apple.com/documentation/foundation/performing-manual-server-trust-authentication), such certificates are ordinarily rejected unless explicitly trusted. A correctly implemented delegate using the system's default trust policy would reject this certificate.
 
 {{ MastgTest.swift }}
 
