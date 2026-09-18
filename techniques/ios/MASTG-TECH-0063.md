@@ -37,4 +37,4 @@ The last step would be to set the proxy globally on your iOS device:
 5. Type in 127.0.0.1 as **Server**
 6. Type in 8080 as **Port**
 
-Open Safari and visit any webpage. You should see traffic in Burp. Thanks @hweisheimer for the [initial idea](https://twitter.com/hweisheimer/status/1095383526885724161 "Port Forwarding via USB on iOS")!
+Open Safari and visit any webpage. You should see traffic in Burp. Thanks @hweisheimer for the [initial idea](https://web.archive.org/web/20230828205859/https://twitter.com/hweisheimer/status/1095383526885724161 "Port Forwarding via USB on iOS")!

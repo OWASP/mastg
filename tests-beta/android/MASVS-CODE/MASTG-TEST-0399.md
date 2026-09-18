@@ -4,11 +4,10 @@ title: SafeBrowsing Disabled
 id: MASTG-TEST-0399
 apis: [WebView, WebSettings, EnableSafeBrowsing, setSafeBrowsingEnabled]
 type: [static, config, code]
-weakness: MASWE-0035
+maswe: [MASWE-0035]
 best-practices: []
 knowledge: [MASTG-KNOW-0018]
 available_since: 27
-profiles: [L1, L2]
 ---
 
 ## Overview

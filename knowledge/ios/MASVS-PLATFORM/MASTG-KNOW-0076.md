@@ -12,7 +12,7 @@ There are multiple ways to include a WebView in an iOS application.
 
 ### WKWebView
 
-[`WKWebView`](https://developer.apple.com/reference/webkit/wkwebview "WKWebView") was introduced with iOS 8 and is the appropriate choice for extending app functionality, controlling displayed content (i.e., prevent the user from navigating to arbitrary URLs) and customizing.
+[`WKWebView`](https://developer.apple.com/documentation/webkit/wkwebview "WKWebView") was introduced with iOS 8 and is the appropriate choice for extending app functionality, controlling displayed content (i.e., prevent the user from navigating to arbitrary URLs) and customizing.
 
 `WKWebView` comes with several security advantages over `UIWebView`:
 
@@ -43,7 +43,7 @@ This should be sufficient for an app analysis and therefore, `SFSafariViewContro
 
 ### UIWebView (DEPRECATED since iOS 12, don't use)
 
-[`UIWebView`](https://developer.apple.com/reference/uikit/uiwebview) was deprecated by Apple in iOS 12 and has since been superseded by `WKWebView` and `SFSafariViewController` for embedding web content. Reasons commonly cited include its older security model, the lack of support for disabling JavaScript, and the availability of more modern configuration and isolation controls in its successors.
+[`UIWebView`](https://developer.apple.com/documentation/uikit/uiwebview) was deprecated by Apple in iOS 12 and has since been superseded by `WKWebView` and `SFSafariViewController` for embedding web content. Reasons commonly cited include its older security model, the lack of support for disabling JavaScript, and the availability of more modern configuration and isolation controls in its successors.
 
 ## WebView Network Security
 
@@ -69,7 +69,7 @@ Because WebKit enforces these protections and they cannot be disabled through pu
 
 ### Loading Remote URLs
 
-iOS apps can load remote URLs into a WebView using the [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:)) API, which starts a top level navigation from the supplied [`URLRequest`](https://developer.apple.com/documentation/Foundation/URLRequest).
+iOS apps can load remote URLs into a WebView using the [`load(_:)`](https://developer.apple.com/documentation/webkit/wkwebview/load(_:)-5siv6) API, which starts a top level navigation from the supplied [`URLRequest`](https://developer.apple.com/documentation/Foundation/URLRequest).
 
 `WKWebView` network communication sits on top of `URLSession`, so its `load(_:)` API is subject to App Transport Security.
 
