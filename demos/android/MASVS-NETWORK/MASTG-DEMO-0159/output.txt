@@ -1,0 +1,5 @@
+MastgTest_reversed.java
+29:                ((HttpsURLConnection) openConnection).connect();
+45:                ((HttpsURLConnection) openConnection).connect();
+41:            ProviderInstaller.installIfNeeded(this.context);
+52:            GoogleApiAvailability.getInstance().showErrorNotification(this.context, e.getConnectionStatusCode());
