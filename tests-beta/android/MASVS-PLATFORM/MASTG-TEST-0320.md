@@ -2,7 +2,7 @@
 platform: android
 title: WebViews Not Cleaning Up Sensitive Data
 id: MASTG-TEST-0320
-type: [dynamic, hooks]
+type: [dynamic, hooks, filesystem]
 maswe: [MASWE-0001]
 best-practices: [MASTG-BEST-0028]
 knowledge: [MASTG-KNOW-0018]

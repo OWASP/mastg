@@ -2,7 +2,7 @@
 title: Debuggable Flag Enabled in the AndroidManifest
 platform: android
 id: MASTG-TEST-0226
-type: [static, code]
+type: [static, config]
 maswe: [MASWE-0063]
 best-practices: [MASTG-BEST-0007]
 knowledge: [MASTG-KNOW-0007]
@@ -16,8 +16,9 @@ Although having the `debuggable` flag set to `true` [is not considered a direct 
 
 ## Steps
 
-1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0150 to obtain the `debuggable` flag.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
+3. Use @MASTG-TECH-0150 to check the relevant attribute.
 
 ## Observation
 

@@ -2,7 +2,7 @@
 title: Usage of Insecure APK Signature Version
 platform: android
 id: MASTG-TEST-0224
-type: [static, code]
+type: [static, config]
 available_since: 24
 maswe: [MASWE-0056]
 best-practices: [MASTG-BEST-0006]

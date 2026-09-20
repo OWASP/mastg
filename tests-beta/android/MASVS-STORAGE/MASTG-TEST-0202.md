@@ -3,7 +3,7 @@ platform: android
 title: References to APIs and Permissions for Accessing External Storage
 id: MASTG-TEST-0202
 apis: [Environment#getExternalStoragePublicDirectory, Environment#getExternalStorageDirectory, Environment#getExternalFilesDir, Environment#getExternalCacheDir, MediaStore, WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE]
-type: [static, code, manual]
+type: [static, code, config, manual]
 maswe: [MASWE-0002]
 knowledge: [MASTG-KNOW-0042]
 ---

@@ -2,7 +2,7 @@
 title: Missing Certificate Pinning in Network Security Configuration
 platform: android
 id: MASTG-TEST-0242
-type: [static, code]
+type: [static, config]
 maswe: [MASWE-0028]
 knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
 prerequisites:

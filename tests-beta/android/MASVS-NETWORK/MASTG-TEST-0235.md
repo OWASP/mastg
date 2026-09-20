@@ -2,7 +2,7 @@
 title: Android App Configurations Allowing Cleartext Traffic
 platform: android
 id: MASTG-TEST-0235
-type: [static, code]
+type: [static, config]
 maswe: [MASWE-0026]
 knowledge: [MASTG-KNOW-0014]
 ---

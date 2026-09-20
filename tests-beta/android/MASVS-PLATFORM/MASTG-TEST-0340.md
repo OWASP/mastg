@@ -3,7 +3,7 @@ platform: android
 title: References to Overlay Attack Protections
 id: MASTG-TEST-0340
 apis: [onFilterTouchEventForSecurity, setFilterTouchesWhenObscured, FLAG_WINDOW_IS_OBSCURED, FLAG_WINDOW_IS_PARTIALLY_OBSCURED]
-type: [static, code]
+type: [static, code, config]
 maswe: [MASWE-0036]
 best-practices: [MASTG-BEST-0040]
 knowledge: [MASTG-KNOW-0022]

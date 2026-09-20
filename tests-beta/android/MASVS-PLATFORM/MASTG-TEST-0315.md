@@ -3,7 +3,7 @@ platform: android
 title: Sensitive Data Exposed via Notifications
 id: MASTG-TEST-0315
 apis: [NotificationManager]
-type: [static, code]
+type: [static, code, config]
 maswe: [MASWE-0037]
 prerequisites:
 - identify-sensitive-data

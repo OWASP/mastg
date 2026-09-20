@@ -4,7 +4,7 @@ title: References to Content Provider Access in WebViews
 alias: references-to-content-provider-access-in-webviews
 id: MASTG-TEST-0250
 apis: [WebView, WebSettings, getSettings, ContentProvider, setAllowContentAccess, setAllowUniversalAccessFromFileURLs, setJavaScriptEnabled]
-type: [static, code]
+type: [static, code, config]
 maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0011, MASTG-BEST-0012, MASTG-BEST-0013, MASTG-BEST-0049]
 knowledge: [MASTG-KNOW-0018]

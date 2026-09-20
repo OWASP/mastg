@@ -2,7 +2,7 @@
 title: Network Security Configuration Allowing Trust in User-Provided CAs
 platform: android
 id: MASTG-TEST-0286
-type: [static, code]
+type: [static, config]
 maswe: [MASWE-0027]
 knowledge: [MASTG-KNOW-0014]
 ---

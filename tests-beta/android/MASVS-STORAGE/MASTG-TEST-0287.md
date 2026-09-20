@@ -2,7 +2,7 @@
 title: Runtime Storage of Unencrypted Data via the SharedPreferences API
 platform: android
 id: MASTG-TEST-0287
-type: [dynamic, hooks, manual]
+type: [dynamic, hooks, filesystem, manual]
 maswe: [MASWE-0001]
 best-practices: [MASTG-BEST-0050]
 prerequisites:

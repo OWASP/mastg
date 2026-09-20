@@ -2,7 +2,7 @@
 title: References to Insecure PendingIntent Creation
 platform: android
 id: MASTG-TEST-0381
-type: [static]
+type: [static, code]
 maswe: [MASWE-0032]
 best-practices: [MASTG-BEST-0063]
 ---
@@ -29,16 +29,8 @@ For more details on `PendingIntent` security, refer to @MASTG-KNOW-0024 and the 
 
 ## Steps
 
-1. Run a static analysis tool (@MASTG-TECH-0014) to identify all usages of:
-    - `PendingIntent.getActivity()`
-    - `PendingIntent.getActivities()`
-    - `PendingIntent.getService()`
-    - `PendingIntent.getForegroundService()`
-    - `PendingIntent.getBroadcast()`
-
-2. For each identified usage, check:
-    - The flags parameter for the presence of `FLAG_IMMUTABLE` or `FLAG_MUTABLE`.
-    - The base intent construction to determine if it is explicit (specifies target component) or implicit.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

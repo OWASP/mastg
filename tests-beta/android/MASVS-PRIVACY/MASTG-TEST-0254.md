@@ -2,7 +2,7 @@
 title: Dangerous App Permissions
 platform: android
 id: MASTG-TEST-0254
-type: [static, code]
+type: [static, config]
 maswe: [MASWE-0066]
 knowledge: [MASTG-KNOW-0017]
 ---
