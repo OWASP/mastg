@@ -2,7 +2,7 @@
 title: Stack Canaries Not Enabled
 platform: android
 id: MASTG-TEST-0223
-type: [static, code]
+type: [static, package]
 maswe: [MASWE-0045]
 knowledge: [MASTG-KNOW-0006]
 ---

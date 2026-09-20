@@ -3,7 +3,7 @@ title: Position Independent Code (PIC) Not Enabled
 platform: android
 id: MASTG-TEST-0222
 deprecated_since: 21
-type: [static, code]
+type: [static, package]
 maswe: [MASWE-0045]
 knowledge: [MASTG-KNOW-0006]
 ---
