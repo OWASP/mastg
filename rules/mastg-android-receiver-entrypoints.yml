@@ -1,0 +1,32 @@
+rules:
+  - id: mastg-android-receiver-entrypoint
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Locates the onReceive entry point of a broadcast receiver, so it can be reviewed for sensitive functionality.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Broadcast receiver onReceive entry point. Review it and
+      the code it reaches for sensitive functionality that should not be
+      triggerable by an external sender.
+    pattern: void onReceive(...) { ... }
+
+  - id: mastg-android-receiver-sensitive-extra-source
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Detects reading attacker-controllable intent extras inside receiver/component code.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Reads an intent extra. When the component is exported and
+      unprotected, this value is attacker-controllable. Trace where it is used.
+    pattern-either:
+      - pattern: $I.getStringExtra(...)
+      - pattern: $I.getIntExtra(...)
+      - pattern: $I.getBooleanExtra(...)
+      - pattern: $I.getByteArrayExtra(...)
+      - pattern: $I.getSerializableExtra(...)
+      - pattern: $I.getParcelableExtra(...)
+      - pattern: $I.getExtras(...)

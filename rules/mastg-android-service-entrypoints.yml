@@ -1,0 +1,35 @@
+rules:
+  - id: mastg-android-service-entrypoint
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Locates the entry points reachable when a service is started or bound, so they can be reviewed for sensitive functionality.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Service entry point reached when the service is started
+      or bound. Review it for sensitive functionality that should not be
+      reachable by an external caller.
+    pattern-either:
+      - pattern: $T onStartCommand(...) { ... }
+      - pattern: $T onBind(...) { ... }
+      - pattern: $T onRebind(...) { ... }
+      - pattern: $T onHandleIntent(...) { ... }
+
+  - id: mastg-android-component-caller-permission-check
+    languages: [java]
+    severity: INFO
+    metadata:
+      summary: Detects a runtime caller-permission check, which can restrict which apps reach the component.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Runtime caller-permission check found. Confirm it gates
+      the sensitive functionality and that the enforced permission has an
+      appropriate protection level. Its absence means there is no runtime
+      restriction on the caller.
+    pattern-either:
+      - pattern: $C.checkCallingPermission(...)
+      - pattern: $C.enforceCallingPermission(...)
+      - pattern: $C.checkCallingOrSelfPermission(...)
+      - pattern: $C.enforceCallingOrSelfPermission(...)

@@ -1,14 +1,12 @@
 #!/bin/bash
-# List the services declared as exported in the AndroidManifest.
-python3 - <<'PY' > output.txt
-import re
-xml = open("AndroidManifest_reversed.xml").read()
-for m in re.finditer(r"<service\b.*?(?:/>|</service>)", xml, re.S):
-    block = m.group(0)
-    name = re.search(r'android:name="([^"]+)"', block)
-    exported = re.search(r'android:exported="([^"]+)"', block)
-    permission = re.search(r'android:permission="([^"]+)"', block)
-    if exported and exported.group(1) == "true":
-        print("Exported service:", name.group(1) if name else "?",
-              "| permission:", permission.group(1) if permission else "none")
-PY
+
+# Stage 1 (capture) — enumerate the manifest-declared services. The rule flags every service
+# that is exported without an android:permission, and lists the permission-protected ones
+# separately so they can be triaged.
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-exported-service.yml ./AndroidManifest_reversed.xml --text --max-lines-per-finding 0 > manifest_scan.txt
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-exported-service.yml ./AndroidManifest_reversed.xml --json > manifest_scan.json 2>/dev/null
+
+# Stage 2 (inspect code) — locate the entry points reachable when the service is started or
+# bound (onStartCommand, onBind, onRebind, onHandleIntent), plus any runtime caller-permission
+# checks, in the decompiled code.
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-service-entrypoints.yml ./MastgTest_reversed.java --text --max-lines-per-finding 0 > code_scan.txt

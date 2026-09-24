@@ -1,0 +1,5 @@
+# Exported, no permission (reported as vulnerable):
+passwordResetReceiver
+
+# Exported, permission-restricted (protection level resolved from the manifest):
+adminCommandReceiver permission=org.owasp.mastestapp.ADMIN_COMMAND_PERMISSION protectionLevel=signature -> OK (strong, untrusted apps cannot hold it)
