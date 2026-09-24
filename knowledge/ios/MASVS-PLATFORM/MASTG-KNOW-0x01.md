@@ -6,7 +6,7 @@ title: App Notifications
 
 iOS provides developers with _local_ and _remote_ [app notifications](https://developer.apple.com/notifications/ "Notifications") to communicate relevant information to the user. Notifications can display an alert, play a sound, or badge the app's icon.
 
-While useful, app notifications have privacy implications that can be noted:
+While useful, app notifications also have privacy implications:
 
 - For remote notifications, the [APNs payload](https://developer.apple.com/documentation/usernotifications/generating-a-remote-notification "APNs payload") can define user-visible content such as the notification's `title`, `subtitle`, and `body`. When notification previews are hidden, notification categories can use the [`hiddenPreviewsShowTitle`](https://developer.apple.com/documentation/usernotifications/unnotificationcategoryoptions/hiddenpreviewsshowtitle "hiddenPreviewsShowTitle") and [`hiddenPreviewsShowSubtitle`](https://developer.apple.com/documentation/usernotifications/unnotificationcategoryoptions/hiddenpreviewsshowsubtitle "hiddenPreviewsShowSubtitle") options to keep the title or subtitle visible, while [`hiddenPreviewsBodyPlaceholder`](https://developer.apple.com/documentation/usernotifications/unnotificationcategory/hiddenpreviewsbodyplaceholder "hiddenPreviewsBodyPlaceholder") defines placeholder text to display instead of the notification body.
 
