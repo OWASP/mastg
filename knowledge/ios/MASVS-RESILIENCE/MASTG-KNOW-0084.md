@@ -6,7 +6,7 @@ title: Jailbreak Detection
 
 Jailbreak detection mechanisms are added to reverse engineering defense to make running the app on a jailbroken device more difficult. This blocks some of the tools and techniques reverse engineers like to use. Like most other types of defense, jailbreak detection is not very effective by itself, but scattering checks throughout the app's source code can improve the effectiveness of the overall anti-tampering scheme.
 
-> You can learn more about Jailbreak/Root Detection in the research study ["Jailbreak/Root Detection Evasion Study on iOS and Android"](https://github.com/crazykid95/Backup-Mobile-Security-Report/blob/master/Jailbreak-Root-Detection-Evasion-Study-on-iOS-and-Android.pdf "Jailbreak/Root Detection Evasion Study on iOS and Android") by Dana Geist and Marat Nigmatullin.
+> You can learn more about Jailbreak/Root Detection in the research study ["Jailbreak/Root Detection Evasion Study on iOS and Android"](https://web.archive.org/web/20230828210244/https://github.com/crazykid95/Backup-Mobile-Security-Report/blob/master/Jailbreak-Root-Detection-Evasion-Study-on-iOS-and-Android.pdf "Jailbreak/Root Detection Evasion Study on iOS and Android") by Dana Geist and Marat Nigmatullin.
 
 ## Common Jailbreak Detection Checks
 

@@ -2,17 +2,22 @@
 
 ## Reporting a Vulnerability
 
-We take the security of the OWASP MASTG project seriously. If you find any security vulnerability in the repo, e.g. in our `src` folder or in our GitHub Actions configurations, we appreciate your effort in responsibly disclosing it to us.
+We take the security of the OWASP MASTG project seriously. If you find any security vulnerability in the repo (for example, in our source code or in our GitHub Actions configurations), we appreciate your effort in responsibly disclosing it to us.
 
-### How to Report a Security Vulnerability?
+### How to Report a Security Vulnerability
 
-Please report any security vulnerability by opening an issue in our GitHub repository. Provide as much information as possible about the vulnerability, including:
+Do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.
 
-- Detailed description of the vulnerability.
-- Steps to reproduce or proof of concept.
-- Any potential impacts.
-- Suggestions for remediation. If possible, please open a pull request including the fix.
+Please report security vulnerabilities privately using GitHub's **Private Vulnerability Reporting**:
 
-If you have any questions, please reach out to the project leaders:
+1. Navigate to the repository's [**Security**](https://github.com/OWASP/mastg/security) tab.
+2. Under **Reporting**, click **Report a vulnerability**.
+3. Fill out the advisory form with as much detail as possible, including:
+    - Detailed description of the vulnerability.
+    - Steps to reproduce or proof of concept.
+    - Any potential impacts and affected components.
+    - Suggestions for remediation.
+
+If you have any questions or are unable to report via GitHub, please reach out directly to the project leaders:
 
 <https://mas.owasp.org/contact/>

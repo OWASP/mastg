@@ -3,12 +3,11 @@ platform: android
 title: Undeclared PII in Network Traffic Capture
 id: MASTG-TEST-0206
 type: [dynamic, network]
-weakness: MASWE-0108
+maswe: [MASWE-0073]
 prerequisites:
 - identify-sensitive-data
 - privacy-policy
 - app-store-privacy-declarations
-profiles: [P]
 ---
 
 ## Overview

@@ -30,7 +30,7 @@ For dynamic analysis, you'll need an Android device to run the target app on. In
 | Ease of root detection | Easier to hide root, as many root detection algorithms check for emulator properties. With Magisk Systemless root it's nearly impossible to detect. | Emulators will almost always trigger root detection algorithms due to the fact that they are built for testing with many artefacts that can be found. |
 | Hardware interaction | Easy interaction through Bluetooth, NFC, 4G, Wi-Fi, biometrics, camera, GPS, gyroscope, ... | Usually fairly limited, with emulated hardware input (e.g. random GPS coordinates) |
 | API level support | Depends on the device and the community. Active communities will keep distributing updated versions (e.g. LineageOS), while less popular devices may only receive a few updates. Switching between versions requires flashing the device, a tedious process. | Always supports the latest versions, including beta releases. Emulators containing specific API levels can easily be downloaded and launched. |
-| Native library support | Native libraries are usually built for ARM devices, so they will work on a physical device. | Some emulators run on x86 CPUs, so they may not be able to run packaged native libraries. |
+| Native library support | Native libraries are usually built for ARM devices, so they will work on a physical device. | Some emulators run on x86 CPUs, so they may not be able to run packaged native libraries (see [ARM Binary Translation on x86 Emulators](#arm-binary-translation-on-x86-emulators) below for available workarounds). |
 | Malware danger | Malware samples can infect a device, but if you can clear out the device storage and flash a clean firmware, thereby restoring it to factory settings, this should not be a problem. Be aware that there are malware samples that try to exploit the USB bridge. | Malware samples can infect an emulator, but the emulator can simply be removed and recreated. It is also possible to create snapshots and compare different snapshots to help in malware analysis. Be aware that there are malware proofs of concept which try to attack the hypervisor. |
 
 #### Testing on a Real Device
@@ -73,6 +73,29 @@ Several tools and VMs that can be used to test an app within an emulator environ
 
 - @MASTG-TOOL-0035
 - [Nathan](https://github.com/mseclab/nathan "Nathan") (not updated since 2016)
+
+##### ARM Binary Translation on x86 Emulators
+
+!!! warning
+Running ARM code on x86 through binary translation can change app behavior or cause crashes. When contributing to the OWASP MASTG, state whether you used binary translation and identify the emulator, system image, and translation implementation. Translation can affect security testing results, so confirm relevant tests or demos on an ARM device when possible.
+Most Android devices use ARM-based processors, and many Android applications include native libraries compiled for ARM architectures (`armeabi-v7a` or `arm64-v8a`). When testing these applications on an x86 or x86_64 emulator, the emulator must provide a mechanism to execute ARM native code.
+
+**Official Android Emulator (AVD):** Starting with Android 11 (API level 30), Google APIs and Google Play system images include built-in ARM-to-x86 translation. The level of support depends on the system image: the x86 image supports both x86 and ARMv7 (`armeabi-v7a`) ABIs, while the x86_64 image additionally supports ARM64 (`arm64-v8a`). The Android OS and Android Runtime (ART) run natively on x86, while ARM binaries required by an application's process are translated to x86 within that process. This avoids the performance overhead of full-system ARM emulation. For more details, see [Google's announcement on running ARM apps on the Android Emulator](https://android-developers.googleblog.com/2020/03/run-arm-apps-on-android-emulator.html).
+
+**Custom VMs and the Native Bridge:** Custom x86-based environments such as Genymotion typically do not provide ARM translation out of the box. Android provides a Native Bridge mechanism that can be used to load binary translation implementations. The `ro.dalvik.vm.native.bridge` system property is used to configure the native bridge implementation.
+
+Common translation implementations encountered in Android x86 environments include:
+
+- `libhoudini`: A proprietary ARM-to-x86 translation implementation used by some Android x86 environments.
+- `libndk_translation`: An ARM-to-x86 translation implementation included in compatible Android Emulator system images.
+
+Community-maintained scripts and flashable archives can be used to add ARM translation support to some custom VMs. However, such packages are version-specific and may not work across different Android system images.
+
+When using ARM binary translation during security testing, consider the following limitations and security aspects:
+
+- **Dynamic instrumentation**: Tools such as @MASTG-TOOL-0031 can experience limitations or fail to hook native ARM functions running through a translation layer.
+- **Application compatibility**: Applications that depend on architecture-specific behavior or perform environment checks may behave differently or fail under translation. Therefore, successful execution through a translation layer does not guarantee the same behavior on a physical ARM device.
+- **Supply chain risks**: Community translation packages obtained from third-party repositories may require root privileges and modifications to system partitions or system libraries. Only install such packages from trusted sources and use them in isolated testing environments.
 
 #### Getting Privileged Access
 

@@ -3,9 +3,8 @@ platform: ios
 title: References to APIs for Storing Unencrypted Data in Private Storage
 id: MASTG-TEST-0300
 type: [static, code]
-profiles: [L2]
 best-practices: [MASTG-BEST-0024]
-weakness: MASWE-0006
+maswe: [MASWE-0001]
 knowledge: [MASTG-KNOW-0091, MASTG-KNOW-0057, MASTG-KNOW-0108]
 ---
 

@@ -22,6 +22,9 @@ The "Password" field is not masked, and is therefore visible to bystanders (shou
 
 The "OTP 1" and "OTP 2" fields use text input fields that are configured to mask the inputted data.
 
+!!! note
+    Secure fields (`isSecureTextEntry = true` or SwiftUI `SecureField`) also keep input on the system keyboard, since iOS does not offer installed third-party (custom) keyboards for them (see @MASTG-KNOW-0141). The unmasked "Password" field therefore also allows a third-party keyboard to receive the typed password.
+
 ## Steps
 
 1. Unzip the app package and locate the main binary file (@MASTG-TECH-0058), which in this case is `./Payload/MASTestApp.app/MASTestApp`.

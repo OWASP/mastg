@@ -1,0 +1,11 @@
+rules:
+- id: mastg-android-deeplink-unvalidated-parameter
+  severity: WARNING
+  languages:
+    - java
+  metadata:
+    summary: This rule locates the deep link handler entry point and the URI parameters it reads.
+  message: '[MASVS-PLATFORM] A deep link handler reads the incoming URI (getIntent/getData) and/or extracts a parameter (getQueryParameter). Verify each value is validated (type conversion, bounds, or sanitization) before it is used.'
+  pattern-either:
+    - pattern: $INTENT.getData()
+    - pattern: $URI.getQueryParameter(...)

@@ -3,8 +3,7 @@ platform: ios
 title: Missing Source Validation in Custom URL Scheme Handlers
 id: MASTG-TEST-0371
 type: [static, code]
-weakness: MASWE-0058
-profiles: [L1, L2]
+maswe: [MASWE-0029]
 best-practices: [MASTG-BEST-0045, MASTG-BEST-0055]
 knowledge: [MASTG-KNOW-0079]
 apis: ["scene:openURLContexts:", "UIOpenURLContext.options.sourceApplication"]

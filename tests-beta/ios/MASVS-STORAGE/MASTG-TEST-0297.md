@@ -3,11 +3,10 @@ platform: ios
 title: Sensitive Data Exposure Through Logging APIs
 id: MASTG-TEST-0297
 type: [static, code]
-weakness: MASWE-0001
+maswe: [MASWE-0005]
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0022]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0101]
 ---
 

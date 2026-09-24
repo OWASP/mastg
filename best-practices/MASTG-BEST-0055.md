@@ -6,7 +6,7 @@ platform: ios
 knowledge: [MASTG-KNOW-0079]
 ---
 
-When a custom URL scheme triggers a privileged or irreversible action, check [`sourceApplication`](https://developer.apple.com/documentation/uikit/uiscene/connectionoptions/sourceapplication) from [`UIOpenURLContext.options`](https://developer.apple.com/documentation/uikit/uiopenurl/options) before processing the request. This allows you to verify the calling app's bundle ID against an allowlist.
+When a custom URL scheme triggers a privileged or irreversible action, check [`sourceApplication`](https://developer.apple.com/documentation/uikit/uiscene/connectionoptions/sourceapplication) from [`UIOpenURLContext.options`](https://developer.apple.com/documentation/uikit/uiopenurlcontext/options) before processing the request. This allows you to verify the calling app's bundle ID against an allowlist.
 
 ```swift
 let allowedSources: Set<String> = ["com.example.myapp", "com.example.companion"]

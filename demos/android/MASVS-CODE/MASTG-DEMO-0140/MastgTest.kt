@@ -3,16 +3,19 @@ package org.owasp.mastestapp
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.widget.TextView
 
-// SUMMARY: This sample demonstrates the risk of processing unsanitized data from implicit intent results.
+// SUMMARY: This sample demonstrates an attacker app that handles an internal implicit intent.
 class MastgTest(private val context: Context) {
 
+    companion object {
+        const val TAG = "INTENT_ATTACK"
+    }
+
     fun mastgTest(): String {
-        val r = DemoResults("0x05")
-        r.add(Status.FAIL, "This app should be invoked by an implicit intents from MASTG-DEMO-0136")
-        return r.toJson()
+        return "Install this app with MASTG-DEMO-0136 and select it when Android resolves INTERNAL_ACTION."
     }
 }
 
@@ -25,7 +28,8 @@ class AttackerActivity : Activity() {
             "Hello in the attacker Demo app"
         } else {
             val extras = intent.extras
-            val args = extras?.keySet()?.joinToString { key -> "$key=${extras.get(key)}" } ?: "None"
+            val args = extras?.keySet()?.sorted()?.joinToString { key -> "$key=${extras.get(key)}" } ?: "None"
+            Log.e(MastgTest.TAG, "Intercepted action=$action extras=$args")
             "Intercepted intent! \nArguments: $args"
         }
 

@@ -3,11 +3,10 @@ platform: ios
 title: Sensitive Data in the iOS General Pasteboard at Runtime
 id: MASTG-TEST-0277
 type: [dynamic, hooks]
-weakness: MASWE-0053
+maswe: [MASWE-0036]
 threat: [app]
 prerequisites:
 - identify-sensitive-data
-profiles: [L2]
 knowledge: [MASTG-KNOW-0083]
 ---
 

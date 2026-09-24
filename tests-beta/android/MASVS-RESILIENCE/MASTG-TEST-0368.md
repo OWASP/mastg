@@ -3,9 +3,8 @@ platform: android
 title: Insufficient Obfuscation of Security-Relevant Java/Kotlin Code
 id: MASTG-TEST-0368
 type: [static, code, manual]
-weakness: MASWE-0089
+maswe: [MASWE-0059]
 best-practices: [MASTG-BEST-0029]
-profiles: [R]
 knowledge: [MASTG-KNOW-0033]
 ---
 

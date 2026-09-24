@@ -3,10 +3,9 @@ platform: ios
 title: Overly Broad File Read Access in WebViews
 id: MASTG-TEST-0333
 type: [static, code, manual]
-weakness: MASWE-0069
+maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0033]
 knowledge: [MASTG-KNOW-0076]
-profiles: [L1, L2]
 ---
 
 ## Overview

@@ -3,9 +3,8 @@ platform: ios
 title: References to `evaluateJavaScript` Without Content World Isolation
 id: MASTG-TEST-0379
 type: [static, code]
-weakness: MASWE-0069
+maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0061]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0076, MASTG-KNOW-0139]
 ---
 

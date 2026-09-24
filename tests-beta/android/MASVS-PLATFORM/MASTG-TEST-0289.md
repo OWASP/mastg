@@ -3,9 +3,8 @@ title: Runtime Verification of Sensitive Content Exposure in Screenshots During 
 platform: android
 id: MASTG-TEST-0289
 type: [dynamic, filesystem, manual]
-profiles: [L2]
 best-practices: [MASTG-BEST-0014]
-weakness: MASWE-0055
+maswe: [MASWE-0038]
 prerequisites:
 - identify-sensitive-screens
 knowledge: [MASTG-KNOW-0053]

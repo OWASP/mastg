@@ -3,11 +3,10 @@ platform: ios
 title: Use of the iOS General Pasteboard
 id: MASTG-TEST-0276
 type: [static, code, manual]
-weakness: MASWE-0053
+maswe: [MASWE-0036]
 threat: [app]
 prerequisites:
 - identify-sensitive-data
-profiles: [L2]
 knowledge: [MASTG-KNOW-0083]
 ---
 

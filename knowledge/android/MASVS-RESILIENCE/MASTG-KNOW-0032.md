@@ -65,7 +65,7 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 
 ## Code Integrity Verification
 
-Code integrity verification is a common protection against code tampering. OWASP describes code tampering defenses as runtime checks that detect whether code has been added or changed from what the app expects based on its original integrity state (see [OWASP Mobile Top 10 M8: Code Tampering](https://owasp.org/www-project-mobile-top-10/2016-risks/m8-code-tampering/)).
+Code integrity verification is a common protection against code tampering. OWASP describes code tampering defenses as runtime checks that detect whether code has been added or changed from what the app expects based on its original integrity state (see [OWASP Mobile Top 10 M8: Code Tampering](https://owasp.org/www-project-mobile-top-10/2016-risks/m8-code-tampering)).
 
 Unlike [Control Flow Integrity Checks](#control-flow-integrity-checks), which detect pointer overwrites in indirection tables, the defensive controls in this category detect direct modifications to code or memory, either as arbitrary changes (checksums) or as specific known patterns (inline hook signatures).
 

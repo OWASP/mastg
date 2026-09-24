@@ -4,8 +4,7 @@ title: References to APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0326
 apis: [BiometricPrompt, BiometricManager.Authenticators, setAllowedAuthenticators]
 type: [static, code]
-weakness: MASWE-0045
-profiles: [L2]
+maswe: [MASWE-0021]
 knowledge: [MASTG-KNOW-0001]
 best-practices: [MASTG-BEST-0031]
 ---

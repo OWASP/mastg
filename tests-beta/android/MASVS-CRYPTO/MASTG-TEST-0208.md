@@ -3,8 +3,7 @@ platform: android
 title: Insufficient Key Sizes 
 id: MASTG-TEST-0208
 type: [static, code]
-weakness: MASWE-0009
-profiles: [L1, L2]
+maswe: [MASWE-0013]
 knowledge: [MASTG-KNOW-0012]
 ---
 

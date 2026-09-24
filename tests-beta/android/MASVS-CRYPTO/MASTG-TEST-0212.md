@@ -3,8 +3,7 @@ title: Use of Hardcoded Cryptographic Keys in Code
 platform: android
 id: MASTG-TEST-0212
 type: [static, code]
-weakness: MASWE-0014
-profiles: [L1, L2]
+maswe: [MASWE-0003]
 knowledge: [MASTG-KNOW-0012]
 ---
 

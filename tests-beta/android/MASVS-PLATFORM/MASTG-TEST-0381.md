@@ -3,9 +3,8 @@ title: References to Insecure PendingIntent Creation
 platform: android
 id: MASTG-TEST-0381
 type: [static]
-weakness: MASWE-0066
+maswe: [MASWE-0032]
 best-practices: [MASTG-BEST-0063]
-profiles: [L1, L2]
 ---
 
 ## Overview

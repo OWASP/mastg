@@ -4,9 +4,8 @@ title: Runtime Use of Secure Screen Lock Detection APIs
 id: MASTG-TEST-0246
 apis: [LAContext.canEvaluatePolicy, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly]
 type: [dynamic, hooks]
-weakness: MASWE-0008
+maswe: [MASWE-0017]
 best-practices: []
-profiles: [L2]
 knowledge: [MASTG-KNOW-0056]
 ---
 
