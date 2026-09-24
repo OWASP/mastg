@@ -1,0 +1,11 @@
+---
+masvs_category: MASVS-PLATFORM
+platform: android
+title: App Notifications
+---
+
+Android apps use [notifications](https://developer.android.com/develop/ui/views/notifications "About notifications") to provide information to users outside the app's UI. A basic notification can contain an icon, a title, and text content, which can be configured using [`NotificationCompat.Builder`](https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder "NotificationCompat.Builder") methods such as `setContentTitle` and `setContentText`. On Android 13 (API level 33) and higher, posting non-exempt notifications is subject to the [`POST_NOTIFICATIONS`](https://developer.android.com/develop/ui/compose/notifications/notification-permission "Notification runtime permission") runtime permission.
+
+- Notifications can appear on the device's lock screen. Apps can control the level of detail displayed on a secure lock screen using [`setVisibility`](https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setVisibility(int) "setVisibility") with `VISIBILITY_PUBLIC`, `VISIBILITY_PRIVATE`, or `VISIBILITY_SECRET`. For private notifications, [`setPublicVersion`](https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setPublicVersion(android.app.Notification) "setPublicVersion") can provide alternative content to display when the full notification is hidden. Users retain control over lock screen visibility through the system notification settings.
+
+- Apps can implement a [`NotificationListenerService`](https://developer.android.com/reference/android/service/notification/NotificationListenerService "NotificationListenerService") to receive system callbacks when notifications are posted or removed after the user grants notification access. The receiving app can process or retain the notification content independently of the app that posted it. Starting with Android 15 (API level 35), the system prevents [untrusted notification listeners from reading unredacted content from notifications in which an OTP is detected](https://developer.android.com/about/versions/15/behavior-changes-all#otp_redaction "OTP Redaction").
