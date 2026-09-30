@@ -9,3 +9,5 @@ Frida-ios-dump is a Python script that helps you retrieve the decrypted version 
 ## Alternatives
 
 [Bagbak](https://github.com/ChiChou/bagbak "Bagbak") is a Node.js script that decrypts the entire application, including its extensions. It serves the same purpose as frida-ios-dump, but you might find it easier to set up and more convenient for regular use.
+
+[iDump](https://github.com/Fi5t/iDump) is a self-contained Go binary that decrypts iOS app binaries and reassembles them into a valid IPA file, with support for both USB (Frida-over-USB, no SSH required) and SSH/SFTP transfer modes. It serves the same purpose as frida-ios-dump, but works with modern Frida 17+, requires no Python or pip dependencies, and adds extras like batch dumping and built-in anti-Frida bypass.
