@@ -12,7 +12,7 @@ This demo compares the behavior of the sample app from @MASTG-DEMO-0087 on an un
 
 In this demo, the app responds to root detection by displaying the check results. It does not block any functionality or close the app. Apps that treat root as a threat may instead block sensitive actions or close the app when they detect it.
 
-!!! note "Diagnostics for Learning"
+!!! note
     The sample displays individual check results, writes diagnostic logs, and uses descriptive method names to make the detection logic easy to follow. This detail is included for learning, not as an example of production behavior. In a production app, detection diagnostics should stay internal rather than appear in the UI or logs accessible to users or third parties. Exposing them can help an attacker understand the checks and reverse engineer the app's response.
 
 {{ ../MASTG-DEMO-0087/MastgTest.kt }}
