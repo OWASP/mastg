@@ -14,8 +14,9 @@ This demo shows how to detect the presence of root detection mechanisms behavior
 
 ## Steps
 
-1. Ensure the target app is installed on the device and that @MASTG-TOOL-0021 is properly set up.
-2. Run the demo.
+1. Use @MASTG-TECH-0005 to install the app on a device rooted with @MASTG-TOOL-0021.
+2. Open the app.
+3. Tap **Start**.
 
 ## Observation
 
