@@ -64,7 +64,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          sparse-checkout: ${{ matrix.demo }}
+          sparse-checkout: demos/ios
 
       - name: Clone mas-app-ios repository
         uses: actions/checkout@v6
