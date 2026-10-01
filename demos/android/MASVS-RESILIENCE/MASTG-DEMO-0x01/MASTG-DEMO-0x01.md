@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Runtime Detection of Root Detection Mechanisms
+title: Behavioral Detection of Root Detection Mechanisms
 id: MASTG-DEMO-0x01
 code: [kotlin]
 test: MASTG-TEST-0x01
@@ -34,33 +34,13 @@ The app behaves differently on the two devices. It reports no root indicators on
 
 No checks detect root indicators, and the overall result is `false`.
 
-```text
-Root Detection Results:
-
-✗ No su binary found
-✗ su not found via which command
-✗ No root management apps found
-✗ Device has release-keys build
-✗ No dangerous system properties
-
-Device appears to be rooted: false
-```
+{{ output-clean.txt }}
 
 ### Rooted Device
 
 The `which su` command finds `su`, and the package check finds a root management app. The overall result is `true`.
 
-```text
-Root Detection Results:
-
-✗ No su binary found
-✓ Found su via which command
-✓ Found root management apps
-✗ Device has release-keys build
-✗ No dangerous system properties
-
-Device appears to be rooted: true
-```
+{{ output-rooted.txt }}
 
 ## Evaluation
 
