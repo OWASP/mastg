@@ -1,0 +1,9 @@
+Root Detection Results:
+
+✗ No su binary found
+✓ Found su via which command
+✓ Found root management apps
+✗ Device has release-keys build
+✗ No dangerous system properties
+
+Device appears to be rooted: true
