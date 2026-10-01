@@ -43,7 +43,7 @@ The output shows all emulator detection method invocations captured during app e
 The test passes because the output confirms the app implements emulator detection checks that were triggered at runtime:
 
 - **`Build.*` field accesses for build property checks:**
-    - The app reads 13 build properties (`Build.BOARD`, `Build.BRAND`, `Build.DEVICE`, `Build.FINGERPRINT`, `Build.MODEL`, `Build.MANUFACTURER`, `Build.PRODUCT`, `Build.HARDWARE`, `Build.ID`, `Build.RADIO`, `Build.SERIAL`, `Build.TAGS`, `Build.USER`) and compares them against known emulator values.
+    - The app reads 11 build properties (`Build.BOARD`, `Build.BRAND`, `Build.DEVICE`, `Build.FINGERPRINT`, `Build.MODEL`, `Build.MANUFACTURER`, `Build.PRODUCT`, `Build.HARDWARE`, `Build.ID`, `Build.RADIO`, `Build.TAGS`) and compares them against known emulator values.
     - Several values are characteristic of an emulated device (e.g., `Build.BOARD=goldfish_arm64`, `Build.DEVICE=emu64a`, `Build.HARDWARE=ranchu`, `Build.TAGS=test-keys`).
 
 - **`PackageManager.hasSystemFeature` calls for feature checks:**
