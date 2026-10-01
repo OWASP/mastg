@@ -33,13 +33,11 @@ class MastgTest(private val context: Context) {
         val packageQueries = queryPackageChecks()
         val openGlQueries = queryOpenGlProperties()
 
-        val allQueries = buildQueries + telephonyQueries + packageQueries + openGlQueries
         val indicators = buildIndicators(buildQueries) +
             telephonyIndicators(telephonyQueries) +
             packageIndicators(packageQueries) +
             openGlIndicators(openGlQueries)
 
-        val queryOutput = allQueries.joinToString("\n") { "${it.name}=${it.displayValue}" }
         val permissionNote = telephonyPermissionNote(missingPermissions)
 
         val indicatorSummary = if (indicators.isNotEmpty()) {
@@ -49,7 +47,7 @@ class MastgTest(private val context: Context) {
         }
         // PASS: [MASTG-TEST-0351] The app implements emulator detection checks. In this case, this app is a PASS as the emulation detection checks are performed.
         // FAIL: [MASTG-TEST-0351] The test fails if the app lacks emulator detection checks.
-        val output = "Queried properties:\n$queryOutput\n\n$indicatorSummary$permissionNote"
+        val output = "$indicatorSummary$permissionNote"
 
         Log.i("MASTG-TEST", output)
         return output
