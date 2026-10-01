@@ -71,9 +71,7 @@ class MastgTest(private val context: Context) {
             queryBuildValue("Build.HARDWARE", Build.HARDWARE),
             queryBuildValue("Build.ID", Build.ID),
             queryBuildValue("Build.RADIO", Build.getRadioVersion()),
-            queryBuildValue("Build.SERIAL", safeBuildSerial()),
-            queryBuildValue("Build.TAGS", Build.TAGS),
-            queryBuildValue("Build.USER", Build.USER)
+            queryBuildValue("Build.TAGS", Build.TAGS)
         )
     }
 
@@ -336,11 +334,9 @@ class MastgTest(private val context: Context) {
         val brand = buildQueries.findValue("Build.BRAND")
         val device = buildQueries.findValue("Build.DEVICE")
         val board = buildQueries.findValue("Build.BOARD")
-        val serial = buildQueries.findValue("Build.SERIAL")
         val id = buildQueries.findValue("Build.ID")
         val radio = buildQueries.findValue("Build.RADIO")
         val tags = buildQueries.findValue("Build.TAGS")
-        val user = buildQueries.findValue("Build.USER")
 
         if (fingerprint.startsWith("generic") ||
             fingerprint.contains("test-keys") ||
@@ -371,9 +367,6 @@ class MastgTest(private val context: Context) {
         if (board == "unknown" || board.contains("nox")) {
             indicators.add("Build.BOARD=$board")
         }
-        if (serial == "null" || serial == "unknown" || serial.contains("nox")) {
-            indicators.add("Build.SERIAL=$serial")
-        }
         if (id == "frf91") {
             indicators.add("Build.ID=$id")
         }
@@ -382,9 +375,6 @@ class MastgTest(private val context: Context) {
         }
         if (tags.contains("test-keys")) {
             indicators.add("Build.TAGS=$tags")
-        }
-        if (user == "android-build") {
-            indicators.add("Build.USER=$user")
         }
 
         return indicators
@@ -449,16 +439,6 @@ class MastgTest(private val context: Context) {
 
     private fun containsAny(value: String, tokens: List<String>): Boolean {
         return tokens.any { value.contains(it) }
-    }
-
-    private fun safeBuildSerial(): String? {
-        return try {
-            @Suppress("DEPRECATION")
-            Build.getSerial()
-        } catch (e: Exception) {
-            @Suppress("DEPRECATION")
-            Build.SERIAL
-        }
     }
 
     private fun List<QueryResult>.findValue(name: String): String {
