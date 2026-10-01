@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Behavioral Check of Root Detection Techniques
-id: MASTG-TEST-03xx
+id: MASTG-TEST-0x01
 type: [dynamic]
 maswe: [MASWE-0051]
 best-practices: [MASTG-BEST-0029, MASTG-BEST-0030]
