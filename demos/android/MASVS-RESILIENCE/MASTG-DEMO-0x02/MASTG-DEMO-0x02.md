@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Behavioral Detecting of Emulator Detection Checks with Frida
+title: Behavioral Detection of Emulator Detection Mechanisms
 id: MASTG-DEMO-0x02
 code: [kotlin]
 test: MASTG-TEST-0x02
@@ -9,7 +9,7 @@ kind: pass
 
 ## Sample
 
-The snippet below shows sample code that performs common emulator indicator checks and logs the queried values and matches against common emulator values (see @MASTG-KNOW-0031 for more information about common emulator checks and emulator values).
+The snippet below shows sample code that performs common emulator indicator checks and logs the matches against common emulator values (see @MASTG-KNOW-0031 for more information about common emulator checks and emulator values).
 
 The checks cover several categories (build properties, telephony identifiers, package visibility, and OpenGL renderer information).
 
@@ -19,7 +19,7 @@ Notes about the checks performed:
 - The sample avoids Play Integrity checks (@MASTG-KNOW-0035) because they require Play Console configuration and server-side verification, which breaks the self-contained requirement for MASTG demos.
 - The manifest declares `READ_PHONE_STATE` and `READ_PHONE_NUMBERS` so the runtime permission prompts can be shown before querying telephony values, and it includes `<queries>` entries for package visibility checks.
 
-{{ MastgTest.kt # AndroidManifest.xml }}
+{{ ../MASTG-DEMO-0114/MastgTest.kt # ../MASTG-DEMO-0114/AndroidManifest.xml }}
 
 ## Steps
 
@@ -30,35 +30,25 @@ Notes about the checks performed:
 5. Open the app.
 6. Tap **Start** and compare the app's response with the results from the emulated device.
 
-{{ TBD }} TBD CONTINUE FROM HERE!!!!
-
 ## Observation
 
-The output shows all emulator detection method invocations captured during app execution.
+The app behaves differently on the two devices. It reports no emulator indicators on the real device, but reports detected indicators on the emulated one.
 
-{{ output.txt }}
+### Real Device
+
+No emulator indicators were found in the device.
+
+{{ output-real.txt }}
+
+### Emulated Device
+
+Multiple emulator indicators are triggered for @MASTG-TOOL-0007 emulators:
+
+- **System/Build Properties**: We observe indicators for `sdk_gphone64_arm64` and `ranchu`. Ranchu (also known as "Goldfish"), is the name of the virtual hardware platform used by @MASTG-TOOL-0007 for its emulated devices. More details can be found in [AOSP docs](https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT).
+- **GPU Device**: The emulator reports the host's GPU device as its graphics renderer.
+
+{{ output-emulator.txt }}
 
 ## Evaluation
 
-The test passes because the output confirms the app implements emulator detection checks that were triggered at runtime:
-
-- **`Build.*` field accesses for build property checks:**
-    - The app reads 11 build properties (`Build.BOARD`, `Build.BRAND`, `Build.DEVICE`, `Build.FINGERPRINT`, `Build.MODEL`, `Build.MANUFACTURER`, `Build.PRODUCT`, `Build.HARDWARE`, `Build.ID`, `Build.RADIO`, `Build.TAGS`) and compares them against known emulator values.
-    - Several values are characteristic of an emulated device (e.g., `Build.BOARD=goldfish_arm64`, `Build.DEVICE=emu64a`, `Build.HARDWARE=ranchu`, `Build.TAGS=test-keys`).
-
-- **`PackageManager.hasSystemFeature` calls for feature checks:**
-    - The app checks for `android.hardware.type.watch`, `android.hardware.telephony`, and `android.hardware.telephony.calling` to determine device type and telephony capabilities.
-
-- **`TelephonyManager` calls for telephony identifier checks:**
-    - The app queries `getLine1Number`, `getNetworkCountryIso`, `getNetworkType`, `getNetworkOperator`, `getNetworkOperatorName`, `getPhoneType`, `getSimCountryIso`, and `getVoiceMailNumber`.
-    - The returned values (e.g., `+15551234567` for `getLine1Number`, `T-Mobile` for `getNetworkOperatorName`) are typical emulator defaults.
-
-- **`PackageManager.queryIntentActivities` and `PackageManager.getPackageInfo` calls for emulator package checks:**
-    - The app queries launcher packages and checks for known emulator-specific packages such as `com.google.android.launcher.layouts.genymotion`, `com.nox.mopen.app`, `com.bignox.app`, and `com.microvirt`. All return "not found" on this device.
-
-- **`ActivityManager.getRunningServices` calls for emulator service checks:**
-    - The app enumerates running services (count=0 on this device) to check for emulator-specific service prefixes such as `com.bluestacks.`.
-
-- **`GLES20.glGetString` calls for OpenGL renderer checks:**
-    - The app queries `GL_RENDERER`, `GL_VENDOR`, and `GL_VERSION`.
-    - The `GL_RENDERER` value (`Android Emulator OpenGL ES Translator`) is a well-known emulator indicator, confirming the device is running in an emulated environment.
+The test passes because the app reports no emulator indicators on the real device and detects indicators on the emulated device. In this demo, displaying the results is the app's response to the detections being triggered. In a real app that treats emulation as a threat, that response could instead be blocking a sensitive action or closing the app.
