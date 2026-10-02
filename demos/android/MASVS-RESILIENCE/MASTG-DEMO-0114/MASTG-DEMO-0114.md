@@ -9,7 +9,7 @@ kind: pass
 
 ## Sample
 
-The snippet below shows sample code that performs common emulator indicator checks and logs the queried values and matches against common emulator values (see @MASTG-KNOW-0031 for more information about common emulator checks and emulator values).
+The snippet below shows sample code that performs common emulator indicator checks and logs the matches against common emulator values (see @MASTG-KNOW-0031 for more information about common emulator checks and emulator values).
 
 The checks cover several categories (build properties, telephony identifiers, package visibility, and OpenGL renderer information).
 
