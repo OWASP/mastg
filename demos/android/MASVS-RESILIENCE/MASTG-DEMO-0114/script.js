@@ -190,13 +190,6 @@ Java.perform(() => {
 
     try {
         const Build = Java.use("android.os.Build");
-        const getSerial = Build.getSerial.overload();
-        getSerial.implementation = function () {
-            const result = getSerial.call(Build);
-            logIfApp(`[Build.getSerial] -> ${result}`);
-            return result;
-        };
-
         const getRadioVersion = Build.getRadioVersion.overload();
         getRadioVersion.implementation = function () {
             const result = getRadioVersion.call(Build);

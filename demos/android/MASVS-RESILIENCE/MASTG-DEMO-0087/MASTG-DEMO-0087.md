@@ -14,7 +14,7 @@ This sample demonstrates common root detection techniques used in Android applic
 - Checking for the `su` binary in common locations
 - Checking for the `su` binary using the `which` command
 - Detecting root management packages using `PackageManager`
-- Identifying `test-keys` builds indicating custom ROMs
+- Identifying `test-keys` builds indicating the use of a custom ROM signed with the [AOSP default keys](https://source.android.com/docs/core/ota/sign_builds#release-keys).
 - Reading system properties that may indicate root or debugging
 
 To ensure that the requests using `PackageManager.getPackageInfo` work as expected, the app includes the relevant `<queries>` element in the `AndroidManifest.xml`.

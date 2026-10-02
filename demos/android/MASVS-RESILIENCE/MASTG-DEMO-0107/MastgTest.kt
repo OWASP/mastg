@@ -17,12 +17,6 @@ class MastgTest(private val context: Context) {
     private val sensitiveApiKey = "sk-OWASP-MAS-SuperSecretKey-1234567890"
     private val keyAlias = "mastgCipherKey"
 
-    init {
-        if (detectHooking()) {
-            android.os.Process.killProcess(android.os.Process.myPid())
-        }
-    }
-
     private fun detectHooking(): Boolean {
         try {
             BufferedReader(FileReader("/proc/self/maps")).use { reader ->

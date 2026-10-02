@@ -24,7 +24,7 @@ This sample encrypts and decrypts a sensitive API key using AES/GCM via the Andr
 
 1. Install the app on a device (@MASTG-TECH-0005)
 2. Make sure you have @MASTG-TOOL-0145 installed on your machine and the frida-server running on the device
-3. Run `run.sh` to spawn the app with Frida
+3. Run `run.sh` to spawn the app with @MASTG-TOOL-0031
 4. Click the **Start** button
 5. Observe that the app terminates before the hooks can capture any data
 
