@@ -46,7 +46,7 @@ No emulator indicators were found in the device.
 
 Multiple emulator indicators are triggered for @MASTG-TOOL-0007 emulators:
 
-- **System/Build Properties**: We observe indicators for `sdk_gphone64_arm64` and `ranchu`. Ranchu (also known as "Goldfish"), is the name of the virtual hardware platform used by @MASTG-TOOL-0007 for its emulated devices. More details can be found in [AOSP docs](https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT).
+- **System/Build Properties**: We observe indicators for `sdk_gphone64_arm64` and `ranchu`. Ranchu (also known as "Goldfish"), is the name of the virtual hardware platform used by @MASTG-TOOL-0007 for its emulated devices. More details can be found in [AOSP docs](https://github.com/aosp-mirror/platform_external_qemu/blob/main/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT).
 - **GPU Device**: The emulator reports the host's GPU device as its graphics renderer.
 
 {{ output-emulator.txt }}
