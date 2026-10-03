@@ -28,27 +28,22 @@ class MastgTest(private val context: Context) {
     private external fun storeNativeSecret(cipher: Cipher, path: String)
     private external fun recoverNativeSecret(cipher: Cipher, path: String): ByteArray
 
-    init {
-        if (detectFridaInjection()) {
-            android.os.Process.killProcess(android.os.Process.myPid())
-        }
-    }
-
-    private fun detectFridaInjection(): Boolean {
+    // Returns the first Frida-related line from /proc/self/maps, or null if none.
+    private fun detectFridaEntry(): String? {
         try {
             BufferedReader(FileReader("/proc/self/maps")).use { reader ->
                 var line: String?
                 while (reader.readLine().also { line = it } != null) {
                     val l = line!!.lowercase()
                     if (l.contains("frida") || l.contains("gadget")) {
-                        return true
+                        return line
                     }
                 }
             }
         } catch (_: Exception) {
             // Unable to read maps
         }
-        return false
+        return null
     }
 
     private fun getOrCreateSecretKey(): SecretKey {
@@ -74,45 +69,77 @@ class MastgTest(private val context: Context) {
     }
 
     fun mastgTest(): String {
-        if (detectFridaInjection()) {
-            android.os.Process.killProcess(android.os.Process.myPid())
-            return ""
+        val report = StringBuilder()
+        val fridaEntry = detectFridaEntry()
+        if (fridaEntry != null) {
+            report.appendLine("[DETECTED] Frida agent found in /proc/self/maps: $fridaEntry")
+            report.appendLine("[BLOCKED]  Skipping all encryption steps")
+            return report.toString()
         }
+        report.appendLine("[PASS] No Frida agent found in /proc/self/maps")
 
-        return try {
+        try {
             val key = getOrCreateSecretKey()
+            report.appendLine("[PASS] AndroidKeyStore key ready (alias \"$keyAlias\")")
 
-            // Existing Java cryptographic operations remain observable by the bypass script.
+            // --- Java round-trip ---
+            report.appendLine()
+            report.appendLine("=== Java AES/GCM round-trip (AndroidKeyStore) ===")
             val encryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
             encryptCipher.init(Cipher.ENCRYPT_MODE, key)
-            val iv = encryptCipher.iv
             val encryptedBytes = encryptCipher.doFinal(sensitiveApiKey.toByteArray(Charsets.UTF_8))
-            val encryptedData = Base64.encodeToString(iv + encryptedBytes, Base64.DEFAULT)
-
-            val decodedData = Base64.decode(encryptedData, Base64.DEFAULT)
+            val iv = encryptCipher.iv
             val decryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
-            decryptCipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, decodedData.copyOfRange(0, 12)))
-            val decryptedString =
-                String(decryptCipher.doFinal(decodedData.copyOfRange(12, decodedData.size)), Charsets.UTF_8)
+            decryptCipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, iv))
+            val decryptedString = String(decryptCipher.doFinal(encryptedBytes), Charsets.UTF_8)
 
+            report.appendLine("Secret:       $sensitiveApiKey")
+            report.appendLine("IV:           ${Base64.encodeToString(iv, Base64.NO_WRAP)}")
+            report.appendLine("Ciphertext:   ${Base64.encodeToString(encryptedBytes, Base64.NO_WRAP)}")
+            report.appendLine("Decrypted:    $decryptedString")
+            report.appendLine(
+                if (decryptedString == sensitiveApiKey)
+                    "[PASS] Decrypted secret matches the original"
+                else "[ERROR] Decrypted secret does not match the original"
+            )
+
+            // --- Native round-trip ---
+            report.appendLine()
+            report.appendLine("=== Native AES/GCM round-trip (JNI) ===")
             val file = File(context.filesDir, "native-secret.bin")
-            val nativeEncryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
-            nativeEncryptCipher.init(Cipher.ENCRYPT_MODE, key)
-            storeNativeSecret(nativeEncryptCipher, file.absolutePath)
+            file.delete()
+            try {
+                val nativeEncryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
+                nativeEncryptCipher.init(Cipher.ENCRYPT_MODE, key)
+                storeNativeSecret(nativeEncryptCipher, file.absolutePath)
+                report.appendLine(
+                    "Blob on disk (IV+ciphertext): ${
+                        Base64.encodeToString(
+                            file.readBytes(),
+                            Base64.NO_WRAP
+                        )
+                    }"
+                )
 
-            val storedIv = ByteArray(12)
-            DataInputStream(file.inputStream()).use { it.readFully(storedIv) }
-            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-            cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, storedIv))
-            val recovered = recoverNativeSecret(cipher, file.absolutePath)
-
-            "Encryption and decryption successful.\n" +
-                    "Encrypted: $encryptedData\n" +
-                    "Decrypted: $decryptedString\n" +
-                    "Native encrypted: ${Base64.encodeToString(file.readBytes(), Base64.NO_WRAP)}\n" +
-                    "Native decrypted: ${String(recovered, Charsets.UTF_8)}\n"
+                val storedIv = ByteArray(12)
+                DataInputStream(file.inputStream()).use { it.readFully(storedIv) }
+                val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+                cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, storedIv))
+                val recoveredSecret = String(recoverNativeSecret(cipher, file.absolutePath), Charsets.UTF_8)
+                report.appendLine("Recovered:    $recoveredSecret")
+                report.appendLine(
+                    if (recoveredSecret == "sk-OWASP-MAS-SuperSecretNativeKey-1234567890")
+                        "[PASS] Recovered secret matches the native constant"
+                    else "[ERROR] Recovered secret does not match the native constant"
+                )
+            } catch (e: Exception) {
+                // Raised by the native detections: Frida trampoline at the JNI entry or libc .text mismatch.
+                report.appendLine("[BLOCKED] Native step aborted by detection: ${e.message ?: e.javaClass.simpleName}")
+            }
         } catch (e: Exception) {
-            "Error: ${e.message}"
+            report.appendLine()
+            report.appendLine("[ERROR] ${e.javaClass.simpleName}: ${e.message}")
         }
+        return report.toString()
     }
 }
