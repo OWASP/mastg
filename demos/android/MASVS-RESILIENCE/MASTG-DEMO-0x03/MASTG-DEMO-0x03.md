@@ -1,15 +1,17 @@
 ---
 platform: android
-title: Bypassing Frida Detection in /proc/self/maps to Extract Sensitive Data
+title: Behavioral Detection of Frida Detection Mechanisms
 id: MASTG-DEMO-0x03
 code: [kotlin, cpp]
-test: MASTG-TEST-0341
-kind: fail
+test: MASTG-TEST-0x04
+kind: pass
 ---
 
 ## Sample
 
-This sample extends @MASTG-DEMO-0107. It encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore. It also uses the hardcoded native secret `sk-OWASP-MAS-SuperSecretNativeKey-1234567890`, encrypts it using an Android KeyStore-backed `Cipher` called from JNI, replaces the IV and ciphertext in the app's private files directory, and decrypts it from disk each time **Start** is pressed. Native code uses the platform `Cipher` through JNI, not a bundled cryptographic implementation. Before each native operation, an inlined check looks for the Frida branch opcode observed on ARM64 (`emulator-5554`) or x86_64 (`127.0.0.1:39399`). A second check calculates a quick FNV-1a checksum of bionic libc's loaded `.text` section and its bytes on disk; a difference blocks the native operation. The existing runtime hook detection scans `/proc/self/maps` for Frida-related libraries and terminates via `Process.killProcess()`. The bypass hooks `BufferedReader.readLine()` to hide Frida entries so `detectHooking()` returns `false`.
+This sample extends @MASTG-DEMO-0107 by also adding security logic to the native layer, as well as additional checks against Frida and hooking in general. The sample encrypts and decrypts a sensitive API key using AES/GCM via the Android KeyStore in both Java and Native layers. 
+
+Native code uses the platform `Cipher` through JNI. Before each sensitive native operation, an inlined check looks for the Frida trampoline on ARM64 or x86_64. A second check verifies bionic's code integrity by calculating a quick FNV-1a checksum of its `.text` section and comparing it against its file contents in disk. The already existing check from @MASTG-DEMO-0107 scans `/proc/self/maps` for indicators of frida injection. 
 
 See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime detection mechanisms.
 

@@ -5,8 +5,6 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import java.io.BufferedReader
-import java.io.DataInputStream
-import java.io.File
 import java.io.FileReader
 import java.security.KeyStore
 import javax.crypto.Cipher
@@ -25,8 +23,12 @@ class MastgTest(private val context: Context) {
         }
     }
 
-    private external fun storeNativeSecret(cipher: Cipher, path: String)
-    private external fun recoverNativeSecret(cipher: Cipher, path: String): ByteArray
+    private external fun encryptNativeSecret(cipher: Cipher): ByteArray
+    private external fun decryptNativeSecret(cipher: Cipher, data: ByteArray): ByteArray
+
+    // Compares the decrypted bytes against the secret hardcoded in native code,
+    // so the plaintext constant never needs to exist in Java.
+    private external fun verifyNativeSecret(plaintext: ByteArray): Boolean
 
     // Returns the first Frida-related line from /proc/self/maps, or null if none.
     private fun detectFridaEntry(): String? {
@@ -103,34 +105,28 @@ class MastgTest(private val context: Context) {
                 else "[ERROR] Decrypted secret does not match the original"
             )
 
-            // --- Native round-trip ---
+            // --- Native round-trip (in memory, no file on disk) ---
             report.appendLine()
             report.appendLine("=== Native AES/GCM round-trip (JNI) ===")
-            val file = File(context.filesDir, "native-secret.bin")
-            file.delete()
             try {
                 val nativeEncryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
                 nativeEncryptCipher.init(Cipher.ENCRYPT_MODE, key)
-                storeNativeSecret(nativeEncryptCipher, file.absolutePath)
-                report.appendLine(
-                    "Blob on disk (IV+ciphertext): ${
-                        Base64.encodeToString(
-                            file.readBytes(),
-                            Base64.NO_WRAP
-                        )
-                    }"
-                )
+                val nativeIv = nativeEncryptCipher.iv
+                val nativeCiphertext = encryptNativeSecret(nativeEncryptCipher)
 
-                val storedIv = ByteArray(12)
-                DataInputStream(file.inputStream()).use { it.readFully(storedIv) }
-                val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-                cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, storedIv))
-                val recoveredSecret = String(recoverNativeSecret(cipher, file.absolutePath), Charsets.UTF_8)
-                report.appendLine("Recovered:    $recoveredSecret")
+                val nativeDecryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
+                nativeDecryptCipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, nativeIv))
+                val nativeDecryptedBytes = decryptNativeSecret(nativeDecryptCipher, nativeCiphertext)
+                val nativeDecrypted = String(nativeDecryptedBytes, Charsets.UTF_8)
+                val nativeVerified = verifyNativeSecret(nativeDecryptedBytes)
+
+                report.appendLine("IV:           ${Base64.encodeToString(nativeIv, Base64.NO_WRAP)}")
+                report.appendLine("Ciphertext:   ${Base64.encodeToString(nativeCiphertext, Base64.NO_WRAP)}")
+                report.appendLine("Decrypted:    $nativeDecrypted")
                 report.appendLine(
-                    if (recoveredSecret == "sk-OWASP-MAS-SuperSecretNativeKey-1234567890")
-                        "[PASS] Recovered secret matches the native constant"
-                    else "[ERROR] Recovered secret does not match the native constant"
+                    if (nativeVerified)
+                        "[PASS] Decrypted secret matches the secret hardcoded in native"
+                    else "[ERROR] Decrypted secret does not match the secret hardcoded in native"
                 )
             } catch (e: Exception) {
                 // Raised by the native detections: Frida trampoline at the JNI entry or libc .text mismatch.

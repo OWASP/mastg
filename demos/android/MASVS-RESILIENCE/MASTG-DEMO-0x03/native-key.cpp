@@ -8,13 +8,11 @@
 #include <cstdio>
 #include <cstdint>
 #include <cstring>
-#include <string>
 
 namespace {
 constexpr char secret[] = "sk-OWASP-MAS-SuperSecretNativeKey-1234567890";
 constexpr size_t size = sizeof(secret) - 1;
-constexpr size_t ivSize = 12;
-constexpr size_t blobSize = ivSize + size + 16; // IV + AES-GCM ciphertext + tag
+constexpr size_t ciphertextSize = size + 16; // AES-GCM tag
 
 // Match the branch opcode Frida wrote at these function entries on the tested devices.
 __attribute__((always_inline)) inline bool hasFridaTrampoline(const void *entry) {
@@ -93,14 +91,6 @@ bool checkLibcText(JNIEnv *env) {
     return false;
 }
 
-std::string pathOf(JNIEnv *env, jstring file) {
-    const char *path = env->GetStringUTFChars(file, nullptr);
-    if (!path) return {};
-    std::string result(path);
-    env->ReleaseStringUTFChars(file, path);
-    return result;
-}
-
 jbyteArray doFinal(JNIEnv *env, jobject cipher, jbyteArray bytes) {
     jclass type = env->GetObjectClass(cipher);
     jmethodID method = env->GetMethodID(type, "doFinal", "([B)[B");
@@ -108,64 +98,51 @@ jbyteArray doFinal(JNIEnv *env, jobject cipher, jbyteArray bytes) {
 }
 } // namespace
 
-extern "C" JNIEXPORT void JNICALL
-Java_org_owasp_mastestapp_MastgTest_storeNativeSecret(JNIEnv *env, jobject, jobject cipher, jstring file) {
-    if (hasFridaTrampoline(reinterpret_cast<const void *>(&Java_org_owasp_mastestapp_MastgTest_storeNativeSecret))) {
-        env->ThrowNew(env->FindClass("java/lang/SecurityException"), "Native store hook detected");
-        return;
-    }
-    if (!checkLibcText(env)) return;
-    jbyteArray plaintext = env->NewByteArray(size);
-    if (!plaintext) return;
-    env->SetByteArrayRegion(plaintext, 0, size, reinterpret_cast<const jbyte *>(secret));
-    if (env->ExceptionCheck()) return;
-    jbyteArray encrypted = doFinal(env, cipher, plaintext);
-    if (!encrypted) return;
-
-    jclass type = env->GetObjectClass(cipher);
-    jmethodID getIv = env->GetMethodID(type, "getIV", "()[B");
-    if (!getIv) return;
-    auto iv = static_cast<jbyteArray>(env->CallObjectMethod(cipher, getIv));
-    if (!iv || env->GetArrayLength(iv) != ivSize || env->GetArrayLength(encrypted) != size + 16) {
-        if (!env->ExceptionCheck()) fail(env, "Unexpected AES-GCM output");
-        return;
-    }
-    unsigned char blob[blobSize];
-    env->GetByteArrayRegion(iv, 0, ivSize, reinterpret_cast<jbyte *>(blob));
-    env->GetByteArrayRegion(encrypted, 0, size + 16, reinterpret_cast<jbyte *>(blob + ivSize));
-    if (env->ExceptionCheck()) return;
-
-    std::string path = pathOf(env, file);
-    if (env->ExceptionCheck()) return;
-    std::string temp = path + ".tmp";
-    int fd = open(temp.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_NOFOLLOW, 0600);
-    if (fd < 0) { fail(env, "Cannot create private file"); return; }
-    FILE *out = fdopen(fd, "wb");
-    if (!out) { close(fd); unlink(temp.c_str()); fail(env, "Cannot write private file"); return; }
-    bool ok = fwrite(blob, 1, blobSize, out) == blobSize && fflush(out) == 0 && fsync(fd) == 0;
-    if (fclose(out) != 0) ok = false;
-    if (ok) ok = rename(temp.c_str(), path.c_str()) == 0;
-    if (!ok) { unlink(temp.c_str()); fail(env, "Cannot save encrypted secret"); }
-}
-
 extern "C" JNIEXPORT jbyteArray JNICALL
-Java_org_owasp_mastestapp_MastgTest_recoverNativeSecret(JNIEnv *env, jobject, jobject cipher, jstring file) {
-    if (hasFridaTrampoline(reinterpret_cast<const void *>(&Java_org_owasp_mastestapp_MastgTest_recoverNativeSecret))) {
-        env->ThrowNew(env->FindClass("java/lang/SecurityException"), "Native recover hook detected");
+Java_org_owasp_mastestapp_MastgTest_encryptNativeSecret(JNIEnv *env, jobject, jobject cipher) {
+    if (hasFridaTrampoline(reinterpret_cast<const void *>(&Java_org_owasp_mastestapp_MastgTest_encryptNativeSecret))) {
+        env->ThrowNew(env->FindClass("java/lang/SecurityException"), "Native encrypt hook detected");
         return nullptr;
     }
     if (!checkLibcText(env)) return nullptr;
-    std::string path = pathOf(env, file);
+    jbyteArray plaintext = env->NewByteArray(size);
+    if (!plaintext) return nullptr;
+    env->SetByteArrayRegion(plaintext, 0, size, reinterpret_cast<const jbyte *>(secret));
     if (env->ExceptionCheck()) return nullptr;
-    FILE *in = fopen(path.c_str(), "rb");
-    if (!in) { fail(env, "Cannot open encrypted secret"); return nullptr; }
-    unsigned char blob[blobSize];
-    bool ok = fread(blob, 1, blobSize, in) == blobSize && fgetc(in) == EOF && !ferror(in);
-    fclose(in);
-    if (!ok) { fail(env, "Invalid encrypted secret size"); return nullptr; }
-
-    jbyteArray encrypted = env->NewByteArray(size + 16);
+    jbyteArray encrypted = doFinal(env, cipher, plaintext);
     if (!encrypted) return nullptr;
-    env->SetByteArrayRegion(encrypted, 0, size + 16, reinterpret_cast<jbyte *>(blob + ivSize));
-    return env->ExceptionCheck() ? nullptr : doFinal(env, cipher, encrypted);
+    if (env->GetArrayLength(encrypted) != ciphertextSize) {
+        if (!env->ExceptionCheck()) fail(env, "Unexpected AES-GCM output");
+        return nullptr;
+    }
+    return encrypted;
+}
+
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_org_owasp_mastestapp_MastgTest_decryptNativeSecret(JNIEnv *env, jobject, jobject cipher, jbyteArray data) {
+    if (hasFridaTrampoline(reinterpret_cast<const void *>(&Java_org_owasp_mastestapp_MastgTest_decryptNativeSecret))) {
+        env->ThrowNew(env->FindClass("java/lang/SecurityException"), "Native decrypt hook detected");
+        return nullptr;
+    }
+    if (!checkLibcText(env)) return nullptr;
+    if (!data || env->GetArrayLength(data) != ciphertextSize) {
+        fail(env, "Unexpected AES-GCM ciphertext size");
+        return nullptr;
+    }
+    return doFinal(env, cipher, data);
+}
+
+// Checks the decrypted bytes against the secret hardcoded in this file, so the
+// plaintext constant never needs to exist in Java.
+extern "C" JNIEXPORT jboolean JNICALL
+Java_org_owasp_mastestapp_MastgTest_verifyNativeSecret(JNIEnv *env, jobject, jbyteArray data) {
+    if (!data || env->GetArrayLength(data) != size) {
+        fail(env, "Unexpected native secret length");
+        return JNI_FALSE;
+    }
+    jbyte *bytes = env->GetByteArrayElements(data, nullptr);
+    if (!bytes) return JNI_FALSE;
+    bool matches = memcmp(bytes, secret, size) == 0;
+    env->ReleaseByteArrayElements(data, bytes, JNI_ABORT);
+    return matches ? JNI_TRUE : JNI_FALSE;
 }
