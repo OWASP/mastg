@@ -1,6 +1,6 @@
 ---
 name: 'Writing MASTG Demo Files'
-applyTo: 'demos/**/*.md'
+applyTo: 'demos/**'
 ---
 
 A collection of demos (demonstrative examples) of the test that include working code samples and test scripts to ensure reproducibility and reliability.
@@ -19,6 +19,24 @@ Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
 
 - **Android:** Follow the instructions in ["MASTestApp for Android - Run the Extraction Script"](https://github.com/cpholguera/mas-app-android) to obtain the relevant files, such as the reversed `AndroidManifest.xml` and the `MastgTest_reversed.java`, which is the MASTestApp's main file. Including the full version of these files is also useful for understanding the code in the context of the application, regardless of whether the demo focuses on a specific snippet.
 - **iOS:** Follow the instructions in ["MASTestApp for iOS - Reverse Engineering"](https://github.com/cpholguera/MASTestApp-iOS) to obtain the relevant files, such as the IPA file and the reversed `Info.plist` already converted to XML format. Currently, you need to extract the main binary, MASTestApp, manually, and include it in the demo folder (we allow this for now since the files are sufficiently small). The demos will typically use reverse engineering tools, such as `r2`, on this binary.
+
+**Build artifacts MUST be generated, never written by hand.** The following files are outputs of actually building the MASTestApp and reverse engineering or scanning the result:
+
+- `MastgTest_reversed.java` and any other decompiled source
+- reversed `AndroidManifest.xml` and reversed `Info.plist`
+- `MASTestApp`, `.ipa`, and `.apk` binaries
+- `output.txt` and any other result file (`*.json`, `*.sarif`)
+
+Produce them by running the real pipeline against the MASTestApp and copying the result into the demo folder. Never write, edit, reconstruct, or "fix up" these files by hand or from memory, and never adjust them so they match the write-up. If you cannot run the pipeline, stop and say so rather than committing a plausible-looking file: a fabricated artifact is worse than a missing one, because it looks verified.
+
+This applies with equal force to AI coding assistants, which can produce convincing decompiler and scanner output that never came from a build.
+
+Two consequences worth calling out:
+
+- **Addresses in `.r2` scripts must be read from the built binary.** They shift on every rebuild, so an address that was not obtained from the exact binary committed alongside it is meaningless.
+- **Changing `run.sh` changes `output.txt`.** If you edit the command, regenerate the output by running it, and check that the write-up still matches.
+
+After generating an artifact, re-run the demo's `run.sh` once more and confirm the output is unchanged. If it differs, the committed artifact is not reproducible and must not be merged as is.
 
 The **demos MUST WORK**. See [Code Samples](#code-samples).
 
