@@ -3,8 +3,7 @@ title: Runtime Use of Protected Resource APIs Without Accurate Purpose Strings
 platform: ios
 id: MASTG-TEST-0361
 type: [dynamic, hooks, manual]
-weakness: MASWE-0066
-profiles: [P]
+maswe: [MASWE-0066]
 best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---

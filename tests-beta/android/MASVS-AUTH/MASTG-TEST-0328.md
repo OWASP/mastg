@@ -4,8 +4,7 @@ title: References to APIs Detecting Biometric Enrollment Changes
 id: MASTG-TEST-0328
 apis: [KeyGenParameterSpec.Builder, setInvalidatedByBiometricEnrollment]
 type: [static, code]
-weakness: MASWE-0022
-profiles: [L2]
+maswe: [MASWE-0022]
 knowledge: [MASTG-KNOW-0001]
 best-practices: [MASTG-BEST-0037]
 ---
