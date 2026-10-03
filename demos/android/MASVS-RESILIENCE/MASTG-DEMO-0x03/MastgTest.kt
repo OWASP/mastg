@@ -29,12 +29,12 @@ class MastgTest(private val context: Context) {
     private external fun recoverNativeSecret(cipher: Cipher, path: String): ByteArray
 
     init {
-        if (detectHooking()) {
+        if (detectFridaInjection()) {
             android.os.Process.killProcess(android.os.Process.myPid())
         }
     }
 
-    private fun detectHooking(): Boolean {
+    private fun detectFridaInjection(): Boolean {
         try {
             BufferedReader(FileReader("/proc/self/maps")).use { reader ->
                 var line: String?
@@ -74,7 +74,7 @@ class MastgTest(private val context: Context) {
     }
 
     fun mastgTest(): String {
-        if (detectHooking()) {
+        if (detectFridaInjection()) {
             android.os.Process.killProcess(android.os.Process.myPid())
             return ""
         }

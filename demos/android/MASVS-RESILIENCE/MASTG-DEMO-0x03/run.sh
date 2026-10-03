@@ -1,2 +1,2 @@
 #!/bin/bash
-frida -U -f org.owasp.mastestapp -l bypass.js -o output.txt
+frida -U -f org.owasp.mastestapp -i "open" -o output.txt
