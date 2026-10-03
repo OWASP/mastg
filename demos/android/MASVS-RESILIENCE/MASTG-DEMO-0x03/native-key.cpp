@@ -14,7 +14,6 @@ constexpr char secret[] = "sk-OWASP-MAS-SuperSecretNativeKey-1234567890";
 constexpr size_t size = sizeof(secret) - 1;
 constexpr size_t ciphertextSize = size + 16; // AES-GCM tag
 
-// Match the branch opcode Frida wrote at these function entries on the tested devices.
 __attribute__((always_inline)) inline bool hasFridaTrampoline(const void *entry) {
 #if defined(__aarch64__)
     auto code = static_cast<volatile const uint32_t *>(entry);
@@ -132,8 +131,7 @@ Java_org_owasp_mastestapp_MastgTest_decryptNativeSecret(JNIEnv *env, jobject, jo
     return doFinal(env, cipher, data);
 }
 
-// Checks the decrypted bytes against the secret hardcoded in this file, so the
-// plaintext constant never needs to exist in Java.
+// Checks the decrypted bytes against the secret hardcoded in this file
 extern "C" JNIEXPORT jboolean JNICALL
 Java_org_owasp_mastestapp_MastgTest_verifyNativeSecret(JNIEnv *env, jobject, jbyteArray data) {
     if (!data || env->GetArrayLength(data) != size) {
