@@ -4,6 +4,7 @@ title: Behavioral Detection of Root Detection Mechanisms
 id: MASTG-DEMO-0x01
 code: [kotlin]
 test: MASTG-TEST-0x01
+kind: pass
 ---
 
 ## Sample

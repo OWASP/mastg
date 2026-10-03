@@ -2,7 +2,7 @@
 platform: android
 title: Behavioral Detection of Emulator Detection Mechanisms
 id: MASTG-DEMO-0x02
-code: [kotlin]
+code: [kotlin, xml]
 test: MASTG-TEST-0x02
 kind: pass
 ---
@@ -25,10 +25,12 @@ Notes about the checks performed:
 
 1. Use @MASTG-TECH-0005 to install the app on a real device.
 2. Open the app.
-3. Tap **Start** and observe the displayed results.
-4. Use @MASTG-TECH-0005 to install the same app on an emulated device provided by @MASTG-TOOL-0007.
-5. Open the app.
-6. Tap **Start** and compare the app's response with the results from the emulated device.
+3. Tap **Start**.
+4. Grant the `READ_PHONE_STATE` and `READ_PHONE_NUMBERS` permissions when prompted, then tap **Start** and observe the displayed results.
+5. Use @MASTG-TECH-0005 to install the same app on an emulated device provided by @MASTG-TOOL-0007.
+6. Open the app.
+7. Tap **Start**.
+8. Grant the `READ_PHONE_STATE` and `READ_PHONE_NUMBERS` permissions when prompted, then tap **Start** and compare the app's response with the results from the real device.
 
 ## Observation
 
@@ -44,7 +46,7 @@ No emulator indicators were found in the device.
 
 Multiple emulator indicators are triggered for @MASTG-TOOL-0007 emulators:
 
-- **System/Build Properties**: We observe indicators for `sdk_gphone64_arm64` and `ranchu`. Ranchu (also known as "Goldfish"), is the name of the virtual hardware platform used by @MASTG-TOOL-0007 for its emulated devices. More details can be found in [AOSP docs](https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT).
+- **System/Build Properties**: We observe indicators for `sdk_gphone64_arm64` and `ranchu`. Ranchu (also known as "Goldfish"), is the name of the virtual hardware platform used by @MASTG-TOOL-0007 for its emulated devices. More details can be found in [AOSP docs](https://github.com/aosp-mirror/platform_external_qemu/blob/main/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT).
 - **GPU Device**: The emulator reports the host's GPU device as its graphics renderer.
 
 {{ output-emulator.txt }}

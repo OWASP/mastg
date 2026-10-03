@@ -1,7 +1,7 @@
 ---
 platform: android
 title: Bypassing Frida Detection in /proc/self/maps to Extract Sensitive Data
-id: MASTG-DEMO-0108
+id: MASTG-DEMO-0x03
 code: [kotlin, cpp]
 test: MASTG-TEST-0341
 kind: fail

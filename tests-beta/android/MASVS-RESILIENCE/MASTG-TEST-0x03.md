@@ -30,6 +30,8 @@ The output should contain a list of locations where emulator detection checks ar
 
 ## Evaluation
 
-The test case fails if the app does not implement any emulator detection checks. However, note that static analysis may not detect all emulator detection mechanisms, especially if they are proprietary, obfuscated, or implemented in native code.
+The test case fails if the app does not implement any emulator detection checks.
 
-If emulator detection checks are found, this is a positive sign, but you should still evaluate their effectiveness. See @MASTG-BEST-0046.
+**Expected False Negatives:**
+
+This test may produce false negatives if the app uses emulator detection mechanisms that are proprietary, obfuscated, or implemented in native code. In such cases, the absence of findings does not guarantee the absence of emulator detection, and additional manual reverse engineering or custom instrumentation may be required to identify and analyze emulator detection mechanisms.

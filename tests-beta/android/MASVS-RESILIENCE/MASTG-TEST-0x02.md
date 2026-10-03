@@ -2,7 +2,7 @@
 platform: android
 title: Behavioral Check of Emulator Detection Techniques
 id: MASTG-TEST-0x02
-type: [dynamic, hooks]
+type: [dynamic]
 maswe: [MASWE-0053]
 best-practices: [MASTG-BEST-0046]
 knowledge: [MASTG-KNOW-0031]
@@ -10,11 +10,14 @@ knowledge: [MASTG-KNOW-0031]
 
 ## Overview
 
-This test verifies whether an app implements runtime emulator detection by attempting to run its protected functionality on an emulated device. Unlike @MASTG-TEST-0351, this test focuses on the behavior of the app when one of its emulator detection mechanisms trigger. These may include checks for build properties and artifacts typically associated with emulated devices, as well as calls to known emulator detection APIs.
+This test verifies whether an app implements runtime emulator detection by attempting to run its protected functionality on an emulated device.
+
+Unlike @MASTG-TEST-0351, this test focuses on the behavior of the app when one of its emulator detection mechanisms trigger. These may include checks for build properties and artifacts typically associated with emulated devices, as well as calls to known emulator detection APIs.
 
 See @MASTG-KNOW-0031 for more information on emulator detection techniques and specific APIs and artifacts to look for.
 
 This test is best combined with:
+
 - @MASTG-TEST-0x03: Covers identifying anti-emulator checks with static analysis.
 - @MASTG-TEST-0351: Covers identifying anti-emulator checks with dynamic analysis through hooking.
 
@@ -31,11 +34,11 @@ It is recommended to run this test on an emulator to ensure that emulator detect
 
 ## Observation
 
-The app should behave differently in both devices, showing errors to the user and potentially stopping execution on the emulated device.
+The output should contain a record of the app's behavior on both devices, including any displayed errors or process termination.
 
 ## Evaluation
 
-The test case fails if no differences are observed while using the app in the real and emulated devices. However, results from this test should be interpreted as evidence of the presence of emulator detection logic, not as an assessment of its robustness or effectiveness. See @MASTG-BEST-0046.
+The test case fails if the app does not respond to emulator detection in a way appropriate to its risk profile, for example by restricting sensitive functionality or terminating execution.
 
 **Expected False Negatives:**
 

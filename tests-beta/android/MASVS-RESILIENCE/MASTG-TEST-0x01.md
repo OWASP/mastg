@@ -10,10 +10,15 @@ knowledge: [MASTG-KNOW-0027]
 
 ## Overview
 
-This test verifies whether an app implements runtime root detection by attempting to run its protected functionality on a rooted device. Unlike @MASTG-TEST-0325, this test focuses on the behavior of the app when one of its root detection mechanisms trigger. See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts apps can look for.
+This test verifies whether an app implements runtime root detection by attempting to run its protected functionality on a rooted device.
 
-This test is best combined with: 
-- @MASTG-TEST-0324: Covers identifying anti-root checks with static analysis. 
+Unlike @MASTG-TEST-0325, this test focuses on the behavior of the app when one of its root detection mechanisms trigger.
+
+See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts apps can look for.
+
+This test is best combined with:
+
+- @MASTG-TEST-0324: Covers identifying anti-root checks with static analysis.
 - @MASTG-TEST-0325: Covers identifying anti-root checks with dynamic analysis through hooking.
 
 It is recommended to run this test using a rooted device or emulator to ensure that root detection mechanisms are triggered during testing. However, even on a non-rooted device, this test can still surface root detection logic if the app performs checks that do not require root access (for example, checking for the presence of root-related files or system properties).
@@ -29,11 +34,11 @@ It is recommended to run this test using a rooted device or emulator to ensure t
 
 ## Observation
 
-The app should behave differently in both devices, showing errors to the user and potentially stopping execution on the rooted device.
+The output should contain a record of the app's behavior on both devices, including any displayed errors or process termination.
 
 ## Evaluation
 
-The test case fails if no differences are observed while using the app in the clean and rooted devices. However, results from this test should be interpreted as evidence of the presence of root detection logic, not as an assessment of its robustness or effectiveness. See @MASTG-BEST-0030.
+The test case fails if the app does not respond to root detection in a way appropriate to its risk profile, for example by restricting sensitive functionality or terminating execution.
 
 **Expected False Negatives:**
 
