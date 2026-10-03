@@ -1,0 +1,19 @@
+[PASS] No Frida agent found in / proc/self/maps
+[PASS] AndroidKeyStore key ready (alias "mastgCipherKey")
+
+=== Java AES/GCM round-trip (AndroidKeyStore) ===
+Secret:
+sk-OWASP-MAS-SuperSecretKey-1234567890
+IV: FfhBG30fcRBne6N
+Ciphertext: xJKMFJ6v4sqCi9Rmnh7NV0ij7yCW4IHgKzRZ
++nAOFVrnhKfTupv9YkGfu6XWPrx36a2JSKR2
+Decrypted: sk-OWASP-MAS-SuperSecretKey-1234567890
+[PASS] Decrypted secret matches the original
+
+=== Native AES/GCM round-trip (JNI) ===
+IV: TsHjoLYvJviGam2R
+Ciphertext: OSOssN/HCgYkOtLaCPzCv/
+jopMznSXz9QIX+64QBzwBK1Z/
+G7yBm5550AXTGC7fNs0M9oD/iS/Ki9kKF
+Decrypted: sk-OWASP-MAS-SuperSecretNativeKey-1234567890
+[PASS] Decrypted secret matches the secret hardcoded in native

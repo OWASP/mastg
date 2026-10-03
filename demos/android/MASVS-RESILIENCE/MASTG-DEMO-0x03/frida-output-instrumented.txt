@@ -1,0 +1,31 @@
+Spawning `org.owasp.mastestapp`...
+Instrumenting...
+open: Loaded handler at "/Users/sgarcia/__handlers__/libc.so/open.js"
+Started tracing 1 function. Web UI available at http://localhost:64800/
+Tip: Luma, the official Frida app, has frida-trace built in — with a Monaco handler editor and instruction-level tracing you can diff across runs. https://luma.frida.re/
+           /* TID 0x13be */
+   126 ms  open(path="/proc/self/cmdline", oflag=0x80000, ...)
+   128 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/oat/arm64/base.vdex", oflag=0x0, ...)
+   128 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/base.apk", oflag=0x0, ...)
+   131 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/oat/arm64/base.art", oflag=0x0, ...)
+   131 ms  open(path="/data/user/0/org.owasp.mastestapp/cache/oat_primary/arm64/base.art", oflag=0x0, ...)
+   153 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/base.apk", oflag=0x0, ...)
+   153 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/base.apk", oflag=0x80000, ...)
+   252 ms  open(path="/proc/self/stat", oflag=0x80000, ...)
+           /* TID 0x13d3 */
+   252 ms  open(path="/proc/self/cmdline", oflag=0x80000, ...)
+   252 ms  open(path="/proc/self/cmdline", oflag=0x80000, ...)
+           /* TID 0x13be */
+   333 ms  open(path="/sys/devices/system/cpu/possible", oflag=0x80000, ...)
+   370 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/lib/arm64/libnativekey.so", oflag=0x0, ...)
+   372 ms  open(path="/data/app/~~U6Kp3UiYZaViD3VClFL3SQ==/org.owasp.mastestapp-rRniVXguLDUBgfWg6hwcgQ==/base.apk", oflag=0x80000, ...)
+   527 ms  open(path="/system/fonts/DroidSansMono.ttf", oflag=0x0, ...)
+           /* TID 0x13d1 */
+   650 ms  open(path="/proc/self/cmdline", oflag=0x80000, ...)
+   650 ms  open(path="/proc/self/cmdline", oflag=0x80000, ...)
+  1047 ms  open(path="/proc/self/cmdline", oflag=0x80000, ...)
+           /* TID 0x13dd */
+  4056 ms  open(path="/proc/self/maps", oflag=0x0, ...)
+           /* TID 0x13e0 */
+  5405 ms  open(path="/data/user/0/org.owasp.mastestapp/files/profileinstaller_profileWrittenFor_lastUpdateTime.dat", oflag=0x0, ...)
+  5409 ms  open(path="/data/user/0/org.owasp.mastestapp/files/profileInstalled", oflag=0x0, ...)

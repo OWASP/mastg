@@ -20,33 +20,40 @@ See @MASTG-KNOW-0030 and @MASTG-KNOW-0032 for more context on bypassing runtime 
 
     - @MASTG-DEMO-0106 is a failed test (failed defence/successful attack) against a data exfiltration attack.
     - @MASTG-DEMO-0107 is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0106.
-    - This test is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0107 by using a more "complex" attack.
+    - @MASTG-DEMO-0108 is a failed test (failed defence/successful attack) against the defenses of @MASTG-DEMO-0107 by using a more "complex" attack.
+    - This is a successful test (successful defense/failed attack) against the attack of @MASTG-DEMO-0108.
 
-{{ MastgTest.kt # native-key.cpp # CMakeLists.txt # NativeFlowTest.kt }}
-
-Use `build.gradle.kts.android` to enable the native build when adding this sample to the test app.
+{{ MastgTest.kt # native-key.cpp # CMakeLists.txt }}
 
 ## Steps
 
-1. Install the app on a device (@MASTG-TECH-0005)
-2. Run `run.sh` to spawn the app with the bypass script
-3. Click the **Start** button
-4. Stop the script by pressing `Ctrl+C` and/or `q` to quit the Frida CLI
+1. Install the app on a clean, unrooted device using @MASTG-TECH-0005.
+2. Install the app on a rooted device using @MASTG-TECH-0005 and ensure @MASTG-TOOL-0x02 is available.
+3. In the rooted device, run `run.sh` to spawn the app with Frida attached and tracing calls to `open()`.
+4. Tap **Start** in both devices and compare the app's response between the two.
+5. Stop Frida by pressing `Ctrl+C`.
 
-{{ bypass.js # native-hooks.js # run.sh }}
-
-To inspect the native hooks separately, load `native-hooks.js` together with `bypass.js`; the native checks then reject calls to either hooked JNI function.
+{{ run.sh }}
 
 ## Observation
 
-The captured output below is from the original Java-only variant: eight `frida-agent-64.so` memory segments are filtered from `/proc/self/maps` across two scans. The updated sample additionally calls `Cipher.doFinal()` from native code when it creates and recovers the key. Every press of **Start** encrypts the native secret with a fresh IV, replaces `native-secret.bin`, and recovers it from private storage.
+### Clean Device
 
-On `emulator-5554` (ARM64, Frida 17.17.0), hooking each JNI export changed its first eight bytes to `50 00 00 58 00 02 1f d6` (`ldr x16, #8; br x16`). The check only matches `br xN` in the second instruction, ignoring the register number; it does not verify the preceding instruction. The following eight bytes are a process-specific target address and are not compared. With these hooks installed, calling `storeNativeSecret` throws `SecurityException: Native store hook detected`, and calling `recoverNativeSecret` returns `Error: Native recover hook detected`. Both operations succeed without native hooks. On the Fedora host's x86_64 device (`127.0.0.1:39399`), Frida patched each function with `e9 ?? ?? ?? ?? 66 0f 1f 44 00 00` (`jmp rel32` followed by a NOP). The four jump-displacement bytes varied between functions. The x86_64 check looks only for the leading `e9`. Hooked calls to both functions raised the corresponding `SecurityException`; without native hooks, encryption and recovery succeeded. These byte checks are illustrative: an unrelated `br xN` or `jmp rel32` at the checked offset can also trigger them, and they are not a general Frida defense.
+No frida indicators were found in the device.
 
-The libc check uses the ELF `.text` section's file offset and loaded address. Unhooked encryption and recovery succeeded twice in succession on both devices, with fresh ciphertext on each run. With Frida attached on ARM64, it reported `libc .text modified in memory` before writing the native secret. This fast checksum is an illustrative integrity check, not a tamper-proof defense; failure to read or locate `.text` is reported as an error, not as a detected hook.
+{{ output-clean.txt }}
 
-{{ output.txt }}
+### Instrumented Device
+
+The output does not contain injection-related detections inside `/proc/self/maps` due to the use of a stealthier Frida build (@MASTG-TOOL-0x02) that patches common sources of detection, such as the inspected `frida` and `gadget` indicators inside the demo code. 
+
+Nevertheless, more advanced detections such as the integrity checks over the `libc` library were triggered, causing the demo to abort sensitive operations in native code.
+
+{{ output-instrumented.txt # frida-output-instrumented.txt }}
 
 ## Evaluation
 
-The test fails because the `BufferedReader.readLine()` hook successfully concealed all Frida memory segments from `/proc/self/maps`, causing `detectHooking()` to return `false`. With detection bypassed, the app proceeds with its cryptographic operations, which the `Cipher.doFinal()` hooks can intercept, including the native JNI calls that encrypt and recover the hardcoded secret. The bundled output only demonstrates extraction of the original sensitive API key `sk-OWASP-MAS-SuperSecretKey-1234567890` in plaintext.
+The test passes because the multi-layered detection approach implemented in the demo successfully detected the attack. Although `/proc/self/maps` based detections were not sufficient due to the use of @MASTG-TOOL-0x02, later checks in native code successfully detected Frida due to its manipulation over Bionic, Android's libc.
+
+!!! note "Frida Instrumentation Internals"
+    Frida automatically hooks different bionic functions on spawn or attach as part of its setup process, causing any checks over bionic's code integrity to fail just by having Frida inside an application. As a result, the integrity checks present in this demo would also fail without needing to hook `open()`. These are Frida internals that may change in the future, reducing the tool's detection surface and thus, the test intentionally hooks a common symbol such as `open()` to create a controlled detection point.
