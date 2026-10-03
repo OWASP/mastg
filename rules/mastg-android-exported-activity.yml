@@ -1,0 +1,28 @@
+rules:
+  - id: mastg-android-activity-exported-without-permission
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects an exported activity that does not enforce any caller permission.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Exported activity without android:permission, reachable
+      by any app on the device. Inspect its code for sensitive functionality:
+      activity=$NAME
+    patterns:
+      - pattern: <activity ... android:name="$NAME" ... android:exported="true" ... />
+      - pattern-not: <activity ... android:permission="$PERM" ... />
+
+  - id: mastg-android-activity-exported-with-permission
+    languages: [xml]
+    severity: INFO
+    metadata:
+      summary: Detects an exported activity that enforces a caller permission.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] Exported activity protected by a permission. Verify the
+      permission protection level matches the intended trust boundary:
+      activity=$NAME
+    pattern: <activity ... android:name="$NAME" ... android:exported="true" ... android:permission="$PERM" ... />
