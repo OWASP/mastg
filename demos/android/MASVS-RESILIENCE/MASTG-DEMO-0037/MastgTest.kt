@@ -11,7 +11,7 @@ class MastgTest (private val context: Context){
         enableStrictMode()
         triggerSqliteCursorLeak()
         
-        System.gc() // Force garbage collection to trigger leak detection
+        Runtime.getRuntime().gc() // Force garbage collection to trigger leak detection
 
         return "SUCCESS!!\n\nSQL Cursor leaked."
     }
