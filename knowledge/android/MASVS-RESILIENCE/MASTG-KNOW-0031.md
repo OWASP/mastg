@@ -24,11 +24,9 @@ Apps can read build properties through [`android.os.Build`](https://developer.an
 | `Build.PRODUCT` | `sdk`, `google_sdk`, `sdk_x86`, `sdk_google`, `vbox86p`, `droid4x`, `andy`, `ttvm`, `nox`, starts with `itoolsavm` |
 | `Build.BRAND` / `Build.DEVICE` | start with `generic`, include `generic x86`, `vbox86p`, `ttvm`, `andy`, `nox` |
 | `Build.BOARD` | `unknown`, contains `nox` |
-| `Build.SERIAL` | `unknown`; deprecated, check for `Build.getSerial()` instead |
 | `Build.ID` | `frf91` |
 | `Build.RADIO` | blank or `unknown`; deprecated, check for `Build.getRadioVersion()` instead |
 | `Build.TAGS` | `test-keys` |
-| `Build.USER` | `android-build` |
 
 Notes: It is recommended to normalize to lowercase when checking these values.
 
