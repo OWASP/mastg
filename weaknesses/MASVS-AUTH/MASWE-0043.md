@@ -28,7 +28,7 @@ In a correct setup, it should not be possible to extract the app's PIN from the 
 ## Impact
 
 - **Extraction of PIN from app**: If the PIN is stored locally, an attacker can extract it using various techniques (backups, exploits, ...) and use the PIN to authenticate either on the victim's device, or on an attacker controlled device.
-- **Bruteforce of PIN locally**: If the PIN can be bruteforced locally based on information available in the local storage of the application, an attacker can dervice the PIN and authenticate either ont he victim's device, or on an attacker controlled device.
+- **Bruteforce of PIN locally**: If the PIN can be bruteforced locally based on information available in the local storage of the application, an attacker can derive the PIN and authenticate either on he victim's device, or on an attacker-controlled device.
 - **Bruteforce of PIN on backend**: If the PIN is used directly on the backend to authenticate the user, an attacker can bruteforce the PIN directly on the backend to obtain a valid session.
 
 ## Modes of Introduction
