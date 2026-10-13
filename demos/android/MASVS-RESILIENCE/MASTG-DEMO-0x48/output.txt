@@ -1,0 +1,65 @@
+                    
+                    
+┌──────────────────┐
+│ 12 Code Findings │
+└──────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-frida-detection-default-port
+          [MASVS-RESILIENCE-4] The app references the default frida-server TCP port (27042), suggesting a
+          port-scan-based Frida detection.                                                               
+                                                                                                         
+          130┆ socket.connect(new InetSocketAddress("127.0.0.1", 27042), ComposerKt.invocationKey);
+   
+    ❯❱ rules.mastg-android-frida-detection-loopback-literal
+          [MASVS-RESILIENCE-4] The app references 127.0.0.1, which is typically combined with a port literal
+          to scan for frida-server.                                                                         
+                                                                                                            
+          130┆ socket.connect(new InetSocketAddress("127.0.0.1", 27042), ComposerKt.invocationKey);
+   
+    ❯❱ rules.mastg-android-frida-detection-frida-identifier-literals
+          [MASVS-RESILIENCE-4] The app contains string literals associated with Frida or Gum runtime artifacts
+          (frida-server, frida-helper, frida-agent, frida-gadget, libfrida, gum-js-loop, gmain, linjector,    
+          re.frida). Strong indicator of Frida-detection logic.                                               
+                                                                                                              
+          152┆ List needles = CollectionsKt.listOf((Object[]) new String[]{"gum-js-loop", "gmain",
+               "gdbus", "pool-frida", "frida"});                                                  
+            ⋮┆----------------------------------------
+          152┆ List needles = CollectionsKt.listOf((Object[]) new String[]{"gum-js-loop", "gmain",
+               "gdbus", "pool-frida", "frida"});                                                  
+   
+    ❯❱ rules.mastg-android-frida-detection-proc-enumeration
+          [MASVS-RESILIENCE-4] The app references /proc, /proc/self/task, cmdline or comm, common primitives 
+          for enumerating running processes or thread names (e.g. to look for a frida-server process or Frida
+          worker threads such as gum-js-loop/gmain).                                                         
+                                                                                                             
+          154┆ File taskDir = new File("/proc/self/task");
+            ⋮┆----------------------------------------
+          165┆ File commFile = new File(tid, "comm");
+   
+    ❯❱ rules.mastg-android-frida-detection-frida-identifier-literals
+          [MASVS-RESILIENCE-4] The app contains string literals associated with Frida or Gum runtime artifacts
+          (frida-server, frida-helper, frida-agent, frida-gadget, libfrida, gum-js-loop, gmain, linjector,    
+          re.frida). Strong indicator of Frida-detection logic.                                               
+                                                                                                              
+          213┆ final List needles = CollectionsKt.listOf((Object[]) new String[]{"frida-agent",
+               "libfrida", "frida-gadget", "gum-js-loop", "linjector", "/gum"});               
+            ⋮┆----------------------------------------
+          213┆ final List needles = CollectionsKt.listOf((Object[]) new String[]{"frida-agent",
+               "libfrida", "frida-gadget", "gum-js-loop", "linjector", "/gum"});               
+            ⋮┆----------------------------------------
+          213┆ final List needles = CollectionsKt.listOf((Object[]) new String[]{"frida-agent",
+               "libfrida", "frida-gadget", "gum-js-loop", "linjector", "/gum"});               
+            ⋮┆----------------------------------------
+          213┆ final List needles = CollectionsKt.listOf((Object[]) new String[]{"frida-agent",
+               "libfrida", "frida-gadget", "gum-js-loop", "linjector", "/gum"});               
+            ⋮┆----------------------------------------
+          213┆ final List needles = CollectionsKt.listOf((Object[]) new String[]{"frida-agent",
+               "libfrida", "frida-gadget", "gum-js-loop", "linjector", "/gum"});               
+   
+    ❯❱ rules.mastg-android-frida-detection-proc-maps-read
+          [MASVS-RESILIENCE-4] The app references /proc/self/maps, the canonical primitive for detecting an
+          injected Frida agent or any other foreign library mapped into the process.                       
+                                                                                                           
+          215┆ BufferedReader bufferedReader = new BufferedReader(new FileReader("/proc/self/maps"));
+
