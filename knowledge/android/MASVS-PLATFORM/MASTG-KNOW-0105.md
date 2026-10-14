@@ -19,7 +19,7 @@ Android provides several mechanisms that offer different levels of protection fo
 
 ### SurfaceView.setSecure()
 
-[`SurfaceView.setSecure(true)`](https://developer.android.com/reference/android/view/SurfaceView#setSecure%28boolean%29 "SurfaceView.setSecure") marks the content of a specific `SurfaceView` as secure, providing protection at the surface level. This mechanism works independently of the containing window's security settings and is typically used to protect data rendered in dedicated surfaces, such as hardware-accelerated video playback or decoded video content.
+[`SurfaceView.setSecure(true)`](https://developer.android.com/reference/android/view/SurfaceView#setSecure%28boolean%29) marks the content of a specific `SurfaceView` as `secure`, blocking capture at the surface level. This mechanism works independently of the containing window and is typically used to protect data rendered in dedicated surfaces, such as hardware-accelerated video playback or decoded video content. However, this must be called before the SurfaceView’s containing window is attached to the window manager. A call made later has no effect. Also, if the window was already set as `secure`, the `SurfaceView` always inherits this attribute and cannot be set to allow screen capture.
 
 ### Compose SecureFlagPolicy
 
