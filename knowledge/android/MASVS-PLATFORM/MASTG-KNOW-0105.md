@@ -32,3 +32,9 @@ Available since Android 13 (API level 33), the [`Activity.setRecentsScreenshotEn
 The scope of this method is narrower than that of `FLAG_SECURE`. It affects only the preview image on the Recents screen; it does not block screenshots, screen recordings, or screen-sharing scenarios.
 
 This API replaces the [`Activity.setDisablePreviewScreenshots(boolean)`](https://developer.android.com/reference/android/app/Activity#setDisablePreviewScreenshots%28boolean%29 "Activity.setDisablePreviewScreenshots") method, which was introduced in Android 9 (API level 28) and deprecated in Android 13. The two methods use inverted boolean logic. See @MASTG-TEST-0292.
+
+### Limitations
+
+All the methods shown cannot guarantee the blockage of screen capture to protect the app from the user. For example, rooted devices can forcefully disable the `secure` flag for any app using various available Zygisk modules. It is also always possible to use external capture cards or use another device to capture photos of the screen.
+
+Therefore, these methods can only be considered an additional hardening measure and may add protection against certain on device threats, like Android malware trying to steal user information without having full system access.
