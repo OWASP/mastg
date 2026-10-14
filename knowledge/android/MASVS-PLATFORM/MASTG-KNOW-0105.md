@@ -1,5 +1,5 @@
 ---
-title: User-Initiated Screenshots and Screen Recording
+title: Measures against User-Initiated Screenshots and Screen Recording
 platform: android
 masvs_category: MASVS-PLATFORM
 ---
