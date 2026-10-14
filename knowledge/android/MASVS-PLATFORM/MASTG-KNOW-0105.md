@@ -17,7 +17,7 @@ Android provides several mechanisms that offer different levels of protection fo
 
 [`FLAG_SECURE`](https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_SECURE "WindowManager.LayoutParams.FLAG_SECURE") is a `WindowManager.LayoutParams` flag that applies at the window level. It is applied to the window of an Activity or a Dialog. When the flag is enabled, the system treats the entire content of the window as secure and excludes it from capture operations such as screenshots, screen recording, or screen sharing.
 
-### SurfaceView.setSecure
+### SurfaceView.setSecure()
 
 [`SurfaceView.setSecure(true)`](https://developer.android.com/reference/android/view/SurfaceView#setSecure%28boolean%29 "SurfaceView.setSecure") marks the content of a specific `SurfaceView` as secure, providing protection at the surface level. This mechanism works independently of the containing window's security settings and is typically used to protect data rendered in dedicated surfaces, such as hardware-accelerated video playback or decoded video content.
 
