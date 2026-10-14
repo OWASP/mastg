@@ -27,7 +27,7 @@ In Jetpack Compose, components that create their own windows, such as `Dialog` a
 
 ### setRecentsScreenshotEnabled
 
-Available since Android 13 (API level 33), the [`Activity.setRecentsScreenshotEnabled(boolean)`](https://developer.android.com/reference/android/app/Activity#setRecentsScreenshotEnabled%28boolean%29 "Activity.setRecentsScreenshotEnabled") method controls whether the system generates the activity preview image (thumbnail) shown on the Recents screen. When this feature is disabled, a generic placeholder is shown on the Recents screen instead of the activity's content.
+Independent of the `secure` flags, another API controls the app's behaviour in the Recents app switcher. Available since Android 13 (API level 33), the [`Activity.setRecentsScreenshotEnabled(boolean)`](https://developer.android.com/reference/android/app/Activity#setRecentsScreenshotEnabled%28boolean%29) method controls whether the system generates the activity preview image (thumbnail) shown on the Recents screen. When this feature is disabled, the system shows a placeholder (typically the theme’s window background) instead of the activity's content.
 
 This affects only the preview image on the Recents screen; it does not block screenshots, screen recordings, or screen-sharing scenarios.
 
