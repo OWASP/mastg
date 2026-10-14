@@ -19,7 +19,7 @@ Android provides several mechanisms that offer different levels of protection fo
 
 ### SurfaceView.setSecure()
 
-[`SurfaceView.setSecure(true)`](https://developer.android.com/reference/android/view/SurfaceView#setSecure%28boolean%29) marks the content of a specific `SurfaceView` as `secure`, blocking capture at the surface level. This mechanism works independently of the containing window and is typically used to protect data rendered in dedicated surfaces, such as hardware-accelerated video playback or decoded video content. However, this must be called before the SurfaceView’s containing window is attached to the window manager. A call made later has no effect. Also, if the window was already set as `secure`, the `SurfaceView` always inherits this attribute and cannot be set to allow screen capture.
+[`SurfaceView.setSecure(true)`](https://developer.android.com/reference/android/view/SurfaceView#setSecure%28boolean%29) marks the content of a specific `SurfaceView` as `secure`, blocking capture at the surface level. This mechanism works independently of the containing window and is typically used to protect data rendered in dedicated surfaces, such as hardware-accelerated video playback or decoded video content. However, this must be called before the SurfaceView's containing window is attached to the window manager. A call made later has no effect. Also, if the window was already set as `secure`, the `SurfaceView` always inherits this attribute and cannot be set to allow screen capture.
 
 ### Compose SecureFlagPolicy
 
@@ -27,8 +27,7 @@ In Jetpack Compose, components that create their own windows, such as `Dialog` a
 
 ### setRecentsScreenshotEnabled
 
-Independent of the `secure` flags, another API controls the app's behaviour in the Recents app switcher. Available since Android 13 (API level 33), the [`Activity.setRecentsScreenshotEnabled(boolean)`](https://developer.android.com/reference/android/app/Activity#setRecentsScreenshotEnabled%28boolean%29) method controls whether the system generates the activity preview image (thumbnail) shown on the Recents screen. When this feature is disabled, the system shows a placeholder (typically the theme’s window background) instead of the activity's content.
-
+Independent of the `secure` flags, another API controls the app's behaviour in the Recents app switcher. Available since Android 13 (API level 33), the [`Activity.setRecentsScreenshotEnabled(boolean)`](https://developer.android.com/reference/android/app/Activity#setRecentsScreenshotEnabled%28boolean%29) method controls whether the system generates the activity preview image (thumbnail) shown on the Recents screen. When this feature is disabled, the system shows a placeholder (typically the theme's window background) instead of the activity's content.
 This affects only the preview image on the Recents screen; it does not block screenshots, screen recordings, or screen-sharing scenarios.
 
 This API replaces the [`Activity.setDisablePreviewScreenshots(boolean)`](https://developer.android.com/reference/android/app/Activity#setDisablePreviewScreenshots%28boolean%29 "Activity.setDisablePreviewScreenshots") method, which was introduced in Android 9 (API level 28) and deprecated in Android 13. The two methods use inverted boolean logic. See @MASTG-TEST-0292.
