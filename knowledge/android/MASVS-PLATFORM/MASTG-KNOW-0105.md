@@ -7,7 +7,7 @@ On Android, the content displayed on the screen can be captured through several 
 
 A display secure flag is a system setting that determines whether the content displayed in a particular window or surface is included in capture operations such as screenshots, screen recording, or screen sharing.
 
-Screenshots can be taken through [hardware-based shortcuts or system-level screen-capture mechanisms](https://support.google.com/android/answer/9075928 "Take a screenshot or record your screen on your Android device"), independently of the app in use. On Android 11 (API level 30) and later, the platform provides a built-in screen recorder that the user can start from the Quick Settings menu. This feature records the screen as a video, optionally including system audio.
+Screenshots can be taken through [hardware-based shortcuts or system-level screen-capture mechanisms](https://support.google.com/android/answer/9075928), independently of the app in use. On Android 11 (API level 30) and later, the platform provides a built-in screen recorder that the user can start from the Quick Settings menu. This feature records the screen as a video, optionally capturing device audio, microphone input, or both.
 
 The Android display system consists of multiple layers, and these layers can be marked as secure. When a layer is marked as secure, the system excludes its content from the output during capture operations such as screenshots, screen recording, or screen sharing. In that case, the content may appear black or blank, or the surface may be omitted from the capture entirely. The available secure mechanisms differ in the layer at which they apply and in the capture methods they affect.
 
