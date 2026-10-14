@@ -15,7 +15,7 @@ Android provides several mechanisms that offer different levels of protection fo
 
 ### FLAG_SECURE
 
-[`FLAG_SECURE`](https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_SECURE "WindowManager.LayoutParams.FLAG_SECURE") is a `WindowManager.LayoutParams` flag that applies at the window level. It is applied to the window of an Activity or a Dialog. When the flag is enabled, the system treats the entire content of the window as secure and excludes it from capture operations such as screenshots, screen recording, or screen sharing.
+[`FLAG_SECURE`](https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_SECURE) is a `WindowManager.LayoutParams` flag that applies at the window level. It is applied to the window of an Activity or a Dialog. When the flag is set, the system excludes the entire content of the window from capture operations such as screenshots, screen recording, or screen sharing. This also blanks the apps preview on the Recents screen. However, it is also possible to block the preview without blocking screenshots (see `setRecentsScreenshotEnabled`).
 
 ### SurfaceView.setSecure()
 
