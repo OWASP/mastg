@@ -23,7 +23,7 @@ Android provides several mechanisms that offer different levels of protection fo
 
 ### Compose SecureFlagPolicy
 
-In Jetpack Compose, components that create their own windows, such as `Dialog` and `Popup`, support the [`SecureFlagPolicy`](https://developer.android.com/reference/kotlin/androidx/compose/ui/window/SecureFlagPolicy "SecureFlagPolicy") configuration (`SecureOn`, `SecureOff`, or `Inherit`). This policy determines whether `FLAG_SECURE` is applied to the corresponding window. The `Inherit` option inherits the security settings of the parent window. See @MASTG-TEST-0294 and @MASTG-BEST-0018.
+In Jetpack Compose, components that create their own windows, such as `Dialog` and `Popup`, support the [`SecureFlagPolicy`](https://developer.android.com/reference/kotlin/androidx/compose/ui/window/SecureFlagPolicy) configuration (`SecureOn`, `SecureOff`, or `Inherit`). This policy determines whether `FLAG_SECURE` is applied to the corresponding window. The `Inherit` option inherits the security settings of the parent window. See @MASTG-TEST-0294 and @MASTG-BEST-0018.
 
 ### setRecentsScreenshotEnabled
 
