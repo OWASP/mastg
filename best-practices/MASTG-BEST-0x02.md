@@ -3,71 +3,55 @@ title: Mitigate the Risk of API Keys Hardcoded in the App Package
 alias: mitigate-hardcoded-api-keys
 id: MASTG-BEST-0x02
 platform: generic
-knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0035, MASTG-KNOW-0072, MASTG-KNOW-0118, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03]
+knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0035, MASTG-KNOW-0072, MASTG-KNOW-0118, MASTG-KNOW-0120, MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03]
 ---
 
-API keys embedded in the app package - whether in source code, resource files, or build artifacts - can be extracted through static analysis or binary inspection, even without a rooted device or special tooling. The ideal solution is to move the key server-side entirely so it never ships with the app binary. Often, that is not possible, so the following measures reduce the window of exploitation.
+Treat every API key that ships with the app, or that the app receives at runtime, as public. Keys in the app package can be extracted with static analysis, and keys delivered at runtime can be read from memory or traffic on a device the attacker controls. Whether an exposed key is a problem depends on what the service lets it do. A key that only identifies the project for quota and billing is acceptable in the app. A key that unlocks privileged functionality, such as billed APIs or writes to the app owner's data, is not.
 
-In all cases, never expose sensitive data such as API keys to clients whose integrity has not been verified.
+Keep privileged keys on your backend, and limit every key that must ship with the app to what any anonymous client may do.
 
-## Deliver API Keys Over-The-Air After Integrity Verification
+## Keep Privileged Keys on Your Backend
 
-Instead of embedding the key in the binary, fetch it at runtime from your backend only after the device and app have been attested:
+Have the app call your own backend (an API proxy or gateway), which authenticates the user and then calls the third-party API with a server-stored key. The key never reaches the app, and you keep control over auditing, rate limiting, and rotation.
 
-1. At app startup, perform app and device attestation (see @MASTG-BEST-0x01 on Android and @MASTG-BEST-0x03 on iOS).
-2. If attestation passes, the backend issues an API key (or a short-lived derivative token) over a secure, pinned channel.
-3. The app holds the key in memory for the session. If persistence is required, store it in platform-provided secure storage (Keychain on iOS, Android Keystore) rather than plain files.
+Enforce authorization for privileged operations on the remote endpoint, not in the app. Verify the backend side using [OWASP ASVS V8 Authorization](https://github.com/OWASP/ASVS/blob/master/5.0/en/0x17-V8-Authorization.md) and the [OWASP API Security Top 10](https://owasp.org/API-Security/editions/2023/en/0x11-t10/).
 
-This approach keeps the key out of the binary entirely, allows rotation without a new app release, and ensures only verified app instances on genuine devices ever receive it. It combines the protections described in the sections below into a single cohesive architecture.
+## Restrict Keys That Must Ship with the App
 
-### Prefer a Server-Side Proxy for Third-Party API Calls
+Some services issue keys that are meant to be used from client apps. Limit them on the service side:
 
-Where the architecture allows it, do not ship the API key in the app at all. Instead:
+- **Restrict the APIs a key can call.** On Google Cloud, add [API restrictions](https://cloud.google.com/docs/authentication/api-keys#adding-api-restrictions) so the key only works with the APIs the app uses. A key without them works with every API that accepts Google Cloud keys, including APIs enabled on the project later.
+- **Use a separate key per service.** Firebase [recommends](https://firebase.google.com/docs/projects/api-keys#apply-restrictions) using its auto-created keys only for Firebase APIs and a separate, restricted key for anything else, such as Maps. Never allow a generative AI API on a key that ships in an app.
+- **Do not rely on app restrictions for authentication.** Google Cloud can [restrict a key](https://cloud.google.com/docs/authentication/api-keys#adding-application-restrictions) to an Android package name and signing-certificate fingerprint, or to an iOS bundle ID. The app proves these by sending the `X-Android-Package`, `X-Android-Cert`, or `X-Ios-Bundle-Identifier` headers, which any client can set. Google notes that "bypassing this restriction is straightforward". These restrictions stop casual reuse of the key, not deliberate abuse.
+- **Protect Firebase data with Security Rules.** Firebase API keys [only identify the project](https://firebase.google.com/docs/projects/api-keys) and do not control access to data. [Firebase Security Rules](https://firebase.google.com/docs/rules) do. Require an authenticated user for every read and write that is not meant to be public, and validate the data that clients write.
+- **Cap and monitor usage.** Set quotas and budget alerts so that abuse of a public key is limited and noticed.
 
-- Have the mobile app call your own backend (sometimes known as API proxy or API Gateway), which authenticates the request, then calls the third-party API using a server-stored key.
-- This eliminates the key from the app package entirely and gives you full control over auditing and rotation.
+## Issue Per-Installation Credentials Instead of a Shared Key
 
-### Enforce App and Device Integrity Verification Before Use
+Fetching a shared key from your backend or a remote configuration service at runtime keeps it out of the package, but not away from attackers. Any installation can be made to receive it, and once read from one device it works for everyone. Instead, have the backend issue each installation its own short-lived credential:
 
-Require the client to pass app and device integrity verification before any API key or scoped token is issued or accepted. Do not treat attestation as an optional layer on top of a hardcoded key - make it a precondition enforced on the server:
+- Issue dynamically generated, short-lived tokens instead of static keys, as required by [ASVS 7.2.2](https://github.com/OWASP/ASVS/blob/master/5.0/en/0x16-V7-Session-Management.md). Rotate refresh tokens on every use.
+- Bind tokens to a key in the platform keystore where possible, for example with DPoP, so that a copied token cannot be used from another client. See [ASVS 10.4.5](https://github.com/OWASP/ASVS/blob/master/5.0/en/0x19-V10-OAuth-and-OIDC.md).
+- Scope each token to the operations the app needs at that point.
+- Enforce per-installation quotas and rate limits, and revoke credentials that are abused.
 
-- **Android**: Play Integrity API (@MASTG-KNOW-0035) or Firebase App Check (@MASTG-KNOW-0x01).
-- **iOS**: App Attest (@MASTG-KNOW-0x03) or DeviceCheck (@MASTG-KNOW-0x02) via Firebase App Check (@MASTG-KNOW-0x01).
+An attacker's own installation can still obtain a valid credential. The value of per-installation credentials is containment: abuse can be traced to one installation and cut off without affecting the others.
 
-See @MASTG-BEST-0x01 (Android) and @MASTG-BEST-0x03 (iOS) for server-side enforcement requirements.
+## Use Attestation as a Risk Signal, Not as a Gate for Secrets
 
-### Enforce Network Integrity with Certificate Pinning
+Platform attestation, such as Play Integrity (@MASTG-KNOW-0035), Key Attestation (@MASTG-KNOW-0120), App Attest (@MASTG-KNOW-0x03), or Firebase App Check (@MASTG-KNOW-0x01), helps the backend tell whether a request likely comes from a genuine app on a genuine device. Use it to adjust trust, rate limits, and step-up requirements, as described in @MASTG-BEST-0x01 (Android) and @MASTG-BEST-0x03 (iOS).
 
-A network-level attacker who intercepts traffic can observe or replay API keys even if they were never in the binary. Pin the server certificate so that the key is only ever transmitted over a channel the app explicitly trusts:
+Do not make attestation the only control that keeps a key or a privileged operation away from attackers. A rooted or jailbroken device running the genuine app can pass it, and leaked attestation keys have been used to forge verdicts (@MASTG-KNOW-0120). RASP checks (@MASTG-KNOW-0118, @MASTG-BEST-0029) raise the cost further but can also be bypassed.
 
-- **Android**: configure pinning via the Network Security Configuration (@MASTG-KNOW-0015).
+## Protect Credentials in Transit
+
+Send keys and tokens only over a pinned channel, so that a network-level attacker cannot observe or replay them:
+
+- **Android**: configure pinning in the Network Security Configuration (@MASTG-KNOW-0015).
 - **iOS**: implement server trust evaluation (@MASTG-KNOW-0072).
 
-Security controls such as Certificate Pinning can only be trusted if the app's integrity has been verified and the device's controls can be trusted.
+## Plan for Key Rotation
 
-### Apply RASP Controls Before and Between Attestations
-
-Attestation is a point-in-time check - it verifies the environment at session start but does not detect changes that occur during execution. RASP (see @MASTG-KNOW-0118) fills this gap by running continuous in-process checks throughout the app's lifetime:
-
-- **Before attestation**: run environment checks (debugger detection, emulator detection, hooking framework detection) before initiating the attestation flow. Abort early if the environment is hostile - do not expose network calls or key requests to an already-compromised process.
-- **Between attestations**: monitor for runtime changes that could indicate an active attack - hook injection, memory tampering, or the appearance of reverse engineering tools after a previously clean attestation. Respond by revoking the locally held key, clearing it from memory, and requiring re-attestation before resuming sensitive operations.
-
-See @MASTG-BEST-0029 for RASP signal implementation guidance.
-
-### Limit Credential Lifetime
-
-Credentials - whether static API keys or issued tokens - should be treated as perishable. The shorter their effective lifetime, the smaller the window of exploitation if they are extracted or intercepted.
-
-**If you control the API and issue tokens to the app**, do not issue long-lived static keys. Issue short-lived tokens instead:
-
-- Use short-lived JWTs with an `exp` claim of minutes to a few hours, depending on the sensitivity of the operation. A stolen token becomes useless once it expires.
-- Issue a refresh token alongside the access token and invalidate it on each use (refresh token rotation). This limits the damage window if a refresh token is intercepted and makes reuse detectable.
-- Bind tokens to the attested client by including attestation claims in the JWT payload (e.g., device integrity verdict, app version, platform). The server can then reject tokens presented from a context that no longer passes integrity checks.
-- Scope tokens narrowly to the minimum set of operations the app needs at that point in the session.
-- Support revocation via a server-side denylist for high-risk scenarios where waiting for natural expiry is unacceptable.
-
-**If you rely on third-party API keys that cannot be moved server-side**, treat them as perishable static secrets:
-
-- Rotate keys on a defined schedule and immediately upon any suspected compromise.
-- Use distinct keys per platform and per environment (development, staging, production) so that a leak in one context does not affect others.
-- Automate rotation where the API provider supports it, and ensure the app can receive updated keys without a forced upgrade (e.g., via a remote configuration service backed by attestation).
+- A key shipped in the app only changes when users update the app. Be prepared to revoke and reissue it, knowing that older installations keep the old value until they update.
+- Use distinct keys per platform and per environment (development, staging, production) so that a leak in one does not affect the others.
+- Rotate keys immediately on any suspected compromise.
