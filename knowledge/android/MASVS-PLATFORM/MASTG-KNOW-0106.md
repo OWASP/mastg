@@ -20,7 +20,7 @@ An app can render its own view surfaces into a `Bitmap` object without requestin
 With this approach, the app reconstructs the pixels of the on-screen image hierarchically and converts the result into a `Bitmap` object. The view is redrawn onto the surface by attaching a [`Canvas`](https://developer.android.com/reference/android/graphics/Canvas "android.graphics.Canvas") to the object through the [`View.draw(Canvas)`](https://developer.android.com/reference/android/view/View#draw%28android.graphics.Canvas%29 "View.draw") call.
 
 As a result, this approach does not capture the actual screen output; only the content defined in the app's `View` tree is reconstructed. For this reason, `SurfaceView`, `TextureView`, video output, OpenGL scenes, and GPU-composited hardware-accelerated layers may appear missing or blank (such as a black screen).
-
+> **Legacy note:** Historically, apps used `View.setDrawingCacheEnabled(true)` and `View.getDrawingCache()` to capture views. This mechanism was deprecated in Android 9 (API level 28) in favor of `View.draw(Canvas)` and `PixelCopy`.
 ### PixelCopy
 
 `android.view.PixelCopy` is a capture mechanism that allows an app to copy the output produced on its own `Window` or `Surface` into a bitmap.
