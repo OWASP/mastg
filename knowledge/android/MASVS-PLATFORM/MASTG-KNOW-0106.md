@@ -38,7 +38,9 @@ Applications built with Jetpack Compose do not use the traditional `View` hierar
 - Use a `GraphicsLayer` (introduced in Compose 1.7+ / Android 14 (API level 34)), recording drawing commands with `rememberGraphicsLayer()` and rendering the output to an image bitmap using `graphicsLayer.toImageBitmap()`.
 - Capture the root `ComposeView` or the hosting `Window` using the `PixelCopy` API.
 
-## Capturing the Device Screen or an App Window
+## System-Wide and Cross-App Capture
+
+Capturing content outside the app's own process boundaries requires either elevated user consent or specialized accessibility service capabilities.
 
 ### MediaProjection
 
