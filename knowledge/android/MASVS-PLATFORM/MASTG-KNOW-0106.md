@@ -13,7 +13,7 @@ The mechanism an app uses depends primarily on the required capture scope and th
 
 ## Capturing the App's Own Content
 
-An app can render its own view surfaces into a `Bitmap` object without requesting any permission. This mechanism is limited to the app's own content; it cannot read the pixels of another app.
+An app can render its own view surfaces into a [`Bitmap`](https://developer.android.com/reference/android/graphics/Bitmap) object without requesting any permission. This mechanism is limited to the app's own content; it cannot read the pixels of another app.
 
 ### Drawing a View to a Canvas
 
