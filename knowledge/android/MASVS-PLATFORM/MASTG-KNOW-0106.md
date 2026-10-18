@@ -39,7 +39,7 @@ This mechanism works by routing the screen content to a virtual display surface 
 
 The `MediaProjection` mechanism begins with the app first requesting screen-capture permission through the [`MediaProjectionManager.createScreenCaptureIntent()`](https://developer.android.com/reference/android/media/projection/MediaProjectionManager "android.media.projection.MediaProjectionManager") call. Following this request, the system sends the user a notification to approve screen sharing. If the user grants permission, the app creates a `MediaProjection` token through the `MediaProjectionManager.getMediaProjection(resultCode, data)` method. This token is then used to call `MediaProjection.createVirtualDisplay()`, which routes the screen content to a virtual display so that it can be captured.
 
-Unlike the `Canvas` and `PixelCopy` approaches, `MediaProjection` has the ability to capture not only the app's own interface but also the content of other apps and system UI components.
+Starting in Android 10 (API level 29) and strictly enforced in Android 14 (API level 34), apps running a `MediaProjection` session must declare and run a foreground service with the `mediaProjection` service type (`FOREGROUND_SERVICE_MEDIA_PROJECTION`). Android 14 also introduced partial screen sharing, allowing users to grant access to a single app task rather than the entire display.
 
 ## Capturing the Screen Through an Accessibility Service
 
