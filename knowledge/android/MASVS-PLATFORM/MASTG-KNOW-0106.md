@@ -6,9 +6,10 @@ best-practices: [MASTG-BEST-0014, MASTG-BEST-0015, MASTG-BEST-0017, MASTG-BEST-0
 ---
 On Android, apps can capture screen content programmatically. An app can capture a single image (a screenshot) or record the screen as a stream (a screen recording).
 
-In this process, different APIs and mechanisms can be used depending on the use case and the access scope required. For example, if an app only wants to obtain an image of its own interface, it can convert its view hierarchy into a `Bitmap` object or read the rendered pixel data through the [`PixelCopy`](https://developer.android.com/reference/android/view/PixelCopy "android.view.PixelCopy") API. In contrast, apps that want to capture the entire device screen or a specific app window generally rely on the [`MediaProjection`](https://developer.android.com/reference/android/media/projection/MediaProjection "android.media.projection.MediaProjection") API.
+The mechanism an app uses depends primarily on the required capture scope and the level of user authorization:
 
-Another way to access screen content is through accessibility services. A user-enabled [`AccessibilityService`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityService "android.accessibilityservice.AccessibilityService") can read the elements on the screen through the accessibility APIs and, under certain conditions, perform operations such as taking a screenshot. This allows an app to obtain comprehensive information about the content displayed on the screen.
+- **Capturing the App's Own Content**: The app captures only its own user interface directly in-process. This does not require any special permissions, but access is strictly limited to the app's own content.
+- **System-Wide and Cross-App Capture**: The app captures the entire device display, another app's window, or records ongoing display activity as a video stream. Because this crosses app sandbox boundaries, the system requires explicit runtime consent from the user.
 
 ## Capturing the App's Own Content
 
