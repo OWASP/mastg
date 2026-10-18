@@ -34,7 +34,7 @@ File naming and IDs:
 - Do not add an `id:` field to the YAML front matter.
 - Place the file in the platform (`android` or `ios`) and MASVS category folder that best matches the subject.
 
-When creating a new knowledge page (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-KNOW-0x##` (for example, `MASTG-KNOW-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-KNOW-0x33`, `MASTG-KNOW-0x34`, `MASTG-KNOW-0x35`) as you add new content.
+When creating a new knowledge page (whether during porting or writing from scratch), use a **fake ID** starting at `MASTG-KNOW-0x01` and incrementing within the PR (e.g., `MASTG-KNOW-0x01`, `MASTG-KNOW-0x02`, `MASTG-KNOW-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-KNOW-0112`) before the content is published.
 

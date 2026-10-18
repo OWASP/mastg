@@ -18,7 +18,7 @@ Standards for authoring tool reference pages under `tools/`. These pages documen
 - The tool ID is defined by the filename: `MASTG-TOOL-\d{4}.md`
 - Do not add an `id:` field to the YAML front matter
 
-When creating a new tool (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-TOOL-0x##` (for example, `MASTG-TOOL-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-TOOL-0x33`, `MASTG-TOOL-0x34`, `MASTG-TOOL-0x35`) as you add new content.
+When creating a new tool (whether during porting or writing from scratch), use a **fake ID** starting at `MASTG-TOOL-0x01` and incrementing within the PR (e.g., `MASTG-TOOL-0x01`, `MASTG-TOOL-0x02`, `MASTG-TOOL-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-TOOL-0051`) before the content is published.
 

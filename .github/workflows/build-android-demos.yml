@@ -42,6 +42,19 @@ jobs:
             demos="$(echo "$changed_files" \
               | grep -oE '^demos/android/[^/]+/MASTG-DEMO-[^/]+' \
               | sort -u || true)"
+
+            # Drop demos whose directory no longer exists (e.g. removed in the target PR),
+            # otherwise the build job fails on the missing directory.
+            existing_demos=""
+            while IFS= read -r demo; do
+              [ -n "$demo" ] || continue
+              if [ -d "$demo" ]; then
+                existing_demos+="$demo"$'\n'
+              else
+                echo "Skipping removed demo: $demo"
+              fi
+            done <<< "$demos"
+            demos="$existing_demos"
           else
             demos="$(find demos/android -mindepth 2 -maxdepth 2 -type d -name 'MASTG-DEMO-*' | sort)"
           fi

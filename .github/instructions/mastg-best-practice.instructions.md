@@ -10,7 +10,7 @@ Best practices live under `best-practices/` and each file name must be the best-
 
 ## Creating Best Practice IDs
 
-When creating a new best practice (whether during porting or writing from scratch), use a **fake ID** with the notation `MASTG-BEST-0x##` (for example, `MASTG-BEST-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-BEST-0x33`, `MASTG-BEST-0x34`, `MASTG-BEST-0x35`) as you add new content.
+When creating a new best practice (whether during porting or writing from scratch), use a **fake ID** starting at `MASTG-BEST-0x01` and incrementing within the PR (e.g., `MASTG-BEST-0x01`, `MASTG-BEST-0x02`, `MASTG-BEST-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-BEST-0025`) before the content is published.
 

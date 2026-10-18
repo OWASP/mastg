@@ -3,15 +3,14 @@ platform: ios
 title: Sensitive Data Not Marked For Backup Exclusion
 id: MASTG-TEST-0215
 type: [static, code]
-weakness: MASWE-0004
+maswe: [MASWE-0006]
 best-practices: [MASTG-BEST-0023]
-profiles: [L1, L2, P]
 knowledge: [MASTG-KNOW-0102]
 ---
 
 ## Overview
 
-This test verifies whether your app uses the `isExcludedFromBackup` API to instruct the system to exclude sensitive files from backups. This API [does not guarantee the actual exclusion](https://developer.apple.com/documentation/foundation/optimizing_your_app_s_data_for_icloud_backup/#3928527). According to the documentation:
+This test verifies whether your app uses the `isExcludedFromBackup` API to instruct the system to exclude sensitive files from backups. This API [does not guarantee the actual exclusion](https://developer.apple.com/documentation/foundation/optimizing-your-app-s-data-for-icloud-backup). According to the documentation:
 
 > "The `isExcludedFromBackup` resource value exists only to provide guidance to the system about which files and directories it can exclude; it's not a mechanism to guarantee those items never appear in a backup or on a restored device."
 

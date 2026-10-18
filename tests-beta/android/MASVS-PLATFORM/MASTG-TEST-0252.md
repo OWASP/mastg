@@ -5,9 +5,8 @@ alias: references-to-local-file-access-in-webviews
 id: MASTG-TEST-0252
 apis: [WebView, WebSettings, getSettings, setAllowFileAccess, setAllowFileAccessFromFileURLs, setAllowUniversalAccessFromFileURLs]
 type: [static, code]
-weakness: MASWE-0069
+maswe: [MASWE-0034]
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0018]
 ---
 
@@ -24,15 +23,6 @@ When these settings are combined, they can enable an attack in which a malicious
 Even though these methods have secure defaults and are **deprecated in Android 10 (API level 29) and later**, they can still be explicitly set to `true` or their insecure defaults may be used in apps that run on older versions of Android (due to their `minSdkVersion`).
 
 Refer to [Android WebView Local File Access Settings](../../../Document/0x05h-Testing-Platform-Interaction.md#webview-local-file-access-settings) for more information on these methods (default values, deprecation status, security implications), the specific files that can be accessed, and the conditions under which they can be accessed.
-
-**Example Attack Scenario**:
-
-Suppose a banking app uses a WebView to display dynamic content, and the developers have enabled all three insecure settings. Additionally, JavaScript is enabled in the WebView.
-
-1. An attacker injects a malicious HTML file into the device (via phishing or another exploit) into a location that the attacker _knows_ the WebView will access it from (e.g. thanks to reverse engineering). For example, an HTML file is used to display the app's terms and conditions.
-2. The WebView can load the malicious file because of `setAllowFileAccess(true)`.
-3. Thanks to `setJavaScriptEnabled(true)` and `setAllowFileAccessFromFileURLs(true)`, the JavaScript in the malicious file (running in a `file://` context) is able to access other local files using `file://` URLs.
-4. The attacker-controlled script exfiltrates sensitive data from the device to an external server.
 
 **Note 1**: Either `setAllowFileAccessFromFileURLs` or `setAllowUniversalAccessFromFileURLs` must be set to `true` for the attack to work. If both settings are set to `false`, the following error will appear in `logcat`:
 

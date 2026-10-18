@@ -3,9 +3,8 @@ title: Hardcoded HTTP URLs
 platform: android
 id: MASTG-TEST-0233
 type: [static, code]
-weakness: MASWE-0050
+maswe: [MASWE-0026]
 related-tests: [MASTG-TEST-0235, MASTG-TEST-0236, MASTG-TEST-0238]
-profiles: [L1, L2]
 ---
 
 ## Overview

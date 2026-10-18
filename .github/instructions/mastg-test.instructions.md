@@ -28,11 +28,33 @@ Notes:
 - Tests with `platform: network` are still organized under the OS folder that the MASVS category belongs to (for example, Android network tests live under `tests-beta/android/MASVS-NETWORK/`).
 - Old tests under `tests/` do not follow these new guidelines. We are currently working to deprecate all of them in favor of these new approach.
 
+## Keeping Android and iOS Tests Aligned
+
+When a weakness has tests on both platforms, the Android and iOS tests **must be kept aligned**. They should share the same `title` and, as far as possible, the same body structure and wording. The goal is that a reader comparing the two platforms sees the same test, differing only where the platform genuinely forces it.
+
+What must match across platforms:
+
+- **`title`**: identical on both platforms (do not include "Android" or "iOS" in the title; see [title](#title)).
+- **`maswe`**: the same `MASWE-XXXX` id(s).
+- **MASVS category and folder**: the same category (for example, both under `MASVS-RESILIENCE/`). A single weakness must not be split across different categories on different platforms.
+- **Optional metadata that expresses the same intent**: if one platform sets `false_negative_prone`, `best-practices`, or `apis`, the other should too (with its platform-specific values).
+- **Body structure**: the same sections, the same issue framing in the Overview, parallel Example Attack Scenarios, and the same Observation/Evaluation logic (including any `**Further Validation Required:**` and `**Expected False Negatives:**` blocks).
+
+What is allowed to differ (only because the platform forces it):
+
+- **APIs and class names** (for example, `CCHmac`/`SecKeyCreateSignature` on iOS vs. `javax.crypto.Mac`/`java.security.Signature` on Android).
+- **Storage and platform mechanisms** (for example, `UserDefaults`/`NSUserDefaults` vs. `SharedPreferences`; jailbroken vs. rooted).
+- **`knowledge` and `best-practices` pages**: each platform links its own.
+- **TECH IDs in Steps and `**Further Validation Required:**` blocks**: use the canonical per-platform technique (see [Preferred TECH IDs by Platform and Test Type](#preferred-tech-ids-by-platform-and-test-type)).
+- **Demos and tooling**: the underlying analysis tool may differ (for example, r2/disassembly on iOS vs. semgrep on Android). Keep demo structure parallel where practical.
+
+When you create or modify a test that has a counterpart on the other platform, update both so they stay in sync. If you intentionally diverge beyond the platform-forced differences above, that divergence must be justified and discussed with the team.
+
 Each test has two parts: the [Markdown metadata](#markdown-metadata) (YAML `front matter`) and the [Markdown body](#markdown-body).
 
 ## Creating Test IDs
 
-When creating a new test (whether porting from v1 or writing from scratch), use a **fake ID** with the notation `MASTG-TEST-0x##` (for example, `MASTG-TEST-0x33`). This prevents conflicts between parallel pull requests. Create new fake IDs incrementally (e.g., `MASTG-TEST-0x33`, `MASTG-TEST-0x34`, `MASTG-TEST-0x35`) as you add new content.
+When creating a new test (whether porting from v1 or writing from scratch), use a **fake ID** starting at `MASTG-TEST-0x01` and incrementing within the PR (e.g., `MASTG-TEST-0x01`, `MASTG-TEST-0x02`, `MASTG-TEST-0x03`). This prevents conflicts between parallel pull requests.
 
 Once your pull request is reviewed and ready to merge, the team will assign real IDs (for example, `MASTG-TEST-0233`) before the content is published.
 
@@ -67,11 +89,11 @@ The mobile platform. One of the following:
 
 The test ID.
 
-### weakness
+### maswe
 
-The MASWE weakness ID associated with this test.
+The MASWE weakness ID(s) associated with this test, as a list.
 
-- In YAML front matter, specify the bare identifier (for example, `weakness: MASWE-0069`). In body text, include the leading `@` (for example, @MASWE-0069).
+- In YAML front matter, specify a list of bare identifiers, even when there is only one (for example, `maswe: [MASWE-0069]`, or `maswe: [MASWE-0069, MASWE-0070]` when a test covers more than one weakness). In body text, include the leading `@` for each reference (for example, @MASWE-0069).
 
 ### type
 
@@ -135,22 +157,6 @@ prerequisites:
 - identify-security-relevant-contexts
 ```
 
-### profiles
-
-Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in [MAS Testing Profiles Guide](../../Document/0x03b-Testing-Profiles.md)
-
-- L1 denotes Essential Security.
-- L2 denotes Advanced Security.
-- P denotes Privacy.
-- R denotes Resilience.
-
-Example:
-
-```md
-profiles: [L1, L2, P]
-```
-
 ### knowledge
 
 Must always reference related `knowledge/` pages for background using their ID. Create the pages if they don't exist yet.
@@ -202,27 +208,6 @@ Example:
 ## Overview
 
 Android apps sometimes use insecure pseudorandom number generators (PRNGs) such as `java.util.Random`, which is essentially a linear congruential generator. This type of PRNG generates a predictable sequence of numbers for any given seed value, making the sequence reproducible and insecure for cryptographic use. In particular, `java.util.Random` and `Math.random()` ([the latter](https://franklinta.com/2014/08/31/predicting-the-next-math-random-in-java/) simply calling `nextDouble()` on a static `java.util.Random` instance) produce identical number sequences when initialized with the same seed across all Java implementations.
-```
-
-#### Example Attack Scenario
-
-The Overview MUST include an `**Example Attack Scenario:**` block. It helps the reader understand how an attacker would actually abuse the issue and what the real-world consequence is. Place it at the end of the Overview, immediately before the `## Steps` section.
-
-Write it as a short setup sentence followed by a numbered list of concrete attacker steps that ends with the impact (for example, data exposure, authentication bypass, account takeover, or code execution). Refer to relevant techniques with their `@MASTG-TECH-XXXX` IDs where helpful.
-
-See @MASTG-TEST-0250 and @MASTG-TEST-0252 for reference.
-
-Example:
-
-```md
-**Example Attack Scenario:**
-
-Suppose a banking app protects its account screen behind a login activity but also declares an account-details activity that is exported.
-
-1. An attacker reverse engineers the app and finds the exported activity.
-2. The attacker writes a malicious app that starts it directly by its component name.
-3. The account screen opens without going through the login activity.
-4. The victim's account data is exposed, bypassing authentication entirely.
 ```
 
 ### Steps

@@ -3,8 +3,7 @@ title: Entitlements for Unjustified Capability Exposure
 platform: ios
 id: MASTG-TEST-0362
 type: [static, package, manual]
-weakness: MASWE-0117
-profiles: [P]
+maswe: [MASWE-0066]
 best-practices: [MASTG-BEST-0051]
 knowledge: [MASTG-KNOW-0077]
 ---

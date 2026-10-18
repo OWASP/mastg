@@ -14,7 +14,7 @@ Declare `android:exported="false"` on every manifest-declared component that doe
 
 For context-registered receivers, when registering the receiver with a `registerReceiver()` overload that accepts flags, explicitly pass `RECEIVER_NOT_EXPORTED` in the `flags` parameter unless the receiver must accept broadcasts from other apps. Use `RECEIVER_EXPORTED` only when external broadcasts are required.
 
-Setting `android:exported="false"` (for manifest-declared components) or `RECEIVER_NOT_EXPORTED` (for context-registered receivers) prevents ordinary apps, including separate apps from the same developer, from accessing the component. Components within the same app, [apps sharing the same user ID](https://developer.android.com/guide/topics/permissions/defining#userid), and privileged system components can still reach it. Use `android:exported="true"` with an appropriate permission, usually `signature`, when a separate trusted app must access the component.
+Setting `android:exported="false"` (for manifest-declared components) or `RECEIVER_NOT_EXPORTED` (for context-registered receivers) prevents ordinary apps, including separate apps from the same developer, from accessing the component. Components within the same app, [apps sharing the same user ID](https://developer.android.com/guide/topics/permissions/defining#userid), and privileged system components can still reach it. If the component is only used internally, remove its `<intent-filter>` and use an explicit intent to reach it. Use `android:exported="true"` with an appropriate permission, usually `signature`, when a separate trusted app must access the component.
 
 ## Require an effective permission when appropriate
 

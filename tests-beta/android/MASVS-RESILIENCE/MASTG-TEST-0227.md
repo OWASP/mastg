@@ -3,9 +3,8 @@ title: Debugging Enabled for WebViews
 platform: android
 id: MASTG-TEST-0227
 type: [static, code]
-weakness: MASWE-0067
+maswe: [MASWE-0063]
 best-practices: [MASTG-BEST-0008]
-profiles: [R]
 knowledge: [MASTG-KNOW-0028]
 ---
 

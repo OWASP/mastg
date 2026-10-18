@@ -3,9 +3,8 @@ platform: android
 title: Exported And Unprotected Broadcast Receivers That Expose Sensitive Functionality
 id: MASTG-TEST-0366
 type: [static, config, code, manual]
-weakness: MASWE-0063
+maswe: [MASWE-0018]
 best-practices: [MASTG-BEST-0052]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0134, MASTG-KNOW-0017, MASTG-KNOW-0020]
 ---
 
@@ -14,15 +13,6 @@ knowledge: [MASTG-KNOW-0134, MASTG-KNOW-0017, MASTG-KNOW-0020]
 If an exported receiver does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/receiver-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can send a broadcast to it and invoke that functionality. See @MASTG-KNOW-0134 for details on broadcast receivers, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected broadcast receivers.
-
-**Example Attack Scenario:**
-
-Suppose a banking app declares a broadcast receiver that resets the user's password based on extras in the received intent, and the receiver is exported with no `android:permission`.
-
-1. An attacker reverse engineers the app and finds the exported receiver, the action it listens for, and the extras it reads (see @MASTG-TECH-0162).
-2. The attacker writes a malicious app that sends a broadcast targeting the receiver explicitly, with attacker-chosen extras.
-3. The receiver acts on the unvalidated extras and resets the password (and may disclose the old one to the log).
-4. The attacker takes over the account without any interaction from the victim.
 
 ## Steps
 

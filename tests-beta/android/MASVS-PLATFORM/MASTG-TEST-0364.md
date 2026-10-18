@@ -3,9 +3,8 @@ platform: android
 title: Exported And Unprotected Activities That Expose Sensitive Functionality
 id: MASTG-TEST-0364
 type: [static, config, code, manual]
-weakness: MASWE-0x01
+maswe: [MASWE-0018]
 best-practices: [MASTG-BEST-0052]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0132, MASTG-KNOW-0017, MASTG-KNOW-0020]
 ---
 
@@ -14,15 +13,6 @@ knowledge: [MASTG-KNOW-0132, MASTG-KNOW-0017, MASTG-KNOW-0020]
 If an exported activity does not define [`android:permission`](https://developer.android.com/guide/topics/manifest/activity-element#prmsn) with a proper protection level and performs or grants access to sensitive functionality, another third-party app outside the intended trust boundary can start it with an `Intent` and reach that functionality without going through the app's intended flow. See @MASTG-KNOW-0132 for details on activities, @MASTG-KNOW-0017 for permissions and protection levels, and @MASTG-KNOW-0020 for the IPC model of Android.
 
 This test checks whether the app exposes sensitive functionality through exported and unprotected activities.
-
-**Example Attack Scenario:**
-
-Suppose a banking app protects its account screen behind a login activity but also declares an unprotected account-details activity that is exported, for example by setting `android:exported="true"` and without any limiting `android:permission`.
-
-1. An attacker reverse engineers the app and finds the exported account-details activity (see @MASTG-TECH-0160).
-2. The attacker writes a malicious app that calls `startActivity` with an explicit intent targeting that activity by its component name.
-3. The account-details activity starts directly, without going through the login activity.
-4. The account-details activity displays the victim's account data without requiring authentication.
 
 ## Steps
 

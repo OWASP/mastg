@@ -1,0 +1,29 @@
+rules:
+- id: mastg-android-custom-deeplink-scheme
+  severity: INFO
+  languages:
+    - xml
+  metadata:
+    summary: This rule looks for custom (non http/https) URL scheme deep links declared in the Android Manifest.
+  message: '[MASVS-PLATFORM] Custom deeplink scheme detected in an intent-filter (potentially exposed deeplink). Any app on the device can invoke this handler.'
+  patterns:
+    - pattern: <data ... android:scheme="$SCHEME" ... />
+    - metavariable-regex:
+        metavariable: $SCHEME
+        regex: ^(?!https?$).+$
+    - pattern-inside: |
+        <activity ...>
+          ...
+        </activity>
+    - pattern-inside: |
+        <intent-filter ...>
+          ...
+          <action android:name="android.intent.action.VIEW" />
+          ...
+        </intent-filter>
+    - pattern-inside: |
+        <intent-filter ...>
+          ...
+          <category android:name="android.intent.category.BROWSABLE" />
+          ...
+        </intent-filter>

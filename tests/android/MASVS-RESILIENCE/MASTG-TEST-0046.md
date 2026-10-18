@@ -9,7 +9,7 @@ masvs_v1_levels:
 - R
 profiles: [R]
 status: deprecated
-covered_by: [MASTG-TEST-0046-1, MASTG-TEST-0046-2]
+covered_by: [MASTG-TEST-0352, MASTG-TEST-0353]
 deprecation_note: "New version available in MASTG V2"
 ---
 

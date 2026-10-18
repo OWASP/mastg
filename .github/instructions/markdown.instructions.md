@@ -162,7 +162,7 @@ You can validate this with @MASTG-TEST-0001 and compare results using @MASTG-TOO
 ```
 
 ```yaml
-weakness: MASWE-0069
+maswe: [MASWE-0069]
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 ```
 

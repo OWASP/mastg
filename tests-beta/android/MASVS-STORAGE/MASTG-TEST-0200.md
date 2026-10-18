@@ -3,8 +3,7 @@ platform: android
 title: Files Written to External Storage
 id: MASTG-TEST-0200
 type: [dynamic, filesystem, manual]
-weakness: MASWE-0007
-profiles: [L1, L2]
+maswe: [MASWE-0002]
 ---
 
 ## Overview

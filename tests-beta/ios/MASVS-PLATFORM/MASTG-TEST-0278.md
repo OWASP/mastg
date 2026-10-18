@@ -3,9 +3,8 @@ platform: ios
 title: Pasteboard Contents Not Cleared After Use
 id: MASTG-TEST-0278
 type: [static, code]
-weakness: MASWE-0053
+maswe: [MASWE-0036]
 threat: [app]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0083]
 ---
 

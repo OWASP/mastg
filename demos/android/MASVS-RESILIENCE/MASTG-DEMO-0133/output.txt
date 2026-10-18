@@ -1,0 +1,4 @@
+Strings containing "su":
+16  0x000005c8 0x000005c8 14  15   .rodata             ascii   /system/bin/su
+17  0x000005d7 0x000005d7 8   9    .rodata             ascii   /sbin/su
+18  0x000005e0 0x000005e0 15  16   .rodata             ascii   /system/xbin/su
