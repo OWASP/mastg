@@ -9,6 +9,7 @@ On Android, apps can capture screen content programmatically. An app can capture
 The mechanism an app uses depends primarily on the required capture scope and the level of user authorization:
 
 - **Capturing the App's Own Content**: The app captures only its own user interface directly in-process. This does not require any special permissions, but access is strictly limited to the app's own content.
+
 - **System-Wide and Cross-App Capture**: The app captures the entire device display, another app's window, or records ongoing display activity as a video stream. Because this crosses app sandbox boundaries, the system requires explicit runtime consent from the user.
 
 ## Capturing the App's Own Content
@@ -20,7 +21,9 @@ An app can render its own view surfaces into a [`Bitmap`](https://developer.andr
 With this approach, the app performs a fresh redraw of its view tree onto a [`Canvas`](https://developer.android.com/reference/android/graphics/Canvas) backed by an in-memory `Bitmap`.
 
 As a result, this approach does not capture the actual screen output; only the content defined in the app's `View` tree is reconstructed. For this reason, `SurfaceView`, `TextureView`, video output, OpenGL scenes, and GPU-composited hardware-accelerated layers may appear missing or blank (such as a black screen).
+
 > **Legacy note:** Historically, apps used `View.setDrawingCacheEnabled(true)` and `View.getDrawingCache()` to capture views. This mechanism was deprecated in Android 9 (API level 28) in favor of `View.draw(Canvas)` and `PixelCopy`.
+
 ### PixelCopy
 
 `android.view.PixelCopy` is a capture mechanism that allows an app to copy the output produced on its own `Window` or `Surface` into a bitmap.
@@ -55,7 +58,7 @@ Starting in Android 10 (API level 29) and strictly enforced in Android 14 (API l
 With Android 11 (API level 30), the ability to take screenshots was added to accessibility services. This feature lets `AccessibilityService`s directly access the interface content displayed on the screen, allowing the user interface to be analyzed more comprehensively. This mechanism provides an especially important function for screen readers and assistive accessibility tools.
 
 The process consists of the following steps:
+
 1. To use this feature, an `AccessibilityService` must be defined in the app, and the screenshot permission must be explicitly stated in the service configuration. For this, the `android:canTakeScreenshot="true"` parameter is added to the service definition, and the service declares that it supports the `CAPABILITY_CAN_TAKE_SCREENSHOT` capability. The user then manually enables this service through the device's accessibility settings.
 
 2. After the service is activated, the screenshot operation is performed through the `takeScreenshot()` method introduced in Android 11. When this method is called, the system captures the current screen content and returns the result as an `AccessibilityService.ScreenshotResult` object. This object contains a [`HardwareBuffer`](https://developer.android.com/reference/android/hardware/HardwareBuffer "android.hardware.HardwareBuffer") holding the screenshot along with color space information. The pixel data can be accessed through the obtained buffer to perform operations such as image processing, OCR, or user interface analysis.
-
