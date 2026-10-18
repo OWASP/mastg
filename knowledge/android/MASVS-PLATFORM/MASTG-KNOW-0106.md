@@ -50,7 +50,7 @@ The `MediaProjection` mechanism begins with the app first requesting screen-capt
 
 Starting in Android 10 (API level 29) and strictly enforced in Android 14 (API level 34), apps running a `MediaProjection` session must declare and run a foreground service with the `mediaProjection` service type (`FOREGROUND_SERVICE_MEDIA_PROJECTION`). Android 14 also introduced partial screen sharing, allowing users to grant access to a single app task rather than the entire display.
 
-## Capturing the Screen Through an Accessibility Service
+### Capturing the Screen Through an Accessibility Service
 
 With Android 11 (API level 30), the ability to take screenshots was added to accessibility services. This feature lets `AccessibilityService`s directly access the interface content displayed on the screen, allowing the user interface to be analyzed more comprehensively. This mechanism provides an especially important function for screen readers and assistive accessibility tools.
 
