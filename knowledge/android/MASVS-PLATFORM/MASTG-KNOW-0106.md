@@ -2,6 +2,7 @@
 title: App-Initiated Screenshots and Screen Recording
 platform: android
 masvs_category: MASVS-PLATFORM
+best-practices: [MASTG-BEST-0014, MASTG-BEST-0015, MASTG-BEST-0017, MASTG-BEST-0018]
 ---
 On Android, apps can capture screen content programmatically. An app can capture a single image (a screenshot) or record the screen as a stream (a screen recording).
 
