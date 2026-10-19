@@ -37,7 +37,7 @@ Once you identify a list of IPC mechanisms, review the source code to see whethe
 
 In the following, we use two example apps and give examples of identifying vulnerable IPC components:
 
-- ["Sieve"](https://github.com/mwrlabs/drozer/releases/download/2.3.4/sieve.apk "Sieve: Vulnerable Password Manager")
+- ["Sieve"](https://github.com/ReversecLabs/drozer/releases/download/2.3.4/sieve.apk "Sieve: Vulnerable Password Manager")
 - @MASTG-APP-0010
 
 ### Activities

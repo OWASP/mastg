@@ -362,6 +362,21 @@ Must be a modified version of the original files in the apps' repos:
 
 When working on a new demo, you **must include the whole file** with the original name in the demo folder.
 
+When reusing source or configuration files from another demo, include relative symbolic links instead of duplicating their contents.
+
+From the demo directory, create a link for each file you need to reuse:
+
+```sh
+ln -s ../<source-demo>/<filename> <filename>
+```
+
+For example, to reuse `MastgTest.kt` and `AndroidManifest.xml` from `MASTG-DEMO-YYYY` in Android demo `MASTG-DEMO-XXXX`, run these commands from the `MASTG-DEMO-XXXX` directory:
+
+```sh
+ln -s ../MASTG-DEMO-YYYY/MastgTest.kt MastgTest.kt
+ln -s ../MASTG-DEMO-YYYY/AndroidManifest.xml AndroidManifest.xml
+```
+
 ### Summary
 
 Must contain a summary as a comment.
