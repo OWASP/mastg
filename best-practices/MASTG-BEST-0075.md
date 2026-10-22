@@ -12,6 +12,8 @@ Use identity pinning for developer-controlled endpoints to prevent Machine-in-th
 
 Identity pinning helps prevent attackers from intercepting API communication, stealing credentials or session tokens, or modifying requests and responses. The app checks the server's certificate chain against its own pins and rejects connections that don't match, even when the operating system trusts the certificate.
 
+An [intermediate CA compromise in October 2026](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/) illustrates the value of identity pinning as protection against CA compromise. Attackers could forge certificates for arbitrary servers, putting apps relying on the platform's default CA trust at risk of traffic interception. Apple and Google distributed updates to block the compromised CAs, but [these protections can take days to reach devices](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/). Some devices may never receive the necessary trust-store or revocation updates. Pinning can protect connections during this gap, provided the app's pinset excludes the compromised CA chains.
+
 Identity pinning also carries a risk of outages: if the server changes to a CA or key that is not in the app's pinset, existing app versions cannot connect until users install an update. Because of this risk, Google's [Android security guidance](https://developer.android.com/privacy-and-security/security-ssl#Pinning) states that "certificate pinning ... is not recommended for Android apps." The risk depends on what you pin and how you manage key rotation. The following sections explain [what to pin against](#what-to-pin-against) and how to [pin safely](#pin-safely) to reduce the risk of outages while maintaining the protection your threat model requires.
 
 ## What to Pin Against
@@ -28,19 +30,19 @@ See the [OWASP Pinning Cheat Sheet](https://cheatsheetseries.owasp.org/cheatshee
 
 ## Self-Signed Certificates
 
-A self-signed certificate is signed by your team using a private key you control, rather than by a third-party CA. It can serve as the root of a private CA hierarchy, with intermediate CAs issuing your server's leaf certificates. Your team controls the CA private keys, certificate issuance, and validity periods.
+Your team can use a self-signed server certificate or operate a private CA to issue server certificates. In either case, your team controls the private keys, certificate issuance, and validity periods.
 
 This setup offers two benefits:
 
-**Independence from third-party CA security.** Past incidents like the [DigiNotar breach](https://security.googleblog.com/2011/08/update-on-attempted-man-in-middle.html) and the [CNNIC/MCS incident](https://security.googleblog.com/2015/03/maintaining-digital-certificate-security.html) show how compromised or misused CA infrastructure can enable unauthorized certificate issuance and MITM attacks.
+**Independence from third-party CA security.** Past incidents like the [DigiNotar breach](https://security.googleblog.com/2011/08/update-on-attempted-man-in-middle.html), the [CNNIC/MCS incident](https://security.googleblog.com/2015/03/maintaining-digital-certificate-security.html), and the [eMudhra intermediate CA compromise](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/) show how compromised or misused CA infrastructure can enable unauthorized certificate issuance and MITM attacks.
 
 An app pinning the affected CA's public key could accept a fraudulent server certificate, allowing an attacker to impersonate the server and intercept or modify communication. Pinning within your own certificate hierarchy prevents such attacks because the app doesn't rely on third-party CAs for server authentication.
 
-However, if your app pins the leaf public key of a third-party CA-issued certificate, it gains the same protection against CA misissuance, though it carries the operational risks associated with key rotation.
+Pinning the leaf public key of a third-party CA-issued certificate provides the same protection against CA misissuance as pinning a self-signed server certificate. In both cases, your team controls the key pair the app trusts.
 
 **Control over certificate management.** You can issue replacement certificates immediately without waiting for a third-party CA. If an operational mistake causes a certificate to expire, you can issue a replacement using the same uncompromised key so existing public-key pins continue to work. This can restore connectivity without an app update, but shouldn't replace planned key rotation.
 
-This control also makes your team responsible for protecting private keys, choosing appropriate validity periods, rotating keys, and recovering from compromise. Configure the app to explicitly trust your certificate or private CA and enforce the chosen pins. Preserve hostname and certificate validity checks. Poor certificate management can weaken security or cause outages.
+This control also makes your team responsible for choosing secure cryptographic algorithms and key sizes, generating keys with a cryptographically secure random number generator, protecting private keys, choosing appropriate validity periods, rotating keys, and recovering from compromise. The eMudhra incident shows that even established CAs can fail to generate keys securely.
 
 ## Pin Safely
 
