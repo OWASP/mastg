@@ -4,6 +4,7 @@ platform: android
 id: MASTG-TEST-0242
 type: [static, code]
 maswe: [MASWE-0028]
+best-practices: [MASTG-BEST-0075]
 knowledge: [MASTG-KNOW-0014, MASTG-KNOW-0015]
 prerequisites:
 - identify-first-party-domains
