@@ -1,6 +1,6 @@
 ---
-title: Choose and Manage Identity Pinning for Mobile Apps
-alias: choose-and-manage-identity-pinning-for-mobile-apps
+title: Choose and Manage Identity Pins
+alias: choose-and-manage-identity-pins
 id: MASTG-BEST-0075
 platform: generic
 knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072]
