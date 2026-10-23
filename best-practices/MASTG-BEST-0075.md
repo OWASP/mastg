@@ -8,9 +8,9 @@ knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072]
 
 Use identity pinning (commonly called SSL pinning) to protect connections from Machine-in-the-Middle (MITM) attacks. Pinning checks that at least one public key in the server's validated certificate chain matches a key approved in advance by your app. If none match, the app rejects the connection, even if the operating system trusts the certificate.
 
-## Security Benefits and Operational Risks of Identity Pinning
+## Security Benefits and Operational Risks
 
-Identity pinning helps protect API communication against credential or session-token theft and modification of requests and responses, even when an attacker can present a certificate trusted by the operating system.
+Identity pinning prevents attackers from using a fraudulent certificate trusted by the operating system to intercept API traffic, steal credentials or session tokens, or modify requests and responses.
 
 An [intermediate CA compromise in October 2026](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/) illustrates the value of identity pinning as protection against CA compromise. Attackers could forge certificates for arbitrary servers, putting apps relying on the platform's default CA trust at risk of traffic interception. Apple and Google distributed updates to block the compromised CAs, but [these protections can take days to reach devices](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/). Some devices may never receive the necessary trust-store or revocation updates. Pinning can protect connections during this gap, provided the app's pinset excludes the compromised CA chains.
 
