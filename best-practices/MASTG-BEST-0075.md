@@ -6,7 +6,7 @@ platform: generic
 knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072]
 ---
 
-Use identity pinning for developer-controlled endpoints to prevent Machine-in-the-Middle (MITM) attacks. An attacker who adds their own certificate authority (CA) certificate to the operating system's trust store can impersonate your server with a certificate the system accepts. Pinning rejects the connection if none of the public keys in the validated certificate chain match the app's pre-approved pins.
+Use identity pinning (commonly called SSL pinning) to protect connections from Machine-in-the-Middle (MITM) attacks. Pinning checks that at least one public key in the server's validated certificate chain matches a key approved in advance by your app. If none match, the app rejects the connection, even if the operating system trusts the certificate.
 
 ## Security Benefits and Operational Risks of Identity Pinning
 
@@ -46,6 +46,7 @@ This control also makes your team responsible for choosing secure cryptographic 
 
 Plan pin management before release so you can rotate keys and recover from compromise without causing avoidable outages.
 
+- Avoid pinning third-party services that may change their keys or certificate chains without advance notice, as these changes can prevent your app from connecting.
 - Include backup pins that let the server switch to another key or certificate chain without requiring an app update. For **leaf public-key pinning**, you can generate a separate backup key pair, include its public-key pin in the app, and obtain a valid CA-issued certificate for that key before deploying it.
 - For **intermediate or root CA public-key pinning**, include a pin for an alternative CA key and prepare a valid server certificate chain that contains it. Either approach can also use certificates issued by your own private CA or self-signed certificates, provided supported app versions are configured to trust them.
 - Choose backup pins according to the same threat model as active pins. Including a backup intermediate CA public key alongside a leaf public-key pin allows replacement server keys under that CA. However, the app trusts that CA from the start. If the CA is compromised, an attacker could issue a fraudulent certificate for your server that the app would accept. Use this option only if the broader trust is acceptable for your app.
