@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MASTestApp</string>
+    <string name="maps_api_key">AIzaSyDFakeMastgDemoKeyNotARealKey12345</string>
+    <string name="analytics_secret">c2VjcmV0LXZhbHVlLWZvci1kZW1v</string>
+</resources>
