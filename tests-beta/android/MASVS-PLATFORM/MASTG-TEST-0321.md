@@ -2,18 +2,18 @@
 title: References to Accessibility Data Sensitivity APIs
 platform: android
 id: MASTG-TEST-0321
-type: [static]
+type: [static, manual]
 profiles: [L2]
 best-practices: [MASTG-BEST-0029]
 weakness: MASWE-0055
 knowledge: [MASTG-KNOW-0108]
 apis: [View, setAccessibilityDataSensitive, filterTouchesWhenObscured]
-available_since: 35
+available_since: 36
 ---
 
 ## Overview
 
-This test verifies whether an app references Android's accessibility data sensitivity APIs. Starting with Android 16 (API level 35), developers can use the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to protect sensitive views from malicious accessibility services. When set to `true` on a view, it restricts non-tool accessibility services from reading or interacting with sensitive content.
+This test verifies whether an app references Android's accessibility data sensitivity APIs. Starting with Android 16 (API level 36), developers can use the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to protect sensitive views from malicious accessibility services. When set to `true` on a view, it restricts non-tool accessibility services from reading or interacting with sensitive content.
 
 Developers can apply this protection in two ways:
 
@@ -64,4 +64,10 @@ The test passes if:
 - Protection is applied consistently across all screens handling sensitive data
 - No code paths explicitly disable the protection without justification
 
-**Note**: This test is applicable only for apps targeting Android 16 (API level 35) or higher. For apps targeting lower API levels, the attribute is ignored by the system, and alternative protections like `filterTouchesWhenObscured` should be evaluated separately.
+**Note**: This test is applicable only for apps targeting Android 16 (API level 36) or higher. For apps targeting lower API levels, the attribute is ignored by the system, and alternative protections like `filterTouchesWhenObscured` should be evaluated separately.
+
+**Further Validation Required:**
+
+Static analysis is a good starting point, but it can only show whether a view is protected. It cannot reliably determine whether the view displays sensitive data, nor whether the protection is effective at runtime. Use the results of this test as a complement and verify them dynamically by following @MASTG-TEST-0322, navigating the screens that handle or display sensitive data (e.g., login, payment, personal information) and confirming that the corresponding views are protected.
+
+Note that, without an auditor physically monitoring the tested screens, there is no obvious mechanism to determine if the displayed information is sensitive in nature. Connecting the testing to an LLM may help, but it may not always capture the screen displaying the data this API is intended to protect.

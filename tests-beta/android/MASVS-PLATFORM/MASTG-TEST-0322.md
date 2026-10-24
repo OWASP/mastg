@@ -2,13 +2,13 @@
 title: Runtime Verification of Accessibility Data Sensitivity
 platform: android
 id: MASTG-TEST-0322
-type: [dynamic]
+type: [dynamic, manual]
 profiles: [L2]
 best-practices: [MASTG-BEST-0029]
 weakness: MASWE-0055
 knowledge: [MASTG-KNOW-0108]
 apis: [View, getAccessibilityDataSensitive, setAccessibilityDataSensitive, isFilterTouchesWhenObscured]
-available_since: 35
+available_since: 36
 ---
 
 ## Overview
@@ -25,7 +25,7 @@ This test focuses on observing the actual runtime configuration of views to ensu
 
 ## Steps
 
-1. Install the app on a device running Android 16 (API level 35) or higher (@MASTG-TECH-0005).
+1. Install the app on a device running Android 16 (API level 36) or higher (@MASTG-TECH-0005).
 2. Use a dynamic analysis tool like @MASTG-TOOL-0031 (Frida) to:
     - Enumerate all active View instances in the app's UI hierarchy
     - For each view, call `getAccessibilityDataSensitive()` to check the current sensitivity setting
@@ -66,3 +66,9 @@ The test passes if:
 **Additional Guidance**:
 
 If the app dynamically creates views or modifies their sensitivity settings at runtime, use method tracing or hooks to capture calls to `setAccessibilityDataSensitive()` and `setFilterTouchesWhenObscured()` to understand when and why protection is applied or removed. See @MASTG-TECH-0033 for method tracing techniques.
+
+**Further Validation Required:**
+
+Runtime inspection of view properties shows whether a view is protected, but it cannot reliably determine whether the view displays sensitive data. Without an auditor physically monitoring the tested screens, there is no obvious mechanism to tell if the information shown is sensitive in nature. Manually navigate through the screens that handle or display sensitive data (e.g., login, payment, personal information) and verify that the corresponding views are protected.
+
+If the automated testing is connected to an LLM to classify what is displayed, note that it may not always capture the screen displaying the data this API is intended to protect, so the result still needs to be confirmed manually.
