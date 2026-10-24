@@ -2,12 +2,12 @@
 masvs_category: MASVS-PLATFORM
 platform: android
 title: Accessibility Data Sensitivity
-available_since: 35
+available_since: 36
 ---
 
 ## Overview
 
-Starting with Android 16 (API level 35), the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute provides a mechanism for developers to protect sensitive UI views from being accessed by accessibility services that are not legitimate accessibility tools. When this attribute is set to `true` on a view, the system restricts apps with accessibility permissions from reading or interacting with that view's content unless the accessibility service declares itself as a legitimate accessibility tool via [`isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#FLAG_ACCESSIBILITY_TOOL) in its manifest.
+Starting with Android 16 (API level 36), the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute provides a mechanism for developers to protect sensitive UI views from being accessed by accessibility services that are not legitimate accessibility tools. When this attribute is set to `true` on a view, the system restricts apps with accessibility permissions from reading or interacting with that view's content unless the accessibility service declares itself as a legitimate accessibility tool via [`isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#FLAG_ACCESSIBILITY_TOOL) in its manifest.
 
 ## Purpose and Behavior
 
