@@ -1,73 +1,74 @@
-# Mobile Application Resilience Workshop Setup Guide
+---
+title: Mobile Application Resilience for Beginners
+id: MASTG-WORKSHOP-0001
+---
 
-This guide explains how to prepare your computer and Android emulator for the workshop. Complete the setup before attending so we can spend more time on the hands-on exercises.
+## About
 
-If you get stuck, we're happy to help! Send the organizers your platform, installed versions, and the complete error message.
+This hands-on workshop introduces the user to the mobile application resilience topic, one of the main topics inside mobile application security.
+
+It uses examples, demos, and tests from [this repository](https://github.com/OWASP/mastg), alongside workshop-specific bypass exercises.
+
+The practical exercises focus on root detection, emulator detection, and runtime hooking detection.
+
+!!! note
+    The examples in this workshop use Android, but the underlying resilience concepts apply to both Android and iOS.
+    The MASTG repository also includes analogous iOS tests. For example, @MASTG-TEST-0325 covers runtime root detection on Android, while @MASTG-TEST-0241 covers runtime jailbreak detection on iOS.
+
+## Objective
+
+By the end of this workshop, you will be able to:
+
+- Explain how resilience mechanisms increase the effort required to reverse engineer or tamper with an app.
+- Identify the main [OWASP MASVS resilience control categories](https://mas.owasp.org/MASVS/11-MASVS-RESILIENCE/): platform integrity, anti-tampering, anti-static analysis, and anti-dynamic analysis.
+- Explain how a layered approach combines complementary mechanisms instead of relying on a single detection check.
+- Distinguish between detecting a specific tool, such as Frida, and detecting the underlying technique, such as hooking.
+- Analyze and bypass detection checks in the demos to understand their limitations and relevance to an app's threat model.
+- Explain the cat-and-mouse relationship between detection mechanisms and bypass techniques, and why both evolve over time.
+
+## Setup Guide
+
+!!! note
+    The setup guide steps were documented and reproduced in September 2026.
+    The setup process may differ with newer tool versions.
+
+This guide explains how to prepare your computer and Android emulator for the workshop.
 
 This workshop was tested on these platforms:
 
 - Linux on x86_64
 - macOS on Apple silicon
 
-## Requirements
+### Reference Versions
+
+If you encounter issues while following this workshop, compare your tool versions with the reference versions below.
+
+| Component | Version |
+| --- | --- |
+| Android Studio | `AI-261.26222.65.2614.16204760` |
+| Android Emulator | `37.1.11` |
+| Android SDK Platform Tools | `37.0.1` |
+| Android system image | Android 16 (API level 36), Google Play, `arm64-v8a` or `x86_64` |
+| Android system image revision (`arm64-v8a`) | `7` |
+| Magisk | `30.6` |
+| MagiskFrida | `17.18.0-1` |
+| Frida client and server | `17.18.0` |
+| `frida-tools` | `14.10.4` |
+| Python | `3.9.6` |
+
+### Requirements
 
 - At least **8 GB** of **RAM**
 - **32 GB** of free **disk** space
 - Intel VT-x or AMD-V virtualization and access to KVM on Linux
 
-## Install Android Studio
-
-!!! note
-    These steps were documented and reproduced in September 2026. The steps can
-    change after that date.
+### Install Android Studio
 
 1. Open the [official Android Studio](https://developer.android.com/studio)
    download page.
-2. Download the installer for your computer.
+2. Download the installer for your computer and install Android Studio.
 
-## Configure a Rooted Android Virtual Device
-
-Choose one of these two setup options:
-
-- [Import a pre-rooted firmware image](#import-a-pre-rooted-firmware-image) for the simplest setup.
-- [Configure and root the device manually](#configure-and-root-the-device-manually).
-
-### Import a Pre-Rooted Firmware Image
-
-Follow these steps to import the firmware image and create an Android Virtual Device (AVD):
-
-1. Download the firmware image for your host architecture:
-
-    - **macOS with Apple silicon:** [workshop_arm64_image.zip](https://github.com/vulnit/mastg/releases/download/v0.1.0/workshop_arm64_image.zip)
-    - **Linux x86_64:** [workshop_x86_64_image.zip](https://github.com/vulnit/mastg/releases/download/v0.1.0/workshop_x86_64_image.zip)
-
-2. Extract the archive into `$ANDROID_HOME/system-images/android-36/`.
-
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-studio-system-image-directory.png" alt="Firmware image directory layout" width="50%" />
-
-3. Restart Android Studio and open **Virtual Device Manager**.
-4. Select **Create Device**.
-5. Select **Phone**.
-6. Select **Pixel 8**, and then select **Next**.
-
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-studio-pixel-8-device-profile.png" alt="Pixel 8 device profile selected in Android Studio" width="50%" />
-
-7. Enter `Pixel8workshop` as the device name.
-8. Select **API 36.0**.
-9. Select **MASTG <arch> System Image**, and then select **Finish**.
-
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-studio-mastg-system-image.png" alt="MASTG system image selected in Android Studio" width="50%" />
-
-10. Start the AVD.
-
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-16-about-emulated-device.png" alt="Android 16 About emulated device screen" width="50%" />
-
-11. Install Magisk Manager 30.6.
-12. If Magisk requests a reboot, reboot the AVD to finish the installation.
-
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-installed-status.png" alt="Magisk installation status" width="50%" />
-
-### Configure and Root the Device Manually
+### Configure a Rooted Android Virtual Device
 
 #### Create a Virtual Device
 
@@ -93,14 +94,14 @@ Follow these steps to import the firmware image and create an Android Virtual De
 
 Run only the commands for your platform.
 
-On macOS, run:
+MacOS:
 
 ```shell
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$ANDROID_HOME/platform-tools:$PATH"
 ```
 
-On Linux, run:
+Linux:
 
 ```shell
 export ANDROID_HOME="$HOME/Android/Sdk"
@@ -114,39 +115,33 @@ adb devices
 ```
 
 !!! important
-    Connect only the workshop emulator. The rootAVD script doesn't support
-    multiple ADB devices at the same time.
+    Connect only the workshop emulator.
+    The rootAVD script doesn't support multiple ADB devices at the same time.
 
-#### Download rootAVD
-
-1. Clone the [rootAVD GitLab repository](https://gitlab.com/newbit/rootAVD).
-2. Don't use the old GitHub repository as the source for the current version.
-
-#### Select the Image to Modify
+#### Clone RootAVD and Select the Image to Modify
 
 1. Keep the emulator running and unlocked.
-2. In the terminal, go to the rootAVD directory.
-3. List all AVD images:
+2. Clone the [rootAVD GitLab repository](https://gitlab.com/newbit/rootAVD). **Do not clone the Github repository**.
+3. In the terminal, go to the cloned rootAVD directory.
+4. List all AVD images:
 
     ```shell
     bash ./rootAVD.sh ListAllAVDs
     ```
 
-4. Find the entry for Android 16, Google Play, and your host architecture.
-5. On Linux x86_64, use the entry that ends with this path:
-   `system-images/android-36/google_apis_playstore/x86_64/ramdisk.img`.
+5. Find the entry for Android 16, Google Play, and your host architecture.
 
 #### Start the Installation
 
 Run only the command for your platform.
 
-On Linux x86_64, run:
+Linux:
 
 ```shell
 bash ./rootAVD.sh system-images/android-36/google_apis_playstore/x86_64/ramdisk.img FAKEBOOTIMG
 ```
 
-On macOS, run:
+macOS:
 
 ```shell
 bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdisk.img FAKEBOOTIMG
@@ -191,9 +186,9 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 
     <img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-root-status.png" alt="Magisk root status" width="50%" />
 
-## Install Frida
+### Install Frida
 
-### Install MagiskFrida on the Android Virtual Device
+#### Install MagiskFrida on the Android Virtual Device
 
 MagiskFrida is a Magisk module that starts `frida-server` when Android boots.
 The workshop pins MagiskFrida to release `17.18.0-1`.
@@ -216,7 +211,7 @@ The workshop pins MagiskFrida to release `17.18.0-1`.
 
     <img src="Images/Workshops/MASTG-WORKSHOP-0001/magiskfrida-active-module.png" alt="Active MagiskFrida module" width="50%" />
 
-### Install Frida Client Tools on the Host Computer
+#### Install Frida Client Tools on the Host Computer
 
 The MagiskFrida module installs the server on Android. You must also install the
 Frida client tools on your computer.
@@ -239,7 +234,7 @@ MagiskFrida release `17.18.0-1` uses Frida `17.18.0`. The `-1` suffix
 identifies the module release. The `frida-tools` and `frida` packages use
 different version numbers.
 
-### Check the Frida Connection
+#### Check the Frida Connection
 
 With the emulator running and the Python environment active, run:
 
@@ -251,8 +246,3 @@ Android Settings should start on the device. The Frida command-line interface
 (CLI) should appear in the terminal.
 
 <img src="Images/Workshops/MASTG-WORKSHOP-0001/frida-connection-test.png" alt="Successful Frida connection test" width="50%" />
-
-## Additional Notes
-
-- After performing the setup, don't update the Android system image, Magisk, or Frida
-  before the workshop.
