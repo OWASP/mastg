@@ -4,19 +4,19 @@ alias: marking-ui-views-sensitive-data
 id: MASTG-BEST-0029
 platform: android
 knowledge: [MASTG-KNOW-0108]
-available_since: 35
+available_since: 36
 ---
 
 ## Overview
 
-Starting with Android 16 (API level 35), developers should mark sensitive UI views using the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to protect against malicious accessibility services. This protection prevents unauthorized apps with accessibility permissions from reading sensitive view content or performing interactions unless they are declared as legitimate accessibility tools via [`isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#FLAG_ACCESSIBILITY_TOOL).
+Starting with Android 16 (API level 36), developers should mark sensitive UI views using the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to protect against malicious accessibility services. This protection prevents unauthorized apps with accessibility permissions from reading sensitive view content or performing interactions unless they are declared as legitimate accessibility tools via [`isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#FLAG_ACCESSIBILITY_TOOL).
 
 ## Recommendation
 
 Apply `accessibilityDataSensitive="true"` to views that handle or display sensitive information, such as:
 
 - Login screens (username and password fields)
-- Payment and transaction confirmation screens
+- system prompts, permissions, settings, and app specific confirmations such as payment and transaction confirmations
 - Personal information forms (SSN, credit card numbers, etc.)
 - Two-factor authentication inputs
 - Biometric authentication prompts
@@ -84,7 +84,7 @@ This protection can impact legitimate accessibility services like screen readers
 
 ### API Level Compatibility
 
-The `accessibilityDataSensitive` attribute is only available on Android 16 (API level 35) and higher. On older devices:
+The `accessibilityDataSensitive` attribute is only available on Android 16 (API level 36) and higher. On older devices:
 
 - The attribute is ignored; the app functions normally without this protection
 - Consider using `filterTouchesWhenObscured` for broader compatibility against overlay attacks
