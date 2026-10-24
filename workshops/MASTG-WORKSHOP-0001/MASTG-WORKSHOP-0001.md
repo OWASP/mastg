@@ -43,29 +43,29 @@ Follow these steps to import the firmware image and create an Android Virtual De
 
 2. Extract the archive into `$ANDROID_HOME/system-images/android-36/`.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/android-studio-system-image-directory.png" alt="Firmware image directory layout" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-studio-system-image-directory.png" alt="Firmware image directory layout" width="50%" />
 
 3. Restart Android Studio and open **Virtual Device Manager**.
 4. Select **Create Device**.
 5. Select **Phone**.
 6. Select **Pixel 8**, and then select **Next**.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/android-studio-pixel-8-device-profile.png" alt="Pixel 8 device profile selected in Android Studio" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-studio-pixel-8-device-profile.png" alt="Pixel 8 device profile selected in Android Studio" width="50%" />
 
 7. Enter `Pixel8workshop` as the device name.
 8. Select **API 36.0**.
 9. Select **MASTG <arch> System Image**, and then select **Finish**.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/android-studio-mastg-system-image.png" alt="MASTG system image selected in Android Studio" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-studio-mastg-system-image.png" alt="MASTG system image selected in Android Studio" width="50%" />
 
 10. Start the AVD.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/android-16-about-emulated-device.png" alt="Android 16 About emulated device screen" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/android-16-about-emulated-device.png" alt="Android 16 About emulated device screen" width="50%" />
 
 11. Install Magisk Manager 30.6.
 12. If Magisk requests a reboot, reboot the AVD to finish the installation.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/magisk-installed-status.png" alt="Magisk installation status" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-installed-status.png" alt="Magisk installation status" width="50%" />
 
 ### Configure and Root the Device Manually
 
@@ -154,7 +154,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 
 1. When the version menu appears, select Magisk 30.6.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/rootavd-magisk-version-selection.png" alt="Magisk 30.6 selected in rootAVD" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/rootavd-magisk-version-selection.png" alt="Magisk 30.6 selected in rootAVD" width="50%" />
 
 2. Wait for rootAVD to open Magisk in the emulator.
 
@@ -162,7 +162,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 
 1. In the Magisk section, select **Install**.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/magisk-install-button.png" alt="Magisk Install button" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-install-button.png" alt="Magisk Install button" width="50%" />
 
 2. Select **Select and Patch a File**.
 3. Open **Downloads**.
@@ -173,7 +173,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 8. When rootAVD prompts you, press Enter.
 9. Wait for rootAVD to copy the modified image.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/rootavd-installation-success.png" alt="Successful rootAVD image installation" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/rootavd-installation-success.png" alt="Successful rootAVD image installation" width="50%" />
 
 !!! warning
     Keep the terminal and emulator open while rootAVD modifies the image.
@@ -189,7 +189,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 6. If Magisk requests additional setup, accept it and permit the restart.
 7. Confirm that Magisk displays **Yes** for **Zygisk** and **Ramdisk**.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/magisk-root-status.png" alt="Magisk root status" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-root-status.png" alt="Magisk root status" width="50%" />
 
 ## Install Frida
 
@@ -206,7 +206,7 @@ The workshop pins MagiskFrida to release `17.18.0-1`.
 5. Open Magisk, and then select **Modules** -> **Install from storage**.
 6. Open **Download** and select the MagiskFrida ZIP file.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/magiskfrida-zip-in-downloads.png" alt="MagiskFrida ZIP file in the device Downloads directory" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magiskfrida-zip-in-downloads.png" alt="MagiskFrida ZIP file in the device Downloads directory" width="50%" />
 
 7. Wait for the installation to finish.
 8. Select **Reboot**.
@@ -214,7 +214,7 @@ The workshop pins MagiskFrida to release `17.18.0-1`.
 10. Confirm that MagiskFrida is installed, enabled, and active.
 11. If **active** doesn't appear, select **Action** or reboot the device.
 
-    <img src="Images/Workshops/2026/RESILIENCE-01/magiskfrida-active-module.png" alt="Active MagiskFrida module" width="50%" />
+    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magiskfrida-active-module.png" alt="Active MagiskFrida module" width="50%" />
 
 ### Install Frida Client Tools on the Host Computer
 
@@ -250,7 +250,7 @@ frida -U -f com.android.settings
 Android Settings should start on the device. The Frida command-line interface
 (CLI) should appear in the terminal.
 
-<img src="Images/Workshops/2026/RESILIENCE-01/frida-connection-test.png" alt="Successful Frida connection test" width="50%" />
+<img src="Images/Workshops/MASTG-WORKSHOP-0001/frida-connection-test.png" alt="Successful Frida connection test" width="50%" />
 
 ## Additional Notes
 
