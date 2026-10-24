@@ -12,7 +12,7 @@ class MastgTest (private val context: Context){
         // FAIL: [android-insecure-random-use] The app insecurely uses random numbers for generating authentication tokens.
         val random1 = Random().nextDouble()
 
-        // FAIL: [android-insecure-random-use] The title of the function indicates that it generates a random number, but it is unclear how it is actually used in the rest of the app. Review any calls to this function to ensure that the random number is not used in a security-relevant context.
+        // FAIL: [android-insecure-random-use] The value comes from an insecure random number generator, but it is unclear how it is actually used in the rest of the app. Review where it is used to ensure that the random number is not used in a security-relevant context.
         val random2 = 1 + Math.random()
 
         val length = 16
