@@ -14,7 +14,7 @@ class MastgTest : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // PASS: [MASTG-TEST-0321] Programmatically set accessibility data sensitivity on a button
+        // PASS: [MASTG-TEST-0x01] Programmatically set accessibility data sensitivity on a button
         val confirmButton = findViewById<Button>(R.id.loginButton)
         confirmButton.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
 
@@ -23,12 +23,12 @@ class MastgTest : AppCompatActivity() {
         val isDataSensitive = passwordField.accessibilityDataSensitive
         val isFilteringTouches = passwordField.isFilterTouchesWhenObscured
 
-        // PASS: [MASTG-TEST-0321] Programmatically set filterTouchesWhenObscured for additional protection
+        // PASS: [MASTG-TEST-0x01] Programmatically set filterTouchesWhenObscured for additional protection
         val usernameField = findViewById<EditText>(R.id.usernameField)
         usernameField.setFilterTouchesWhenObscured(true)
 
         // Example: Conditionally disable protection (should be avoided for sensitive views)
-        // FAIL: [MASTG-TEST-0321] Never explicitly disable protection on sensitive views
+        // FAIL: [MASTG-TEST-0x01] Never explicitly disable protection on sensitive views
         // val creditCardField = findViewById<EditText>(R.id.creditCardField)
         // creditCardField.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_NO)
     }

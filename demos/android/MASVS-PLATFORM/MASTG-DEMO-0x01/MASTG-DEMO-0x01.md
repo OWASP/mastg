@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Detecting Accessibility Data Sensitivity in Layouts with semgrep
-id: MASTG-DEMO-0083
+id: MASTG-DEMO-0x01
 code: [xml, kotlin]
-test: MASTG-TEST-0321
+test: MASTG-TEST-0x01
 ---
 
 ## Sample

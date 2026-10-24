@@ -1,9 +1,9 @@
 ---
 title: Marking UI Views as Containing Sensitive Data
 alias: marking-ui-views-sensitive-data
-id: MASTG-BEST-0029
+id: MASTG-BEST-0x01
 platform: android
-knowledge: [MASTG-KNOW-0108]
+knowledge: [MASTG-KNOW-0x01]
 available_since: 36
 ---
 

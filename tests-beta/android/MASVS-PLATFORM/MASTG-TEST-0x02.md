@@ -1,19 +1,19 @@
 ---
 title: Runtime Verification of Accessibility Data Sensitivity
 platform: android
-id: MASTG-TEST-0322
+id: MASTG-TEST-0x02
 type: [dynamic, manual]
 profiles: [L2]
-best-practices: [MASTG-BEST-0029]
+best-practices: [MASTG-BEST-0x01]
 weakness: MASWE-0055
-knowledge: [MASTG-KNOW-0108]
+knowledge: [MASTG-KNOW-0x01]
 apis: [View, getAccessibilityDataSensitive, setAccessibilityDataSensitive, isFilterTouchesWhenObscured]
 available_since: 36
 ---
 
 ## Overview
 
-This test is the dynamic counterpart to @MASTG-TEST-0321. It verifies that sensitive views in an Android app are properly configured with accessibility data sensitivity protection at runtime.
+This test is the dynamic counterpart to @MASTG-TEST-0x01. It verifies that sensitive views in an Android app are properly configured with accessibility data sensitivity protection at runtime.
 
 At runtime, you can inspect view properties to determine:
 

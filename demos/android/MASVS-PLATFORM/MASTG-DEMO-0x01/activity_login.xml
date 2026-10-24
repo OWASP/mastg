@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- FAIL: [MASTG-TEST-0321] Username field lacks protection from malicious accessibility services -->
+    <!-- FAIL: [MASTG-TEST-0x01] Username field lacks protection from malicious accessibility services -->
     <EditText
         android:id="@+id/usernameField"
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:hint="Username"
         android:inputType="text" />
 
-    <!-- PASS: [MASTG-TEST-0321] Password field is protected with explicit accessibilityDataSensitive -->
+    <!-- PASS: [MASTG-TEST-0x01] Password field is protected with explicit accessibilityDataSensitive -->
     <EditText
         android:id="@+id/passwordField"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:inputType="textPassword"
         android:accessibilityDataSensitive="true" />
 
-    <!-- PASS: [MASTG-TEST-0321] PIN field is protected via filterTouchesWhenObscured (implicit accessibility protection on Android 16+) -->
+    <!-- PASS: [MASTG-TEST-0x01] PIN field is protected via filterTouchesWhenObscured (implicit accessibility protection on Android 16+) -->
     <EditText
         android:id="@+id/pinField"
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:inputType="numberPassword"
         android:filterTouchesWhenObscured="true" />
 
-    <!-- PASS: [MASTG-TEST-0321] Credit card field is protected with both attributes for defense in depth -->
+    <!-- PASS: [MASTG-TEST-0x01] Credit card field is protected with both attributes for defense in depth -->
     <EditText
         android:id="@+id/creditCardField"
         android:layout_width="match_parent"

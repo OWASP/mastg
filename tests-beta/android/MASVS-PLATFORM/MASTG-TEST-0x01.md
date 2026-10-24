@@ -1,12 +1,12 @@
 ---
 title: References to Accessibility Data Sensitivity APIs
 platform: android
-id: MASTG-TEST-0321
+id: MASTG-TEST-0x01
 type: [static, manual]
 profiles: [L2]
-best-practices: [MASTG-BEST-0029]
+best-practices: [MASTG-BEST-0x01]
 weakness: MASWE-0055
-knowledge: [MASTG-KNOW-0108]
+knowledge: [MASTG-KNOW-0x01]
 apis: [View, setAccessibilityDataSensitive, filterTouchesWhenObscured]
 available_since: 36
 ---
@@ -68,6 +68,6 @@ The test passes if:
 
 **Further Validation Required:**
 
-Static analysis is a good starting point, but it can only show whether a view is protected. It cannot reliably determine whether the view displays sensitive data, nor whether the protection is effective at runtime. Use the results of this test as a complement and verify them dynamically by following @MASTG-TEST-0322, navigating the screens that handle or display sensitive data (e.g., login, payment, personal information) and confirming that the corresponding views are protected.
+Static analysis is a good starting point, but it can only show whether a view is protected. It cannot reliably determine whether the view displays sensitive data, nor whether the protection is effective at runtime. Use the results of this test as a complement and verify them dynamically by following @MASTG-TEST-0x02, navigating the screens that handle or display sensitive data (e.g., login, payment, personal information) and confirming that the corresponding views are protected.
 
 Note that, without an auditor physically monitoring the tested screens, there is no obvious mechanism to determine if the displayed information is sensitive in nature. Connecting the testing to an LLM may help, but it may not always capture the screen displaying the data this API is intended to protect.
