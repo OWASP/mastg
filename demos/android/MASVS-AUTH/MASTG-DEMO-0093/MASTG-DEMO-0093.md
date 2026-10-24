@@ -32,7 +32,9 @@ The output shows the usage of `setUserAuthenticationParameters` and `setUserAuth
 
 The test fails because the output shows:
 
-- Line 279: `setUserAuthenticationValidityDurationSeconds(86400)` is called, configuring the key to remain unlocked for 86400 seconds (24 hours) after authentication.
-- Line 281: `setUserAuthenticationParameters(86400, ...)` is also called with the same 24-hour duration.
+- Line 52: `setUserAuthenticationParameters(86400, 0)` is called, configuring the key to remain unlocked for 86400 seconds (24 hours) after authentication.
+- Line 52: `setUserAuthenticationValidityDurationSeconds(86400)` is also called in the same builder chain with the same 24-hour duration.
+
+Both findings are on line 52 because the decompiled code places the whole `KeyGenParameterSpec.Builder` chain on a single line, and the rule reports each call separately.
 
 For sensitive operations, keys should use `setUserAuthenticationParameters(0, type)` to require authentication for every cryptographic operation, ensuring that each use of the key requires biometric verification and user presence.
