@@ -1,0 +1,161 @@
+=== Analyzing iOS Binary for Verbose Logging ===
+
+[*] Cross references to logging related imports
+sym.func.100004838 0x100004a5c [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100004838 0x100004a78 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100004838 0x100004a94 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100005fb4 0x1000060b0 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100005fb4 0x100006190 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100005fb4 0x100006260 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100005fb4 0x100006514 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100005fb4 0x1000065c8 [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100006840 0x10000688c [CALL:--x] bl sym.imp.Foundation.NSLogCVarArg_...dtF_
+sym.func.100004838 0x100004914 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004c78 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004cc8 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004d1c [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004d74 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004dcc [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004ed8 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004be8 0x100004f2c [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004f50 0x100005324 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004f50 0x100005454 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004f50 0x100005528 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004f50 0x10000560c [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100005678 0x100005814 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100005678 0x1000058d0 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100005678 0x100005964 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100005a98 0x100005e70 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100005a98 0x100005f2c [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100005a98 0x100005f88 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100006840 0x100006964 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100006840 0x100006a0c [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100006840 0x100006afc [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100006840 0x100006b50 [CALL:--x] bl sym.imp.print.separator.terminator.St
+sym.func.100004838 0x1000049c8 [CALL:--x] bl sym.imp.debugPrint.separator.terminator.St
+sym.func.100004838 0x100004a1c [CALL:--x] bl sym.imp.debugPrint.separator.terminator.St
+sym.func.100005fb4 0x100006298 [CALL:--x] bl sym.imp.dump.name.indent__String_...SgS3itlF_
+sym.func.10000465c 0x100004708 [CALL:--x] bl sym.imp.os_log_type_t.addressor..debug_...vgZ_
+sym.func.10000465c 0x100004774 [CALL:--x] bl sym.imp.os_log_type_t.addressor..debug_...vgZ_
+sym.func.100005fb4 0x1000062f4 [CALL:--x] bl sym.imp.os_log_type_t.addressor..error_...vgZ_
+sym.func.100005fb4 0x100006394 [CALL:--x] bl sym.imp.os_log_type_t.addressor..fault_...vgZ_
+sym.func.10000465c 0x100004754 [CALL:--x] bl sym.imp._os_log_impl
+sym.func.10000465c 0x1000047c0 [CALL:--x] bl sym.imp._os_log_impl
+sym.func.100005fb4 0x10000635c [CALL:--x] bl sym.imp._os_log_impl
+sym.func.100005fb4 0x1000064a0 [CALL:--x] bl sym.imp._os_log_impl
+sym.func.10000465c 0x100004718 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.10000465c 0x100004784 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.100005fb4 0x100006304 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.100005fb4 0x1000063a8 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.10000465c 0x100004700 [CALL:--x] bl sym.imp.os.Logger.logObject.OS_._...C0Cvg
+sym.func.10000465c 0x10000476c [CALL:--x] bl sym.imp.os.Logger.logObject.OS_._...C0Cvg
+sym.func.100005fb4 0x1000062ec [CALL:--x] bl sym.imp.os.Logger.logObject.OS_._...C0Cvg
+sym.func.100005fb4 0x10000638c [CALL:--x] bl sym.imp.os.Logger.logObject.OS_._...C0Cvg
+sym.func.10000465c 0x1000046fc [CALL:--x] bl sym.imp.os.Logger.subsystem.category__String_...tcfC_
+sym.func.100005fb4 0x1000062dc [CALL:--x] bl sym.imp.os.Logger.subsystem.category__String_...tcfC_
+sym.func.10000465c 0x10000468c [CALL:--x] bl sym.imp.os.Logger...VMa
+sym.func.100005fb4 0x100005fe4 [CALL:--x] bl sym.imp.os.Logger...VMa
+sym.func.10000994c 0x100009964 [CALL:--x] bl sym.imp.os.Logger...VMa
+sym.func.1000099fc 0x100009a14 [CALL:--x] bl sym.imp.os.Logger...VMa
+sym.func.10000465c 0x100004754 [CALL:--x] bl sym.imp._os_log_impl
+sym.func.10000465c 0x1000047c0 [CALL:--x] bl sym.imp._os_log_impl
+sym.func.100005fb4 0x10000635c [CALL:--x] bl sym.imp._os_log_impl
+sym.func.100005fb4 0x1000064a0 [CALL:--x] bl sym.imp._os_log_impl
+sym.func.10000465c 0x100004718 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.10000465c 0x100004784 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.100005fb4 0x100006304 [CALL:--x] bl sym.imp.os_log_type_enabled
+sym.func.100005fb4 0x1000063a8 [CALL:--x] bl sym.imp.os_log_type_enabled
+
+[*] Recovered log message contents
+(full disassembly from the string load to the logging call)
+
+=== NSLog -> internal API endpoint (mastgTest) ===
+│           0x100006864      280000b0       adrp x8, sym.imp.append_...ySSF_ ; 0x10000b000
+│           0x100006868      08012a91       add x8, x8, 0xa80          ; 0x10000ba80 ; "[DEBUG] Attempting to connect to API endpoint: https://internal-api.example.com/v2/auth/login"
+│           0x10000686c      088100d1       sub x8, x8, 0x20
+│           0x100006870      09098052       mov w9, 0x48               ; 'H'
+│           0x100006874      bc0280d2       mov x28, 0x15
+│           0x100006878      1c00faf2       movk x28, 0xd000, lsl 48
+│           0x10000687c      620000d0       adrp x2, segment.__DATA_CONST ; 0x100014000
+│           0x100006880      423043f9       ldr x2, [x2, 0x660]        ; [0x100014660:8]=0
+│                                                                      ; reloc._swiftEmptyArrayStorage
+│           0x100006884      800309aa       orr x0, x28, x9
+│           0x100006888      010141b2       orr x1, x8, 0x8000000000000000
+│           0x10000688c      1d110094       bl sym.imp.Foundation.NSLogCVarArg_...dtF_ ; Foundation.NSLogCVarArg(...dtF)
+
+=== print -> username (performLogin) ===
+│           0x1000048c4      48000090       adrp x8, 0x10000c000
+│           0x1000048c8      08810891       add x8, x8, 0x220          ; 0x10000c220 ; "[DEBUG] performLogin() called with username:"
+│           0x1000048cc      088100d1       sub x8, x8, 0x20
+│           0x1000048d0      080141b2       orr x8, x8, 0x8000000000000000
+│           0x1000048d4      69760091       add x9, x19, 0x1d
+│           0x1000048d8      e92301a9       stp x9, x8, [var_10h]
+│           0x1000048dc      f4430091       add x20, sp, 0x10
+│           0x1000048e0      e00319aa       mov x0, x25
+│           0x1000048e4      e10318aa       mov x1, x24
+│           0x1000048e8      c6190094       bl sym.imp.append_...ySSF_ ; append(...ySSF)
+│           0x1000048ec      e82741a9       ldp x8, x9, [var_10h]
+│           0x1000048f0      9b000090       adrp x27, segment.__DATA_CONST ; 0x100014000
+│           0x1000048f4      7b9742f9       ldr x27, [x27, 0x528]      ; [0x100014528:8]=0
+│                                                                      ; reloc....SSN
+│           0x1000048f8      5b1f00f9       str x27, [x26, 0x38]
+│           0x1000048fc      482702a9       stp x8, x9, [x26, 0x20]
+│           0x100004900      e0031aaa       mov x0, x26
+│           0x100004904      01048052       mov w1, 0x20
+│           0x100004908      0220fcd2       mov x2, -0x1f00000000000000
+│           0x10000490c      43018052       mov w3, 0xa
+│           0x100004910      0420fcd2       mov x4, -0x1f00000000000000
+│           0x100004914      001a0094       bl sym.imp.print.separator.terminator.St
+
+=== debugPrint -> mock session token literal (performLogin) ===
+│           0x10000498c      280000f0       adrp x8, sym.imp.append_...ySSF_ ; 0x10000b000
+│           0x100004990      08013391       add x8, x8, 0xcc0          ; 0x10000bcc0 ; "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+│           0x100004994      088100d1       sub x8, x8, 0x20
+│           0x100004998      60520091       add x0, x19, 0x14
+│           0x10000499c      010141b2       orr x1, x8, 0x8000000000000000
+│           0x1000049a0      f4430091       add x20, sp, 0x10
+│           0x1000049a4      97190094       bl sym.imp.append_...ySSF_ ; append(...ySSF)
+│           0x1000049a8      e82741a9       ldp x8, x9, [var_10h]
+│           0x1000049ac      db1e00f9       str x27, [x22, 0x38]
+│           0x1000049b0      c82602a9       stp x8, x9, [x22, 0x20]
+│           0x1000049b4      e00316aa       mov x0, x22
+│           0x1000049b8      01048052       mov w1, 0x20
+│           0x1000049bc      0220fcd2       mov x2, -0x1f00000000000000
+│           0x1000049c0      43018052       mov w3, 0xa
+│           0x1000049c4      0420fcd2       mov x4, -0x1f00000000000000
+│           0x1000049c8      ac190094       bl sym.imp.debugPrint.separator.terminator.St
+
+=== print -> SSL pinning disabled (performNetworkRequest) ===
+│           0x100004d44      48000090       adrp x8, 0x10000c000
+│           0x100004d48      08010591       add x8, x8, 0x140          ; 0x10000c140 ; "[DEBUG] SSL pinning: disabled"
+│           0x100004d4c      088100d1       sub x8, x8, 0x20
+│           0x100004d50      080141b2       orr x8, x8, 0x8000000000000000
+│           0x100004d54      151c00f9       str x21, [x0, 0x38]
+│           0x100004d58      29018052       mov w9, 9
+│           0x100004d5c      490309aa       orr x9, x26, x9
+│           0x100004d60      092002a9       stp x9, x8, [x0, 0x20]
+│           0x100004d64      01048052       mov w1, 0x20
+│           0x100004d68      0220fcd2       mov x2, -0x1f00000000000000
+│           0x100004d6c      43018052       mov w3, 0xa
+│           0x100004d70      0420fcd2       mov x4, -0x1f00000000000000
+│           0x100004d74      e8180094       bl sym.imp.print.separator.terminator.St
+
+=== Logger.debug -> password hashing algorithm (validateCredentials) ===
+│           0x1000047a8      63000090       adrp x3, section.16.__TEXT.__oslogstring ; 0x100010000
+│           0x1000047ac      63800191       add x3, x3, 0x60
+│           0x1000047b0      421f0012       and w2, w26, 0xff
+│           0x1000047b4      e10319aa       mov x1, x25
+│           0x1000047b8      e4031baa       mov x4, x27
+│           0x1000047bc      45008052       mov w5, 2
+│           0x1000047c0      731a0094       bl sym.imp._os_log_impl
+
+=== NSLog -> error code & internal module (performLogin) ===
+│           0x100004a7c      48000090       adrp x8, 0x10000c000
+│           0x100004a80      08010b91       add x8, x8, 0x2c0          ; 0x10000c2c0 ; "[DEBUG] Error code: AUTH_001, Module: AuthenticationService.validateCredentials()"
+│           0x100004a84      088100d1       sub x8, x8, 0x20
+│           0x100004a88      60060191       add x0, x19, 0x41
+│           0x100004a8c      010141b2       orr x1, x8, 0x8000000000000000
+│           0x100004a90      e20314aa       mov x2, x20
+│           0x100004a94      9b180094       bl sym.imp.Foundation.NSLogCVarArg_...dtF_ ; Foundation.NSLogCVarArg(...dtF)
+
+[*] Done

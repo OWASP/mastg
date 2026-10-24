@@ -1,0 +1,29 @@
+                   
+                   
+┌─────────────────┐
+│ 7 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ mastg-android-local-storage-input-validation
+          [MASVS-CODE-4] SharedPreferences value loaded. Review whether integrity and authenticity are
+          validated before the value is trusted.                                                      
+                                                                                                      
+          140┆ String string = prefs().getString(key, defaultValue);
+            ⋮┆----------------------------------------
+          146┆ String value = prefs().getString(key, null);
+            ⋮┆----------------------------------------
+          147┆ if (value == null || (storedHmac = prefs().getString(key + "_hmac", null)) == null) {
+   
+     ❱ mastg-android-hmac-validation-present
+          [MASVS-CODE-4] HMAC or MAC related integrity logic detected. Review whether it protects the reported
+          local storage read and whether the secret is attacker accessible.                                   
+                                                                                                              
+          156┆ Mac mac = Mac.getInstance(HMAC_ALGORITHM);
+            ⋮┆----------------------------------------
+          159┆ SecretKeySpec key = new SecretKeySpec(bytes, HMAC_ALGORITHM);
+            ⋮┆----------------------------------------
+          160┆ mac.init(key);
+            ⋮┆----------------------------------------
+          163┆ byte[] bArrDoFinal = mac.doFinal(bytes2);
+

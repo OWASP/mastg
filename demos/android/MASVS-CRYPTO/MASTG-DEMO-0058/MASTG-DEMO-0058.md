@@ -3,7 +3,7 @@ platform: android
 title: Using KeyGenParameterSpec with a Broken ECB Block Mode
 id: MASTG-DEMO-0058
 code: [kotlin]
-test: MASTG-TEST-0232
+test: MASTG-TEST-0350
 ---
 
 ## Sample

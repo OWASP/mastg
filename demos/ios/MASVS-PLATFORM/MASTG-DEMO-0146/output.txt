@@ -1,0 +1,43 @@
+List all uses of the 'evaluateJavaScript:completionHandler:' selector:
+0x10000b868 38 str.evaluateJavaScript:completionHandler:
+0x100014198 8 reloc.fixup.evaluateJavaScript:completionHa
+
+xrefs to 'evaluateJavaScript:completionHandler:':
+sym.MASTestApp.MastgTest.showWebView.allocator__1 0x100004978 [DATA:r--] ldr x1, reloc.fixup.evaluateJavaScript:completionHa
+
+Code snippet showing the construction of the JavaScript string and the call to evaluateJavaScript:
+│           0x100004910      adrp x8, 0x10000b000
+│           0x100004914      add x8, x8, 0x570                         ; 0x10000b570 ; "document.getElementById('otp-display').textContent = '"
+│           0x100004918      sub x8, x8, 0x20
+│           0x10000491c      mov x9, 0x21                              ; '!'
+│           0x100004920      movk x9, 0xd000, lsl 48
+│           0x100004924      add x0, x9, 0x15
+│           0x100004928      orr x1, x8, 0x8000000000000000
+│           0x10000492c      mov x20, sp
+│           0x100004930      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x100004934      mov x0, 0x3834                            ; '48'
+│           0x100004938      movk x0, 0x3932, lsl 16                   ; '29'
+│           0x10000493c      movk x0, 0x3031, lsl 32                   ; '10'
+│           0x100004940      mov x20, sp
+│           0x100004944      mov x1, -0x1a00000000000000
+│           0x100004948      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x10000494c      mov x20, sp
+│           0x100004950      mov w0, 0x27                              ; '\''
+│           0x100004954      mov x1, -0x1f00000000000000
+│           0x100004958      bl sym.imp.append_...ySSF_                ; append(...ySSF)
+│           0x10000495c      ldp x0, x20, [sp]
+│           0x100004960      mov x1, x20
+│           0x100004964      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+│           0x100004968      mov x23, x0
+│           0x10000496c      mov x0, x20                               ; void *arg0
+│           0x100004970      bl sym.imp.swift_bridgeObjectRelease      ; void swift_bridgeObjectRelease(void *arg0)
+│           0x100004974      adrp x8, sym.__METACLASS_DATA__TtC10MASTestApp9MastgTest ; 0x100014000
+│           0x100004978      ldr x1, [x8, 0x198]                       ; [0x10000b868:4]=0x6c617665 ; "evaluateJavaScript:completionHandler:" ; char *selector
+│           0x10000497c      mov x0, x22                               ; void *instance
+│           0x100004980      mov x2, x23
+│           0x100004984      mov x3, 0
+│           0x100004988      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+│           0x10000498c      mov x0, x23                               ; void *instance
+│           0x100004990      bl sym.imp.objc_release                   ; void objc_release(void *instance)
+│           0x100004994      adrp x8, 0x10000b000
+│           0x100004998      add x8, x8, 0x5b0                         ; 0x10000b5b0 ; "Sensitive data injected into DOM."

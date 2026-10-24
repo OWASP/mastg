@@ -1,0 +1,19 @@
+List all uses of the UIWebView class:
+0x100010108 8 reloc.UIWebView
+
+List all xrefs to the 'UIWebView' class:
+sym.MASTestApp.MastgTest.mastg.completion__1 0x100004514 [DATA:r--] ldr x0, reloc.UIWebView
+
+Code snippet that contains the xref to 'UIWebView':
+│           0x100004514      ldr x0, [x8, 0x108]                       ; [0x100010108:4]=231
+│                                                                      ; reloc.UIWebView ; void *arg0
+│           0x100004518      bl sym.imp.objc_allocWithZone             ; void *objc_allocWithZone(void *arg0)
+│           0x10000451c      adrp x26, sym.__METACLASS_DATA__TtC10MASTestAppP33_9471609302C95FC8EC1D59DD4CF2A2DB19ResourceBundleClass ; 0x100010000
+│           0x100004520      ldr x1, [x26, 0x90]                       ; [0x100010090:4]=0xb0d9 ; reloc.fixup.init
+│                                                                      [21] -rw- section size 112 named 21.__DATA.__objc_selrefs ; char *selector
+│           0x100004524      bl sym.imp.objc_msgSend                   ; void *objc_msgSend(void *instance, char *selector)
+│           0x100004528      mov x21, x0
+│           0x10000452c      adrp x8, sym.imp.swift_deallocObject      ; 0x10000a000
+│           0x100004530      add x8, x8, 0xc90                         ; 0x10000ac90 ; "https://owasp.org"
+│           0x100004534      sub x8, x8, 0x20
+│           0x100004538      orr x1, x8, 0x8000000000000000

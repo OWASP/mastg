@@ -4,9 +4,9 @@ platform: android
 title: Certificate Pinning
 ---
 
-[Certificate pinning](0x04f-Testing-Network-Communication.md/#restricting-trust-identity-pinning) can be employed in Android apps to safeguard against Machine-in-the-Middle (MITM) attacks by ensuring that the app communicates exclusively with remote endpoints possessing specific identities.
+[Certificate pinning](../../../Document/0x04f-Testing-Network-Communication.md#restricting-trust-identity-pinning) can be employed in Android apps to safeguard against Machine-in-the-Middle (MITM) attacks by ensuring that the app communicates exclusively with remote endpoints possessing specific identities.
 
-While effective when implemented correctly, insecure implementations potentially enable attackers to read and modify all communication. For more general details on pinning, refer to @MASWE-0047.
+While effective when implemented correctly, insecure implementations potentially enable attackers to read and modify all communication. For more general details on pinning, refer to @MASWE-0028.
 
 Several approaches to certificate pinning exist, depending on the app's API level and the libraries used. Below, we highlight the most common methods. For a deeper dive into the specific implementations, see ["Deep Dive into Certificate Pinning on Android"](https://securevale.blog/articles/deep-dive-into-certificate-pinning-on-android/).
 
@@ -93,4 +93,4 @@ That said, this approach requires significant security expertise and a careful d
 
 ## Pinning in Cross-Platform Frameworks
 
-Cross-platform frameworks like Flutter, React Native, Cordova, and Xamarin often require special considerations for certificate pinning, as they may not use the same network stack as native apps. For example, Flutter relies on its own Dart `HttpClient` (with BoringSSL) instead of the platform's networking stack, while Cordova makes network requests through JavaScript in a WebView. As a result, pinning behavior varies—some frameworks provide built-in configuration options, others rely on third-party plugins, and some offer no direct support but allow manual implementation via APIs. Understanding how a framework handles networking is crucial for ensuring proper pinning enforcement.
+Cross-platform frameworks like Flutter, React Native, and Cordova often require special considerations for certificate pinning, as they may not use the same network stack as native apps. For example, Flutter relies on its own Dart `HttpClient` (with BoringSSL) instead of the platform's networking stack, while Cordova makes network requests through JavaScript in a WebView. As a result, pinning behavior varies—some frameworks provide built-in configuration options, others rely on third-party plugins, and some offer no direct support but allow manual implementation via APIs. Understanding how a framework handles networking is crucial for ensuring proper pinning enforcement.

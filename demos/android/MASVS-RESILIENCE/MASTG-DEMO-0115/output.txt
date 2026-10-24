@@ -1,0 +1,12 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-debugger-checks
+          [MASVS-RESILIENCE-4] debugger checks detected.
+                                                        
+           23┆ boolean debuggerConnected = Debug.isDebuggerConnected();
+

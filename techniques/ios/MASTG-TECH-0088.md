@@ -5,7 +5,7 @@ platform: ios
 
 ## iOS Simulator
 
-Apple provides a simulator app within Xcode that provides a _real iOS device-looking_ user interface for iPhone, iPad, or Apple Watch. It allows you to rapidly prototype and test debug builds of your applications during development, but **it is not an emulator**. The difference between a simulator and an emulator is discussed in "[Emulation-based Dynamic Analysis](../../Document/0x04c-Tampering-and-Reverse-Engineering.md#emulation-based-dynamic-analysis "Emulation-based Dynamic Analysis")" section.
+Apple provides a simulator app within Xcode that provides an _iOS device-looking_ user interface for iPhone, iPad, or Apple Watch. It allows you to rapidly prototype and test debug builds of your applications during development, but **it is not an emulator**. The difference between a simulator and an emulator is discussed in @MASTG-KNOW-0112.
 
 While developing and debugging an application, the Xcode toolchain generates x86 code, which can be executed in the iOS simulator. However, for a release build, only ARM code is generated (incompatible with the iOS simulator). That's why applications downloaded from the Apple App Store cannot be used for any application analysis on the iOS simulator.
 

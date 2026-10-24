@@ -145,7 +145,7 @@ Determining whether the app educates users and helps them understand security ne
 
 Other references include:
 
-- Open-Source Licenses in Android - <https://www.bignerdranch.com/blog/open-source-licenses-and-android/>
+- Open-Source Licenses in Android - <https://web.archive.org/web/20241102053331/https://bignerdranch.com/blog/open-source-licenses-and-android/>
 - Software Licenses in Plain English - <https://tldrlegal.com/>
 - Apple's approach to access private data - <https://developer.apple.com/design/human-interface-guidelines/privacy>
 - Android app permissions best practices - <https://developer.android.com/training/permissions/requesting.html#explain>

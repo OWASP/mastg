@@ -1,0 +1,46 @@
+rules:
+  - id: mastg-android-fileprovider-broad-path-scope
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects FileProvider path elements declared with an overly broad scope (path=".").
+      masvs:
+        - MASVS-PLATFORM
+      references:
+        - https://developer.android.com/reference/androidx/core/content/FileProvider#specifying-available-files
+    message: >
+      [MASVS-PLATFORM] FileProvider path element is declared with path=".",
+      which maps the entire corresponding base directory into the provider's
+      addressable namespace. Any file under that directory becomes reachable
+      through FileProvider.getUriForFile(), including secrets or files added
+      later. Narrow the path to a specific subdirectory containing only files
+      intended for sharing (e.g. path="reports/").
+    pattern-either:
+      - pattern: |
+          <files-path ... path="." ... />
+      - pattern: |
+          <cache-path ... path="." ... />
+      - pattern: |
+          <external-path ... path="." ... />
+      - pattern: |
+          <external-files-path ... path="." ... />
+      - pattern: |
+          <external-cache-path ... path="." ... />
+
+  - id: mastg-android-fileprovider-root-path
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects use of <root-path> in FileProvider configuration.
+      masvs:
+        - MASVS-PLATFORM
+      references:
+        - https://developer.android.com/reference/androidx/core/content/FileProvider#specifying-available-files
+    message: >
+      [MASVS-PLATFORM] FileProvider declares <root-path>, which maps the
+      provider root to the device root filesystem ("/"). This scope is far
+      too broad for secure file sharing and should be replaced with a narrower
+      path element such as <files-path> or <cache-path> scoped to a specific
+      subdirectory.
+    pattern: |
+      <root-path ... />

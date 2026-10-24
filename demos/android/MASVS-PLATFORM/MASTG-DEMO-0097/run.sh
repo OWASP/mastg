@@ -1,0 +1,1 @@
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-webview-bridges.yml ./MastgTestWebView_reversed.java --max-lines-per-finding 20 > output.txt

@@ -52,7 +52,7 @@ There are generally two approaches to this: **@MASTG-TOOL-0100** and **@MASTG-TO
 
 ## Intercepting Traffic using Wi-Fi Hotspot / openVPN with Frida
 
-1. Configure using [Wi-Fi hotspot / openVPN](https://blog.nviso.eu/2020/06/12/intercepting-flutter-traffic-on-ios/) method to redirect requests to Burp.
+1. Configure using [Wi-Fi hotspot / openVPN](https://blog.nviso.eu/2022/08/18/intercept-flutter-traffic-on-ios-and-android-http-https-dio-pinning/) method to redirect requests to Burp.
 
 2. Install the @MASTG-APP-0025 on the mobile device.
 

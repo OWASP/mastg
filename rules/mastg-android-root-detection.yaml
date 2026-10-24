@@ -1,0 +1,59 @@
+rules:
+  - id: mastg-android-root-detection-file-checks
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detection of file existence checks commonly used for root detection
+    message: "[MASVS-RESILIENCE-1] The app checks for file existence, which may be part of root detection implementation."
+    pattern: new File($PATH).exists()
+    metavariable-regex:
+      metavariable: $PATH
+      regex: '.*(su|magisk|Superuser\.apk).*'
+
+  - id: mastg-android-root-detection-package-check
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detection of package manager checks that may be used for root detection
+    message: "[MASVS-RESILIENCE-1] The app checks for installed packages, which may be looking for root management apps."
+    pattern: $PM.getPackageInfo($PKG, ...)
+
+  - id: mastg-android-root-detection-test-keys
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detection of test-keys build check for root/custom ROM detection
+    message: "[MASVS-RESILIENCE-1] The app checks Build.TAGS for test-keys, indicating custom ROM or root detection."
+    pattern-either:
+      - pattern: Build.TAGS.contains("test-keys")
+      - patterns:
+          - pattern: $TAGS.contains("test-keys")
+          - pattern-inside: |
+              $TAGS = Build.TAGS;
+              ...
+      - patterns:
+          - pattern: StringsKt.contains$default(..., "test-keys", ...)
+          - pattern-inside: |
+              $TAGS = Build.TAGS;
+              ...
+
+  - id: mastg-android-root-detection-system-properties
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detection of system property checks via getprop
+    message: "[MASVS-RESILIENCE-1] The app reads system properties via getprop, which may be checking for root indicators."
+    pattern-either:
+      - pattern: Runtime.getRuntime().exec("getprop " + $PROP)
+      - pattern: Runtime.getRuntime().exec(new String[] { "getprop", $PROP })
+
+  - id: mastg-android-root-detection-runtime-exec
+    severity: INFO
+    languages: [java]
+    metadata:
+      summary: Detection of Runtime.exec calls that may be used for root detection
+    message: "[MASVS-RESILIENCE-1] The app uses Runtime.exec(), which may be attempting to execute su or other commands for root detection."
+    patterns:
+      - pattern: Runtime.getRuntime().exec($CMD)
+      - pattern-not: Runtime.getRuntime().exec("getprop " + $PROP)
+      - pattern-not: Runtime.getRuntime().exec(new String[] { "getprop", $PROP })

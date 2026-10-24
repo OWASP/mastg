@@ -1,0 +1,13 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                  
+    MastgTestWebView_reversed.java
+    ❯❱ rules.mastg-android-webview-safebrowsing-disabled-code
+          [MASVS-CODE-4] SafeBrowsing is disabled for WebViews in code via setSafeBrowsingEnabled(false). This
+          takes precedence over the AndroidManifest and removes an important security protection against known
+          malicious URLs.                                                                                     
+                                                                                                              
+           26┆ webView.getSettings().setSafeBrowsingEnabled(false);

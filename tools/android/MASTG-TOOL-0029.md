@@ -1,5 +1,5 @@
 ---
-title: objection for Android
+title: objection (Android)
 platform: android
 source: https://github.com/sensepost/objection
 ---

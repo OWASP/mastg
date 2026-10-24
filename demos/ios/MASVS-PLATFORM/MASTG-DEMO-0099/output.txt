@@ -1,0 +1,6 @@
+[+] Hooks deployed successfully.
+[WKPreferences: allowFileAccess] = 1
+[WKWebViewConfig: universalAccess] = 0
+[WKWebView] loadFileURL called
+  fileURL: file:///Users/user/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/028A3B5E-BFE9-4C33-B07F-AA84E9570298/Library/Caches/demoRoot/app/index.html
+  allowingReadAccessTo: file:///Users/user/Library/Developer/CoreSimulator/Devices/196D4426-FBB3-4AD8-B1FA-B09E13C6B6E0/data/Containers/Data/Application/028A3B5E-BFE9-4C33-B07F-AA84E9570298/Library/Caches/demoRoot/

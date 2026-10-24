@@ -46,7 +46,7 @@ The report will be in `build/reports` unless otherwise configured. Use the repor
 
 Please be advised that the plugin requires to download a vulnerability feed. Consult the documentation in case issues arise with the plugin.
 
-Lastly, please note that for hybrid applications, one will have to check the JavaScript dependencies with RetireJS. Similarly for Xamarin, one will have to check the C# dependencies.
+Lastly, please note that for hybrid applications, you will have to check the JavaScript dependencies with RetireJS. Similarly for mobile cross platform frameworks, you will have to check their dependencies.
 
 When a library is found to contain vulnerabilities, then the following reasoning applies:
 

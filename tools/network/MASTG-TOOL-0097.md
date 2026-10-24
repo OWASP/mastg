@@ -4,7 +4,7 @@ platform: network
 source: https://github.com/mitmproxy/mitmproxy/
 ---
 
-[mitmproxy](https://mitmproxy.org/ "mitmproxy") is a free and open source interactive HTTPS intercepting proxy.
+mitmproxy is a free and open source interactive HTTPS intercepting proxy.
 
 - **Command Line**: `mitmdump` is the command-line version of mitmproxy. Think tcpdump for HTTP. It can be used to intercept, inspect, modify and replay web traffic such as HTTP/1, HTTP/2, WebSockets, or any other SSL/TLS-protected protocols. You can prettify and decode a variety of message types ranging from HTML to Protobuf, intercept specific messages on-the-fly, modify them before they reach their destination, and replay them to a client or server later on.
 - **Web Interface**: `mitmweb` is a web-based interface for mitmproxy. It gives you a similar experience as in Chrome's DevTools, plus additional features such as request interception and replay.

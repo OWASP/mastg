@@ -6,14 +6,29 @@ platform: android
 knowledge: [MASTG-KNOW-0018]
 ---
 
-If JavaScript is **not required**, explicitly disable it in WebViews by setting [`setJavaScriptEnabled(false)`](https://developer.android.com/reference/android/webkit/WebSettings.html#setJavaScriptEnabled%28boolean%29).
+Enabling JavaScript is **not a vulnerability by itself**. In real apps it is often required for legitimate functionality, such as rendering modern web applications, interactive account portals, support centers, payment or login flows, or hybrid app content built with web technologies. Frameworks such as Ionic and Capacitor are built around a WebView that runs JavaScript application code, and `react-native-webview` exists specifically to render web content in a native view.
 
-Enabling JavaScript in WebViews **increases the attack surface** and can expose your app to severe security risks, including:
+Android's guidance associates unsafe use of JavaScript enabled WebViews with [cross-app scripting](https://developer.android.com/privacy-and-security/risks/cross-app-scripting). JavaScript does increase the attack surface of a WebView, but severe cases typically happen when it is combined with one or more of the following conditions: loading untrusted or weakly validated content, exposing JavaScript bridges, allowing permissive file or content access, or using unsafe URL loading.
 
-- **[Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/):** Malicious JavaScript can execute within the WebView, leading to session hijacking, credential theft, or defacement.
-- **Data Exfiltration:** WebViews can access sensitive data such as cookies, tokens, or local files (e.g., via `file://` or `content://` URIs when `setAllowFileAccess(true)`, `setAllowFileAccessFromFileURLs(true)`, or `setAllowContentAccess(true)` are enabled) which can be exfiltrated by malicious scripts if `setAllowUniversalAccessFromFileURLs(true)` is set.
-- **Unauthorized Device Access:** JavaScript can be used in conjunction with `addJavascriptInterface` to exploit exposed native Android interfaces, leading to remote code execution (RCE).
+## Keep JavaScript Disabled in WebViews When Not Required
 
-Sometimes this is not possible due to app requirements. In those cases, ensure that you have implemented proper input validation, output encoding, and other security measures.
+JavaScript is [disabled by default in WebViews](https://developer.android.com/develop/ui/views/layout/webapps/webview#EnablingJavaScript). If JavaScript is not required, do not enable it in the first place or [explicitly disable it](https://developer.android.com/privacy-and-security/risks/cross-app-scripting#cross-app-scripting-disable-javascript) in WebViews with [`setJavaScriptEnabled(false)`](https://developer.android.com/reference/android/webkit/WebSettings.html#setJavaScriptEnabled%28boolean%29).
 
-Note: sometimes you may want to use alternatives to regular WebViews, such as [Trusted Web Activities](https://developer.android.com/guide/topics/app-bundle/trusted-web-activities) or [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/), which provide a more secure way to display web content in your app. In those cases, JavaScript is handled within the browser environment, which benefits from the latest security updates, sandboxing, and mitigations against common web vulnerabilities such as Cross-Site Scripting (XSS) and Machine-in-the-Middle (MITM) attacks.
+- Keep JavaScript disabled for WebViews that only display static or minimally interactive content. Good candidates include static help pages, legal text, release notes, or other controlled content that does not need client-side scripting.
+- Only enable JavaScript when the WebView is intentionally used to run trusted web application logic. Good candidates include hybrid app screens, complex internal web apps, single-page applications, and web-based user experiences that depend on JavaScript to render or function.
+
+## Use Alternatives to WebViews for External Content When Feasible
+
+If you only need to open external web content, consider using [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/overview/) instead of embedding a WebView. If you are shipping a web app you control, [Trusted Web Activities](https://developer.android.com/develop/ui/views/layout/webapps/trusted-web-activities) may also be appropriate. These options move rendering into the browser context rather than your app's WebView, which can reduce app specific WebView risk. They do not remove the need to secure the web content itself.
+
+Custom Tabs are especially appropriate for authentication and other browser-based flows because Android recommends them for sign-in, noting that the host app cannot inspect the content. Trusted Web Activities also prevent the host app from having direct access to web content or web state such as cookies and `localStorage`.
+
+## Hardening WebViews When JavaScript Is Required
+
+If JavaScript is required, apply WebView specific hardening measures, covered in related MASTG best practices, to mitigate the increased attack surface. This includes, but is not limited to:
+
+- Only load expected and allowlisted origins.
+- Validate scheme and host before calling `loadUrl`, `shouldOverrideUrlLoading`, or similar APIs.
+- Disable file and content access unless they are strictly needed (@MASTG-BEST-0011 and @MASTG-BEST-0013).
+- Avoid exposing JavaScript bridges to untrusted content (@MASTG-BEST-0035).
+- Enable Safe Browsing where supported by the WebView implementation, for example by calling [`WebSettings.setSafeBrowsingEnabled(true)`](https://developer.android.com/reference/android/webkit/WebSettings#setSafeBrowsingEnabled(boolean)) (available since Android 8.0, API level 26).

@@ -1,0 +1,17 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                              
+    ../MASTG-DEMO-0090/MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-invalidated-enrollment
+          [MASVS-AUTH-2] Key configured with setInvalidatedByBiometricEnrollment(false). For sensitive    
+          operations, keys should be invalidated when biometric enrollment changes to prevent unauthorized
+          access by newly enrolled biometrics.                                                            
+                                                                                                          
+           52┆ keyGenerator.init(new KeyGenParameterSpec.Builder(this.KEY_NAME, 3).setBlockModes("GCM").se
+               tEncryptionPaddings("NoPadding").setUserAuthenticationRequired(false).setInvalidatedByBiome
+               tricEnrollment(false).setUserAuthenticationParameters(86400,                               
+               0).setUserAuthenticationValidityDurationSeconds(86400).build());                           
+

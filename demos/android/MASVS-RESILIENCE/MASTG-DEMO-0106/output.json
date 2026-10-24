@@ -1,0 +1,116 @@
+{
+    "type": "summary",
+    "hooks": [
+        {
+            "class": "javax.crypto.Cipher",
+            "method": "doFinal",
+            "overloads": [
+                {
+                    "args": [
+                        "java.nio.ByteBuffer",
+                        "java.nio.ByteBuffer"
+                    ]
+                },
+                {
+                    "args": [
+                        "[B",
+                        "int"
+                    ]
+                },
+                {
+                    "args": [
+                        "[B",
+                        "int",
+                        "int",
+                        "[B"
+                    ]
+                },
+                {
+                    "args": [
+                        "[B",
+                        "int",
+                        "int",
+                        "[B",
+                        "int"
+                    ]
+                },
+                {
+                    "args": []
+                },
+                {
+                    "args": [
+                        "[B"
+                    ]
+                },
+                {
+                    "args": [
+                        "[B",
+                        "int",
+                        "int"
+                    ]
+                }
+            ]
+        }
+    ],
+    "totalHooks": 7,
+    "errors": [],
+    "totalErrors": 0
+}
+{
+    "id": "292363a7-8955-4051-9855-fed077c7226f",
+    "type": "hook",
+    "category": "CRYPTO",
+    "time": "2026-02-09T14:00:41.068Z",
+    "class": "javax.crypto.Cipher",
+    "method": "doFinal",
+    "instanceId": 55738552,
+    "stackTrace": [
+        "javax.crypto.Cipher.doFinal(Native Method)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:48)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1119)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "[B",
+            "value": "sk-OWASP-MAS-SuperSecretKey-1234567890"
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "[B",
+            "value": "0x8bd458cea5ccefd16f2ea6b7604d9e9aa65ca5cf8918b60ce36eb3d1890bb58a447134c8c3d5724984e7cd3eb2e794262ad22273e741..."
+        }
+    ]
+}
+{
+    "id": "f5b1e085-e2c0-4778-93e2-d3f30bc03438",
+    "type": "hook",
+    "category": "CRYPTO",
+    "time": "2026-02-09T14:00:41.074Z",
+    "class": "javax.crypto.Cipher",
+    "method": "doFinal",
+    "instanceId": 61410961,
+    "stackTrace": [
+        "javax.crypto.Cipher.doFinal(Native Method)",
+        "org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:58)",
+        "org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$12$lambda$11(MainActivity.kt:101)",
+        "org.owasp.mastestapp.MainActivityKt.$r8$lambda$Pm6AsbKBmypP53K-UABM21E_Xxk(Unknown Source:0)",
+        "org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)",
+        "java.lang.Thread.run(Thread.java:1119)"
+    ],
+    "inputParameters": [
+        {
+            "declaredType": "[B",
+            "value": "0x8bd458cea5ccefd16f2ea6b7604d9e9aa65ca5cf8918b60ce36eb3d1890bb58a447134c8c3d5724984e7cd3eb2e794262ad22273e741..."
+        }
+    ],
+    "returnValue": [
+        {
+            "declaredType": "[B",
+            "value": "sk-OWASP-MAS-SuperSecretKey-1234567890"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                
+    AndroidManifest_reversed.xml
+     ❱ rules.mastg-android-system-alert-window-permission
+          [MASVS-PLATFORM-3] SYSTEM_ALERT_WINDOW permission is declared, enabling the app to draw overlays
+          over other apps                                                                                 
+                                                                                                          
+           14┆ <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+

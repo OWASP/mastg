@@ -1,5 +1,5 @@
 ---
-title: MobSF for iOS
+title: MobSF (iOS)
 platform: ios
 source: https://github.com/MobSF/Mobile-Security-Framework-MobSF
 ---

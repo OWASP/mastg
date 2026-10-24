@@ -1,0 +1,39 @@
+[+] connect() hooked: filtering Frida D-Bus ports
+[+] CCCrypt hooked: extracting sensitive cryptographic data
+[*] Blocking connect() to localhost:27042
+[*] Blocking connect() to localhost:27042
+
+[*] CCCrypt called
+    Operation: kCCEncrypt
+    Algorithm: kCCAlgorithmAES
+    Input: sk-OWASP-MAS-SuperSecretKey-1234567890
+    Return status: 0
+    Output: 0xd83622ca61af7dd4b1ba514a2ab2dc21d4b0a4ac7362bddeea3411f5708b13f5369f4e3a6a547afe02bf844af5fc0d24
+
+Backtrace:
+0x1007cfe2c MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1007d0a9c MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)
+0x1007cfc38 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1007d0a20 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)
+[*] Blocking connect() to localhost:27042
+
+[*] CCCrypt called
+    Operation: kCCDecrypt
+    Algorithm: kCCAlgorithmAES
+    Input: 0xd83622ca61af7dd4b1ba514a2ab2dc21d4b0a4ac7362bddeea3411f5708b13f5369f4e3a6a547afe02bf844af5fc0d24
+    Return status: 0
+    Output: sk-OWASP-MAS-SuperSecretKey-1234567890
+
+Backtrace:
+0x1007cfe2c MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1007d0a9c MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)
+0x1007cfc38 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1007d0a20 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)

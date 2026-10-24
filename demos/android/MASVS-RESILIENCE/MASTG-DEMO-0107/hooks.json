@@ -1,0 +1,11 @@
+{
+  "category": "CRYPTO",
+  "hooks": [
+    {
+      "class": "javax.crypto.Cipher",
+      "methods": [
+        "doFinal"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+rules:
+  - id: mastg-android-provider-permission-protected
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects provider-level permission protection on a ContentProvider.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] The ContentProvider declares permission protection.
+      Verify that the permission strength matches the intended trust boundary.
+    pattern-either:
+      - pattern: |
+          <provider ... android:permission="$PERM" ... />
+      - pattern: |
+          <provider ... android:readPermission="$PERM" ... />
+      - pattern: |
+          <provider ... android:writePermission="$PERM" ... />
+
+  - id: mastg-android-provider-exported-without-permissions
+    languages: [xml]
+    severity: WARNING
+    metadata:
+      summary: Detects an exported ContentProvider without any read or write permission enforcement.
+      masvs:
+        - MASVS-PLATFORM
+    message: >
+      [MASVS-PLATFORM] The ContentProvider is exported without
+      android:readPermission, android:writePermission, or android:permission,
+      allowing any app on the device to access it without restriction.
+    patterns:
+      - pattern: <provider ... android:exported="true" ... />
+      - pattern-not: <provider ... android:permission="$PERM" ... />
+      - pattern-not: <provider ... android:readPermission="$PERM" ... />
+      - pattern-not: <provider ... android:writePermission="$PERM" ... />

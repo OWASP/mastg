@@ -2,10 +2,9 @@
 title: References to Screen Capturing Prevention APIs
 platform: android
 id: MASTG-TEST-0291
-type: [static]
-profiles: [L2]
+type: [static, code]
 best-practices: [MASTG-BEST-0014]
-weakness: MASWE-0055
+maswe: [MASWE-0038]
 knowledge: [MASTG-KNOW-0053]
 ---
 
@@ -17,7 +16,8 @@ Developers typically apply the flag with [`addFlags()`](https://developer.androi
 
 ## Steps
 
-1. Run a static analysis (@MASTG-TECH-0014) tool to identify instances of the relevant APIs.
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
 
 ## Observation
 

@@ -9,6 +9,9 @@ title: Testing Confirm Credentials
 masvs_v1_levels:
 - L2
 profiles: [L2]
+status: deprecated
+covered_by: ['MASTG-TEST-0327', 'MASTG-TEST-0330']
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview

@@ -5,7 +5,7 @@ source: https://github.com/cpholguera/frooky
 hosts: [ windows, linux, macOS ]
 ---
 
-[Frooky](https://github.com/cpholguera/frooky "Frooky on GitHub") is a Frida-based dynamic analysis tool for Android and iOS applications. It enables security researchers to instrument mobile apps using JSON-based hook configurations, providing a declarative approach to method interception without writing custom Frida scripts.
+Frooky is a Frida-based dynamic analysis tool for Android and iOS applications. It enables security researchers to instrument mobile apps using JSON-based hook configurations, providing a declarative approach to method interception without writing custom Frida scripts.
 
 ## Capabilities
 

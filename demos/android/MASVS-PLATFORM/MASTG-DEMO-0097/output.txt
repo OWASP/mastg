@@ -1,0 +1,64 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                                  
+    MastgTestWebView_reversed.java
+    ❯❱ rules.mastg-android-webview-bridges-javascriptinterface
+          [MASVS-PLATFORM-2] Method is exposed to JavaScript via @JavascriptInterface
+                                                                                     
+           37┆ @JavascriptInterface
+           38┆ public final String getUserProfileJson() throws JSONException {
+           39┆     String name = MastgTestWebView.this.prefs.getString(HintConstants.AUTOFILL_HINT_NAME,
+               "");                                                                                     
+           40┆     if (name == null) {
+           41┆         name = "";
+           42┆     }
+           43┆     String email = MastgTestWebView.this.prefs.getString(NotificationCompat.CATEGORY_EMAIL,
+               "");                                                                                       
+           44┆     if (email == null) {
+           45┆         email = "";
+           46┆     }
+           47┆     String string = MastgTestWebView.this.prefs.getString("jwt", "");
+           48┆     String jwt = string != null ? string : "";
+           49┆     JSONObject $this$getUserProfileJson_u24lambda_u240 = new JSONObject();
+           50┆     $this$getUserProfileJson_u24lambda_u240.put(HintConstants.AUTOFILL_HINT_NAME, name);
+           51┆     $this$getUserProfileJson_u24lambda_u240.put(NotificationCompat.CATEGORY_EMAIL, email);
+           52┆     $this$getUserProfileJson_u24lambda_u240.put("jwt", jwt);
+           53┆     String string2 = $this$getUserProfileJson_u24lambda_u240.toString();
+           54┆     Intrinsics.checkNotNullExpressionValue(string2, "toString(...)");
+           55┆     return string2;
+           56┆ }
+            ⋮┆----------------------------------------
+           58┆ @JavascriptInterface
+           59┆ public final String submitSupportMessage(String email, String message) throws JSONException
+               {                                                                                          
+           60┆     Intrinsics.checkNotNullParameter(email, "email");
+           61┆     Intrinsics.checkNotNullParameter(message, "message");
+           62┆     JSONObject $this$submitSupportMessage_u24lambda_u241 = new JSONObject();
+           63┆     $this$submitSupportMessage_u24lambda_u241.put(NotificationCompat.CATEGORY_STATUS,
+               "ok");                                                                               
+           64┆     $this$submitSupportMessage_u24lambda_u241.put(NotificationCompat.CATEGORY_EMAIL,
+               email);                                                                             
+           65┆     $this$submitSupportMessage_u24lambda_u241.put("message", message);
+           66┆     String string = $this$submitSupportMessage_u24lambda_u241.toString();
+           67┆     Intrinsics.checkNotNullExpressionValue(string, "toString(...)");
+           68┆     return string;
+           69┆ }
+            ⋮┆----------------------------------------
+           71┆ @JavascriptInterface
+           72┆ public final void updateSupportPreference(String value) {
+           73┆     Intrinsics.checkNotNullParameter(value, "value");
+           74┆     SharedPreferences $this$edit_u24default$iv = MastgTestWebView.this.prefs;
+           75┆     SharedPreferences.Editor editor$iv = $this$edit_u24default$iv.edit();
+           76┆     editor$iv.putString("support_preference", value);
+           77┆     editor$iv.apply();
+           78┆ }
+   
+    ❯❱ rules.mastg-android-webview-bridges-setup
+          [MASVS-PLATFORM-2] WebView has JavaScript enabled and a native bridge is registered via
+          addJavascriptInterface()                                                               
+                                                                                                 
+           85┆ webView.addJavascriptInterface(new SupportBridge(), "MASBridge");
+

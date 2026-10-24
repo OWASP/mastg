@@ -1,0 +1,16 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                              
+    ../MASTG-DEMO-0090/MastgTest_reversed.java
+    ❯❱ rules.mastg-android-biometric-no-confirmation-required
+          [MASVS-AUTH-3] BiometricPrompt allows authentication without explicit user confirmation. For
+          sensitive operations, consider using setConfirmationRequired(true).                         
+                                                                                                      
+           82┆ final BiometricPrompt prompt1 = new BiometricPrompt.Builder(this.context).setTitle("Test 1:
+               No CryptoObject").setSubtitle("Insecure: No cryptographic binding").setDescription("Secret 
+               returned directly without CryptoObject                                                     
+               protection").setAllowedAuthenticators(32783).setConfirmationRequired(false).build();       
+

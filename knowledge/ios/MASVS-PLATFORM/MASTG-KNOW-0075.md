@@ -75,7 +75,7 @@ guard let customPoint = NSKeyedUnarchiver.unarchiveObjectWithFile("/path/to/arch
 
 When decoding a keyed archive, because values are requested by name, values can be decoded out of sequence or not at all. Keyed archives, therefore, provide better support for forward and backward compatibility. This means that an archive on disk could actually contain additional data which is not detected by the program, unless the key for that given data is provided at a later stage.
 
-Note that additional protection needs to be in place to secure the file in case of confidential data, as the data is not encrypted within the file. See the chapter ["Data Storage on iOS"](0x06d-Testing-Data-Storage.md) for more details.
+Note that additional protection needs to be in place to secure the file in case of confidential data, as the data is not encrypted within the file. See the chapter ["Data Storage on iOS"](../../../Document/0x06d-Testing-Data-Storage.md) for more details.
 
 ## Codable
 
@@ -133,7 +133,7 @@ let stringData = String(data: data, encoding: .utf8)
 // })
 ```
 
-JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on iOS"](0x06d-Testing-Data-Storage.md) for more details.
+JSON itself can be stored anywhere, e.g., a (NoSQL) database or a file. You just need to make sure that any JSON that contains secrets has been appropriately protected (e.g., encrypted/HMACed). See the chapter ["Data Storage on iOS"](../../../Document/0x06d-Testing-Data-Storage.md) for more details.
 
 ## Property Lists and Codable
 

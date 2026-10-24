@@ -2,18 +2,17 @@
 platform: android
 title: Identify Dependencies with Known Vulnerabilities in the Android Project
 id: MASTG-TEST-0272
-type: [static]
-weakness: MASWE-0076
-profiles: [L1, L2]
+type: [static, code]
+maswe: [MASWE-0044]
 ---
 
 ## Overview
 
-In this test case we will identify dependencies in Android Studio and scan them with @MASTG-TOOL-0131.
+In this test case we will identify dependencies in Android Studio.
 
 ## Steps
 
-1. Follow @MASTG-TECH-0131 and execute a scan through the build environment of Android Studio by using Gradle.
+1. Use @MASTG-TECH-0131 to scan through the build environment of Android Studio by using Gradle.
 
 ## Observation
 

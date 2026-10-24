@@ -3,7 +3,7 @@ title: RootCloak Plus
 platform: android
 source: https://github.com/devadvance/rootcloakplus
 status: deprecated
-covered_by: [MASTG-TOOL-0142]
+covered_by: [MASTG-TOOL-0029]
 ---
 
-A Cydia Substrate Module used to check for commonly known indications of root - <https://github.com/devadvance/rootcloakplus>
+RootCloak Plus is a Cydia Substrate Module used to check for commonly known indications of root

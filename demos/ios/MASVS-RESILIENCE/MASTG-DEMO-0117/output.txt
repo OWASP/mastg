@@ -1,0 +1,35 @@
+[+] CCCrypt hooked: extracting sensitive cryptographic data
+
+[*] CCCrypt called
+    Operation: kCCEncrypt
+    Algorithm: kCCAlgorithmAES
+    Input: sk-OWASP-MAS-SuperSecretKey-1234567890
+    Return status: 0
+    Output: 0xcc2b9758f2c54f40c950c980d380804530a86f51b2e9ada2317aef5d0741b94a32c421e365ce47229349f313aed40d0b
+
+Backtrace:
+0x104689934 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x104689b84 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)
+0x104689740 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x104689b08 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)
+
+[*] CCCrypt called
+    Operation: kCCDecrypt
+    Algorithm: kCCAlgorithmAES
+    Input: 0xcc2b9758f2c54f40c950c980d380804530a86f51b2e9ada2317aef5d0741b94a32c421e365ce47229349f313aed40d0b
+    Return status: 0
+    Output: sk-OWASP-MAS-SuperSecretKey-1234567890
+
+Backtrace:
+0x104689934 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x104689b84 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)
+0x104689740 MASTestApp.debug.dylib!closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x104689b08 MASTestApp.debug.dylib!partial apply for closure #1 in closure #1 in closure #1 in static MastgTest.crypt(operation:data:key:iv:)
+0x1c7a19f50 Foundation!Data.InlineSlice.withUnsafeBytes<A>(_:)
+0x1c7a13ed4 Foundation!Data.withUnsafeBytes<A>(_:)

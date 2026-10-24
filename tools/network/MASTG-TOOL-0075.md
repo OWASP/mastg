@@ -1,7 +1,7 @@
 ---
-title: Android tcpdump
+title: tcpdump (Android)
 platform: network
 source: https://www.androidtcpdump.com
 ---
 
-A command line packet capture utility for Android.
+tcpdump (Android) is an Android-specific build of @MASTG-TOOL-0080.

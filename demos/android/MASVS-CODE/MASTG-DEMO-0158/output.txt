@@ -1,0 +1,20 @@
+[*] Hooking WebViewClient URL loading handlers...
+[*] WebViewClient hooks installed successfully
+
+[*] setWebViewClient called
+    WebViewClient implementation: org.owasp.mastestapp.MastgTestWebView$mastgTest$2
+    [!] Overrides shouldInterceptRequest (custom URL handling)
+    [!] Overrides shouldOverrideUrlLoading (custom URL handling)
+
+[shouldInterceptRequest] URL: https://mas.owasp.org/
+    URL inspection during handler: NONE (no host/scheme/path check -> no validation)
+    -> default loading (no validation)
+
+[*] setWebViewClient called
+    WebViewClient implementation: org.owasp.mastestapp.MastgTestWebView$mastgTest$2
+    [!] Overrides shouldInterceptRequest (custom URL handling)
+    [!] Overrides shouldOverrideUrlLoading (custom URL handling)
+
+[shouldInterceptRequest] URL: https://mas.owasp.org/
+    URL inspection during handler: NONE (no host/scheme/path check -> no validation)
+    -> default loading (no validation)

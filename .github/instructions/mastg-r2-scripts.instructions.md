@@ -43,6 +43,7 @@ Notes
 - Be explicit and quiet:
     - Start with `e scr.color=0` and `e scr.interactive=false` to keep logs clean and deterministic.
     - Disable ASCII art and hints if present: `e scr.utf8=0`, `e scr.ansi=false` (only if needed).
+    - Always include `e bin.relocs.apply=true` in the script (not in `run.sh`) to ensure relocations are applied consistently across environments.
 - Analyze narrowly and only as needed to keep runtime fast and stable:
     - Prefer targeted analysis commands (for example, `axt @ <addr>`, `afl~<sym>`) over full `aaa` unless required.
     - When using full analysis, document why and consider `aa`/`aaa` caps for speed.

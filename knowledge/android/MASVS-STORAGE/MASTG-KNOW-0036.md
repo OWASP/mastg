@@ -4,9 +4,19 @@ platform: android
 title: Shared Preferences
 ---
 
-The [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences "Shared Preferences") API is commonly used to permanently save small collections of key-value pairs.
+!!! warning
 
-Since Android 4.2 (API level 17) the `SharedPreferences` object can only be declared to be private (and not world-readable, i.e. accessible to all apps). However, since data stored in a `SharedPreferences` object is written to a plain-text XML file so its misuse can often lead to exposure of sensitive data.
+    Android recommends [`DataStore`](https://developer.android.com/topic/libraries/architecture/datastore) as a modern replacement for `SharedPreferences`. See @MASTG-BEST-0050 for more information.
+
+The [`SharedPreferences`](https://developer.android.com/training/data-storage/shared-preferences "Shared Preferences") API is commonly used to persist small collections of key-value pairs in the app's sandbox storage.
+
+Since Android 4.2 (API level 17), the `MODE_WORLD_READABLE` and `MODE_WORLD_WRITEABLE` flags for `SharedPreferences` have been deprecated because they allow other apps to access the created file. Starting with Android 7.0 (API level 24), using either flag throws a [`SecurityException`](https://developer.android.com/reference/java/lang/SecurityException).
+
+Use `SharedPreferences` in private mode by calling `getSharedPreferences` with `Context.MODE_PRIVATE`. See ["Use SharedPreferences in private mode"](https://developer.android.com/privacy-and-security/security-best-practices#sharedpreferences).
+
+When private mode is used, the XML file containing the key-value data is stored with permissions that restrict access to the app's own Linux user ID. Under the normal Android app sandbox, other apps cannot read this file directly.
+
+However, private mode does not encrypt the data. The values are still written in plaintext in the XML file.
 
 Consider the following example:
 
@@ -18,9 +28,7 @@ editor.putString("password", "supersecret")
 editor.commit()
 ```
 
-Once the activity has been called, the file key.xml will be created with the provided data. This code violates several best practices.
-
-- The username and password are stored in clear text in `/data/data/<package-name>/shared_prefs/key.xml`.
+Once the activity has been called, the file `key.xml` will be created, meaning that the username and password are stored in cleartext in `/data/data/<package-name>/shared_prefs/key.xml`:
 
 ```xml
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
@@ -30,32 +38,10 @@ Once the activity has been called, the file key.xml will be created with the pro
 </map>
 ```
 
-`MODE_PRIVATE` makes the file only accessible by the calling app. See ["Use SharedPreferences in private mode"](https://developer.android.com/privacy-and-security/security-best-practices#sharedpreferences).
+[`EncryptedSharedPreferences`](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) is a `SharedPreferences` wrapper from the Jetpack Security Crypto library. It encrypts preference keys with `AES256_SIV`, a deterministic Authenticated Encryption with Associated Data (AEAD) scheme, and preference values with `AES256_GCM`, an AEAD scheme, before writing them to disk. See the [`EncryptedSharedPreferences` source code](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:security/security-crypto/src/main/java/androidx/security/crypto/EncryptedSharedPreferences.java) for implementation details.
 
-> Other insecure modes exist, such as `MODE_WORLD_READABLE` and `MODE_WORLD_WRITEABLE`, but they have been deprecated since Android 4.2 (API level 17) and [removed in Android 7.0 (API Level 24)](https://developer.android.com/reference/android/os/Build.VERSION_CODES#N). Therefore, only apps running on an older OS version (`android:minSdkVersion` less than 17) will be affected. Otherwise, Android will throw a [SecurityException](https://developer.android.com/reference/java/lang/SecurityException). If an app needs to share private files with other apps, it is best to use a [FileProvider](https://developer.android.com/reference/androidx/core/content/FileProvider) with the [FLAG_GRANT_READ_URI_PERMISSION](https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_READ_URI_PERMISSION). See [Sharing Files](https://developer.android.com/training/secure-file-sharing) for more details.
+!!! warning
 
-You might also use [`EncryptedSharedPreferences`](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences), which is wrapper of `SharedPreferences` that automatically encrypts all data stored to the shared preferences.
+    The **Jetpack Security Crypto library**, including the `EncryptedFile` and `EncryptedSharedPreferences` classes, has been [deprecated](https://developer.android.com/privacy-and-security/cryptography#jetpack_security_crypto_library). All APIs in the library were deprecated in stable version `1.1.0`, and Android states that there will be no subsequent releases. For existing apps that must continue using `SharedPreferences` for sensitive data, `EncryptedSharedPreferences` may still be a practical mitigation, but it should not be treated as a long term storage strategy. Monitor Android's cryptography and DataStore guidance, and plan a migration to a supported encryption approach when available.
 
-!!! Warning
-
-    The **Jetpack security crypto library**, including the `EncryptedFile` and  `EncryptedSharedPreferences` classes, has been [deprecated](https://developer.android.com/privacy-and-security/cryptography#jetpack_security_crypto_library). However, since an official replacement has not yet been released, we recommend using these classes until one is available.
-
-```kotlin
-var masterKey: MasterKey? = null
-masterKey = Builder(this)
-    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-    .build()
-
-val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
-    this,
-    "secret_shared_prefs",
-    masterKey,
-    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-)
-
-val editor = sharedPreferences.edit()
-editor.putString("username", "administrator")
-editor.putString("password", "supersecret")
-editor.commit()
-```
+When using `EncryptedSharedPreferences`, exclude the encrypted preference file from Auto Backup. Android's API reference warns that restoring the file may fail because the key used to encrypt it might no longer be available.

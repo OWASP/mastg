@@ -1,0 +1,12 @@
+--- a/MastgTest.swift
++++ b/MastgTest.swift
+@@ -62,7 +62,8 @@
+         </html>
+         <script>
+             const name = new URLSearchParams(window.location.search).get('username');
+-            document.getElementById('username').innerHTML = name;
++            // PASS: [MASTG-TEST-0332] textContent treats the value as plain text, preventing HTML injection and unintended navigation.
++            document.getElementById('username').textContent = name;
+         </script>
+         """
+         try? htmlContent.write(to: fileURL, atomically: true, encoding: .utf8)

@@ -1,0 +1,68 @@
+rules:
+  - id: mastg-android-overlay-protection-setfiltertoucheswhenobscured
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects usage of setFilterTouchesWhenObscured method for overlay attack protection
+    message: "[MASVS-PLATFORM-3] setFilterTouchesWhenObscured is used to protect against overlay attacks"
+    pattern: $VIEW.setFilterTouchesWhenObscured(...)
+
+  - id: mastg-android-overlay-protection-onfiltertoucheventforsecurity
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects overriding of onFilterTouchEventForSecurity for custom overlay protection
+    message: "[MASVS-PLATFORM-3] onFilterTouchEventForSecurity is overridden for custom overlay protection"
+    pattern: |
+      public boolean onFilterTouchEventForSecurity(...) { ... }
+
+  - id: mastg-android-overlay-protection-flag-window-is-obscured
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects checks for FLAG_WINDOW_IS_OBSCURED flag to detect overlay attacks
+    message: "[MASVS-PLATFORM-3] FLAG_WINDOW_IS_OBSCURED is checked to detect overlay attacks"
+    pattern-either:
+      - pattern: $EVENT.getFlags() & MotionEvent.FLAG_WINDOW_IS_OBSCURED
+      - pattern: ($EVENT.getFlags() & MotionEvent.FLAG_WINDOW_IS_OBSCURED) != 0
+
+  - id: mastg-android-overlay-protection-flag-window-is-partially-obscured
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects checks for FLAG_WINDOW_IS_PARTIALLY_OBSCURED flag to detect overlay attacks
+    message: "[MASVS-PLATFORM-3] FLAG_WINDOW_IS_PARTIALLY_OBSCURED is checked to detect overlay attacks"
+    pattern-either:
+      - pattern: $EVENT.getFlags() & MotionEvent.FLAG_WINDOW_IS_PARTIALLY_OBSCURED
+      - pattern: ($EVENT.getFlags() & MotionEvent.FLAG_WINDOW_IS_PARTIALLY_OBSCURED) != 0
+
+  - id: mastg-android-overlay-protection-xml-attribute
+    severity: INFO
+    languages:
+      - xml
+    metadata:
+      summary: Detects filterTouchesWhenObscured attribute in layout XML files
+    message: "[MASVS-PLATFORM-3] android:filterTouchesWhenObscured attribute is used to protect against overlay attacks"
+    pattern: android:filterTouchesWhenObscured="true"
+
+  - id: mastg-android-overlay-protection-sethideoverlaywindows
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects usage of setHideOverlayWindows to prevent overlay windows from appearing over the activity
+    message: "[MASVS-PLATFORM-3] setHideOverlayWindows is used to prevent overlay windows from appearing over this window"
+    pattern: $WINDOW.setHideOverlayWindows(...)
+
+  - id: mastg-android-overlay-protection-hide-overlay-windows-permission
+    severity: INFO
+    languages:
+      - xml
+    metadata:
+      summary: Detects HIDE_OVERLAY_WINDOWS permission in the manifest, required for setHideOverlayWindows
+    message: "[MASVS-PLATFORM-3] HIDE_OVERLAY_WINDOWS permission is declared, required to use setHideOverlayWindows"
+    pattern: android:name="android.permission.HIDE_OVERLAY_WINDOWS"

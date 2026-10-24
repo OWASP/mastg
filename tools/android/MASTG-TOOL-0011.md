@@ -4,7 +4,7 @@ platform: android
 source: https://github.com/iBotPeaches/Apktool
 ---
 
-[Apktool](https://github.com/iBotPeaches/Apktool) is used to unpack Android app packages (APKs). Simply unzipping APKs with the standard `unzip` utility leaves some files unreadable. `AndroidManifest.xml` is encoded into binary XML format, which isn't readable with a text editor. Also, the app resources are still packaged into a single archive file.
+Apktool is used to unpack Android app packages (APKs). Simply unzipping APKs with the standard `unzip` utility leaves some files unreadable. `AndroidManifest.xml` is encoded into binary XML format, which isn't readable with a text editor. Also, the app resources are still packaged into a single archive file.
 
 When run with default command line flags, apktool automatically decodes the Android Manifest file to text-based XML format and extracts the file resources (it also disassembles the .DEX files to smali code - a feature that we'll revisit later in this book).
 

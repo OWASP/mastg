@@ -1,0 +1,51 @@
+List all uses of the 'addScriptMessageHandler:name:' selector:
+0x0001342e 30 str.addScriptMessageHandler:name:
+0x0001c2e0 8 reloc.fixup.addScriptMessageHandler:name:
+
+xrefs to 'addScriptMessageHandler:name:':
+sym.MASTestApp.MastgTest.showWebView._6E8AB2C58CE173A727EF27CB85DF8CD8.completion_...FZ_ 0x1eac [DATA:r--] ldr x1, reloc.fixup.addScriptMessageHandler:name:
+
+Code snippet containing the bridge registration call:
+│           0x00001e5c      bl sym.MASTestApp.SecretBridgeHandler.allocator._...cfC_ ; func.00001a94
+│           0x00001e60      stur x0, [x29, -0xe0]
+│           0x00001e64      adrp x0, 0x14000
+│           0x00001e68      add x0, x0, 0x98d                          ; 0x1498d ; "bridge"
+│           0x00001e6c      mov w8, 6
+│           0x00001e70      mov x1, x8
+│           0x00001e74      mov w8, 1
+│           0x00001e78      stur w8, [x29, -0x8c]
+│           0x00001e7c      and w2, w8, 1
+│           0x00001e80      bl sym.imp._builtinStringLiteral.utf8CodeUnitCount.isASCII__String:_Builtin.Word__B_...cfC_ ; _builtinStringLiteral.utf8CodeUnitCount.isASCII__String: Builtin.Word, B(...cfC)
+│           0x00001e84      stur x1, [x29, -0xf0]
+│           0x00001e88      bl sym.imp.Foundationbool_...ridgeToObjectiveCSo8NSStringCyF_ ; Foundationbool(...ridgeToObjectiveCSo8NSStringCyF)
+│           0x00001e8c      mov x1, x0
+│           0x00001e90      ldur x0, [x29, -0xf0]                      ; void *arg0
+│           0x00001e94      stur x1, [x29, -0xe8]
+│           0x00001e98      bl sym.imp.swift_bridgeObjectRelease       ; void swift_bridgeObjectRelease(void *arg0)
+│           0x00001e9c      ldur x3, [x29, -0xe8]
+│           0x00001ea0      ldur x2, [x29, -0xe0]
+│           0x00001ea4      ldur x0, [x29, -0xd8]                      ; void *instance
+│           0x00001ea8      adrp x8, sym.__PROTOCOLS__TtC10MASTestApp19SecretBridgeHandler ; 0x1c000
+│           0x00001eac      ldr x1, [x8, 0x2e0]                        ; [0x1342e:8]=0x7069726353646461 ; "addScriptMessageHandler:name:" ; char *selector
+│           0x00001eb0      bl sym.imp.objc_msgSend                    ; void *objc_msgSend(void *instance, char *selector)
+│           0x00001eb4      ldur x0, [x29, -0xe8]
+│           0x00001eb8      adrp x8, segment.__DATA_CONST              ; 0x18000
+│           0x00001ebc      ldr x8, [x8, 0x108]                        ; [0x18108:8]=0
+│                                                                      ; reloc.objc_release
+│           0x00001ec0      blr x8
+│           0x00001ec4      ldur x0, [x29, -0xe0]
+│           0x00001ec8      bl sym.imp.swift_unknownObjectRelease
+│           0x00001ecc      ldur x0, [x29, -0xd8]
+│           0x00001ed0      adrp x8, segment.__DATA_CONST              ; 0x18000
+│           0x00001ed4      ldr x8, [x8, 0x108]                        ; [0x18108:8]=0
+│                                                                      ; reloc.objc_release
+│           0x00001ed8      blr x8
+│           0x00001edc      ldur x0, [x29, -0xa8]                      ; int64_t arg_20h
+│           0x00001ee0      bl sym....sSo9WKWebViewCMa                 ; func.00002ec0
+│           0x00001ee4      mov x20, x0
+│           0x00001ee8      ldur x0, [x29, -0xd0]
+│           0x00001eec      adrp x8, segment.__DATA_CONST              ; 0x18000
+│           0x00001ef0      ldr x8, [x8, 0x110]                        ; [0x18110:8]=0
+│                                                                      ; reloc.objc_retain
+│           0x00001ef4      blr x8
+│           0x00001ef8      ldur x0, [x29, -0xd0]                      ; int64_t arg1

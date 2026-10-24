@@ -2,9 +2,8 @@
 title: Cleartext Traffic Observed on the Network
 platform: network
 id: MASTG-TEST-0236
-type: [dynamic]
-weakness: MASWE-0050
-profiles: [L1, L2]
+type: [dynamic, network]
+maswe: [MASWE-0026]
 ---
 
 ## Overview
@@ -31,7 +30,7 @@ You can use one of the following approaches:
 
 ## Observation
 
-The output contains the captured network traffic.
+The output should contain the captured network traffic.
 
 ## Evaluation
 

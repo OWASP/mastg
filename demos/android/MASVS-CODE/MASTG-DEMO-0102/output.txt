@@ -1,0 +1,15 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-sql-injection-contentprovider
+          [MASVS-CODE-4] Possible SQL Injection: unvalidated user input from `Uri.getPathSegments()`
+          concatenated into `SQLiteQueryBuilder.appendWhere()`                                      
+                                                                                                    
+           95┆ qb.appendWhere("id=" + id);
+            ⋮┆----------------------------------------
+           99┆ qb.appendWhere(filter);
+

@@ -1,0 +1,17 @@
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                                     
+    ../MASTG-DEMO-0121/AndroidManifest_reversed.xml
+    ❯❱ rules.mastg-android-provider-exported-without-permissions
+          [MASVS-PLATFORM] The ContentProvider is exported without android:readPermission,                   
+          android:writePermission, or android:permission, allowing any app on the device to access it without
+          restriction.                                                                                       
+                                                                                                             
+           40┆ <provider
+           41┆     android:name="org.owasp.mastestapp.MastgTest.AppointmentProvider"
+           42┆     android:exported="true"
+           43┆     android:authorities="org.owasp.mastestapp.appointments"/>
+

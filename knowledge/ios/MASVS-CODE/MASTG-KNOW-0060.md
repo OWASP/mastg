@@ -4,7 +4,7 @@ platform: ios
 title: Memory Corruption Bugs
 ---
 
-Modern iOS applications are largely written in Swift or Objective-C, which both provide mechanisms that reduce the likelihood of [memory corruption](0x04h-Testing-Code-Quality.md#memory-corruption-bugs). Swift in particular enforces memory safety by design, preventing common issues such as buffer overflows and use-after-free conditions through strong type checking and automatic memory management. However, these protections are not absolute.
+Modern iOS applications are largely written in Swift or Objective-C, which both provide mechanisms that reduce the likelihood of [memory corruption](../../../Document/0x04h-Testing-Code-Quality.md#memory-corruption-bugs). Swift in particular enforces memory safety by design, preventing common issues such as buffer overflows and use-after-free conditions through strong type checking and automatic memory management. However, these protections are not absolute.
 
 Memory corruption vulnerabilities can still occur when applications or SDKs rely on native components written in C or C++. Such code, often accessed through bridging or wrappers in Objective-C or Swift, falls outside the guarantees of automatic reference counting (ARC) and Swift's safety model. These native modules are subject to traditional risks such as buffer overflows, out-of-bounds reads or writes, integer overflows, and use-after-free errors. Examples of similar issues have been observed in iOS system services and third-party frameworks implemented in C or C++.
 

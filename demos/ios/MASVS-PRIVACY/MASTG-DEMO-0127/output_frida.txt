@@ -1,0 +1,7 @@
+
+[*] Starting HealthKit entitlement-backed API tracing...
+
+[-] Failed to hook HKHealthStore: class not found
+
+[*] Hook setup finished. Interact with the app to trigger HealthKit API calls.
+

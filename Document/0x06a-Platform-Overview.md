@@ -70,6 +70,8 @@ Learn more:
 - [Code Signing (Apple Developer Documentation)](https://developer.apple.com/support/code-signing/)
 - [Demystifying iOS Code Signature](https://medium.com/csit-tech-blog/demystifying-ios-code-signature-309d52c2ff1d)
 
+For app- and library-specific signing requirements, see @MASTG-KNOW-0058.
+
 ### Encryption and Data Protection
 
 _FairPlay Code Encryption_ is applied to apps downloaded from the App Store. FairPlay was developed as a DRM when purchasing multimedia content. Originally, FairPlay encryption was applied to MPEG and QuickTime streams, but the same basic concepts can also be applied to executable files. The basic idea is as follows: Once you register a new Apple user account, or Apple ID, a public/private key pair will be created and assigned to your account. The private key is securely stored on your device. This means that FairPlay-encrypted code can be decrypted only on devices associated with your account. Reverse FairPlay encryption is usually obtained by running the app on the device, then dumping the decrypted code from memory (see also "Basic Security Testing on iOS").

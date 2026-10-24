@@ -2,6 +2,7 @@
 title: PlistBuddy
 platform: ios
 hosts: [macOS]
+source: https://www.unix.com/man_page/osx/8/plistbuddy/
 ---
 
 PlistBuddy is available on macOS and allows you to print and modify `.plist` files. It is not on the default PATH, but it can be run via `/usr/libexec/PlistBuddy`. PlistBuddy uses a custom syntax to execute commands on the given plist file.

@@ -1,5 +1,5 @@
 ---
-title: objection for iOS
+title: objection (iOS)
 platform: ios
 source: https://github.com/sensepost/objection
 ---

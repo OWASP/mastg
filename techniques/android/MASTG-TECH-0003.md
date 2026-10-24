@@ -14,7 +14,10 @@ One of the easiest options is to download the APK from websites that mirror publ
 
 Beware that you do not have control over these sites, and you cannot guarantee what they will do in the future. Only use them if it's your only option left.
 
-## Using gplaycli
+!!! note
+    Some alternative app stores may provide apps in XAPK format instead of standard APK files. XAPK files are ZIP archives that bundle the APK with additional data files. See @MASTG-TECH-0145 for instructions on how to extract and work with XAPK files.
+
+## Using @MASTG-TOOL-0016
 
 You can use @MASTG-TOOL-0016 to download (`-d`) the selected APK by specifying its AppID (add `-p` to show a progress bar and `-v` for verbosity):
 
@@ -33,6 +36,28 @@ $ gplaycli -p -v -d com.google.android.keep
 The `com.google.android.keep.apk` file will be in your current directory. As you might imagine, this approach is a very convenient way to download APKs, especially with regard to automation.
 
 > You may use your own Google Play credentials or token. By default, gplaycli will use [an internally provided token](https://github.com/matlink/gplaycli/blob/3.26/gplaycli/gplaycli.py#L106 "gplaycli Fallback Token").
+
+## Using @MASTG-TOOL-0148
+
+You can use @MASTG-TOOL-0148 to download APKs from Google Play Store. To download the latest version of an app by specifying its package name:
+
+```bash
+apkeep -a com.google.android.keep .
+```
+
+The APK will be downloaded to the current directory. apkeep can also download specific versions and handle split APKs:
+
+```bash
+apkeep -a com.google.android.keep@5.21.361.03 .
+```
+
+To download all split APKs for an app bundle:
+
+```bash
+apkeep -a com.google.android.keep -d .
+```
+
+apkeep is particularly useful for automation and doesn't require authentication for downloading free apps.
 
 ## Extracting the App Package from the Device
 

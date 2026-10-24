@@ -1,0 +1,63 @@
+{
+  "CFBundleName": "MASTestApp",
+  "DTXcode": "2641",
+  "DTSDKName": "iphoneos26.4",
+  "DTSDKBuild": "23E252",
+  "CFBundleDevelopmentRegion": "en",
+  "CFBundleVersion": "1",
+  "BuildMachineOSBuild": "25E253",
+  "DTPlatformName": "iphoneos",
+  "CFBundlePackageType": "APPL",
+  "CFBundleShortVersionString": "1.0",
+  "CFBundleSupportedPlatforms": [
+    "iPhoneOS"
+  ],
+  "UIApplicationSupportsIndirectInputEvents": true,
+  "UILaunchScreen": {
+    "UILaunchScreen": {}
+  },
+  "UISupportedInterfaceOrientations~iphone": [
+    "UIInterfaceOrientationPortrait",
+    "UIInterfaceOrientationLandscapeLeft",
+    "UIInterfaceOrientationLandscapeRight"
+  ],
+  "NSAppTransportSecurity": {
+    "NSAllowsArbitraryLoads": false,
+    "NSExceptionDomains": {
+      "static-rsa.badssl.com": {
+        "NSExceptionMinimumTLSVersion": "TLSv1.2",
+        "NSExceptionRequiresForwardSecrecy": false
+      },
+      "tls-v1-0.badssl.com": {
+        "NSExceptionMinimumTLSVersion": "TLSv1.0",
+        "NSIncludesSubdomains": true
+      }
+    }
+  },
+  "CFBundleInfoDictionaryVersion": "6.0",
+  "CFBundleExecutable": "MASTestApp",
+  "DTCompiler": "com.apple.compilers.llvm.clang.1_0",
+  "UIRequiredDeviceCapabilities": [
+    "arm64"
+  ],
+  "MinimumOSVersion": "17.4",
+  "CFBundleIdentifier": "org.owasp.mastestapp.MASTestApp-iOS-2",
+  "UIDeviceFamily": [
+    1,
+    2
+  ],
+  "DTPlatformVersion": "26.4",
+  "DTXcodeBuild": "17E202",
+  "LSRequiresIPhoneOS": true,
+  "UIApplicationSceneManifest": {
+    "UIApplicationSupportsMultipleScenes": true,
+    "UISceneConfigurations": {}
+  },
+  "UISupportedInterfaceOrientations~ipad": [
+    "UIInterfaceOrientationPortrait",
+    "UIInterfaceOrientationPortraitUpsideDown",
+    "UIInterfaceOrientationLandscapeLeft",
+    "UIInterfaceOrientationLandscapeRight"
+  ],
+  "DTPlatformBuild": "23E252"
+}

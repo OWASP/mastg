@@ -1,3 +1,7 @@
+---
+platform: generic
+---
+
 # Mobile Application Security Testing
 
 In the following sections we'll provide a brief overview of general security testing principles and key terminology. The concepts introduced are largely identical to those found in other types of penetration testing, so if you are an experienced tester you may be familiar with some of the content.
@@ -90,11 +94,11 @@ The classic approach involves all-around security testing of the app's final or 
 
 #### Preparation
 
-The security level at which the app will be tested must be decided before testing. The security requirements should be decided at the beginning of the project. Different organizations have different security needs and resources available for investing in test activities. Although the tests in the MAS-L1 profile are applicable to all mobile apps, walking through the entire MAS-L1 and MAS-L2 tests with technical and business stakeholders is a good way to decide on a level of test coverage.
+The security level at which the app will be tested must be decided before testing. The security requirements should be decided at the beginning of the project. Different organizations have different security needs and resources available for investing in test activities. Although the tests in the [MAS-L1](https://mas.owasp.org/Profiles/MAS-L1/) profile are applicable to all mobile apps, walking through the entire MAS-L1 and [MAS-L2](https://mas.owasp.org/Profiles/MAS-L2/) tests with technical and business stakeholders is a good way to decide on a level of test coverage.
 
-Organizations may have different regulatory and legal obligations in certain territories. Even if an app doesn't handle sensitive data, some MAS-L2 tests may be relevant (because of industry regulations or local laws). For example, two-factor authentication (2FA) may be obligatory for a financial app and enforced by a country's central bank and/or financial regulatory authorities.
+Organizations may have different regulatory and legal obligations in certain territories. Even if an app doesn't handle sensitive data, some [MAS-L2](https://mas.owasp.org/Profiles/MAS-L2/) tests may be relevant (because of industry regulations or local laws). For example, two-factor authentication (2FA) may be obligatory for a financial app and enforced by a country's central bank and/or financial regulatory authorities.
 
-Security goals/controls defined earlier in the development process may also be reviewed during the discussion with stakeholders. Some controls may conform to MAS profiles, but others may be specific to the organization or app.
+Security goals/controls defined earlier in the development process may also be reviewed during the discussion with stakeholders. Some controls may conform to [MAS profiles](https://mas.owasp.org/Profiles/), but others may be specific to the organization or app.
 
 All involved parties must agree on the decisions and the scope in the checklist because these will define the baseline for all security testing.
 
@@ -287,7 +291,7 @@ Development and operations teams originally worked in silos, when pushing develo
 
 People may assume that the term "DevOps" represents collaboration between development and operations teams only, however, as DevOps thought leader Gene Kim puts it: "At first blush, it seems as though the problems are just between Devs and Ops, but test is in there, and you have information security objectives, and the need to protect systems and data. These are top-level concerns of management, and they have become part of the DevOps picture."
 
-In other words, DevOps collaboration includes quality teams, security teams, and many other teams related to the project. When you hear "DevOps" today, you should probably be thinking of something like [DevOpsQATestInfoSec](https://techbeacon.com/evolution-devops-new-thinking-gene-kim "The evolution of DevOps: Gene Kim on getting to continuous delivery"). Indeed, DevOps values pertain to increasing not only speed but also quality, security, reliability, stability, and resilience.
+In other words, DevOps collaboration includes quality teams, security teams, and many other teams related to the project. When you hear "DevOps" today, you should probably be thinking of something like [DevOpsQATestInfoSec](https://web.archive.org/web/20180918115528/https://techbeacon.com/evolution-devops-new-thinking-gene-kim "The evolution of DevOps: Gene Kim on getting to continuous delivery"). Indeed, DevOps values pertain to increasing not only speed but also quality, security, reliability, stability, and resilience.
 
 Security is just as critical to business success as the overall quality, performance, and usability of an app. As development cycles are shortened and delivery frequencies increased, making sure that quality and security are built in from the very beginning becomes essential. **DevSecOps** is all about adding security to DevOps processes. Most defects are identified during production. DevOps specifies best practices for identifying as many defects as possible early in the life cycle and for minimizing the number of defects in the released app.
 
@@ -322,7 +326,7 @@ Infrastructure as Code also facilitates the construction of the environments req
 
 Infrastructure as Code is commonly used for projects that have Cloud-based resources because many vendors provide APIs that can be used for provisioning items (such as virtual machines, storage spaces, etc.) and working on configurations (e.g., modifying memory sizes or the number of CPUs used by virtual machines). These APIs provide alternatives to administrators' performing these activities from monitoring consoles.
 
-The main tools in this domain are [Puppet](https://puppet.com/ "Puppet"), [Terraform](https://www.terraform.io/ "Terraform"), [Packer](https://www.packer.io/ "Packer"), [Chef](https://www.chef.io/chef/ "Chef") and [Ansible](https://www.ansible.com/ "Ansible").
+The main tools in this domain are [Puppet](https://puppet.com/ "Puppet"), [Terraform](https://developer.hashicorp.com/terraform "Terraform"), [Packer](https://developer.hashicorp.com/packer "Packer"), [Chef](https://www.chef.io/chef/ "Chef") and [Ansible](https://www.ansible.com/ "Ansible").
 
 ##### Deployment
 

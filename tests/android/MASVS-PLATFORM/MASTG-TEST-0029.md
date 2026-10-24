@@ -9,6 +9,9 @@ masvs_v1_levels:
 - L1
 - L2
 profiles: [L1, L2]
+status: deprecated
+covered_by: [MASTG-TEST-0364, MASTG-TEST-0365, MASTG-TEST-0366]
+deprecation_note: New version available in MASTG V2
 ---
 
 ## Overview
@@ -34,7 +37,7 @@ Once you identify a list of IPC mechanisms, review the source code to see whethe
 
 In the following, we use two example apps and give examples of identifying vulnerable IPC components:
 
-- ["Sieve"](https://github.com/mwrlabs/drozer/releases/download/2.3.4/sieve.apk "Sieve: Vulnerable Password Manager")
+- ["Sieve"](https://github.com/ReversecLabs/drozer/releases/download/2.3.4/sieve.apk "Sieve: Vulnerable Password Manager")
 - @MASTG-APP-0010
 
 ### Activities

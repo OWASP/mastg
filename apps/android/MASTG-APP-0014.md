@@ -2,6 +2,7 @@
 title: InsecureShop
 platform: android
 source: https://github.com/hax0rgb/InsecureShop/
+status: deprecated
 ---
 
 InsecureShop is an intentionally designed Android application that showcases vulnerabilities, aiming to educate developers and security experts about common pitfalls within modern Android apps. It serves as a dynamic platform for refining Android pentesting skills.
@@ -15,4 +16,4 @@ The majority of these vulnerabilities can be exploited on non-rooted devices, po
 - **Insecure Broadcast Receiver**: Registration of a broadcast enabling URL injection.
 - **Insecure Content Provider**: Accessible content provider putting user data at risk.
 
-Complementing these learning experiences, InsecureShop provides [documentation](https://docs.insecureshopapp.com/ "InsecureShop Docs") about the implemented vulnerabilities and their associated code. This documentation, however, refrains from offering complete solutions for each vulnerability showcased within the InsecureShop app.
+Complementing these learning experiences, InsecureShop provided documentation about the implemented vulnerabilities and their associated code. This documentation, however, refrains from offering complete solutions for each vulnerability showcased within the InsecureShop app. The documentation website is not accessible anymore.
