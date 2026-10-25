@@ -1,28 +1,26 @@
 ---
-title: Marking UI Views as Containing Sensitive Data
-alias: marking-ui-views-sensitive-data
+title: Restricting Accessibility Service Access to Sensitive Views
+alias: restricting-accessibility-service-access-to-sensitive-views
 id: MASTG-BEST-0x01
 platform: android
 knowledge: [MASTG-KNOW-0x01]
-available_since: 36
+available_since: 34
 ---
 
-## Overview
+Mark views that display or accept sensitive data as accessibility data sensitive (@MASTG-KNOW-0x01). On Android 14 (API level 34) and higher, this restricts access to these views to accessibility services that declare themselves as accessibility tools by setting [`android:isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#attr_android:isAccessibilityTool) to `true` in their service configuration, such as screen readers. Accessibility services that don't declare `android:isAccessibilityTool="true"`, including malware that tricks the user into enabling it, can't read the content of these views or perform interactions on them, for example, capturing typed credentials or tapping a payment confirmation button on the user's behalf.
 
-Starting with Android 16 (API level 36), developers should mark sensitive UI views using the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to protect against malicious accessibility services. This protection prevents unauthorized apps with accessibility permissions from reading sensitive view content or performing interactions unless they are declared as legitimate accessibility tools via [`isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#FLAG_ACCESSIBILITY_TOOL).
-
-## Recommendation
-
-Apply `accessibilityDataSensitive="true"` to views that handle or display sensitive information, such as:
+Apply this protection to views that handle or display sensitive information, such as:
 
 - Login screens (username and password fields)
-- system prompts, permissions, settings, and app specific confirmations such as payment and transaction confirmations
-- Personal information forms (SSN, credit card numbers, etc.)
+- System prompts, permissions, settings, and app-specific confirmations, such as payment and transaction confirmations
+- Personal information forms (for example, national ID numbers or credit card numbers)
 - Two-factor authentication inputs
 - Biometric authentication prompts
 - Any view displaying confidential user data
 
-### XML Implementation
+## Marking Views as Sensitive
+
+Set the [`android:accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to `true` in the layout file:
 
 ```xml
 <EditText
@@ -31,80 +29,26 @@ Apply `accessibilityDataSensitive="true"` to views that handle or display sensit
     android:layout_height="wrap_content"
     android:inputType="textPassword"
     android:accessibilityDataSensitive="true" />
-
-<Button
-    android:id="@+id/confirmPayment"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Confirm Payment"
-    android:accessibilityDataSensitive="true" />
 ```
 
-### Programmatic Implementation
+Or call [`setAccessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#setAccessibilityDataSensitive(int)) with [`ACCESSIBILITY_DATA_SENSITIVE_YES`](https://developer.android.com/reference/android/view/View.html#ACCESSIBILITY_DATA_SENSITIVE_YES) for views created or configured in code:
 
 ```kotlin
-passwordField.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
-confirmButton.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+    confirmButton.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
+}
 ```
 
-## Rationale
+Views using the default value, [`ACCESSIBILITY_DATA_SENSITIVE_AUTO`](https://developer.android.com/reference/android/view/View.html#ACCESSIBILITY_DATA_SENSITIVE_AUTO), inherit the protection from any parent that is marked as sensitive. Marking a container protects all its children, so you can protect a group of related views at once. Don't set [`ACCESSIBILITY_DATA_SENSITIVE_NO`](https://developer.android.com/reference/android/view/View.html#ACCESSIBILITY_DATA_SENSITIVE_NO) on views that handle sensitive data, because it overrides the inherited protection.
 
-Malicious apps can abuse Android's accessibility framework to:
+## Using filterTouchesWhenObscured
 
-- Eavesdrop on sensitive user inputs (credentials, payment details)
-- Perform automated click injection on critical actions (approve transactions)
-- Extract confidential information displayed on screen
-- Conduct phishing attacks by monitoring user behavior
+Views that set [`filterTouchesWhenObscured`](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean)) to `true` to protect against overlay attacks (see @MASTG-BEST-0040) are also treated as accessibility data sensitive, as long as they keep the default [`ACCESSIBILITY_DATA_SENSITIVE_AUTO`](https://developer.android.com/reference/android/view/View.html#ACCESSIBILITY_DATA_SENSITIVE_AUTO) value. If your app already uses `filterTouchesWhenObscured` on sensitive views, those views are already protected. Setting `android:accessibilityDataSensitive="true"` explicitly still makes the intent clear and keeps the protection in place if the touch filtering configuration changes later.
 
-By marking views as `accessibilityDataSensitive`, the system restricts non-tool accessibility services from accessing or interacting with these views, significantly reducing the attack surface for malware that relies on accessibility permissions.
+## Caveats and Considerations
 
-## Automatic Protection with filterTouchesWhenObscured
+- **Impact on accessibility:** accessibility services that don't declare `android:isAccessibilityTool="true"` lose access to the marked views, which may affect users who rely on them. Apply the protection to the views that handle sensitive data rather than to entire screens, and test the app with accessibility tools such as TalkBack and Voice Access.
+- **Platform version:** on devices running versions earlier than Android 14 (API level 34), the attribute is ignored and there's no equivalent platform protection against accessibility services. Use additional protections for sensitive flows, such as @MASTG-BEST-0040 against overlay attacks.
+- **Not a complete defense:** the protection relies on accessibility tools being declared correctly. Google Play and Google Play Protect enforce the `android:isAccessibilityTool` declaration, but apps from other sources may not be subject to these checks.
 
-Apps already using [`filterTouchesWhenObscured="true"`](https://developer.android.com/reference/android/view/View#setFilterTouchesWhenObscured(boolean)) for tapjacking protection automatically gain `accessibilityDataSensitive` benefits on Android 16+. This provides an instant additional layer of defense with no extra code:
-
-```xml
-<Button
-    android:id="@+id/transferFunds"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:filterTouchesWhenObscured="true" />
-    <!-- Automatically protected from malicious accessibility services on Android 16+ -->
-```
-
-If your app already implements `filterTouchesWhenObscured` on sensitive views, you receive this protection automatically. However, explicitly setting `accessibilityDataSensitive` is recommended for clarity and to ensure protection even if `filterTouchesWhenObscured` is later changed.
-
-## Considerations and Caveats
-
-### Legitimate Accessibility Tools
-
-This protection can impact legitimate accessibility services like screen readers. Users relying on accessibility tools may experience degraded functionality on marked views unless the accessibility service declares `isAccessibilityTool="true"`.
-
-- **Testing**: Test your app with popular accessibility tools (TalkBack, Voice Access) to ensure they can still function properly with marked views.
-- **User Communication**: If certain views must be marked sensitive for security, consider providing alternative accessible pathways or clear user guidance.
-
-### API Level Compatibility
-
-The `accessibilityDataSensitive` attribute is only available on Android 16 (API level 36) and higher. On older devices:
-
-- The attribute is ignored; the app functions normally without this protection
-- Consider using `filterTouchesWhenObscured` for broader compatibility against overlay attacks
-- Implement defense-in-depth by combining multiple security measures
-
-### Granularity
-
-Apply the attribute judiciously:
-
-- **Too Broad**: Marking entire screens reduces accessibility for users who need it
-- **Too Narrow**: Missing critical views leaves security gaps
-
-Focus on views that directly handle or display sensitive data, not general UI chrome.
-
-### View Hierarchy
-
-The `accessibilityDataSensitive` attribute can be inherited through the view hierarchy when using `View.ACCESSIBILITY_DATA_SENSITIVE_AUTO`. Plan your view structure to minimize repetition while ensuring comprehensive coverage.
-
-## References
-
-- [Android Developers Blog - Enhancing Android Security: Stop Malware with Accessibility Data Sensitivity](https://android-developers.googleblog.com/2025/12/enhancing-android-security-stop-malware.html)
-- [Android Security: Tapjacking Mitigations](https://developer.android.com/privacy-and-security/risks/tapjacking#mitigations)
-- [View.setAccessibilityDataSensitive](https://developer.android.com/reference/android/view/View#setAccessibilityDataSensitive(int))
+For more details, see the Android Developers Blog post ["Enhancing Android security: Stop malware from snooping on your app data"](https://android-developers.googleblog.com/2025/12/enhancing-android-security-stop-malware.html) and the Android guidance on [tapjacking mitigations](https://developer.android.com/privacy-and-security/risks/tapjacking#mitigations).
