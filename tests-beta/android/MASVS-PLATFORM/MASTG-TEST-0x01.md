@@ -1,73 +1,56 @@
 ---
-title: References to Accessibility Data Sensitivity APIs
 platform: android
+title: References to Accessibility Data Sensitivity APIs
 id: MASTG-TEST-0x01
-type: [static, manual]
-profiles: [L2]
+apis: [View.setAccessibilityDataSensitive, View.setFilterTouchesWhenObscured, ACCESSIBILITY_DATA_SENSITIVE_YES, ACCESSIBILITY_DATA_SENSITIVE_NO, ACCESSIBILITY_DATA_SENSITIVE_AUTO]
+type: [static, code, manual]
+maswe: [MASWE-0040]
 best-practices: [MASTG-BEST-0x01]
-weakness: MASWE-0055
+prerequisites:
+- identify-sensitive-data
 knowledge: [MASTG-KNOW-0x01]
-apis: [View, setAccessibilityDataSensitive, filterTouchesWhenObscured]
-available_since: 36
+available_since: 34
 ---
 
 ## Overview
 
-This test verifies whether an app references Android's accessibility data sensitivity APIs. Starting with Android 16 (API level 36), developers can use the [`accessibilityDataSensitive`](https://developer.android.com/reference/android/view/View#attr_android:accessibilityDataSensitive) attribute to protect sensitive views from malicious accessibility services. When set to `true` on a view, it restricts non-tool accessibility services from reading or interacting with sensitive content.
+Accessibility services can read the content of the views an app displays and perform interactions on them. Malware often tricks users into enabling its accessibility service so it can capture typed credentials or one-time codes, read sensitive data shown on screen, or tap buttons such as payment confirmations on the user's behalf.
 
-Developers can apply this protection in two ways:
+On Android 14 (API level 34) and higher, apps can restrict access to sensitive views to accessibility services declared as accessibility tools by marking those views as accessibility data sensitive (@MASTG-KNOW-0x01). If the app doesn't mark the views that display or accept sensitive data, or explicitly disables the protection on them, any enabled accessibility service can access them.
 
-1. **Explicit XML declaration**: Setting `android:accessibilityDataSensitive="true"` in layout files
-2. **Programmatic API**: Calling [`setAccessibilityDataSensitive(int)`](https://developer.android.com/reference/android/view/View#setAccessibilityDataSensitive(int)) with `View.ACCESSIBILITY_DATA_SENSITIVE_YES`
-3. **Implicit via filterTouchesWhenObscured**: Views with `android:filterTouchesWhenObscured="true"` automatically inherit accessibility data sensitivity protection on Android 16+
+This test checks whether the app marks the views that handle sensitive data as accessibility data sensitive, either explicitly or through `filterTouchesWhenObscured`. It looks for:
 
-Common failure modes include:
-
-- Not marking sensitive views (login fields, payment buttons, personal data forms) with `accessibilityDataSensitive`
-- Inconsistently applying protection across related sensitive screens
-- Explicitly disabling protection on sensitive views by setting `View.ACCESSIBILITY_DATA_SENSITIVE_NO`
-- Not leveraging automatic protection from existing `filterTouchesWhenObscured` flags
+- The `android:accessibilityDataSensitive` and `android:filterTouchesWhenObscured` attributes in layout files.
+- Calls to `setAccessibilityDataSensitive` and the value passed to it.
+- Calls to `setFilterTouchesWhenObscured`.
 
 ## Steps
 
-1. Extract the app's layout XML files from the APK (@MASTG-TECH-0117).
-2. Run a static analysis tool (@MASTG-TECH-0014) to identify:
-    - Views with `android:accessibilityDataSensitive` set to `true` or `false`
-    - Views with `android:filterTouchesWhenObscured="true"` (which provide implicit protection)
-    - Calls to `setAccessibilityDataSensitive()` in decompiled code
-    - Calls to `setFilterTouchesWhenObscured()` in decompiled code
-3. Identify sensitive views based on their ID, type, or context (e.g., password fields, payment confirmation buttons).
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+3. Use @MASTG-TECH-0007 to extract the layout files from the app package.
 
 ## Observation
 
-The output should include:
+The output should contain:
 
-1. A list of views with `android:accessibilityDataSensitive` explicitly set in XML layouts.
-2. A list of views with `android:filterTouchesWhenObscured="true"` (which gain implicit protection).
-3. A list of programmatic calls to `setAccessibilityDataSensitive()` in the codebase.
-4. A list of programmatic calls to `setFilterTouchesWhenObscured()` in the codebase.
-5. A mapping of identified sensitive views (by ID, type, or context) that should be protected.
+- All `android:accessibilityDataSensitive` and `android:filterTouchesWhenObscured` XML attributes, if using XML for the UI.
+- All calls to `setAccessibilityDataSensitive` and the values passed to it.
+- All calls to `setFilterTouchesWhenObscured` and the values passed to it.
 
 ## Evaluation
 
-The test case fails if sensitive views that handle or display confidential information are not protected by `accessibilityDataSensitive` or `filterTouchesWhenObscured`. Specifically:
-
-- Password fields, PINs, credit card inputs, or other credential fields lack protection
-- Payment confirmation or transaction approval buttons are unprotected
-- Personal information forms (SSN, passport numbers, etc.) are not marked sensitive
-- The app explicitly disables protection on sensitive views using `View.ACCESSIBILITY_DATA_SENSITIVE_NO`
-
-The test passes if:
-
-- All sensitive views have `android:accessibilityDataSensitive="true"` in XML or call `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)` programmatically
-- Or, sensitive views use `android:filterTouchesWhenObscured="true"` to gain implicit protection on Android 16+
-- Protection is applied consistently across all screens handling sensitive data
-- No code paths explicitly disable the protection without justification
-
-**Note**: This test is applicable only for apps targeting Android 16 (API level 36) or higher. For apps targeting lower API levels, the attribute is ignored by the system, and alternative protections like `filterTouchesWhenObscured` should be evaluated separately.
+The test case fails if any view that handles sensitive data isn't marked as accessibility data sensitive, either on the view itself or on one of its parents, or if the app sets `ACCESSIBILITY_DATA_SENSITIVE_NO` (or `android:accessibilityDataSensitive="false"`) on such a view.
 
 **Further Validation Required:**
 
-Static analysis is a good starting point, but it can only show whether a view is protected. It cannot reliably determine whether the view displays sensitive data, nor whether the protection is effective at runtime. Use the results of this test as a complement and verify them dynamically by following @MASTG-TEST-0x02, navigating the screens that handle or display sensitive data (e.g., login, payment, personal information) and confirming that the corresponding views are protected.
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the protected and unprotected views handle sensitive data:
 
-Note that, without an auditor physically monitoring the tested screens, there is no obvious mechanism to determine if the displayed information is sensitive in nature. Connecting the testing to an LLM may help, but it may not always capture the screen displaying the data this API is intended to protect.
+- Determine which views handle sensitive data, such as credentials, one-time codes, payment details, or personal information, based on the app's sensitive data definitions.
+- Determine whether each of these views, or one of its parents, sets `android:accessibilityDataSensitive="true"`, calls `setAccessibilityDataSensitive` with `ACCESSIBILITY_DATA_SENSITIVE_YES`, or sets `filterTouchesWhenObscured` to `true` without setting `ACCESSIBILITY_DATA_SENSITIVE_NO`.
+
+Static analysis can only show where the protection is configured. Views for which the app doesn't configure anything don't appear in the output at all, even though they're the ones most likely to be missing the protection. To find them statically, you'd need to review every view the app creates in its layout files and code and resolve the values they inherit from their parents. Static analysis also can't reliably determine whether a view displays sensitive data or whether the protection is active at runtime. For these reasons, use the results of this test as a starting point and confirm them with @MASTG-TEST-0x02, which lists every view on a screen together with its effective accessibility data sensitivity.
+
+**Expected False Negatives:**
+
+This test may produce false negatives if the app builds its UI with frameworks that don't use Android `View` attributes for this purpose (for example, Jetpack Compose, Flutter, or game engines), or if views are created or configured dynamically in ways that static analysis can't resolve, for example, through reflection or values computed at runtime.
