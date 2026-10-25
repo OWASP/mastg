@@ -225,9 +225,10 @@ Frida client tools on your computer.
     python -m pip install frida-tools "frida==17.18.0"
     ```
 
-MagiskFrida release `17.18.0-1` uses Frida `17.18.0`. The `-1` suffix
-identifies the module release. The `frida-tools` and `frida` packages use
-different version numbers.
+!!! info "Frida Version Numbers"
+    MagiskFrida release `17.18.0-1` uses Frida `17.18.0`. The `-1` suffix
+    identifies the module release. The `frida-tools` and `frida` packages use
+    different version numbers.
 
 #### Check the Frida Connection
 
@@ -299,7 +300,7 @@ There is also a group specifically for resilience: [MASVS-RESILIENCE](https://ma
 
     This control concerns analysis and manipulation at runtime. It addresses questions such as: "Can someone inspect or manipulate my app while it runs?" Anti-debugging and hooking detection are examples of mechanisms related to this control.
 
-!!! note
+!!! info "MAS Testing Profiles"
     Not every app has the same security requirements (for example, compare a banking application with a calendar application). To address these differences, the OWASP MAS project provides [MAS Testing Profiles](https://mas.owasp.org/Profiles/), which define sets of controls and tests for different protection needs:
 
     - `MAS-L1`: Essential security controls for mobile apps.
@@ -686,7 +687,7 @@ magisk /system/lib64/libzygisk.so tmpfs ro,seclabel,relatime,mode=755 0 0
 !!! note
     If Magisk requests root permission for the shell process, grant it.
 
-!!! note "About the executed command"
+!!! info "Inspecting the App's Mounts"
     The `pidof` command finds the app's process ID. Reading [`/proc/<pid>/mounts`](https://man7.org/linux/man-pages/man5/proc_pid_mounts.5.html) shows the mounts visible to that process, and `grep magisk` selects the entries containing `magisk`. These entries explain how Magisk's files become visible inside the app's environment.
 
 Now, Magisk has a setting called **Enforce DenyList** that **[removes Magisk's mounts from the mount namespace of selected app processes](https://github.com/topjohnwu/Magisk/blob/v30.6/native/src/core/mount.rs)**. We will enable this setting in the Magisk manager and add the demo app's processes to the list, and see what happens to the app.
@@ -739,7 +740,7 @@ device:/ $ pm list packages | grep -F com.topjohnwu.magisk
 package:com.topjohnwu.magisk
 ```
 
-!!! note "About the executed command"
+!!! info "Listing Installed Packages"
     The [`pm list packages` command](https://developer.android.com/tools/adb#pm) lists installed package names. Here, `grep -F` filters that output for the literal text `com.topjohnwu.magisk`. The result confirms that the package is installed, matching the artifact that the demo app detects.
 
 Magisk has a [setting](https://github.com/topjohnwu/Magisk/blob/v30.6/app/core/src/main/java/com/topjohnwu/magisk/core/tasks/AppMigration.kt) called **Hide the Magisk app** that **installs a replacement manager under a randomly generated package name**. The replacement provides the same management features as the original manager app. After the replacement starts, Magisk removes the original `com.topjohnwu.magisk` package.
@@ -763,7 +764,7 @@ package:org.owasp.mastestapp
 package:qv.ztmx.lra
 ```
 
-!!! note "About the executed command"
+!!! info "Listing Third-Party Packages"
     `pm list packages -3`, with the `-3` option, lists only third-party packages, excluding system apps.
 
 The manager is still installed, but its new package ID is not in the demo app's list of known packages.
