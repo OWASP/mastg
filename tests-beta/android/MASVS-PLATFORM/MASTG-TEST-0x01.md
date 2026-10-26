@@ -16,7 +16,7 @@ available_since: 34
 
 Accessibility services can read the content of the views an app displays and perform interactions on them. Malware often tricks users into enabling its accessibility service so it can capture typed credentials or one-time codes, read sensitive data shown on screen, or tap buttons such as payment confirmations on the user's behalf.
 
-On Android 14 (API level 34) and higher, apps can restrict access to sensitive views to accessibility services declared as accessibility tools by marking those views as accessibility data sensitive (@MASTG-KNOW-0x01). If the app doesn't mark the views that display or accept sensitive data, or explicitly disables the protection on them, any enabled accessibility service can access them.
+On Android 14 (API level 34) and higher, apps can restrict access to sensitive views to accessibility services declared as accessibility tools by marking those views as accessibility data sensitive (@MASTG-KNOW-0x01). Accessibility tools, such as screen readers, can still read and interact with protected views. If the app doesn't mark the views that display or accept sensitive data, or explicitly disables the protection on them, any enabled accessibility service can access them.
 
 This test checks whether the app marks the views that handle sensitive data as accessibility data sensitive, either explicitly or through `filterTouchesWhenObscured`. It looks for:
 

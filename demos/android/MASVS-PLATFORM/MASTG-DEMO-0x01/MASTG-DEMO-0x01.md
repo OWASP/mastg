@@ -18,6 +18,8 @@ The sample creates a login and payment form with views that handle sensitive dat
     - **Confirm Payment button:** explicitly disables the protection using `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_NO)`, which overrides the value inherited from the payment container.
 5. **Cancel button:** is outside the payment container and keeps the default value, `ACCESSIBILITY_DATA_SENSITIVE_AUTO`. It doesn't handle sensitive data, so it isn't protected.
 
+Marking a view as accessibility data sensitive only restricts accessibility services that aren't declared as accessibility tools. Accessibility tools, such as screen readers, can still read and interact with all of these views (see "Accessibility Tools" in @MASTG-KNOW-0x01).
+
 When you tap **Start**, the app shows the form at the bottom of the screen and lists the value returned by `isAccessibilityDataSensitive` for each view. Tapping **Confirm Payment** or **Cancel** closes the form and shows a confirmation message.
 
 {{ MastgTest.kt # MastgTest_reversed.java }}

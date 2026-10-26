@@ -16,7 +16,7 @@ available_since: 34
 
 This test is the dynamic counterpart to @MASTG-TEST-0x01.
 
-If the views that display or accept sensitive data aren't accessibility data sensitive at runtime, any enabled accessibility service can read their content or perform interactions on them, regardless of how the app's layout files and code appear to configure them. For example, the app may change the setting of a view at runtime, or a view may lose the protection inherited from a parent.
+If the views that display or accept sensitive data aren't accessibility data sensitive at runtime, any enabled accessibility service can read their content or perform interactions on them, regardless of how the app's layout files and code appear to configure them. For example, the app may change the setting of a view at runtime, or a view may lose the protection inherited from a parent. Even protected views remain accessible to accessibility services declared as accessibility tools, such as screen readers (see "Accessibility Tools" in @MASTG-KNOW-0x01).
 
 This test combines two approaches:
 
