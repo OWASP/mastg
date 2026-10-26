@@ -1,0 +1,31 @@
+rules:
+  - id: mastg-android-device-attestation-key-attestation
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects retrieval of a Key Attestation certificate chain, which carries the device integrity signals in its rootOfTrust field.
+    message: "[MASVS-RESILIENCE-1] Key Attestation certificate chain retrieved. The rootOfTrust field carries the device integrity signals, which the server must evaluate."
+    pattern: $KS.getCertificateChain(...)
+
+  - id: mastg-android-device-attestation-extension-read
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects reading the Android key attestation extension from the leaf certificate.
+    message: "[MASVS-RESILIENCE-1] Android key attestation extension (1.3.6.1.4.1.11129.2.1.17) read from the certificate."
+    pattern-either:
+      - pattern: $CERT.getExtensionValue("1.3.6.1.4.1.11129.2.1.17")
+      - pattern-regex: '"1\.3\.6\.1\.4\.1\.11129\.2\.1\.17"'
+
+  - id: mastg-android-device-attestation-play-integrity
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects use of the Google Play Integrity API, whose verdict includes the device integrity signals.
+    message: "[MASVS-RESILIENCE-1] Google Play Integrity API used. The deviceRecognitionVerdict must be evaluated server-side."
+    pattern-either:
+      - pattern: IntegrityManagerFactory.create(...)
+      - pattern: IntegrityManagerFactory.createStandard(...)
