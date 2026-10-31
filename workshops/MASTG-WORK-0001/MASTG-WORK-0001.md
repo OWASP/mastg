@@ -1,6 +1,6 @@
 ---
 title: Mobile Application Resilience for Beginners
-id: MASTG-WORKSHOP-0001
+id: MASTG-WORK-0001
 ---
 
 ## About
@@ -147,7 +147,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 
 1. When the version menu appears, select Magisk 30.6.
 
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/rootavd-magisk-version-selection.png" alt="Magisk 30.6 selected in rootAVD" width="50%" />
+    <img src="Images/Workshops/MASTG-WORK-0001/rootavd-magisk-version-selection.png" alt="Magisk 30.6 selected in rootAVD" width="50%" />
 
 2. Wait for rootAVD to open Magisk in the emulator.
 
@@ -163,7 +163,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 8. When rootAVD prompts you, press Enter.
 9. Wait for rootAVD to copy the modified image.
 
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/rootavd-installation-success.png" alt="Successful rootAVD image installation" width="50%" />
+    <img src="Images/Workshops/MASTG-WORK-0001/rootavd-installation-success.png" alt="Successful rootAVD image installation" width="50%" />
 
 !!! warning
     Keep the terminal and emulator open while rootAVD modifies the image.
@@ -179,7 +179,7 @@ bash ./rootAVD.sh system-images/android-36/google_apis_playstore/arm64-v8a/ramdi
 6. If Magisk requests additional setup, accept it and permit the restart.
 7. Confirm that Magisk displays **Yes** for **Zygisk** and **Ramdisk**.
 
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-root-status.png" alt="Magisk root status" width="300px" />
+    <img src="Images/Workshops/MASTG-WORK-0001/magisk-root-status.png" alt="Magisk root status" width="300px" />
 
 ### Install Frida
 
@@ -196,7 +196,7 @@ The workshop pins MagiskFrida to release `17.18.0-1`.
 5. Open Magisk, and then select **Modules** -> **Install from storage**.
 6. Open **Download** and select the MagiskFrida ZIP file.
 
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magiskfrida-zip-in-downloads.png" alt="MagiskFrida ZIP file in the device Downloads directory" width="300px" />
+    <img src="Images/Workshops/MASTG-WORK-0001/magiskfrida-zip-in-downloads.png" alt="MagiskFrida ZIP file in the device Downloads directory" width="300px" />
 
 7. Wait for the installation to finish.
 8. Select **Reboot**.
@@ -204,7 +204,7 @@ The workshop pins MagiskFrida to release `17.18.0-1`.
 10. Confirm that MagiskFrida is installed, enabled, and active.
 11. If **active** doesn't appear, select **Action** or reboot the device.
 
-    <img src="Images/Workshops/MASTG-WORKSHOP-0001/magiskfrida-active-module.png" alt="Active MagiskFrida module" width="300px" />
+    <img src="Images/Workshops/MASTG-WORK-0001/magiskfrida-active-module.png" alt="Active MagiskFrida module" width="300px" />
 
 #### Install Frida Client Tools on the Host Computer
 
@@ -241,7 +241,7 @@ frida -U -f com.android.settings
 Android Settings should start on the device. The Frida command-line interface
 (CLI) should appear in the terminal.
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/frida-connection-test.png" alt="Successful Frida connection test" width="50%" />
+<img src="Images/Workshops/MASTG-WORK-0001/frida-connection-test.png" alt="Successful Frida connection test" width="50%" />
 
 ## Content
 
@@ -264,7 +264,7 @@ If the app does not properly detect emulators or virtual devices, someone could 
 
 The result is that the platform would end up paying for fake activity, and, at the same time, users expecting to interact with real people would encounter bots instead, potentially damaging the platform's reputation and driving users away.
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/device-farm.png" alt="Multiple mobile device sessions controlled through a single interface" width="30%" />
+<img src="Images/Workshops/MASTG-WORK-0001/device-farm.png" alt="Multiple mobile device sessions controlled through a single interface" width="30%" />
 
 Another example is a competitive online game. Someone could modify the app statically (patching) or modify its runtime behavior (e.g., by hooking or debugging the application) with the purpose of manipulating scores to gain an unfair advantage, for example, or creating a cheat that provides information about the other users in the game (like a wallhack).
 
@@ -364,7 +364,7 @@ For this exercise, we will analyze and install the sample app from @MASTG-DEMO-0
 
 The app displays the result of each check, as shown in the example below.
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/root-detection-results.png" alt="Demo app showing individual root detection results and reporting that the device appears to be rooted" width="400px" />
+<img src="Images/Workshops/MASTG-WORK-0001/root-detection-results.png" alt="Demo app showing individual root detection results and reporting that the device appears to be rooted" width="400px" />
 
 !!! note
     Before reading the explanations below, open either demo and inspect its sample code. Try to identify the root detection mechanisms, what each one checks, and what makes it return a positive result. Remember to inspect the `AndroidManifest.xml` as well.
@@ -642,7 +642,7 @@ This approach has practical advantages:
 
 Open the demo app and tap **Start** again. In this setup, two checks detect signs of root: the `which su` check and the check for root-management apps.
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/root-detection-results.png" alt="Demo app showing two positive root detection results: su found through the which command and root-management apps found" width="400px" />
+<img src="Images/Workshops/MASTG-WORK-0001/root-detection-results.png" alt="Demo app showing two positive root detection results: su found through the which command and root-management apps found" width="400px" />
 
 We will analyze and bypass these checks one at a time.
 
@@ -699,7 +699,7 @@ Let's enforce the DenyList for the demo app:
 3. Open **Configure DenyList**.
 4. Find **MASTestApp** (`org.owasp.mastestapp`) and select its processes. Expand the entry to check that its main process is selected.
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-denylist-settings.png" alt="Magisk settings with Enforce DenyList enabled and MASTestApp selected in Configure DenyList" width="90%" />
+<img src="Images/Workshops/MASTG-WORK-0001/magisk-denylist-settings.png" alt="Magisk settings with Enforce DenyList enabled and MASTestApp selected in Configure DenyList" width="90%" />
 
 Now force-stop the demo app from the ADB shell:
 
@@ -711,7 +711,7 @@ Reopen the app from the launcher and tap **Start**. Force-stopping ensures that 
 
 The `which su` result should now change to **su not found via which command**, as shown below:
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/root-detection-after-denylist.png" alt="Demo app no longer finding su through which, while still detecting root-management apps" width="400px" />
+<img src="Images/Workshops/MASTG-WORK-0001/root-detection-after-denylist.png" alt="Demo app no longer finding su through which, while still detecting root-management apps" width="400px" />
 
 With the app running, let's inspect the mounts again and confirm that root is still available in the ADB shell:
 
@@ -753,7 +753,7 @@ Let's use this option:
 4. Let Magisk install and open the replacement manager. Complete any setup prompts and accept a launcher shortcut if offered.
 5. In the replacement manager, confirm that **Enforce DenyList** is still enabled and the demo app's processes remain selected.
 
-<img src="Images/Workshops/MASTG-WORKSHOP-0001/magisk-hide-manager-setting.png" alt="Magisk settings with Hide the Magisk app highlighted, offering a proxy app with a random package ID and custom label" width="400px" />
+<img src="Images/Workshops/MASTG-WORK-0001/magisk-hide-manager-setting.png" alt="Magisk settings with Hide the Magisk app highlighted, offering a proxy app with a random package ID and custom label" width="400px" />
 
 Once the replacement manager has opened and the migration has finished, check the package list again. The original identifier should no longer appear:
 
