@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "lint:markdown": "markdownlint-cli2"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "0.23.2",
+    "markdownlint-rule-search-replace": "1.2.0"
+  }
+}
