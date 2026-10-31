@@ -49,7 +49,7 @@ Apps targeting Android 10 (API level 29) or later must run a foreground service 
 
 Android 14 (API level 34) introduced app screen sharing, which lets users select a single app window instead of sharing the entire display.
 
-## Capturing the Screen Through an Accessibility Service
+### Capturing the Screen Through an Accessibility Service
 
 Android 11 (API level 30) introduced screenshot capture for accessibility services. An enabled `AccessibilityService` with screenshot capability can obtain screen images for features such as visual content recognition.
 
