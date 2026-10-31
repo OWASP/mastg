@@ -80,6 +80,8 @@ For demos (directory-based IDs):
 git mv demos/ios/MASVS-CAT/MASTG-DEMO-0x01 demos/ios/MASVS-CAT/MASTG-DEMO-NNNN
 ```
 
+After renaming demo directories, inspect their relative symlinks. If a link points to another demo directory that was renamed, update its target to the new directory name; `git mv` preserves the old target text.
+
 ### 5. Replace in-content references
 
 Pass `OLD=NEW` pairs as arguments — longer patterns first:
@@ -101,6 +103,7 @@ python3 .github/skills/mastg-assign-ids/scripts/next_id.py
 ```
 
 `verify.sh` exits 1 if any fake IDs remain. `next_id.py` should now report incremented next IDs. See [scripts/verify.sh](scripts/verify.sh).
+Also check that relative symlinks in renamed demo directories resolve to existing files.
 
 ### 7. Give the user a summary of the changes
 
