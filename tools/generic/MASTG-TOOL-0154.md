@@ -34,4 +34,4 @@ maestro test flow.yaml
 ```
 
 !!! note
-    On Android, Maestro reads the UI through the accessibility framework, so the hierarchy only includes the attributes the accessibility framework exposes. See @MASTG-TECH-0x01 for what this method reveals compared to other methods.
+    On Android, Maestro reads the UI through the accessibility framework, so the hierarchy only includes the attributes the accessibility framework exposes. See @MASTG-TECH-0177 for what this method reveals compared to other methods.

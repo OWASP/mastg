@@ -3,7 +3,7 @@ masvs_category: MASVS-PLATFORM
 platform: android
 title: Accessibility Data Sensitivity
 available_since: 34
-best-practices: [MASTG-BEST-0x01]
+best-practices: [MASTG-BEST-0075]
 ---
 
 Android 14 (API level 34) introduced accessibility data sensitivity, which lets an app specify that a [`View`](https://developer.android.com/reference/android/view/View) only allows interactions from accessibility services that are declared as accessibility tools. Accessibility services that aren't declared as [accessibility tools](#accessibility-tools) are denied access to the content of these views and can't perform interactions on them. Accessibility tools, such as screen readers, keep full access.

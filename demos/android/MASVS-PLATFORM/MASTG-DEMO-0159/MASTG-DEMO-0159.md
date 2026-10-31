@@ -1,9 +1,9 @@
 ---
 platform: android
 title: Sensitive Views Without Accessibility Data Sensitivity
-id: MASTG-DEMO-0x01
+id: MASTG-DEMO-0159
 code: [kotlin]
-test: MASTG-TEST-0x01
+test: MASTG-TEST-0403
 ---
 
 ## Sample
@@ -18,7 +18,7 @@ The sample creates a login and payment form with views that handle sensitive dat
     - **Confirm Payment button:** explicitly disables the protection using `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_NO)`, which overrides the value inherited from the payment container.
 5. **Cancel button:** is outside the payment container and keeps the default value, `ACCESSIBILITY_DATA_SENSITIVE_AUTO`. It doesn't handle sensitive data, so it isn't protected.
 
-Marking a view as accessibility data sensitive only restricts accessibility services that aren't declared as accessibility tools. Accessibility tools, such as screen readers, can still read and interact with all of these views (see "Accessibility Tools" in @MASTG-KNOW-0x01).
+Marking a view as accessibility data sensitive only restricts accessibility services that aren't declared as accessibility tools. Accessibility tools, such as screen readers, can still read and interact with all of these views (see "Accessibility Tools" in @MASTG-KNOW-0143).
 
 When you tap **Start**, the app shows the form at the bottom of the screen and lists the value returned by `isAccessibilityDataSensitive` for each view. Tapping **Confirm Payment** or **Cancel** closes the form and shows a confirmation message.
 
@@ -56,6 +56,6 @@ The remaining views are protected:
 - The one-time code field (line 67) sets `filterTouchesWhenObscured` and keeps the default `ACCESSIBILITY_DATA_SENSITIVE_AUTO` value, so it's treated as accessibility data sensitive.
 - The card number field (line 72) doesn't appear in the output, but the payment container (line 71) is marked as accessibility data sensitive and the field keeps the default value, so it inherits the protection.
 
-Note that the output only lists the views for which the app configures the protection. Views without any configuration, such as the username field (line 61) and the **Cancel** button (line 85), don't appear, so you have to find them by reviewing the reverse-engineered code. This is manageable in a small sample but hard in a real app. @MASTG-DEMO-0x02 shows how enumerating the views at runtime lists every view on the screen, including these, together with its effective value.
+Note that the output only lists the views for which the app configures the protection. Views without any configuration, such as the username field (line 61) and the **Cancel** button (line 85), don't appear, so you have to find them by reviewing the reverse-engineered code. This is manageable in a small sample but hard in a real app. @MASTG-DEMO-0160 shows how enumerating the views at runtime lists every view on the screen, including these, together with its effective value.
 
 When you tap **Start**, the app confirms these results at runtime by listing the value returned by `isAccessibilityDataSensitive` for each view: `false` for the username field and the **Confirm Payment** button, and `true` for the other fields.

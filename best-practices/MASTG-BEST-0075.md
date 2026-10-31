@@ -1,13 +1,13 @@
 ---
 title: Restricting Accessibility Service Access to Sensitive Views
 alias: restricting-accessibility-service-access-to-sensitive-views
-id: MASTG-BEST-0x01
+id: MASTG-BEST-0075
 platform: android
-knowledge: [MASTG-KNOW-0x01]
+knowledge: [MASTG-KNOW-0143]
 available_since: 34
 ---
 
-Mark views that display or accept sensitive data as accessibility data sensitive (@MASTG-KNOW-0x01). On Android 14 (API level 34) and higher, this restricts access to these views to accessibility services that declare themselves as accessibility tools by setting [`android:isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#attr_android:isAccessibilityTool) to `true` in their service configuration, such as screen readers. Accessibility services that don't declare `android:isAccessibilityTool="true"`, including malware that tricks the user into enabling it, can't read the content of these views or perform interactions on them, for example, capturing typed credentials or tapping a payment confirmation button on the user's behalf.
+Mark views that display or accept sensitive data as accessibility data sensitive (@MASTG-KNOW-0143). On Android 14 (API level 34) and higher, this restricts access to these views to accessibility services that declare themselves as accessibility tools by setting [`android:isAccessibilityTool`](https://developer.android.com/reference/android/accessibilityservice/AccessibilityServiceInfo#attr_android:isAccessibilityTool) to `true` in their service configuration, such as screen readers. Accessibility services that don't declare `android:isAccessibilityTool="true"`, including malware that tricks the user into enabling it, can't read the content of these views or perform interactions on them, for example, capturing typed credentials or tapping a payment confirmation button on the user's behalf.
 
 Apply this protection to views that handle or display sensitive information, such as:
 

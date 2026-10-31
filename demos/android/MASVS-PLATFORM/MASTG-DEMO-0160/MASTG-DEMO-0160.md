@@ -1,14 +1,14 @@
 ---
 platform: android
 title: Runtime Accessibility Data Sensitivity of Sensitive Views with Frida
-id: MASTG-DEMO-0x02
+id: MASTG-DEMO-0160
 code: [kotlin]
-test: MASTG-TEST-0x02
+test: MASTG-TEST-0404
 ---
 
 ## Sample
 
-This demo uses the same sample as @MASTG-DEMO-0x01. The app creates a login and payment form with views that handle sensitive data, each using a different accessibility data sensitivity configuration:
+This demo uses the same sample as @MASTG-DEMO-0159. The app creates a login and payment form with views that handle sensitive data, each using a different accessibility data sensitivity configuration:
 
 1. **Username field:** isn't marked as accessibility data sensitive.
 2. **Password field:** is explicitly marked as accessibility data sensitive.
@@ -18,7 +18,7 @@ This demo uses the same sample as @MASTG-DEMO-0x01. The app creates a login and 
     - **Confirm Payment button:** explicitly disables the protection using `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_NO)`, which overrides the value inherited from the payment container.
 5. **Cancel button:** is outside the payment container and keeps the default value, `ACCESSIBILITY_DATA_SENSITIVE_AUTO`. It doesn't handle sensitive data, so it isn't protected.
 
-Marking a view as accessibility data sensitive only restricts accessibility services that aren't declared as accessibility tools. Accessibility tools, such as screen readers, can still read and interact with all of these views (see "Accessibility Tools" in @MASTG-KNOW-0x01).
+Marking a view as accessibility data sensitive only restricts accessibility services that aren't declared as accessibility tools. Accessibility tools, such as screen readers, can still read and interact with all of these views (see "Accessibility Tools" in @MASTG-KNOW-0143).
 
 {{ MastgTest.kt }}
 
@@ -28,8 +28,8 @@ Marking a view as accessibility data sensitive only restricts accessibility serv
 2. Make sure you have @MASTG-TOOL-0001 installed on your machine and the frida-server running on the device.
 3. Run `run.sh` to spawn the app with Frida. The script uses @MASTG-TECH-0043 to hook the relevant API calls.
 4. Tap the **Start** button.
-5. Use @MASTG-TECH-0x01 to obtain the view hierarchy of the screen. The script does this automatically shortly after the app changes the hooked settings. On other screens, call `dumpViews()` from the Frida REPL.
-6. In another terminal, use @MASTG-TECH-0x02 to take a screenshot of the screen with @MASTG-TOOL-0004:
+5. Use @MASTG-TECH-0177 to obtain the view hierarchy of the screen. The script does this automatically shortly after the app changes the hooked settings. On other screens, call `dumpViews()` from the Frida REPL.
+6. In another terminal, use @MASTG-TECH-0178 to take a screenshot of the screen with @MASTG-TOOL-0004:
 
     ```bash
     adb exec-out screencap -p > screenshot.png
@@ -42,7 +42,7 @@ Marking a view as accessibility data sensitive only restricts accessibility serv
 The Frida script covers both techniques:
 
 - **Hooks (@MASTG-TECH-0043):** it hooks `setAccessibilityDataSensitive` and `setFilterTouchesWhenObscured` and prints the arguments and a backtrace for each call.
-- **View hierarchy (@MASTG-TECH-0x01):** its `dumpViews()` function enumerates the views of the foreground activity and prints the effective value returned by `isAccessibilityDataSensitive` for each view, which includes the protection inherited from parent views and implied by `filterTouchesWhenObscured`.
+- **View hierarchy (@MASTG-TECH-0177):** its `dumpViews()` function enumerates the views of the foreground activity and prints the effective value returned by `isAccessibilityDataSensitive` for each view, which includes the protection inherited from parent views and implied by `filterTouchesWhenObscured`.
 
 ## Observation
 

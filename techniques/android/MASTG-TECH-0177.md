@@ -20,12 +20,12 @@ This method doesn't require root access or instrumentation and works with releas
 
 However, keep the following limitations in mind:
 
-- The dump only contains the attributes listed above. It doesn't include other `View` properties, such as accessibility data sensitivity (@MASTG-KNOW-0x01) or `filterTouchesWhenObscured`.
+- The dump only contains the attributes listed above. It doesn't include other `View` properties, such as accessibility data sensitivity (@MASTG-KNOW-0143) or `filterTouchesWhenObscured`.
 - UI Automator reads the screen through the platform's UI automation framework, which isn't restricted by accessibility data sensitivity. Views marked as accessibility data sensitive still appear in the dump with their text and attributes. As a result, the dump doesn't reflect what an accessibility service that isn't an accessibility tool can access, and you can't use it to verify this protection.
 
-## Using @MASTG-TOOL-0x01
+## Using @MASTG-TOOL-0154
 
-The `hierarchy` command of @MASTG-TOOL-0x01 prints the UI hierarchy of the current screen as JSON:
+The `hierarchy` command of @MASTG-TOOL-0154 prints the UI hierarchy of the current screen as JSON:
 
 ```bash
 maestro hierarchy > hierarchy.json
@@ -73,7 +73,7 @@ You can use @MASTG-TECH-0043 to enumerate the `View` objects of the foreground a
 
 This method requires instrumentation (see @MASTG-TOOL-0001) and only covers `View` objects. Jetpack Compose elements aren't `View` objects, so they appear as a single `AndroidComposeView`. The values reflect the state at the time of the enumeration, so you need to repeat it on each screen you want to check.
 
-See @MASTG-DEMO-0x02 for an example script that enumerates the views of the foreground activity and prints their accessibility data sensitivity.
+See @MASTG-DEMO-0160 for an example script that enumerates the views of the foreground activity and prints their accessibility data sensitivity.
 
 ## Using a Custom Accessibility Service
 
@@ -89,18 +89,18 @@ On Android 13 (API level 33) and higher, the device's settings may block enablin
 
 ## Taking Screenshots
 
-Screenshots only show the pixels on the screen and don't reveal any property of the views. They're still useful to determine which data each screen displays. See @MASTG-TECH-0x02 for the available methods.
+Screenshots only show the pixels on the screen and don't reveal any property of the views. They're still useful to determine which data each screen displays. See @MASTG-TECH-0178 for the available methods.
 
 ## Choosing a Method
 
 | Method | Requirements | Source of the data | Shows accessibility data sensitivity |
 | --- | --- | --- | --- |
 | `uiautomator dump` | @MASTG-TOOL-0004 | Accessibility node tree, not restricted by accessibility data sensitivity | No, and protected views are still included |
-| `maestro hierarchy` | @MASTG-TOOL-0x01 | Accessibility node tree, not restricted by accessibility data sensitivity | No, and protected views are still included |
+| `maestro hierarchy` | @MASTG-TOOL-0154 | Accessibility node tree, not restricted by accessibility data sensitivity | No, and protected views are still included |
 | `dumpsys activity top` | @MASTG-TOOL-0004 | Summary of the app's `View` objects, without text | No |
 | Layout Inspector | Debuggable build | App's `View` objects and Compose elements | Not usable with release builds |
 | View enumeration with @MASTG-TOOL-0001 | Instrumentation | App's `View` objects, using the full `View` API | Yes, the effective value of each view |
 | Custom accessibility service | Separate test app with the service enabled | Accessibility node tree as received by a service that isn't an accessibility tool | Indirectly, by showing which views the service can access |
-| Screenshots | @MASTG-TECH-0x02 | Pixels on the screen | No |
+| Screenshots | @MASTG-TECH-0178 | Pixels on the screen | No |
 
-For example, to verify accessibility data sensitivity at runtime (@MASTG-TEST-0x02), enumerate the views with @MASTG-TOOL-0001 and use screenshots (@MASTG-TECH-0x02), `uiautomator dump`, or `maestro hierarchy` only to identify which views display sensitive data. To confirm what a malicious accessibility service can access, use a custom accessibility service.
+For example, to verify accessibility data sensitivity at runtime (@MASTG-TEST-0404), enumerate the views with @MASTG-TOOL-0001 and use screenshots (@MASTG-TECH-0178), `uiautomator dump`, or `maestro hierarchy` only to identify which views display sensitive data. To confirm what a malicious accessibility service can access, use a custom accessibility service.
