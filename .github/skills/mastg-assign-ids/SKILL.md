@@ -119,7 +119,7 @@ ID assignments used in this PR:
 ## Component locations
 
 | Type | Files/dirs |
-|------|-----------|
+| ---- | --------- |
 | MASTG-APP | `apps/*.md` |
 | MASTG-BEST | `best-practices/*.md` |
 | MASTG-DEMO | `demos/<platform>/<MASVS-CAT>/MASTG-DEMO-NNNN/` (directory) |
