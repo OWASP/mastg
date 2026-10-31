@@ -10,7 +10,6 @@ build
 *-temp
 tmp/
 OWASP_MSTG-SNAPSHOT-*
-OWASP_MAS_Checklist.xlsx
 logs
 *.pdf
 *.docx

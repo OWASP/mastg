@@ -19,9 +19,6 @@
             "pattern": "^/MASWE/"
         },
         {
-            "pattern": "^/checklists/"
-        },
-        {
             "pattern": "^MASTG/"
         },
         {
