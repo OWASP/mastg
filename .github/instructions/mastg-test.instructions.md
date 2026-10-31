@@ -234,7 +234,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 **Android:**
 
 | Purpose | Preferred TECH | Title | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Install the app | @MASTG-TECH-0005 | Installing Apps | Step 1 for all tests with `dynamic` in their type on Android |
 | Reverse engineer the app | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
 | Static code analysis | @MASTG-TECH-0014 | Static Analysis on Android | Step 2 in the standard Android `[static, code]` template |
@@ -250,13 +250,13 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Analyze the AndroidManifest | @MASTG-TECH-0150 | Analyzing the AndroidManifest | Precedes @MASTG-TECH-0151 when the NSC is also inspected |
 | Analyze the Network Security Configuration | @MASTG-TECH-0151 | Analyzing the Network Security Configuration | Requires the NSC reference found via @MASTG-TECH-0150 |
 | **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad; don't use for tests |
-| Search for strings | @MASTG-TECH-0019 | Retrieving Strings |  |
+| Search for strings | @MASTG-TECH-0019 | Retrieving Strings | |
 | Explore the app package | @MASTG-TECH-0007 | Exploring the App Package | Use to extract specific files from the APK (e.g., XML resource files) |
 
 **iOS:**
 
 | Purpose | Preferred TECH | Title | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Install the app | @MASTG-TECH-0056 | Installing Apps | Step 1 for all tests with `dynamic` in their type on iOS |
 | Extract the app | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Too broad; don't use for tests |
 | Reverse engineer the app | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
@@ -266,7 +266,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Monitor network traffic | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | Step 1 for all `[dynamic, network]` tests on iOS |
 | Monitor device logs | @MASTG-TECH-0060 | Monitoring System Logs | Use instead of @MASTG-TECH-0095 when observing platform-level log output |
 | **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad; don't use for tests |
-| Search for strings | @MASTG-TECH-0071 | Retrieving Strings |  |
+| Search for strings | @MASTG-TECH-0071 | Retrieving Strings | |
 | Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Step 1 for all `[static, ...]` tests on iOS and used to extract specific files from the app package |
 | Retrieve the Info.plist | @MASTG-TECH-0153 | Retrieving Info.plist Files | Precedes @MASTG-TECH-0154 and @MASTG-TECH-0155 in Info.plist analysis tests |
 | Analyze Info.plist settings | @MASTG-TECH-0154 | Analyzing Info.plist Files | Use after @MASTG-TECH-0153 for general plist key inspection |
@@ -277,7 +277,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 The combination of `type` and `platform` uniquely identifies the canonical template a test must follow:
 
 | type | platform | canonical template |
-|---|---|---|
+| --- | --- | --- |
 | `[static, code]` | android, ios | Static Analysis - Code Inspection |
 | `[static, config]` | android, ios | Static Analysis - Configuration and Manifest Inspection |
 | `[static, package]` | android, ios | Static Analysis - App Package Content Inspection |

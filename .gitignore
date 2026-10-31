@@ -37,5 +37,3 @@ site/
 .cache/
 references.json
 .obsidian/
-package.json
-package-lock.json
