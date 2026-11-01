@@ -18,7 +18,9 @@ Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
 **Decompiled Code:** Decompiled code must be provided if the demo involves static analysis.
 
 - **Android:** Follow the instructions in ["MASTestApp for Android - Run the Extraction Script"](https://github.com/cpholguera/mas-app-android) to obtain the relevant files, such as the reversed `AndroidManifest.xml` and the `MastgTest_reversed.java`, which is the MASTestApp's main file. Including the full version of these files is also useful for understanding the code in the context of the application, regardless of whether the demo focuses on a specific snippet.
-- **iOS:** Follow the instructions in ["MASTestApp for iOS - Reverse Engineering"](https://github.com/cpholguera/MASTestApp-iOS) to obtain the relevant files, such as the IPA file and the reversed `Info.plist` already converted to XML format. Currently, you need to extract the main binary, MASTestApp, manually, and include it in the demo folder (we allow this for now since the files are sufficiently small). The demos will typically use reverse engineering tools, such as `r2`, on this binary.
+- **iOS:** Follow the instructions in ["MASTestApp for iOS - Reverse Engineering"](https://github.com/cpholguera/mas-app-ios) to obtain the relevant files, such as the IPA file and the reversed `Info.plist` already converted to XML format. Currently, you need to extract the main binary, MASTestApp, manually, and include it in the demo folder (we allow this for now since the files are sufficiently small). The demos will typically use reverse engineering tools, such as `r2`, on this binary.
+
+## Building the App and Generating Artifacts
 
 **Build artifacts MUST be generated, never written by hand.** The following files are outputs of actually building the MASTestApp and reverse engineering or scanning the result:
 
@@ -27,16 +29,14 @@ Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
 - `MASTestApp`, `.ipa`, and `.apk` binaries
 - `output.txt` and any other result file (`*.json`, `*.sarif`)
 
-Produce them by running the real pipeline against the MASTestApp and copying the result into the demo folder. Never write, edit, reconstruct, or "fix up" these files by hand or from memory, and never adjust them so they match the write-up. If you cannot run the pipeline, stop and say so rather than committing a plausible-looking file: a fabricated artifact is worse than a missing one, because it looks verified.
+Produce them by cloning and building the app of the demo, and running it on a device:
 
-This applies with equal force to AI coding assistants, which can produce convincing decompiler and scanner output that never came from a build.
+- **Android:** [cpholguera/mas-app-android](https://github.com/cpholguera/mas-app-android). Copy the demo's files into the app at the paths listed in [Android: App Customization Files](#android-app-customization-files), build the APK with `./gradlew assembleDebug`, and install it on a device.
+- **iOS:** [cpholguera/mas-app-ios](https://github.com/cpholguera/mas-app-ios). Follow its README to build and run the app on a device or simulator.
 
-Two consequences worth calling out:
+Never write, edit, reconstruct, or "fix up" these files by hand or from memory, and never adjust them so they match the write-up. If you cannot run the pipeline, stop and say so rather than committing a plausible-looking file: a fabricated artifact is worse than a missing one, because it looks verified.
 
-- **Addresses in `.r2` scripts must be read from the built binary.** They shift on every rebuild, so an address that was not obtained from the exact binary committed alongside it is meaningless.
-- **Changing `run.sh` changes `output.txt`.** If you edit the command, regenerate the output by running it, and check that the write-up still matches.
-
-After generating an artifact, re-run the demo's `run.sh` once more and confirm the output is unchanged. If it differs, the committed artifact is not reproducible and must not be merged as is.
+A demo is not ready for review until the app has been built and run and these files come from that build, including demos that only need static analysis.
 
 The **demos MUST WORK**. See [Code Samples](#code-samples).
 
