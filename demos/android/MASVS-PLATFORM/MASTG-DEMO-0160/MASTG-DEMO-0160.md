@@ -55,7 +55,7 @@ The output shows the calls to the hooked setters, including their arguments and 
 
 The screenshot shows the screen with the form at the bottom:
 
-<img src="screenshot.png" width="50%" />
+<img src="Images/Demos/MASTG-DEMO-0160/screenshot.png" width="50%" />
 
 It also shows which views display or accept sensitive data: the **Username**, **Password**, **One-time code**, and **Card number** fields, and the **Confirm Payment** button. The **Cancel** button doesn't handle sensitive data.
 
