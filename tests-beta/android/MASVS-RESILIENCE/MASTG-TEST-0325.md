@@ -20,7 +20,7 @@ It is recommended to run this test using a rooted device or emulator to ensure t
     Hooking an app introduces an observer effect, because instrumentation leaves artifacts in the app's process (see @MASTG-KNOW-0030). An app that detects hooking may respond to those artifacts instead of to root, and behave differently than it does when it is not instrumented. To observe the app's reaction to a rooted environment without this effect, use @MASTG-TEST-0x01.
 
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through automated testing alone and may require manual reverse engineering and custom instrumentation.
+    This test does not cover the robustness or effectiveness of the root detection mechanisms. Setting the baseline for what counts as robust or effective is subjective, because it depends on the attacker's skills, time, and resources.
 
 !!! note "More information about this topic"
     See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts apps can look for.

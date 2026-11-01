@@ -17,7 +17,7 @@ This test is best combined with @MASTG-TEST-0325, which performs dynamic testing
 When you need to know how the app reacts to a rooted environment rather than which checks it implements, use @MASTG-TEST-0x01, which observes the app's behavior on a rooted device without instrumenting it.
 
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation.
+    This test does not cover the robustness or effectiveness of the root detection mechanisms. Setting the baseline for what counts as robust or effective is subjective, because it depends on the attacker's skills, time, and resources.
 
 !!! note "More information about this topic"
     See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts apps can look for.
