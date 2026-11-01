@@ -41,7 +41,7 @@ The password node also has the `Password` marker. The marker indicates password 
 
 The screenshot from @MASTG-DEMO-0x01 shows the same payment dialog:
 
-<img src="demo-compose.png" width="50%" />
+<img src="Images/Demos/MASTG-DEMO-0x01/demo-compose.png" width="50%" />
 
 ## Evaluation
 

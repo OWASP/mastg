@@ -77,7 +77,7 @@ See @MASTG-DEMO-0160 for an example script that enumerates the views of the fore
 
 ## Using a Custom Accessibility Service
 
-You can build a test app with an accessibility service that isn't declared as an accessibility tool and log the [`AccessibilityNodeInfo`](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo) tree that the service receives for each screen. This reflects what any other accessibility service that isn't an accessibility tool, including malware, can access. It's the most direct way to confirm the effect of protections such as accessibility data sensitivity.
+You can build a test app with an accessibility service that isn't declared as an accessibility tool and log the [`AccessibilityNodeInfo`](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo) tree that the service receives for each screen. This reflects what any other accessibility service that isn't an accessibility tool, including malware, can access. It's the most direct way to confirm the effect of protections such as accessibility data sensitivity. See @MASTG-DEMO-0x03 for an example.
 
 This method requires building and installing a separate app. You can enable its service in the device's accessibility settings or with @MASTG-TOOL-0004:
 

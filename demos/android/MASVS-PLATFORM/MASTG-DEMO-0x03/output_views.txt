@@ -1,0 +1,28 @@
+--------- beginning of main
+10-31 23:00:46.479  4257  4257 I MASTG-A11Y: ===== SCREEN: com.google.android.apps.nexuslauncher =====
+10-31 23:00:46.479  4257  4257 I MASTG-A11Y: FOUND [0.0.4] ACTION description="a11y Attacker" clickable=true id=com.google.android.apps.nexuslauncher:id/task
+10-31 23:00:47.321  4257  4257 I MASTG-DEMO: MASTG-DEMO-0x03 demonstrated a successful test: Observer active. Open any app to capture its accessibility hierarchy.
+10-31 23:00:49.400  4257  4257 I MASTG-A11Y: ===== SCREEN: org.owasp.mastestapp =====
+10-31 23:00:49.400  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0] TEXT text="MASTestApp"
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.1] ACTION clickable=true
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.1.0] TEXT text="Start"
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.2.0] TEXT text="Click "Start" to run the test. MASTG-DEMO-0x01 demonstrated a failed test: Username field: isAccessibilityDataSensitive=false MASTG-DEMO-0x01 demonstrated a failed test: Password field: isAccessibilit... (527 characters)"
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.1] EDIT value="" hint="Username" clickable=true
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.2] EDIT value="" hint="Password" clickable=true password=true
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.3] ACTION text="CONFIRM PAYMENT" clickable=true
+10-31 23:00:49.401  4257  4257 I MASTG-A11Y: FOUND [0.4] ACTION text="CANCEL" clickable=true
+10-31 23:00:51.616  4257  4257 I MASTG-A11Y: CHANGED [0.1] EDIT value="m" hint="Username" clickable=true
+10-31 23:00:51.728  4257  4257 I MASTG-A11Y: CHANGED [0.1] EDIT value="ma" hint="Username" clickable=true
+10-31 23:00:51.903  4257  4257 I MASTG-A11Y: CHANGED [0.1] EDIT value="mas" hint="Username" clickable=true
+10-31 23:00:52.180  4257  4257 I MASTG-A11Y: CHANGED [0.1] EDIT value="mast" hint="Username" clickable=true
+10-31 23:00:52.795  4257  4257 I MASTG-A11Y: CHANGED [0.1] EDIT value="mastester" hint="Username" clickable=true
+10-31 23:00:55.007  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="m" hint="Password" clickable=true password=true
+10-31 23:00:55.384  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="•y" hint="Password" clickable=true password=true
+10-31 23:00:55.907  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="••p" hint="Password" clickable=true password=true
+10-31 23:00:56.160  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="•••a" hint="Password" clickable=true password=true
+10-31 23:00:56.512  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="••••s" hint="Password" clickable=true password=true
+10-31 23:00:56.682  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="•••••s" hint="Password" clickable=true password=true
+10-31 23:00:57.167  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="•••••••2" hint="Password" clickable=true password=true
+10-31 23:00:57.305  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="•••••••••2" hint="Password" clickable=true password=true
+10-31 23:00:57.451  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="••••••••••6" hint="Password" clickable=true password=true
+10-31 23:00:58.359  4257  4257 I MASTG-A11Y: CHANGED [0.2] EDIT value="•••••••••••" hint="Password" clickable=true password=true

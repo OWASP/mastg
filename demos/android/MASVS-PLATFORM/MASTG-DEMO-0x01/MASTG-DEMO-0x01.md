@@ -18,6 +18,8 @@ The sample extends the MASTestApp's `MainActivity.kt` with a Jetpack Compose pay
 
 Tapping **Confirm Payment** or **Cancel** closes the dialog and shows "Payment confirmed." or "Payment cancelled." in the app.
 
+<img src="Images/Demos/MASTG-DEMO-0x01/demo-compose.png" width="50%" />
+
 {{ MainActivity.kt # MainActivityKt_reversed.java # ComposableSingletons$MainActivityKt_reversed.java }}
 
 ## Steps
