@@ -1,0 +1,41 @@
+--------- beginning of main
+11-01 12:01:16.799  5380  5414 I MASTG   : Starting root detection checks
+11-01 12:01:16.799  5380  5414 D MASTG   : checkForSuBinary: testing 10 paths
+11-01 12:01:16.803  5380  5414 D MASTG   : su path check: path=/system/app/Superuser.apk, exists=false
+11-01 12:01:16.803  5380  5414 D MASTG   : su path check: path=/sbin/su, exists=false
+11-01 12:01:16.804  5380  5414 D MASTG   : su path check: path=/system/bin/su, exists=false
+11-01 12:01:16.804  5380  5414 D MASTG   : su path check: path=/system/xbin/su, exists=false
+11-01 12:01:16.806  5380  5414 D MASTG   : su path check: path=/data/local/xbin/su, exists=false
+11-01 12:01:16.806  5380  5414 D MASTG   : su path check: path=/data/local/bin/su, exists=false
+11-01 12:01:16.807  5380  5414 D MASTG   : su path check: path=/system/sd/xbin/su, exists=false
+11-01 12:01:16.807  5380  5414 D MASTG   : su path check: path=/system/bin/failsafe/su, exists=false
+11-01 12:01:16.807  5380  5414 D MASTG   : su path check: path=/data/local/su, exists=false
+11-01 12:01:16.807  5380  5414 D MASTG   : su path check: path=/su/bin/su, exists=false
+11-01 12:01:16.807  5380  5414 I MASTG   : checkForSuBinary result: found=false
+11-01 12:01:16.807  5380  5414 D MASTG   : checkForWhichSu: executing which su
+11-01 12:01:16.863  5380  5414 I MASTG   : su found via which: path=/system_ext/bin/su
+11-01 12:01:16.863  5380  5414 D MASTG   : checkForRootPackages: testing 12 package names
+11-01 12:01:16.864  5380  5414 D MASTG   : root package not present: package=com.noshufou.android.su
+11-01 12:01:16.865  5380  5414 D MASTG   : root package not present: package=com.noshufou.android.su.elite
+11-01 12:01:16.865  5380  5414 D MASTG   : root package not present: package=eu.chainfire.supersu
+11-01 12:01:16.865  5380  5414 D MASTG   : root package not present: package=com.koushikdutta.superuser
+11-01 12:01:16.865  5380  5414 D MASTG   : root package not present: package=com.thirdparty.superuser
+11-01 12:01:16.865  5380  5414 D MASTG   : root package not present: package=com.yellowes.su
+11-01 12:01:16.865  5380  5414 I MASTG   : root package detected: package=com.topjohnwu.magisk
+11-01 12:01:16.866  5380  5414 D MASTG   : root package not present: package=com.kingroot.kinguser
+11-01 12:01:16.866  5380  5414 D MASTG   : root package not present: package=com.kingo.root
+11-01 12:01:16.866  5380  5414 D MASTG   : root package not present: package=com.smedialink.oneclickroot
+11-01 12:01:16.866  5380  5414 D MASTG   : root package not present: package=com.zhiqupk.root.global
+11-01 12:01:16.866  5380  5414 D MASTG   : root package not present: package=com.alephzain.framaroot
+11-01 12:01:16.866  5380  5414 I MASTG   : checkForRootPackages result: found=true
+11-01 12:01:16.866  5380  5414 I MASTG   : checkForTestKeys: buildTags=release-keys, isTestKeys=false
+11-01 12:01:16.866  5380  5414 D MASTG   : checkForDangerousProps: testing 2 properties
+11-01 12:01:16.866  5380  5414 D MASTG   : getSystemProperty exec: key=ro.debuggable
+11-01 12:01:16.876  5380  5414 D MASTG   : getprop ok: key=ro.debuggable, exit=0
+11-01 12:01:16.876  5380  5414 I MASTG   : system property check: prop=ro.debuggable, actual=null, expected=1, matched=false
+11-01 12:01:16.876  5380  5414 D MASTG   : getSystemProperty exec: key=ro.secure
+11-01 12:01:16.904  5380  5414 D MASTG   : getprop ok: key=ro.secure, exit=0
+11-01 12:01:16.904  5380  5414 I MASTG   : system property check: prop=ro.secure, actual=null, expected=0, matched=false
+11-01 12:01:16.904  5380  5414 I MASTG   : checkForDangerousProps result: matched=false
+11-01 12:01:16.904  5380  5414 I MASTG   : Completed checks: rooted=true
+11-01 12:01:16.904  5380  5414 I MASTG   : Sensitive operation skipped: root detected
