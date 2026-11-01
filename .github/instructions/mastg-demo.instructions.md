@@ -1,6 +1,6 @@
 ---
 name: 'Writing MASTG Demo Files'
-applyTo: 'demos/**/*.md'
+applyTo: 'demos/**'
 ---
 
 A collection of demos (demonstrative examples) of the test that include working code samples and test scripts to ensure reproducibility and reliability.
@@ -15,10 +15,23 @@ Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
 
 **Language:** The samples are written in **Kotlin** or **Swift**, depending on the platform. In some cases, the samples will also include configuration files such as `AndroidManifest.xml` or `Info.plist`.
 
-**Decompiled Code:** Decompiled code must be provided if the demo involves static analysis.
+## Building the App and Generating Artifacts
 
-- **Android:** Follow the instructions in ["MASTestApp for Android - Run the Extraction Script"](https://github.com/cpholguera/mas-app-android) to obtain the relevant files, such as the reversed `AndroidManifest.xml` and the `MastgTest_reversed.java`, which is the MASTestApp's main file. Including the full version of these files is also useful for understanding the code in the context of the application, regardless of whether the demo focuses on a specific snippet.
-- **iOS:** Follow the instructions in ["MASTestApp for iOS - Reverse Engineering"](https://github.com/cpholguera/MASTestApp-iOS) to obtain the relevant files, such as the IPA file and the reversed `Info.plist` already converted to XML format. Currently, you need to extract the main binary, MASTestApp, manually, and include it in the demo folder (we allow this for now since the files are sufficiently small). The demos will typically use reverse engineering tools, such as `r2`, on this binary.
+**Build artifacts MUST be generated, never written by hand.** The following files are outputs of actually building the MASTestApp and reverse engineering or scanning the result:
+
+- `MastgTest_reversed.java` and any other decompiled source
+- reversed `AndroidManifest.xml` and reversed `Info.plist`
+- `MASTestApp`, `.ipa`, and `.apk` binaries
+- `output.txt` and any other result file (`*.json`, `*.sarif`)
+
+Produce them by cloning the app of the demo, building and running it on a device, and extracting the files from that build:
+
+- **Android:** [cpholguera/mas-app-android](https://github.com/cpholguera/mas-app-android). Copy the demo's files into the app at the paths listed in [Android: App Customization Files](#android-app-customization-files), build the APK with `./gradlew assembleDebug`, and install it on a device. Then follow ["MASTestApp for Android - Run the Extraction Script"](https://github.com/cpholguera/mas-app-android) to obtain the reversed `AndroidManifest.xml` and `MastgTest_reversed.java`, which is the MASTestApp's main file. Including the full version of these files is also useful for understanding the code in the context of the application, regardless of whether the demo focuses on a specific snippet.
+- **iOS:** [cpholguera/mas-app-ios](https://github.com/cpholguera/mas-app-ios). Copy the demo's files into the app at the paths listed in [iOS: App Customization Files](#ios-app-customization-files), then follow its README to build and run the app on a device or simulator. Then follow ["MASTestApp for iOS - Reverse Engineering"](https://github.com/cpholguera/mas-app-ios) to obtain the IPA file and the reversed `Info.plist` already converted to XML format. Currently, you need to extract the main binary, MASTestApp, manually, and include it in the demo folder (we allow this for now since the files are sufficiently small). The demos will typically use reverse engineering tools, such as `r2`, on this binary.
+
+Never write, edit, reconstruct, or "fix up" these files by hand or from memory, and never adjust them so they match the write-up. If you cannot run the pipeline, stop and say so rather than committing a plausible-looking file: a fabricated artifact is worse than a missing one, because it looks verified.
+
+A demo is not ready for review until the app has been built and run and these files come from that build. This includes demos that only need static analysis, which must still provide the decompiled code.
 
 The **demos MUST WORK**. See [Code Samples](#code-samples).
 
@@ -351,7 +364,7 @@ Code samples for demos **must be** **created using one of our test apps** to ens
 - [https://github.com/cpholguera/mas-app-android](https://github.com/cpholguera/mas-app-android)
 - [https://github.com/cpholguera/mas-app-ios](https://github.com/cpholguera/mas-app-ios)
 
-Simply clone the repository and follow the instructions in the README files to run the apps on your local machine. You **must use these apps to validate the demos** before submitting them to the MASTG.
+See [Building the App and Generating Artifacts](#building-the-app-and-generating-artifacts) to build and run them. You **must use these apps to validate the demos** before submitting them to the MASTG.
 
 ### File
 
