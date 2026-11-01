@@ -1,0 +1,21 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                                     
+    ComposableSingletons$MainActivityKt_reversed.java
+     ❱ rules.mastg-android-accessibility-data-sensitive-compose
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-3] The isSensitiveData semantics property is set to false on a Jetpack Compose UI
+          element                                                                                          
+                                                                                                           
+          278┆ SemanticsPropertiesKt.setSensitiveData(semantics, false);
+            ⋮┆----------------------------------------
+     ❱ rules.mastg-android-accessibility-data-sensitive-compose
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-3] The isSensitiveData semantics property is set to true on a Jetpack Compose UI
+          element                                                                                         
+                                                                                                          
+          319┆ SemanticsPropertiesKt.setSensitiveData(semantics, true);
+

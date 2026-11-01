@@ -43,7 +43,7 @@ public final class MastgTest {
     }
 
     public final String mastgTest() {
-        DemoResults r = new DemoResults("0x01");
+        DemoResults r = new DemoResults("0159");
         if (Build.VERSION.SDK_INT < 34) {
             r.add(Status.ERROR, "Accessibility data sensitivity requires Android 14 (API level 34) or higher.");
             return r.toJson();
@@ -61,7 +61,6 @@ public final class MastgTest {
         EditText usernameField = createField("Username", 1);
         form.addView(usernameField);
         EditText passwordField = createField("Password", 129);
-        passwordField.setAccessibilityDataSensitive(1);
         form.addView(passwordField);
         EditText otpField = createField("One-time code", 18);
         otpField.setFilterTouchesWhenObscured(true);
