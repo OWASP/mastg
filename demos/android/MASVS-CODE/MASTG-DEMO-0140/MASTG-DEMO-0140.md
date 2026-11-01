@@ -29,7 +29,7 @@ Note that this app is not inherently malicious. It illustrates that any app can 
 
 Android presents the attacker app as a candidate for handling `INTERNAL_ACTION`:
 
-<img src="../MASTG-DEMO-0136/implicit-intent-choose-app.png" width="50%" />
+<img src="Images/Demos/MASTG-DEMO-0136/implicit-intent-choose-app.png" width="50%" />
 
 Once selected, the attacker app receives the intent and logs the action and extras sent by the victim app:
 
