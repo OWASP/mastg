@@ -162,7 +162,7 @@ You can validate this with @MASTG-TEST-0001 and compare results using @MASTG-TOO
 ```
 
 ```yaml
-weakness: MASWE-0069
+maswe: [MASWE-0069]
 best-practices: [MASTG-BEST-0010, MASTG-BEST-0011, MASTG-BEST-0012]
 ```
 
@@ -191,7 +191,7 @@ For MASTG chapters and related content, always embed pictures using an HTML `<im
 
 - Put `src` as the first attribute.
 - Optionally specify a `width` (e.g., `width="80%"`).
-- Store images in the appropriate directory (e.g., `Document/Images/Chapters` for MASTG chapters).
+- Store images in the appropriate directory (e.g., `Document/Images/Chapters` for MASTG chapters, or `Document/Images/Demos/<demo-id>/` for demos). Don't store images in the demo folders or reference them with paths relative to the `.md` file, because the website serves pages from a different location and doesn't rewrite those paths.
 - Inline HTML is permitted; the linter rule MD033 is disabled to allow this.
 
 Example:

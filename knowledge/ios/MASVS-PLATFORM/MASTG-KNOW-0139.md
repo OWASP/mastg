@@ -13,7 +13,7 @@ Three types of content worlds are available:
 
 - **`.page`**: the JavaScript environment of the loaded web page. Scripts and handlers registered here share scope with the page's own JavaScript.
 - **`.defaultClient`**: a pre-defined isolated world separate from the page. Variables and functions declared here are not visible to page JavaScript and do not conflict with the page's globals.
-- **Custom worlds**: created with [`WKContentWorld.world(withName:)`](https://developer.apple.com/documentation/webkit/wkcontentworld/world(withname:)). Multiple named worlds can coexist, each fully isolated from the others and from the page.
+- **Custom worlds**: created with [`WKContentWorld.world(name:)`](https://developer.apple.com/documentation/webkit/wkcontentworld/world(name:)). Multiple named worlds can coexist, each fully isolated from the others and from the page.
 
 ## Isolation Boundaries
 
@@ -37,7 +37,7 @@ All content worlds share the same DOM. This means:
 The following APIs were updated in iOS 14 to accept a [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld) parameter, allowing callers to choose where code executes:
 
 | API | Notes |
-|---|---|
+| --- | --- |
 | [`WKUserContentController.add(_:contentWorld:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/add(_:contentworld:name:)) | Registers a `WKScriptMessageHandler` in the specified world |
 | [`WKUserContentController.addScriptMessageHandler(_:contentWorld:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/addscriptmessagehandler(_:contentworld:name:)) | Registers a `WKScriptMessageHandlerWithReply` in the specified world |
 | [`WKUserScript(source:injectionTime:forMainFrameOnly:in:)`](https://developer.apple.com/documentation/webkit/wkuserscript/init(source:injectiontime:formainframeonly:in:)) | Injects a script into the specified world at document load |

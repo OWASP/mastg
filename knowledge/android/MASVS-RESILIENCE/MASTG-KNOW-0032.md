@@ -14,7 +14,7 @@ Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning f
 The following sections present these defensive controls grouped into four categories based on the type of integrity violation they detect. Each category includes specific methods and a discussion of their effectiveness and potential bypasses. They help answer the following questions:
 
 | Question | Category | Defensive Controls |
-|---|---|---|
+| --- | --- | --- |
 | Did an indirect call target change? | **[Control Flow Integrity Checks](#control-flow-integrity-checks)** | PLT/GOT hook detection, vtable hook detection, ART entry point verification |
 | Did executable code or protected data change? | **[Code Integrity Verification](#code-integrity-verification)** | Memory checksums, inline hook detection |
 | Was new executable code loaded into the process? | **[Runtime Code Injection Detection](#runtime-code-injection-detection)** | Dynamic library injection detection |
@@ -65,7 +65,7 @@ See ["The Jiu-Jitsu of Detecting Frida"](https://web.archive.org/web/20181227120
 
 ## Code Integrity Verification
 
-Code integrity verification is a common protection against code tampering. OWASP describes code tampering defenses as runtime checks that detect whether code has been added or changed from what the app expects based on its original integrity state (see [OWASP Mobile Top 10 M8: Code Tampering](https://owasp.org/www-project-mobile-top-10/2016-risks/m8-code-tampering/)).
+Code integrity verification is a common protection against code tampering. OWASP describes code tampering defenses as runtime checks that detect whether code has been added or changed from what the app expects based on its original integrity state (see [OWASP Mobile Top 10 M8: Code Tampering](https://owasp.org/www-project-mobile-top-10/2016-risks/m8-code-tampering)).
 
 Unlike [Control Flow Integrity Checks](#control-flow-integrity-checks), which detect pointer overwrites in indirection tables, the defensive controls in this category detect direct modifications to code or memory, either as arbitrary changes (checksums) or as specific known patterns (inline hook signatures).
 

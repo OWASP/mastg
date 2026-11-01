@@ -3,8 +3,7 @@ platform: ios
 title: Debuggable Entitlement Enabled in the entitlements.plist
 id: MASTG-TEST-0261
 type: [static, code]
-weakness: MASWE-0063
-profiles: [R]
+maswe: [MASWE-0063]
 knowledge: [MASTG-KNOW-0062]
 ---
 

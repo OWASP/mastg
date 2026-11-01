@@ -94,7 +94,7 @@ While the OS verifies the **domain**, the **path and query parameters are caller
 
 ## Sending Universal Links
 
-An app can open a universal link in another app with [`open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open). Passing the option [`universalLinksOnly`](https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/2865839-universallinksonly) set to `true` opens the URL only if it is a valid universal link with an installed app capable of handling it, instead of falling back to Safari.
+An app can open a universal link in another app with [`open(_:options:completionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplication/1648685-open). Passing the option [`universalLinksOnly`](https://developer.apple.com/documentation/uikit/uiapplication/openexternalurloptionskey/universallinksonly) set to `true` opens the URL only if it is a valid universal link with an installed app capable of handling it, instead of falling back to Safari.
 
 When an app calls `open(_:options:completionHandler:)` on a link to **its own** associated website, iOS does not treat it as a universal link, because the request originates from the app itself; the URL opens in Safari instead. Universal links are routed to the app only when opened from a different context, such as another app or a web page.
 

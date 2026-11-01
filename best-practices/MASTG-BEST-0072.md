@@ -24,7 +24,7 @@ guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
 
 ## Convert to Expected Types
 
-When a parameter represents a numeric value, convert it explicitly with [`Int.init`](https://developer.apple.com/documentation/swift/int/init(_:)-7l2mf) or [`Double.init`](https://developer.apple.com/documentation/swift/double/init(_:)-90wjl) and handle failure gracefully. Never use the raw string from [`URLQueryItem.value`](https://developer.apple.com/documentation/foundation/urlqueryitem/value) directly in operations that expect a specific type.
+When a parameter represents a numeric value, convert it explicitly with [`Int.init`](https://developer.apple.com/documentation/swift/int/init(_:)-2hmii) or [`Double.init`](https://developer.apple.com/documentation/swift/double/init(_:)-5wmm8) and handle failure gracefully. Never use the raw string from [`URLQueryItem.value`](https://developer.apple.com/documentation/foundation/urlqueryitem/value) directly in operations that expect a specific type.
 
 ```swift
 guard let amountString = components.queryItems?.first(where: { $0.name == "amount" })?.value,

@@ -4,10 +4,9 @@ title: Sensitive Data Exposed via Notifications
 id: MASTG-TEST-0315
 apis: [NotificationManager]
 type: [static, code]
-weakness: MASWE-0037
+maswe: [MASWE-0037]
 prerequisites:
 - identify-sensitive-data
-profiles: [L2]
 best-practices: [MASTG-BEST-0027]
 knowledge: [MASTG-KNOW-0054]
 ---

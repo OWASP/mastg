@@ -4,8 +4,7 @@ title: Runtime Use Of APIs Allowing Fallback to Non-Biometric Authentication
 id: MASTG-TEST-0269
 apis: [kSecAccessControlUserPresence, kSecAccessControlDevicePasscode, SecAccessControlCreateWithFlags]
 type: [dynamic, hooks]
-weakness: MASWE-0021
-profiles: [L2]
+maswe: [MASWE-0021]
 knowledge: [MASTG-KNOW-0056]
 ---
 

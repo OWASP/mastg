@@ -18,7 +18,7 @@ deprecation_note: New version available in MASTG V2
 
 ## Static Analysis
 
-In Swift, the [`SecRandomCopyBytes` API](https://developer.apple.com/reference/security/1399291-secrandomcopybytes "SecRandomCopyBytes (Swift)") is defined as follows:
+In Swift, the [`SecRandomCopyBytes` API](https://developer.apple.com/documentation/security/secrandomcopybytes(_:_:_:) "SecRandomCopyBytes (Swift)") is defined as follows:
 
 ```default
 func SecRandomCopyBytes(_ rnd: SecRandomRef?,
@@ -26,7 +26,7 @@ func SecRandomCopyBytes(_ rnd: SecRandomRef?,
                       _ bytes: UnsafeMutablePointer<UInt8>) -> Int32
 ```
 
-The [Objective-C version](https://developer.apple.com/reference/security/1399291-secrandomcopybytes?language=objc "SecRandomCopyBytes (Objective-C)") is
+The [Objective-C version](https://developer.apple.com/documentation/security/secrandomcopybytes(_:_:_:)?language=objc "SecRandomCopyBytes (Objective-C)") is
 
 ```objectivec
 int SecRandomCopyBytes(SecRandomRef rnd, size_t count, uint8_t *bytes);

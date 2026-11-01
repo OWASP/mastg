@@ -35,9 +35,8 @@ When a weakness has tests on both platforms, the Android and iOS tests **must be
 What must match across platforms:
 
 - **`title`**: identical on both platforms (do not include "Android" or "iOS" in the title; see [title](#title)).
-- **`weakness`**: the same `MASWE-XXXX` id.
+- **`maswe`**: the same `MASWE-XXXX` id(s).
 - **MASVS category and folder**: the same category (for example, both under `MASVS-RESILIENCE/`). A single weakness must not be split across different categories on different platforms.
-- **`profiles`**: the same profile set.
 - **Optional metadata that expresses the same intent**: if one platform sets `false_negative_prone`, `best-practices`, or `apis`, the other should too (with its platform-specific values).
 - **Body structure**: the same sections, the same issue framing in the Overview, parallel Example Attack Scenarios, and the same Observation/Evaluation logic (including any `**Further Validation Required:**` and `**Expected False Negatives:**` blocks).
 
@@ -90,11 +89,11 @@ The mobile platform. One of the following:
 
 The test ID.
 
-### weakness
+### maswe
 
-The MASWE weakness ID associated with this test.
+The MASWE weakness ID(s) associated with this test, as a list.
 
-- In YAML front matter, specify the bare identifier (for example, `weakness: MASWE-0069`). In body text, include the leading `@` (for example, @MASWE-0069).
+- In YAML front matter, specify a list of bare identifiers, even when there is only one (for example, `maswe: [MASWE-0069]`, or `maswe: [MASWE-0069, MASWE-0070]` when a test covers more than one weakness). In body text, include the leading `@` for each reference (for example, @MASWE-0069).
 
 ### type
 
@@ -156,22 +155,6 @@ Example:
 prerequisites:
 - identify-sensitive-data
 - identify-security-relevant-contexts
-```
-
-### profiles
-
-Specify the MAS profiles to which the test applies. Valid values: L1, L2, P, R.
-The profiles are described in [MAS Testing Profiles Guide](../../Document/0x03b-Testing-Profiles.md)
-
-- L1 denotes Essential Security.
-- L2 denotes Advanced Security.
-- P denotes Privacy.
-- R denotes Resilience.
-
-Example:
-
-```md
-profiles: [L1, L2, P]
 ```
 
 ### knowledge
@@ -251,7 +234,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 **Android:**
 
 | Purpose | Preferred TECH | Title | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Install the app | @MASTG-TECH-0005 | Installing Apps | Step 1 for all tests with `dynamic` in their type on Android |
 | Reverse engineer the app | @MASTG-TECH-0013 | Reverse Engineering Android Apps | Points to @MASTG-TECH-0016, @MASTG-TECH-0017, @MASTG-TECH-0018 |
 | Static code analysis | @MASTG-TECH-0014 | Static Analysis on Android | Step 2 in the standard Android `[static, code]` template |
@@ -267,13 +250,13 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Analyze the AndroidManifest | @MASTG-TECH-0150 | Analyzing the AndroidManifest | Precedes @MASTG-TECH-0151 when the NSC is also inspected |
 | Analyze the Network Security Configuration | @MASTG-TECH-0151 | Analyzing the Network Security Configuration | Requires the NSC reference found via @MASTG-TECH-0150 |
 | **Avoid** | @MASTG-TECH-0015 | Dynamic Analysis on Android | Too broad; don't use for tests |
-| Search for strings | @MASTG-TECH-0019 | Retrieving Strings |  |
+| Search for strings | @MASTG-TECH-0019 | Retrieving Strings | |
 | Explore the app package | @MASTG-TECH-0007 | Exploring the App Package | Use to extract specific files from the APK (e.g., XML resource files) |
 
 **iOS:**
 
 | Purpose | Preferred TECH | Title | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Install the app | @MASTG-TECH-0056 | Installing Apps | Step 1 for all tests with `dynamic` in their type on iOS |
 | Extract the app | @MASTG-TECH-0054 | Obtaining and Extracting Apps | Too broad; don't use for tests |
 | Reverse engineer the app | @MASTG-TECH-0065 | Reverse Engineering iOS Apps | Points to @MASTG-TECH-0068, @MASTG-TECH-0069 |
@@ -283,7 +266,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 | Monitor network traffic | @MASTG-TECH-0062 | Basic Network Monitoring/Sniffing | Step 1 for all `[dynamic, network]` tests on iOS |
 | Monitor device logs | @MASTG-TECH-0060 | Monitoring System Logs | Use instead of @MASTG-TECH-0095 when observing platform-level log output |
 | **Avoid** | @MASTG-TECH-0067 | Dynamic Analysis on iOS | Too broad; don't use for tests |
-| Search for strings | @MASTG-TECH-0071 | Retrieving Strings |  |
+| Search for strings | @MASTG-TECH-0071 | Retrieving Strings | |
 | Explore the app package | @MASTG-TECH-0058 | Exploring the App Package | Step 1 for all `[static, ...]` tests on iOS and used to extract specific files from the app package |
 | Retrieve the Info.plist | @MASTG-TECH-0153 | Retrieving Info.plist Files | Precedes @MASTG-TECH-0154 and @MASTG-TECH-0155 in Info.plist analysis tests |
 | Analyze Info.plist settings | @MASTG-TECH-0154 | Analyzing Info.plist Files | Use after @MASTG-TECH-0153 for general plist key inspection |
@@ -294,7 +277,7 @@ Always use the **most specific** technique available. Avoid broad techniques unl
 The combination of `type` and `platform` uniquely identifies the canonical template a test must follow:
 
 | type | platform | canonical template |
-|---|---|---|
+| --- | --- | --- |
 | `[static, code]` | android, ios | Static Analysis - Code Inspection |
 | `[static, config]` | android, ios | Static Analysis - Configuration and Manifest Inspection |
 | `[static, package]` | android, ios | Static Analysis - App Package Content Inspection |
