@@ -43,7 +43,7 @@ public final class MastgTest {
     }
 
     public final String mastgTest() {
-        DemoResults r = new DemoResults("0x01");
+        DemoResults r = new DemoResults("0159");
         if (Build.VERSION.SDK_INT < 34) {
             r.add(Status.ERROR, "Accessibility data sensitivity requires Android 14 (API level 34) or higher.");
             return r.toJson();

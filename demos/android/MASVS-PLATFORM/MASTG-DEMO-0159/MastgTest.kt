@@ -26,7 +26,7 @@ class MastgTest(private val context: Context) {
     private val formTag = "mastg-demo-form"
 
     fun mastgTest(): String {
-        val r = DemoResults("0x01")
+        val r = DemoResults("0159")
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             r.add(Status.ERROR, "Accessibility data sensitivity requires Android 14 (API level 34) or higher.")
