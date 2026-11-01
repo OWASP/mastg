@@ -11,7 +11,7 @@ test: MASTG-TEST-0403
 The sample creates a login and payment form with views that handle sensitive data, each using a different accessibility data sensitivity configuration. It does so by using Kotlin and the Android `View` APIs (instead of Android layout XML).
 
 1. **Username field:** isn't marked as accessibility data sensitive.
-2. **Password field:** is explicitly marked as accessibility data sensitive using `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)`.
+2. **Password field:** uses a password input type, which masks its text, but isn't marked as accessibility data sensitive.
 3. **One-time code field:** sets `filterTouchesWhenObscured`, which implies accessibility data sensitivity.
 4. **Payment container:** a `LinearLayout` that is explicitly marked as accessibility data sensitive using `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)`. It contains two views:
     - **Card number field:** keeps the default value, `ACCESSIBILITY_DATA_SENSITIVE_AUTO`, so it inherits the protection from the payment container.
@@ -38,24 +38,21 @@ The rule reports the calls to `setAccessibilityDataSensitive` and `setFilterTouc
 
 {{ output.txt }}
 
-- Line 64: the password field calls `setAccessibilityDataSensitive(1)`.
-- Line 67: the one-time code field calls `setFilterTouchesWhenObscured(true)`.
-- Line 71: the payment container calls `setAccessibilityDataSensitive(1)`.
-- Line 82: the **Confirm Payment** button calls `setAccessibilityDataSensitive(2)`.
+- Line 66: the one-time code field calls `setFilterTouchesWhenObscured(true)`.
+- Line 70: the payment container calls `setAccessibilityDataSensitive(1)`.
+- Line 81: the **Confirm Payment** button calls `setAccessibilityDataSensitive(2)`.
 
 ## Evaluation
 
-The test case fails because two views that handle sensitive data aren't accessibility data sensitive:
+The test case fails because three views that handle sensitive data aren't accessibility data sensitive:
 
 - The username field (line 61) doesn't appear in the output because the app doesn't configure any protection for it.
-- The **Confirm Payment** button (line 82) is reported by the `mastg-android-accessibility-data-sensitive-disabled` rule because the app calls `setAccessibilityDataSensitive(2)` on it, which overrides the protection inherited from the payment container.
+- The password field (line 63) doesn't appear in the output either. Its password input type (`129`, which is `TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD`) masks the text, but the app doesn't mark it as accessibility data sensitive.
+- The **Confirm Payment** button (line 81) is reported because the app calls `setAccessibilityDataSensitive(2)` on it, which overrides the protection inherited from the payment container.
 
 The remaining views are protected:
 
-- The password field (line 64) is explicitly marked as accessibility data sensitive.
-- The one-time code field (line 67) sets `filterTouchesWhenObscured` and keeps the default `ACCESSIBILITY_DATA_SENSITIVE_AUTO` value, so it's treated as accessibility data sensitive.
-- The card number field (line 72) doesn't appear in the output, but the payment container (line 71) is marked as accessibility data sensitive and the field keeps the default value, so it inherits the protection.
+- The one-time code field (line 66) sets `filterTouchesWhenObscured` and keeps the default `ACCESSIBILITY_DATA_SENSITIVE_AUTO` value, so it's treated as accessibility data sensitive.
+- The card number field (line 71) doesn't appear in the output, but the payment container (line 70) is marked as accessibility data sensitive and the field keeps the default value, so it inherits the protection.
 
-Note that the output only lists the views for which the app configures the protection. Views without any configuration, such as the username field (line 61) and the **Cancel** button (line 85), don't appear, so you have to find them by reviewing the reverse-engineered code. This is manageable in a small sample but hard in a real app. @MASTG-DEMO-0160 shows how enumerating the views at runtime lists every view on the screen, including these, together with its effective value.
-
-When you tap **Start**, the app confirms these results at runtime by listing the value returned by `isAccessibilityDataSensitive` for each view: `false` for the username field and the **Confirm Payment** button, and `true` for the other fields.
+Note that the output only lists the views for which the app configures the protection. Views without any configuration, such as the username field (line 61), the password field (line 63), and the **Cancel** button (line 84), don't appear, so you have to find them by reviewing the reverse-engineered code. This is manageable in a small sample but hard in a real app. @MASTG-DEMO-0160 shows how enumerating the views at runtime lists every view on the screen, including these, together with its effective value.

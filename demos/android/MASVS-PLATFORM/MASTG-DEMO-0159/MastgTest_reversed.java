@@ -61,7 +61,6 @@ public final class MastgTest {
         EditText usernameField = createField("Username", 1);
         form.addView(usernameField);
         EditText passwordField = createField("Password", 129);
-        passwordField.setAccessibilityDataSensitive(1);
         form.addView(passwordField);
         EditText otpField = createField("One-time code", 18);
         otpField.setFilterTouchesWhenObscured(true);

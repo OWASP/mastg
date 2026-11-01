@@ -48,9 +48,8 @@ class MastgTest(private val context: Context) {
         val usernameField = createField("Username", InputType.TYPE_CLASS_TEXT)
         form.addView(usernameField)
 
-        // PASS: [MASTG-TEST-0403] The password field is explicitly marked as accessibility data sensitive.
+        // FAIL: [MASTG-TEST-0403] The password field masks its text, but it isn't marked as accessibility data sensitive.
         val passwordField = createField("Password", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        passwordField.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
         form.addView(passwordField)
 
         // PASS: [MASTG-TEST-0403] The one-time code field uses filterTouchesWhenObscured, which implies accessibility data sensitivity.
