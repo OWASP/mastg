@@ -59,7 +59,7 @@ This method doesn't require root access, instrumentation, or a debuggable build.
 
 - It only lists `View` objects, so the content of a Jetpack Compose UI appears as a single `AndroidComposeView` without its individual elements.
 - The output doesn't include the text or hint of the views, which makes it hard to tell which view handles which data.
-- The state flags don't include properties such as accessibility data sensitivity or `filterTouchesWhenObscured`. For example, a protected password field and an unprotected username field have identical entries.
+- The state flags don't include properties such as accessibility data sensitivity or `filterTouchesWhenObscured`. For example, a protected one-time code field and an unprotected username field have identical state flags.
 
 ## Using @MASTG-TOOL-0007
 
