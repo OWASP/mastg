@@ -12,12 +12,16 @@ knowledge: [MASTG-KNOW-0027]
 
 This test checks whether the app implements root detection by statically analyzing the app binary for common root detection patterns. These may include checks for files and artifacts typically associated with rooted devices, as well as calls to known root detection APIs or libraries.
 
-See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts to look for.
-
 This test is best combined with @MASTG-TEST-0325, which performs dynamic testing to confirm whether the identified root detection mechanisms are active at runtime. This way, you can use static analysis to surface potential root detection logic and then focus your dynamic testing on those specific checks to confirm they are triggered at runtime. Alternatively, you can perform dynamic testing first to identify any root detection mechanisms that are active at runtime, and then use static analysis to further investigate their implementation and coverage.
 
+When you need to know how the app reacts to a rooted environment rather than which checks it implements, use @MASTG-TEST-0x01, which observes the app's behavior on a rooted device without instrumenting it.
+
 !!! note "Out of Scope"
-    This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation. See @MASTG-BEST-0030 for best practices on implementing root detection effectively and understanding its limitations.
+    This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through static analysis alone and may require manual reverse engineering and custom instrumentation.
+
+!!! note "More information about this topic"
+    See @MASTG-KNOW-0027 for more information on root detection techniques and specific APIs and artifacts apps can look for.
+    See @MASTG-BEST-0030 for best practices on implementing root detection effectively.
 
 ## Steps
 
