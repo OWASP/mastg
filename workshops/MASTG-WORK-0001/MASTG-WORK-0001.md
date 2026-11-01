@@ -811,8 +811,102 @@ There are also open-source detector apps, such as [Duck Detector](https://github
 
 You can learn by studying both root solutions and detectors: how root capabilities are implemented, which artifacts they expose, and how applications recognize those artifacts. Keep exploring these repositories and testing what you learn on your lab device.
 
-### Emulator Detection
-
 ### Hooking Detection
 
-### Other Resilience mechanisms
+<!-- Source: slides 47–73. -->
+
+#### What is Hooking and Why Detect It?
+
+TODO (slides 49–50): Explain how runtime instrumentation can inspect and change app behavior. Introduce the reverse engineering, license bypass, and API abuse examples, with the slide's small Frida hook as an illustration.
+
+#### Hooking Detection in the MAS Project
+
+TODO (slide 48): Connect hooking detection to the relevant MASVS control, weakness, knowledge pages, and @MASTG-TEST-0341. Confirm the replacement test references before filling in the links marked as work in progress in the slides.
+
+#### Inspecting the Hooking Detection Demo
+
+TODO (slides 51–53): Introduce the [workshop demo](../../demos/android/MASVS-RESILIENCE/MASTG-DEMO-0x03/MASTG-DEMO-0x03.md) and its Java and native encryption paths. Ask readers to inspect `MastgTest.kt` and `native-key.cpp`, identify the checks, and consider their effectiveness and possible improvements before reading the explanations.
+
+#### Hooking Detection Mechanisms in the Demo
+
+##### Checking Memory Mappings for Frida
+
+TODO (slides 54–55): Explain the search for Frida-related names in `/proc/self/maps`. Add a short exercise for reading the app's mappings, using the [`proc_pid_maps` documentation](https://man7.org/linux/man-pages/man5/proc_pid_maps.5.html), and explain the limits of detecting tool-specific names.
+
+##### Checking Library Code Integrity
+
+TODO (slides 56–57): Explain the FNV-1a comparison between Bionic's `.text` section in memory and on disk. Recreate the memory-versus-storage diagram and describe the check's coverage, limitations, and runtime cost.
+
+##### Looking for Hook Trampolines
+
+TODO (slide 58): Explain the demo's instruction-pattern check at a sensitive function's entry point. State its architecture assumptions and why different trampoline layouts or hook locations can evade it.
+
+#### How Hooks Change Execution
+
+##### Java Method Hooking
+
+TODO (slides 59–60): Adapt the before-and-after diagrams into a short explanation of ART method structures, Frida's replacement method, and calls to the original implementation. Keep the simplifications explicit.
+
+##### Native Function Hooking
+
+TODO (slides 61–63): Adapt the native diagrams to explain the function prologue, trampoline, callback, relocated instructions, and return to the original function.
+
+##### When Hook Implementations Change
+
+TODO (slide 64): Explain the Frida ARM64 trampoline change shown in the slide and its effect on the demo's detection assumption. Add the exact upstream reference and verify which Frida versions it affects.
+
+#### Running the Demo Without Instrumentation
+
+TODO (slides 65–66): Add APK installation steps and a baseline run. Include the expected check results and screenshots of the Java and native encryption operations completing without instrumentation.
+
+#### Detecting Standard Frida
+
+TODO (slides 67–68): Walk through `frida-trace -U -f org.owasp.mastestapp -i open`. Show the Frida mapping that the app detects and the resulting decision to skip the encryption operations.
+
+#### Switching to a Modified Frida Build
+
+TODO (slides 69–71): Document the switch from MagiskFrida to the workshop's undetected-frida build, including compatible client versions and a reboot. Repeat the trace and show how the library integrity check still blocks the native operation after the mapping-name check stops detecting Frida.
+
+#### Bonus: Bypassing the Library Integrity Check
+
+TODO (slides 72–73): Present this as an optional workshop exercise outside the MASTG test. Show how to locate `checkLibcText` with Binary Ninja or radare2, replace its result with Frida, and verify that the native operation completes. Add the bypass script and screenshots; explain why function offsets must match the APK build.
+
+### Emulator Detection
+
+<!-- Source: slides 74–85. -->
+
+#### What is Emulation and Why Detect It?
+
+TODO (slides 76–77): Explain how an emulator reproduces a device environment. Connect the device-farm example to the abuse scenarios already introduced in this workshop, while noting legitimate uses of emulators.
+
+#### Emulator Detection in the MAS Project
+
+TODO (slide 75): Connect emulator detection to the relevant MASVS control, weakness, knowledge pages, and @MASTG-TEST-0351. Confirm the static-test and replacement-test references that were still pending in the slides.
+
+#### Inspecting the Emulator Detection Demo
+
+TODO (slides 78–79): Introduce the sample and ask readers to inspect `MastgTest.kt`, identify its checks, and assess their limitations. Confirm the relationship between the workshop's `MASTG-DEMO-0x02` and `MASTG-DEMO-0114`, which appears later in the slides, before linking the source and APK.
+
+#### Emulator Detection Mechanisms in the Demo
+
+TODO (slide 80): Explain each check using the same goal, result, and weakness format as the root-detection section. Cover the demo's emulator indicators, including build values, known packages, and graphics renderer information, after confirming the selected sample's implementation.
+
+#### Comparing a Physical Device and an Emulator
+
+TODO (slides 81–83): Add installation and execution steps for both environments. Include the side-by-side results and screenshots, identify which indicators match on the emulator, and explain why results can vary between environments.
+
+#### Bonus: Hiding Emulator Indicators
+
+TODO (slides 84–85): Document the optional ReZygisk and COPG-VD exercise, including module versions, configuration, reboot, and compatibility with the earlier setup. Compare the results before and after the change: the slide still shows an emulator-related OpenGL renderer, so describe this as a partial bypass.
+
+### Resilience in Practice
+
+<!-- Source: slides 86–87. -->
+
+#### The Cat-and-Mouse Game
+
+TODO (slide 86): Bring together the root, hooking, and emulator exercises. Explain how studying both detection tools and bypass tools helps developers and testers improve checks, and how layered checks increase the time, patience, and skill required to bypass them.
+
+#### Choosing Resilience Mechanisms for the App
+
+TODO (slide 87): Close with guidance on matching resilience mechanisms to the app's threat model. Cover the trade-offs between protection, binary size, runtime overhead, and responsiveness, and refer back to the workshop objectives.
