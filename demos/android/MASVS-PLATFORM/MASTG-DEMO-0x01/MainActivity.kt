@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.isSensitiveData
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.sensitiveContent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -141,7 +142,13 @@ fun PaymentDialog(onResult: (String) -> Unit) {
                 TextField(
                     state = rememberTextFieldState(),
                     label = { Text("Username") },
-                    modifier = Modifier.padding(vertical = 4.dp)
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .semantics { isSensitiveData = false }
+                        // Unrelated to accessibility services:
+                        // The window containing the sensitive field will be hidden when doing screen sharing except recordings made with the default system recorder.
+                        // Only enforced by the OS on Android 15 (API 35)+
+                        .sensitiveContent(isContentSensitive = true)
                 )
                 // FAIL: [MASTG-TEST-0403] The password field masks its text, but it isn't marked with isSensitiveData.
                 SecureTextField(

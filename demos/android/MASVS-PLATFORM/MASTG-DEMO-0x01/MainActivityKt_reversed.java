@@ -191,12 +191,12 @@ public final class MainActivityKt {
     public static final void MainScreen(Composer composer, final int i) {
         Object next;
         Composer composerStartRestartGroup = composer.startRestartGroup(2010408835);
-        ComposerKt.sourceInformation(composerStartRestartGroup, "C(MainScreen)95@3781L76,96@3885L34,97@3951L7,107@4501L46,110@4554L280,106@4466L368:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation(composerStartRestartGroup, "C(MainScreen)96@3825L76,97@3929L34,98@3995L7,108@4545L46,111@4598L280,107@4510L368:MainActivity.kt#vyvp3i");
         int i2 = 1;
         int i3 = 0;
         if (composerStartRestartGroup.shouldExecute(i != 0, i & 1)) {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(2010408835, i, -1, "org.owasp.mastestapp.MainScreen (MainActivity.kt:93)");
+                ComposerKt.traceEventStart(2010408835, i, -1, "org.owasp.mastestapp.MainScreen (MainActivity.kt:94)");
             }
             final String str = "Click \"Start\" to run the test.\n\n";
             ComposerKt.sourceInformationMarkerStart(composerStartRestartGroup, -732389233, "CC(remember):MainActivity.kt#9igjgp");
@@ -260,7 +260,7 @@ public final class MainActivityKt {
             }, composerStartRestartGroup, 54), composerStartRestartGroup, 54, 0);
             if (MainScreen$lambda$4(mutableState2)) {
                 composerStartRestartGroup.startReplaceGroup(-1228153855);
-                ComposerKt.sourceInformation(composerStartRestartGroup, "124@4909L158,123@4871L206");
+                ComposerKt.sourceInformation(composerStartRestartGroup, "125@4953L158,124@4915L206");
                 ComposerKt.sourceInformationMarkerStart(composerStartRestartGroup, -732353055, "CC(remember):MainActivity.kt#9igjgp");
                 Object objRememberedValue4 = composerStartRestartGroup.rememberedValue();
                 if (objRememberedValue4 == Composer.INSTANCE.getEmpty()) {
@@ -316,12 +316,12 @@ public final class MainActivityKt {
     }
 
     static final Unit MainScreen$lambda$8(MutableState $displayString$delegate, Composer $composer, int $changed) {
-        ComposerKt.sourceInformation($composer, "C111@4564L264:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C112@4608L264:MainActivity.kt#vyvp3i");
         if (!$composer.shouldExecute(($changed & 3) != 2, $changed & 1)) {
             $composer.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(2027959928, $changed, -1, "org.owasp.mastestapp.MainScreen.<anonymous> (MainActivity.kt:111)");
+                ComposerKt.traceEventStart(2027959928, $changed, -1, "org.owasp.mastestapp.MainScreen.<anonymous> (MainActivity.kt:112)");
             }
             TextKt.m3326TextZ58ophY(MainScreen$lambda$1($displayString$delegate), TestTagKt.testTag(PaddingKt.m1089padding3ABfNKs(Modifier.INSTANCE, Dp.m8397constructorimpl(16)), MASTG_TEXT_TAG), Color.INSTANCE.m5515getWhite0d7_KjU(), null, TextUnitKt.getSp(16), null, null, FontFamily.INSTANCE.getMonospace(), 0L, null, null, 0L, 0, false, 0, 0, null, null, null, $composer, 25008, 0, 524136);
             if (ComposerKt.isTraceInProgress()) {
@@ -343,7 +343,7 @@ public final class MainActivityKt {
         Composer $composer2;
         Intrinsics.checkNotNullParameter(onResult, "onResult");
         Composer $composer3 = $composer.startRestartGroup(-172528441);
-        ComposerKt.sourceInformation($composer3, "C(PaymentDialog)N(onResult)135@5191L34,161@6427L270,167@6723L232,134@5151L1810:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer3, "C(PaymentDialog)N(onResult)136@5235L34,168@6934L270,174@7230L232,135@5195L2273:MainActivity.kt#vyvp3i");
         int $dirty = $changed;
         if (($changed & 6) == 0) {
             $dirty |= $composer3.changedInstance(onResult) ? 4 : 2;
@@ -353,7 +353,7 @@ public final class MainActivityKt {
             $composer2.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(-172528441, $dirty, -1, "org.owasp.mastestapp.PaymentDialog (MainActivity.kt:133)");
+                ComposerKt.traceEventStart(-172528441, $dirty, -1, "org.owasp.mastestapp.PaymentDialog (MainActivity.kt:134)");
             }
             ComposerKt.sourceInformationMarkerStart($composer3, 1703895721, "CC(remember):MainActivity.kt#9igjgp");
             boolean z = ($dirty & 14) == 4;
@@ -403,12 +403,12 @@ public final class MainActivityKt {
     }
 
     static final Unit PaymentDialog$lambda$1(final Function1 $onResult, Composer $composer, int $changed) {
-        ComposerKt.sourceInformation($composer, "C163@6596L34,163@6579L108:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C170@7103L34,170@7086L108:MainActivity.kt#vyvp3i");
         if (!$composer.shouldExecute(($changed & 3) != 2, $changed & 1)) {
             $composer.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(2057517839, $changed, -1, "org.owasp.mastestapp.PaymentDialog.<anonymous> (MainActivity.kt:163)");
+                ComposerKt.traceEventStart(2057517839, $changed, -1, "org.owasp.mastestapp.PaymentDialog.<anonymous> (MainActivity.kt:170)");
             }
             ComposerKt.sourceInformationMarkerStart($composer, 1589692561, "CC(remember):MainActivity.kt#9igjgp");
             boolean zChanged = $composer.changed($onResult);
@@ -439,12 +439,12 @@ public final class MainActivityKt {
     }
 
     static final Unit PaymentDialog$lambda$2(final Function1 $onResult, Composer $composer, int $changed) {
-        ComposerKt.sourceInformation($composer, "C169@6863L34,169@6842L103:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C176@7370L34,176@7349L103:MainActivity.kt#vyvp3i");
         if (!$composer.shouldExecute(($changed & 3) != 2, $changed & 1)) {
             $composer.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(-636378351, $changed, -1, "org.owasp.mastestapp.PaymentDialog.<anonymous> (MainActivity.kt:169)");
+                ComposerKt.traceEventStart(-636378351, $changed, -1, "org.owasp.mastestapp.PaymentDialog.<anonymous> (MainActivity.kt:176)");
             }
             ComposerKt.sourceInformationMarkerStart($composer, -1674234765, "CC(remember):MainActivity.kt#9igjgp");
             boolean zChanged = $composer.changed($onResult);

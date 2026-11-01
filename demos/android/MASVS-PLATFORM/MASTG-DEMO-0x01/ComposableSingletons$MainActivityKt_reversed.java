@@ -22,6 +22,7 @@ import androidx.compose.runtime.internal.ComposableLambdaKt;
 import androidx.compose.ui.Alignment;
 import androidx.compose.ui.ComposedModifierKt;
 import androidx.compose.ui.Modifier;
+import androidx.compose.ui.SensitiveContentKt;
 import androidx.compose.ui.layout.MeasurePolicy;
 import androidx.compose.ui.node.ComposeUiNode;
 import androidx.compose.ui.semantics.SemanticsModifierKt;
@@ -135,12 +136,12 @@ public final class ComposableSingletons$MainActivityKt {
     }
 
     static final Unit lambda__1647210896$lambda$0(Composer $composer, int $changed) {
-        ComposerKt.sourceInformation($composer, "C48@2093L12:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C49@2137L12:MainActivity.kt#vyvp3i");
         if (!$composer.shouldExecute(($changed & 3) != 2, $changed & 1)) {
             $composer.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(-1647210896, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-1647210896.<anonymous> (MainActivity.kt:48)");
+                ComposerKt.traceEventStart(-1647210896, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-1647210896.<anonymous> (MainActivity.kt:49)");
             }
             MainActivityKt.MainScreen($composer, 0);
             if (ComposerKt.isTraceInProgress()) {
@@ -151,10 +152,10 @@ public final class ComposableSingletons$MainActivityKt {
     }
 
     static final Unit lambda_964692755$lambda$0(Composer $composer, int $changed) {
-        ComposerKt.sourceInformation($composer, "C136@5245L15:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C137@5289L15:MainActivity.kt#vyvp3i");
         if ($composer.shouldExecute(($changed & 3) != 2, $changed & 1)) {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(964692755, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$964692755.<anonymous> (MainActivity.kt:136)");
+                ComposerKt.traceEventStart(964692755, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$964692755.<anonymous> (MainActivity.kt:137)");
             }
             TextKt.m3325TextNvy7gAk("Payment", null, 0L, null, 0L, null, null, null, 0L, null, null, 0L, 0, false, 0, 0, null, null, $composer, 6, 0, 262142);
             if (ComposerKt.isTraceInProgress()) {
@@ -168,10 +169,10 @@ public final class ComposableSingletons$MainActivityKt {
 
     static final Unit lambda_1765228308$lambda$0(Composer $composer, int $changed) {
         Function0<ComposeUiNode> function0;
-        ComposerKt.sourceInformation($composer, "C138@5293L1098:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C139@5337L1561:MainActivity.kt#vyvp3i");
         if ($composer.shouldExecute(($changed & 3) != 2, $changed & 1)) {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(1765228308, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$1765228308.<anonymous> (MainActivity.kt:138)");
+                ComposerKt.traceEventStart(1765228308, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$1765228308.<anonymous> (MainActivity.kt:139)");
             }
             ComposerKt.sourceInformationMarkerStart($composer, 1341605231, "CC(Column)N(modifier,verticalArrangement,horizontalAlignment,content)87@4443L61,88@4509L134:Column.kt#2w3rfo");
             Modifier modifier = Modifier.INSTANCE;
@@ -205,12 +206,10 @@ public final class ComposableSingletons$MainActivityKt {
             ComposerKt.sourceInformationMarkerStart($composer, 2093002350, "C89@4557L9:Column.kt#2w3rfo");
             ColumnScopeInstance columnScopeInstance = ColumnScopeInstance.INSTANCE;
             int i4 = ((0 >> 6) & StylePropertiesKt.TextDirectionMask) | 6;
-            ComposerKt.sourceInformationMarkerStart($composer, -1624224529, "C141@5478L24,140@5439L197,147@5818L24,146@5773L203,153@6129L24,157@6333L26,152@6090L287:MainActivity.kt#vyvp3i");
-            TextFieldKt.TextField(TextFieldStateKt.m1832rememberTextFieldStateLepunE(null, 0L, $composer, 0, 3), PaddingKt.m1091paddingVpY3zN4$default(Modifier.INSTANCE, 0.0f, Dp.m8397constructorimpl(4), 1, null), false, false, null, null, f53lambda$722578777, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null, null, null, null, $composer, 1572912, 0, 0, 33554364);
-            SecureTextFieldKt.m3052SecureTextFieldXvU6IwQ(TextFieldStateKt.m1832rememberTextFieldStateLepunE(null, 0L, $composer, 0, 3), PaddingKt.m1091paddingVpY3zN4$default(Modifier.INSTANCE, 0.0f, Dp.m8397constructorimpl(4), 1, null), false, null, null, lambda$1977537297, null, null, null, null, null, null, false, null, 0, (char) 0, null, null, null, null, null, null, null, $composer, 196656, 0, 0, 8388572);
+            ComposerKt.sourceInformationMarkerStart($composer, -1624210176, "C142@5522L24,146@5723L27,141@5483L660,154@6325L24,153@6280L203,160@6636L24,164@6840L26,159@6597L287:MainActivity.kt#vyvp3i");
             TextFieldState textFieldStateM1832rememberTextFieldStateLepunE = TextFieldStateKt.m1832rememberTextFieldStateLepunE(null, 0L, $composer, 0, 3);
             Modifier modifierM1091paddingVpY3zN4$default = PaddingKt.m1091paddingVpY3zN4$default(Modifier.INSTANCE, 0.0f, Dp.m8397constructorimpl(4), 1, null);
-            ComposerKt.sourceInformationMarkerStart($composer, -329461308, "CC(remember):MainActivity.kt#9igjgp");
+            ComposerKt.sourceInformationMarkerStart($composer, -329482235, "CC(remember):MainActivity.kt#9igjgp");
             Object objRememberedValue = $composer.rememberedValue();
             if (objRememberedValue == Composer.INSTANCE.getEmpty()) {
                 Object obj = new Function1() { // from class: org.owasp.mastestapp.ComposableSingletons$MainActivityKt$$ExternalSyntheticLambda8
@@ -223,7 +222,24 @@ public final class ComposableSingletons$MainActivityKt {
                 objRememberedValue = obj;
             }
             ComposerKt.sourceInformationMarkerEnd($composer);
-            TextFieldKt.TextField(textFieldStateM1832rememberTextFieldStateLepunE, SemanticsModifierKt.semantics$default(modifierM1091paddingVpY3zN4$default, false, (Function1) objRememberedValue, 1, null), false, false, null, null, lambda$1828242654, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null, null, null, null, $composer, 1572864, 0, 0, 33554364);
+            TextFieldKt.TextField(textFieldStateM1832rememberTextFieldStateLepunE, SensitiveContentKt.sensitiveContent(SemanticsModifierKt.semantics$default(modifierM1091paddingVpY3zN4$default, false, (Function1) objRememberedValue, 1, null), true), false, false, null, null, f53lambda$722578777, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null, null, null, null, $composer, 1572864, 0, 0, 33554364);
+            SecureTextFieldKt.m3052SecureTextFieldXvU6IwQ(TextFieldStateKt.m1832rememberTextFieldStateLepunE(null, 0L, $composer, 0, 3), PaddingKt.m1091paddingVpY3zN4$default(Modifier.INSTANCE, 0.0f, Dp.m8397constructorimpl(4), 1, null), false, null, null, lambda$1977537297, null, null, null, null, null, null, false, null, 0, (char) 0, null, null, null, null, null, null, null, $composer, 196656, 0, 0, 8388572);
+            TextFieldState textFieldStateM1832rememberTextFieldStateLepunE2 = TextFieldStateKt.m1832rememberTextFieldStateLepunE(null, 0L, $composer, 0, 3);
+            Modifier modifierM1091paddingVpY3zN4$default2 = PaddingKt.m1091paddingVpY3zN4$default(Modifier.INSTANCE, 0.0f, Dp.m8397constructorimpl(4), 1, null);
+            ComposerKt.sourceInformationMarkerStart($composer, -329446492, "CC(remember):MainActivity.kt#9igjgp");
+            Object objRememberedValue2 = $composer.rememberedValue();
+            if (objRememberedValue2 == Composer.INSTANCE.getEmpty()) {
+                Object obj2 = new Function1() { // from class: org.owasp.mastestapp.ComposableSingletons$MainActivityKt$$ExternalSyntheticLambda9
+                    @Override // kotlin.jvm.functions.Function1
+                    public final Object invoke(Object obj3) {
+                        return ComposableSingletons$MainActivityKt.lambda_1765228308$lambda$0$0$1$0((SemanticsPropertyReceiver) obj3);
+                    }
+                };
+                $composer.updateRememberedValue(obj2);
+                objRememberedValue2 = obj2;
+            }
+            ComposerKt.sourceInformationMarkerEnd($composer);
+            TextFieldKt.TextField(textFieldStateM1832rememberTextFieldStateLepunE2, SemanticsModifierKt.semantics$default(modifierM1091paddingVpY3zN4$default2, false, (Function1) objRememberedValue2, 1, null), false, false, null, null, lambda$1828242654, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null, null, null, null, $composer, 1572864, 0, 0, 33554364);
             ComposerKt.sourceInformationMarkerEnd($composer);
             ComposerKt.sourceInformationMarkerEnd($composer);
             $composer.endNode();
@@ -241,10 +257,10 @@ public final class ComposableSingletons$MainActivityKt {
 
     static final Unit lambda__722578777$lambda$0(TextFieldLabelScope TextField, Composer $composer, int $changed) {
         Intrinsics.checkNotNullParameter(TextField, "$this$TextField");
-        ComposerKt.sourceInformation($composer, "C142@5534L16:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C143@5578L16:MainActivity.kt#vyvp3i");
         if ($composer.shouldExecute(($changed & 17) != 16, $changed & 1)) {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(-722578777, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-722578777.<anonymous> (MainActivity.kt:142)");
+                ComposerKt.traceEventStart(-722578777, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-722578777.<anonymous> (MainActivity.kt:143)");
             }
             TextKt.m3325TextNvy7gAk("Username", null, 0L, null, 0L, null, null, null, 0L, null, null, 0L, 0, false, 0, 0, null, null, $composer, 6, 0, 262142);
             if (ComposerKt.isTraceInProgress()) {
@@ -256,12 +272,19 @@ public final class ComposableSingletons$MainActivityKt {
         return Unit.INSTANCE;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static final Unit lambda_1765228308$lambda$0$0$0$0(SemanticsPropertyReceiver semantics) {
+        Intrinsics.checkNotNullParameter(semantics, "$this$semantics");
+        SemanticsPropertiesKt.setSensitiveData(semantics, false);
+        return Unit.INSTANCE;
+    }
+
     static final Unit lambda_1977537297$lambda$0(TextFieldLabelScope SecureTextField, Composer $composer, int $changed) {
         Intrinsics.checkNotNullParameter(SecureTextField, "$this$SecureTextField");
-        ComposerKt.sourceInformation($composer, "C148@5874L16:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C155@6381L16:MainActivity.kt#vyvp3i");
         if ($composer.shouldExecute(($changed & 17) != 16, $changed & 1)) {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(1977537297, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$1977537297.<anonymous> (MainActivity.kt:148)");
+                ComposerKt.traceEventStart(1977537297, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$1977537297.<anonymous> (MainActivity.kt:155)");
             }
             TextKt.m3325TextNvy7gAk("Password", null, 0L, null, 0L, null, null, null, 0L, null, null, 0L, 0, false, 0, 0, null, null, $composer, 6, 0, 262142);
             if (ComposerKt.isTraceInProgress()) {
@@ -275,10 +298,10 @@ public final class ComposableSingletons$MainActivityKt {
 
     static final Unit lambda_1828242654$lambda$0(TextFieldLabelScope TextField, Composer $composer, int $changed) {
         Intrinsics.checkNotNullParameter(TextField, "$this$TextField");
-        ComposerKt.sourceInformation($composer, "C154@6185L19:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C161@6692L19:MainActivity.kt#vyvp3i");
         if ($composer.shouldExecute(($changed & 17) != 16, $changed & 1)) {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(1828242654, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$1828242654.<anonymous> (MainActivity.kt:154)");
+                ComposerKt.traceEventStart(1828242654, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$1828242654.<anonymous> (MainActivity.kt:161)");
             }
             TextKt.m3325TextNvy7gAk("Card number", null, 0L, null, 0L, null, null, null, 0L, null, null, 0L, 0, false, 0, 0, null, null, $composer, 6, 0, 262142);
             if (ComposerKt.isTraceInProgress()) {
@@ -291,7 +314,7 @@ public final class ComposableSingletons$MainActivityKt {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static final Unit lambda_1765228308$lambda$0$0$0$0(SemanticsPropertyReceiver semantics) {
+    public static final Unit lambda_1765228308$lambda$0$0$1$0(SemanticsPropertyReceiver semantics) {
         Intrinsics.checkNotNullParameter(semantics, "$this$semantics");
         SemanticsPropertiesKt.setSensitiveData(semantics, true);
         return Unit.INSTANCE;
@@ -299,12 +322,12 @@ public final class ComposableSingletons$MainActivityKt {
 
     static final Unit lambda__247347457$lambda$0(RowScope Button, Composer $composer, int $changed) {
         Intrinsics.checkNotNullParameter(Button, "$this$Button");
-        ComposerKt.sourceInformation($composer, "C164@6650L23:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C171@7157L23:MainActivity.kt#vyvp3i");
         if (!$composer.shouldExecute(($changed & 17) != 16, $changed & 1)) {
             $composer.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(-247347457, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-247347457.<anonymous> (MainActivity.kt:164)");
+                ComposerKt.traceEventStart(-247347457, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-247347457.<anonymous> (MainActivity.kt:171)");
             }
             TextKt.m3325TextNvy7gAk("Confirm Payment", null, 0L, null, 0L, null, null, null, 0L, null, null, 0L, 0, false, 0, 0, null, null, $composer, 6, 0, 262142);
             if (ComposerKt.isTraceInProgress()) {
@@ -316,12 +339,12 @@ public final class ComposableSingletons$MainActivityKt {
 
     static final Unit lambda__871720306$lambda$0(RowScope TextButton, Composer $composer, int $changed) {
         Intrinsics.checkNotNullParameter(TextButton, "$this$TextButton");
-        ComposerKt.sourceInformation($composer, "C170@6917L14:MainActivity.kt#vyvp3i");
+        ComposerKt.sourceInformation($composer, "C177@7424L14:MainActivity.kt#vyvp3i");
         if (!$composer.shouldExecute(($changed & 17) != 16, $changed & 1)) {
             $composer.skipToGroupEnd();
         } else {
             if (ComposerKt.isTraceInProgress()) {
-                ComposerKt.traceEventStart(-871720306, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-871720306.<anonymous> (MainActivity.kt:170)");
+                ComposerKt.traceEventStart(-871720306, $changed, -1, "org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda$-871720306.<anonymous> (MainActivity.kt:177)");
             }
             TextKt.m3325TextNvy7gAk("Cancel", null, 0L, null, 0L, null, null, null, 0L, null, null, 0L, 0, false, 0, 0, null, null, $composer, 6, 0, 262142);
             if (ComposerKt.isTraceInProgress()) {
