@@ -30,4 +30,4 @@ The first location is the import statement for the `MediaStore` API and the seco
 
 ## Evaluation
 
-After reviewing the decompiled code at the locations specified in the output (file and line number) we can conclude that the test fails because the file written by this instance contains sensitive data, specifically a API key.
+After reviewing the decompiled code at the locations specified in the output (file and line number) we can conclude that the test fails because the file written by this instance contains sensitive data, specifically an API key.

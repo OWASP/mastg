@@ -193,4 +193,4 @@ Next, there is a _visual_ way to inspect the status of some app permissions when
 
 <img src="Images/Chapters/0x06h/settings_allow_screen.png" width="100%" />
 
-For example, in the previous example, the "Location" entry was not being listed until we triggered the permission dialogue for the first time. Once we did it, no matter if we allowed the access or not, the the "Location" entry will be displayed.
+For example, in the previous example, the "Location" entry was not being listed until we triggered the permission dialogue for the first time. Once we did it, no matter if we allowed the access or not, the "Location" entry will be displayed.
