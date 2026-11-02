@@ -5,4 +5,5 @@
     android:accessibilityFeedbackType="feedbackGeneric"
     android:notificationTimeout="100"
     android:canRetrieveWindowContent="true"
+    android:packageNames="org.owasp.mastestapp"
     android:isAccessibilityTool="false" />

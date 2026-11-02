@@ -60,7 +60,8 @@ class MastgAccessibilityService : AccessibilityService() {
         super.onServiceConnected()
 
         serviceInfo = serviceInfo.apply {
-            packageNames = null
+            // Safety scope for this demo: only observe the MASTestApp victim.
+            packageNames = arrayOf("org.owasp.mastestapp")
 
             eventTypes =
                 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED or
