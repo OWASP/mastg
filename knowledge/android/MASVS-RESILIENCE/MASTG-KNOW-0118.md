@@ -40,13 +40,14 @@ Several commercial solutions provide RASP capabilities as SDKs or compiler toolc
 
 The biggest difference is that SDKs operate as standalone frameworks delivered within the application. They sit alongside the app's core functionality, and the app must 'call out' to the security SDK. By contrast, compiler toolchains inject detections between user code and randomly obfuscate the resulting code at each compilation.
 
-### Google Play Integrity API
+## RASP vs. Device and App Attestation
 
-For Android apps distributed through Google Play, the Play Integrity API (see @MASTG-KNOW-0035) provides device and app attestation. It can verify:
+RASP and attestation are complementary but fundamentally different approaches to integrity protection:
 
-- The app binary is the original, unmodified version from Google Play
-- The app is running on a genuine Android device
-- The device passes basic integrity checks
+- **RASP** runs entirely within the app process. It performs self-checks at runtime and reacts locally - terminating the session, wiping data, or alerting a backend. Because RASP logic lives inside the app, a sufficiently privileged attacker (e.g., on a rooted device) can inspect, disable, or spoof it.
+- **Attestation** relies on a trusted third party to produce a cryptographically signed verdict about the device and app state, verified server-side and outside the attacker's reach. Android provides two complementary mechanisms: hardware Key Attestation (see @MASTG-KNOW-0044), which proves that a cryptographic key was generated and stored inside a TEE or StrongBox; and the Play Integrity API (see @MASTG-KNOW-0035), which issues a server-verifiable verdict covering device integrity, app authenticity, and installation source.
+
+Because attestation verdicts are evaluated server-side, they are significantly harder to spoof than client-side RASP checks. However, attestation is not a drop-in replacement for RASP: it operates asynchronously, requires network connectivity, and does not provide real-time, in-process reaction capabilities. The failure modes also differ - when attestation fails, the _server_ rejects the request before any sensitive operation proceeds; when RASP detects a threat, the _app_ reacts locally, which is valuable for offline scenarios but is subject to bypass on a compromised device. The two approaches work best when combined: attestation to establish verified trust at session start, and RASP to detect and respond to threats during execution.
 
 ## Limitations
 
