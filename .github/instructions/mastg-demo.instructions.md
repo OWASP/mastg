@@ -219,7 +219,7 @@ Attacker apps are published by OWASP, so they **MUST** be harmless by design and
 - Don't exploit vulnerabilities in the operating system or in apps other than the demo's sample app. Don't use hidden or private APIs, native exploits, privilege escalation, or root.
 - Don't persist beyond the demo (for example, no boot receivers, scheduled jobs, or foreground services that keep running), and don't hide the app or its activity from the user.
 - Don't send data off the device. Show the results in the attacker app's UI or in logcat only.
-- Use benign, clearly labeled payloads (for example, `PWNED BY ATTACKER` in a file in the attacker's own cache), and don't modify anything outside the attacker app and the sample app.
+- Use benign, clearly labeled payloads (for example, `COMPROMISED BY ATTACKER` in a file in the attacker's own cache), and don't modify anything outside the attacker app and the sample app.
 
 **Scoped to the sample app:**
 
