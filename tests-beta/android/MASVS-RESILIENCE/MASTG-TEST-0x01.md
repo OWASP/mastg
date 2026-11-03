@@ -19,6 +19,8 @@ This test is best combined with:
 - @MASTG-TEST-0324: Covers identifying root detection mechanisms with static analysis.
 - @MASTG-TEST-0325: Covers identifying root detection mechanisms with dynamic analysis through hooking.
 
+This test evaluates the app's behavior, so an app that detects root and shows no reaction fails it. Whether an app implements root detection is covered by @MASTG-TEST-0324 with static analysis and @MASTG-TEST-0325 at runtime.
+
 !!! note "Out of Scope"
     This test does not cover robustness or effectiveness of root detection mechanisms, which can be very difficult to assess through automated testing alone and may require manual reverse engineering and custom instrumentation.
 
