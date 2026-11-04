@@ -1,0 +1,49 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 2 files tracked by git with 3 Code rules:
+                                                                                                                        
+  Language      Rules   Files          Origin   Rules                                                                   
+ ─────────────────────────────        ────────────────                                                                  
+  java              2       1          Custom       3                                                                   
+  <multilang>       1       1                                                                                           
+                                                                                                                        
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+    ❯❱ rules.mastg-android-hardcoded-api-keys-known-formats
+          ❰❰ Blocking ❱❱
+          [MASVS-STORAGE-1] Hardcoded credential matching a well-known provider format found in the app
+          package.                                                                                     
+                                                                                                       
+           11┆ private static final String AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE";
+            ⋮┆----------------------------------------
+           12┆ private static final String MAPS_API_KEY = "AIzaSyDFakeMastgDemoKeyNotARealKey12345";
+               
+    strings.xml
+    ❯❱ rules.mastg-android-hardcoded-api-keys-resources
+          ❰❰ Blocking ❱❱
+          [MASVS-STORAGE-1] Credential-named string resource found in the app package.
+                                                                                      
+            4┆ <string name="maps_api_key">AIzaSyDFakeMastgDemoKeyNotARealKey12345</string>
+            ⋮┆----------------------------------------
+            5┆ <string name="analytics_secret">c2VjcmV0LXZhbHVlLWZvci1kZW1v</string>
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 4 (4 blocking)
+ • Rules run: 3
+ • Targets scanned: 2
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 3 rules on 2 files: 4 findings.
