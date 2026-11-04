@@ -14,9 +14,7 @@
 [Build] Build.ID=BP2A.250805.005
 [Build.getRadioVersion] -> 1.0.0.0
 [Build] Build.RADIO=1.0.0.0
-[Build] Build.SERIAL=unknown
 [Build] Build.TAGS=test-keys
-[Build] Build.USER=jcasado
 [PackageManager.hasSystemFeature] android.hardware.telephony (0) -> true
 [PackageManager.hasSystemFeature] android.hardware.telephony -> true
 [TelephonyManager.getLine1Number] -> +15551234567
