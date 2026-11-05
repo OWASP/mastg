@@ -7,8 +7,7 @@ best-practices: [MASTG-BEST-0x01]
 prerequisites:
   - identify-sensitive-data
   - identify-security-relevant-contexts
-weakness: MASWE-0008
-profiles: [L1, L2]
+maswe: [MASWE-0008]
 knowledge: [MASTG-KNOW-0x01]
 ---
 
