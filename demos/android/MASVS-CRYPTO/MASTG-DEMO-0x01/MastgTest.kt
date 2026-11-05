@@ -13,7 +13,7 @@ class MastgTest(private val context: Context) {
     fun mastgTest(): String {
         val password = "superSecretPassword!"
         val tokenMaterial = "session-token-user-42"
-        val fileContents = "readme.txt"
+        val documentContent = "Sample non-sensitive document content."
 
         // FAIL: [MASTG-TEST-0x01] The app hashes a password with MD5.
         val md5 = MessageDigest.getInstance("MD5")
@@ -30,14 +30,14 @@ class MastgTest(private val context: Context) {
         val sha1AliasToken = sha1Alias.digest(tokenMaterial.toByteArray(Charsets.UTF_8)).toHex()
         Log.d("MASTG-TEST", "SHA1 alias token hash: $sha1AliasToken")
 
-        // CONTEXTUAL: [MASTG-TEST-0x01] The app uses MD5 for a checksum. Flagged by static analysis, but requires contextual validation to determine whether it is used in a security-relevant context.
+        // CONTEXTUAL: [MASTG-TEST-0x01] The app uses MD5 for a checksum on non-sensitive data. Flagged by static analysis, but requires contextual validation to determine whether it is used in a security-relevant context.
         val md5ChecksumDigest = MessageDigest.getInstance("MD5")
-        val md5Checksum = md5ChecksumDigest.digest(fileContents.toByteArray(Charsets.UTF_8)).toHex()
+        val md5Checksum = md5ChecksumDigest.digest(documentContent.toByteArray(Charsets.UTF_8)).toHex()
         Log.d("MASTG-TEST", "MD5 checksum: $md5Checksum")
 
-        // PASS: [MASTG-TEST-0x01] The app hashes non-sensitive file/document data with SHA-256.
+        // PASS: [MASTG-TEST-0x01] The app hashes non-sensitive document content with SHA-256.
         val sha256 = MessageDigest.getInstance("SHA-256")
-        val sha256Document = sha256.digest(fileContents.toByteArray(Charsets.UTF_8)).toHex()
+        val sha256Document = sha256.digest(documentContent.toByteArray(Charsets.UTF_8)).toHex()
         Log.d("MASTG-TEST", "SHA-256 document hash: $sha256Document")
 
         return buildString {

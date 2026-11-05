@@ -13,7 +13,7 @@ rules:
               - pattern: java.security.MessageDigest.getInstance($ALGO, ...)
           - metavariable-regex:
               metavariable: $ALGO
-              regex: (?i)^"?(MD2|MD4|MD5|SHA-1|SHA1|SHA)"?$
+              regex: (?i)^"?(MD5|SHA-1|SHA1|SHA)"?$
       - pattern: Hashing.md5(...)
       - pattern: com.google.common.hash.Hashing.md5(...)
       - pattern: Hashing.sha1(...)
@@ -36,4 +36,4 @@ rules:
               - pattern: org.apache.commons.codec.digest.DigestUtils.getDigest($ALGO, ...)
           - metavariable-regex:
               metavariable: $ALGO
-              regex: (?i)^"?(MD2|MD4|MD5|SHA-1|SHA1|SHA)"?$
+              regex: (?i)^"?(MD5|SHA-1|SHA1|SHA)"?$

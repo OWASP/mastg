@@ -62,14 +62,14 @@ public final class MastgTest {
         String sha1AliasToken = toHex(bArrDigest3);
         Log.d("MASTG-TEST", "SHA1 alias token hash: " + sha1AliasToken);
         MessageDigest md5ChecksumDigest = MessageDigest.getInstance("MD5");
-        byte[] bytes4 = "readme.txt".getBytes(Charsets.UTF_8);
+        byte[] bytes4 = "Sample non-sensitive document content.".getBytes(Charsets.UTF_8);
         Intrinsics.checkNotNullExpressionValue(bytes4, "getBytes(...)");
         byte[] bArrDigest4 = md5ChecksumDigest.digest(bytes4);
         Intrinsics.checkNotNullExpressionValue(bArrDigest4, "digest(...)");
         String md5Checksum = toHex(bArrDigest4);
         Log.d("MASTG-TEST", "MD5 checksum: " + md5Checksum);
         MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-        byte[] bytes5 = "readme.txt".getBytes(Charsets.UTF_8);
+        byte[] bytes5 = "Sample non-sensitive document content.".getBytes(Charsets.UTF_8);
         Intrinsics.checkNotNullExpressionValue(bytes5, "getBytes(...)");
         byte[] bArrDigest5 = sha256.digest(bytes5);
         Intrinsics.checkNotNullExpressionValue(bArrDigest5, "digest(...)");
