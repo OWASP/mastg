@@ -81,7 +81,9 @@ The WebView can access any file that the app has permission to access via `file:
     - Since Android 10:
         - only the app-specific directories (due to scoped storage restrictions) without any special permissions.
         - entire media folders (including data from other apps) if the app has the `READ_MEDIA_IMAGES` or similar permissions.
-        - the entire external storage if the app has the `MANAGE_EXTERNAL_STORAGE` permission.
+        - starting on Android 11 (API level 30), broad access to shared storage if the app has the `MANAGE_EXTERNAL_STORAGE` permission, except other apps' app-specific directories under `Android/data/` and `Android/obb/`.
+
+See @MASTG-KNOW-0042 and [the operations allowed with `MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/training/data-storage/manage-all-files#operations-allowed-manage-external-storage) for details.
 
 ### `setAllowFileAccess`
 
@@ -212,7 +214,7 @@ The WebView can access any data accessible via content providers (if the app has
     - Since Android 10:
         - only the app-specific directories (due to scoped storage restrictions) without any special permissions.
         - entire media folders (including data from other apps) if the app has the `READ_MEDIA_IMAGES` or similar permissions.
-        - the entire external storage if the app has the `MANAGE_EXTERNAL_STORAGE` permission.
+        - files exposed by accessible content providers. `MANAGE_EXTERNAL_STORAGE` allows broad access to shared storage but doesn't bypass provider access controls or scoped-storage protections for other apps' app-specific directories under `Android/data/` and `Android/obb/`.
 
 Data from other apps accessible via content providers (if the app has any and they are exported) can also be accessed.
 
