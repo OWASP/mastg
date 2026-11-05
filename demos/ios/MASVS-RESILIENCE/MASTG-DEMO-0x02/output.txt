@@ -1,0 +1,76 @@
+=== App Attest API references ===
+0x10000bfbf 34 str.generateKeyWithCompletionHandler:
+0x100014158 8 reloc.fixup.generateKeyWithCompletionHandle
+0x10000bf3e 44 str.attestKey:clientDataHash:completionHandler:
+0x100014140 8 reloc.fixup.attestKey:clientDataHash:comple
+0x10000bf8b 52 str.generateAssertion:clientDataHash:completionHandler:
+0x100014150 8 reloc.fixup.generateAssertion:clientDataHas
+0x10000bfe1 12 str.isSupported
+0x100014160 8 reloc.fixup.isSupported
+
+=== Hardcoded challenge string ===
+130 0x0000b0b0 0x10000b0b0 26  27   4.__TEXT.__cstring         ascii   mastg-app-attest-challenge
+
+=== Cross references to the hardcoded challenge ===
+sym.func.100006240 0x1000063a4 [STRN:r--] add x8, x8, 0xb0
+
+=== clientDataHash built from the hardcoded constant ===
+│           0x100006390      bl sym.imp.objc_retainAutoreleasedReturnValue ; void objc_retainAutoreleasedReturnValue(void *instance)
+│           0x100006394      mov x24, x0
+│           0x100006398      bl fcn.10000a9a0
+│       ┌─< 0x10000639c      cbz w0, 0x1000065d8
+│       │   0x1000063a0      adrp x8, 0x10000b000
+│       │   0x1000063a4      add x8, x8, 0xb0                          ; 0x10000b0b0 ; "mastg-app-attest-challenge"
+│       │   0x1000063a8      sub x8, x8, 0x20
+│       │   0x1000063ac      orr x1, x8, 0x8000000000000000            ; int64_t arg2
+│       │   0x1000063b0      mov x0, 0x1a
+│       │   0x1000063b4      movk x0, 0xd000, lsl 48                   ; int64_t arg1
+│       │   0x1000063b8      bl sym.func.10000534c
+│       │   0x1000063bc      stur x28, [x29, -0xb0]
+│       │   0x1000063c0      mov x28, x0
+│       │   0x1000063c4      mov x19, x1
+│       │   0x1000063c8      adrp x0, segment.__DATA                   ; 0x100014000
+│       │   0x1000063cc      add x0, x0, 0x360                         ; int64_t arg1
+│       │   0x1000063d0      adrp x1, segment.__DATA_CONST             ; 0x100010000
+│       │   0x1000063d4      ldr x1, [x1, 0x268]                       ; [0x100010268:4]=75 ; "K" ; int64_t arg2
+│       │   0x1000063d8      adrp x2, segment.__DATA_CONST             ; 0x100010000
+│       │   0x1000063dc      ldr x2, [x2, 0x260]                       ; [0x100010260:4]=74 ; "J"
+│       │   0x1000063e0      bl sym.func.100008784
+│       │   0x1000063e4      mov x22, x0
+│       │   0x1000063e8      mov x8, x27
+│       │   0x1000063ec      mov x20, x26
+│       │   0x1000063f0      mov x0, x26
+│       │   0x1000063f4      mov x1, x22
+│       │   0x1000063f8      bl sym.imp.CryptoKit.HashFunction_...ycfCTj_ ; CryptoKit.HashFunction(...ycfCTj)
+│       │   0x1000063fc      mov x0, x28                               ; int64_t arg1
+│       │   0x100006400      mov x1, x19
+│       │   0x100006404      bl sym.func.100004bfc
+
+=== attestKey called with that clientDataHash ===
+│           0x100004100      mov x0, x19
+│           0x100004104      mov x2, x23
+│           0x100004108      mov x3, x24
+│           0x10000410c      mov x4, x21
+│           0x100004110      bl fcn.10000a920
+│           0x100004114      mov x0, x21
+│           0x100004118      bl sym.imp._Block_release
+│           0x10000411c      bl sym.imp.objc_release_x23
+│           0x100004120      bl sym.imp.objc_release_x24
+│       ┌─< 0x100004124      b 0x1000041c8
+│       │   ; CODE XREFS from sym.func.100004000 @ 0x10000402c(x), 0x100004030(x)
+│       │   0x100004128      mov x8, -0x2000000000000000
+│       │   0x10000412c      stp xzr, x8, [sp]
+
+=== generateAssertion called with the same clientDataHash ===
+│           0x100004360      mov x2, x25
+│           0x100004364      mov x3, x26
+│           0x100004368      mov x4, x21
+│           0x10000436c      bl fcn.10000a960
+│           0x100004370      mov x0, x21
+│           0x100004374      bl sym.imp._Block_release
+│           0x100004378      bl sym.imp.objc_release_x25
+│           0x10000437c      bl sym.imp.objc_release_x26
+│           0x100004380      mov x0, x22                               ; int64_t arg1
+│           0x100004384      mov x1, x20
+│           0x100004388      bl sym.func.100004c3c
+│       ┌─< 0x10000438c      b 0x1000043d0
