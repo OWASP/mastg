@@ -1,0 +1,60 @@
+rules:
+  - id: mastg-android-unencrypted-internal-file-storage-openfileoutput
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule detects use of Context.openFileOutput to write data to internal storage, which may store sensitive data unencrypted.
+    message: "[MASVS-STORAGE] Verify that any sensitive data written via openFileOutput is encrypted before storage"
+    pattern: $X.openFileOutput(...)
+  - id: mastg-android-unencrypted-internal-file-storage-fileoutputstream
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule detects construction of FileOutputStream objects that may be used to write sensitive data to internal storage unencrypted.
+    message: "[MASVS-STORAGE] Verify that any sensitive data written via FileOutputStream to internal storage is encrypted before storage"
+    pattern-either:
+      - pattern: new FileOutputStream(new File($CTX.getFilesDir(), ...))
+      - pattern: new FileOutputStream(new File($CTX.filesDir, ...))
+      - pattern: new FileOutputStream(new File($CTX.getCacheDir(), ...))
+      - pattern: new FileOutputStream(new File($CTX.getNoBackupFilesDir(), ...))
+      - pattern: |
+          $FILE = new File($CTX.getFilesDir(), ...);
+          ...
+          new FileOutputStream($FILE);
+      - pattern: |
+          $FILE = new File($CTX.filesDir, ...);
+          ...
+          new FileOutputStream($FILE);
+      - pattern: |
+          $FILE = new File($CTX.getCacheDir(), ...);
+          ...
+          new FileOutputStream($FILE);
+      - pattern: |
+          $FILE = new File($CTX.getNoBackupFilesDir(), ...);
+          ...
+          new FileOutputStream($FILE);
+  - id: mastg-android-unencrypted-internal-file-storage-filewriter
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: This rule detects construction of FileWriter objects that may be used to write sensitive data to internal storage unencrypted.
+    message: "[MASVS-STORAGE] Verify that any sensitive data written via FileWriter to internal storage is encrypted before storage"
+    pattern-either:
+      - pattern: new FileWriter(new File($CTX.getFilesDir(), ...))
+      - pattern: new FileWriter(new File($CTX.filesDir, ...))
+      - pattern: new FileWriter(new File($CTX.getCacheDir(), ...))
+      - pattern: |
+          $FILE = new File($CTX.getFilesDir(), ...);
+          ...
+          new FileWriter($FILE);
+      - pattern: |
+          $FILE = new File($CTX.filesDir, ...);
+          ...
+          new FileWriter($FILE);
+      - pattern: |
+          $FILE = new File($CTX.getCacheDir(), ...);
+          ...
+          new FileWriter($FILE);
