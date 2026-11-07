@@ -26,7 +26,7 @@ class MastgTest(private val context: Context) {
     private val formTag = "mastg-demo-form"
 
     fun mastgTest(): String {
-        val r = DemoResults("0x01")
+        val r = DemoResults("0159")
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             r.add(Status.ERROR, "Accessibility data sensitivity requires Android 14 (API level 34) or higher.")
@@ -48,9 +48,8 @@ class MastgTest(private val context: Context) {
         val usernameField = createField("Username", InputType.TYPE_CLASS_TEXT)
         form.addView(usernameField)
 
-        // PASS: [MASTG-TEST-0403] The password field is explicitly marked as accessibility data sensitive.
+        // FAIL: [MASTG-TEST-0403] The password field masks its text, but it isn't marked as accessibility data sensitive.
         val passwordField = createField("Password", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        passwordField.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)
         form.addView(passwordField)
 
         // PASS: [MASTG-TEST-0403] The one-time code field uses filterTouchesWhenObscured, which implies accessibility data sensitivity.
