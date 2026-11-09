@@ -4,11 +4,11 @@ platform: android
 title: Certificate Pinning
 ---
 
-[Certificate pinning](../../../Document/0x04f-Testing-Network-Communication.md#restricting-trust-identity-pinning) can be employed in Android apps to safeguard against Machine-in-the-Middle (MITM) attacks by ensuring that the app communicates exclusively with remote endpoints possessing specific identities.
+Certificate pinning on Android can use Network Security Configuration, networking libraries, or custom certificate checks. The following sections explain these approaches and their scope.
 
-While effective when implemented correctly, insecure implementations potentially enable attackers to read and modify all communication. For more general details on pinning, refer to @MASWE-0028.
+See @MASTG-KNOW-ZZZZ for how pinning works and its limitations. For recommendations on choosing and managing pins, see @MASTG-BEST-0075. The related weakness is described in @MASWE-0028.
 
-Several approaches to certificate pinning exist, depending on the app's API level and the libraries used. Below, we highlight the most common methods. For a deeper dive into the specific implementations, see ["Deep Dive into Certificate Pinning on Android"](https://securevale.blog/articles/deep-dive-into-certificate-pinning-on-android/).
+For a deeper dive into the specific implementations, see ["Deep Dive into Certificate Pinning on Android"](https://securevale.blog/articles/deep-dive-into-certificate-pinning-on-android/).
 
 **Important Considerations:**
 
@@ -18,7 +18,7 @@ Certificate pinning is a **hardening practice**, but it is not foolproof. There 
 - **Replacing pinned certificates** stored in resource directories (`res/raw/`, `assets/`).
 - **Altering or removing pins** in the Network Security Configuration.
 
-Any such modification **invalidates the APK signature**, requiring the attacker to **repackage and re-sign the APK**. To mitigate these risks, additional protections such as integrity checks, runtime verification, and obfuscation may be required. For more information on the specific techniques, see @MASTG-TECH-0012.
+Modifying the APK invalidates its signature, requiring the attacker to repackage and re-sign it. Runtime instrumentation can also bypass pinning without modifying the APK. Integrity checks, runtime verification, and obfuscation can make these attacks more difficult. For more information on the specific techniques, see @MASTG-TECH-0012.
 
 ## Pinning via Network Security Configuration (API 24+)
 

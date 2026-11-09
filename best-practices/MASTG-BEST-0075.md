@@ -3,7 +3,7 @@ title: Pin TLS Certificate
 alias: pin-tls-certificate
 id: MASTG-BEST-0075
 platform: generic
-knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072, MASTG-KNOW-XXXX, MASTG-KNOW-YYYY]
+knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072, MASTG-KNOW-XXXX, MASTG-KNOW-YYYY, MASTG-KNOW-ZZZZ]
 ---
 
 Use identity pinning (commonly called certificate pinning) to protect connections from Machine-in-the-Middle (MITM) attacks. Pinning checks that at least one public key in the server's certificate chain matches a key approved in advance by your app. If none match, the app rejects the connection, even if the operating system trusts the certificate. This helps prevent attackers from intercepting or modifying the app's traffic.
