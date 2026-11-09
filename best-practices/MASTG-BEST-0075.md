@@ -3,18 +3,22 @@ title: Choose and Manage Identity Pins
 alias: choose-and-manage-identity-pins
 id: MASTG-BEST-0075
 platform: generic
-knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072]
+knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072, MASTG-KNOW-XXXX]
 ---
 
-Use identity pinning (commonly called SSL pinning) to protect connections from Machine-in-the-Middle (MITM) attacks. Pinning checks that at least one public key in the server's validated certificate chain matches a key approved in advance by your app. If none match, the app rejects the connection, even if the operating system trusts the certificate.
+Use identity pinning (commonly called certificate pinning) to protect connections from Machine-in-the-Middle (MITM) attacks. Pinning checks that at least one public key in the server's certificate chain matches a key approved in advance by your app. If none match, the app rejects the connection, even if the operating system trusts the certificate. This helps prevent attackers from intercepting or modifying the app's traffic.
 
-## Security Benefits and Operational Risks
+## When to Pin
 
-Identity pinning prevents attackers from using a fraudulent certificate trusted by the operating system to intercept API traffic, steal credentials or session tokens, or modify requests and responses.
+Consider identity pinning when your threat model requires restricting trust beyond the platform's default certificate validation. It can protect against fraudulent server certificates issued by a compromised CA or by a malicious CA added to the operating system's trusted CAs (see @MASTG-TECH-0120).
 
-An [intermediate CA compromise in October 2026](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/) illustrates the value of identity pinning as protection against CA compromise. Attackers could forge certificates for arbitrary servers, putting apps relying on the platform's default CA trust at risk of traffic interception. Apple and Google distributed updates to block the compromised CAs, but [these protections can take days to reach devices](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/). Some devices may never receive the necessary trust-store or revocation updates. Pinning can protect connections during this gap, provided the app's pinset excludes the compromised CA chains.
+Balance this protection against the risk of losing connectivity. If the server changes its key or certificate chain and the new chain doesn't contain any of the app's pinned keys, the app rejects the connection. Affected users may need an app update with new pins to reconnect. Because of this risk, [Google discourages certificate pinning for Android apps](https://developer.android.com/privacy-and-security/security-ssl#Pinning), and [Apple recommends using it only when necessary](https://developer.apple.com/news/?id=g9ejcf8y).
 
-Identity pinning can also cause outages. Replacing the server's key or switching to a different CA without first adding the corresponding pin to the app can break connectivity. Users may need to install an app update containing the new pins to restore connectivity. Because of this risk, Google's [Android security guidance](https://developer.android.com/privacy-and-security/security-ssl#Pinning) states that "certificate pinning ... is not recommended for Android apps." The risk depends on what you pin and how you manage key rotation. The following sections explain [what to pin against](#what-to-pin-against) and how to [pin safely](#pin-safely) to reduce the risk of outages while maintaining the protection your threat model requires.
+For examples of CA compromises and how pinning could protect connections in those scenarios, see @MASTG-KNOW-XXXX.
+
+Adopt pinning only if your team can coordinate key and certificate-chain changes for the endpoint and maintain pins throughout the app's supported lifetime.
+
+The following sections explain [what to pin against](#what-to-pin-against) and how to [pin safely](#pin-safely).
 
 ## What to Pin Against
 
@@ -36,13 +40,13 @@ Your team can use a self-signed server certificate or operate a private CA to is
 
 This setup offers two benefits:
 
-**Independence from third-party CA security.** Pinning to your own server or private CA keys avoids relying on third-party CAs for server authentication. This protects against fraudulent certificates issued through compromised or misused CA infrastructure, as illustrated by the [DigiNotar breach](https://security.googleblog.com/2011/08/update-on-attempted-man-in-middle.html), the [CNNIC/MCS incident](https://security.googleblog.com/2015/03/maintaining-digital-certificate-security.html), and the [eMudhra intermediate CA compromise](https://blog.google/security/protecting-chrome-and-android-users-from-compromised-emudhra-intermediate-ca-certificates/).
+**Independence from third-party CA security.** Pinning to your own server or private CA keys avoids relying on third-party CAs for server authentication. This protects against fraudulent certificates issued through compromised or misused CA infrastructure. For examples, see @MASTG-KNOW-XXXX.
 
 You can achieve the same protection against CA misissuance by pinning the leaf public key of a third-party CA-issued certificate. In both cases, only your team controls the corresponding private key.
 
 **Control over certificate management.** You can issue replacement certificates immediately without waiting for a third-party CA. If an operational mistake causes a certificate to expire, you can issue a replacement using the same uncompromised key so existing public-key pins continue to work. Public CAs can also reissue a certificate for an existing key, but with your own CA you control the timing. This can restore connectivity without an app update, but shouldn't replace planned key rotation.
 
-This control also makes your team responsible for choosing secure cryptographic algorithms and key sizes, generating keys with a cryptographically secure random number generator, protecting private keys, choosing appropriate validity periods, rotating keys, and recovering from compromise. The eMudhra incident shows that even established CAs can fail to generate keys securely.
+This control also makes your team responsible for choosing secure cryptographic algorithms and key sizes, generating keys with a cryptographically secure random number generator, protecting private keys, choosing appropriate validity periods, rotating keys, and recovering from compromise.
 
 ## Pin Safely
 
