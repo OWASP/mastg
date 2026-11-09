@@ -43,4 +43,4 @@ Android's documentation confirms [CT availability](https://developer.android.com
 
 Custom HTTPS libraries or certificate checks may behave differently. Verify their trust store, CT enforcement, and certificate-block updates; the OS version alone does not establish protection.
 
-For guidance on when to pin and how to manage pins, see @MASTG-BEST-0075. For platform-specific implementation details, see @MASTG-KNOW-0015 for Android and @MASTG-KNOW-0072 for iOS.
+For guidance on when to pin and how to manage pins, see @MASTG-BEST-XXXX. For platform-specific implementation details, see @MASTG-KNOW-0015 for Android and @MASTG-KNOW-0072 for iOS.

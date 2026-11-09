@@ -1,7 +1,7 @@
 ---
 title: Pin TLS Certificate
 alias: pin-tls-certificate
-id: MASTG-BEST-0075
+id: MASTG-BEST-XXXX
 platform: generic
 knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072, MASTG-KNOW-XXXX, MASTG-KNOW-YYYY, MASTG-KNOW-ZZZZ]
 ---

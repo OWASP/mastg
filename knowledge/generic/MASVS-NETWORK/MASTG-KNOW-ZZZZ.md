@@ -51,4 +51,4 @@ Server or CA key changes can prevent the app from connecting if its pins are not
 
 An attacker who can modify or instrument the app may bypass its pinning checks. Pinning also does not protect against theft of the server's private key.
 
-For recommendations on choosing and managing pins, see @MASTG-BEST-0075. For implementation details, see @MASTG-KNOW-0015 for Android and @MASTG-KNOW-0072 for iOS.
+For recommendations on choosing and managing pins, see @MASTG-BEST-XXXX. For implementation details, see @MASTG-KNOW-0015 for Android and @MASTG-KNOW-0072 for iOS.

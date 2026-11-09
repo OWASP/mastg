@@ -6,7 +6,7 @@ title: Certificate Pinning
 
 Certificate pinning on Android can use Network Security Configuration, networking libraries, or custom certificate checks. The following sections explain these approaches and their scope.
 
-See @MASTG-KNOW-ZZZZ for how pinning works and its limitations. For recommendations on choosing and managing pins, see @MASTG-BEST-0075. The related weakness is described in @MASWE-0028.
+See @MASTG-KNOW-ZZZZ for how pinning works and its limitations. For recommendations on choosing and managing pins, see @MASTG-BEST-XXXX. The related weakness is described in @MASWE-0028.
 
 For a deeper dive into the specific implementations, see ["Deep Dive into Certificate Pinning on Android"](https://securevale.blog/articles/deep-dive-into-certificate-pinning-on-android/).
 

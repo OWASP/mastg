@@ -27,7 +27,7 @@ References:
 
 Certificate pinning on iOS can use App Transport Security configuration, custom server trust evaluation, or networking libraries. The following sections explain these approaches and their scope.
 
-See @MASTG-KNOW-ZZZZ for how pinning works and its limitations. For recommendations on choosing and managing pins, see @MASTG-BEST-0075. The related weakness is described in @MASWE-0028.
+See @MASTG-KNOW-ZZZZ for how pinning works and its limitations. For recommendations on choosing and managing pins, see @MASTG-BEST-XXXX. The related weakness is described in @MASWE-0028.
 
 **Important Considerations:**
 

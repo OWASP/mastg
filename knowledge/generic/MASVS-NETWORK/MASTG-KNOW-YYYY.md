@@ -32,4 +32,4 @@ Pinning a server certificate issued by a public CA provides the same protection 
 - **Weak key generation:** Keys generated with insufficient randomness may be recoverable by attackers. The eMudhra compromise shows that this can happen even to established CAs. Use a cryptographically secure random number generator and established cryptographic libraries. See @MASTG-KNOW-XXXX for details.
 - **Internal CA compromise:** If your internal CA's private key is stolen, attackers can issue certificates that your app trusts. Your team must protect that key and plan how to replace it if compromised.
 
-Plan and test certificate replacement and recovery before release. See @MASTG-BEST-0075 for pin-management guidance.
+Plan and test certificate replacement and recovery before release. See @MASTG-BEST-XXXX for pin-management guidance.

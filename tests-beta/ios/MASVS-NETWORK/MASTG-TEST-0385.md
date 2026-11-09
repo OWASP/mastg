@@ -4,7 +4,7 @@ title: Missing Certificate Pinning in ATS
 id: MASTG-TEST-0385
 type: [static]
 maswe: [MASWE-0028]
-best-practices: [MASTG-BEST-0075]
+best-practices: [MASTG-BEST-XXXX]
 prerequisites:
 - identify-first-party-domains
 knowledge: [MASTG-KNOW-0071, MASTG-KNOW-0072]
