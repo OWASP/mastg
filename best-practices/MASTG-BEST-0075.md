@@ -40,7 +40,7 @@ This setup offers two benefits:
 
 You can achieve the same protection against CA misissuance by pinning the leaf public key of a third-party CA-issued certificate. In both cases, only your team controls the corresponding private key.
 
-**Control over certificate management.** You can issue replacement certificates immediately without waiting for a third-party CA. If an operational mistake causes a certificate to expire, you can issue a replacement using the same uncompromised key so existing public-key pins continue to work. This can restore connectivity without an app update, but shouldn't replace planned key rotation.
+**Control over certificate management.** You can issue replacement certificates immediately without waiting for a third-party CA. If an operational mistake causes a certificate to expire, you can issue a replacement using the same uncompromised key so existing public-key pins continue to work. Public CAs can also reissue a certificate for an existing key, but with your own CA you control the timing. This can restore connectivity without an app update, but shouldn't replace planned key rotation.
 
 This control also makes your team responsible for choosing secure cryptographic algorithms and key sizes, generating keys with a cryptographically secure random number generator, protecting private keys, choosing appropriate validity periods, rotating keys, and recovering from compromise. The eMudhra incident shows that even established CAs can fail to generate keys securely.
 
