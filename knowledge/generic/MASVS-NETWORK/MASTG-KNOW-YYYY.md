@@ -11,13 +11,14 @@ Your team can use either approach:
 - **Self-signed server certificate:** The server's own private key signs its certificate.
 - **Internal CA:** Your company's CA signs certificates for its servers. Its root certificate is usually self-signed.
 
-## Configuring App Trust
+## Configuring Trust for Your Certificates
 
 These certificates are not trusted by default. Configure the app to trust the self-signed server certificate or your internal CA. Adding a pin alone does not establish trust.
 
-On Android, use [Network Security Configuration](https://developer.android.com/privacy-and-security/security-config#ConfigCustom) to configure custom trust anchors. For Apple platforms, see [HTTPS Server Trust Evaluation](https://developer.apple.com/library/archive/technotes/tn2232/_index.html) for an explanation of custom CAs and self-signed certificates.
+- **Android:** Adding pins to `<pin-set>` alone does not establish trust. Declare custom trust anchors in `<trust-anchors>` using [Network Security Configuration](https://developer.android.com/privacy-and-security/security-config#ConfigCustom). See @MASTG-KNOW-0015 for pinning implementation details.
+- **iOS:** Adding pins to `NSPinnedDomains` alone does not establish trust. Set custom trust anchors using [`SecTrustSetAnchorCertificates`](https://developer.apple.com/documentation/security/sectrustsetanchorcertificates%28_%3A_%3A%29) during server trust evaluation. See [HTTPS Server Trust Evaluation](https://developer.apple.com/library/archive/technotes/tn2232/_index.html) for custom trust configuration and @MASTG-KNOW-0072 for pinning implementation details.
 
-See @MASTG-KNOW-0015 for Android and @MASTG-KNOW-0072 for iOS implementation details.
+Your team is responsible for choosing and updating these trust anchors. The platform can still perform certificate validation using them.
 
 ## Benefits
 
