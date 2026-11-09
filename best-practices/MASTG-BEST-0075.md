@@ -3,7 +3,7 @@ title: Pin TLS Certificate
 alias: pin-tls-certificate
 id: MASTG-BEST-0075
 platform: generic
-knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072, MASTG-KNOW-XXXX]
+knowledge: [MASTG-KNOW-0015, MASTG-KNOW-0072, MASTG-KNOW-XXXX, MASTG-KNOW-YYYY]
 ---
 
 Use identity pinning (commonly called certificate pinning) to protect connections from Machine-in-the-Middle (MITM) attacks. Pinning checks that at least one public key in the server's certificate chain matches a key approved in advance by your app. If none match, the app rejects the connection, even if the operating system trusts the certificate. This helps prevent attackers from intercepting or modifying the app's traffic.
@@ -34,19 +34,7 @@ Backup pins always need to be included in the identity pinning configuration to 
 
 See the [OWASP Pinning Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Pinning_Cheat_Sheet.html#what-should-be-pinned) for more information on choosing what to pin.
 
-## Self-Signed Certificates
-
-Your team can use a self-signed server certificate or operate a private CA to issue server certificates. In either case, your team controls the private keys, certificate issuance, and validity periods.
-
-This setup offers two benefits:
-
-**Independence from third-party CA security.** Pinning to your own server or private CA keys avoids relying on third-party CAs for server authentication. This protects against fraudulent certificates issued through compromised or misused CA infrastructure. For examples, see @MASTG-KNOW-XXXX.
-
-You can achieve the same protection against CA misissuance by pinning the leaf public key of a third-party CA-issued certificate. In both cases, only your team controls the corresponding private key.
-
-**Control over certificate management.** You can issue replacement certificates immediately without waiting for a third-party CA. If an operational mistake causes a certificate to expire, you can issue a replacement using the same uncompromised key so existing public-key pins continue to work. Public CAs can also reissue a certificate for an existing key, but with your own CA you control the timing. This can restore connectivity without an app update, but shouldn't replace planned key rotation.
-
-This control also makes your team responsible for choosing secure cryptographic algorithms and key sizes, generating keys with a cryptographically secure random number generator, protecting private keys, choosing appropriate validity periods, rotating keys, and recovering from compromise.
+If your team needs control over certificate issuance and renewal, or independence from public CAs, consider issuing your own certificates. See @MASTG-KNOW-YYYY for details on self-signed certificates and internal CAs.
 
 ## Pin Safely
 
@@ -54,7 +42,7 @@ Plan pin management before release so you can rotate keys and recover from compr
 
 - Avoid pinning third-party services that may change their keys or certificate chains without advance notice, as these changes can prevent your app from connecting.
 - Include backup pins that let the server switch to another key or certificate chain without requiring an app update. For **leaf public-key pinning**, you can generate a separate backup key pair, include its public-key pin in the app, and obtain a valid CA-issued certificate for that key before deploying it.
-- For **intermediate or root CA public-key pinning**, include a pin for an alternative CA key and prepare a valid server certificate chain that contains it. Either approach can also use certificates issued by your own private CA or self-signed certificates, provided supported app versions are configured to trust them.
+- For **intermediate or root CA public-key pinning**, include a pin for an alternative CA key and prepare a valid server certificate chain that contains it.
 - Choose backup pins according to the same threat model as active pins. Including a backup intermediate CA public key alongside a leaf public-key pin allows replacement server keys under that CA. However, the app trusts that CA from the start. If the CA is compromised, an attacker could issue a fraudulent certificate for your server that the app would accept. Use this option only if the broader trust is acceptable for your app.
 - If your threat model relies on certificate revocation, verify that your app rejects revoked server and intermediate CA certificates. Consider blocking connections when revocation information is unavailable
 - Before releasing the app with backup pins, test planned rotation and emergency recovery, including rejection of connections that don't match the configured pins.
