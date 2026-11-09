@@ -26,6 +26,8 @@ You can pin the public key of a root CA, intermediate CA, or leaf certificate. P
 
 Pinning higher in the certificate chain favors operational stability, while pinning lower provides stronger protection against CA compromise.
 
+Backup pins always need to be included in the identity pinning configuration to prepare for any changes in the serving CA chain from root, to intermediate to leave certificates.
+
 See the [OWASP Pinning Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Pinning_Cheat_Sheet.html#what-should-be-pinned) for more information on choosing what to pin.
 
 ## Self-Signed Certificates
