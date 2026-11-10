@@ -2,6 +2,7 @@
 masvs_category: MASVS-RESILIENCE
 platform: android
 title: Application Attestation via Hardware-Backed Key Attestation
+best-practices: [MASTG-BEST-0x01]
 ---
 
 Application attestation uses the `attestationApplicationId` field in the `softwareEnforced` `AuthorizationList` of a Key Attestation (@MASTG-KNOW-0044) certificate chain, which allows a verifier (usually a remote server) to verify the identity and integrity of the calling application. For the full list of fields and their meanings, see @MASTG-KNOW-0044.

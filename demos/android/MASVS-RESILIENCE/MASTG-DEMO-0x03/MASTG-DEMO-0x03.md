@@ -1,6 +1,6 @@
 ---
 platform: android
-title: Key Attestation With a Server-Issued Challenge
+title: Key Attestation with a Server-Issued Challenge
 id: MASTG-DEMO-0x03
 code: [kotlin]
 test: MASTG-TEST-0x01
