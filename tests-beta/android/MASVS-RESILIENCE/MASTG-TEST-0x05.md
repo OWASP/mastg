@@ -3,7 +3,7 @@ platform: android
 title: References to Device Attestation APIs
 id: MASTG-TEST-0x05
 apis: [IntegrityManagerFactory, KeyStore.getCertificateChain, KeyGenParameterSpec.Builder.setAttestationChallenge]
-type: [static]
+type: [static, code, manual]
 available_since: 24
 weakness: MASWE-0054
 best-practices: [MASTG-BEST-0x01]
@@ -35,7 +35,14 @@ The output should contain a list of locations where those APIs are used.
 
 The test case fails if none of the above APIs are found in the app, since the backend then has no cryptographic evidence about the device and must rely on client-side claims alone.
 
-The test case also fails if the app retrieves a certificate chain via `getCertificateChain` but no `setAttestationChallenge` is found, because without an embedded challenge the chain carries no freshness guarantee and a previously captured chain can be replayed. As described in @MASTG-TEST-0x01, correlate the two APIs manually: key generation and certificate chain retrieval are frequently implemented in different methods or classes.
+The test case also fails if the app retrieves a certificate chain with `getCertificateChain` to attest a key, but the key was generated without `setAttestationChallenge` or with a challenge that is not a one-time value provided by the server. Without a challenge the certificate is self-signed and carries no `rootOfTrust`, and a challenge the server did not issue cannot ensure the freshness of the attestation.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine:
+
+- Whether the key whose certificate chain is retrieved was generated with `setAttestationChallenge`. Key generation and certificate chain retrieval are frequently implemented in different methods or classes, which pattern-based tools cannot connect.
+- Whether the challenge passed to `setAttestationChallenge` is a one-time value provided by the server.
 
 !!! note
     The presence of these APIs does not mean the device state is trusted. The `rootOfTrust` values are only meaningful once the server has verified the certificate chain, checked it against Google's revocation status list, and confirmed that `attestationSecurityLevel` is `TrustedEnvironment` or `StrongBox`. A `Software` security level places `rootOfTrust` in the `softwareEnforced` list, where the OS asserts the very state it is meant to vouch for. See @MASTG-KNOW-0120 and @MASTG-BEST-0x01.
