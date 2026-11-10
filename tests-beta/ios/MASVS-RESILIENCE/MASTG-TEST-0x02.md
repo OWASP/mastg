@@ -4,9 +4,8 @@ title: References to App Attestation APIs
 id: MASTG-TEST-0x02
 apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
 type: [static, code, manual]
-weakness: MASWE-0056
+maswe: [MASWE-0056]
 best-practices: [MASTG-BEST-0x03]
-profiles: [R]
 knowledge: [MASTG-KNOW-0x03]
 ---
 
