@@ -9,7 +9,7 @@ knowledge: [MASTG-KNOW-0x01, MASTG-KNOW-0x02, MASTG-KNOW-0x03, MASTG-KNOW-0072]
 
 Applications that perform business-critical operations, such as financial transactions, multi-factor authentication, or sensitive data handling, should verify that requests reaching the backend originate from a genuine, unmodified instance of the app before trusting them.
 
-On iOS, use **App Attest** (@MASTG-KNOW-0x03), which binds a Secure Enclave key to your App ID and the device hardware. Do not use DeviceCheck (@MASTG-KNOW-0x02) for this purpose: it persists per-device flags but provides no cryptographic proof of app identity and integrity. If you prefer a managed integration, **Firebase App Check** (@MASTG-KNOW-0x01) wraps App Attest and handles token issuance and validation for you.
+On iOS, use **App Attest** (@MASTG-KNOW-0x03), which binds a Secure Enclave key to your App ID (your team identifier and bundle identifier) and the device hardware. Do not use DeviceCheck (@MASTG-KNOW-0x02) for this purpose: it persists per-device flags but provides no cryptographic proof of app identity and integrity. If you prefer a managed integration, **Firebase App Check** (@MASTG-KNOW-0x01) wraps App Attest and handles token issuance and validation for you.
 
 ## Check for Availability Before Attesting
 
