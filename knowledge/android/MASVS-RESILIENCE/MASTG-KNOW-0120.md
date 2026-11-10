@@ -15,7 +15,7 @@ The `rootOfTrust` object contains the following fields:
 
 - **`verifiedBootState`**: Reflects the result of Android's [Verified Boot](https://source.android.com/docs/security/features/verifiedboot) process:
     - **`Verified`**: A full chain of trust extends from a hardware-protected root of trust to the bootloader and all partitions verified by Verified Boot. This is the expected state for an unmodified production device.
-    - **`SelfSigned`**: The same as `Verified`, except that the verification was done against a root of trust configured by the user (e.g., a custom key) instead of the one embedded by the OEM. This is the state of an aftermarket OS installed with a locked bootloader.
+    - **`SelfSigned`**: The same as `Verified`, except that the verification was done against a root of trust configured by the user (e.g., a custom key) instead of the one embedded by the OEM. This is the state of an aftermarket OS installed with a locked bootloader. GrapheneOS, for example, [publishes the verified boot key fingerprints](https://grapheneos.org/articles/attestation-compatibility-guide) of its official releases, which appear in `verifiedBootKey`.
     - **`Unverified`**: The bootloader is unlocked, so a chain of trust cannot be established.
     - **`Failed`**: Verification was attempted but failed. The device should not have booted in this state under normal conditions.
 - **`verifiedBootKey`**: The public key used to verify the boot image. On unmodified production devices, this matches the OEM's embedded root-of-trust key.
