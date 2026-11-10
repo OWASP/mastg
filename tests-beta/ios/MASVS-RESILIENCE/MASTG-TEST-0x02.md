@@ -12,9 +12,7 @@ knowledge: [MASTG-KNOW-0x03]
 
 ## Overview
 
-If an app does not attest its own integrity to a server, the server cannot tell a request sent by a legitimate, unmodified instance of the app from one sent by a modified app or a script. On iOS, attestation is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which binds a Secure Enclave key to the app's App ID (@MASTG-KNOW-0x03). If the attestation or an assertion is not built from a one-time challenge issued by the server, it can be captured and presented again.
-
-This test checks whether the app attests its own integrity to a server, by statically analyzing the app binary for references to the relevant APIs.
+This test checks whether the app attests its own integrity to a server, by statically analyzing the app binary for references to the relevant APIs. On iOS this is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which binds a Secure Enclave key to the app's App ID so that a server can verify that a request comes from a legitimate, unmodified instance of the app (@MASTG-KNOW-0x03).
 
 See @MASTG-KNOW-0x03 for more information on App Attest and its APIs.
 
