@@ -10,6 +10,8 @@ Applications that perform business-critical operations, such as financial transa
 
 For the majority of apps, **Google Play Integrity API** (@MASTG-KNOW-0035) is the recommended starting point. It provides a managed, server-backed attestation signal covering device integrity, app integrity, and licensing, without requiring apps to implement low-level certificate verification themselves.
 
+When using it, bind every verdict to the request it protects. For [classic requests](https://developer.android.com/google/play/integrity/classic#nonce), generate a unique value on the server and pass it to `setNonce`, which protects against replay and tampering. [Standard requests](https://developer.android.com/google/play/integrity/standard) are protected against replay automatically, but pass a digest of the request parameters to `setRequestHash`, because otherwise the token is bound only to the device and not to the request. In both cases, send the token to your backend and decrypt and verify it there, never on the device.
+
 **This best practice covers the manual attestation approach** using Android's hardware-backed Key Attestation (@MASTG-KNOW-0044). This approach should be used when Play Integrity limitations need to be addressed, or when the application requires more control. In this scenario, use Android's Key Attestation to cryptographically verify that the client's keys reside in hardware-backed storage and that the device has not been compromised.
 
 ## Implement Server-Driven Attestation with a Fresh Challenge
