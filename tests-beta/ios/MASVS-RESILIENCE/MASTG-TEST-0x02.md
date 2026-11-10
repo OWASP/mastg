@@ -3,7 +3,7 @@ platform: ios
 title: References to App Attestation APIs
 id: MASTG-TEST-0x02
 apis: [DCAppAttestService, DCAppAttestService.generateKey, DCAppAttestService.attestKey, DCAppAttestService.generateAssertion]
-type: [static]
+type: [static, code, manual]
 weakness: MASWE-0056
 best-practices: [MASTG-BEST-0x03]
 profiles: [R]
@@ -12,13 +12,15 @@ knowledge: [MASTG-KNOW-0x03]
 
 ## Overview
 
-This test checks whether the app attests its own integrity to a server, by statically analyzing the app binary for references to the relevant APIs. On iOS this is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which binds a Secure Enclave key to the app's App ID so that a server can verify that a request comes from a legitimate, unmodified instance of the app (@MASTG-KNOW-0x03).
+If an app does not attest its own integrity to a server, the server cannot tell a request sent by a legitimate, unmodified instance of the app from one sent by a modified app or a script. On iOS, attestation is provided by [App Attest](https://developer.apple.com/documentation/devicecheck), part of the DeviceCheck framework, which binds a Secure Enclave key to the app's App ID (@MASTG-KNOW-0x03). If the attestation or an assertion is not built from a one-time challenge issued by the server, it can be captured and presented again.
 
-See @MASTG-KNOW-0x03 for more information on App Attest and the specific APIs and fields to look for.
+This test checks whether the app attests its own integrity to a server, by statically analyzing the app binary for references to the relevant APIs.
+
+See @MASTG-KNOW-0x03 for more information on App Attest and its APIs.
 
 ## Steps
 
-1. Use @MASTG-TECH-0058 to extract the relevant binaries from app package.
+1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package.
 2. Use @MASTG-TECH-0066 to look for the relevant APIs in the app binaries.
 
 ## Observation
@@ -33,10 +35,10 @@ The test case also fails if the `clientDataHash` passed to `attestKey` or `gener
 
 **Further Validation Required:**
 
-The presence of these APIs does not by itself confirm a robust implementation. The following properties cannot be determined from a reference search alone and require manual or dynamic analysis:
+Inspect each reported code location using @MASTG-TECH-0076 to determine:
 
 - Whether the `clientDataHash` passed to `attestKey` and `generateAssertion` is derived from a one-time, server-provided challenge.
 - Whether the app generates an assertion (`generateAssertion`) for sensitive requests, rather than only attesting the key once (`attestKey`).
-- Whether the server verifies the attestation object and assertions, since client-side use of `DCAppAttestService` alone provides no security guarantee.
 
-See @MASTG-BEST-0x03 for the expected implementation.
+!!! note
+    The presence of these APIs does not mean the attestation is trusted. The server must still verify the attestation object and the assertions, which cannot be determined from the app binary alone. See @MASTG-KNOW-0x03 and @MASTG-BEST-0x03 for more information.
