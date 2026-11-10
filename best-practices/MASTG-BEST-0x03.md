@@ -37,7 +37,7 @@ Client-side use of `DCAppAttestService` provides no security guarantee on its ow
 - Verify the assertion signature against the attested public key and check that the assertion counter increases monotonically.
 - Check receipt freshness and the risk metric Apple returns when the receipt is redeemed.
 
-Transmit attestation objects and assertions over a pinned channel (@MASTG-KNOW-0072) so that a network-level attacker cannot observe or replay them.
+Send attestation objects and assertions over a connection with properly validated server trust (@MASTG-KNOW-0072), so that a network-level attacker cannot observe or alter them. The server-issued challenge is what prevents replay, not the channel.
 
 ## Handle Attestation Failures Securely
 

@@ -31,7 +31,7 @@ There are several indicators that the device in question is being emulated or vi
 
 ### App Attest Validation
 
-App Attest (see @MASTG-KNOW-0x03) lets a server cryptographically verify that a request originates from a legitimate, unmodified instance of the app running on a genuine Apple device. Because a virtual device cannot produce a valid attestation for a production app identity, App Attest validation failures are also a virtual device indicator.
+App Attest (see @MASTG-KNOW-0x03) lets a server cryptographically verify that a request originates from a legitimate, unmodified instance of the app running on a genuine Apple device. Because an app running on a virtual device is typically re-signed and may no longer match the app identity the server expects, as described below, App Attest validation failures can also indicate a virtual device.
 
 Corellium states that users [cannot directly download an app from the App Store onto a Corellium device](https://support.corellium.com/features/apps/testing-ios-apps), and cannot load an encrypted App Store app copied from another device. Instead, Corellium users can only load a signed, unencrypted version of the app.
 
