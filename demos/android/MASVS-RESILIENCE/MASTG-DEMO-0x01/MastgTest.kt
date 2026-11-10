@@ -8,6 +8,10 @@ import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.spec.ECGenParameterSpec
 
+// SUMMARY: This sample generates a key pair in the Android KeyStore and retrieves its certificate
+// chain to send to a server, but sets no attestation challenge. The certificate is therefore
+// self-signed and carries no attestation that the server could verify.
+
 class MastgTest(private val context: Context) {
 
     private val keyAlias = "mastgAttestationKey"
@@ -24,8 +28,8 @@ class MastgTest(private val context: Context) {
             "AndroidKeyStore"
         )
 
-        // INSECURE: No attestation challenge is set.
-        // The server cannot verify when this attestation was produced.
+        // FAIL: [MASTG-TEST-0x01] No attestation challenge is set, so the certificate is
+        // self-signed and carries no attestation.
         val spec = KeyGenParameterSpec.Builder(
             keyAlias,
             KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
