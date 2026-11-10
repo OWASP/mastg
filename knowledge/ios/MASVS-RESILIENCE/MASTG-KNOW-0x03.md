@@ -23,7 +23,7 @@ For more detailed information, refer to the [WWDC 2021 session "Mitigate fraud w
 
 - **iOS 14+ only**: App Attest is unavailable on older OS versions, where only DeviceCheck (see @MASTG-KNOW-0x02) is available.
 - **Unavailable on simulators**: The Secure Enclave is not present in the iOS simulator, so `DCAppAttestService.shared.isSupported` returns `false`. Debug providers, such as the one offered by Firebase App Check, cover this case during development.
-- **Not jailbreak detection**: App Attest attests the app's identity and the device hardware but does not detect a compromised operating system. A jailbroken device may still pass attestation.
+- **Not jailbreak detection**: App Attest attests the app's identity and the device hardware but does not detect a compromised operating system. Apple [states](https://developer.apple.com/documentation/devicecheck/assessing-fraud-risk) that an attacker who modifies the device's operating system might bypass its restrictions, so a jailbroken device may still pass attestation.
 - **Attestation requires network**: `attestKey` contacts Apple's servers, so a key cannot be attested offline. Assertions are generated on the device and verified by the app's server with the stored public key, without contacting Apple.
 
 Both App Attest and DeviceCheck are used as iOS attestation providers for Firebase App Check (see @MASTG-KNOW-0x01).

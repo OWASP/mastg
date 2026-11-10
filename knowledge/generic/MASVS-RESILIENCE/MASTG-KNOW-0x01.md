@@ -23,4 +23,4 @@ App Check is provider-agnostic. The app registers a provider at startup. Both pl
 
 - **Server-side enforcement required**: App Check tokens are only meaningful if the backend validates them. An integration that skips server-side validation provides no protection.
 - **Depends on underlying provider availability**: All limitations of the underlying provider apply (see @MASTG-KNOW-0035 for Play Integrity limitations). App Attest requires iOS 14+ and is unavailable on simulators without the debug provider.
-- **Token replay**: App Check tokens are short-lived but are bearer tokens, so anyone who obtains one can present it until it expires.
+- **Token replay**: App Check tokens are short-lived but are bearer tokens, so anyone who obtains one can present it until it expires. For sensitive endpoints, App Check offers [replay protection](https://firebase.google.com/docs/app-check/custom-resource-backend), where the backend consumes a limited-use token so that it can be used only once.
