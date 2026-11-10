@@ -12,7 +12,7 @@ available_since: 14
 The process uses a device-bound key pair generated in the Secure Enclave:
 
 1. The app generates an attestation key via `DCAppAttestService.generateKey()`.
-2. It requests an attestation certificate from Apple's servers, binding the key to the app's App ID and the device's hardware identifier.
+2. It requests an attestation certificate from Apple's servers via [DCAppAttestService.attestKey(](https://developer.apple.com/documentation/devicecheck/dcappattestservice/attestkey(_:clientdatahash:completionhandler:)) binding the key to the app's App ID and the device's hardware identifier.
 3. For each sensitive request, the app generates an assertion (a signature over a hash of the request payload) using `DCAppAttestService.generateAssertion()`.
 4. The server verifies the assertion against the attested public key and checks the App ID, receipt freshness, and risk metric returned by Apple.
 
