@@ -58,7 +58,7 @@ If the app requests device properties attestation with `setDevicePropertiesAttes
 As an additional signal, compare the `verifiedBootHash` field of `rootOfTrust` with the value the device reports about itself (@MASTG-KNOW-0120). On devices that use Android Verified Boot, the same digest is available on the device as the `ro.boot.vbmeta.digest` system property. The app reads the property and sends it with the attestation, and the server compares the two values. A mismatch means the attestation does not describe the software the client is running, which happens when the client relays an attestation produced on another device or presents a forged chain.
 
 !!! note
-    This comparison can only raise suspicion, it cannot establish trust. The property is read and reported by the client, so a rooted device can report any value and a match proves nothing. The digest also identifies the booted software, not the device, so devices running the same build report the same value. Android has no public SDK API for reading system properties, so the app has to rely on non-SDK interfaces to obtain it.
+    This comparison can only raise suspicion, it cannot establish trust. The property is read and reported by the client, so a rooted device can report any value and a match proves nothing. The digest also identifies the booted software, not the device, so devices running the same build report the same value. Android has no public SDK API for reading system properties, so the app has to read it through a non-SDK interface or the `getprop` command.
 
 ## Align the Minimum Patch Level with the App's Risk
 
