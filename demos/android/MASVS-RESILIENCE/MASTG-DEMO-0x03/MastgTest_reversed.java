@@ -4,6 +4,9 @@ import android.content.Context;
 import android.security.keystore.KeyGenParameterSpec;
 import android.util.Base64;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -13,16 +16,19 @@ import java.security.NoSuchProviderException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.spec.ECGenParameterSpec;
+import javax.net.ssl.HttpsURLConnection;
 import kotlin.Metadata;
+import kotlin.io.ByteStreamsKt;
+import kotlin.io.CloseableKt;
 import kotlin.jvm.internal.Intrinsics;
-import kotlin.text.Charsets;
 import kotlin.text.StringsKt;
 
 /* JADX INFO: compiled from: MastgTest.kt */
 /* JADX INFO: loaded from: classes3.dex */
-@Metadata(d1 = {"\u0000\u001a\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0002\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\b\u001a\u00020\u0007R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000¨\u0006\t"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "keyAlias", "", "mastgTest", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
+@Metadata(d1 = {"\u0000 \n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0003\n\u0002\u0010\u0012\n\u0000\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\t\u001a\u00020\u0007J\n\u0010\n\u001a\u0004\u0018\u00010\u000bH\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000R\u000e\u0010\b\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000¨\u0006\f"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "keyAlias", "", "challengeEndpoint", "mastgTest", "fetchChallenge", "", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
 public final class MastgTest {
     public static final int $stable = 8;
+    private final String challengeEndpoint;
     private final Context context;
     private final String keyAlias;
 
@@ -30,16 +36,19 @@ public final class MastgTest {
         Intrinsics.checkNotNullParameter(context, "context");
         this.context = context;
         this.keyAlias = "mastgAttestationKey";
+        this.challengeEndpoint = "https://mastg.example.com/attest/challenge";
     }
 
     public final String mastgTest() throws NoSuchAlgorithmException, IOException, KeyStoreException, CertificateException, NoSuchProviderException, InvalidAlgorithmParameterException {
+        byte[] attestationChallenge = fetchChallenge();
+        if (attestationChallenge == null) {
+            return "Could not obtain a challenge from the server.";
+        }
         KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);
         if (keyStore.containsAlias(this.keyAlias)) {
             keyStore.deleteEntry(this.keyAlias);
         }
-        byte[] attestationChallenge = "server-issued-nonce".getBytes(Charsets.UTF_8);
-        Intrinsics.checkNotNullExpressionValue(attestationChallenge, "getBytes(...)");
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC", "AndroidKeyStore");
         int i = 0;
         KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder(this.keyAlias, 12).setDigests("SHA-256").setAlgorithmParameterSpec(new ECGenParameterSpec("secp256r1")).setAttestationChallenge(attestationChallenge).build();
@@ -60,11 +69,42 @@ public final class MastgTest {
             sb.append("Certificate[" + index$iv + "] (first 60 chars): " + StringsKt.take(pem, 60) + "...").append('\n');
             i2++;
             index$iv++;
-            kpg = kpg;
+            attestationChallenge = attestationChallenge;
             i = 0;
         }
         String string = sb.toString();
         Intrinsics.checkNotNullExpressionValue(string, "toString(...)");
         return string;
+    }
+
+    private final byte[] fetchChallenge() {
+        try {
+            URLConnection uRLConnectionOpenConnection = new URL(this.challengeEndpoint).openConnection();
+            Intrinsics.checkNotNull(uRLConnectionOpenConnection, "null cannot be cast to non-null type javax.net.ssl.HttpsURLConnection");
+            HttpsURLConnection connection = (HttpsURLConnection) uRLConnectionOpenConnection;
+            try {
+                InputStream inputStream = connection.getInputStream();
+                try {
+                    InputStream it = inputStream;
+                    Intrinsics.checkNotNull(it);
+                    byte[] bytes = ByteStreamsKt.readBytes(it);
+                    CloseableKt.closeFinally(inputStream, null);
+                    connection.disconnect();
+                    return bytes;
+                } catch (Throwable th) {
+                    try {
+                        throw th;
+                    } catch (Throwable th2) {
+                        CloseableKt.closeFinally(inputStream, th);
+                        throw th2;
+                    }
+                }
+            } catch (Throwable th3) {
+                connection.disconnect();
+                throw th3;
+            }
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

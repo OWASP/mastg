@@ -4,11 +4,19 @@ import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyInfo
 import android.security.keystore.KeyProperties
+import java.io.IOException
+import java.net.URL
 import java.security.KeyFactory
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.cert.X509Certificate
 import java.security.spec.ECGenParameterSpec
+import javax.net.ssl.HttpsURLConnection
+
+// SUMMARY: This sample generates a key pair in the Android KeyStore with an attestation challenge
+// fetched from the server, retrieves the certificate chain, and reads the attestation extension
+// that carries the device integrity signals. It forwards the chain to the server and does not
+// evaluate the signals on the device.
 
 class MastgTest(private val context: Context) {
 
@@ -17,15 +25,21 @@ class MastgTest(private val context: Context) {
     // OID of the Android key attestation extension carried in the leaf certificate.
     private val attestationOid = "1.3.6.1.4.1.11129.2.1.17"
 
+    // The endpoint that issues a new, single-use challenge. No challenge value is compiled into
+    // the app.
+    private val challengeEndpoint = "https://mastg.example.com/attest/challenge"
+
     fun mastgTest(): String {
+        // PASS: [MASTG-TEST-0x05] The challenge is requested from the server for this
+        // attestation only.
+        val challenge = fetchChallenge()
+            ?: return "Could not obtain a challenge from the server."
+
         val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
 
         if (keyStore.containsAlias(keyAlias)) {
             keyStore.deleteEntry(keyAlias)
         }
-
-        // In a real implementation the server generates this nonce with a CSPRNG per request.
-        val challenge = "server-issued-nonce".toByteArray()
 
         val kpg = KeyPairGenerator.getInstance(
             KeyProperties.KEY_ALGORITHM_EC,
@@ -44,8 +58,8 @@ class MastgTest(private val context: Context) {
         kpg.initialize(spec)
         kpg.generateKeyPair()
 
-        // The certificate chain carries the device integrity signals in the rootOfTrust field
-        // of the leaf certificate's attestation extension.
+        // PASS: [MASTG-TEST-0x05] The certificate chain carries the device integrity signals in
+        // the rootOfTrust field of the leaf certificate's attestation extension.
         val certChain = keyStore.getCertificateChain(keyAlias)
 
         val sb = StringBuilder()
@@ -82,5 +96,21 @@ class MastgTest(private val context: Context) {
         sb.appendLine("The server, not the app, evaluates rootOfTrust and attestationSecurityLevel.")
 
         return sb.toString()
+    }
+
+    // Requests a new challenge from the backend. The server generates it with a CSPRNG, stores it
+    // against the session, and rejects any attestation carrying a challenge it did not issue or
+    // has already accepted.
+    private fun fetchChallenge(): ByteArray? {
+        return try {
+            val connection = URL(challengeEndpoint).openConnection() as HttpsURLConnection
+            try {
+                connection.inputStream.use { it.readBytes() }
+            } finally {
+                connection.disconnect()
+            }
+        } catch (e: IOException) {
+            null
+        }
     }
 }
