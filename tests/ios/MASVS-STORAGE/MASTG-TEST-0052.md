@@ -182,7 +182,7 @@ Execute the `ios plist cat` command to inspect the content of userInfo.plist fil
 
 #### Searching for SQLite Databases
 
-iOS applications typically use SQLite databases to store data required by the application. Testers should check the data protection values of these files and their contents for sensitive data. Objection contains a module to interact with SQLite databases. It allows to dump the schema, their tables and query the records.
+iOS applications typically use SQLite databases to store data required by the application. Testers should check the data protection values of these files and their contents for sensitive data. Objection contains a module to interact with SQLite databases. It allows you to dump the schema, their tables and query the records.
 
 ```bash
 ...itudehacks.DVIAswiftv2.develop on (iPhone: 13.2.3) [usb] # sqlite connect Model.sqlite
