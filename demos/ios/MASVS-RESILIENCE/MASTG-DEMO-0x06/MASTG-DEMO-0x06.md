@@ -9,11 +9,11 @@ kind: pass
 
 ## Sample
 
-This sample performs the full App Attest flow: it checks `isSupported`, generates a key with `generateKey`, attests it with `attestKey`, and produces an assertion with `generateAssertion`.
+This sample performs the full App Attest flow: it checks `isSupported`, generates a key with `generateKey`, attests it with `attestKey`, and signs a request payload with `generateAssertion`.
 
-Unlike @MASTG-DEMO-0x02, the `clientDataHash` passed to `attestKey` and `generateAssertion` is a SHA-256 digest over a nonce fetched from the server for that specific request. A separate challenge is requested for the assertion, so the assertion is bound to the request being made rather than to the earlier attestation.
+Unlike @MASTG-DEMO-0x02, every `clientDataHash` is derived from a challenge fetched from the server. For the attestation, the hash is a SHA-256 digest over the fetched challenge. For the assertion, a separate challenge is fetched and placed in the JSON request payload, and the hash is a SHA-256 digest over the payload, so the signature covers both the request and a value the server issued for it.
 
-The endpoint is a placeholder here to keep the demo self-contained. In a real implementation the server generates each nonce with a CSPRNG, stores it against the session, and rejects any attestation or assertion carrying a nonce it did not issue or has already accepted, as described in @MASTG-BEST-0x03.
+The endpoint is a placeholder here to keep the demo self-contained. In a real implementation the server generates each challenge with a CSPRNG, stores it against the session, and rejects any attestation or assertion carrying a challenge it did not issue or has already accepted, as described in @MASTG-BEST-0x03.
 
 {{ MastgTest.swift }}
 
@@ -31,24 +31,24 @@ The endpoint is a placeholder here to keep the demo self-contained. In a real im
 
 ## Observation
 
-The output shows the App Attest selectors present in the binary, the absence of any hardcoded challenge string, the challenge endpoint in the `__TEXT.__cstring` section, and the call sites that build the hash and invoke the App Attest APIs.
+The output shows the App Attest selectors present in the binary and where each one is called, the strings that mention a challenge, how the challenge endpoint is used, and the calls that build each hash.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case passes because the attestation and the assertions are bound to values the server issued, which makes them non-replayable.
+The test case passes because the attestation and the assertion are built from challenges the app fetches from the server, not from a value that ships inside the app.
 
-The disassembly shows the following flow:
+The output shows the following flow:
 
-- The search for a hardcoded challenge string returns nothing, so there is no constant in the binary that could serve as a fixed `clientDataHash` input.
-- At `0x10000be30`, the only challenge-related string is the endpoint `https://mastg.example.com/attest/challenge`, which is a location to fetch a nonce from rather than a nonce itself.
-- Between `0x100004078` and `0x100004094`, that endpoint is loaded and converted into a `Foundation.URL` for the request.
-- At `0x10000af24`, `dataTaskWithURL:completionHandler:` is invoked to retrieve the challenge from the server.
-- At `0x10000411c`, the data returned by that request is passed through `CryptoKit.SHA256` to produce the digest that becomes the `clientDataHash`.
-- At `0x10000aee4` and `0x10000af44`, `attestKey` and `generateAssertion` are invoked with hashes derived from those server-issued values.
+- The app calls `isSupported` at `0x100008884` in `sym.func.1000087b8`, `generateKey` at `0x100004704` in `sym.func.10000442c`, `attestKey` at `0x10000486c` in `sym.func.100004760`, and `generateAssertion` at `0x100004ebc` in `sym.func.100004ae0`.
+- The only strings that mention a challenge are the endpoint `https://mastg.example.com/attest/challenge` at `0x10000cfd0`, the Swift field name `challenge`, and messages shown to the user. None of them is a challenge value.
+- The endpoint is referenced once, at `0x10000407c`, where it is converted into a `Foundation.URL`. `sym.func.100006afc` uses that URL and calls `dataTaskWithURL:completionHandler:` at `0x100006c38`.
+- `sym.func.100006afc` is called twice: at `0x1000088cc`, right after the `isSupported` check, and at `0x100004a58` in `sym.func.100004944`.
+- In `sym.func.10000442c`, a SHA-256 digest is computed between `0x1000045c8` and `0x1000045e8`, before `generateKey` is called. The only string the function references is an error message, so the digest input is not a constant.
+- In `sym.func.100004ae0`, the request payload is encoded with `JSONEncoder.encode` at `0x100004c5c` and a SHA-256 digest is computed between `0x100004d14` and `0x100004d34`, before `generateAssertion` is called. Here too, the only strings referenced are error messages.
 
-Because the digest input arrives over the network at runtime, it differs on every run, and an attacker who captures one attestation object or assertion cannot replay it: the server only accepts a nonce it issued and has not yet seen used.
+Because the challenges arrive over the network at runtime, both `clientDataHash` values differ on every run, and the server can reject an attestation object or assertion that does not carry a challenge it issued and has not yet seen used.
 
 !!! note
     A passing static result only confirms that the challenge originates from the server rather than from a constant. The server must still perform Apple's verification steps, confirming the certificate chain, the App ID hash, the assertion counter, and the receipt risk metric before trusting the client. See @MASTG-BEST-0x03.

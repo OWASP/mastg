@@ -9,9 +9,9 @@ kind: fail
 
 ## Sample
 
-This sample performs the full App Attest flow: it checks `isSupported`, generates a key with `generateKey`, attests it with `attestKey`, and produces an assertion with `generateAssertion`.
+This sample performs the full App Attest flow: it checks `isSupported`, generates a key with `generateKey`, attests it with `attestKey`, and signs a request payload with `generateAssertion`.
 
-However, the `clientDataHash` passed to both `attestKey` and `generateAssertion` is a SHA-256 digest over a constant compiled into the app, rather than over a one-time challenge fetched from the server. The same value is therefore produced on every run and on every install.
+However, the challenge behind both `clientDataHash` values is a constant compiled into the app, rather than a one-time challenge fetched from the server. For the attestation, the hash is a SHA-256 digest over that constant. For the assertion, the constant is placed in the JSON request payload and the hash is a SHA-256 digest over the payload. The same two values are therefore produced on every run and on every install.
 
 {{ MastgTest.swift }}
 
@@ -29,24 +29,21 @@ However, the `clientDataHash` passed to both `attestKey` and `generateAssertion`
 
 ## Observation
 
-The output shows the App Attest selectors present in the binary, the hardcoded challenge string in the `__TEXT.__cstring` section, the single cross reference to it, and disassembly of the three call sites.
+The output shows the App Attest selectors present in the binary and where each one is called, the hardcoded challenge string in the `__TEXT.__cstring` section and its cross references, and the calls that build each hash in the two functions that reference the string.
 
 {{ output.txt }}
 
 ## Evaluation
 
-The test case fails because the attestation and the assertions are not bound to any server-issued value, which makes them replayable.
+The test case fails because the attestation and the assertion are built from a challenge that ships inside the app, so neither is bound to a value the server issued.
 
-The disassembly shows the following flow:
+The output shows the following flow:
 
-- At `0x100006398`, the app calls `isSupported` and branches away if App Attest is unavailable.
-- At `0x1000063a4`, it loads the constant string `mastg-app-attest-challenge` from `0x10000b0b0`. The cross reference list confirms this is the only place the string is used, so no other value ever feeds the hash.
-- Between `0x1000063c8` and `0x10000643c`, that constant is passed through `CryptoKit.SHA256` to produce the digest that becomes the `clientDataHash`.
-- At `0x100004110`, the `attestKey:clientDataHash:completionHandler:` selector is invoked with that digest.
-- At `0x10000436c`, `generateAssertion:clientDataHash:completionHandler:` is invoked with the same digest.
+- The app calls `isSupported` at `0x100004404` and `generateKey` at `0x100004620`, both in `sym.func.100004348`. It calls `attestKey` at `0x100004764` in `sym.func.10000465c` and `generateAssertion` at `0x100004cd8` in `sym.func.10000483c`.
+- The string `mastg-app-attest-challenge` at `0x10000c2a0` is referenced from two functions only: `sym.func.100004348` and `sym.func.10000483c`.
+- In `sym.func.100004348`, the constant is loaded at `0x100004414` and a SHA-256 digest is computed between `0x1000044ec` and `0x10000450c`, before `generateKey` is called. This digest is the `clientDataHash` for the attestation.
+- In `sym.func.10000483c`, the constant is loaded again at `0x100004930`, the request payload is encoded with `JSONEncoder.encode` at `0x1000049c8`, and a SHA-256 digest is computed between `0x100004afc` and `0x100004b1c`, before `generateAssertion` is called. This digest is the `clientDataHash` for the assertion.
 
-Nothing in the binary retrieves a nonce from a server before building the hash. There is no network call between the `isSupported` check and the hash construction, and the only input to the digest is a string literal shipped inside the app.
+The assertion does cover the request payload, so the request cannot be changed without invalidating the signature. But the challenge inside the payload is the constant, and so is the input to the attestation hash. The server has no value of its own to compare against, so its challenge check accepts a recorded attestation object or assertion the same way it accepts a new one.
 
-An attacker who captures one attestation object or assertion can therefore replay it against any later request, because the server has no value of its own to match against. The server cannot distinguish a fresh assertion from a recorded one.
-
-See @MASTG-BEST-0x03 for the expected flow, in which the server generates a unique random challenge for each attestation and each assertion, and rejects any response whose embedded nonce it did not issue.
+See @MASTG-BEST-0x03 for the expected flow, in which the server generates a unique random challenge for each attestation and each assertion, and rejects any response that does not carry a challenge it issued.
