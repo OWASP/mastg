@@ -4,7 +4,7 @@ platform: android
 title: Google Play Integrity API
 ---
 
-[Google Play Integrity API](https://developer.android.com/google/play/integrity/overview "Google Play Integrity API") was launched to improve the security and integrity of apps and games on Android starting with Android 4.4 (level 19). It supersedes the deprecated [SafetyNet Attestation API](https://developer.android.com/training/safetynet/attestation), which was shut down in 2024. Play Integrity was developed with the core capabilities of SafetyNet and added broader coverage for app and account integrity signals.
+[Google Play Integrity API](https://developer.android.com/google/play/integrity/overview "Google Play Integrity API") was launched to improve the security and integrity of apps and games on Android starting with Android 4.4 (level 19). It supersedes the deprecated [SafetyNet Attestation API](https://developer.android.com/training/safetynet/attestation), which was fully turned down in January 2025. Play Integrity was developed with the core capabilities of SafetyNet and added broader coverage for app and account integrity signals.
 
 Internally, the Play Integrity API uses the same cryptographic techniques as @MASTG-KNOW-0044 to root its verdicts in hardware-backed trust.
 
