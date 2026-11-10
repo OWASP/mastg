@@ -8,7 +8,8 @@
     ❯❱ rules.mastg-android-key-attestation-missing-challenge
           ❰❰ Blocking ❱❱
           [MASVS-RESILIENCE-2] KeyGenParameterSpec built without setAttestationChallenge, but its certificate
-          chain is retrieved for attestation. The server cannot verify when this attestation was produced.   
+          chain is retrieved for attestation. Without a challenge the certificate is self-signed and carries 
+          no attestation.                                                                                    
                                                                                                              
            42┆ KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder(this.keyAlias,
                12).setDigests("SHA-256").setAlgorithmParameterSpec(new                  
