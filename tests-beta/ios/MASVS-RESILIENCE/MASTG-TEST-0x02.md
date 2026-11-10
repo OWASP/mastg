@@ -29,6 +29,8 @@ The output should contain a list of locations where the App Attest APIs are used
 
 The test case fails if none of the App Attest APIs (`DCAppAttestService.generateKey`, `attestKey`, `generateAssertion`) are found in the app.
 
+The test case also fails if the `clientDataHash` passed to `attestKey` or `generateAssertion` is not derived from a one-time challenge provided by the server to ensure freshness of the attestation or the assertion.
+
 **Further Validation Required:**
 
 The presence of these APIs does not by itself confirm a robust implementation. The following properties cannot be determined from a reference search alone and require manual or dynamic analysis:
