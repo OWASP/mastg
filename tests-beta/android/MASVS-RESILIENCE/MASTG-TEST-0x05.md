@@ -5,9 +5,8 @@ id: MASTG-TEST-0x05
 apis: [IntegrityManagerFactory, KeyStore.getCertificateChain, KeyGenParameterSpec.Builder.setAttestationChallenge]
 type: [static, code, manual]
 available_since: 24
-weakness: MASWE-0054
+maswe: [MASWE-0054]
 best-practices: [MASTG-BEST-0x01]
-profiles: [R]
 knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044, MASTG-KNOW-0120]
 ---
 

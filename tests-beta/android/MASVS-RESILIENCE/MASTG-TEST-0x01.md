@@ -4,9 +4,8 @@ title: References to App Attestation APIs
 id: MASTG-TEST-0x01
 apis: [IntegrityManagerFactory, KeyStore.getCertificateChain, KeyGenParameterSpec.Builder.setAttestationChallenge]
 type: [static, code, manual]
-weakness: MASWE-0056
+maswe: [MASWE-0056]
 best-practices: [MASTG-BEST-0x01]
-profiles: [R]
 knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044, MASTG-KNOW-0119]
 ---
 
