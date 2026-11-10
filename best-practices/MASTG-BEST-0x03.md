@@ -17,9 +17,11 @@ Query [`DCAppAttestService.shared.isSupported`](https://developer.apple.com/docu
 
 ## Derive Every `clientDataHash` from a Server-Issued Challenge
 
-Drive attestation from the server. For each attestation and each assertion, the server must generate a unique, cryptographically random challenge (nonce) using a CSPRNG and never reuse it. The client hashes the challenge (together with the request payload, where applicable) and passes the result as the `clientDataHash` argument to [`attestKey(_:clientDataHash:completionHandler:)`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/attestkey%28_%3Aclientdatahash%3Acompletionhandler%3A%29) and [`generateAssertion(_:clientDataHash:completionHandler:)`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/generateassertion%28_%3Aclientdatahash%3Acompletionhandler%3A%29).
+Drive attestation from the server. For each attestation and each assertion, the server must generate a unique, cryptographically random challenge (nonce) using a Cryptographically Secure Pseudorandom Number Generator (CSPRNG) and never reuse it. The client hashes the challenge (together with the request payload, where applicable) and passes the result as the `clientDataHash` argument to [`attestKey(_:clientDataHash:completionHandler:)`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/attestkey%28_%3Aclientdatahash%3Acompletionhandler%3A%29) and [`generateAssertion(_:clientDataHash:completionHandler:)`](https://developer.apple.com/documentation/devicecheck/dcappattestservice/generateassertion%28_%3Aclientdatahash%3Acompletionhandler%3A%29).
 
 A `clientDataHash` derived from client-controlled or static data allows an attacker to replay a previously captured attestation object or assertion.
+
+@MASTG-DEMO-0x06 shows both hashes derived from a challenge fetched from the server; @MASTG-DEMO-0x02 shows them derived from a constant in the app.
 
 ## Assert Every Sensitive Request, Not Only the Key
 

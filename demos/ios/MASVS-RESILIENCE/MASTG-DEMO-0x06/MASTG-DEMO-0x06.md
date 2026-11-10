@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: App Attest With a Server-Issued Challenge
+title: App Attest with a Server-Issued Challenge
 id: MASTG-DEMO-0x06
 code: [swift]
 test: MASTG-TEST-0x02
@@ -25,7 +25,7 @@ The endpoint is a placeholder here to keep the demo self-contained. In a real im
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package, which in this case is `./Payload/MASTestApp.app/MASTestApp`.
-2. Use @MASTG-TECH-0066 to locate the App Attest calls and the origin of the `clientDataHash`. Run the r2 script with the `-i` option.
+2. Use @MASTG-TECH-0066 to locate the App Attest calls and the origin of the `clientDataHash`. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
 
 {{ app_attest_server_challenge.r2 # run.sh }}
 

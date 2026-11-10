@@ -12,15 +12,15 @@ App Check is provider-agnostic. The app registers a provider at startup. Both pl
 
 ### Android
 
-- **Play Integrity API** (recommended) - issues a verdict covering device integrity, app authenticity, and installation source (see @MASTG-KNOW-0035).
+- **Play Integrity API**: issues a verdict covering device integrity, app authenticity, and installation source (see @MASTG-KNOW-0035).
 
 ### iOS
 
-- **App Attest** (recommended, iOS 14+) - Apple's hardware-backed attestation service using the Secure Enclave (see @MASTG-KNOW-0x03).
-- **DeviceCheck** (fallback, iOS 11+) - an older Apple service providing per-device flags persisted by Apple, without cryptographic app-identity guarantees (see @MASTG-KNOW-0x02).
+- **App Attest** (iOS 14 and later): Apple's hardware-backed attestation service using the Secure Enclave (see @MASTG-KNOW-0x03).
+- **DeviceCheck** (iOS 11 and later): an older Apple service providing per-device flags persisted by Apple, without cryptographic app-identity guarantees (see @MASTG-KNOW-0x02).
 
 ## Limitations
 
 - **Server-side enforcement required**: App Check tokens are only meaningful if the backend validates them. An integration that skips server-side validation provides no protection.
 - **Depends on underlying provider availability**: All limitations of the underlying provider apply (see @MASTG-KNOW-0035 for Play Integrity limitations). App Attest requires iOS 14+ and is unavailable on simulators without the debug provider.
-- **Token replay**: App Check tokens have a short TTL but are bearer tokens, so anyone who obtains one can present it until it expires.
+- **Token replay**: App Check tokens are short-lived but are bearer tokens, so anyone who obtains one can present it until it expires.

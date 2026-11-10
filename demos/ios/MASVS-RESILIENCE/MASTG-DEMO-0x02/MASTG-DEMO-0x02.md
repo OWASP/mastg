@@ -23,7 +23,7 @@ However, the challenge behind both `clientDataHash` values is a constant compile
 ## Steps
 
 1. Use @MASTG-TECH-0058 to extract the relevant binaries from the app package, which in this case is `./Payload/MASTestApp.app/MASTestApp`.
-2. Use @MASTG-TECH-0066 to locate the App Attest calls and the origin of the `clientDataHash`. Run the r2 script with the `-i` option.
+2. Use @MASTG-TECH-0066 to locate the App Attest calls and the origin of the `clientDataHash`. Open the app binary with @MASTG-TOOL-0073 with the `-i` option to run this script.
 
 {{ app_attest_challenge.r2 # run.sh }}
 

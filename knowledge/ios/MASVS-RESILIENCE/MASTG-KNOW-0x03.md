@@ -3,6 +3,7 @@ masvs_category: MASVS-RESILIENCE
 platform: ios
 title: App Attest
 available_since: 14
+best-practices: [MASTG-BEST-0x03]
 ---
 
 [App Attest](https://developer.apple.com/documentation/devicecheck/validating-apps-that-connect-to-your-server "Validating apps that connect to your server") is part of the DeviceCheck framework and provides hardware-backed app attestation on iOS 14+. It allows a server to cryptographically verify that a request originates from a legitimate, unmodified instance of the app running on a genuine Apple device.
