@@ -8,7 +8,7 @@ knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044, MASTG-KNOW-0047, MASTG-KNOW-0119, 
 
 Applications that perform business-critical operations, such as financial transactions, multi-factor authentication, or sensitive data handling, should verify the integrity of the device environment before trusting it as well as the integrity of the application binary.
 
-For the majority of apps, **Google Play Integrity API** (@MASTG-KNOW-0035) is the recommended starting point. It provides a managed, server-backed attestation signal covering device integrity, app integrity, and licensing - without requiring apps to implement low-level certificate verification themselves.
+For the majority of apps, **Google Play Integrity API** (@MASTG-KNOW-0035) is the recommended starting point. It provides a managed, server-backed attestation signal covering device integrity, app integrity, and licensing, without requiring apps to implement low-level certificate verification themselves.
 
 **This best practice covers the manual attestation approach** using Android's hardware-backed Key Attestation (@MASTG-KNOW-0044). This approach should be used when Play Integrity limitations need to be addressed, or when the application requires more control. In this scenario, use Android's Key Attestation to cryptographically verify that the client's keys reside in hardware-backed storage and that the device has not been compromised.
 
@@ -45,17 +45,32 @@ Using the `rootOfTrust` fields described in @MASTG-KNOW-0120, confirm the device
 
 - Require that `attestationSecurityLevel` is `TrustedEnvironment` or `StrongBox`, confirming the device integrity data is hardware-enforced and cannot be falsified by the Android OS.
 - Verify `verifiedBootState` is `Verified`, indicating the full boot chain was validated against OEM keys.
-- Verify `deviceLocked` is `true`, confirming the bootloader is locked and the system partition cannot be modified without detection.
+- Verify `deviceLocked` is `true`, confirming the bootloader is locked and the partitions protected by Verified Boot (for example `boot`, `init_boot`, and `system`) cannot be modified without detection.
 
 The following conditions indicate low or no device integrity:
 
-- **`verifiedBootState` is not `Verified`**: The boot chain was not fully verified against OEM keys. A `SelfSigned` state means the device is running a custom ROM with a user-installed key; `Unverified` means no verification was performed at all; `Failed` means verification was attempted and failed.
-- **`deviceLocked` is `false`**: The bootloader is unlocked, meaning the system partition can be modified without triggering a boot failure. This is a strong signal that the device may have been tampered with.
-- **`attestationSecurityLevel` is `Software`**: The attestation was generated entirely in the Android OS with no hardware involvement, so `rootOfTrust` appears in the `softwareEnforced` list (@MASTG-KNOW-0120). The `deviceLocked` and `verifiedBootState` values are then asserted by the same software layer they are meant to vouch for, so they cannot corroborate the device's state: a compromised OS can report `deviceLocked` as `true` and `verifiedBootState` as `Verified` while running a modified system partition. Do not treat a `Software` attestation as evidence of device integrity, even when those fields look correct. At most, record it as a weak signal to be combined with other controls, and rely on the guarantees of the [Android Platform Security Model](https://source.android.com/docs/security/features) only where they are enforced below the OS.
+- **`verifiedBootState` is not `Verified`**: The boot chain was not fully verified against OEM keys. A `SelfSigned` state means the boot chain was verified against a root of trust configured by the user, as on an aftermarket OS installed with a locked bootloader, so accept it only if `verifiedBootKey` is a key you explicitly trust; `Unverified` means the bootloader is unlocked and no chain of trust could be established; `Failed` means verification failed.
+- **`deviceLocked` is `false`**: The bootloader is unlocked, meaning the partitions protected by Verified Boot can be modified without triggering a boot failure. This is a strong signal that the device may have been tampered with.
+- **`attestationSecurityLevel` is `Software`**: The attestation was generated entirely in the Android OS with no hardware involvement, so `rootOfTrust` appears in the `softwareEnforced` list (@MASTG-KNOW-0120). The `deviceLocked` and `verifiedBootState` values are then asserted by the same software layer they are meant to vouch for, so they cannot corroborate the device's state: a compromised OS can report `deviceLocked` as `true` and `verifiedBootState` as `Verified` while running modified boot or system images. Do not treat a `Software` attestation as evidence of device integrity, even when those fields look correct. At most, record it as a weak signal to be combined with other controls, and rely on the guarantees of the [Android Platform Security Model](https://source.android.com/docs/security/features) only where they are enforced below the OS.
+
+If the app requests device properties attestation with `setDevicePropertiesAttestationIncluded` (@MASTG-KNOW-0044), require the attested brand, device, manufacturer, model, and product values to be present in the attestation. The client decides whether to request them, so a server that also accepts attestations without them gains nothing from the check.
+
+As an additional signal, compare the `verifiedBootHash` field of `rootOfTrust` with the value the device reports about itself (@MASTG-KNOW-0120). On devices that use Android Verified Boot, the same digest is available on the device as the `ro.boot.vbmeta.digest` system property. The app reads the property and sends it with the attestation, and the server compares the two values. A mismatch means the attestation does not describe the software the client is running, which happens when the client relays an attestation produced on another device or presents a forged chain.
+
+!!! note
+    This comparison can only raise suspicion, it cannot establish trust. The property is read and reported by the client, so a rooted device can report any value and a match proves nothing. The digest also identifies the booted software, not the device, so devices running the same build report the same value. Android has no public SDK API for reading system properties, so the app has to rely on non-SDK interfaces to obtain it.
+
+## Align the Minimum Patch Level with the App's Risk
+
+A device with a locked bootloader and a `Verified` boot state can still run software with publicly known vulnerabilities. The attestation records how up to date the device was when the key was generated, in the `osVersion`, `osPatchLevel`, `vendorPatchLevel`, and `bootPatchLevel` fields (@MASTG-KNOW-0120). Use them to match the security level you require from the device to the risk of the operations the app protects:
+
+- Compare `osPatchLevel` against the oldest security patch level you are willing to accept. Google [recommends this field](https://source.android.com/docs/security/features/keystore/attestation#authorizationlist-fields) over `vendorPatchLevel` and `bootPatchLevel` for checking whether a device has been recently patched.
+- For high-risk operations, require a recent patch level and deny access or ask for additional verification otherwise. For lower-risk operations, record an old patch level as a risk signal instead of blocking the user.
+- Move the threshold forward as new security patches are released. A fixed value loses its meaning over time.
 
 ## Verify Application Integrity
 
-Using the `attestationApplicationId` fields described in @MASTG-KNOW-0119, confirm the key was generated by the legitimate application:
+Using the `attestationApplicationId` fields described in @MASTG-KNOW-0119, confirm the key was generated by the legitimate application. The Android OS supplies this field and the secure hardware only copies it into the attestation, so evaluate it only after the device integrity checks above have passed:
 
 - Verify `packageName` matches the expected application identifier.
 - Verify `signatureDigests` match the expected signing certificate digests pre-provisioned on the server (e.g., from the app's release certificate). A mismatch indicates the APK has been repackaged or signed with a different key.
