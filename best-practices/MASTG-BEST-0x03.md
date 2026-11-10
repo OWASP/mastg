@@ -48,4 +48,4 @@ If verification fails, the server must not grant the client elevated trust or ac
 - Log the failure for monitoring and incident response.
 
 !!! warning
-    App Attest attests the app binary and the device hardware, but it is not jailbreak detection. A jailbroken device may still produce a valid attestation. Combine it with the resilience controls described in @MASTG-BEST-0029.
+    App Attest attests the app's identity and the device hardware, but it is not jailbreak detection. A jailbroken device may still produce a valid attestation. Combine it with the resilience controls described in @MASTG-BEST-0029.
