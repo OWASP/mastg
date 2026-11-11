@@ -1,0 +1,28 @@
+                   
+                   
+┌─────────────────┐
+│ 3 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-device-attestation-extension-read
+          ❰❰ Blocking ❱❱
+          [MASVS-RESILIENCE-1] Android key attestation extension (1.3.6.1.4.1.11129.2.1.17) read from the
+          certificate.                                                                                   
+                                                                                                         
+           44┆ this.attestationOid = "1.3.6.1.4.1.11129.2.1.17";
+   
+     ❱ rules.mastg-android-device-attestation-key-attestation
+          ❰❰ Blocking ❱❱
+          [MASVS-RESILIENCE-1] Key Attestation certificate chain retrieved. The rootOfTrust field carries the
+          device integrity signals, which the server must evaluate.                                          
+                                                                                                             
+           64┆ Certificate[] certChain = keyStore.getCertificateChain(this.keyAlias);
+   
+     ❱ rules.mastg-android-device-attestation-extension-read
+          ❰❰ Blocking ❱❱
+          [MASVS-RESILIENCE-1] Android key attestation extension (1.3.6.1.4.1.11129.2.1.17) read from the
+          certificate.                                                                                   
+                                                                                                         
+           70┆ byte[] extension = leaf.getExtensionValue(this.attestationOid);
+
