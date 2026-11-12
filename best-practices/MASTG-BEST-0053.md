@@ -14,9 +14,9 @@ Defending against virtual devices requires a layered approach. Local checks shou
 
 Common controls include:
 
-- **Virtual device detection**: Check for virtual device indicators such as missing hardware capabilities, inconsistent device properties, known virtualization artifacts, and App Attest validation failures. See @MASTG-KNOW-0135.
+- **Virtual device detection**: Check for virtual device indicators such as missing hardware capabilities, inconsistent device properties, known virtualization artifacts, and App Attest (@MASTG-KNOW-0x03) validation failures. See @MASTG-KNOW-0135.
 - **Reverse engineering tool detection**: Detect debuggers, instrumentation frameworks, hooking tools, and other runtime manipulation techniques, because virtual devices are often used together with these tools. See @MASTG-KNOW-0087.
-- **Server-side enforcement**: Use server-side checks for high-risk actions, such as App Attest validation, app integrity validation, request risk scoring, throttling, step-up verification, or denying access to sensitive features when multiple high-risk signals are present.
+- **Server-side enforcement**: Use server-side checks for high-risk actions, such as App Attest validation (see @MASTG-BEST-0x03), app integrity validation, request risk scoring, throttling, step-up verification, or denying access to sensitive features when multiple high-risk signals are present.
 - **Obfuscation and diversification**: Obfuscate detection logic, scatter checks throughout the app, vary their timing, and avoid relying on a single static indicator. See @MASTG-KNOW-0089.
 - **Graceful response handling**: Avoid exposing precise detection reasons to the client. Prefer generic errors, reduced functionality, delayed responses, or server-side policy decisions that do not reveal which specific check was triggered.
 
