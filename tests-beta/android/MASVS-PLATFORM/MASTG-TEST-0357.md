@@ -2,10 +2,9 @@
 title: References to Oversharing of File-Based Content Providers
 platform: android
 id: MASTG-TEST-0357
-weakness: MASWE-0018
+maswe: [MASWE-0018]
 type: [static, config, code, manual]
 best-practices: [MASTG-BEST-0049]
-profiles: [L1, L2]
 knowledge: [MASTG-KNOW-0020, MASTG-KNOW-0117]
 ---
 

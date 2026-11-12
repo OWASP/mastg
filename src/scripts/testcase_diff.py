@@ -16,7 +16,7 @@ def main():
     added = 0
     removed = 0
 
-    print("OWASP MAS Checklists Changes")
+    print("OWASP MASVS Test Coverage Changes")
 
     for mstg_id, req in MASVS_NEW.items():
         old_links = MASVS_OLD[mstg_id].get("links")

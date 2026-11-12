@@ -4,9 +4,8 @@ title: References to Platform Version APIs
 id: MASTG-TEST-0245
 apis: [Build]
 type: [static, code]
-weakness: MASWE-0041
+maswe: [MASWE-0041]
 best-practices: []
-profiles: [L2]
 ---
 
 ## Overview

@@ -27,9 +27,6 @@ changelog:
     - title: ⚡ Automation
       labels:
         - "automation"
-    - title: 📜 Mobile Security Checklists
-      labels:
-        - "checklists"
     - title: 🎉 New Donators
       labels:
         - "donation"

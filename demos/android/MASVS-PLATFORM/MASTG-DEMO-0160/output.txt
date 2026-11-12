@@ -1,0 +1,54 @@
+[*] Hooks installed. Tap Start, or call dumpViews() to dump the current screen.
+
+[setAccessibilityDataSensitive] android.widget.EditText hint="Password" mode=YES
+    at android.view.View.setAccessibilityDataSensitive(Native Method)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:53)
+    at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
+    at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
+    at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+    at androidx.compose.foundation.AbstractClickableNode.performClick(Clickable.kt:1701)
+
+[setFilterTouchesWhenObscured] android.widget.EditText hint="One-time code" enabled=true
+    at android.view.View.setFilterTouchesWhenObscured(Native Method)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:58)
+    at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
+    at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
+    at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+    at androidx.compose.foundation.AbstractClickableNode.performClick(Clickable.kt:1701)
+
+[setAccessibilityDataSensitive] android.widget.LinearLayout mode=YES
+    at android.view.View.setAccessibilityDataSensitive(Native Method)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:65)
+    at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
+    at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
+    at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+    at androidx.compose.foundation.AbstractClickableNode.performClick(Clickable.kt:1701)
+
+[setAccessibilityDataSensitive] android.widget.Button text="Confirm Payment" mode=NO
+    at android.view.View.setAccessibilityDataSensitive(Native Method)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:75)
+    at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
+    at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
+    at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+    at androidx.compose.foundation.AbstractClickableNode.performClick(Clickable.kt:1701)
+
+[*] View hierarchy of org.owasp.mastestapp.MainActivity:
+com.android.internal.policy.DecorView isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+  android.widget.LinearLayout isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+    android.view.ViewStub id=action_mode_bar_stub isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+    android.widget.FrameLayout id=content isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+      androidx.compose.ui.platform.ComposeView isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+        androidx.compose.ui.platform.AndroidComposeView isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+          androidx.compose.material.ripple.RippleContainer isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+            androidx.compose.material.ripple.RippleHostView isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+      android.widget.LinearLayout isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+        android.widget.EditText hint="Username" isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+        android.widget.EditText hint="Password" isAccessibilityDataSensitive=true filterTouchesWhenObscured=false
+        android.widget.EditText hint="One-time code" isAccessibilityDataSensitive=true filterTouchesWhenObscured=true
+        android.widget.LinearLayout isAccessibilityDataSensitive=true filterTouchesWhenObscured=false
+          android.widget.EditText hint="Card number" isAccessibilityDataSensitive=true filterTouchesWhenObscured=false
+          android.widget.Button text="Confirm Payment" isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+        android.widget.Button text="Cancel" isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+  androidx.activity.EdgeToEdge$enableEdgeToEdge$1$2 isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
+
+[*] Finished dumping the view hierarchy.

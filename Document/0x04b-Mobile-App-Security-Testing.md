@@ -94,11 +94,11 @@ The classic approach involves all-around security testing of the app's final or 
 
 #### Preparation
 
-The security level at which the app will be tested must be decided before testing. The security requirements should be decided at the beginning of the project. Different organizations have different security needs and resources available for investing in test activities. Although the tests in the MAS-L1 profile are applicable to all mobile apps, walking through the entire MAS-L1 and MAS-L2 tests with technical and business stakeholders is a good way to decide on a level of test coverage.
+The security level at which the app will be tested must be decided before testing. The security requirements should be decided at the beginning of the project. Different organizations have different security needs and resources available for investing in test activities. Although the tests in the [MAS-L1](https://mas.owasp.org/Profiles/MAS-L1/) profile are applicable to all mobile apps, walking through the entire MAS-L1 and [MAS-L2](https://mas.owasp.org/Profiles/MAS-L2/) tests with technical and business stakeholders is a good way to decide on a level of test coverage.
 
-Organizations may have different regulatory and legal obligations in certain territories. Even if an app doesn't handle sensitive data, some MAS-L2 tests may be relevant (because of industry regulations or local laws). For example, two-factor authentication (2FA) may be obligatory for a financial app and enforced by a country's central bank and/or financial regulatory authorities.
+Organizations may have different regulatory and legal obligations in certain territories. Even if an app doesn't handle sensitive data, some [MAS-L2](https://mas.owasp.org/Profiles/MAS-L2/) tests may be relevant (because of industry regulations or local laws). For example, two-factor authentication (2FA) may be obligatory for a financial app and enforced by a country's central bank and/or financial regulatory authorities.
 
-Security goals/controls defined earlier in the development process may also be reviewed during the discussion with stakeholders. Some controls may conform to MAS profiles, but others may be specific to the organization or app.
+Security goals/controls defined earlier in the development process may also be reviewed during the discussion with stakeholders. Some controls may conform to [MAS profiles](https://mas.owasp.org/Profiles/), but others may be specific to the organization or app.
 
 All involved parties must agree on the decisions and the scope in the checklist because these will define the baseline for all security testing.
 

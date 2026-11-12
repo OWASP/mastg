@@ -14,7 +14,7 @@ Unlike @MASTG-KNOW-0030, which covers artifact-based detection (e.g., scanning f
 The following sections present these defensive controls grouped into four categories based on the type of integrity violation they detect. Each category includes specific methods and a discussion of their effectiveness and potential bypasses. They help answer the following questions:
 
 | Question | Category | Defensive Controls |
-|---|---|---|
+| --- | --- | --- |
 | Did an indirect call target change? | **[Control Flow Integrity Checks](#control-flow-integrity-checks)** | PLT/GOT hook detection, vtable hook detection, ART entry point verification |
 | Did executable code or protected data change? | **[Code Integrity Verification](#code-integrity-verification)** | Memory checksums, inline hook detection |
 | Was new executable code loaded into the process? | **[Runtime Code Injection Detection](#runtime-code-injection-detection)** | Dynamic library injection detection |

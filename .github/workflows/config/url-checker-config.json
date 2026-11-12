@@ -103,9 +103,6 @@
             "pattern": "^/MASWE/"
         },
         {
-            "pattern": "^/checklists/"
-        },
-        {
             "pattern": "^https://stackoverflow.com/"
         },
         {
@@ -182,6 +179,12 @@
         },
         {
             "pattern": "^https://www.yumpu.com/"
+        },
+        {
+            "pattern": "^https://pentestcorner.com"
+        },
+        {
+            "pattern": "^https://bugs.openjdk.org"
         }
     ],
     "replacementPatterns": [

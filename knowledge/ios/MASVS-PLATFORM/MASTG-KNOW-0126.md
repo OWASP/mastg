@@ -24,7 +24,7 @@ let query: [String: Any] = [
     kSecValueData as String: passwordData
 ]
 SecItemAdd(query as CFDictionary, nil)
-````
+```
 
 Any app that has the same access group in its entitlement can access items stored in that group, subject to the item's other keychain attributes and access controls. If `kSecAttrAccessGroup` is omitted, the item is stored in the app's default access group.
 

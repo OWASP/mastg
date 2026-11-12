@@ -3,8 +3,7 @@ platform: ios
 title: Insecure Random API Usage
 id: MASTG-TEST-0311
 type: [static, code, manual]
-weakness: MASWE-0012
-profiles: [L1, L2]
+maswe: [MASWE-0012]
 best-practices: [MASTG-BEST-0025]
 knowledge: [MASTG-KNOW-0070]
 ---

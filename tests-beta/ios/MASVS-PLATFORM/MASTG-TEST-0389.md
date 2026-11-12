@@ -3,11 +3,10 @@ platform: ios
 title: References to the App-Wide Restriction of Custom Keyboards
 id: MASTG-TEST-0389
 type: [static, code, manual]
-weakness: MASWE-0031
+maswe: [MASWE-0031]
 prerequisites:
 - identify-sensitive-data
 best-practices: [MASTG-BEST-0069]
-profiles: [L2]
 knowledge: [MASTG-KNOW-0082, MASTG-KNOW-0141]
 ---
 
