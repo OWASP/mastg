@@ -4,6 +4,7 @@ title: Identify Dependencies with Known Vulnerabilities by Scanning Dependency M
 id: MASTG-TEST-0273
 type: [static, code]
 maswe: [MASWE-0044]
+best-practices: [MASTG-BEST-0x02]
 ---
 
 ## Overview

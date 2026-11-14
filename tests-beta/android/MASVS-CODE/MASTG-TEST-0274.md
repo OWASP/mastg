@@ -4,6 +4,7 @@ title: Dependencies with Known Vulnerabilities in the App's SBOM
 id: MASTG-TEST-0274
 type: [static, developer]
 maswe: [MASWE-0044]
+best-practices: [MASTG-BEST-0x01]
 ---
 
 ## Overview
