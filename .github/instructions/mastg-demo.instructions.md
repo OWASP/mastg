@@ -17,12 +17,11 @@ Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
 
 ## Building the App and Generating Artifacts
 
-**Build artifacts MUST be generated, never written by hand.** The following files are outputs of actually building the MASTestApp and reverse engineering or scanning the result:
+**Never invent or write by hand any demo file that results from building or analyzing the app.** For example:
 
-- `MastgTest_reversed.java` and any other decompiled source
-- reversed `AndroidManifest.xml` and reversed `Info.plist`
-- `MASTestApp`, `.ipa`, and `.apk` binaries
-- `output.txt` and any other result file (`*.json`, `*.sarif`)
+- **Application binary** (for example, `MASTestApp`, or the `.so` library of an Android demo with native code): built from the sample code.
+- **Reverse-engineered files** (for example, `MastgTest_reversed.java`, `AndroidManifest_reversed.xml`): extracted from the application binary.
+- **Output files** (for example, `output.txt`, `output.json`, `output.asm`): produced by running the demo's scripts, such as `run.sh`.
 
 Produce them by cloning the app of the demo, building and running it on a device, and extracting the files from that build:
 
@@ -33,7 +32,12 @@ Demos that analyze a binary, either the iOS main binary or an Android native lib
 
 Don't edit these files to match the sample or the write-up. When you change the sample code or a script, regenerate them.
 
-A demo is not ready for review until the app has been built and run and these files come from that build. This includes demos that only need static analysis, which must still provide the decompiled code.
+A demo is not ready for review until it has been verified end to end:
+
+- The app builds and runs with the demo's files.
+- The artifacts come from that build, including the decompiled code for demos that only need static analysis.
+- The decompiled code was generated from the current sample, and the line numbers cited in the demo point to the code they describe.
+- The outputs match what the Observation and Evaluation describe.
 
 The **demos MUST WORK**. See [Code Samples](#code-samples).
 
