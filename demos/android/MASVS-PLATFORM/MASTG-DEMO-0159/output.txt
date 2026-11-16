@@ -1,0 +1,35 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-accessibility-data-sensitive-set
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-3] setAccessibilityDataSensitive is used to configure the accessibility data
+          sensitivity of a view                                                                       
+                                                                                                      
+           64┆ passwordField.setAccessibilityDataSensitive(1);
+   
+     ❱ rules.mastg-android-accessibility-data-sensitive-filter-touches
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-3] setFilterTouchesWhenObscured is used, which implies accessibility data
+          sensitivity unless the view sets ACCESSIBILITY_DATA_SENSITIVE_NO                         
+                                                                                                   
+           67┆ otpField.setFilterTouchesWhenObscured(true);
+   
+     ❱ rules.mastg-android-accessibility-data-sensitive-set
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-3] setAccessibilityDataSensitive is used to configure the accessibility data
+          sensitivity of a view                                                                       
+                                                                                                      
+           71┆ paymentContainer.setAccessibilityDataSensitive(1);
+   
+    ❯❱ rules.mastg-android-accessibility-data-sensitive-disabled
+          ❰❰ Blocking ❱❱
+          [MASVS-PLATFORM-3] setAccessibilityDataSensitive is used to explicitly disable the accessibility
+          data sensitivity of a view                                                                      
+                                                                                                          
+           82┆ confirmButton.setAccessibilityDataSensitive(2);
+

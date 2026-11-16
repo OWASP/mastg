@@ -37,7 +37,7 @@ All content worlds share the same DOM. This means:
 The following APIs were updated in iOS 14 to accept a [`WKContentWorld`](https://developer.apple.com/documentation/webkit/wkcontentworld) parameter, allowing callers to choose where code executes:
 
 | API | Notes |
-|---|---|
+| --- | --- |
 | [`WKUserContentController.add(_:contentWorld:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/add(_:contentworld:name:)) | Registers a `WKScriptMessageHandler` in the specified world |
 | [`WKUserContentController.addScriptMessageHandler(_:contentWorld:name:)`](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/addscriptmessagehandler(_:contentworld:name:)) | Registers a `WKScriptMessageHandlerWithReply` in the specified world |
 | [`WKUserScript(source:injectionTime:forMainFrameOnly:in:)`](https://developer.apple.com/documentation/webkit/wkuserscript/init(source:injectiontime:formainframeonly:in:)) | Injects a script into the specified world at document load |

@@ -23,7 +23,6 @@ The **OWASP Mobile Application Security Testing Guide (MASTG)** is a comprehensi
 <br>
 
 - 🌐 [Access the MASTG Web](https://mas.owasp.org/MASTG/)
-- ✅ [Get the latest Mobile App Security Checklists](https://github.com/OWASP/mastg/releases/latest)
 - ⚡ [Contribute!](https://mas.owasp.org/contributing)
 - 💥 [Play with our Crackmes](https://mas.owasp.org/crackmes)
 - 📞 [Contact Us](https://mas.owasp.org/contact)

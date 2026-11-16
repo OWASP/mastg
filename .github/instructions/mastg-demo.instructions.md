@@ -208,6 +208,25 @@ Include these if relevant:
 
 Demos with `kind: attack` represent a self-contained attacker app that targets a victim app. They have additional requirements beyond those of regular demos.
 
+### Safety Requirements
+
+Attacker apps are published by OWASP, so they **MUST** be harmless by design and scoped to the demo's sample app. The website automatically shows an "Attacker App Disclaimer" banner on every demo with `kind: attack`, and its statements must remain true for every attacker app.
+
+**Harmless by design:**
+
+- Keep the attacker app a minimal proof of concept that demonstrates the weakness and nothing more.
+- Only use public, documented platform APIs, and only permissions or special access that the user explicitly grants, such as enabling an accessibility service or allowing overlays.
+- Don't exploit vulnerabilities in the operating system or in apps other than the demo's sample app. Don't use hidden or private APIs, native exploits, privilege escalation, or root.
+- Don't persist beyond the demo (for example, no boot receivers, scheduled jobs, or foreground services that keep running), and don't hide the app or its activity from the user.
+- Don't send data off the device. Show the results in the attacker app's UI or in logcat only.
+- Use benign, clearly labeled payloads (for example, `COMPROMISED BY ATTACKER` in a file in the attacker's own cache), and don't modify anything outside the attacker app and the sample app.
+
+**Scoped to the sample app:**
+
+- Target only the MASTestApp sample (`org.owasp.mastestapp`) from the linked demo, for example with explicit component names, the sample's custom intent actions, or authorities.
+- When an API can observe or interact with other apps, restrict it to the sample's package. For example, set `android:packageNames="org.owasp.mastestapp"` in an accessibility service configuration and `packageNames` in `AccessibilityServiceInfo`. If the demo needs to show that a real attacker wouldn't use such a filter, explain it in the "Sample" section instead of removing the filter.
+- Use dummy data only, and tell readers in the "Steps" section to use a test device or emulator and to disable or uninstall the attacker app, and revoke any special access, when they've finished.
+
 ### config.yml
 
 Every attacker-app demo **MUST** include a `config.yml` file in its folder. This file tells the build automation how to package the attacker app with a distinct identity so it doesn't conflict with the victim app on the same device.

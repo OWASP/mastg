@@ -1,0 +1,50 @@
+rules:
+  - id: mastg-android-accessibility-data-sensitive-set
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects calls to setAccessibilityDataSensitive that mark views as sensitive or keep the automatic behavior (0 = ACCESSIBILITY_DATA_SENSITIVE_AUTO, 1 = ACCESSIBILITY_DATA_SENSITIVE_YES).
+    message: "[MASVS-PLATFORM-3] setAccessibilityDataSensitive is used to configure the accessibility data sensitivity of a view"
+    patterns:
+      - pattern: $VIEW.setAccessibilityDataSensitive($VALUE)
+      - pattern-not: $VIEW.setAccessibilityDataSensitive(2)
+      - pattern-not: $VIEW.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_NO)
+
+  - id: mastg-android-accessibility-data-sensitive-disabled
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: Detects calls to setAccessibilityDataSensitive with ACCESSIBILITY_DATA_SENSITIVE_NO (2), which disables the protection for a view, including protection inherited from its parents.
+    message: "[MASVS-PLATFORM-3] setAccessibilityDataSensitive is used to explicitly disable the accessibility data sensitivity of a view"
+    pattern-either:
+      - pattern: $VIEW.setAccessibilityDataSensitive(2)
+      - pattern: $VIEW.setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_NO)
+
+  - id: mastg-android-accessibility-data-sensitive-filter-touches
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects calls to setFilterTouchesWhenObscured, which implies accessibility data sensitivity for views using ACCESSIBILITY_DATA_SENSITIVE_AUTO.
+    message: "[MASVS-PLATFORM-3] setFilterTouchesWhenObscured is used, which implies accessibility data sensitivity unless the view sets ACCESSIBILITY_DATA_SENSITIVE_NO"
+    pattern: $VIEW.setFilterTouchesWhenObscured(...)
+
+  - id: mastg-android-accessibility-data-sensitive-xml-attribute
+    severity: INFO
+    languages:
+      - xml
+    metadata:
+      summary: Detects the android:accessibilityDataSensitive attribute in layout XML files.
+    message: "[MASVS-PLATFORM-3] android:accessibilityDataSensitive is set to $VALUE"
+    pattern: android:accessibilityDataSensitive="$VALUE"
+
+  - id: mastg-android-accessibility-data-sensitive-xml-filter-touches
+    severity: INFO
+    languages:
+      - xml
+    metadata:
+      summary: Detects the android:filterTouchesWhenObscured attribute in layout XML files, which implies accessibility data sensitivity.
+    message: "[MASVS-PLATFORM-3] android:filterTouchesWhenObscured is set to true, which implies accessibility data sensitivity unless the view sets android:accessibilityDataSensitive to false"
+    pattern: android:filterTouchesWhenObscured="true"

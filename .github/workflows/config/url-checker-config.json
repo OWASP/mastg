@@ -103,9 +103,6 @@
             "pattern": "^/MASWE/"
         },
         {
-            "pattern": "^/checklists/"
-        },
-        {
             "pattern": "^https://stackoverflow.com/"
         },
         {
