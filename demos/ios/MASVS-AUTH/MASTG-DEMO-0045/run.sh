@@ -1,2 +1,2 @@
 #!/bin/bash
-r2 -q -i biometricAuthenticationFallback.r2 -A MASTestApp > output.asm
+r2 -q -i biometricAuthenticationEnrollmentChange.r2 -A MASTestApp > output.asm
