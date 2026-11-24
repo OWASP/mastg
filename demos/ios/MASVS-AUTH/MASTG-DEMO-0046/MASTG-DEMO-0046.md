@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Runtime Use of kSecAccessControlBiometryCurrentSet with Frida
+title: Lack of kSecAccessControlBiometryCurrentSet Use at Runtime with Frida
 id: MASTG-DEMO-0046
 code: [swift]
 test: MASTG-TEST-0271
