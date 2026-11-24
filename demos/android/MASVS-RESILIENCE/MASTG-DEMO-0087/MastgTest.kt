@@ -3,14 +3,25 @@ package org.owasp.mastestapp
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Base64
 import android.util.Log
 import java.io.File
+import java.security.KeyStore
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.GCMParameterSpec
 
-// SUMMARY: This sample demonstrates common root detection techniques used in Android applications.
+// SUMMARY: This sample demonstrates common root detection techniques used in Android applications, and performs a sensitive operation when none of them detects root.
 
 class MastgTest(private val context: Context) {
 
-    private val tag = "MASTG.RootDetect"
+    private val tag = "MASTG"
+
+    private val sensitiveApiKey = "sk-OWASP-MAS-SuperSecretKey-1234567890"
+    private val keyAlias = "mastgCipherKey"
 
     fun mastgTest(): String {
         val checks = mutableListOf<String>()
@@ -34,9 +45,70 @@ class MastgTest(private val context: Context) {
         val isRooted = su || whichSu || pkgs || testKeys || props
         Log.i(tag, "Completed checks: rooted=$isRooted")
 
+        val operation = if (isRooted) {
+            Log.i(tag, "Sensitive operation skipped: root detected")
+            "The sensitive operation was not performed because the device seems to be rooted."
+        } else {
+            performSensitiveOperation()
+        }
+
         return "Root Detection Results:\n\n" +
                 checks.joinToString("\n") +
-                "\n\nDevice appears to be rooted: $isRooted"
+                "\n\nDevice appears to be rooted: $isRooted" +
+                "\n\n" + operation
+    }
+
+    private fun performSensitiveOperation(): String {
+        return try {
+            val key = getOrCreateSecretKey()
+
+            // Encrypt the sensitive API key
+            val encryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
+            encryptCipher.init(Cipher.ENCRYPT_MODE, key)
+            val iv = encryptCipher.iv
+            val encryptedBytes = encryptCipher.doFinal(sensitiveApiKey.toByteArray(Charsets.UTF_8))
+            val encryptedData = Base64.encodeToString(iv + encryptedBytes, Base64.DEFAULT)
+
+            // Decrypt to verify
+            val decodedData = Base64.decode(encryptedData, Base64.DEFAULT)
+            val ivFromData = decodedData.copyOfRange(0, 12)
+            val ciphertext = decodedData.copyOfRange(12, decodedData.size)
+
+            val decryptCipher = Cipher.getInstance("AES/GCM/NoPadding")
+            decryptCipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, ivFromData))
+            val decryptedBytes = decryptCipher.doFinal(ciphertext)
+            val decryptedString = String(decryptedBytes, Charsets.UTF_8)
+            val decryptionSuccessful = decryptedString == sensitiveApiKey
+            Log.i(tag, "Sensitive operation performed: decryption successful=$decryptionSuccessful")
+
+            "Sensitive operation performed.\n" +
+                    "Encrypted: $encryptedData\n" +
+                    "Decryption successful: $decryptionSuccessful"
+        } catch (e: Exception) {
+            "Error: ${e.message}"
+        }
+    }
+
+    private fun getOrCreateSecretKey(): SecretKey {
+        val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+        return if (keyStore.containsAlias(keyAlias)) {
+            (keyStore.getEntry(keyAlias, null) as KeyStore.SecretKeyEntry).secretKey
+        } else {
+            KeyGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_AES,
+                "AndroidKeyStore"
+            ).apply {
+                init(
+                    KeyGenParameterSpec.Builder(
+                        keyAlias,
+                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                    )
+                        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                        .build()
+                )
+            }.generateKey()
+        }
     }
 
     private fun checkForSuBinary(): Boolean {

@@ -3,17 +3,32 @@ package org.owasp.mastestapp;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.security.keystore.KeyGenParameterSpec;
+import android.util.Base64;
 import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
 import kotlin.Metadata;
 import kotlin.TuplesKt;
+import kotlin.collections.ArraysKt;
 import kotlin.collections.CollectionsKt;
 import kotlin.collections.MapsKt;
 import kotlin.io.CloseableKt;
@@ -22,21 +37,26 @@ import kotlin.jvm.internal.Intrinsics;
 import kotlin.text.Charsets;
 import kotlin.text.StringsKt;
 
-/* compiled from: MastgTest.kt */
-@Metadata(d1 = {"\u0000\"\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0010\u000b\n\u0002\b\u0007\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\b\u001a\u00020\u0007J\b\u0010\t\u001a\u00020\nH\u0002J\b\u0010\u000b\u001a\u00020\nH\u0002J\b\u0010\f\u001a\u00020\nH\u0002J\b\u0010\r\u001a\u00020\nH\u0002J\b\u0010\u000e\u001a\u00020\nH\u0002J\u0012\u0010\u000f\u001a\u0004\u0018\u00010\u00072\u0006\u0010\u0010\u001a\u00020\u0007H\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000¨\u0006\u0011"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "tag", "", "mastgTest", "checkForSuBinary", "", "checkForWhichSu", "checkForRootPackages", "checkForTestKeys", "checkForDangerousProps", "getSystemProperty", "key", "app_debug"}, k = 1, mv = {2, 0, 0}, xi = 48)
-/* loaded from: classes3.dex */
+/* JADX INFO: compiled from: MastgTest.kt */
+/* JADX INFO: loaded from: classes3.dex */
+@Metadata(d1 = {"\u0000.\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000b\n\u0002\b\u0007\n\u0002\u0018\u0002\n\u0000\b\u0007\u0018\u00002\u00020\u0001B\u000f\u0012\u0006\u0010\u0002\u001a\u00020\u0003¢\u0006\u0004\b\u0004\u0010\u0005J\u0006\u0010\n\u001a\u00020\u0007J\b\u0010\u000b\u001a\u00020\u0007H\u0002J\b\u0010\f\u001a\u00020\rH\u0002J\b\u0010\u000e\u001a\u00020\u000fH\u0002J\b\u0010\u0010\u001a\u00020\u000fH\u0002J\b\u0010\u0011\u001a\u00020\u000fH\u0002J\b\u0010\u0012\u001a\u00020\u000fH\u0002J\b\u0010\u0013\u001a\u00020\u000fH\u0002J\u0012\u0010\u0014\u001a\u0004\u0018\u00010\u00072\u0006\u0010\u0015\u001a\u00020\u0007H\u0002R\u000e\u0010\u0002\u001a\u00020\u0003X\u0082\u0004¢\u0006\u0002\n\u0000R\u000e\u0010\u0006\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000R\u000e\u0010\b\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000R\u000e\u0010\t\u001a\u00020\u0007X\u0082D¢\u0006\u0002\n\u0000Ê\u0001\f\b\u0017\u0012\b\b\u0018\u0012\u0004\b\u0003\u0010\u0000¨\u0006\u0016"}, d2 = {"Lorg/owasp/mastestapp/MastgTest;", "", "context", "Landroid/content/Context;", "<init>", "(Landroid/content/Context;)V", "tag", "", "sensitiveApiKey", "keyAlias", "mastgTest", "performSensitiveOperation", "getOrCreateSecretKey", "Ljavax/crypto/SecretKey;", "checkForSuBinary", "", "checkForWhichSu", "checkForRootPackages", "checkForTestKeys", "checkForDangerousProps", "getSystemProperty", "key", "app", "Landroidx/compose/runtime/internal/StabilityInferred;", "parameters"}, k = 1, mv = {2, 4, 0}, xi = 48)
 public final class MastgTest {
     public static final int $stable = 8;
     private final Context context;
+    private final String keyAlias;
+    private final String sensitiveApiKey;
     private final String tag;
 
     public MastgTest(Context context) {
         Intrinsics.checkNotNullParameter(context, "context");
         this.context = context;
-        this.tag = "MASTG.RootDetect";
+        this.tag = "MASTG";
+        this.sensitiveApiKey = "sk-OWASP-MAS-SuperSecretKey-1234567890";
+        this.keyAlias = "mastgCipherKey";
     }
 
     public final String mastgTest() {
+        String operation;
         List checks = new ArrayList();
         Log.i(this.tag, "Starting root detection checks");
         boolean su = checkForSuBinary();
@@ -51,7 +71,59 @@ public final class MastgTest {
         checks.add(props ? "✓ Found dangerous system properties" : "✗ No dangerous system properties");
         boolean isRooted = su || whichSu || pkgs || testKeys || props;
         Log.i(this.tag, "Completed checks: rooted=" + isRooted);
-        return "Root Detection Results:\n\n" + CollectionsKt.joinToString$default(checks, "\n", null, null, 0, null, null, 62, null) + "\n\nDevice appears to be rooted: " + isRooted;
+        if (isRooted) {
+            Log.i(this.tag, "Sensitive operation skipped: root detected");
+            operation = "The sensitive operation was not performed because the device seems to be rooted.";
+        } else {
+            operation = performSensitiveOperation();
+        }
+        return "Root Detection Results:\n\n" + CollectionsKt.joinToString$default(checks, "\n", null, null, 0, null, null, 62, null) + "\n\nDevice appears to be rooted: " + isRooted + "\n\n" + operation;
+    }
+
+    private final String performSensitiveOperation() {
+        try {
+            SecretKey key = getOrCreateSecretKey();
+            Cipher encryptCipher = Cipher.getInstance("AES/GCM/NoPadding");
+            encryptCipher.init(1, key);
+            byte[] iv = encryptCipher.getIV();
+            byte[] bytes = this.sensitiveApiKey.getBytes(Charsets.UTF_8);
+            Intrinsics.checkNotNullExpressionValue(bytes, "getBytes(...)");
+            byte[] encryptedBytes = encryptCipher.doFinal(bytes);
+            Intrinsics.checkNotNull(iv);
+            Intrinsics.checkNotNull(encryptedBytes);
+            String encryptedData = Base64.encodeToString(ArraysKt.plus(iv, encryptedBytes), 0);
+            byte[] decodedData = Base64.decode(encryptedData, 0);
+            Intrinsics.checkNotNull(decodedData);
+            byte[] ivFromData = ArraysKt.copyOfRange(decodedData, 0, 12);
+            byte[] ciphertext = ArraysKt.copyOfRange(decodedData, 12, decodedData.length);
+            Cipher decryptCipher = Cipher.getInstance("AES/GCM/NoPadding");
+            decryptCipher.init(2, key, new GCMParameterSpec(128, ivFromData));
+            byte[] decryptedBytes = decryptCipher.doFinal(ciphertext);
+            Intrinsics.checkNotNull(decryptedBytes);
+            String decryptedString = new String(decryptedBytes, Charsets.UTF_8);
+            boolean decryptionSuccessful = Intrinsics.areEqual(decryptedString, this.sensitiveApiKey);
+            Log.i(this.tag, "Sensitive operation performed: decryption successful=" + decryptionSuccessful);
+            return "Sensitive operation performed.\nEncrypted: " + encryptedData + "\nDecryption successful: " + decryptionSuccessful;
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    private final SecretKey getOrCreateSecretKey() throws NoSuchAlgorithmException, IOException, KeyStoreException, CertificateException, NoSuchProviderException, UnrecoverableEntryException, InvalidAlgorithmParameterException {
+        KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+        keyStore.load(null);
+        if (keyStore.containsAlias(this.keyAlias)) {
+            KeyStore.Entry entry = keyStore.getEntry(this.keyAlias, null);
+            Intrinsics.checkNotNull(entry, "null cannot be cast to non-null type java.security.KeyStore.SecretKeyEntry");
+            SecretKey secretKey = ((KeyStore.SecretKeyEntry) entry).getSecretKey();
+            Intrinsics.checkNotNull(secretKey);
+            return secretKey;
+        }
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES", "AndroidKeyStore");
+        keyGenerator.init(new KeyGenParameterSpec.Builder(this.keyAlias, 3).setBlockModes("GCM").setEncryptionPaddings("NoPadding").build());
+        SecretKey secretKeyGenerateKey = keyGenerator.generateKey();
+        Intrinsics.checkNotNull(secretKeyGenerateKey);
+        return secretKeyGenerateKey;
     }
 
     private final boolean checkForSuBinary() {
@@ -79,41 +151,49 @@ public final class MastgTest {
         int exit;
         try {
             Log.d(this.tag, "checkForWhichSu: executing which su");
-            boolean found = true;
             Process process = Runtime.getRuntime().exec(new String[]{"which", "su"});
             InputStream inputStream = process.getInputStream();
             Intrinsics.checkNotNullExpressionValue(inputStream, "getInputStream(...)");
             Reader inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
             BufferedReader bufferedReader = inputStreamReader instanceof BufferedReader ? (BufferedReader) inputStreamReader : new BufferedReader(inputStreamReader, 8192);
             try {
-                BufferedReader it = bufferedReader;
-                String stdout = StringsKt.trim((CharSequence) TextStreamsKt.readText(it)).toString();
+                String stdout = StringsKt.trim((CharSequence) TextStreamsKt.readText(bufferedReader)).toString();
                 CloseableKt.closeFinally(bufferedReader, null);
                 InputStream errorStream = process.getErrorStream();
                 Intrinsics.checkNotNullExpressionValue(errorStream, "getErrorStream(...)");
                 Reader inputStreamReader2 = new InputStreamReader(errorStream, Charsets.UTF_8);
-                bufferedReader = inputStreamReader2 instanceof BufferedReader ? (BufferedReader) inputStreamReader2 : new BufferedReader(inputStreamReader2, 8192);
+                BufferedReader bufferedReader2 = inputStreamReader2 instanceof BufferedReader ? (BufferedReader) inputStreamReader2 : new BufferedReader(inputStreamReader2, 8192);
                 try {
-                    BufferedReader it2 = bufferedReader;
-                    String stderr = StringsKt.trim((CharSequence) TextStreamsKt.readText(it2)).toString();
-                    CloseableKt.closeFinally(bufferedReader, null);
+                    String stderr = StringsKt.trim((CharSequence) TextStreamsKt.readText(bufferedReader2)).toString();
+                    CloseableKt.closeFinally(bufferedReader2, null);
                     try {
                         exit = process.waitFor();
                     } catch (Throwable th) {
                         exit = -1;
                     }
-                    if (!(stdout.length() > 0) || exit != 0) {
-                        found = false;
-                    }
+                    boolean found = (stdout.length() > 0) && exit == 0;
+                    String str = this.tag;
                     if (found) {
-                        Log.i(this.tag, "su found via which: path=" + stdout);
+                        Log.i(str, "su found via which: path=" + stdout);
                     } else {
-                        Log.d(this.tag, "which su not found: exit=" + exit + ", stderr=" + stderr);
+                        Log.d(str, "which su not found: exit=" + exit + ", stderr=" + stderr);
                     }
                     return found;
-                } finally {
+                } catch (Throwable th2) {
+                    try {
+                        throw th2;
+                    } catch (Throwable th3) {
+                        CloseableKt.closeFinally(bufferedReader2, th2);
+                        throw th3;
+                    }
                 }
-            } finally {
+            } catch (Throwable th4) {
+                try {
+                    throw th4;
+                } catch (Throwable th5) {
+                    CloseableKt.closeFinally(bufferedReader, th4);
+                    throw th5;
+                }
             }
         } catch (SecurityException se) {
             Log.w(this.tag, "checkForWhichSu blocked: msg=" + se.getMessage());
@@ -183,39 +263,47 @@ public final class MastgTest {
             Reader inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
             BufferedReader bufferedReader = inputStreamReader instanceof BufferedReader ? (BufferedReader) inputStreamReader : new BufferedReader(inputStreamReader, 8192);
             try {
-                BufferedReader it = bufferedReader;
-                String stdout = StringsKt.trim((CharSequence) TextStreamsKt.readText(it)).toString();
+                String stdout = StringsKt.trim((CharSequence) TextStreamsKt.readText(bufferedReader)).toString();
                 CloseableKt.closeFinally(bufferedReader, null);
                 InputStream errorStream = process.getErrorStream();
                 Intrinsics.checkNotNullExpressionValue(errorStream, "getErrorStream(...)");
                 Reader inputStreamReader2 = new InputStreamReader(errorStream, Charsets.UTF_8);
-                bufferedReader = inputStreamReader2 instanceof BufferedReader ? (BufferedReader) inputStreamReader2 : new BufferedReader(inputStreamReader2, 8192);
+                BufferedReader bufferedReader2 = inputStreamReader2 instanceof BufferedReader ? (BufferedReader) inputStreamReader2 : new BufferedReader(inputStreamReader2, 8192);
                 try {
-                    BufferedReader it2 = bufferedReader;
-                    String stderr = StringsKt.trim((CharSequence) TextStreamsKt.readText(it2)).toString();
-                    CloseableKt.closeFinally(bufferedReader, null);
+                    String stderr = StringsKt.trim((CharSequence) TextStreamsKt.readText(bufferedReader2)).toString();
+                    CloseableKt.closeFinally(bufferedReader2, null);
                     try {
                         exit = process.waitFor();
                     } catch (Throwable th) {
                         exit = -1;
                     }
-                    if (stderr.length() > 0) {
-                        Log.w(this.tag, "getprop stderr: key=" + key + ", exit=" + exit + ", stderr=" + stderr);
+                    boolean z = stderr.length() > 0;
+                    String str = this.tag;
+                    if (z) {
+                        Log.w(str, "getprop stderr: key=" + key + ", exit=" + exit + ", stderr=" + stderr);
                     } else {
-                        Log.d(this.tag, "getprop ok: key=" + key + ", exit=" + exit);
+                        Log.d(str, "getprop ok: key=" + key + ", exit=" + exit);
                     }
-                    String str = stdout;
-                    if (str.length() == 0) {
-                        str = null;
+                    String str2 = stdout;
+                    if (str2.length() == 0) {
+                        str2 = null;
                     }
-                    return str;
-                } finally {
+                    return str2;
+                } catch (Throwable th2) {
                     try {
-                        throw th;
-                    } finally {
+                        throw th2;
+                    } catch (Throwable th3) {
+                        CloseableKt.closeFinally(bufferedReader2, th2);
+                        throw th3;
                     }
                 }
-            } finally {
+            } catch (Throwable th4) {
+                try {
+                    throw th4;
+                } catch (Throwable th5) {
+                    CloseableKt.closeFinally(bufferedReader, th4);
+                    throw th5;
+                }
             }
         } catch (SecurityException se) {
             Log.w(this.tag, "getSystemProperty blocked: key=" + key + ", msg=" + se.getMessage());
