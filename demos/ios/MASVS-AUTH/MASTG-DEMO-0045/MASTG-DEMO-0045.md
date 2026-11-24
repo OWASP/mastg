@@ -1,6 +1,6 @@
 ---
 platform: ios
-title: Uses of kSecAccessControlBiometryCurrentSet with r2
+title: Lack of kSecAccessControlBiometryCurrentSet Use with r2
 id: MASTG-DEMO-0045
 code: [swift]
 test: MASTG-TEST-0270
