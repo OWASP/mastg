@@ -120,7 +120,8 @@ An app must declare in the Android Manifest file an intention to write to shared
 - [`MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE): Some apps require [broad access to all files](https://developer.android.com/training/data-storage/manage-all-files).
     - This permission only applies to apps targeting Android 11.0 (API level 30) or higher.
     - Usage of this permission is **restricted by Google Play** unless the app satisfies [certain requirements](https://support.google.com/googleplay/android-developer/answer/10467955) and requires **special app access** called ["All files access"](https://developer.android.com/preview/privacy/storage#all-files-access).
-    - Scoped storage doesn't affect the app's ability to access app-specific directories when having this permission.
+    - This permission allows broad access to shared storage and supports common file management operations. See [the operations allowed with `MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/training/data-storage/manage-all-files#operations-allowed-manage-external-storage).
+    - It doesn't grant access to other apps' app-specific directories under `Android/data/` or `Android/obb/`; scoped storage continues to protect those directories.
 
 - [`READ_MEDIA_IMAGES`](https://developer.android.com/reference/android/Manifest.permission#READ_MEDIA_IMAGES), [`READ_MEDIA_VIDEO`](https://developer.android.com/reference/android/Manifest.permission#READ_MEDIA_VIDEO) and [`READ_MEDIA_AUDIO`](https://developer.android.com/reference/android/Manifest.permission#READ_MEDIA_AUDIO): allow an app to read media files from the `MediaStore` collection.
     - **Starting on Android 13 (API level 33)**, since `READ_EXTERNAL_STORAGE` **has no effect**, these permissions are required to access media files from the `MediaStore.Images`, `MediaStore.Video`, and `MediaStore.Audio` collections respectively.

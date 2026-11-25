@@ -10,12 +10,12 @@ knowledge: [MASTG-KNOW-0042]
 
 ## Overview
 
-This test uses static analysis to look for uses of APIs allowing an app to write to locations that are shared with other apps (@MASTG-TEST-0001) such as the External Storage APIs or the `MediaStore` API as well as the relevant Android manifest storage-related permissions.
+This test uses static analysis to look for uses of external storage APIs and relevant Android manifest storage-related permissions. Some APIs write to locations shared with other apps (@MASTG-TEST-0001), while `getExternalFilesDir` and `getExternalCacheDir` return app-specific locations. Access to these locations depends on the Android version and storage permissions.
 
-Some APIs used to write to shared storage include `getExternalStoragePublicDirectory`, `getExternalStorageDirectory`, `getExternalFilesDir`, or `MediaStore`. Permissions include `WRITE_EXTERNAL_STORAGE`, and `MANAGE_EXTERNAL_STORAGE`. See @MASTG-KNOW-0042 for more information on these APIs and permissions.
+`MANAGE_EXTERNAL_STORAGE` provides broad access to shared storage, but doesn't grant access to other apps' app-specific directories under `Android/data/` or `Android/obb/`. See @MASTG-KNOW-0042 for more information on these APIs, permissions, and storage boundaries.
 
 !!! note
-    This static test is great for identifying all code locations where the app is writing data to shared storage. However, it does not provide the actual data being written, and in some cases, the actual path in the device storage where the data is being written. Therefore, it is recommended to combine this test with others that take a dynamic approach, as this will provide a more complete view of the data being written to shared storage.
+    This static test is great for identifying all code locations where the app is writing data to external storage, including app-specific and shared locations. However, it does not provide the actual data being written, and in some cases, the actual path in the device storage where the data is being written. Therefore, it is recommended to combine this test with others that take a dynamic approach, as this will provide a more complete view of the data being written to external storage.
 
 ## Steps
 
