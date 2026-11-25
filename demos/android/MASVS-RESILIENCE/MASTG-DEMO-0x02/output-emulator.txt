@@ -1,0 +1,4 @@
+Indicators matched in this run:
+Build.MODEL=sdk_gphone64_arm64,
+Build.HARDWARE=ranchu,
+Build.PRODUCT=sdk_gphone64_arm64, OpenGL.Renderer=Android Emulator OpenGL ES Translator (Apple M4)

@@ -26,6 +26,7 @@ Start exploring the MASTG:
 <a href="tools/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-tools-24:  Tools</a>
 <a href="apps/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:octicons-code-square-24:  Apps</a>
 <a href="best-practices/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-shield-check:  Best Practices</a>
+<a href="workshops/" class="md-button md-button--primary" style="margin: 5px; min-width: 12em; text-align: center;">:material-human-male-board:  Workshops</a>
 <!-- markdownlint-disable search-replace -->
 <!-- markdown-link-check-enable -->
 

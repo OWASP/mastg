@@ -33,13 +33,11 @@ class MastgTest(private val context: Context) {
         val packageQueries = queryPackageChecks()
         val openGlQueries = queryOpenGlProperties()
 
-        val allQueries = buildQueries + telephonyQueries + packageQueries + openGlQueries
         val indicators = buildIndicators(buildQueries) +
             telephonyIndicators(telephonyQueries) +
             packageIndicators(packageQueries) +
             openGlIndicators(openGlQueries)
 
-        val queryOutput = allQueries.joinToString("\n") { "${it.name}=${it.displayValue}" }
         val permissionNote = telephonyPermissionNote(missingPermissions)
 
         val indicatorSummary = if (indicators.isNotEmpty()) {
@@ -49,7 +47,7 @@ class MastgTest(private val context: Context) {
         }
         // PASS: [MASTG-TEST-0351] The app implements emulator detection checks. In this case, this app is a PASS as the emulation detection checks are performed.
         // FAIL: [MASTG-TEST-0351] The test fails if the app lacks emulator detection checks.
-        val output = "Queried properties:\n$queryOutput\n\n$indicatorSummary$permissionNote"
+        val output = "$indicatorSummary$permissionNote"
 
         Log.i("MASTG-TEST", output)
         return output
@@ -73,9 +71,7 @@ class MastgTest(private val context: Context) {
             queryBuildValue("Build.HARDWARE", Build.HARDWARE),
             queryBuildValue("Build.ID", Build.ID),
             queryBuildValue("Build.RADIO", Build.getRadioVersion()),
-            queryBuildValue("Build.SERIAL", safeBuildSerial()),
-            queryBuildValue("Build.TAGS", Build.TAGS),
-            queryBuildValue("Build.USER", Build.USER)
+            queryBuildValue("Build.TAGS", Build.TAGS)
         )
     }
 
@@ -338,11 +334,9 @@ class MastgTest(private val context: Context) {
         val brand = buildQueries.findValue("Build.BRAND")
         val device = buildQueries.findValue("Build.DEVICE")
         val board = buildQueries.findValue("Build.BOARD")
-        val serial = buildQueries.findValue("Build.SERIAL")
         val id = buildQueries.findValue("Build.ID")
         val radio = buildQueries.findValue("Build.RADIO")
         val tags = buildQueries.findValue("Build.TAGS")
-        val user = buildQueries.findValue("Build.USER")
 
         if (fingerprint.startsWith("generic") ||
             fingerprint.contains("test-keys") ||
@@ -373,9 +367,6 @@ class MastgTest(private val context: Context) {
         if (board == "unknown" || board.contains("nox")) {
             indicators.add("Build.BOARD=$board")
         }
-        if (serial == "null" || serial == "unknown" || serial.contains("nox")) {
-            indicators.add("Build.SERIAL=$serial")
-        }
         if (id == "frf91") {
             indicators.add("Build.ID=$id")
         }
@@ -384,9 +375,6 @@ class MastgTest(private val context: Context) {
         }
         if (tags.contains("test-keys")) {
             indicators.add("Build.TAGS=$tags")
-        }
-        if (user == "android-build") {
-            indicators.add("Build.USER=$user")
         }
 
         return indicators
@@ -451,16 +439,6 @@ class MastgTest(private val context: Context) {
 
     private fun containsAny(value: String, tokens: List<String>): Boolean {
         return tokens.any { value.contains(it) }
-    }
-
-    private fun safeBuildSerial(): String? {
-        return try {
-            @Suppress("DEPRECATION")
-            Build.getSerial()
-        } catch (e: Exception) {
-            @Suppress("DEPRECATION")
-            Build.SERIAL
-        }
     }
 
     private fun List<QueryResult>.findValue(name: String): String {
