@@ -196,12 +196,48 @@ jobs:
 
           echo "Processing $demo"
 
-          copy_if_exists() {
-            local source_file="$1"
-            local target_file="$2"
-            local label="$3"
+          mapfile -t referenced_demo_dirs < <(
+            find "$demo" -maxdepth 1 -type f -name 'MASTG-DEMO-*.md' -print0 2>/dev/null \
+              | while IFS= read -r -d '' demo_md; do
+                  grep -oE '\{\{[^}]+\}\}' "$demo_md" \
+                    | sed -E 's/^\{\{\s*|\s*\}\}$//g' \
+                    | tr '#' '\n' \
+                    | sed -E 's/^\s+|\s+$//g' \
+                    | grep -E '^\.\./MASTG-DEMO-[^/]+/.+' \
+                    | while IFS= read -r shared_path; do
+                        dirname "$(realpath -m "$demo/$shared_path")"
+                      done
+                done \
+              | sort -u
+          )
+
+          resolve_source_file() {
+            local relative_file="$1"
+            local source_file="$demo/$relative_file"
 
             if [ -f "$source_file" ]; then
+              echo "$source_file"
+              return 0
+            fi
+
+            for shared_dir in "${referenced_demo_dirs[@]}"; do
+              source_file="$shared_dir/$relative_file"
+              if [ -f "$source_file" ]; then
+                echo "$source_file"
+                return 0
+              fi
+            done
+
+            return 1
+          }
+
+          copy_if_exists() {
+            local relative_file="$1"
+            local target_file="$2"
+            local label="$3"
+            local source_file=""
+
+            if source_file="$(resolve_source_file "$relative_file")"; then
               cp -f "$source_file" "$target_file"
               echo "Copied $label for $demo"
             else
@@ -209,15 +245,15 @@ jobs:
             fi
           }
 
-          copy_if_exists "$demo/MastgTest.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt MastgTest.kt
-          copy_if_exists "$demo/MainActivity.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MainActivity.kt MainActivity.kt
-          copy_if_exists "$demo/MastgTestWebView.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt MastgTestWebView.kt
-          copy_if_exists "$demo/AndroidManifest.xml" mas-app-android/app/src/main/AndroidManifest.xml AndroidManifest.xml
-          copy_if_exists "$demo/filepaths.xml" mas-app-android/app/src/main/res/xml/filepaths.xml filepaths.xml
-          copy_if_exists "$demo/network_security_config.xml" mas-app-android/app/src/main/res/xml/network_security_config.xml network_security_config.xml
-          copy_if_exists "$demo/backup_rules.xml" mas-app-android/app/src/main/res/xml/backup_rules.xml backup_rules.xml
-          copy_if_exists "$demo/data_extraction_rules.xml" mas-app-android/app/src/main/res/xml/data_extraction_rules.xml data_extraction_rules.xml
-          copy_if_exists "$demo/proguard-rules.pro" mas-app-android/app/proguard-rules.pro proguard-rules.pro
+          copy_if_exists MastgTest.kt mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt MastgTest.kt
+          copy_if_exists MainActivity.kt mas-app-android/app/src/main/java/org/owasp/mastestapp/MainActivity.kt MainActivity.kt
+          copy_if_exists MastgTestWebView.kt mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt MastgTestWebView.kt
+          copy_if_exists AndroidManifest.xml mas-app-android/app/src/main/AndroidManifest.xml AndroidManifest.xml
+          copy_if_exists filepaths.xml mas-app-android/app/src/main/res/xml/filepaths.xml filepaths.xml
+          copy_if_exists network_security_config.xml mas-app-android/app/src/main/res/xml/network_security_config.xml network_security_config.xml
+          copy_if_exists backup_rules.xml mas-app-android/app/src/main/res/xml/backup_rules.xml backup_rules.xml
+          copy_if_exists data_extraction_rules.xml mas-app-android/app/src/main/res/xml/data_extraction_rules.xml data_extraction_rules.xml
+          copy_if_exists proguard-rules.pro mas-app-android/app/proguard-rules.pro proguard-rules.pro
 
           if find "$demo" -maxdepth 1 -name "*.proto" -print -quit 2>/dev/null | grep -q .; then
             mkdir -p mas-app-android/app/src/main/proto
