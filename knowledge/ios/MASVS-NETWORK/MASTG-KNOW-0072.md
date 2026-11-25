@@ -25,9 +25,9 @@ References:
 
 ## Certificate Pinning
 
-[Certificate pinning](../../../Document/0x04f-Testing-Network-Communication.md#restricting-trust-identity-pinning) allows an iOS app to reject certificates that don't match a specific expected identity, guarding against Machine-in-the-Middle (MITM) attacks even when an attacker controls a CA that is trusted by the system.
+Certificate pinning on iOS can use App Transport Security configuration, custom server trust evaluation, or networking libraries. The following sections explain these approaches and their scope.
 
-Because pinning is layered on top of standard HTTPS, it does not weaken the underlying TLS connection. The risk lies in misconfiguration rather than in the mechanism itself. If pins are not maintained correctly, for example pinning a public key without providing a backup pin, or failing to update the pinned values before the server's certificate or key is rotated, the app will reject otherwise valid connections and break communication with the affected endpoints. This makes pinning misconfiguration an availability risk for the APIs the app depends on. For more general details on pinning, refer to @MASWE-0028.
+See @MASTG-KNOW-ZZZZ for how pinning works and its limitations. For recommendations on choosing and managing pins, see @MASTG-BEST-XXXX. The related weakness is described in @MASWE-0028.
 
 **Important Considerations:**
 
@@ -37,7 +37,7 @@ Certificate pinning is a **hardening practice**, but it's not foolproof. There a
 - **Replacing pinned certificates** stored in the app bundle.
 - **Altering or removing pins** in the `Info.plist` `NSPinnedDomains` configuration.
 
-Any such modification **invalidates the app's code signature**, requiring the attacker to **re-sign the app**. To mitigate these risks, additional protections such as integrity checks and runtime verification may be required.
+Modifying the app bundle invalidates its code signature, requiring the attacker to re-sign the app. Runtime instrumentation can also bypass pinning without modifying the app bundle. Integrity checks and runtime verification can make these attacks more difficult.
 
 ### Pinning via App Transport Security (ATS)
 
@@ -65,6 +65,8 @@ Apple's [Identity Pinning](https://developer.apple.com/news/?id=g9ejcf8y) featur
 ```
 
 The `NSPinnedCAIdentities` key pins an intermediate or root CA's public key. You can alternatively use `NSPinnedLeafIdentities` to pin the leaf (server) certificate's public key, though pinning to a CA is more resilient to certificate renewals.
+
+If both keys are configured, ATS requires a match in each category: a CA pin and a leaf pin. Matching only one category is not enough. See Apple's [`NSPinnedDomains` documentation](https://developer.apple.com/documentation/bundleresources/information-property-list/nsapptransportsecurity/nspinneddomains).
 
 **Important Considerations:**
 
