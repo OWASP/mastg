@@ -1,0 +1,46 @@
+---
+platform: android
+title: References to App Attestation APIs
+id: MASTG-TEST-0x01
+apis: [IntegrityManagerFactory, KeyStore.getCertificateChain, KeyGenParameterSpec.Builder.setAttestationChallenge]
+type: [static, code, manual]
+maswe: [MASWE-0056]
+best-practices: [MASTG-BEST-0x01]
+knowledge: [MASTG-KNOW-0035, MASTG-KNOW-0044, MASTG-KNOW-0119]
+---
+
+## Overview
+
+This test checks whether the app attests its own integrity to a server, by statically analyzing the app binary for references to the relevant APIs. On Android these are the Google Play Integrity API (@MASTG-KNOW-0035), whose verdict covers the authenticity of the app binary and its installation source, and hardware-backed Key Attestation (@MASTG-KNOW-0044), whose `attestationApplicationId` field carries the package name and signing certificate digests of the calling app (@MASTG-KNOW-0119).
+
+Both mechanisms also produce device integrity signals, such as the Play Integrity device verdict and the `rootOfTrust` field of an attestation certificate (@MASTG-KNOW-0120). Those signals are outside the scope of this test, which only establishes whether the app attests itself. How a server should evaluate them is covered in @MASTG-BEST-0x01.
+
+The relevant APIs are [`IntegrityManagerFactory`](https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/IntegrityManagerFactory) for the Google Play Integrity API, and [`KeyStore.getCertificateChain`](https://developer.android.com/reference/kotlin/java/security/KeyStore#getcertificatechain) together with [`setAttestationChallenge`](https://developer.android.com/reference/kotlin/android/security/keystore/KeyGenParameterSpec.Builder#setattestationchallenge) for Key Attestation.
+
+See @MASTG-KNOW-0044 for more information on Key Attestation and the specific APIs and fields to look for.
+
+## Steps
+
+1. Use @MASTG-TECH-0013 to reverse engineer the app.
+2. Use @MASTG-TECH-0014 to look for the relevant APIs.
+
+## Observation
+
+The output should contain a list of locations where the relevant APIs are used.
+
+## Evaluation
+
+The test case fails if none of the relevant APIs are found in the app.
+
+The test case also fails if the app retrieves a certificate chain with `getCertificateChain` to attest a key, but the key was generated without `setAttestationChallenge` or with a challenge that is not a one-time value provided by the server. Without a challenge the certificate is self-signed and carries no attestation, and a challenge the server did not issue cannot ensure the freshness of the attestation.
+
+**Further Validation Required:**
+
+Inspect each reported code location using @MASTG-TECH-0023 to determine whether the attested key is bound to a one-time challenge from the server:
+
+- Determine whether the key whose certificate chain is retrieved was generated with `setAttestationChallenge`. Key generation and certificate chain retrieval are frequently implemented in different methods or classes, which pattern-based tools cannot connect.
+- Determine whether the challenge passed to `setAttestationChallenge` is a one-time value provided by the server.
+- Determine whether a `KeyGenParameterSpec` built without a challenge belongs to a key that is never attested, such as a key used only for local encryption. The absence of `setAttestationChallenge` is only relevant for keys whose chain is sent to a server.
+
+!!! note
+    The presence of these APIs does not mean the attestation is trusted. The server must still verify the Play Integrity verdict or the certificate chain, which cannot be determined from the app binary alone. See @MASTG-KNOW-0044 and @MASTG-BEST-0x01 for more information.
