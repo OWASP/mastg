@@ -1,0 +1,35 @@
+rules:
+  - id: mastg-android-hardcoded-api-keys-known-formats
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: Detects credentials matching well-known provider formats embedded as string literals in the app code.
+    message: "[MASVS-STORAGE-1] Hardcoded credential matching a well-known provider format found in the app package."
+    pattern-either:
+      - pattern-regex: '"AIza[0-9A-Za-z_\-]{35}"'
+      - pattern-regex: '"(A3T[A-Z0-9]|AKIA|ASIA|ABIA|ACCA)[A-Z0-9]{16}"'
+      - pattern-regex: '"gh[pousr]_[A-Za-z0-9]{36}"'
+      - pattern-regex: '"xox[baprs]-[A-Za-z0-9-]{10,}"'
+      - pattern-regex: '-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----'
+
+  - id: mastg-android-hardcoded-api-keys-named-assignment
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      summary: Detects string literals assigned to identifiers named after credentials.
+    message: "[MASVS-STORAGE-1] String literal assigned to a credential-named identifier."
+    pattern-regex: '(?i)\b(api[_-]?key|apikey|secret|client[_-]?secret|auth[_-]?token|access[_-]?token|passwd|password)[A-Za-z0-9_]*\s*=\s*"[^"]{8,}"'
+
+  - id: mastg-android-hardcoded-api-keys-resources
+    severity: WARNING
+    languages:
+      - generic
+    paths:
+      include:
+        - "*.xml"
+    metadata:
+      summary: Detects credential-named string resources in Android resource files.
+    message: "[MASVS-STORAGE-1] Credential-named string resource found in the app package."
+    pattern-regex: '(?i)<string name="[^"]*(api[_-]?key|apikey|secret|token|password)[^"]*"[^>]*>[^<]{8,}</string>'
