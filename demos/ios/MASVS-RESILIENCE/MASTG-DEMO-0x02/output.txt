@@ -1,0 +1,44 @@
+=== App Attest API references ===
+0x10000d55f 34 str.generateKeyWithCompletionHandler:
+0x100014158 8 reloc.fixup.generateKeyWithCompletionHandle
+0x10000d4de 44 str.attestKey:clientDataHash:completionHandler:
+0x100014140 8 reloc.fixup.attestKey:clientDataHash:comple
+0x10000d52b 52 str.generateAssertion:clientDataHash:completionHandler:
+0x100014150 8 reloc.fixup.generateAssertion:clientDataHas
+0x10000d581 12 str.isSupported
+0x100014160 8 reloc.fixup.isSupported
+
+=== Objective-C stubs that load each App Attest selector ===
+fcn.10000bb60 0x10000bb64 [DATA:r--] ldr x1, reloc.fixup.isSupported
+fcn.10000bb40 0x10000bb44 [DATA:r--] ldr x1, reloc.fixup.generateKeyWithCompletionHandle
+section.2.__TEXT.__objc_stubs 0x10000bae4 [DATA:r--] ldr x1, reloc.fixup.attestKey:clientDataHash:comple
+fcn.10000bb20 0x10000bb24 [DATA:r--] ldr x1, reloc.fixup.generateAssertion:clientDataHas
+
+=== Calls to isSupported, generateKey, attestKey and generateAssertion ===
+sym.func.100004348 0x100004404 [CALL:--x] bl fcn.10000bb60
+sym.func.100004348 0x100004620 [CALL:--x] bl fcn.10000bb40
+sym.func.10000465c 0x100004764 [CALL:--x] bl section.2.__TEXT.__objc_stubs
+sym.func.10000483c 0x100004cd8 [CALL:--x] bl fcn.10000bb20
+
+=== Hardcoded challenge string ===
+119 0x0000c2a0 0x10000c2a0 26  27   4.__TEXT.__cstring         ascii   mastg-app-attest-challenge
+
+=== Cross references to the hardcoded challenge ===
+sym.func.100004348 0x100004414 [STRN:r--] add x8, x8, str.mastg_app_attest_challenge
+sym.func.100004348 0x100004428 [STRN:r--] add x0, x8, 0x20
+sym.func.10000483c 0x100004930 [STRN:r--] add x8, x8, str.mastg_app_attest_challenge
+
+=== Attestation: the constant is hashed before generateKey is called ===
+|           0x100004404      bl fcn.10000bb60
+|       |   0x100004414      add x8, x8, 0x2a0                         ; 0x10000c2a0 ; "mastg-app-attest-challenge"
+|     |||   0x100004428      add x0, x8, 0x20                          ; 0x10000c2a0 ; "mastg-app-attest-challenge"
+|       |   0x1000044ec      bl sym.imp.CryptoKit.HashFunction_...ycfCTj_ ; CryptoKit.HashFunction(...ycfCTj)
+|       |   0x10000450c      bl sym.imp.CryptoKit.HashFunction.finalize.Digest_...zyFTj_ ; CryptoKit.HashFunction.finalize.Digest(...zyFTj)
+|       |   0x100004620      bl fcn.10000bb40
+
+=== Assertion: the constant goes into the JSON payload, which is hashed before generateAssertion ===
+|      ||   0x100004930      add x8, x8, 0x2a0                         ; 0x10000c2a0 ; "mastg-app-attest-challenge"
+|      ||   0x1000049c8      bl sym.imp.Foundation.JSONEncoder.encode.allocator_...AA4DataVxKSERzlFTj_ ; Foundation.JSONEncoder.encode.allocator(...AA4DataVxKSERzlFTj)
+|    |  |   0x100004afc      bl sym.imp.CryptoKit.HashFunction_...ycfCTj_ ; CryptoKit.HashFunction(...ycfCTj)
+|    |  |   0x100004b1c      bl sym.imp.CryptoKit.HashFunction.finalize.Digest_...zyFTj_ ; CryptoKit.HashFunction.finalize.Digest(...zyFTj)
+|    |  |   0x100004cd8      bl fcn.10000bb20

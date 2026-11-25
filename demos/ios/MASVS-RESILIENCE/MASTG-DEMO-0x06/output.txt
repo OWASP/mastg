@@ -1,0 +1,67 @@
+=== App Attest API references ===
+0x10000d9d2 34 str.generateKeyWithCompletionHandler:
+0x100014160 8 reloc.fixup.generateKeyWithCompletionHandle
+0x10000d92e 44 str.attestKey:clientDataHash:completionHandler:
+0x100014140 8 reloc.fixup.attestKey:clientDataHash:comple
+0x10000d99e 52 str.generateAssertion:clientDataHash:completionHandler:
+0x100014158 8 reloc.fixup.generateAssertion:clientDataHas
+0x10000d9f4 12 str.isSupported
+0x100014168 8 reloc.fixup.isSupported
+
+=== Objective-C stubs that load each App Attest selector and dataTaskWithURL ===
+fcn.10000bee0 0x10000bee4 [DATA:r--] ldr x1, reloc.fixup.isSupported
+fcn.10000bec0 0x10000bec4 [DATA:r--] ldr x1, reloc.fixup.generateKeyWithCompletionHandle
+section.2.__TEXT.__objc_stubs 0x10000be44 [DATA:r--] ldr x1, reloc.fixup.attestKey:clientDataHash:comple
+fcn.10000bea0 0x10000bea4 [DATA:r--] ldr x1, reloc.fixup.generateAssertion:clientDataHas
+fcn.10000be80 0x10000be84 [DATA:r--] ldr x1, reloc.fixup.dataTaskWithURL:completionHandl
+
+=== Calls to isSupported, generateKey, attestKey and generateAssertion ===
+sym.func.1000087b8 0x100008884 [CALL:--x] bl fcn.10000bee0
+sym.func.10000442c 0x100004704 [CALL:--x] bl fcn.10000bec0
+sym.func.100004760 0x10000486c [CALL:--x] bl section.2.__TEXT.__objc_stubs
+sym.func.100004ae0 0x100004ebc [CALL:--x] bl fcn.10000bea0
+
+=== Strings in the binary that mention a challenge ===
+214 0x0000cfd0 0x10000cfd0 42  43   7.__TEXT.__cstring         ascii   https://mastg.example.com/attest/challenge
+215 0x0000d000 0x10000d000 45  46   7.__TEXT.__cstring         ascii   Could not obtain a challenge from the server.
+218 0x0000d070 0x10000d070 56  57   7.__TEXT.__cstring         ascii   Could not obtain an assertion challenge from the server.
+225 0x0000d1a0 0x10000d1a0 26  28   7.__TEXT.__cstring         ascii   \nAttestation challenge   :
+226 0x0000d1c0 0x10000d1c0 26  28   7.__TEXT.__cstring         ascii   \nAssertion challenge     :
+227 0x0000d1e0 0x10000d1e0 103 104  7.__TEXT.__cstring         ascii   \n\nBoth hashes are derived from single-use challenges issued by the\nserver, so they differ on every run.
+249 0x0000d797 0x10000d797 9   10   10.__TEXT.__swift5_reflstr ascii   challenge
+
+=== The challenge endpoint is only used to build a URL ===
+sym.func.100004000 0x10000407c [STRN:r--] add x8, x8, str.https:__mastg.example.com_attest_challenge
+|           0x100004078      adrp x8, 0x10000c000
+|           0x10000407c      add x8, x8, 0xfd0                         ; 0x10000cfd0 ; "https://mastg.example.com/attest/challenge"
+|           0x100004080      sub x8, x8, 0x20
+|           0x100004084      orr x1, x8, 0x8000000000000000
+|           0x100004088      mov x8, x19
+|           0x10000408c      mov x0, 0x2a                              ; '*'
+|           0x100004090      movk x0, 0xd000, lsl 48
+|           0x100004094      bl sym.imp.Foundation.URL.string_...cfC_  ; Foundation.URL.string(...cfC)
+
+=== The function that uses that URL calls dataTaskWithURL ===
+sym.func.100006afc 0x100006c88 [ICOD:--x] adrp x1, sym.func.100004000
+sym.func.100006afc 0x100006c8c [ICOD:r--] add x1, x1, 0
+sym.func.100006e94 0x100006e94 [ICOD:--x] adrp x3, sym.func.100004000
+sym.func.100006f1c 0x100006f1c [ICOD:--x] adrp x3, sym.func.100004000
+sym.func.100006afc 0x100006c38 [CALL:--x] bl fcn.10000be80
+
+=== That function is called once before the attestation and once before the assertion ===
+sym.func.100004944 0x100004a58 [CALL:--x] bl sym.func.100006afc
+sym.func.1000087b8 0x1000088cc [CALL:--x] bl sym.func.100006afc
+
+=== Attestation: the fetched challenge is hashed before generateKey is called ===
+|  |:|||    0x100004520      add x8, x8, 0                             ; 0x10000d000 ; "Could not obtain a challenge from the server."
+|  ::| ||   0x1000045c8      bl sym.imp.CryptoKit.HashFunction_...ycfCTj_ ; CryptoKit.HashFunction(...ycfCTj)
+|  ::| ||   0x1000045e8      bl sym.imp.CryptoKit.HashFunction.finalize.Digest_...zyFTj_ ; CryptoKit.HashFunction.finalize.Digest(...zyFTj)
+|  ::| ||   0x100004704      bl fcn.10000bec0
+
+=== Assertion: the fetched challenge goes into the JSON payload, which is hashed before generateAssertion ===
+|       |   0x100004c5c      bl sym.imp.Foundation.JSONEncoder.encode.allocator_...AA4DataVxKSERzlFTj_ ; Foundation.JSONEncoder.encode.allocator(...AA4DataVxKSERzlFTj)
+|      ||   0x100004c78      add x8, x8, 0xb0                          ; 0x10000d0b0 ; "Could not encode the request payload."
+|     ||    0x100004ca0      add x8, x8, 0x70                          ; 0x10000d070 ; "Could not obtain an assertion challenge from the server."
+|     | |   0x100004d14      bl sym.imp.CryptoKit.HashFunction_...ycfCTj_ ; CryptoKit.HashFunction(...ycfCTj)
+|     | |   0x100004d34      bl sym.imp.CryptoKit.HashFunction.finalize.Digest_...zyFTj_ ; CryptoKit.HashFunction.finalize.Digest(...zyFTj)
+|     | |   0x100004ebc      bl fcn.10000bea0
