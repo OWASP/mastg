@@ -1,0 +1,17 @@
+rules:
+  - id: mastg-android-device-security-state
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: This rule detects uses of the AndroidX Security State library and of the security patch level.
+    message: "[MASVS-CODE-1] Detected an API used to check the device security state."
+    pattern-either:
+      - pattern: new SecurityStateManager(...)
+      - pattern: new SecurityPatchState(...)
+      - pattern: (SecurityStateManager $M).getGlobalSecurityState(...)
+      - pattern: (SecurityPatchState $S).loadVulnerabilityReport(...)
+      - pattern: (SecurityPatchState $S).isDeviceFullyUpdated(...)
+      - pattern: (SecurityPatchState $S).getComponentSecurityPatchLevel(...)
+      - pattern: (SecurityPatchState $S).getPublishedSecurityPatchLevel(...)
+      - pattern: Build.VERSION.SECURITY_PATCH

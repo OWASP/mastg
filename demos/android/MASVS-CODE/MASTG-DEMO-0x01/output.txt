@@ -1,0 +1,40 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 1 file tracked by git with 1 Code rule:
+  Scanning 1 file.
+                   
+                   
+┌─────────────────┐
+│ 5 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-device-security-state
+          ❰❰ Blocking ❱❱
+          [MASVS-CODE-1] Detected an API used to check the device security state.
+                                                                                 
+           16┆ SecurityStateManager manager = new SecurityStateManager(this.context);
+            ⋮┆----------------------------------------
+           17┆ manager.getGlobalSecurityState();
+            ⋮┆----------------------------------------
+           18┆ SecurityPatchState state = new SecurityPatchState(this.context);
+            ⋮┆----------------------------------------
+           19┆ boolean updated = state.isDeviceFullyUpdated();
+            ⋮┆----------------------------------------
+           20┆ return "SPL: " + Build.VERSION.SECURITY_PATCH + ", fully updated: " + updated;
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 5 (5 blocking)
+ • Rules run: 1
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 1 rule on 1 file: 5 findings.
