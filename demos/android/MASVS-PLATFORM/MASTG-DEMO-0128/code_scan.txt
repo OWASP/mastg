@@ -1,0 +1,72 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-activity-entrypoint
+          [MASVS-PLATFORM] Activity entry point reached when the activity is started. Review it for sensitive
+          functionality that should not be reachable by an external caller.                                  
+                                                                                                             
+           46┆ @Override // android.app.Activity
+           47┆ protected void onCreate(Bundle savedInstanceState) {
+           48┆     super.onCreate(savedInstanceState);
+           49┆     ActionBar actionBar = getActionBar();
+           50┆     if (actionBar != null) {
+           51┆         actionBar.hide();
+           52┆     }
+           53┆     LinearLayout layout = new LinearLayout(this);
+           54┆     layout.setOrientation(1);
+           55┆     layout.setPadding(64, MenuKt.InTransitionDuration, 64, 64);
+           56┆     TextView $this$onCreate_u24lambda_u241 = new TextView(this);
+           57┆     $this$onCreate_u24lambda_u241.setText("MASTestApp - Secure Area");
+           58┆     $this$onCreate_u24lambda_u241.setTextSize(22.0f);
+           59┆     TextView $this$onCreate_u24lambda_u242 = new TextView(this);
+           60┆     $this$onCreate_u24lambda_u242.setText("Enter your PIN to access the secret screen.");
+           61┆     $this$onCreate_u24lambda_u242.setTextSize(16.0f);
+           62┆     $this$onCreate_u24lambda_u242.setPadding(0, 24, 0, 48);
+           63┆     final EditText $this$onCreate_u24lambda_u243 = new EditText(this);
+           64┆     $this$onCreate_u24lambda_u243.setHint("PIN");
+           65┆     $this$onCreate_u24lambda_u243.setInputType(18);
+           66┆     Button $this$onCreate_u24lambda_u245 = new Button(this);
+           67┆     $this$onCreate_u24lambda_u245.setText("Start");
+           68┆     $this$onCreate_u24lambda_u245.setOnClickListener(new View.OnClickListener() { // from
+               class: org.owasp.mastestapp.MastgTest$PinEntryActivity$$ExternalSyntheticLambda0         
+           69┆         @Override // android.view.View.OnClickListener
+           70┆         public final void onClick(View view) {
+           71┆                                                                                           
+               MastgTest.PinEntryActivity.onCreate$lambda$5$lambda$4($this$onCreate_u24lambda_u243, this,
+               view);                                                                                    
+           72┆         }
+           73┆     });
+           74┆     layout.addView($this$onCreate_u24lambda_u241);
+           75┆     layout.addView($this$onCreate_u24lambda_u242);
+           76┆     layout.addView($this$onCreate_u24lambda_u243);
+           77┆     layout.addView($this$onCreate_u24lambda_u245);
+           78┆     setContentView(layout);
+           79┆ }
+            ⋮┆----------------------------------------
+           98┆ @Override // android.app.Activity
+           99┆ protected void onCreate(Bundle savedInstanceState) {
+          100┆     super.onCreate(savedInstanceState);
+          101┆     ActionBar actionBar = getActionBar();
+          102┆     if (actionBar != null) {
+          103┆         actionBar.hide();
+          104┆     }
+          105┆     StringBuilder $this$onCreate_u24lambda_u240 = new StringBuilder();
+          106┆     $this$onCreate_u24lambda_u240.append("SECRET SCREEN (reached without
+               authentication)\n\n");                                                  
+          107┆     $this$onCreate_u24lambda_u240.append("Account: 1234-5678-9012-3456\n");
+          108┆     $this$onCreate_u24lambda_u240.append("Balance: 10,000\n");
+          109┆     $this$onCreate_u24lambda_u240.append("Recovery PIN: 4321");
+          110┆     String secret = $this$onCreate_u24lambda_u240.toString();
+          111┆     ScrollView scrollView = new ScrollView(this);
+          112┆     TextView $this$onCreate_u24lambda_u241 = new TextView(this);
+          113┆     $this$onCreate_u24lambda_u241.setText(secret);
+          114┆     $this$onCreate_u24lambda_u241.setTextSize(28.0f);
+          115┆     $this$onCreate_u24lambda_u241.setPadding(48, 48, 48, 48);
+          116┆     scrollView.addView($this$onCreate_u24lambda_u241);
+          117┆     setContentView(scrollView);
+          118┆ }
+

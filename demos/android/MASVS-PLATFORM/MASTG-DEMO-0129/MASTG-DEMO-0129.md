@@ -15,24 +15,36 @@ The sample implements a small password vault. Tapping **Start** opens `VaultActi
 
 ## Steps
 
-1. Use @MASTG-TECH-0117 to obtain the AndroidManifest.xml.
-2. Use @MASTG-TECH-0161 to list the exported services and their associated `android:permission` by running `run.sh`.
+1. Use @MASTG-TECH-0013 to reverse engineer the app and @MASTG-TECH-0117 to obtain the `AndroidManifest.xml`.
+2. Use @MASTG-TECH-0161 to enumerate the services, their export state, and any associated `android:permission`. `run.sh` does this by running @MASTG-TOOL-0110 with the following rule, which flags services that are exported without a permission and lists the permission-protected ones separately:
 
-The `run.sh` script lists the exported services declared in the reverse-engineered manifest.
+{{ ../../../../rules/mastg-android-exported-service.yml }}
+
+3. Use @MASTG-TECH-0014 to inspect the decompiled code of each exported service. `run.sh` runs @MASTG-TOOL-0110 with the following rule to locate the entry points reachable when the service is started or bound (`onStartCommand`, `onBind`, `onRebind`, `onHandleIntent`) and any runtime caller-permission checks:
+
+{{ ../../../../rules/mastg-android-service-entrypoints.yml }}
 
 {{ run.sh }}
 
+4. Run `evaluate.sh` to reduce the exported, unprotected services from "Stage 1" to the ones the app itself declares. Services in framework or library namespaces (`android.*`, `androidx.*`, `com.google.android.*`) ship with dependencies rather than the app's own code, so they are triaged separately:
+
+{{ evaluate.sh }}
+
 ## Observation
 
-The output reveals the exported services and their associated permissions:
+"Stage 1" lists the exported services and their permissions, and "Stage 2" points at the service code to review:
 
-{{ output.txt }}
+{{ manifest_scan.txt # code_scan.txt }}
+
+`evaluate.sh` narrows the exported, unprotected services down to the app's own components:
+
+{{ evaluation.txt }}
 
 ## Evaluation
 
-The test case fails because `AuthService` exposes a security-relevant operation (changing the vault password) and is exported (`android:exported="true"`) without any permission protection. Because `AuthService` is exported and unprotected, external callers that can address the component can start it directly and overwrite the password.
+The test case fails because `org.owasp.mastestapp.MastgTest$AuthService` exposes a security-relevant operation (changing the vault password) and is exported (`android:exported="true"`) without any permission protection. Because this service is exported and unprotected, external callers that can address the component can start it directly and overwrite the password.
 
-The service changes the stored password from an intent extra in `onStartCommand` without enforcing any caller permission:
+The "Stage 2" code scan flags the `onStartCommand` entry point and finds no runtime caller-permission check (no `checkCallingPermission`/`enforceCallingPermission`), so nothing restricts the caller. The service changes the stored password from an intent extra in `onStartCommand`:
 
 ```kotlin
 override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

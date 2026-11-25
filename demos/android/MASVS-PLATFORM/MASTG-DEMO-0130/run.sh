@@ -1,14 +1,11 @@
 #!/bin/bash
-# List the broadcast receivers declared as exported in the AndroidManifest.
-python3 - <<'PY' > output.txt
-import re
-xml = open("AndroidManifest_reversed.xml").read()
-for m in re.finditer(r"<receiver\b.*?(?:/>|</receiver>)", xml, re.S):
-    block = m.group(0)
-    name = re.search(r'android:name="([^"]+)"', block)
-    exported = re.search(r'android:exported="([^"]+)"', block)
-    permission = re.search(r'android:permission="([^"]+)"', block)
-    if exported and exported.group(1) == "true":
-        print("Exported receiver:", name.group(1) if name else "?",
-              "| permission:", permission.group(1) if permission else "none")
-PY
+
+# Stage 1 (capture) — enumerate the manifest-declared receivers. The rule flags every
+# receiver that is exported without an android:permission, and lists the permission-protected
+# ones separately so they can be triaged.
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-exported-receiver.yml ./AndroidManifest_reversed.xml --text --max-lines-per-finding 0 > manifest_scan.txt
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-exported-receiver.yml ./AndroidManifest_reversed.xml --json > manifest_scan.json 2>/dev/null
+
+# Stage 2 (inspect code) — locate the onReceive entry point and the attacker-controllable
+# intent extras it reads in the decompiled code.
+NO_COLOR=true semgrep -c ../../../../rules/mastg-android-receiver-entrypoints.yml ./MastgTest_reversed.java --text --max-lines-per-finding 0 > code_scan.txt

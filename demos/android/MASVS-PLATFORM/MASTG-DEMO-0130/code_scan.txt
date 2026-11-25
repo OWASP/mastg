@@ -1,0 +1,31 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                           
+    MastgTest_reversed.java
+     ❱ rules.mastg-android-receiver-entrypoint
+          [MASVS-PLATFORM] Broadcast receiver onReceive entry point. Review it and the code it reaches for
+          sensitive functionality that should not be triggerable by an external sender.                   
+                                                                                                          
+          119┆ @Override // android.content.BroadcastReceiver
+          120┆ public void onReceive(Context context, Intent intent) {
+          121┆     Intrinsics.checkNotNullParameter(context, "context");
+          122┆     Intrinsics.checkNotNullParameter(intent, "intent");
+          123┆     String newPassword = intent.getStringExtra("newpass");
+          124┆     if (newPassword == null) {
+          125┆         return;
+          126┆     }
+          127┆     SharedPreferences prefs = context.getSharedPreferences(MastgTest.PREFS, 0);
+          128┆     String oldPassword = prefs.getString(MastgTest.KEY_PASSWORD_STORE, "");
+          129┆     Log.d("MASTG-DEMO", "Password changed from " + oldPassword + " to " + newPassword);
+          130┆     prefs.edit().putString(MastgTest.KEY_PASSWORD_STORE, newPassword).apply();
+          131┆ }
+   
+     ❱ rules.mastg-android-receiver-sensitive-extra-source
+          [MASVS-PLATFORM] Reads an intent extra. When the component is exported and unprotected, this value
+          is attacker-controllable. Trace where it is used.                                                 
+                                                                                                            
+          123┆ String newPassword = intent.getStringExtra("newpass");
+
