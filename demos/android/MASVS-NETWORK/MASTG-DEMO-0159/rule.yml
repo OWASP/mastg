@@ -1,0 +1,11 @@
+rules:
+  - id: gms-providerinstaller-usage
+    patterns:
+      - pattern-either:
+          - pattern: ProviderInstaller.installIfNeeded(...);
+          - pattern: ((HttpsURLConnection) $CONN).connect();
+          - pattern: GoogleApiAvailability.getInstance().showErrorNotification(...);
+    message: "Relevant call site found for GMS Security Provider update analysis"
+    languages:
+      - java
+    severity: INFO
