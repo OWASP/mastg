@@ -59,9 +59,13 @@ adb shell pm revoke org.owasp.mastestapp android.permission.READ_MEDIA_IMAGES
 
 ## External Storage APIs
 
-There are APIs such as [`getExternalStoragePublicDirectory`](https://developer.android.com/reference/kotlin/android/os/Environment#getExternalStoragePublicDirectory(kotlin.String)) that return paths to a shared location that other apps can access. An app may obtain a path to an "external" location and write sensitive data to it. This location is considered "Shared Storage Requiring No User Interaction", which means that a third-party app with proper permissions can read this sensitive data.
+Apps write files to external storage using the Java and Kotlin File APIs described in @MASTG-KNOW-0x01 (such as `FileOutputStream`, `FileWriter`, and Kotlin extension functions), combined with a path obtained from one of these `Context` methods:
 
-For example, the following Kotlin snippet stores sensitive information in clear text to a file `password.txt` residing on external storage.
+- [`Context.getExternalFilesDir(type)`](https://developer.android.com/reference/android/content/Context#getExternalFilesDir(java.lang.String)) — returns a directory on the primary shared/external storage where the app can store persistent files. Requires no permissions on API level 19+. Files are removed when the app is uninstalled.
+- [`Context.getExternalCacheDir()`](https://developer.android.com/reference/android/content/Context#getExternalCacheDir()) — returns a directory on the primary shared/external storage for cache files.
+- [`Environment.getExternalStoragePublicDirectory(type)`](https://developer.android.com/reference/android/os/Environment#getExternalStoragePublicDirectory(java.lang.String)) — returns a path to a shared location that other apps can access (deprecated in API level 29).
+
+For example, the following Kotlin snippet stores information in clear text to a file `password.txt` in the app-specific external directory:
 
 ```kotlin
 val password = "SecretPassword"
