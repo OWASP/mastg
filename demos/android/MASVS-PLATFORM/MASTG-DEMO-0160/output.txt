@@ -1,16 +1,8 @@
 [*] Hooks installed. Tap Start, or call dumpViews() to dump the current screen.
 
-[setAccessibilityDataSensitive] android.widget.EditText hint="Password" mode=YES
-    at android.view.View.setAccessibilityDataSensitive(Native Method)
-    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:53)
-    at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
-    at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
-    at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
-    at androidx.compose.foundation.AbstractClickableNode.performClick(Clickable.kt:1701)
-
 [setFilterTouchesWhenObscured] android.widget.EditText hint="One-time code" enabled=true
     at android.view.View.setFilterTouchesWhenObscured(Native Method)
-    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:58)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:57)
     at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
     at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
     at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
@@ -18,7 +10,7 @@
 
 [setAccessibilityDataSensitive] android.widget.LinearLayout mode=YES
     at android.view.View.setAccessibilityDataSensitive(Native Method)
-    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:65)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:64)
     at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
     at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
     at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
@@ -26,7 +18,7 @@
 
 [setAccessibilityDataSensitive] android.widget.Button text="Confirm Payment" mode=NO
     at android.view.View.setAccessibilityDataSensitive(Native Method)
-    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:75)
+    at org.owasp.mastestapp.MastgTest.mastgTest(MastgTest.kt:74)
     at org.owasp.mastestapp.MainActivityKt.MainScreen$lambda$4$0(MainActivity.kt:97)
     at org.owasp.mastestapp.MainActivityKt.$r8$lambda$R4Oi7w_P465QEr26at0FWIUKYxE(Unknown Source:0)
     at org.owasp.mastestapp.MainActivityKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
@@ -43,7 +35,7 @@ com.android.internal.policy.DecorView isAccessibilityDataSensitive=false filterT
             androidx.compose.material.ripple.RippleHostView isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
       android.widget.LinearLayout isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
         android.widget.EditText hint="Username" isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
-        android.widget.EditText hint="Password" isAccessibilityDataSensitive=true filterTouchesWhenObscured=false
+        android.widget.EditText hint="Password" isAccessibilityDataSensitive=false filterTouchesWhenObscured=false
         android.widget.EditText hint="One-time code" isAccessibilityDataSensitive=true filterTouchesWhenObscured=true
         android.widget.LinearLayout isAccessibilityDataSensitive=true filterTouchesWhenObscured=false
           android.widget.EditText hint="Card number" isAccessibilityDataSensitive=true filterTouchesWhenObscured=false

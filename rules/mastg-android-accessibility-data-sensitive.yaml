@@ -48,3 +48,14 @@ rules:
       summary: Detects the android:filterTouchesWhenObscured attribute in layout XML files, which implies accessibility data sensitivity.
     message: "[MASVS-PLATFORM-3] android:filterTouchesWhenObscured is set to true, which implies accessibility data sensitivity unless the view sets android:accessibilityDataSensitive to false"
     pattern: android:filterTouchesWhenObscured="true"
+
+  - id: mastg-android-accessibility-data-sensitive-compose
+    severity: INFO
+    languages:
+      - java
+    metadata:
+      summary: Detects the Jetpack Compose isSensitiveData semantics property, which compiles to a call to SemanticsPropertiesKt.setSensitiveData. This only works when the Compose library code isn't obfuscated.
+    message: "[MASVS-PLATFORM-3] The isSensitiveData semantics property is set to $VALUE on a Jetpack Compose UI element"
+    pattern-either:
+      - pattern: SemanticsPropertiesKt.setSensitiveData($RECEIVER, $VALUE)
+      - pattern: androidx.compose.ui.semantics.SemanticsPropertiesKt.setSensitiveData($RECEIVER, $VALUE)

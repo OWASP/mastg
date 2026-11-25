@@ -1,0 +1,25 @@
+--------- beginning of main
+11-01 12:18:33.229  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.0] TEXT text="Payment"
+11-01 12:18:33.229  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.1] EDIT value="" clickable=true
+11-01 12:18:33.229  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.1.0] TEXT text="Username"
+11-01 12:18:33.229  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.2] EDIT value="" clickable=true password=true
+11-01 12:18:33.229  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.2.0] TEXT text="Password"
+11-01 12:18:33.230  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.3] ACTION clickable=true
+11-01 12:18:33.230  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.3.0] TEXT text="Cancel"
+11-01 12:18:33.230  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.4] ACTION clickable=true
+11-01 12:18:33.230  4257  4257 I MASTG-A11Y: FOUND [0.0.0.0.0.0.4.0] TEXT text="Confirm Payment"
+11-01 12:18:36.589  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.1] EDIT value="m" clickable=true
+11-01 12:18:36.804  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.1] EDIT value="ma" clickable=true
+11-01 12:18:37.039  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.1] EDIT value="mas" clickable=true
+11-01 12:18:37.565  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.1] EDIT value="mast" clickable=true
+11-01 12:18:38.008  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.1] EDIT value="mastester" clickable=true
+11-01 12:18:41.221  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="27" clickable=true password=true
+11-01 12:18:41.337  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="272" clickable=true password=true
+11-01 12:18:41.430  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="2728" clickable=true password=true
+11-01 12:18:41.552  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="27282" clickable=true password=true
+11-01 12:18:41.639  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="272826" clickable=true password=true
+11-01 12:18:41.787  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="2728261" clickable=true password=true
+11-01 12:18:41.913  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="27282618" clickable=true password=true
+11-01 12:18:42.178  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="272826181" clickable=true password=true
+11-01 12:18:42.667  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="272826181h" clickable=true password=true
+11-01 12:18:42.878  4257  4257 I MASTG-A11Y: CHANGED [0.0.0.0.0.0.2] EDIT value="272826181hg" clickable=true password=true

@@ -1,0 +1,30 @@
+[*] Hook installed. Tap Start, or call dumpComposeViews() for the focused screen.
+
+[setSensitiveData] isSensitiveData=false
+    at androidx.compose.ui.semantics.SemanticsPropertiesKt.setSensitiveData(Native Method)
+    at org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda_1765228308$lambda$0$0$0$0(MainActivity.kt:147)
+    at org.owasp.mastestapp.ComposableSingletons$MainActivityKt.$r8$lambda$UOAF0utFPzU1xF265LRfc6ipBN0(Unknown Source:0)
+    at org.owasp.mastestapp.ComposableSingletons$MainActivityKt$$ExternalSyntheticLambda8.invoke(D8$$SyntheticClass:0)
+    at androidx.compose.ui.semantics.CoreSemanticsModifierNode.applySemantics(SemanticsModifier.kt:64)
+    at androidx.compose.ui.node.LayoutNode.calculateSemanticsConfiguration$lambda$0(LayoutNode.kt:482)
+
+[setSensitiveData] isSensitiveData=true
+    at androidx.compose.ui.semantics.SemanticsPropertiesKt.setSensitiveData(Native Method)
+    at org.owasp.mastestapp.ComposableSingletons$MainActivityKt.lambda_1765228308$lambda$0$0$1$0(MainActivity.kt:165)
+    at org.owasp.mastestapp.ComposableSingletons$MainActivityKt.$r8$lambda$Wn827icYAqryLqXXtSUySWmr_Ck(Unknown Source:0)
+    at org.owasp.mastestapp.ComposableSingletons$MainActivityKt$$ExternalSyntheticLambda9.invoke(D8$$SyntheticClass:0)
+    at androidx.compose.ui.semantics.CoreSemanticsModifierNode.applySemantics(SemanticsModifier.kt:64)
+    at androidx.compose.ui.node.LayoutNode.calculateSemanticsConfiguration$lambda$0(LayoutNode.kt:482)
+
+[*] Merged Compose semantics tree of the focused window:
+id=22 isSensitiveData=null
+  id=23 isSensitiveData=null
+    id=24 isSensitiveData=null
+      id=25 isSensitiveData=null
+        id=28 isSensitiveData=null Text=[Payment]
+        id=31 isSensitiveData=false Text=[Username] EditableText OnClick
+        id=41 isSensitiveData=null Password Text=[Password] EditableText OnClick
+        id=51 isSensitiveData=true Text=[Card number] EditableText OnClick
+        id=63 isSensitiveData=null Text=[Cancel] OnClick
+        id=66 isSensitiveData=null Text=[Confirm Payment] OnClick
+[*] Finished dumping Compose semantics.

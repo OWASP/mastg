@@ -11,7 +11,7 @@ test: MASTG-TEST-0404
 This demo uses the same sample as @MASTG-DEMO-0159. The app creates a login and payment form with views that handle sensitive data, each using a different accessibility data sensitivity configuration:
 
 1. **Username field:** isn't marked as accessibility data sensitive.
-2. **Password field:** is explicitly marked as accessibility data sensitive.
+2. **Password field:** uses a password input type, which masks its text, but isn't marked as accessibility data sensitive.
 3. **One-time code field:** sets `filterTouchesWhenObscured`, which implies accessibility data sensitivity.
 4. **Payment container:** a `LinearLayout` that is explicitly marked as accessibility data sensitive using `setAccessibilityDataSensitive(View.ACCESSIBILITY_DATA_SENSITIVE_YES)`. It contains two views:
     - **Card number field:** keeps the default value, `ACCESSIBILITY_DATA_SENSITIVE_AUTO`, so it inherits the protection from the payment container.
@@ -50,8 +50,8 @@ The output shows the calls to the hooked setters, including their arguments and 
 
 {{ output.txt }}
 
-- The hooks capture four calls from `MastgTest.mastgTest`: `setAccessibilityDataSensitive` with the `YES` mode on the **Password** field (`MastgTest.kt:53`) and on the payment container, a `LinearLayout` (`MastgTest.kt:65`), `setFilterTouchesWhenObscured(true)` on the **One-time code** field (`MastgTest.kt:58`), and `setAccessibilityDataSensitive` with the `NO` mode on the **Confirm Payment** button (`MastgTest.kt:75`).
-- The view hierarchy shows the form at the end of the `content` frame. The **Username** field and the **Confirm Payment** button return `isAccessibilityDataSensitive=false`, while the **Password**, **One-time code**, and **Card number** fields return `true`.
+- The hooks capture three calls from `MastgTest.mastgTest`: `setFilterTouchesWhenObscured(true)` on the **One-time code** field (`MastgTest.kt:57`), `setAccessibilityDataSensitive` with the `YES` mode on the payment container, a `LinearLayout` (`MastgTest.kt:64`), and `setAccessibilityDataSensitive` with the `NO` mode on the **Confirm Payment** button (`MastgTest.kt:74`).
+- The view hierarchy shows the form at the end of the `content` frame. The **Username** and **Password** fields and the **Confirm Payment** button return `isAccessibilityDataSensitive=false`, while the **One-time code** and **Card number** fields return `true`.
 
 The screenshot shows the screen with the form at the bottom:
 
@@ -61,12 +61,13 @@ It also shows which views display or accept sensitive data: the **Username**, **
 
 ## Evaluation
 
-The test case fails because two views that handle sensitive data return `false` from `isAccessibilityDataSensitive`:
+The test case fails because three views that handle sensitive data return `false` from `isAccessibilityDataSensitive`:
 
 - The **Username** field doesn't call any of the hooked setters, and the view hierarchy confirms it isn't protected.
-- The **Confirm Payment** button explicitly disables the protection with `setAccessibilityDataSensitive` and the `NO` mode, as shown in the hook output and its backtrace (`MastgTest.kt:75`), even though the payment container is marked as accessibility data sensitive.
+- The **Password** field doesn't call any of the hooked setters either. Its password input type masks the text, but the view hierarchy confirms it isn't accessibility data sensitive.
+- The **Confirm Payment** button explicitly disables the protection with `setAccessibilityDataSensitive` and the `NO` mode, as shown in the hook output and its backtrace (`MastgTest.kt:74`), even though the payment container is marked as accessibility data sensitive.
 
-The **Password**, **One-time code**, and **Card number** fields return `true`. The card number field doesn't call any of the hooked setters, but the view hierarchy shows that it inherits the protection from the payment container. Only the enumeration of the view hierarchy reveals this inherited protection, and the unprotected username field, because neither involves a call to the hooked setters.
+The **One-time code** and **Card number** fields return `true`. The card number field doesn't call any of the hooked setters, but the view hierarchy shows that it inherits the protection from the payment container. Only the enumeration of the view hierarchy reveals this inherited protection, and the unprotected username and password fields, because none of them involves a call to the hooked setters.
 
 ```sh
 android.widget.LinearLayout isAccessibilityDataSensitive=true filterTouchesWhenObscured=false
