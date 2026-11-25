@@ -1,0 +1,142 @@
+formulas:
+  MASVS Category: path-weakness
+views:
+  - type: table
+    name: Tests
+    filters:
+      or:
+        - file.inFolder("tests/android")
+        - file.inFolder("tests-beta/android")
+        - file.inFolder("tests-beta/ios")
+        - file.inFolder("tests/ios")
+    order:
+      - file.name
+      - title
+      - weakness
+      - type
+      - status
+      - profiles
+      - platform
+      - prerequisites
+      - related-tests
+      - threat
+      - note.note
+      - best-practices
+      - file.links
+    sort: []
+    columnSize:
+      note.title: 640
+      note.weakness: 153
+  - type: table
+    name: Demos
+    filters:
+      and:
+        - file.inFolder("demos")
+        - file.name.startsWith("MASTG-DEMO-")
+    order:
+      - file.name
+      - title
+      - status
+      - test
+      - tools
+      - platform
+      - note.note
+      - kind
+      - code
+    sort: []
+    columnSize:
+      file.name: 171
+      note.title: 543
+      note.test: 168
+  - type: table
+    name: Techniques
+    filters:
+      and:
+        - file.inFolder("techniques")
+        - file.name != "index"
+    order:
+      - file.name
+      - title
+      - platform
+      - file.links
+    sort: []
+    columnSize:
+      file.name: 171
+      note.title: 543
+      note.test: 168
+  - type: table
+    name: Tools
+    filters:
+      and:
+        - file.inFolder("tools")
+        - file.name != "index"
+    order:
+      - file.name
+      - title
+      - platform
+      - alternatives
+      - host
+      - hosts
+      - source
+      - status
+      - covered_by
+      - deprecation_note
+      - file.links
+    sort: []
+    columnSize:
+      file.name: 171
+      note.title: 543
+      note.test: 168
+  - type: table
+    name: Apps
+    filters:
+      and:
+        - file.inFolder("apps")
+        - file.name != "index"
+    order:
+      - file.name
+      - title
+      - platform
+      - source
+    sort: []
+    columnSize:
+      file.name: 171
+      note.title: 328
+  - type: table
+    name: Knowledge
+    filters:
+      and:
+        - file.inFolder("knowledge")
+        - file.name != "index"
+    order:
+      - file.name
+      - title
+      - platform
+      - best-practices
+      - available_since
+      - covered_by
+      - status
+      - masvs_category
+      - deprecation_note
+      - deprecated_since
+    sort: []
+    columnSize:
+      file.name: 171
+      note.title: 543
+      note.test: 168
+  - type: table
+    name: Best Practices
+    filters:
+      and:
+        - file.inFolder("best-practices")
+        - file.name != "index"
+    order:
+      - file.name
+      - title
+      - platform
+      - alias
+    sort: []
+    columnSize:
+      file.name: 171
+      note.title: 543
+      note.test: 168
