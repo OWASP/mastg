@@ -17,7 +17,7 @@ Code samples (`*.kt`, `*.swift`, `*.cpp`, `*.xml`, `*.plist`, `*.proto`)
 
 **Decompiled Code:** Decompiled code must be provided if the demo involves static analysis.
 
-- **Android:** Follow the instructions in ["MASTestApp for Android - Run the Extraction Script"](https://github.com/cpholguera/mas-app-android) to obtain the relevant files, such as the reversed `AndroidManifest.xml` and the `MastgTest_reversed.java`, which is the MASTestApp's main file. Including the full version of these files is also useful for understanding the code in the context of the application, regardless of whether the demo focuses on a specific snippet.
+- **Android:** From the demo folder, run `apk-install .` and then `apk-extract .` (see ["MASTestApp for Android - Extract the Reversed Files"](https://github.com/cpholguera/mas-app-android#extract-the-reversed-files)) to obtain the relevant files, such as the reversed `AndroidManifest.xml` and the `MastgTest_reversed.java`, which is the MASTestApp's main file. The decompiled classes use the demo's package, the same as the APKs built by the CI. Including the full version of these files is also useful for understanding the code in the context of the application, regardless of whether the demo focuses on a specific snippet.
 - **iOS:** Follow the instructions in ["MASTestApp for iOS - Reverse Engineering"](https://github.com/cpholguera/MASTestApp-iOS) to obtain the relevant files, such as the IPA file and the reversed `Info.plist` already converted to XML format. Currently, you need to extract the main binary, MASTestApp, manually, and include it in the demo folder (we allow this for now since the files are sufficiently small). The demos will typically use reverse engineering tools, such as `r2`, on this binary.
 
 The **demos MUST WORK**. See [Code Samples](#code-samples).
@@ -68,11 +68,29 @@ run.sh*
 
 ## Android: App Customization Files
 
-The build system (`.github/workflows/build-android-demos.yml`) processes the following optional files from the demo folder and injects them into the `mas-app-android` base app before building the APK. Include only the files relevant to the demo.
+The build system (`.github/workflows/build-android-demos.yml`) builds each demo with the `tools/apk-build.sh` script from [mas-app-android](https://github.com/cpholguera/mas-app-android). The script applies the following optional files from the demo folder to a temporary copy of the base app and builds a debug APK. Include only the files relevant to the demo.
+
+To build and run a demo locally the same way, clone mas-app-android, run its `tools/install-cli.sh` once, and then run `apk-build .` or `apk-install .` from the demo folder. See the [mas-app-android build documentation](https://github.com/cpholguera/mas-app-android/blob/main/docs/demo-build-and-packaging.md) for details.
+
+### Package and app name
+
+Each demo is built as its own app, so demos never replace each other on a device:
+
+- **Package:** `org.owasp.mastestapp.<demo ID>`, with the demo ID lowercased and the dashes removed. For example, `MASTG-DEMO-0054` is built as `org.owasp.mastestapp.mastgdemo0054`.
+- **App name:** the demo ID, for example `MASTG-DEMO-0054`. The APK is named after it too: `MASTG-DEMO-0054.apk`.
+
+**IMPORTANT:** Keep `package org.owasp.mastestapp` in all `.kt` files. The build moves the sources to the demo's package automatically, so:
+
+- In `AndroidManifest.xml`, refer to the app's own classes with relative names (`.MainActivity`, `.MastgTest$ShareReportActivity`), not fully qualified ones.
+- In code, use `context.packageName` when you need the app's own package at runtime.
+- In `run.sh`, Frida or frooky scripts, and commands in the demo's Markdown, use the demo's package (for example `frida -U -f org.owasp.mastestapp.mastgdemo0054 ...`), including in class names (`org.owasp.mastestapp.mastgdemo0054.MastgTest`).
+- When the demo gets its real ID before merging, update these references too, because the package changes with the ID (`MASTG-DEMO-0x01` is built as `org.owasp.mastestapp.mastgdemo0x01`).
+
+Content provider authorities and custom intent actions are plain strings that the build doesn't change. Prefer deriving authorities from the package (`${applicationId}.provider` in the manifest, `"${context.packageName}.provider"` in code) so that demos can be installed side by side.
 
 ### Source files
 
-These files replace the corresponding Kotlin source files located under `app/src/main/java/org/owasp/mastestapp/`. All source files use Kotlin, not Java.
+These files replace the corresponding Kotlin source files located under `app/src/main/java/org/owasp/mastestapp/` (moved to the demo's package at build time, see [Package and app name](#package-and-app-name)). All source files use Kotlin, not Java.
 
 - `MastgTest.kt` — main test entry point (required for most demos)
 - `MainActivity.kt` — override the main activity
@@ -85,10 +103,12 @@ These files replace the corresponding resource files in the base app:
 | Demo file | Destination in base app |
 | --- | --- |
 | `AndroidManifest.xml` | `app/src/main/AndroidManifest.xml` |
+| `accessibility_service.xml` | `app/src/main/res/xml/accessibility_service.xml` |
 | `filepaths.xml` | `app/src/main/res/xml/filepaths.xml` |
 | `network_security_config.xml` | `app/src/main/res/xml/network_security_config.xml` |
 | `backup_rules.xml` | `app/src/main/res/xml/backup_rules.xml` |
 | `data_extraction_rules.xml` | `app/src/main/res/xml/data_extraction_rules.xml` |
+| `icon.png` | Launcher icon foreground (`app/src/main/res/drawable/ic_launcher_icon_fg`) |
 
 ### Build customization files
 
@@ -100,14 +120,15 @@ The following files are injected into `app/build.gradle.kts` at the matching `//
 | `build.gradle.kts.sections` | `// ADD_SECTIONS_HERE` — as a new top-level block |
 | `build.gradle.kts.android` | `// ADD_ANDROID_HERE` — inside the `android {}` block |
 | `build.gradle.kts.libs` | `// ADD_LIBS_HERE` — inside the `dependencies {}` block |
+| `build.gradle.kts.build` | `// ADD_BUILD_HERE` — inside the `buildTypes {}` block |
 
 Use these files to add Gradle plugins, dependency declarations, or `android {}` configuration (for example, ProGuard or CMake settings) without modifying the base app.
 
-To customize ProGuard/R8 rules, provide a `proguard-rules.pro` file. It replaces `app/proguard-rules.pro`.
+To customize ProGuard/R8 rules, provide a `proguard-rules.pro` file. It replaces `app/proguard-rules.pro`. Write the rules for `org.owasp.mastestapp`; the build rewrites them for the demo's package. An `obfuscationdictionary.txt` file is copied to `app/` for use with `-obfuscationdictionary`.
 
 ### Native code files
 
-To add native C/C++ code, provide a `CMakeLists.txt` file. All `*.cpp` files in the demo folder are also copied to `app/src/main/cpp/`. You must also provide a `build.gradle.kts.android` file that enables the CMake build:
+To add native C/C++ code, provide a `CMakeLists.txt` file. All `*.cpp`, `*.c` and `*.h` files in the demo folder are also copied to `app/src/main/cpp/`. You must also provide a `build.gradle.kts.android` file that enables the CMake build:
 
 ```kotlin
 externalNativeBuild {
@@ -189,7 +210,7 @@ Valid values: `pass`, `fail`, `attack`.
 - `pass`: the sample demonstrates the secure / correctly implemented behavior.
 - `attack`: the sample IS the attacker app — a separate APK that exploits a vulnerability in a victim app (typically the one demonstrated in a linked `fail` demo). Use this only when the demo's `MastgTest.kt` acts as the attacking party rather than the victim. Attacker-app demos are excluded from the "Confirming the Vulnerability" requirement in the parent test, since the demo itself embodies the attack.
 
-Every demo with `kind: attack` **MUST** include a `config.yml` file in its folder. See [Attacker Apps](#attacker-apps) for the full requirements.
+See [Attacker Apps](#attacker-apps) for the additional requirements of demos with `kind: attack`.
 
 Example:
 
@@ -223,35 +244,16 @@ Attacker apps are published by OWASP, so they **MUST** be harmless by design and
 
 **Scoped to the sample app:**
 
-- Target only the MASTestApp sample (`org.owasp.mastestapp`) from the linked demo, for example with explicit component names, the sample's custom intent actions, or authorities.
-- When an API can observe or interact with other apps, restrict it to the sample's package. For example, set `android:packageNames="org.owasp.mastestapp"` in an accessibility service configuration and `packageNames` in `AccessibilityServiceInfo`. If the demo needs to show that a real attacker wouldn't use such a filter, explain it in the "Sample" section instead of removing the filter.
+- Target only the MASTestApp sample from the linked demo, using its package (for example `org.owasp.mastestapp.mastgdemo0122` for @MASTG-DEMO-0122, see [Package and app name](#package-and-app-name)), for example with explicit component names, the sample's custom intent actions, or authorities.
+- When an API can observe or interact with other apps, restrict it to the sample's package. For example, set `android:packageNames="org.owasp.mastestapp.mastgdemo0122"` in an accessibility service configuration and `packageNames` in `AccessibilityServiceInfo`. If the demo needs to show that a real attacker wouldn't use such a filter, explain it in the "Sample" section instead of removing the filter.
 - Use dummy data only, and tell readers in the "Steps" section to use a test device or emulator and to disable or uninstall the attacker app, and revoke any special access, when they've finished.
 
-### config.yml
-
-Every attacker-app demo **MUST** include a `config.yml` file in its folder. This file tells the build automation how to package the attacker app with a distinct identity so it doesn't conflict with the victim app on the same device.
-
-Required fields:
-
-```yaml
-package: org.owasp.mastestapp.attacker.<short-name>
-app-name: <Human-Readable Attacker Name>
-```
-
-Example:
-
-```yaml
-package: org.owasp.mastestapp.attacker.provider
-app-name: Provider Attacker
-```
-
-The build automation substitutes the `package` value at build time. The `.kt` source must still declare `package org.owasp.mastestapp` (the canonical package), because the automation handles the renaming.
 
 ### MastgTest.kt conventions
 
 Attacker-app demos **MUST** follow the same `MastgTest.kt` conventions as all other demos:
 
-- `package org.owasp.mastestapp` (the automation renames it using `config.yml`)
+- `package org.owasp.mastestapp` (the build moves it to the demo's package)
 - `class MastgTest(private val context: Context)` as the primary class
 - `fun mastgTest(): String` as the entry point called by the Start button in `MainActivity`
 
@@ -446,15 +448,15 @@ Example: semgrep
 
 Example: frooky (preferred, see [mastg-frooky-hooks.instructions](mastg-frooky-hooks.instructions.md))
 
-`frooky -U -f org.owasp.mastestapp --platform android hooks.json`
+`frooky -U -f org.owasp.mastestapp.mastgdemo0054 --platform android hooks.json`
 
 Example: frida-trace
 
-`frida-trace -U -f org.owasp.mastestapp --runtime=v8 -j '*!*certificate*/isu' > output.txt`
+`frida-trace -U -f org.owasp.mastestapp.mastgdemo0054 --runtime=v8 -j '*!*certificate*/isu' > output.txt`
 
 Example: frida (use only when frooky is not enough, see [mastg-frida-scripts.instructions](mastg-frida-scripts.instructions.md))
 
-`frida -U org.owasp.mastestapp -l hook_edittext.js > output.txt`
+`frida -U org.owasp.mastestapp.mastgdemo0054 -l hook_edittext.js > output.txt`
 
 #### Networking
 

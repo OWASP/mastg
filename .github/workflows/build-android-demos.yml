@@ -55,6 +55,25 @@ jobs:
               fi
             done <<< "$demos"
             demos="$existing_demos"
+
+            # Demos can reuse another demo's files through symbolic links
+            # (e.g. MastgTest.kt -> ../MASTG-DEMO-0090/MastgTest.kt). Rebuild the
+            # demos whose links point into a changed demo, too.
+            if [ -n "$demos" ]; then
+              linked=""
+              while IFS= read -r link; do
+                target_dir="$(cd "$(dirname "$link")" && realpath -m "$(dirname "$(readlink "$(basename "$link")")")")"
+                target_rel="${target_dir#"$PWD"/}"
+                if printf '%s\n' "$demos" | grep -qxF "$target_rel"; then
+                  linked+="$(dirname "$link")"$'\n'
+                fi
+              done < <(find demos/android -mindepth 3 -maxdepth 3 -type l -path 'demos/android/*/MASTG-DEMO-*/*')
+              if [ -n "$linked" ]; then
+                echo "Also rebuilding demos that link to changed demos:"
+                printf '%s' "$linked" | sort -u
+              fi
+              demos="$(printf '%s%s' "$demos" "$linked" | sed '/^$/d' | sort -u)"
+            fi
           else
             demos="$(find demos/android -mindepth 2 -maxdepth 2 -type d -name 'MASTG-DEMO-*' | sort)"
           fi
@@ -182,117 +201,26 @@ jobs:
           key: base-app-${{ needs.build-base-app.outputs.mastestapp_hash }}
           fail-on-cache-miss: true
 
-      - name: Replace files and build APK
+      - name: Build APK
         shell: bash
         run: |
           set -euo pipefail
 
           demo="${{ matrix.demo }}"
+          demo_id="$(basename "$demo")"
 
-          [ -d "$demo" ] || {
-            echo "Demo directory not found: $demo"
-            exit 1
-          }
+          # apk-build.sh (from mas-app-android) applies the demo's files to a temporary
+          # copy of the base app and builds a debug APK. The package defaults to
+          # org.owasp.mastestapp.<demo id without dashes, lowercased> and the app name to
+          # the demo folder name, so the APK is apk-out/<demo id>/<demo id>.apk.
+          mas-app-android/tools/apk-build.sh "$demo" --output apk-out
 
-          echo "Processing $demo"
-
-          copy_if_exists() {
-            local source_file="$1"
-            local target_file="$2"
-            local label="$3"
-
-            if [ -f "$source_file" ]; then
-              cp -f "$source_file" "$target_file"
-              echo "Copied $label for $demo"
-            else
-              echo "No $label found for $demo"
-            fi
-          }
-
-          copy_if_exists "$demo/MastgTest.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTest.kt MastgTest.kt
-          copy_if_exists "$demo/MainActivity.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MainActivity.kt MainActivity.kt
-          copy_if_exists "$demo/MastgTestWebView.kt" mas-app-android/app/src/main/java/org/owasp/mastestapp/MastgTestWebView.kt MastgTestWebView.kt
-          copy_if_exists "$demo/AndroidManifest.xml" mas-app-android/app/src/main/AndroidManifest.xml AndroidManifest.xml
-          copy_if_exists "$demo/filepaths.xml" mas-app-android/app/src/main/res/xml/filepaths.xml filepaths.xml
-          copy_if_exists "$demo/network_security_config.xml" mas-app-android/app/src/main/res/xml/network_security_config.xml network_security_config.xml
-          copy_if_exists "$demo/backup_rules.xml" mas-app-android/app/src/main/res/xml/backup_rules.xml backup_rules.xml
-          copy_if_exists "$demo/data_extraction_rules.xml" mas-app-android/app/src/main/res/xml/data_extraction_rules.xml data_extraction_rules.xml
-          copy_if_exists "$demo/proguard-rules.pro" mas-app-android/app/proguard-rules.pro proguard-rules.pro
-
-          if find "$demo" -maxdepth 1 -name "*.proto" -print -quit 2>/dev/null | grep -q .; then
-            mkdir -p mas-app-android/app/src/main/proto
-
-            find "$demo" -maxdepth 1 -name "*.proto" -print0 2>/dev/null \
-              | while IFS= read -r -d '' proto_file; do
-                  cp -f "$proto_file" mas-app-android/app/src/main/proto/
-                  echo "Copied $(basename "$proto_file") for $demo"
-                done
-          else
-            echo "No .proto files found for $demo"
-          fi
-
-          if [ -f "$demo/CMakeLists.txt" ]; then
-            mkdir -p mas-app-android/app/src/main/cpp
-
-            cp -f "$demo/CMakeLists.txt" mas-app-android/app/src/main/cpp/CMakeLists.txt
-            echo "Copied CMakeLists.txt for $demo"
-
-            find "$demo" -maxdepth 1 -name "*.cpp" -print0 2>/dev/null \
-              | while IFS= read -r -d '' cpp_file; do
-                  cp -f "$cpp_file" mas-app-android/app/src/main/cpp/
-                  echo "Copied $(basename "$cpp_file") for $demo"
-                done
-          else
-            echo "No CMakeLists.txt found for $demo"
-          fi
-
-          insert_block() {
-            local kind="$1"
-            local upper="${kind^^}"
-            local file="$demo/build.gradle.kts.$kind"
-            local target="mas-app-android/app/build.gradle.kts"
-
-            if [ -f "$file" ]; then
-              sed -i '/\/\/ ADD_'"$upper"'_HERE/{
-                r '"$file"'
-                d
-              }' "$target"
-
-              echo "Replaced $kind in build.gradle.kts for $demo"
-            else
-              echo "No build.gradle.kts.$kind found for $demo, skipping $kind replacement"
-            fi
-          }
-
-          insert_block plugins
-          insert_block sections
-          insert_block android
-          insert_block libs
-          insert_block build
-
-          echo "Building APK for $demo"
-
-          cd mas-app-android
-
-          grep -q 'org.gradle.caching=true' gradle.properties \
-            || echo -en "\norg.gradle.caching=true\norg.gradle.configuration-cache=true\n" >> gradle.properties
-
-          ./gradlew assembleDebug --stacktrace
-
-          cd ..
-
-          echo "Build succeeded for $demo"
-
-          apk_filename="$(basename "$demo").apk"
-
-          mv mas-app-android/app/build/outputs/apk/debug/app-debug.apk "$apk_filename"
-
-          echo "APK for $demo moved to $apk_filename"
-          echo "APK_NAME=$apk_filename" >> "$GITHUB_ENV"
+          echo "APK_NAME=${demo_id}.apk" >> "$GITHUB_ENV"
+          echo "APK_PATH=apk-out/${demo_id}/${demo_id}.apk" >> "$GITHUB_ENV"
 
       - name: Upload APK
         uses: actions/upload-artifact@v6
         with:
           name: ${{ env.APK_NAME }}
-          path: ${{ env.APK_NAME }}
+          path: ${{ env.APK_PATH }}
           if-no-files-found: error
