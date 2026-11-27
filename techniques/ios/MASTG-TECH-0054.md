@@ -86,6 +86,10 @@ rabin2 -I Payload/Telegram X.app/Telegram X | grep crypto
 crypto   false
 ```
 
+### Decrypting Without a Jailbroken Device
+
+If you have no jailbroken device at hand, @MASTG-TOOL-0x01 can download the IPA from the App Store or TestFlight and decrypt it offline on an Apple Silicon Mac, where it can also derive a FairPlay model locally from an already installed Mac App Store iOS app. The trade-off is that it only runs on macOS and needs a valid App Store account for the target app.
+
 ## Thinning the App Binary
 
 The app binary may contain multiple architectures, such as `armv7` (32-bit) and `arm64` (64-bit). That is called a "fat binary".
